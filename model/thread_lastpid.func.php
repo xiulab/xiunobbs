@@ -48,7 +48,7 @@ function thread_lastpid_truncate() {
 }
 
 function thread_lastpid_find_cache() {
-	global $conf;
+	global $conf, $time;
 	static $cache = FALSE;
 	if($cache !== FALSE) return $cache;
 	$threadlist = cache_get('thread_lastpid_list');
@@ -57,7 +57,7 @@ function thread_lastpid_find_cache() {
 		cache_set('thread_lastpid_list', $threadlist);
 	} else {
 		foreach($threadlist as &$thread) {
-			thread_format_last_date($thread);
+			$time - $thread['last_date'] < 86400 AND thread_format_last_date($thread);
 		}
 		
 		// 重新格式化时间

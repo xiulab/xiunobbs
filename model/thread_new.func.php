@@ -35,7 +35,7 @@ function thread_new_truncate() {
 }
 
 function thread_new_find_cache() {
-	global $conf;
+	global $conf, $time;
 	$threadlist = cache_get('thread_new_list');
 	if($threadlist === NULL) {
 		$threadlist = thread_new_find();
@@ -47,7 +47,7 @@ function thread_new_find_cache() {
 		
 		// 重新格式化时间
 		foreach($threadlist as &$thread) {
-			thread_format_last_date($thread);
+			$time - $thread['last_date'] < 86400 AND thread_format_last_date($thread);
 		}
 	}
 	return $threadlist;
