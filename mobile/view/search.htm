@@ -1,0 +1,46 @@
+<?php include "./mobile/view/header.inc.htm"; ?>
+
+<div class="panel width" id="threadlist_panel">
+	<div class="header">
+		<table class="layout">
+			<tr>
+				<td>
+					搜索 <b class="red"><?php echo $keyword; ?></b> 结果(<b><?php echo count($threadlist); ?></b>条)：
+				</td>
+				<td align="right">
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="body">
+	<?php if(empty($threadlist)) { ?>
+		<p class="notice ok">无结果</p>
+	<?php } else { ?>
+		<div id="threadlist">
+		<?php include "./mobile/view/thread_list_body.inc.htm"; ?>
+		</div>
+	<?php } ?>
+	</div>
+</div>	
+
+<?php if(forum_is_mod($fid, $gid, $uid)) { ?>
+<dl class="row margin">
+	<dt class="right col-7">
+		<button class="grey small" id="mod_top">置顶</button>
+		<button class="grey small" id="mod_move">移动</button>
+		<button class="grey small" id="mod_delete">删除</button>
+	</dt>
+	<dt class="right col-3">
+		<label>全选<input type="checkbox" name="checkall" id="threadlist_checkall" value="" />&nbsp;</label>
+	</dt>
+</dl>
+<?php } ?>
+
+<div class="page"><?php echo (isset($pages) ? $pages : ''); ?></div>
+
+<?php include "./mobile/view/footer.inc.htm"; ?>
+
+<script>
+render_forumlist();
+render_threadlist(fid);
+</script>

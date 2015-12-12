@@ -1,0 +1,9 @@
+<?php include "./mobile/view/header.inc.htm"; ?>
+
+<div class="tab" id="user_menu">
+	<a href="mobile/user-<?php echo $_uid; ?>.htm">个人资料</a>
+	<?php if($_user['uid'] != 0) { ?>
+	<a href="mobile/user-thread-<?php echo $_uid; ?>.htm">他的发帖</a>
+	<a href="mobile/user-agree-<?php echo $_uid; ?>.htm">他喜欢的</a>
+	<?php } ?>
+</div>	

@@ -1,0 +1,112 @@
+<?php include "./pc/view/header.inc.htm"; ?>
+<div class="panel_body margin">
+	<dl class="row" pid="<?php echo $first['pid']; ?>" id="firstpost">
+		<dt class="vtop">
+			<a href="<?php echo $thread['user_url']; ?>" class="author">
+				<img src="<?php echo $thread['user_avatar_url']; ?>" class="avatar big" />
+			</a>
+		</dt>
+		<dd>
+			<h3 class="nospace subject breakall bold" pid="<?php echo $first['pid']; ?>"><?php echo $thread['subject']; ?></h3>
+			<dl class="row">
+				<dt class="left small">
+					<b class="light"><a href="<?php echo $thread['user_url']; ?>"><?php echo $thread['username']; ?></a></b>　
+					<i class="light"><?php echo $thread['create_date_fmt']; ?></i>
+				</dt>
+				<dd class="right grey">
+
+				<?php if($allowupdate || $first['allowupdate']) { ?>
+					<a href="post-update-<?php echo $first['pid']; ?>.htm" class="nocache" title="编辑"><i class="icon edit"></i></a>
+				<?php } ?>
+				
+				<?php if($allowdelete || $first['allowdelete']) { ?>
+					<a href="post-delete-<?php echo $first['pid']; ?>.htm" class="delete" title="删除"><i class="icon trash-o"></i></a>
+				　<?php } ?>
+					<i class="icon agree" title="喜欢" tabindex="0" role="button"></i>
+					<i class="icon agreed" title="取消喜欢" style="display: none;" tabindex="0" role="button"></i>
+					<a href="agree-list-<?php echo $first['pid']; ?>.htm" class="ajax dialog nocache icon agrees <?php echo $thread['agrees_class']; ?>" dialog='{"modal":false,"position":4}' nofollow><?php echo $first['agrees']; ?></a>
+				</dd>
+			</dl>
+		</dd>
+	</dl>
+	
+	<div id="thread_post" class="thread_post" pid="<?php echo $thread['firstpid']; ?>">
+		<?php echo $first['message']; ?>
+		
+		<?php if($imagelist || $filelist) { ?>
+		<br>
+		<p class="margin">附件列表：</p>
+		<p class="hr"></p>
+		<ul>
+		<?php foreach ($imagelist as $attach) { ?>
+			<li><a href="upload/attach/<?php echo $attach['filename']; ?>" target="_blank"><img src="upload/attach/<?php echo $attach['filename']; ?>" width="<?php echo $attach['width']; ?>" height="<?php echo $attach['height']; ?>" /></a></li>
+		<?php } ?>
+		<?php foreach ($filelist as $attach) { ?>
+			<li><i class="icon filetype <?php echo $attach['filetype']; ?> small"></i> <a href="upload/attach/<?php echo $attach['filename']; ?>" target="_blank"><?php echo $attach['orgfilename']; ?></a></li>
+		<?php } ?>
+		</ul>
+		<?php } ?>
+	</div>
+	
+
+	<div id="postlist_title">
+		<span class="active grey" style="cursor:pointer">回复</span> 
+		<span id="posts" class="posts <?php echo $thread['posts_class']; ?>"><?php echo $thread['posts']; ?></span> &nbsp; 
+	</div>
+	
+	<div id="postlist">
+		<?php include './pc/view/post_list_body.inc.htm';?>
+	</div>
+	
+	<dl class="row vtop margin" id="post_create_dl">
+		<dt>
+			<img src="<?php echo $user['avatar_url']; ?>" class="avatar" />
+		</dd>
+		<dd>
+			<dl class="row">
+				<dt class="left small">
+					<b class="light"><?php echo $user['username']; ?></b>　
+					<i class="light">现在</i>
+				</dt>
+				<dd class="right">
+				</dd>
+			</dl>
+			<div class="post">
+				<form id="quick_post_form" action="post-create-<?php echo $tid; ?>-quick.htm" method="post">
+					<textarea style="width: 100%; height: 100px;" name="message"></textarea>
+					<dl class="row margin">
+						<dt class="vbottom">
+							
+							<button type="submit" loading-text="正在提交..." class="grey small">回帖</button>
+							
+						</dt>
+						<dd class="right">
+							<a href="post-create-<?php echo $tid; ?>.htm" target="_blank"><i class="icon share">编辑器</i></a>
+						</dd>
+					</dl>
+				</form>
+			</div>
+		</dd>
+	</dl>
+		
+</div>
+
+<br>
+<p class="center margin"><button class="big grey" onclick="history.back();">  &nbsp;返回&nbsp; </button></p>
+<br>
+
+<script id="script_data">
+var new_thread_days = <?php echo $conf['new_thread_days']; ?>;
+var allowpost = <?php echo $allowpost; ?>;
+var tid = <?php echo $tid; ?>;
+var thread = <?php echo xn_json_encode($thread); ?>;
+</script>
+
+<?php include "./pc/view/footer.inc.htm"; ?>
+
+<script>
+render_threadlist();
+post_list_script(fid);
+forumlist_active(fid);
+document_scroll_top();
+</script>

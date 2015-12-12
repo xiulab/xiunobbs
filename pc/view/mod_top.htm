@@ -1,0 +1,46 @@
+<?php include "./pc/view/header.inc.htm"; ?>
+
+<div class="ajax_body">
+	<div style="width: 400px; margin: auto;">
+		<form method="POST" id="mod_top_form" action="mod-top-<?php echo $tids; ?>.htm" class="form">
+			<p>选中：<b><?php echo count($tidarr); ?></b> 篇</p>
+			<p>
+				置顶：<label><input type="radio" name="top" value="0">取消</label> &nbsp;  &nbsp;
+				<label><input type="radio" name="top" value="1"><i class="icon top top_1"></i>板块</label> &nbsp;  &nbsp;
+				<label><input type="radio" name="top" value="3"><i class="icon top top_3"></i>全站</label>
+			</p>
+			<p class="center">
+				<button type="submit" loading-text="正在提交..." class="blue big">确定</button>
+			</p>
+		</form>
+	</div>
+</div>
+
+<?php include "./pc/view/footer.inc.htm"; ?>
+
+<script>
+
+// 防止 ajax dialog 加载时污染全局变量
+
+var jdialog = typeof arguments == 'undefined' ? null : arguments[0]; // 接受第一个参数
+var jform = $('#mod_top_form');
+var jsubmit = jform.find('button[type="submit"]');
+
+jform.find('input[name="top"]').checked(<?php echo $thread['top']; ?>);
+
+//jform.off('submit').on('submit', function() {
+jsubmit.off('click').on('click', function() {
+	var postdata = jform.serialize();
+	jsubmit.button('loading');
+	$.xpost(jform.attr('action'), postdata, function(code, message) {
+		if(code == 0) {
+			jsubmit.button(message);
+			setTimeout(function() {window.location.reload();}, 500);
+		} else if(code < 0) {
+			$.alert(message);
+			jsubmit.button('reset');
+		}
+	});
+	return false;
+});
+</script>

@@ -1,0 +1,100 @@
+<?php include './admin/view/header.inc.htm'; ?>
+
+<style>
+dl.row.form dt {width: 15%;}
+dl.row.form dd {width: 85%;}
+</style>
+<div class="panel">
+	<div class="header"> 当前环境信息 </div>
+	<div class="body">
+		<dl class="row form">
+			<dt>操作系统: </dt><dd> <?php echo PHP_OS; ?></dd>
+			<dt>Web Server: </dt><dd> <?php echo $info['SERVER_SOFTWARE']; ?></dd>
+			<dt>PHP: </dt><dd> <?php echo PHP_VERSION; ?> (<a href="admin/index-phpinfo.htm">查看PHP.ini</a>)</dd>
+			<dt>数据库: </dt><dd> <?php echo $conf['db']['type']; ?> (<?php echo $info['dbversion']; ?>)</dd>
+			<dt>禁用函数: </dt>
+			<dd><?php echo $info['disable_functions']; ?> 
+				<br><span class="grey">建议禁用如下函数：<br>
+				passthru,exec,system,chroot,scandir,chgrp,chown,shell_exec,<br>
+				proc_open,proc_get_status,ini_alter,ini_alter,ini_restore,<br>
+				dl,pfsockopen,openlog,syslog,readlink,symlink,popepassthru,<br>
+				stream_socket_server</span>
+			</dd>
+			<dt>最大文件上传大小: </dt><dd><?php echo $info['upload_max_filesize']; ?></dd>
+			<dt>最大 POST 数据大小: </dt><dd><?php echo $info['post_max_size']; ?></dd>
+			<dt>允许开启远程 URL: </dt><dd><?php echo $info['allow_url_fopen']; ?> <span class="grey">(建议开启)</span></dd>
+			<dt>安全模式（safe_mode）: </dt><dd><?php echo $info['safe_mode']; ?> <span class="grey">(建议不要开启)</span></dd>
+			<dt>最长执行时间: </dt><dd><?php echo $info['max_execution_time']; ?> <span class="grey">(建议为10秒)</span></dd>
+			<dt>内存上限: </dt><dd><?php echo $info['memory_limit']; ?> <span class="grey">(有大图片上传的，建议开到 32M)</span></dd>
+			<dt>客户端 IP: </dt><dd>REMOTE_ADDR: <?php echo $info['REMOTE_ADDR']; ?>, HTTP_X_FORWARDED_FOR: <?php echo $info['HTTP_X_FORWARDED_FOR']; ?>, ip: <?php echo $ip; ?></dd>
+			<dt>服务端 IP: </dt><dd><?php echo (isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : ''); ?></dd>
+		</dl>
+	</div>
+</div>
+
+<div class="panel" style="display:none;">
+	<div class="header"> 潜在错误检查： </div>
+	<div class="body">
+		<dl class="row form">
+			<dt>上传目录可写检测: </dt><dd> <?php echo $check['upload_path_check']; ?></dd>
+		</dl>
+	</div>
+</div>
+
+<div class="panel">
+	<div class="header"> 站点统计信息 </div>
+	<div class="body">
+		<dl class="row form">
+			<dt>主题总数: </dt><dd> <?php echo $stat['threads']; ?></dd>
+			<dt>帖子总数: </dt><dd> <?php echo $stat['posts']; ?></dd>
+			<dt>会员总数: </dt><dd> <?php echo $stat['users']; ?></dd>
+			<dt>附件总数: </dt><dd> <?php echo $stat['attachs']; ?></dd>
+			<dt>磁盘剩余空间: </dt><dd> <?php echo $stat['disk_free_space']; ?></dd>
+		</dl>
+	</div>
+</div>
+
+<div class="panel" style="display: none;">
+	<div class="header"> 资源状况 </div>
+	<div class="body">
+		<dl class="row form">
+			<dt>带宽: </dt><dd>100M</dd>
+			<dt>Ping: </dt><dd>10ms</dd>
+			<dt>CPU: </dt><dd>8颗, 2.x</dd>
+			<dt>CPU使用率: </dt><dd>30%</dd>
+			<dt>loadavg: </dt><dd>2.0</dd>
+			<dt>内存: </dt><dd>4G/16G</dd>
+			<dt>磁盘空间: </dt><dd>30G/100G RAID1</dd>
+			<dt>磁盘IO负载: </dt><dd>100k/s</dd>
+			<dt>网卡每秒流量: </dt><dd>总：110k/s, 读:100k/s 写：10k/s</dd>
+			<dt>网络连接数: </dt><dd>8000</dd>
+			<dt>开启的端口: </dt><dd>21, 22, 80</dd>
+		</dl>
+	</div>
+</div>
+
+<div class="panel">
+	<div class="header"> 开发信息 </div>
+	<div class="body">
+		<dl class="row form">
+			<dt>开发者: </dt><dd> axiuno@gmail.com</dd>
+			<dt>官方站点: </dt><dd> <a href="http://www.xiuno.com" target="_blank">http://www.xiuno.com/</a></dd>
+			<dt>感谢: </dt>
+			<dd>
+				<a href="http://artery.cn/" target="_blank">Artery</a>　
+				<a href="http://www.zd.hk/" target="_blank">杨永全</a>
+				<a href="http://www.wooyun.org/" target="_blank">剑心@wooyun</a>
+				<a href="http://kc.4181.cn/" target="_blank">吴兆焕@twcms</a>
+				<a href="http://bbs.xiuno.com/" target="_blank">倚楼观天象</a>
+				<a href="http://bbs.xiuno.com/" target="_blank">小龙@xiuno</a>
+				<a href="http://bbs.xiuno.com/" target="_blank">吴健@xiuno</a>
+				<a href="http://bbs.xiuno.com/" target="_blank">鲁广@xiuno</a>
+				<a href="http://bbs.xiuno.com/" target="_blank">小飞@xiuno</a>
+			</dd>
+		</dl>
+	</div>
+</div>
+
+<?php include './admin/view/footer.inc.htm'; ?>
+
+<?php echo $lastversion; ?>

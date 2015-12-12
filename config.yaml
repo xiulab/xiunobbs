@@ -1,0 +1,8 @@
+name: axiuno
+version: 3
+
+handle:
+    - directoryindex: index.php index.html index.htm
+    - errordoc: 404 /path/404.html
+    - rewrite: if(!is_dir() && !is_file() && path ~ "^admin/") goto "admin/index.php?%{QUERY_STRING}"
+    - rewrite: if(!is_dir() && !is_file()) goto "index.php?%{QUERY_STRING}"

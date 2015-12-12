@@ -1,0 +1,37 @@
+	</div>
+</div>
+
+<div id="footer">
+	<p>
+		Copyright &copy; 2008-2014<br>
+		<?php echo $conf['sitename']; ?> Inc, All rights reserved. Process:<?php echo substr(microtime(1) - $starttime, 0, 7);?>s
+	</p>
+	<?php include './pc/view/footer_debug.inc.htm'; ?>
+</div>
+
+<script id="script_data">
+// 全局的数据
+var fid = <?php echo $fid; ?>;					// 当前激活的 fid
+var forumlist = <?php echo xn_json_encode($forumlist_show); ?>; 	// 板块数据 ajax 加载
+var new_thread_days = <?php echo $conf['new_thread_days']; ?>;
+</script>
+
+
+<script src="xiunoui/zepto.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="static/bbs.js"></script>
+<script src="mobile/view/mobile.js"></script>
+
+<?php echo isset($setting['footer_code']) ? $setting['footer_code'] : ''; ?>
+
+</body>
+</html>
+
+<?php
+
+online_save();
+runtime_save();
+
+?>

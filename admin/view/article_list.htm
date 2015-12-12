@@ -1,0 +1,108 @@
+<?php include './admin/view/header.inc.htm'; ?>
+
+<dl class="row margin">
+	<dt>
+		<select name="cateid" id="cateid">
+			<option value="0">选择分类</option>
+			<?php foreach($conf['cate'] as $_cateid=>$catename) { ?>
+			<option value="<?php echo $_cateid; ?>" <?php if($_cateid == $cateid){ echo 'selected';  } ?>><?php echo $catename; ?></option>
+			<?php } ?>
+		</select>
+		<input type="text" id="keyword" placeholder="搜索标题" value="<?php echo $keyword; ?>" style="width: 200px;" />
+		<button id="search" class="blue">搜索</button>
+	</dt>
+	<dd class="right"><button id="create" class="blue">文章创建</button></dd>
+</dl>
+
+<?php if(!$articlelist) { ?>
+
+<div class="notice ok margin">暂无文章</div>
+
+<?php }else{ ?>
+
+<div class="panel">
+	<div class="header"><?php echo $header['title']; ?></div>
+	<div class="body">
+		<table class="tlist" width="100%" id="articlelist">
+			<tr>
+				<th width="60" class="center">删除</th>
+				<th width="100">ID</th>
+				<th width="40%">标题</th>
+				<th>分类</th>
+				<th>创建日期</th>
+				<th>操作</th>
+			</tr>
+			<?php foreach($articlelist as &$article){ ?>
+			<tr articleid="<?php echo $article['articleid']; ?>">
+				<td class="center"><input type="checkbox" name="delete" /></td>
+				<td><?php echo $article['articleid']; ?></td>
+				<td><a href="admin/article-read-<?php echo $article['articleid']; ?>.htm" target="_blank"><?php echo $article['subject']; ?></a></td>
+				<td><?php echo $article['catename']; ?></td>
+				<td><?php echo $article['create_date_fmt']; ?></td>
+				<td>
+					<a href="admin/article-update-<?php echo $article['articleid']; ?>.htm" target="_blank">编辑</a>
+				</td>
+			</tr>
+			<?php } ?>
+		</table>
+		<p class="hr"></p>
+		<dl class="row">
+			<dd><button id="confirm" loading-text="正在提交..." class="blue big">删除</button></dd>
+			<dt class="right"><div class="page"><?php echo $pages; ?></div></dt>
+		</dl>
+	</div>
+</div>
+
+<?php } ?>
+
+<?php include './admin/view/footer.inc.htm'; ?>
+
+<script>
+	var jarticlelist = $("#articlelist");
+ 	var jconfirm = $("#confirm");
+	var jcateid = $("#cateid");
+	var jkeyword = $('#keyword');
+	var jsearch = $("#search");
+
+	// 创建文章
+	var jcreate = $('#create');
+	jcreate.on('click', function() {
+		window.location = 'admin/article-create.htm';
+	});
+
+ 	// 文章分类
+	jcateid.val(jcateid.attr('value'));
+	jcateid.on('change', function() {
+		var cateid = jcateid.val();
+		window.location = 'admin/article-list-'+cateid+'.htm';
+	});
+
+	// 文章标题搜索
+	jsearch.on('click', function(){
+		var cateid = jcateid.val();
+		var keyword = jkeyword.val();
+		var url = 'admin/article-list-'+cateid+'-'+urlencode(keyword)+'.htm';
+		window.location = url;
+	});
+	jkeyword.on('keydown', function(e) {
+		if(e.keyCode == 13) jsearch.trigger('click');
+	});
+
+	// 删除选中的文章
+	jconfirm.on('click', function(){
+		var jchecked = jarticlelist.find('input[name="delete"]').filter(function(){ return this.checked; });
+		if(jchecked.length < 1) return alert("请勾选您要删除的文章");
+		if(!window.confirm("确定删除文章")) return false;
+		jchecked.each(function() {
+			jtr = $(this).parents('tr');
+			var articleid = jtr.attr('articleid');
+			$.xpost('admin/article-delete.htm', 'articleid=' + articleid, function(code, message) {
+				if(code == 0) {
+					jtr.remove();
+				} else {
+					jtr.addClass('error').popover(message);
+				}
+			});
+		});
+	});
+</script>

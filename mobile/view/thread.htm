@@ -1,0 +1,89 @@
+<?php include "./mobile/view/header.inc.htm"; ?>
+
+<div class="panel_body margin">
+	<dl class="row" pid="<?php echo $first['pid']; ?>" id="firstpost">
+		<dt class="vtop">
+			<a href="mobile/<?php echo $thread['user_url']; ?>" class="author">
+				<img src="<?php echo $thread['user_avatar_url']; ?>" class="avatar small" />
+			</a>
+		</dt>
+		<dd>
+			<p class="subject breakall bold" pid="<?php echo $first['pid']; ?>"><?php echo $thread['subject']; ?></p>
+			
+			<dl class="row" style="margin-top: 4px;">
+				<dt class="left small">
+					<b class="light"><a href="mobile/user-<?php echo $thread['uid']; ?>.htm"><?php echo $thread['username']; ?></a></b>　
+					<i class="light"><?php echo $thread['create_date_fmt']; ?></i>
+				</dt>
+				<dd class="right grey">
+				<?php if($allowupdate || $first['allowupdate']) { ?>
+					<a href="mobile/post-update-<?php echo $first['pid']; ?>.htm" class="nocache" title="编辑"><i class="icon edit"></i></a>
+				<?php } ?>
+				
+				<?php if($allowdelete || $first['allowdelete']) { ?>
+					<a href="post-delete-<?php echo $first['pid']; ?>.htm" class="delete" title="删除"><i class="icon trash-o"></i></a>
+				　<?php } ?>
+				</dd>
+			</dl>
+		</dd>
+	</dl>
+	<div id="thread_post" class="thread_post" pid="<?php echo $thread['firstpid']; ?>">
+		<?php echo $first['message']; ?>
+	</div>
+
+	<div id="postlist_title">
+		<span class="active grey" style="cursor:pointer">回复</span> 
+		<span id="posts" class="posts <?php echo $thread['posts_class']; ?>"><?php echo $thread['posts']; ?></span> &nbsp; 
+	</div>
+	
+	<div id="postlist">
+		<?php include './mobile/view/post_list_body.inc.htm';?>
+	</div>
+	
+	<dl class="row vtop margin" id="post_create_dl">
+		<dt>
+			<img src="<?php echo $user['avatar_url']; ?>" class="avatar" />
+		</dt>
+		<dd>
+			<dl class="row">
+				<dt class="left small">
+					<b class="light"><?php echo $user['username']; ?></b>　
+					<i class="light">现在</i>
+				</dt>
+				<dd class="right">
+				</dd>
+			</dl>
+			<div class="post margin">
+				<form id="quick_post_form" action="post-create-<?php echo $tid; ?>-quick.htm" method="post">
+					<textarea style="width: 100%; height:50px;" name="message"></textarea>
+					<dl class="row margin">
+						<dt>
+							<button type="submit" loading-text="正在提交..." class="small grey">回帖</button>
+						</dt>
+						<dd class="right">
+						</dd>
+					</dl>
+				</form>
+			</div>
+		</dd>
+	</dl>
+</div>	
+
+<br>
+<p class="center margin"><button class="big grey" onclick="history.back();">  &nbsp;返回&nbsp; </button></p>
+<br>
+
+<script id="script_data">
+// 全局的数据
+var allowpost = <?php echo $allowpost; ?>;
+var tid = <?php echo $tid; ?>;
+var thread = <?php echo xn_json_encode($thread); ?>;
+</script>
+
+<?php include "./mobile/view/footer.inc.htm"; ?>
+
+<script>
+render_forumlist();
+render_threadlist();
+post_list_script(fid);
+</script>

@@ -1,0 +1,22 @@
+<?php include './admin/view/header.inc.inc.htm'; ?>
+
+<ul class="row" id="admin_header" style="background: #000000; line-height: 36px;">
+	<li style="width: 100px;">
+		<a href="./"><img src="static/logo.png" height="26" align="top" style="margin-top: 4px;" /></a>
+	</li>
+	<li id="admin_link">
+		<a href="admin" style="color:red;">后台</a>
+		<a href="./" target="_blank">前台</a>
+	</li>
+	<li style="width: 200px;" class="right">
+		欢迎您，<?php echo $user['username']; ?>, <a href="admin/index-logout.htm">退出</a> &nbsp;
+	</li>
+</ul>
+
+<ul class="row vtop">
+	<li style="width: 200px;">
+		<div id="admin_menu" class="left_menu margin">
+			<?php include './admin/view/left_menu.inc.htm'; ?>
+		</div>
+	</li>
+	<li style="vertical-align: top; padding: 0px 8px; ">

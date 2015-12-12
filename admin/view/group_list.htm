@@ -1,0 +1,131 @@
+<?php include './admin/view/header.inc.htm'; ?>
+
+<div class="panel">
+	<div class="header">用户组管理</div>
+	<div class="body">
+		<table width="100%" class="tlist" id="table">
+			<tr align="center">
+				<th width="50">用户组ID</th>
+				<th width="100" align="left">用户组名称</th>
+				<th width="50">起始喜欢数</th>
+				<th width="50">结束喜欢数</th>
+				<th width="50">每日最大喜欢数</th>
+				<th  width="100" align="left">编辑</th>
+				<th align="left">删除</th>
+			</tr>
+			<?php foreach($grouplist as &$group) { ?>
+			<tr align="center" gid="<?php echo $group['gid']; ?>">
+				<td><input type="text" name="gid" value="<?php echo $group['gid']; ?>" style="width: 60px" placeholder="用户组ID" /></td>
+				<td align="left"><input type="text" name="name" value="<?php echo $group['name']; ?>" placeholder="用户组名称" /></td>
+				<td><input type="text" name="agreesfrom" value="<?php echo $group['agreesfrom']; ?>" style="width: 100px" placeholder="0" /></td>
+				<td><input type="text" name="agreesto" value="<?php echo $group['agreesto']; ?>" style="width: 100px" placeholder="0" /></td>
+				<td><input type="text" name="maxagrees" value="<?php echo $group['maxagrees']; ?>" style="width: 100px" placeholder="0" /></td>
+				<td align="left"><a href="admin/group-update-<?php echo $group['gid']; ?>.htm" class="update">编辑</a></td>
+				<td align="left"><?php if($group['gid'] > 101) { ?><a href="admin/group-delete-<?php echo $group['gid']; ?>.htm" class="delete">删除</a><?php } ?></td>
+			</tr>
+			<?php } ?>
+		</table>
+		<p class="hr"></p>
+		<p class="margin"><button type="button" loading-text="正在提交..." id="submit" class="blue big" style="margin-left: 300px;" >确定</button></p>
+	</div>
+</div>
+
+<?php include './admin/view/footer.inc.htm'; ?>
+
+<script>
+
+var maxgid = <?php echo $maxgid; ?>;
+var maxgid2 = maxgid;
+var jtable = $('#table');
+var jsubmit = $("#submit");
+var jtrs = jtable.find('tr');
+var jlast = jtrs.last(); // ('tr:last-child')有 bug，第二次会出2个孩子!
+jlast.find('input[name="name"]').addClass('last'); 
+
+function clone_tr(gid) {
+	jlast.find('input[name="name"]').removeClass('last');
+	var jclone = jlast.clone().appendTo(jtable.son('tbody')).attr('gid', gid);
+	jclone.find('input').val('');
+	jclone.find('td').eq(0).find('input').val(gid);
+	jclone.find('td').eq(5).find('a').attr('href', 'admin/group-update-'+gid+'.htm').hide();
+	jclone.find('td').eq(6).find('a').attr('href', 'admin/group-delete-'+gid+'.htm').hide();
+	jlast = jclone;
+	jlast.find('input[name="name"]').addClass('last');
+	jtrs.add(jclone);
+}
+$('body').on('focus', 'input.last', function() {
+	clone_tr(++maxgid);
+});
+$('body').on('click', 'a.delete', function() {
+	var jthis = $(this);
+	var jtr = jthis.closest('tr');
+	var gid = jtr.attr('gid');
+	$.confirm('确定删除?', function() {
+		$.xpost(jthis.attr('href'), function(code, message) {
+			if(code == 0) {
+				jtr.remove();
+				jtrs = jtable.find('tr');
+				jlast = jtrs.last();
+				jlast.find('input[name="name"]').addClass('last'); 
+			} else {
+				jtr.line_error();
+				$.alert(message);
+			}
+		});
+	});
+	return false;
+});
+
+jsubmit.on('click', function(){
+	jsubmit.button('loading');
+	// 逐行更新
+	var urlarr = [];
+	var postarr = [];
+	var jtrs = jtable.find('tr').not(':first-child'); // .not(':last-child')
+	jtrs.map(function(k, v) {
+		var tr = this;
+		var jtr = $(tr);
+		var gid = jtr.attr('gid');
+		var name = jtr.find('input[name="name"]').val();
+		var agreesfrom = jtr.find('input[name="agreesfrom"]').val();
+		var agreesto = jtr.find('input[name="agreesto"]').val();
+		var maxagrees = jtr.find('input[name="maxagrees"]').val();
+		if(k == jtrs.length - 1 && !name) return; // 对增加的空节点忽略掉
+		if(gid <= maxgid2) {
+			urlarr.push('admin/group-update-'+gid+'.htm');
+		} else {
+			urlarr.push('admin/group-create-'+gid+'.htm');
+		}
+		postarr.push({gid: gid, name: name, agreesfrom: agreesfrom, agreesto: agreesto, maxagrees: maxagrees});
+	});
+	
+	//console.log('urlarr: %o, postarr, %o', urlarr, postarr);
+	$.xpost_sync(urlarr, postarr, function(code, message, i) {
+		console.log('code: %d, message: %o, i:%d', code, message, i);
+		var jtr = jtrs.eq(i);
+		if(code == 0) {
+			jtr.find('td').eq(5).find('a').show();
+			jtr.find('td').eq(6).find('a').show();
+			jtr.line_ok();
+		} else {
+			if(code == 1) {
+				jtr.find('input[name="name"]').popover(message).focus();
+			} else if(code == 2) {
+				jtr.find('input[name="agreesfrom"]').popover(message).focus();
+			} else if(code == 3) {
+				jtr.find('input[name="agreesto"]').popover(message).focus();
+			} else if(code == 4) {
+				jtr.find('input[name="maxagrees"]').popover(message).focus();
+			} else {
+				alert(message);
+			}
+			jtr.line_error();
+		}
+	}, function(code, message) {
+		jsubmit.button('更新完毕');
+		setTimeout(function() {jsubmit.button('reset');}, 1000);
+	});
+	return false;
+});
+
+</script>

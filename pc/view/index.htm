@@ -1,0 +1,90 @@
+<?php include "./pc/view/header.inc.htm"; ?>
+
+<div class="panel width" id="threadlist_panel">
+	<div class="header">
+		<table class="layout">
+			<tr>
+				<td>
+					<?php if($order == 'tid') { ?>最新主题<?php } ?>
+					<?php if($order == 'lastpid') { ?>最新回复<?php } ?>
+					<?php if($order == 'agrees') { ?>最多喜欢<?php } ?>
+				</td>
+				<td id="threadlist_orderby" align="right" class="normal">
+					<span class="grey">排序：</span>							
+					<a href="index-lastpid.htm" nofollow <?php echo ($order == 'lastpid' ? ' class="active"' : ''); ?>><span class="icon comments" title="回帖时间"></span>回帖时间</a>
+					<a href="index-tid.htm" nofollow <?php echo ($order == 'tid' ? ' class="active"' : ''); ?>><span class="icon comment" title="发帖时间"></span>发帖时间</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="body">
+		<div id="threadlist">
+			<?php include "./pc/view/thread_list_body.inc.htm"; ?>
+		</div>
+	</div>
+</div>	
+
+<?php if(forum_is_mod($fid, $gid, $uid)) { ?>
+<dl class="row margin">
+	<dt class="right col-6">
+		<button class="grey small" id="mod_top">置顶</button>
+		<button class="grey small" id="mod_move">移动</button>
+		<button class="grey small" id="mod_delete">删除</button>
+	</dt>
+	<dt class="right col-4">
+		<label>全选<input type="checkbox" name="checkall" id="threadlist_checkall" value="" />&nbsp;</label>
+	</dt>
+</dl>
+<?php } ?>
+
+
+<div class="panel">
+	<div class="header">站点统计</div>
+	<div class="body">
+		<div>
+			<i>主题数：</i><b><?php echo $runtime['threads']; ?></b>  　
+			<i>帖子数：</i><b><?php echo $runtime['posts']; ?></b>  　
+			<i>用户数：</i><b><?php echo $runtime['users']; ?></b>  　
+			<i>今日回帖数：</i><b class="blue"><?php echo $runtime['todayposts']; ?></b>  　
+			<i>今日主题数：</i><b class="blue"><?php echo $runtime['todaythreads']; ?></b>  　
+			<i>今日新用户：</i><b class="blue"><?php echo $runtime['todayusers']; ?></b>  　
+			<?php if(!$onlinelist) { ?> <i>在线：</i><b class="blue"><?php echo $runtime['onlines']; ?></b> <?php } ?>
+		</div>
+	</div>
+</div>
+
+<?php if($linklist) { ?>
+<div class="panel">
+	<div class="header">友情链接</div>
+	<div class="body">
+		<?php foreach ($linklist as $link) { ?>
+		<a href="<?php echo $link['url']; ?>" target="_blank"><?php echo $link['name']; ?></a>　
+		<?php } ?>
+	</div>
+</div>
+<?php } ?>
+
+<?php if($onlinelist) { ?>
+<div class="panel">
+	<div class="header">在线 (<?php echo $runtime['onlines']; ?>人)</div>
+	<div class="body">
+	<?php foreach ($onlinelist as $online) { ?>
+		<?php if($online['uid']) { ?>
+		<a href="user-<?php echo $online['uid']; ?>.htm" target="_blank" <?php if($gid == 1) { ?>title="IP:<?php echo long2ip($online['ip']); ?>" <?php }?> ><?php echo $online['username']; ?></a>　
+		<?php } else {?>
+		<span <?php if($gid == 1) { ?>title="IP:<?php echo long2ip($online['ip']); ?>" <?php }?> >游客</span>　
+		<?php } ?>
+	<?php } ?>
+	
+	</div>
+</div>
+<?php } ?>
+
+<?php include "./pc/view/footer.inc.htm"; ?>
+
+<script>
+render_threadlist();
+thread_list_script();
+forumlist_active(fid);
+document_scroll_top();
+</script>

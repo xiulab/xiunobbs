@@ -1,0 +1,44 @@
+<?php include "./mobile/view/header.inc.htm"; ?>
+
+<div class="panel width">
+	<div class="header">
+		<table class="layout">
+			<tr>
+				<td>
+				</td>
+				<td id="threadlist_orderby" align="right" class="normal">
+					<a href="mobile/forum-<?php echo $fid; ?>-<?php echo $page; ?>-lastpid.htm" nofollow <?php echo ($order == 'lastpid' ? 'class="active"' : ''); ?>><span class="icon comments" title="回帖时间"></span>回帖时间</a>
+					<a href="mobile/forum-<?php echo $fid; ?>-<?php echo $page; ?>-tid.htm" nofollow <?php echo ($order == 'tid' ? 'class="active"' : ''); ?>><span class="icon comment<?php echo ($order == 'tid' ? ' active' : ''); ?>" title="发帖时间"></span>发帖时间</a>
+					<a href="mobile/forum-<?php echo $fid; ?>-<?php echo $page; ?>-agrees.htm" nofollow <?php echo ($order == 'agrees' ? 'class="active"' : ''); ?>><span class="icon heart<?php echo ($order == 'agrees' ? ' active' : ''); ?>" title="被喜欢数"></span>被喜欢数</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="body">
+		<div id="threadlist">
+			<?php include "./mobile/view/thread_list_body.inc.htm"; ?>
+		</div>
+	</div>
+</div>
+
+<?php if(forum_is_mod($fid, $gid, $uid)) { ?>
+<dl class="row margin">
+	<dt class="right col-7">
+		<button class="grey small" id="mod_top">置顶</button>
+		<button class="grey small" id="mod_move">移动</button>
+		<button class="grey small" id="mod_delete">删除</button>
+	</dt>
+	<dt class="right col-3">
+		<label>全选<input type="checkbox" name="checkall" id="threadlist_checkall" value="" />&nbsp;</label>
+	</dt>
+</dl>
+<?php } ?>
+
+<div class="page"><?php echo (isset($pages) ? $pages : ''); ?></div>
+
+<?php include "./mobile/view/footer.inc.htm"; ?>
+
+<script>
+render_forumlist();
+render_threadlist(fid);
+</script>

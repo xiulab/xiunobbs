@@ -1,0 +1,13 @@
+
+
+
+<?php
+if(DEBUG && !empty($gid) && $gid == 1) {
+	echo '<br><br><ul>';
+	$sqls = $db->sqls;
+	foreach($sqls as $sql) {
+		echo "<li>$sql</li>\r\n";
+	}
+	echo '</ul>';
+}
+?>

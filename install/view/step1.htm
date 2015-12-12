@@ -1,0 +1,93 @@
+<?php include "./install/view/header.inc.htm"; ?>
+
+<h3>一、安装环境检测</h3>
+
+<div class="list">
+	<table class="panel tborder" width="100%">
+		<tr align="center">
+			<th align="left"><b>网站运行环境检测</b></th>
+			<th>要求</th>
+			<th>当前</th>
+			<th>检测结果</th>
+		</tr>
+	<?php foreach($env as $v) { ?>
+		<tr>
+			<td><?php echo $v['name'];?></td>
+			<td align="center"><?php echo $v['need'];?></td>
+			<td align="center"><b><?php echo $v['current'];?></b></td>
+			<td align="center">
+			<?php if($v['status'] == 1) { ?>
+				<div class="ok"><b class="icon check green"></b>通过</div>
+			<?php } elseif($v['status'] == 2) { ?>
+				<div class="warn"><i class="icon check yellow" title="不是最理想的环境"></i>通过</div>
+			<?php } elseif($v['status'] == 0) { $succeed = 0; ?>
+				<div class="error"><b class="icon close red"></b>未通过</div>
+			<?php } ?>
+			</td>
+		</tr>
+	<?php } ?>
+	
+	<?php if(!IN_SAE) { ?>
+	
+		<tr align="center">
+			<td colspan="3" align="left"><b>目录 / 文件 权限检测</b></td>
+			<td>检测结果</td>
+		</tr>
+
+		<?php foreach($write as $k=>$v) { ?>
+		<tr>
+			<td colspan="3"><?php echo $k;?></td>
+			<td align="center">
+				<?php if($v) { ?><div class="ok"><b class="icon check green"></b>可写</div><?php } ?>
+				<?php if(!$v) { $succeed = 0;?><div class="error"><b class="icon close red"></b>不可写</div><?php } ?>
+			</td>
+		</tr>
+		<?php } ?>
+		
+	<?php } else { ?>
+		
+		<tr class="header">
+			<td colspan="4">SAE 检测目录文件可写</td>
+		</tr>
+
+		<tr>
+			<td>saekv://tmp/</td>
+			<td>可读写</td>
+			<td><b><?php echo $saewrite['tmp_path'] ? '可写' : '不可写';?></b></td>
+			<td>
+			<?php if($saewrite['tmp_path']) { ?>
+				<div class="ok">✔通过</div>
+			<?php } else { $succeed = 0; ?>
+				<div class="error">✘未通过 （请设置为：0777)</div>
+			<?php } ?>
+			</td>
+		</tr>
+
+		<tr>
+			<td>saestor://upload/</td>
+			<td>可读写</td>
+			<td><b><?php echo $saewrite['upload_path'] ? '可写' : '不可写';?></b></td>
+			<td width="33%">
+			<?php if($saewrite['upload_path']) { ?>
+				<div class="ok">✔通过</div>
+			<?php } else { $succeed = 0; ?>
+				<div class="error">✘未通过</div>（请在SAE创建 upload 域，<a href="http://bbs.xiuno.com/thread-806.htm" target="_blank">查看帮助</a>）
+			<?php } ?>
+			</td>
+		</tr>
+		
+	<?php } ?>
+	
+	</table>
+</div>
+
+<div class="center margin">
+	<button class="blue big" onClick="window.location='index.php?0=step1'">重新检测</button>
+<?php if($succeed) {?>
+	<button class="blue big" onClick="window.location='index.php?0=step2'">下一步</button>
+<?php } else { ?>
+	<button class="grey big" disabled="disabled">下一步</button>
+<?php } ?>
+</div>
+
+<?php include "./install/view/footer.inc.htm"; ?>

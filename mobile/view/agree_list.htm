@@ -1,0 +1,18 @@
+<?php include "./mobile/view/header.inc.htm"; ?>
+
+<div class="panel_body">
+	<?php if($agreelist) { ?>
+	<p>
+		<?php foreach ($agreelist as $agree) { ?>
+		<a href="mobile/user-<?php echo $agree['uid']; ?>.htm">
+			<img src="<?php echo $agree['avatar_url']; ?>" class="avatar tiny" />
+			<?php echo $agree['username']; ?>
+		</a>
+		<?php } ?>
+	</p>
+	<?php } else {?>
+	<p>无</p>
+	<?php } ?>
+</div>
+
+<?php include "./mobile/view/footer.inc.htm"; ?>

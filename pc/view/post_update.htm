@@ -1,0 +1,109 @@
+<?php include "./pc/view/header.inc.htm"; ?>
+
+<?php if($isfirst) { ?>
+	<div class="panel_body margin">
+	<div class="body">
+		<form method="POST" id="post_update_form_<?php echo $pid; ?>" action="post-update-<?php echo $pid; ?>.htm" class="form margin">
+			<p><span class="forum_select"></span> <input type="text" placeholder="标题" name="subject" value="<?php echo $thread['subject']; ?>" style="width: 540px;"></p>
+			<p><textarea id="post_update_message" name="message" placeholder="内容" style="width: 100%; height: 500px;"><?php echo $post['message']; ?></textarea></p>
+			<?php if($conf['seo_url_rewrite'] && $group['allowcustomurl']) { ?>
+			<p><input type="text" placeholder="自定义 URL：just-like-this-why-sky-is-blue" name="seo_url" value="<?php echo $thread['seo_url']; ?>" style="width: 100%;"></p>
+			<?php } ?>
+			<dl class="row margin">
+				<dt><button type="button" loading-text="正在提交..." class="big blue" style="width: 208px;">编辑帖子</button></dt>
+				<dd class="right"></dd>
+			</dl>
+		</form>
+	</div>
+</div>
+
+<?php } else {?>
+	<div class="panel_body margin">
+		<dl class="row vtop" id="post_create_dl">
+			<dt>
+				<img src="<?php echo $user['avatar_url']; ?>" class="avatar" />
+			</dd>
+			<dd>
+				<dl class="row">
+					<dt class="left small">
+						<b class="light"><?php echo $post['username']; ?></b>　
+						<i class="light"><?php echo $post['create_date_fmt']; ?></i>
+					</dt>
+					<dd class="right">
+					</dd>
+				</dl>
+				<div class="post">
+					<form method="POST" id="post_update_form_<?php echo $pid; ?>" action="post-update-<?php echo $pid; ?>.htm" class="form margin">
+						<div><textarea id="post_update_message" name="message" placeholder="内容" style="width: 100%; height: 300px;"><?php echo $post['message']; ?></textarea></div>
+						<dl class="row margin">
+							<dt><button type="button" loading-text="正在提交..." class="big blue" style="width: 208px;">编辑帖子</button></dt>
+							<dd class="right"></dd>
+						</dl>
+					</form>
+				</div>
+			</dd>
+		</dl>
+	</div>
+<?php } ?>
+
+<?php include "./pc/view/footer.inc.htm"; ?>
+
+<link rel="stylesheet" type="text/css" href="xneditor/editor.css" />
+
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/upload.js"></script>
+<script src="xneditor/editor.js"></script>
+<script>
+
+var editor = new $.XNEditor({textarea: 'post_update_message', image_upload_url:'post-upload-1.htm', image_upload_width: <?php echo $conf['upload_image_width']; ?>, file_upload_url:'post-upload-0.htm'});
+
+var jform = $('#post_update_form_<?php echo $pid; ?>');
+var jmessage = jform.find('textarea');
+var jseo_url = jform.find('input[name="seo_url"]');
+var jsubmit = jform.find('button').filter('[type="button"]');
+
+// 选择论坛
+var fid = <?php echo $fid; ?>;
+var pid = <?php echo $pid; ?>;
+var tid = <?php echo $tid; ?>;
+var isfirst = <?php echo $isfirst; ?>;
+var jforum_select = jform.find('span.forum_select');
+var forumarr = <?php echo $forumarr; ?>;
+var s = '<select name="fid">'; $.each(forumarr, function(k, v) { s += '<option value="'+k+'">'+v+'</option>'}); s += '</select>';
+var jselect = jforum_select.html(s).find('select');
+jselect.checked(fid);
+
+jsubmit.off('click').on('click', function() {
+	if(!jmessage.val()) {
+		editor.jeditor.popover('请输入内容');
+		editor.focus();
+		return false;
+	}
+	jsubmit.button('loading');
+	var postdata = jform.serializeObj();
+	$.xpost(jform.attr('action'), postdata, function(code, message) {
+		if(code == 0) {
+			jsubmit.button('编辑成功');
+			setTimeout(function() {editor.clear(); window.location='<?php echo $thread['url'];?>';}, 1000);
+			return;
+		} else if(code == 2) {
+			jmessage.popover(message).focus();
+		} else if(code == 4) {
+			jseo_url.popover(message).focus();
+		} else {
+			$.alert(message);
+		}
+		jsubmit.button('reset');
+	});
+	
+	return false;
+});
+
+// 快捷键回复
+jform.keyup(function(e) {
+	if((e.ctrlKey && (e.which == 13 || e.which == 10)) || (e.altKey && e.which == 83)) {
+		jsubmit.trigger('click');
+		return false;
+	}
+});
+</script>

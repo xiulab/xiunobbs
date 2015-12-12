@@ -1,0 +1,7 @@
+{
+        "name" : "Xiuno Sphinx 搜索",
+        "brief" : "基于 Sphinx 搜索的插件，用来解决大数据量下的全文搜索。",
+        "version" : "1.0",
+        "bbs_version" : "3.0",
+        "installed" : 0
+}

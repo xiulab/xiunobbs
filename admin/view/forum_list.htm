@@ -1,0 +1,174 @@
+<?php include './admin/view/header.inc.htm'; ?>
+
+<div class="panel">
+	<div class="header">板块管理</div>
+	<div class="body">
+		<table width="100%" class="tlist" id="table">
+			<tr align="center">
+				<th width="200">图标</th>
+				<th width="100" align="left">名称</th>
+				<th width="100">顺序</th>
+				<th width="100">编辑</th>
+				<th align="left">删除</th>
+			</tr>
+			<?php foreach($forumlist as &$forum) { ?>
+			<tr align="center" fid="<?php echo $forum['fid']; ?>">
+				<td style="background: url(static/bg_left.gif); color: grey;">
+					<img src="<?php echo $forum['icon_url']; ?>" class="forum" align="absmiddle" />
+					<input type="file" multiple="multiple" accept=".jpg,.jpeg,.png,.gif,.bmp"  class="upload" style="width: 65px; opacity: 0.7" value="更换图片"/>
+				</td>
+				<td><input type="text" name="name" value="<?php echo $forum['name']; ?>" placeholder="板块名称" /></td>
+				<td><input type="text" name="rank" value="<?php echo $forum['rank']; ?>" style="width: 100px" placeholder="0" /></td>
+				<td><a href="admin/forum-update-<?php echo $forum['fid']; ?>.htm" class="update" >编辑</a></td>
+				<td align="left"><a href="admin/forum-delete-<?php echo $forum['fid']; ?>.htm" class="delete">删除</a></td>
+			</tr>
+			<?php } ?>
+		</table>
+		<p class="hr"></p>
+		<p class="margin"><button type="button" loading-text="正在提交...>" id="submit" class="blue big" style="margin-left: 300px;" >确定</button></p>
+	</div>
+</div>
+
+<?php include './admin/view/footer.inc.htm'; ?>
+
+<link rel="stylesheet" type="text/css" href="xneditor/editor.css" />
+<script src="xneditor/editor.js"></script>
+<script>
+
+var maxfid = <?php echo $maxfid; ?>;
+var jtable = $('#table');
+var jsubmit = $("#submit");
+var jtrs = jtable.find('tr');
+var jlast = jtrs.last(); // ('tr:last-child')有 bug，第二次会出2个孩子!
+jlast.find('input[name="name"]').addClass('last'); 
+
+function clone_tr(fid) {
+	jlast.find('input[name="name"]').removeClass('last');
+	var jclone = jlast.clone().appendTo(jtable.son('tbody')).attr('fid', fid);
+	jclone.find('input[name="name"]').val('');
+	jclone.find('input[name="rank"]').val('');
+	jclone.find('td').eq(0).find('img').attr('src', 'static/forum.png');
+	jclone.find('td').eq(0).son('input').hide();
+	jclone.find('td').eq(3).find('a').attr('href', 'admin/forum-update-'+fid+'.htm').hide();
+	jclone.find('td').eq(4).find('a').attr('href', 'admin/forum-delete-'+fid+'.htm').hide();
+	jlast = jclone;
+	jlast.find('input[name="name"]').addClass('last');
+	jtrs.add(jclone);
+}
+$('body').on('focus', 'input.last', function() {
+	clone_tr(++maxfid);
+});
+jtable.find('input.last').focus();
+
+$('body').on('click', 'a.delete', function() {
+	var jthis = $(this);
+	var jtr = jthis.closest('tr');
+	var fid = jtr.attr('fid');
+	$.confirm('确定删除?', function() {
+		$.xpost(jthis.attr('href'), function(code, message) {
+			if(code == 0) {
+				jtr.remove();
+				jtrs = jtable.find('tr');
+				jlast = jtrs.last();
+				jlast.find('input[name="name"]').addClass('last'); 
+			} else {
+				jtr.line_error();
+				$.alert(message);
+			}
+		});
+	});
+	return false;
+});
+
+jsubmit.on('click', function(){
+	jsubmit.button('loading');
+	// 逐行更新
+	var urlarr = [];
+	var postarr = [];
+	var jtrs = jtable.find('tr').not(':first-child'); // .not(':last-child')
+	jtrs.map(function(k, v) {
+		var tr = this;
+		var jtr = $(tr);
+		var fid = jtr.attr('fid');
+		var name = jtr.find('input[name="name"]').val();
+		var rank = jtr.find('input[name="rank"]').val();
+		if(k == jtrs.length - 1 && !name) return; // 对增加的空节点忽略掉
+		urlarr.push('admin/forum-update-'+fid+'.htm');
+		postarr.push({fid: fid, name: name, rank: rank});
+	});
+	
+	//console.log('urlarr: %o, postarr, %o', urlarr, postarr);
+	$.xpost_sync(urlarr, postarr, function(code, message, i) {
+		console.log('code: %d, message: %o, i:%d', code, message, i);
+		var jtr = jtrs.eq(i);
+		if(code == 0) {
+			jtr.find('td').eq(0).son('input').show();
+			jtr.find('td').eq(3).find('a').show();
+			jtr.find('td').eq(4).find('a').show();
+			jtr.line_ok();
+		} else {
+			if(code == 1) {
+				jtr.find('input[name="name"]').popover(message).focus();
+			} else if(code == 2) {
+				jtr.find('input[name="rank"]').popover(message).focus();
+			} else {
+				alert(message);
+			}
+			jtr.line_error();
+		}
+	}, function(code, message) {
+		jsubmit.button('更新完毕');
+		setTimeout(function() {jsubmit.button('reset');}, 1000);
+	});
+	return false;
+});
+
+// 图标上传
+$('body').on('click', 'input.upload', function() {
+	var fileinput = this;
+	var jfile = $(fileinput);
+	var jtr = jfile.closest('tr');
+	var fid = intval(jtr.attr('fid'));
+	var jimg = jfile.prev('img').eq(0);
+	var url = 'admin/forum-uploadicon-'+fid+'.htm';
+	var up = new FileUploader(fileinput, url);
+	up.filetype = 'image/png';
+	up.thumb_width = 64;
+	/*up.onprogress = function(file, percent) {
+		// $('#xxx').width(percent+'%');
+	}
+	up.ononce = function(file, e) {
+		var json = json_decode(e.target.response);
+		if(json && json.code == 0) {
+			// json.message;
+		} else {
+			var err = json && json.message ? json.message : e.target.response;
+			// err
+		}
+	}*/
+	up.oncomplete = function(code, files) {
+		if(code == 0) jtr.line_ok();
+	}
+	up.onselected = function(files) {
+		var file = files[0];
+		jimg.srcLocalFile(file);
+		if(!/^image/.test(file.type) || !/(.jpg|.jpeg|.gif|.png|.bmp)$/i.test(file.type)) {
+			jfile.popover('只允许上传jpg、jpeg、gif、png格式的图片'); return;
+		}
+		if(file.size > 1024000) {
+			jfile.popover('图片不能超过1M'); return;
+		}
+		up.start();
+	}
+	
+	up.onerror = function(file, e) {
+		jtr.line_error();
+		var json = json_decode(e.target.response);
+		var err = json && json.message ? json.message : e.target.response;
+		jfile.popover(err); return;
+	}
+	up.onabort = function(file, e) {}
+	up.init();
+});
+
+</script>

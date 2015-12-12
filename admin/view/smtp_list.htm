@@ -1,0 +1,171 @@
+<?php include './admin/view/header.inc.htm'; ?>
+					
+<?php if(!$readable) { ?>
+<div class="notice error margin">配置文件 conf/smtp.conf.php 不可写，部分修改可能无法保存。</div>
+<?php } ?>
+
+<form action="admin/smtp-setting.htm" method="post" id="smtp_setting">
+	<div class="panel">
+		<div class="header">SMTP 相关功能</div>
+		<div class="body">
+			<table>
+				<tr>
+					<th width="300" align="left">注册是否需要 Email 验证</th>
+					<td><?php echo $input_user_create_email_on; ?></td>
+				</tr>
+				<tr>
+					<th width="300" align="left">注册开启密码找回</th>
+					<td><?php echo $input_user_find_pw_on; ?> <i></i></td>
+				</tr>
+				<tr>
+					<th>&nbsp;</th>
+					<td>
+						<button type="submit" loading-text="正在提交" class="blue big">确定</button> (需要正确设置 SMTP，才能生效)
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+
+<div class="panel">
+	<div class="header">SMTP 设置</div>
+	<div class="body">
+		<table width="100%" class="tlist" id="table">
+			<tr align="center">
+				<th width="200">邮箱</th>
+				<th width="200">主机</th>
+				<th width="60">端口</th>
+				<th width="150">账号</th>
+				<th width="150">密码</th>
+				<th align="left">删除</th>
+			</tr>
+			<?php foreach($smtplist as $smtpid=>$smtp) { ?>
+			<tr align="center" smtpid="<?php echo $smtpid; ?>">
+				<td><input type="text" name="email" value="<?php echo $smtp['email']; ?>" placeholder="Email" /></td>
+				<td><input type="text" name="host" value="<?php echo $smtp['host']; ?>" placeholder="" style="width: 200px;" /></td>
+				<td><input type="text" name="port" value="<?php echo $smtp['port']; ?>" style="width: 60px" placeholder="" /></td>
+				<td><input type="text" name="user" value="<?php echo $smtp['user']; ?>" style="width: 150px" placeholder="" /></td>
+				<td><input type="text" name="pass" value="<?php echo $smtp['pass']; ?>" style="width: 150px" placeholder="" /></td>
+				<td align="left"><a href="admin/smtp-delete-<?php echo $smtpid; ?>.htm" class="delete">删除</a></td>
+			</tr>
+			<?php } ?>
+		</table>
+		<p class="hr"></p>
+		<p class="margin"><button type="button" loading-text="正在提交..." id="submit" class="blue big" style="margin-left: 400px;" >确定</button></p>
+	</div>
+</div>
+
+<?php include './admin/view/footer.inc.htm'; ?>
+
+<script>
+
+var maxid = <?php echo $maxid; ?>;
+var jtable = $('#table');
+var jsubmit = $("#submit");
+var jtrs = jtable.find('tr');
+var jlast = jtrs.last(); // ('tr:last-child')有 bug，第二次会出2个孩子!
+jlast.find('input[type="text"]').addClass('last'); 
+
+function clone_tr(smtpid) {
+	jlast.find('input[type="text"]').removeClass('last');
+	var jclone = jlast.clone().appendTo(jtable.son('tbody')).attr('smtpid', smtpid);
+	jclone.find('input[type="text"]').val('');
+	jclone.find('td').eq(5).find('a').attr('href', 'admin/smtp-delete-'+smtpid+'.htm').hide();
+	jlast = jclone;
+	jlast.find('input[type="text"]').addClass('last');
+	jtrs.add(jclone);
+}
+$('body').on('focus', 'input.last', function() {
+	clone_tr(++maxid);
+});
+$('body').on('click', 'a.delete', function() {
+	var jthis = $(this);
+	var jtr = jthis.closest('tr');
+	var smtpid = jtr.attr('smtpid');
+	$.confirm('确定删除?', function() {
+		$.xpost(jthis.attr('href'), function(code, message) {
+			if(code == 0) {
+				jtr.remove();
+				jtrs = jtable.find('tr');
+				jlast = jtrs.last();
+				jlast.find('input[type="text"]').addClass('last'); 
+			} else {
+				jtr.line_error();
+				$.alert(message);
+			}
+		});
+	});
+	return false;
+});
+
+jsubmit.on('click', function(){
+	jsubmit.button('loading');
+	// 逐行更新
+	var urlarr = [];
+	var postarr = [];
+	var jtrs = jtable.find('tr').not(':first-child'); // .not(':last-child')
+	jtrs.map(function(k, v) {
+		var tr = this;
+		var jtr = $(tr);
+		var smtpid = jtr.attr('smtpid');
+		var email = jtr.find('input[name="email"]').val();
+		var host = jtr.find('input[name="host"]').val();
+		var port = jtr.find('input[name="port"]').val();
+		var user = jtr.find('input[name="user"]').val();
+		var pass = jtr.find('input[name="pass"]').val();
+		if(!email && !host && !port) return; // 对增加的空节点忽略掉
+		urlarr.push('admin/smtp-update-'+smtpid+'.htm');
+		postarr.push({smtpid: smtpid, email: email, host: host, port: port, user: user, pass: pass});
+	});
+	
+	//console.log('urlarr: %o, postarr, %o', urlarr, postarr);
+	$.xpost_sync(urlarr, postarr, function(code, message, i) {
+		console.log('code: %d, message: %o, i:%d', code, message, i);
+		var jtr = jtrs.eq(i);
+		if(code == 0) {
+			jtr.find('td').eq(3).find('a').show();
+			jtr.line_ok();
+		} else {
+			if(code == 1) {
+				jtr.find('input[name="email"]').popover(message).focus();
+			} else if(code == 2) {
+				jtr.find('input[name="host"]').popover(message).focus();
+			} else if(code == 3) {
+				jtr.find('input[name="port"]').popover(message).focus();
+			} else if(code == 4) {
+				jtr.find('input[name="user"]').popover(message).focus();
+			} else if(code == 5) {
+				jtr.find('input[name="pass"]').popover(message).focus();
+			} else {
+				alert(message);
+			}
+			jtr.line_error();
+		}
+	}, function(code, message) {
+		jsubmit.button('更新完毕');
+		setTimeout(function() {jsubmit.button('reset');}, 1000);
+	});
+	return false;
+});
+
+
+// --------->
+var jsettingform = $('#smtp_setting');
+var jsettingsubmit = jsettingform.find('button[type="submit"]');
+jsettingform.on('submit', function(){
+	var postdata = jsettingform.serialize();
+	jsettingsubmit.button('loading');
+	$.xpost(jsettingform.attr('action'), postdata, function(code, message) {
+		if(code == 0) {
+			jsettingsubmit.text(message);
+			setTimeout(function(){ jsettingsubmit.button('reset')}, 1000);
+			return;
+		} else {
+			$.alert(message);
+			jsettingsubmit.button('reset');
+		}
+	});
+	return false;
+});
+</script>

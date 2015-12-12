@@ -1,0 +1,6 @@
+$sphinx = kv_get('sphinx');
+if(!empty($sphinx['enable'])) {
+	$threadlist = sphinx_search($keyword);
+} else {
+	$threadlist = thread_find_by_keyword($keyword);
+}

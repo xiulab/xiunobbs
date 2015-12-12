@@ -1,0 +1,17 @@
+<?php include './admin/view/header.inc.inc.htm'; ?>
+
+<div id="body">
+	<div class="width" style="margin-top: 50px; margin-bottom: 50px;">
+		<div class="panel">
+			<div class="header">提示信息</div>
+			<div class="body">
+				<h3 style="margin: 16px;">
+					<span style="font-size: 24px;" class="icon <?php echo $code == 0 ? 'check-circle green' : 'minus-circle red'; ?>"></span>
+					<?php echo $message;; ?>
+				</h3>
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php include './admin/view/footer.inc.inc.htm'; ?>

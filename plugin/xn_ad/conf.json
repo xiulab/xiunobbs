@@ -1,0 +1,7 @@
+{
+	"name" : "Xiuno BBS 广告插件",
+        "brief" : "基于 Xiuno BBS 3.0 的广告代码插件，插入到帖子详情页，两处，用来示范 xn3 的插件机制。",
+        "version" : "1.0",
+        "bbs_version" : "3.0",
+        "installed" : 0
+}

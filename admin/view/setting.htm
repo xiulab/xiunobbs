@@ -1,0 +1,90 @@
+<?php include './admin/view/header.inc.htm'; ?>
+
+<?php if(!$readable) { ?>
+<div class="notice error">配置文件 conf/conf.php 不可写，部分修改可能无法保存。</div>
+<?php } ?>
+
+<div class="panel">
+	<div class="header">基本设置</div>
+	<div class="body">
+		<form method="POST" id="form" action="admin/setting-base.htm">
+			<table class="form">
+				<tr>
+					<th style="width: 150px;">站点名称：</th>
+					<td>
+						<?php echo $input['sitename']; ?>
+					</td>
+				</tr>
+				<tr>
+					<th valign="top">站点介绍：</th>
+					<td>
+						<textarea name="sitebrief" id="sitebrief" rows="3" style="width: 100%; max-width: 100%; height:400px"><?php echo $sitebrief; ?></textarea>
+					</td>
+				</tr>
+				<tr>
+					<th>SEO Title：</th>
+					<td>
+						<?php echo $input['seo_title']; ?>
+					</td>
+				</tr>
+				<tr>
+					<th>SEO Keywords：</th>
+					<td>
+						<?php echo $input['seo_keywords']; ?>
+					</td>
+				</tr>
+				<tr>
+					<th>SEO Description：</th>
+					<td>
+						<?php echo $input['seo_description']; ?>
+					</td>
+				</tr>
+				<tr>
+					<th>站点访问限制：</th>
+					<td>
+						<?php echo $input['runlevel']; ?>
+					</td>
+				</tr>
+				<tr>
+					<th valign="top">页脚代码：</th>
+					<td valign="top">
+						<?php echo $input['footer_code']; ?> <i>可以放统计代码</i>
+					</td>
+				</tr>
+				<tr>
+					<th>&nbsp;</th>
+					<td>
+						<button type="submit" id="submit" loading-text="正在提交" class="blue big">确定</button>
+					</td>
+				</tr>
+			<table>
+		</form>
+	</div>
+</div>
+
+<?php include './admin/view/footer.inc.htm'; ?>
+<link rel="stylesheet" type="text/css" href="xneditor/editor.css" />
+<script src="xneditor/editor.js"></script>
+<script>
+
+var editor = new $.XNEditor({textarea: 'sitebrief', image_upload_url:'admin/article-upload.htm', image_upload_width: <?php echo $conf['upload_image_width']; ?>, file_upload_url:'admin/article-upload.htm'});
+
+var jform = $("#form");
+var jsubmit = $("#submit");
+
+jform.on('submit', function(){
+	var postdata = jform.serialize();
+	jsubmit.button('loading');
+	$.xpost(jform.attr('action'), postdata, function(code, message) {
+		if(code == 0) {
+			jsubmit.text(message);
+			setTimeout(function(){ jsubmit.button('reset'); }, 1000);
+			return;
+		} else {
+			$.alert(message);
+			jsubmit.button('reset');
+		}
+	});
+	return false;
+});
+</script>

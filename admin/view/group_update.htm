@@ -1,0 +1,106 @@
+<?php include './admin/view/header.inc.htm'; ?>
+
+<div class="panel">
+	<div class="header">修改用户组-<?php echo $group['name']; ?></div>
+	<div class="body">
+		<form method="POST" id="form">
+			<table class="form">
+				<tr>
+					<th>用户组ID：</th>
+					<td><?php echo $group['gid']; ?></td>
+				</tr>
+				<tr>
+					<th>用户组名称：</th>
+					<td><input type="text" name="name" value="<?php echo $group['name']; ?>" style="width: 150px;" /></td>
+				</tr>
+				<tr>
+					<th>起始喜欢数+发帖数：</th>
+					<td><input type="text" name="agreesfrom" value="<?php echo $group['agreesfrom']; ?>"style="width: 150px;"  /></td>
+				</tr>
+				<tr>
+					<th>结束喜欢数+发帖数：</th>
+					<td><input type="text" name="agreesto" value="<?php echo $group['agreesto']; ?>"style="width: 150px;"  /></td>
+				</tr>
+				<tr>
+					<th>每日最大喜欢数：</th>
+					<td><input type="text" name="maxagrees" value="<?php echo $group['maxagrees']; ?>"style="width: 150px;"  /><?php if($gid == 0) { ?>游客将按照 IP 进行限制<?php } ?></td>
+				</tr>
+				<tr>
+					<th>权限设置：<br><i>(加粗为版主权限)</i></th>
+					<td>
+						<table>
+							<tr>
+								<td>允许看帖</td>
+								<td>发主题</td>
+								<td>回帖</td>
+								<td>上传</td>
+								<td>下载</td>
+								<td>喜欢</td>
+								<td>自定义URL</td>
+								<?php if($group['gid'] >= 1 AND $group['gid'] <= 5) { ?>
+								<td title="版主权限"><b>置顶</b></td>
+								<td title="版主权限"><b>编辑</b></td>
+								<td title="版主权限"><b>删除</b></td>
+								<td title="版主权限"><b>移动</b></td>
+								<td title="版主权限"><b>禁止用户</b></td>
+								<td title="版主权限"><b>删除用户</b></td>
+								<td title="版主权限"><b>查看用户信息</b></td>
+								<?php } ?>
+							</tr>
+							<tr align="center">
+								<td><input type="checkbox" name="allowread" value="1" <?php echo ($group['allowread'] ? 'checked' : ''); ?> /></td>
+								<td><input type="checkbox" name="allowthread" value="1" <?php echo ($group['allowthread'] ? 'checked' : ''); ?> /></td>
+								<td><input type="checkbox" name="allowpost" value="1" <?php echo ($group['allowpost'] ? 'checked' : ''); ?> /></td>
+								<td><input type="checkbox" name="allowattach" value="1" <?php echo ($group['allowattach'] ? 'checked' : ''); ?> <?php echo ($gid == 0 ? ' disabled' : ''); ?> /></td>
+								<td><input type="checkbox" name="allowdown" value="1" <?php echo ($group['allowdown'] ? 'checked' : ''); ?> /></td>
+								<td><input type="checkbox" name="allowagree" value="1" <?php echo ($group['allowagree'] ? 'checked' : ''); ?> /></td>
+								<td><input type="checkbox" name="allowcustomurl" value="1" <?php echo ($group['allowcustomurl'] ? 'checked' : ''); ?> /></td>
+								
+								<?php if($group['gid'] >= 1 AND $group['gid'] <= 5) { ?>
+								<td><input type="checkbox" name="allowtop" value="1" <?php echo ($group['allowtop'] ? 'checked' : ''); ?> <?php echo ($gid == 0 || $gid > 100 ? ' disabled' : ''); ?> /></td>
+								<td><input type="checkbox" name="allowupdate" value="1" <?php echo ($group['allowupdate'] ? 'checked' : ''); ?> <?php echo ($gid == 0 || $gid > 100 ? ' disabled' : ''); ?> /></td>
+								<td><input type="checkbox" name="allowdelete" value="1" <?php echo ($group['allowdelete'] ? 'checked' : ''); ?> <?php echo ($gid == 0 || $gid > 100 ? ' disabled' : ''); ?> /></td>
+								<td><input type="checkbox" name="allowmove" value="1" <?php echo ($group['allowmove'] ? 'checked' : ''); ?> <?php echo ($gid == 0 || $gid > 100 ? ' disabled' : ''); ?> /></td>
+								<td><input type="checkbox" name="allowbanuser" value="1" <?php echo ($group['allowbanuser'] ? 'checked' : ''); ?> <?php echo ($gid == 0 || $gid > 100 ? ' disabled' : ''); ?> /></td>
+								<td><input type="checkbox" name="allowdeleteuser" value="1"<?php echo ($group['allowdeleteuser'] ? 'checked' : ''); ?> <?php echo ($gid == 0 || $gid > 100 ? ' disabled' : ''); ?> /></td>
+								<td><input type="checkbox" name="allowviewip" value="1" <?php echo ($group['allowviewip'] ? 'checked' : ''); ?> <?php echo ($gid == 0 || $gid > 100 ? ' disabled' : ''); ?> /></td>
+								<?php } ?>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<th>&nbsp;</th>
+					<td colspan="2"><button type="submit" id="submit" loading-text="正在提交..." class="blue big">确定</button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<?php include './admin/view/footer.inc.htm'; ?>
+
+<script>
+var jform = $("#form");
+var jsubmit = $("#submit");
+var jname = jform.find('[name="name"]');
+jform.on('submit', function(){
+	var postdata = jform.serialize();
+	jsubmit.button('loading');
+	$.xpost('admin/group-update-<?php echo $gid; ?>-detail.htm', postdata, function(code, message) {
+		if(code == 0) {
+			jsubmit.text(message);
+			setTimeout(function(){
+				window.location = 'admin/group-list.htm';
+			}, 2000);
+			return false;
+		} else if(code == 1) { 
+			jname.popover(message).focus();
+		} else {
+			$.alert(message);
+		}
+		jsubmit.button('reset');
+	});
+	return false;
+});
+</script>

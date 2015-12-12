@@ -1,0 +1,120 @@
+<?php include './admin/view/header.inc.htm'; ?>
+
+<dl class="row margin">
+	<dt>
+		<select id="srchtype" value="<?php echo $srchtype; ?>">
+			<option value="">搜索类型</option>
+			<option value="uid">用户 ID</option>
+			<option value="username">用户名</option>
+			<!--<option value="mobile" >手机号</option>-->
+			<option value="email">Email</option>
+			<option value="gid">用户组</option>
+			<option value="create_ip">注册IP</option>
+		</select>
+	
+		<input type="text" id="keyword" placeholder="关键词" value="<?php echo $keyword; ?>" style="width: 200px;" />
+		<button id="search" class="blue">搜索</button>
+	</dt>
+	<dd class="right">
+		<button id="create" class="blue">创建用户</button>
+	</dd>
+</dl>
+
+<div class="panel">
+	<div class="header"><?php echo $header['title']; ?></div>
+	<div class="body">
+		
+	<?php if(!$userlist) { ?>
+		<div class="notice error">暂无用户</div>
+	<?php } else { ?>
+		
+		<table class="tlist" width="100%" id="userlist">
+			<tr>
+				<th width="60" class="center">删除</th>
+				<th width="100">ID</th>
+				<!--<th>手机号</th>-->
+				<th>Email</th>
+				<th>用户名</th>
+				<th>用户组</th>
+				<th>创建日期</th>
+				<th>注册IP</th>
+				<th>登录日期</th>
+				<th>登录次数</th>
+				<th>操作</th>
+			</tr>
+		<?php foreach($userlist as &$_user){ ?>
+			<tr uid="<?php echo $_user['uid']; ?>">
+				<td class="center"><input type="checkbox" name="delete" /></td>
+				<td><?php echo $_user['uid']; ?></td>
+				<!--<td><?php echo $_user['mobile']; ?></td>-->
+				<td><?php echo $_user['email']; ?></td>
+				<td><?php echo $_user['username']; ?></td>
+				<td><?php echo $_user['group']['name']; ?></td>
+				<td><?php echo $_user['create_date_fmt']; ?></td>
+				<td><?php echo $_user['create_ip_fmt']; ?></td>
+				<td><?php echo $_user['login_date_fmt']; ?></td>
+				<td><?php echo $_user['logins']; ?></td>
+				<td><a href="admin/user-update-<?php echo $_user['uid']; ?>.htm">编辑</a></td>
+			</tr>
+		<?php } ?>
+		</table>
+		<p class="hr"></p>
+		<dl class="row">
+			<dt>
+				<button id="confirm" loading-text="正在提交" class="blue big">删除</button>
+			</dt>
+			<dd class="right">
+				<div class="page"><a>总共: <?php echo $n; ?></a><?php echo $pagehtml; ?></div>
+			</dd>
+		</dl>
+	<?php } ?>
+	</div>
+</div>
+
+<?php include './admin/view/footer.inc.htm'; ?>
+
+<script>
+	var jbody = $("#userbody");
+	var jcreate = $('#create');
+ 	var jconfirm = $("#confirm");
+	var jsearch = $("#search");
+	var jsrchtype = $("#srchtype");
+	var jkeyword = $('#keyword');
+	var juserlist = $('#userlist');
+
+	jsrchtype.val(jsrchtype.attr('value'));
+
+	jcreate.on('click', function(event) {
+		window.location = 'admin/user-create.htm';
+	});
+
+	jsearch.on('click', function(){
+		var srchtype = jsrchtype.val();
+		srchtype = srchtype ? srchtype : 'uid';
+		var keyword = $("#keyword").val();
+		var url = 'admin/user-list-'+srchtype+'-'+urlencode(keyword)+'-1.htm';
+		window.location = url;
+	});
+	jkeyword.on('keydown', function(e) {
+		if(e.keyCode == 13) jsearch.trigger('click');
+	});
+
+	// 删除选中的用户
+	jconfirm.on('click', function(){
+		var jchecked = juserlist.find('input[name="delete"]').filter(function(){ return this.checked; });
+		if(jchecked.length < 1) return alert("请勾选您要删除的用户");
+		if(!window.confirm("确定删除用户？")) return false;
+		jchecked.each(function() {
+			jtr = $(this).parents('tr');
+			var uid = jtr.attr('uid');
+			if(uid == 1) return alert('不允许删除管理员用户!');
+			$.xpost('admin/user-delete.htm', {uid:uid}, function(code, message) {
+				if(code == 0) {
+					jtr.remove();
+				} else {
+					jtr.addClass('error').popover(message);
+				}
+			});
+		});
+	});
+</script>

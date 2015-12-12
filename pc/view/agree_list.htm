@@ -1,0 +1,30 @@
+<?php include "./pc/view/header.inc.htm"; ?>
+
+<div class="ajax_body">
+	<div style="width: 600px;" id="post_agree_dialog_<?php echo $pid; ?>">
+		<?php if($agreelist) { ?>
+		<p>
+			<?php foreach ($agreelist as $agree) { ?>
+			<a href="user-<?php echo $agree['uid']; ?>.htm" target="_blank" nofollow>
+				<img src="<?php echo $agree['avatar_url']; ?>" class="avatar tiny" />
+				<?php echo $agree['username']; ?>
+			</a>
+			<?php } ?>
+		</p>
+		<?php } else {?>
+		<p>无会员</p>
+		<?php } ?>
+		<p class="center">
+			<button class="grey middle cancel"  style="margin-left: -50px;">关闭</button>
+		</p>
+	</div>
+</div>
+
+<?php include "./pc/view/footer.inc.htm"; ?>
+
+<script>
+var jdialog = typeof arguments == 'undefined' ? null : arguments[0]; // 接受第一个参数
+$('#post_agree_dialog_<?php echo $pid; ?>').find('button.cancel').off('click').on('click', function() {
+	jdialog.dialog('close');
+});
+</script>

@@ -1,0 +1,59 @@
+<?php include './admin/view/header.inc.htm'; ?>
+
+<div class="panel">
+	<div class="header">关键词管理</div>
+	<div class="body">
+		<form method="POST" id="form" action="admin/badword.htm">
+			<table class="form">
+				<tr>
+					<th>开启过滤：</th>
+					<td>
+						<?php echo $input_badword_on; ?>
+					</td>
+				</tr>
+				<tr>
+					<th>关键词：</th>
+					<td>
+						<textarea id="badwords" name="badwords" style="width: 620px; height: 300px;"><?php echo $badwords; ?></textarea>
+						<br /><span class="grey">默认过滤成***，多个空格隔开，格式如：他妈的 狗日的 混蛋</span>
+						<br /><span class="grey">需要替换为自定义词语冒号隔开，格式如：他妈的:TMD 狗日的:GRD 混蛋:HD</span>
+						<br /><span class="grey">如果包含关键词则不允许发帖，使用#表示，格式如：他妈的:# 狗日的:# 混蛋:#</span>
+					</td>
+				</tr>
+				<tr>
+					<th>&nbsp;</th>
+					<td>
+						<button type="submit" id="submit" loading-text="正在提交..." class="blue big">确定</button>
+					</td>
+				</tr>
+				
+			</table>
+		</form>
+	</div>
+</div>
+
+<?php include './admin/view/footer.inc.htm'; ?>
+
+<script>
+var jform = $("#form");
+var jsubmit = $("#submit");
+var jbadwords = $('#badwords');
+
+jform.on('submit', function(){
+	var postdata = jform.serialize();
+	jsubmit.button('loading');
+	$.xpost(jform.attr('action'), postdata, function(code, message) {
+		if(code == 0) {
+			jsubmit.text(message);
+			setTimeout(function(){
+				jsubmit.button('reset');
+			}, 1000);
+			return;
+		} else {
+			$.alert(message);
+		}
+		jsubmit.button('reset');
+	});
+	return false;
+});
+</script>

@@ -1,0 +1,57 @@
+	</div>
+</div>
+
+<div id="footer" class="margin">
+	<div class="width">
+		<dl class="row">
+			<dt>
+				© 2008-2016 Xiuno<br>
+				Powered by <a href="http://bbs.xiuno.com/" target="_blank"><b>Xiuno BBS</b> <b class="blue">3.0	</a></b>
+			</dt>
+			<dd class="right">
+				当前时间：<?php echo date('Y-n-j H:i'); ?> | <a href="mobile/" target="_blank"><b>手机版</b></a><br>
+				Process:<?php echo substr(microtime(1) - $starttime, 0, 7);?>s, 
+				Memory: <?php echo humansize(memory_get_usage()); ?>,
+				Cache: <?php echo ($conf['cache']['enable'] ? $conf['cache']['type'] : 'Off'); ?>
+			</dd>
+		</dl>
+		<?php include './pc/view/footer_debug.inc.htm'; ?>
+	</div>
+</div>
+
+<div id="scroll_top" title="回到顶部"></div>
+
+<script id="script_data">
+// 全局的数据
+var fid = <?php echo $fid; ?>;					// 当前激活的 fid
+var forumlist = <?php echo xn_json_encode(empty($forumlist_show) ? '{}' : $forumlist_show); ?>; 	// 板块数据，包含 new_tids
+var new_thread_days = <?php echo $conf['new_thread_days']; ?>;
+</script>
+
+<?php if($browser['name'] == 'ie' && $browser['version'] < 10) { ?>
+<script src="xiunoui/<?php echo (DEBUG ? 'jquery-1.11.1.js' : 'jquery-1.11.1.min.js'); ?>"></script>
+<?php } else { ?>
+<script src="xiunoui/zepto.js"></script>
+<?php } ?>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="static/bbs.js"></script>
+<script src="pc/view/pc.js"></script>
+
+
+<script>
+render_header();
+render_forumlist();
+</script>
+
+<?php echo isset($setting['footer_code']) ? $setting['footer_code'] : ''; ?>
+
+</body>
+</html>
+
+<?php
+online_save();
+cron_run();
+runtime_save();
+?>

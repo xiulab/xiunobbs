@@ -1,0 +1,7 @@
+{
+        "name" : "QQ 登陆",
+        "brief" : "基于 Xiuno BBS 3.0 的 QQ 登陆，天朝运营必备插件。",
+        "version" : "1.0",
+        "bbs_version" : "3.0",
+        "installed" : 1
+}

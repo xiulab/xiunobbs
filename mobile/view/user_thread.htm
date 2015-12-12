@@ -1,0 +1,23 @@
+<?php include "./mobile/view/user_header.inc.htm"; ?>
+
+<table class="tlist margin" width="100%">
+	<tr align="center">
+		<th align="left">主题</th>
+		<th width="100">发帖时间</th>
+	</tr>
+	<?php foreach ($threadlist as $thread) { ?>
+	<tr align="center">
+		<td align="left" class="breakall"><a href="mobile/<?php echo $thread['url']; ?>"><?php echo $thread['subject']; ?></a></td>
+		<td><?php echo $thread['create_date_fmt']; ?></td>
+	</tr>
+	<?php } ?>
+</table>
+<div class="page"><?php echo $pages; ?></div>
+
+<?php include "./mobile/view/user_footer.inc.htm"; ?>
+
+<script>
+
+$('#user_menu').find('a').eq(1).class_active();
+
+</script>

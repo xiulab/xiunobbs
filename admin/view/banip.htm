@@ -1,0 +1,154 @@
+<?php include './admin/view/header.inc.htm'; ?>
+
+<div class="panel">
+	<div class="header">禁止IP管理</div>
+	<div class="body">
+		<table>
+			<tr>
+				<th width="300" align="left">是否启用</th>
+				<td width="200"><?php echo $input_banip_on; ?></td>
+			</tr>
+			<tr>
+				<th>&nbsp;</th>
+				<td>
+					<button type="submit" id="banip_on_submit" loading-text="正在提交" class="blue big">确定</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+
+<div class="panel">
+	<div class="header">禁止IP管理</div>
+	<div class="body">
+		<table class="tlist" id="table">
+			<tr align="center">
+				<th width="300" align="left">IP 地址</th>
+				<th width="150">创建时间</th>
+				<th width="150">过期时间</th>
+				<th width="100">查找用户</th>
+				<th width="100">删除</th>
+			</tr>
+			<?php foreach($baniplist as &$banip) { ?>
+			<tr align="center" banid="<?php echo $banip['banid']; ?>">
+				<td align="left">
+					<input type="text" value="<?php echo $banip['ip0']; ?>" name="ip0" style="width: 50px;"/> .
+					<input type="text" value="<?php echo $banip['ip1']; ?>" name="ip1" style="width: 50px;" /> .
+					<input type="text" value="<?php echo $banip['ip2']; ?>" name="ip2" style="width: 50px;" /> .
+					<input type="text" value="<?php echo $banip['ip3']; ?>" name="ip3" style="width: 50px;" />
+				</td>
+				<td><?php echo $banip['create_date_fmt']; ?></td>
+				<td><input type="text" name="expiry" value="<?php echo $banip['expiry_fmt']; ?>" /></td>
+				<td><a href="admin/user-list-create_ip-<?php echo $banip['ip0']; ?>.<?php echo $banip['ip1']; ?>.<?php echo $banip['ip2']; ?>.<?php echo $banip['ip3']; ?>.htm" target="_blank">同IP用户</a></td>
+				<td><a href="admin/banip-delete-<?php echo $banip['banid']; ?>.htm" class="delete">删除</a></td>
+			</tr>
+			<?php } ?>
+		</table>
+		<p class="hr"></p>
+		<p class="margin"><button type="button" loading-text="正在提交..." id="submit" class="blue big" style="margin-left: 400px;" >确定</button></p>
+	</div>
+</div>
+
+<?php include './admin/view/footer.inc.htm'; ?>
+
+<script>
+
+var maxbanid = <?php echo $maxbanid; ?>;
+var jtable = $('#table');
+var jsubmit = $("#submit");
+var jtrs = jtable.find('tr');
+var jlast = jtrs.last(); // ('tr:last-child')有 bug，第二次会出2个孩子!
+jlast.find('input[type="text"]').addClass('last'); 
+
+function clone_tr(banid) {
+	jlast.find('input[type="text"]').removeClass('last');
+	var jclone = jlast.clone().appendTo(jtable.son('tbody')).attr('banid', banid);
+	jclone.find('input[type="text"]').val('');
+	jclone.find('td').eq(3).find('a').attr('href', 'admin/banip-delete-'+banid+'.htm').hide();
+	jlast = jclone;
+	jlast.find('input[type="text"]').addClass('last');
+	jtrs.add(jclone);
+}
+$('body').on('focus', 'input.last', function() {
+	clone_tr(++maxbanid);
+});
+$('body').on('click', 'a.delete', function() {
+	var jthis = $(this);
+	var jtr = jthis.closest('tr');
+	var banid = jtr.attr('banid');
+	$.confirm('确定删除?', function() {
+		$.xpost(jthis.attr('href'), function(code, message) {
+			if(code == 0) {
+				jtr.remove();
+				jtrs = jtable.find('tr');
+				jlast = jtrs.last();
+				jlast.find('input[type="text"]').addClass('last'); 
+			} else {
+				jtr.line_error();
+				$.alert(message);
+			}
+		});
+	});
+	return false;
+});
+jsubmit.on('click', function(){
+	jsubmit.button('loading');
+	// 逐行更新
+	var urlarr = [];
+	var postarr = [];
+	var jtrs = jtable.find('tr').not(':first-child'); // .not(':last-child')
+	jtrs.map(function(k, v) {
+		var tr = this;
+		var jtr = $(tr);
+		var banid = jtr.attr('banid');
+		var ip0 = jtr.find('input[name="ip0"]').val();
+		var ip1 = jtr.find('input[name="ip1"]').val();
+		var ip2 = jtr.find('input[name="ip2"]').val();
+		var ip3 = jtr.find('input[name="ip3"]').val();
+		var expiry = jtr.find('input[name="expiry"]').val();
+		if(!ip0 && !ip1 && !ip2 && !ip3 && !expiry) return;
+		urlarr.push('admin/banip-update-'+banid+'.htm');
+		postarr.push({ip0: ip0, ip1: ip1, ip2: ip2, ip3: ip3, expiry: expiry});
+	});
+	
+	//console.log('urlarr: %o, postarr, %o', urlarr, postarr);
+	$.xpost_sync(urlarr, postarr, function(code, message, i) {
+		console.log('code: %d, message: %o, i:%d', code, message, i);
+		var jtr = jtrs.eq(i);
+		if(code == 0) {
+			jtr.find('td').eq(3).find('a').show();
+			jtr.line_ok();
+			return;
+		} else if(code == 1) {
+			//jtr.find('input[name="ip0"]').popover(message).focus();
+		} else if(code == 2) {
+			//jtr.find('input[name="expiry"]').popover(message).focus();
+		} else {
+			alert(message);
+		}
+		jtr.line_error();
+	}, function(code, message) {
+		jsubmit.button('更新完毕');
+		setTimeout(function() {jsubmit.button('reset');}, 1000);
+	});
+	return false;
+});
+
+
+jbanip_on_submit = $('#banip_on_submit');
+jbanip_on_submit.on('click', function() {
+	jbanip_on = $('input[name="banip_on"]');
+	jbanip_on_submit.button('loading');
+	$.xpost('admin/banip-enable.htm', {banip_on: jbanip_on.checked()}, function(code, message) {
+		if(code == 0) {
+			jbanip_on_submit.button(message);
+			setTimeout(function() {jbanip_on_submit.button('reset');}, 1000);
+		} else {
+			$.alert(message);
+			jbanip_on_submit.button('reset');
+		}
+	});
+});
+
+</script>

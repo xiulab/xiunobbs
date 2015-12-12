@@ -1,0 +1,99 @@
+<?php include "./mobile/view/header.inc.htm"; ?>
+
+<form method="POST" id="thread_create_form" action="pc/thread-create.htm" class="form">
+	<p><span id="forum_select"></span></p>
+	<p><input type="text" placeholder="标题" name="subject" style="width: 100%;"></p>
+	<p><textarea id="message" name="message" placeholder="内容" style="width: 100%; height: 200px;"></textarea></p>
+	<?php if($conf['seo_url_rewrite'] && $group['allowcustomurl']) { ?>
+	<p><input type="text" placeholder="自定义 URL：just-like-this-why-sky-is-blue" name="seo_url" style="width: 100%;"></p>
+	<?php } ?>
+	<dl class="row margin">
+		<dt>
+			<button type="submit" loading-text="正在提交..." class="big blue" style="width: 100%;">发帖</button>
+		</dt>
+		<dd class="right">
+		</dd>
+	</dl>
+</form>
+
+
+<script id="script_data">
+var fid = <?php echo $fid; ?>;// 当前激活的 fid
+</script>
+
+<?php include "./mobile/view/footer.inc.htm"; ?>
+
+<link rel="stylesheet" type="text/css" href="xneditor/editor.css" />
+
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/upload.js"></script>
+<script src="xneditor/editor.js"></script>
+<script>
+
+var jdialog = typeof arguments == 'undefined' ? null : arguments[0]; // 接受第一个参数
+var fid = window.fid;
+
+var editor = new $.XNEditor({textarea: 'message', image_upload_url:'post-upload-1.htm', image_upload_width: <?php echo $conf['upload_image_width']; ?>, file_upload_url:'post-upload-0.htm', in_mobile: 1});
+var jform = $('#thread_create_form');
+var jinput = jform.find('input');
+var jsubject = jinput.filter('[name="subject"]').focus();
+var jmessage = $('#message');
+var jseo_url = jform.find('input[name="seo_url"]');
+var jsubmit = jform.find('button').filter('[type="submit"]');
+
+// 选择论坛
+var jforum_select = $('#forum_select');
+var forumarr = <?php echo $forumarr; ?>;
+var s = '<select name="fid">'; 
+for(k in forumarr) s += '<option value="'+k+'">'+forumarr[k]+'</option>';
+s += '</select>';
+var jselect = jforum_select.html(s).find('select');
+jselect.checked(window.fid);
+
+jform.off('submit').on('submit', function() {
+	if(!jsubject.val()) {
+		jsubject.popover('请输入标题！').focus();
+		return false;
+	}
+	if(!jmessage.val()) {
+		editor.jeditor.popover('请输入内容');
+		editor.focus();
+		return false;
+	}
+	jsubmit.button('loading');
+	var postdata = jform.serializeObj();
+	$.xpost(jform.attr('action'), postdata, function(code, message) {
+		if(code == 0) {
+			editor.clear();
+			jsubmit.button('发帖成功');
+			setTimeout(function() {window.location='./mobile/';}, 1000);
+			return;
+		} else if(code == 1) {
+			jsubject.popover(message).focus();
+		} else if(code == 2) {
+			jmessage.popover(message).focus();
+		} else if(code == 3) {
+			jselect.popover(message).focus();
+		} else if(code == 4) {
+			jseo_url.popover(message).focus();
+		// 需要登录
+		} else if(code == 10001 || code == 1002) {
+			// 如果需要登录，直接跳转。
+			alert(message);
+		} else {
+			$.alert(message);
+		}
+		jsubmit.button('reset');
+	});
+	return false;
+});
+
+// 快捷键回复
+jform.keyup(function(e) {
+	if((e.ctrlKey && (e.which == 13 || e.which == 10)) || (e.altKey && e.which == 83)) {
+		jsubmit.trigger('click');
+		return false;
+	}
+});
+
+</script>

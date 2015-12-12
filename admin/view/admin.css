@@ -1,0 +1,6 @@
+#admin_link a {font-size: 14px; color: #FFFFFF; margin-left: 48px; font-weight: 800;}
+#admin_header, #admin_header a {color: #FFFFFF}
+#admin_menu { margin-left: 8px; margin-bottom: 8px;}
+#admin_menu a.active{ color: red;}
+
+/*table.form .maxwidth, table.form input.maxwidth {width: 100%; max-width: 800px;}*/

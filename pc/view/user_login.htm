@@ -1,0 +1,60 @@
+<?php include "./pc/view/header.inc.htm"; ?>
+
+<div class="panel">
+	<div class="header">用户登录</div>
+	<div class="body">
+		<div style="width: 300px; margin: auto;">
+			<form method="POST" id="login_form" action="user-login.htm" class="form">
+				<p><input type="text" placeholder="Email / 用户名" name="account" style="width: 100%;"></p>
+				<p><input type="password" placeholder="密码" name="password" style="width: 100%;"></p>
+				<dl class="row margin">
+					<dt><button type="submit" loading-text="正在登录..." class="blue big" style="width: 150px;">登录</button></dt>
+					<dd class="right"><a href="user-create.htm">注册</a><?php if($conf['user_find_pw_on']) { ?> &nbsp;|&nbsp; <a href="user-findpw.htm">找回密码</a><?php } ?></dd>
+				</dl>			
+			</form>
+		</div>
+	</div>
+</div>
+
+<?php include "./pc/view/footer.inc.htm"; ?>
+
+<script>
+
+$(function() {
+	var jform = $('#login_form');
+	var jaccount = jform.find('input[name="account"]').focus();
+	var jpassword = jform.find('input[name="password"]');
+	var jsubmit = jform.find('button[type="submit"]');
+	jform.off('submit').on('submit', function() {
+	//jsubmit.off('click').on('click', function() {
+		if(!jaccount.val()) {
+			jaccount.popover('请输入 Email').focus();
+			return false;
+		} else if(!jpassword.val()) {
+			jpassword.popover('请输入密码').focus();
+			return false;
+		}
+		
+		var postdata = "account="+jaccount.val()+"&password="+$.md5(jpassword.val());
+		jsubmit.button('loading');
+		$.xpost(jform.attr('action'), postdata, function(code, message) {
+			if(code == 0) {
+				jsubmit.button('登录成功');
+				//$.pdata('user', user);
+				$.pdata('myagreelist', message.myagreelist);
+				// 服务端已经设置了 cookie
+				//$.cookie('bbs_token', message.token);
+				setTimeout(function() {window.location='./';}, 1000);
+			} else if(code > 0) {
+				if(code == 1) jaccount.popover(message).focus();
+				if(code == 2) jpassword.popover(message).focus();
+				jsubmit.button('reset');
+			} else if(code < 0) {
+				alert(message);
+				jsubmit.button('reset');
+			}
+		});
+		return false;
+	});
+});
+</script>

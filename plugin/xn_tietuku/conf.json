@@ -1,0 +1,7 @@
+{
+	"name" : "Xiuno BBS 贴图库插件",
+        "brief" : "基于 Xiuno BBS 3.0 的贴图库插件，图片将会保存到贴图库，节省空间和流量，个人站长福音，用来示范 xn3 的插件机制。",
+        "version" : "1.0",
+        "bbs_version" : "3.0",
+        "installed" : 1
+}

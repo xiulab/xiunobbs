@@ -1,0 +1,11 @@
+	
+	if($isimage && $conf['tietuku_on']) {
+		include './plugin/xn_tietuku/tietuku.func.php';
+		$tmpfile = tempnam($conf['tmp_path'], 'tmp_');
+		file_put_contents($tmpfile, $data);
+		$r = tietuku_upload_file($tmpfile, $name);
+		unlink($tmpfile);
+		$r === FALSE AND message($errno, $errstr);
+		message(0, array('url'=>$r['linkurl'], 'name'=>$name, 'width'=>$r['width'], 'height'=>$r['height']));
+	}
+	

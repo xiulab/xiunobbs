@@ -1,0 +1,158 @@
+.width {min-width: 100%; max-width: 100%; margin-left: auto; margin-right: auto;}
+h1, h2, h3, h4, h5, h6, div, p, dl {line-height: 1.4}
+div.panel > div.body, div.dialog > div.body, div.panel_body{padding: 4px;}
+div.panel {margin-top: 4px;}
+html, body {width: 100%; min-width: 100%; max-width: 100%;}
+body {background: #343D45; overflow: scroll; -webkit-overflow-scrolling : touch;}
+#body {padding: 2px; padding-bottom: 8px; background: #ECECEC}
+#header { background: #343D45; line-height: 2.4}
+#header img.logo {margin-left: 4px; margin-top: 2px; width: 96px; height: 26px;}
+#header > table {margin-top: 0px;}
+#header > table td:first-child { width: 96px; }
+
+div.thread {
+	position: relative;
+	border-bottom: 1px solid #E7E7E7;
+	margin-bottom: 8px;
+	padding-bottom: 4px;
+}
+div.thread > table a.subject {color: #4A5B61;}
+div.thread > table:hover { background: #F1F1F1; }
+div.thread > table a.subject:hover {color: #192630;}
+div.thread.new > table i.newpost { display: inline-block;}
+
+div.thread > table:hover img.avatar,
+div.thread {cursor: pointer;}
+div.thread.new img.avatar {opacity: 1;}
+
+div.thread:last-child {border: none; padding-bottom: 0px; margin-bottom: 0px;}
+
+#threadlist_orderby a {color: #CCCCCC;}
+#threadlist_orderby a:hover {color: #888888;}
+#threadlist_orderby a.active {color: #666666; font-weight: normal;}
+
+#postlist_title {border-bottom: 2px solid #E7E7E7; margin-top: 32px; padding-bottom: 4px; margin-bottom: 4px;}
+#postlist > dl {border-bottom: 1px solid #E7E7E7; margin-top: 8px; padding-bottom: 4px;}
+
+#firstpost {border-bottom: 2px solid #E7E7E7;}
+#firstpost > dt {width: 38px;}
+#post_create_dl > dt, #postlist > dl > dt {width: 38px;}
+
+.posts_0 {background: #D7D6E1 !important}
+.posts_1 {background: #BEBCCD !important}
+.posts_2 {background: #A3A0B5 !important}
+.posts_3 {background: #83818F !important}
+.posts_4 {background: #83818F !important}
+
+.agrees_0 {background: #C7C7C7 !important}
+.agrees_1 {background: #80C2A7 !important}
+.agrees_2 {background: #E8A87A !important}
+.agrees_3 {background: #DA8ECB !important}
+.agrees_4 {background: #DA8ECB !important}
+
+div.thread.thread_agrees_0 > table a.subject {}
+div.thread.thread_agrees_1 > table a.subject {color: #009155}
+div.thread.thread_agrees_2 > table a.subject {color: #EA6100}
+div.thread.thread_agrees_3 > table a.subject {color: #DA24A7;}
+div.thread.thread_agrees_4 > table a.subject {color: #DA24A7;}
+
+div.thread.thread_top_1 > table a.subject {font-weight: 800;}
+div.thread.thread_top_2 > table a.subject {font-weight: 800;}
+div.thread.thread_top_3 > table a.subject {font-weight: 800;}
+
+div.thread_post, div.thread_post div, div.thread_post p {
+	font-size: 15px;
+	word-break: break-word;
+}
+div.thread_post {padding-top: 8px;}
+div.editor > div.body > div, div.editor > div.body > p {font-size: 15px;}
+div.post, div.post p {
+	font-size: 14px;
+	word-break: break-word;
+}
+div.post img, div.thread_post img {max-width: 100%; height: auto;}
+p.subject {margin-top: 0px; font-size: 16px;}
+.posts {display: inline-block; background: #A3A0B5; color: #FFFFFF; padding: 2px 4px 3px 4px; border-radius: 4px; line-height: 1.0}
+
+.icon.agree:before { content: "\f08a"; font-size: 18px;}
+.icon.agreed:before { content: "\f004"; font-size: 18px; }
+.icon.top:before { content: "\f091"; font-size: 16px;}
+.icon.top_1 { color: #FF8800; }
+.icon.top_2 { color: #FF8800; }
+.icon.top_3 { color: #DA24A7; }
+
+i.icon.agree, i.icon.agreed, i.icon.edit, i.icon.trash-o {cursor: pointer; color: #DDDDDD;}
+i.icon.edit:hover, i.icon.trash-o:hover {cursor: pointer; color: #888888;}
+i.icon.agree:hover {color: #00B258;}
+i.icon.agree:active, i.icon.agreed:active {color: #EE0000;}
+i.icon.agreed:hover {  color: #00B258;}
+i.icon.agreed.active {color: #00B258;}
+
+span.agrees, a.agrees {display: inline-block; background: #8DB5B1; color: #FFFFFF;  padding: 2px 4px 2px 4px;  border-radius: 4px; cursor:pointer; line-height: 1;}
+span.agrees:hover, a.agrees:hover {background: #00CC11; color: #FFFFFF;}
+
+#threadlist_orderby > a:hover > i {color: #DDDDDD}
+#threadlist_orderby > a > i.active {color: #000000}
+
+#srch_form {display: inline-block; vertical-align: middle; position: relative; }
+#srch_form > input {
+	padding: 0px;
+	margin-left: 12px;
+	text-indent: 8px;
+	width: 125px;
+	height: 19px;
+	margin-left: 4px;
+	
+	/*filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#EDEDED', endColorStr='#FFFFFF', gradientType='0');*/
+	background-image: -ms-linear-gradient(top, #EDEDED, #FFFFFF); /* IE10 */
+	background-image: -webkit-linear-gradient(top, #EDEDED, #FFFFFF); /* Chrome */
+	background-image: -moz-linear-gradient(top, #EDEDED, #FFFFFF); /* Firefox */
+	background-image: -o-linear-gradient(top, #EDEDED, #FFFFFF); /* Opera */
+	background-image: linear-gradient(top, #EDEDED, #FFFFFF); /* Opera */
+	
+	border-radius: 12px;
+	outline: none;
+	border: 1px solid #CDCDCD;
+	color: #323232;
+	line-height: 16px;
+	font-size: 12px;
+	box-shadow: none;
+	display: inline-block;
+	vertical-align: top;
+}
+#srch_form > input:focus {background: #FFFFFF; color: #323232; }
+#srch_form > i {display: inline-block; vertical-align: top; position: absolute; right: 4px; top: 0px; cursor: pointer; color: #323232}
+
+/* 滚回顶部 */
+#scroll_top {width:55px; height:55px; position:fixed; bottom:95px; right: 20px; display:none; cursor:pointer; background: url(../../static/scroll_top.png); background-size: cover;}
+span.floor {color: #CCCCCC; padding: 2px 5px; background: #F1F1F1; border-radius: 10px; font-size: 9px; line-height: 9px;}
+i.icon.delete {padding: 0px;}
+i.icon.edit {padding: 0px;}
+
+.profile > li > p {margin-bottom: 8px;}
+
+
+.thread_post {background: #FFFFFF; padding: 8px;}
+
+#forumlist {padding: 8px; padding-bottom: 0px;}
+#forumlist > li {position: relative;}
+i.newthreads {
+	background: #C54F0F;
+	color: #EEEEEE;
+	border-radius: 8px;
+	display: none;
+	padding: 0px 4px 0px 4px;
+	font-size: 10px;
+	font-weight: normal;
+	line-height: 1;
+}
+#forumlist > li:hover i.newthreads,#forumlist > li.active i.newthreads {
+	background: #F56F0F;
+	color: #FFFFFF;
+}
+
+
+ul.menu {margin: 0px; padding: 0px; background: #EEEEEE; }
+ul.menu > li {display: inline-block; list-style: none; line-height: 1.5; background: #EEEEEE; border-radius: 8px;  padding: 0px 8px;}
+ul.menu > li:hover, ul.menu > li:hover > A{background: #555555; color: #FFFFFF;}
+ul.menu > li.active, ul.menu > li.active > A{background: #DD0000; color: #FFFFFF;}

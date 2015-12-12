@@ -1,0 +1,54 @@
+<?php include "./pc/view/header.inc.htm"; ?>
+
+<div class="ajax_body">
+	<div style="width: 300px; margin: auto;">
+		<form method="POST" id="mod_move_form" action="mod-move-<?php echo $tids; ?>.htm" class="form">
+			<p>选中：<b><?php echo count($tidarr); ?></b> 篇</p>
+			<p>
+				移动到：
+				<label>
+					<select name="newfid">
+						<?php foreach ($forumlist as $forum) { ?>
+						<option value="<?php echo $forum['fid']; ?>"><?php echo $forum['name']; ?></option>	
+						<?php } ?>
+					</select>
+				</label>
+			</p>
+			<p class="center">
+				<button type="submit" loading-text="正在提交..." class="blue big">确定</button>
+			</p>
+		</form>
+	</div>
+</div>
+
+<?php include "./pc/view/footer.inc.htm"; ?>
+
+<script>
+
+// 防止 ajax dialog 加载时污染全局变量
+
+var jdialog = typeof arguments == 'undefined' ? null : arguments[0]; // 接受第一个参数
+var jform = $('#mod_move_form');
+var jsubmit = jform.find('button[type="submit"]');
+var newfid = jform.find('select[name="newfid"]');
+newfid.checked(<?php echo $thread['fid']; ?>);
+
+//jform.off('submit').on('submit', function() {
+jsubmit.off('click').on('click', function() {
+	var postdata = jform.serialize();
+	jsubmit.button('loading');
+	$.xpost(jform.attr('action'), postdata, function(code, message) {
+		if(code == 0) {
+			jsubmit.button(message);
+			setTimeout(function() {window.location.reload();}, 500);
+		} else if(code == 1) {
+			newfid.popover(message);
+			jsubmit.button('reset');
+		} else if(code < 0) {
+			$.alert(message);
+			jsubmit.button('reset');
+		}
+	});
+	return false;
+});
+</script>

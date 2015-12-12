@@ -1,0 +1,112 @@
+<?php include './admin/view/header.inc.htm'; ?>
+
+<div class="panel">
+	<div class="header">友情链接管理</div>
+	<div class="body">
+		<table width="100%" class="tlist" id="table">
+			<tr align="center">
+				<th width="100" align="left">名称</th>
+				<th width="400" align="left">网址</th>
+				<th width="100">顺序(倒序)</th>
+				<th align="left">删除</th>
+			</tr>
+			<?php foreach($friendlinklist as &$friendlink) { ?>
+			<tr align="center" linkid="<?php echo $friendlink['linkid']; ?>">
+				<td><input type="text" name="name" value="<?php echo $friendlink['name']; ?>" placeholder="站点名称" /></td>
+				<td><input type="text" name="url" value="<?php echo $friendlink['url']; ?>" placeholder="http://" style="width: 400px;" /></td>
+				<td><input type="text" name="rank" value="<?php echo $friendlink['rank']; ?>" style="width: 100px" placeholder="0" /></td>
+				<td align="left"><a href="admin/friendlink-delete-<?php echo $friendlink['linkid']; ?>.htm" class="delete">删除</a></td>
+			</tr>
+			<?php } ?>
+		</table>
+		<p class="hr"></p>
+		<p class="margin"><button type="button" loading-text="正在提交..." id="submit" class="blue big" style="margin-left: 400px;" >确定</button></p>
+	</div>
+</div>
+
+<?php include './admin/view/footer.inc.htm'; ?>
+
+<script>
+
+var maxlinkid = <?php echo $maxlinkid; ?>;
+var jtable = $('#table');
+var jsubmit = $("#submit");
+var jtrs = jtable.find('tr');
+var jlast = jtrs.last(); // ('tr:last-child')有 bug，第二次会出2个孩子!
+jlast.find('input[type="text"]').addClass('last'); 
+
+function clone_tr(linkid) {
+	jlast.find('input[type="text"]').removeClass('last');
+	var jclone = jlast.clone().appendTo(jtable.son('tbody')).attr('linkid', linkid);
+	jclone.find('input[type="text"]').val('');
+	jclone.find('td').eq(3).find('a').attr('href', 'admin/friendlink-delete-'+linkid+'.htm').hide();
+	jlast = jclone;
+	jlast.find('input[type="text"]').addClass('last');
+	jtrs.add(jclone);
+}
+$('body').on('focus', 'input.last', function() {
+	clone_tr(++maxlinkid);
+});
+$('body').on('click', 'a.delete', function() {
+	var jthis = $(this);
+	var jtr = jthis.closest('tr');
+	var linkid = jtr.attr('linkid');
+	$.confirm('确定删除?', function() {
+		$.xpost(jthis.attr('href'), function(code, message) {
+			if(code == 0) {
+				jtr.remove();
+				jtrs = jtable.find('tr');
+				jlast = jtrs.last();
+				jlast.find('input[type="text"]').addClass('last'); 
+			} else {
+				jtr.line_error();
+				$.alert(message);
+			}
+		});
+	});
+	return false;
+});
+
+jsubmit.on('click', function(){
+	jsubmit.button('loading');
+	// 逐行更新
+	var urlarr = [];
+	var postarr = [];
+	var jtrs = jtable.find('tr').not(':first-child'); // .not(':last-child')
+	jtrs.map(function(k, v) {
+		var tr = this;
+		var jtr = $(tr);
+		var linkid = jtr.attr('linkid');
+		var name = jtr.find('input[name="name"]').val();
+		var url = jtr.find('input[name="url"]').val();
+		var rank = jtr.find('input[name="rank"]').val();
+		if(!name && !url && !rank) return; // 对增加的空节点忽略掉
+		urlarr.push('admin/friendlink-update-'+linkid+'.htm');
+		postarr.push({linkid: linkid, name: name, url: url, rank: rank});
+	});
+	
+	//console.log('urlarr: %o, postarr, %o', urlarr, postarr);
+	$.xpost_sync(urlarr, postarr, function(code, message, i) {
+		console.log('code: %d, message: %o, i:%d', code, message, i);
+		var jtr = jtrs.eq(i);
+		if(code == 0) {
+			jtr.find('td').eq(3).find('a').show();
+			jtr.line_ok();
+		} else {
+			if(code == 1) {
+				jtr.find('input[name="name"]').popover(message).focus();
+			} else if(code == 2) {
+				jtr.find('input[name="rank"]').popover(message).focus();
+			} else {
+				alert(message);
+			}
+			jtr.line_error();
+		}
+	}, function(code, message) {
+		jsubmit.button('更新完毕');
+		setTimeout(function() {jsubmit.button('reset');}, 1000);
+	});
+	return false;
+});
+
+</script>

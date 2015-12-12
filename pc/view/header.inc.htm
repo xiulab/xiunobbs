@@ -1,0 +1,82 @@
+<?php
+	!isset($header['keywords']) AND $header['keywords'] = '';
+	!isset($header['description']) AND $header['description'] = '';
+	!isset($header['title']) AND $header['title'] = '';
+	!isset($keyword) AND $keyword = '';
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<?php if(APP_PATH != './') { ?> <base href="<?php echo APP_PATH; ?>"> <?php } ?>
+	<meta content="True" name="HandheldFriendly">
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="author" content="XiunoBBS 3.0" />
+	<meta name="keywords" content="<?php echo $header['keywords']; ?>" />
+	<meta name="description" content="<?php echo $header['description']; ?>" />
+	<meta name="renderer" content="webkit" />
+	<title><?php echo $header['title']; ?></title>
+	<link rel="shortcut icon" href="static/favicon.ico" />
+	<link rel="icon" sizes="32x32" href="static/favicon.ico">
+	<link rel="Bookmark" href="static/favicon.ico" />
+	<link rel="stylesheet" type="text/css" media="screen" href="xiunoui/xiuno.css" />
+	<link rel="stylesheet" type="text/css" href="xiunoui/icon.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="static/bbs.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="pc/view/pc.css" />
+	<script>var debug = <?php echo DEBUG; ?>;</script>
+</head>
+
+<body>
+
+<div id="header">
+	<table class="layout width">
+		<tr>
+			<td valign="top">
+				<a href="./"><img src="static/logo.png" align="top" class="logo" /></a>
+			</td>
+			<td valign="top">
+				<ul id="forumlist" style="margin-top: 4px;">
+					<li fid="0"><a href="./"><span>首页</span> <i class="newthreads" fid="0">0</i></a></li>
+					<?php if(is_array($forumlist_show)) { foreach($forumlist_show as &$f) { ?>
+					<li fid="<?php echo $f['fid']; ?>"><a href="forum-<?php echo $f['fid']; ?>.htm"><?php echo $f['name']; ?> <i class="newthreads" fid="<?php echo $f['fid']; ?>">0</i></a></li>
+					<?php } } ?>
+				</ul>
+			</td>
+			<td align="right">
+				<div>
+					<form action="search.htm" method="GET" id="srch_form">
+						<input type="text" name="keyword" value="<?php echo isset($keyword) ? $keyword : ''; ?>"/>
+						<i class="icon search" ></i>
+					</form>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div id="body">
+	<div class="width">
+		<div class="panel_header margin">
+			<table class="layout">
+				<tr>
+					<td>	
+						<a href="./"><i class="icon home"></i></a>
+						<?php if(!empty($header['navs'])) { foreach($header['navs'] as $nav) { ?>
+							<i class="icon angle-right"></i> <?php echo $nav; ?>
+						<?php } } ?>
+					</td>
+					<td id="user" align="right">
+						<?php if(empty($gid)) { ?>
+							<i class="icon user"></i><a href="user-login.htm">登录</a> &nbsp;
+							<i class="icon user-create"></i><a href="user-create.htm">注册</a> &nbsp;
+							<i class="icon comment"></i><a href="thread-create<?php echo (empty($fid) ? '' : "-$fid"); ?>.htm">发帖</a> &nbsp;
+						<?php } else { ?>
+							<a href="my.htm"><img src="<?php echo $user['avatar_url']; ?>" class="avatar tiny" align="baseline"/><?php echo $user['username']; ?></a> &nbsp;
+							<i class="icon comment"></i><a href="thread-create<?php echo (empty($fid) ? '' : "-$fid"); ?>.htm">发帖</a> &nbsp;
+							<?php if($gid == 1) { ?><i class="icon cog"></i><a href="admin/" target="_blank">设置</a> <?php } ?> &nbsp;
+							<i class="icon power-off"></i><a href="user-logout.htm">退出</a> &nbsp;
+						<?php } ?>
+					</td>
+				</tr>
+			</table>
+		</div>

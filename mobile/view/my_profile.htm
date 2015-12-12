@@ -1,0 +1,126 @@
+<?php include "./mobile/view/my_header.inc.htm"; ?>
+
+<form action="pc/my-profile.htm" method="post" id="my_profile_form">
+	<div class="panel_body margin">
+		<dl class="row">
+			<dt style="width: 15%;" class="center vtop">
+				<img src="<?php echo $user['avatar_url']; ?>" id="avatar_img" class="avatar big" /><br>
+				<input type="file" id="avatar_upload" accept=".jpg,.jpeg,.png,.gif,.bmp"  class="upload" style="width: 70px; opacity: 0.7" value="更换头像"/>
+				<div style="width: 100%; height: 12px; border: 1px border green; margin-top: 2px;" id="avatar_progress"><div style="width: 0px;  height: 12px; background: green;"></div></div>
+			</dt>
+			<dd style="width: 85%;">
+				<dl class="row form">
+					<dt class="col-3 right">用户名：</dt> <dd class="col-7"><input type="text" name="username" value="<?php echo $user['username']; ?>" style="width: 163px;" class="small" /></dd>
+					<dt class="col-3 right">Email：</dt> <dd class="col-7"><input type="text" name="email" value="<?php echo $user['email']; ?>" style="width: 163px;" class="small" /></dd>
+					<dt class="col-3 right">用户组：</dt> <dd class="col-7"><?php echo $user['groupname']; ?></dd>
+				</dl>
+				<p class="hr"></p>
+				<dl class="row form">
+					<dt class="col-3 right">注册时间：</dt> <dd class="col-7"><?php echo $user['create_date_fmt']; ?></dd>
+					<dt class="col-3 right">注册IP：</dt> <dd class="col-7"><?php echo $user['create_ip_fmt']; ?></dd>
+					<dt class="col-3 right">最后登录：</dt> <dd class="col-7"><?php echo $user['login_date_fmt']; ?></dd>
+				</dl>
+				<p class="hr"></p>
+				<dl class="row form">
+					<dt class="col-3 right">主题：</dt> <dd class="col-7"><?php echo $user['threads']; ?></dd>
+					<dt class="col-3 right">帖子：</dt> <dd class="col-7"><?php echo $user['posts']; ?></dd>
+					<dt class="col-3 right">被喜欢：</dt> <dd class="col-7"><?php echo $user['agrees']; ?></dd>
+				</dl>
+			</dd>
+		</dl>
+		<p class="center">
+			<button class="middle blue" type="submit" loading-text="正在提交...">确定</button>
+		</p>
+	</div>
+</form>
+
+<?php include "./mobile/view/my_footer.inc.htm"; ?>
+
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/upload.js"></script>
+
+<script>
+var jdialog = typeof arguments == 'undefined' ? null : arguments[0]; // 接受第一个参数
+$('#avatar_upload').one('click', function() {
+	var fileinput = this;
+	var jfile = $(fileinput);
+	var jimg = $('#avatar_img');
+	var url = 'my-uploadavatar.htm';
+	var up = new FileUploader(fileinput, url);
+	up.filetype = 'image/png';
+	up.thumb_width = 64;
+	up.onprogress = function(file, percent) {
+		$('#avatar_progress').show().son('div').width(percent+'%');
+	}
+	up.ononce = function(file, e) {
+		var json = json_decode(e.target.response);
+		if(json && json.code == 0) {
+			$('#avatar_img').attr('src', json.message+'?'+Math.random());
+		} else {
+			var err = json && json.message ? json.message : e.target.response;
+			alert(err);
+		}
+		setTimeout(function() {$('#avatar_progress').son('div').width(0)}, 2000);
+	}
+	up.oncomplete = function(code, files) {
+		if(code == 0) {
+			//$.alert('ok');
+		} else {
+			//alert(code);
+		}
+	}
+	up.onselected = function(files) {
+		var file = files[0];
+		jimg.srcLocalFile(file);
+		if(!/^image/.test(file.type) || !/(.jpg|.jpeg|.gif|.png|.bmp)$/i.test(file.type)) {
+			jfile.popover('只允许上传jpg、jpeg、gif、png格式的图片'); return;
+		}
+		up.start();
+	}
+	
+	up.onerror = function(file, e) {
+		var json = json_decode(e.target.response);
+		var err = json && json.message ? json.message : e.target.response;
+		jfile.popover(err); return;
+	}
+	up.onabort = function(file, e) {}
+	up.init();
+});
+
+
+
+var jform = $('#my_profile_form');
+var jusername = jform.find('input[name="username"]');
+var jemail = jform.find('input[name="email"]');
+var jsubmit = jform.find('button[type="submit"]');
+jform.off('submit').on('submit', function() {
+	if(!jusername.val()) {
+		jusername.popover('用户名不能为空').focus();
+		return false;
+	} else if(!jemail.val()) {
+		jemail.popover('Email 不能为空').focus();
+		return false;
+	}
+	var postdata = jform.serialize();
+	jsubmit.button('loading');
+	$.xpost(jform.attr('action'), postdata, function(code, message) {
+		if(code == 0) {
+			jsubmit.text(message);
+			setTimeout(function() {jsubmit.button('reset');}, 2000);
+			return;
+		} else if(code == 1) {
+			jusername.popover(message).focus();
+		} else if(code == 2) {
+			jemail.popover(message).focus();
+		} else {
+			$.alert(message);
+		}
+		jsubmit.button('reset');
+	});
+	return false;
+});
+
+
+$('#my_profile_menu').find('a').eq(0).class_active();
+
+</script>

@@ -1,0 +1,80 @@
+
+<?php if($browser['name'] != 'ie' && $browser['version'] >= 10) { ?>
+<script src="xiunoui/zepto.js"></script>
+<?php } else { ?>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<?php }?>
+
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="xiunoui/upload.js"></script>
+
+<script type="text/javascript">
+
+// 选中状态
+
+function request_uri() {
+	var url = window.location.toString();;
+	url = url.replace(/^(([a-z]+):\/\/)?([^\/\?#]+)\//i, '');
+	return url + '/';
+}
+
+
+// 选中状态
++function header_nav_active() {
+	var url = window.location.toString();
+	var parse = url.match(/^(([a-z]+):\/\/)?([^\/\?#]+)\/*([^\?#]*)\??([^#]*)#?(\w*)$/i);
+	var r = {
+	    'url': url,
+	    'schema': parse[2],
+	    'host': parse[3],
+	    'path': parse[4],
+	    'query': parse[5],
+	    'anchor': parse[6],
+	    'requesturi': parse[4] + parse[5] + parse[6]
+	};
+
+	/*
+	r.requesturi = 'http://k.com/' + r.requesturi;
+	$('#header-nav').children('div.body').children('a').each(function() {
+		var href = $(this).attr('href').replace(/^(\/|\.\/)/, '');
+		if(r.requesturi == href) $(this).addClass('active');
+		console.log(href + ':' + r.requesturi);
+		//if(r.requesturi && href.indexOf(r.requesturi) != -1) $(this).addClass('active');
+	});
+	*/
+	console.log("r:%o", r);
+	$('#admin_menu').find('a').each(function() {
+		var href = $(this).attr('href').replace(/^(\/|\.\/)/, '');
+		console.log("href:%s", href);
+		if(r.requesturi == href) $(this).addClass('active');
+	});
+}();
+
+/*
++function header_nav_active() {
+	var url = document.baseURI || document.URL || window.location;
+	var parse = url.match(/^(([a-z]+):\/\/)?([^\/\?#]+)\/*([^\?#]*)\??([^#]*)#?(\w*)$/i);
+	var r = {
+	    'schema': parse[2],
+	    'host': parse[3],
+	    'path': parse[4],
+	    'query': parse[5],
+	    'anchor': parse[6],
+	    'requesturi': parse[4] + parse[5] + parse[6]
+	};
+	
+}();*/
+
+/* 页面跳转，失效
+$('#admin_menu').find('a').on('click', function() {
+	$('#admin_menu').find('a').removeClass('active');
+	$(this).addClass('active');
+});
+*/
+</script>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<?php include "./mobile/view/my_header.inc.htm"; ?>
+
+<!-- 此处 id 嵌套一层，但是 jquery, zepto 工作正常，暂时不管 -->
+<div id="mythread_list">
+	<table class="tlist margin" width="100%">
+		<tr align="center">
+			<th align="left">主题</th>
+			<th width="100">最后回复</th>
+		</tr>
+		<?php foreach ($threadlist as $thread) { ?>
+		<tr align="center">
+			<td align="left" class="breakall"><a href="mobile/<?php echo $thread['url']; ?>"><?php echo $thread['subject']; ?></a></td>
+			<td><a href="mobile/user-<?php echo $thread['lastuid']; ?>.htm" ><?php echo $thread['lastusername']; ?></a></td>
+		</tr>
+		<?php } ?>
+	</table>
+	<div class="page ajax" target="mythread_list"><?php echo $pages; ?></div>
+</div>
+
+<?php include "./mobile/view/my_footer.inc.htm"; ?>
+
+<script>
+$('#my_profile_menu').find('a').eq(2).class_active();
+</script>

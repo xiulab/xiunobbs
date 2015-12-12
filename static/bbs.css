@@ -1,0 +1,26 @@
+div.dialog-overlay { background: url("overlay_bg.png") scroll 50% 50% #AAAAAA;}
+
+.icon.filetype {width: 36px; height: 36px; display: inline-block;  background-size: 36px; background-repeat: no-repeat; vertical-align: middle;}
+.icon.filetype.small { background-size: 16px; width: 16px; height: 16px;}
+.icon.filetype.video {background-image: url(filetype/video.png)}
+.icon.filetype.music:before {content: ""}
+.icon.filetype.music {background-image: url(filetype/music.png) }
+.icon.filetype.exe {background-image: url(filetype/exe.png) }
+.icon.filetype.flash {background-image: url(filetype/flash.png) }
+.icon.filetype.image:before {content: ""}
+.icon.filetype.image {background-image: url(filetype/image.png)}
+.icon.filetype.office {background-image: url(filetype/office.png) }
+.icon.filetype.pdf {background-image: url(filetype/pdf.png) }
+.icon.filetype.text {background-image: url(filetype/text.png) }
+.icon.filetype.unknown {background-image: url(filetype/text.png) }
+.icon.filetype.zip {background-image: url(filetype/zip.png) }
+.icon.filetype.other {background-image: url(filetype/other.png) }
+.icon.filetype.book {background-image: url(filetype/book.png) }
+.icon.filetype.torrent {background-image: url(filetype/torrent.png) }
+.icon.filetype.font {background-image: url(filetype/font.png) }
+
+i.newpost {background-image: url(new.gif); width: 26px; height: 12px; display: none;}
+
+.code, .quote, pre, blockquote{border: 1px dashed #C8C8C8; background: #FAFAFA url(quote.png) no-repeat top right; padding: 12px; font-size: 12px; margin-top: 4px; margin-bottom: 4px; margin-left: 0px; margin-right: 0px; white-space: pre-wrap;}
+.quote, blockquote{color: #888888}
+a.command_help {display: none;}

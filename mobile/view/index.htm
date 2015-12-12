@@ -1,0 +1,35 @@
+<?php include "./mobile/view/header.inc.htm"; ?>
+
+<ul class="forumlist menu" id="forumlist">
+	<li fid="0"><a href="./mobile/"><span>首页</span> <i class="newthreads" fid="0">0</i></a></li>
+	<?php foreach($forumlist_show as &$f) { ?>
+	<li fid="<?php echo $f['fid']; ?>"><a href="mobile/forum-<?php echo $f['fid']; ?>.htm" class="ajax"><?php echo $f['name']; ?> <i class="newthreads" fid="<?php echo $f['fid']; ?>">0</i></a></li>
+	<?php } ?>
+</ul>
+
+<div class="panel width margin">
+	<div class="header">
+		<table class="layout">
+			<tr>
+				<td>
+				</td>
+				<td id="threadlist_orderby" align="right" class="normal">
+					<a href="mobile/index-lastpid.htm" nofollow <?php echo ($order == 'lastpid' ? ' class="active"' : ''); ?>><span class="icon comments" title="回帖时间"></span>回帖时间</a>
+					<a href="mobile/index-tid.htm" nofollow <?php echo ($order == 'tid' ? ' class="active"' : ''); ?>><span class="icon comment" title="发帖时间"></span>发帖时间</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="body">
+		<div id="threadlist">
+			<?php include "./mobile/view/thread_list_body.inc.htm"; ?>
+		</div>
+	</div>
+</div>	
+
+<?php include "./mobile/view/footer.inc.htm"; ?>
+
+<script>
+render_forumlist();
+render_threadlist(fid);
+</script>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<base href="../">
+	<meta content="True" name="HandheldFriendly">
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="author" content="XiunoBBS 3.0" />
+	<title><?php echo $header['title']; ?></title>
+	<link rel="shortcut icon" href="static/favicon.ico" />
+	<link rel="icon" sizes="32x32" href="static/favicon.ico">
+	<link rel="Bookmark" href="static/favicon.ico" />
+	<link rel="stylesheet" type="text/css" media="screen" href="xiunoui/xiuno.css" />
+	<link rel="stylesheet" type="text/css" href="xiunoui/icon.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="static/bbs.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="mobile/view/mobile.css" />
+	<script>var debug = <?php echo DEBUG; ?>;</script>
+</head>
+
+<body style="overflow: scroll; -webkit-overflow-scrolling : touch;">
+
+
+<div id="header">
+	<table class="layout width">
+		<tr>
+			<td valign="top">
+				<a href="mobile/"><img src="static/logo.png" align="top" class="logo" /></a>
+			</td>
+			<td class="right grey">
+				<?php if(empty($gid)) { ?>
+					<i class="icon user"></i><a href="mobile/user-login.htm">登录</a>
+					<i class="icon user-create"></i><a href="mobile/user-create.htm">注册</a>
+					<i class="icon comment"></i><a href="mobile/thread-create.htm">发帖</a> &nbsp;
+				<?php } else { ?>
+					<a href="mobile/my.htm"><img src="<?php echo $user['avatar_url']; ?>" class="avatar tiny" align="baseline"/><?php echo $user['username']; ?></a>
+					<i class="icon comment"></i><a href="mobile/thread-create.htm">发帖</a>
+					<i class="icon power-off"></i><a href="mobile/user-logout.htm" class="ajax">退出</a> &nbsp;
+				<?php } ?>
+				&nbsp; 
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div id="body">
+	<div class="width">
