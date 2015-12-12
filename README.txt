@@ -1,14 +1,7 @@
-[How to git clone]
-git clone https://github.com/xiuno/xiunobbs
-cd xiunobbs
-git clone https://github.com/xiuno/xiunoui
-git clone https://github.com/xiuno/xiunophp
-git clone https://github.com/xiuno/xneditor
-
-[BBS Xiuno 3 what is it? ]
+[What is BBS Xiuno 3 ?]
 BBS Xiuno is a compact, stable, support in large data still remain high load capacity of the light forum. It is only 20+ tables, source code 800K+ (ziped), run very fast, processing a single request in 0.01 second level, in APC, XCache environment can run for 0.00x seconds, little dependent on third party libraries, the front only rely on jquery.js/zepto.js, the author considers it as a pure handmade Ferrari, strong power, no fat, easy deployment and maintenance, is a very good two development foundation.
 
-[function]
+[Function]
 Abandoned the traditional forum, scoring, essence, highlighting and other content selection function, the introduction of the "like" mechanism, the good or bad, user groups, the upgrade, the theme color, etc..
 Write new editor support tables, pictures, additions and deletions ranks HTML5 client server CPU abbreviation, reduce operation pressure, support QQ screenshot pasted directly.
 Tourists support post replies, little love.
@@ -16,13 +9,13 @@ Support for custom URL, SEO, web site can be like this: http://bbs.xiuno.com/xiu
 Support SMTP mail
 Support IP limit: limit the number of daily IP posting, send e-mail, upload attachments
 
-[performance]
+[Performance]
 This is Xiuno's strengths, the author started with web development since 2002, has been hanging in the first pen, for web may affect the performance of all links (like bragging, is in fact a fool knows more than ten years down).
 BBS Xiuno in the end how tough? Many people pay attention to this problem, the following data can be used as a reference:
 Post number: 1200w+, user 122w+, the average daily 100w+ PV (peak far beyond this), running speed 0.01s, loadavg < 0.3
 Sample site: http://www.btbbt.cc/
 
-[authorization]
+[Authorization]
 BBS Xiuno 3 uses the MIT protocol to publish, you can freely modify, derived version, commercial and not to worry about any legal risk (to modify the original copyright information should be retained).
 
 Axiuno@gmail.com
