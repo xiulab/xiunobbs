@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>https_post()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>https_post($url, $timeout=30, $post = '', $cookie = '')</h3>
+
+<hr>
+
+<pre>
+通过 HTTPS 方式请求 URL（默认 443 端口），成功返回页面内容，失败返回 FALSE。
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 1307 行：
+
+<pre class="brush:php">
+function https_post($url, $timeout=30, $post = '', $cookie = '') {
+	$w = stream_get_wrappers();
+	$allow_url_fopen = strtolower(ini_get('allow_url_fopen'));
+	$allow_url_fopen = (empty($allow_url_fopen) || $allow_url_fopen == 'off') ? 0 : 1;
+	if(extension_loaded('openssl') && in_array('https', $w) && $allow_url_fopen) {
+		return file_get_contents($url);
+	} elseif (!function_exists('curl_init')) {
+		return xn_error(-1, 'server not installed curl.');
+	}
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_HEADER, 2); // 1/2
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // 对认证证书来源的检查
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); // 从证书中检查SSL加密算法是否存在，默认可以省略
+	if($post) {
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+	}
+	if($cookie) {
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Cookie: $cookie"));
+	}
+	(!ini_get('safe_mode') && !ini_get('open_basedir')) && curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); // 使用自动跳转, 安全模式不允许
+	curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+	$data = curl_exec($ch);
+	if(curl_errno($ch)) {
+		return xn_error(-1, 'Errno'.curl_error($ch));
+	}
+	if(!$data) {
+		curl_close($ch);
+		return '';
+	}
+
+	list($header, $data) = explode("\r\n\r\n", $data);
+	$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	if($http_code == 301 || $http_code == 302) {
+		$matches = array();
+		preg_match('/Location:(.*?)\n/', $header, $matches);
+		$url = trim(array_pop($matches));
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_HEADER, false);
+		$data = curl_exec($ch);
+	}
+	curl_close($ch);
+	return $data;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+
+$s = https_post('https://www.xiuno.com/post.php');
+
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>http_url_path()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>http_url_path($url, $post = '', $timeout = 10, $times = 3)</h3>
+
+<hr>
+
+<pre>
+获取 URL 的路径部分，区别于 $_SERVER['REQUEST_URI'] 。
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 1458 行：
+
+<pre class="brush:php">
+function http_url_path() {
+	$port = $_SERVER['SERVER_PORT'];
+	//$portadd = ($port == 80 ? '' : ':'.$port);
+	$host = $_SERVER['HTTP_HOST'];  // host 里包含 port
+	$path = substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/'));
+	$http = (($port == 443) || (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off')) ? 'https' : 'http';
+	return  "$http://$host$path/";
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+
+// 假如当前 URL 为：http://bbs.xiuno.com/admin/index.php
+$s = http_url_path();
+print_r($s); // http://www.xiuno.com/admin/
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

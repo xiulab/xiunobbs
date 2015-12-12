@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>empty()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>empty()</h3>
+
+<hr>
+
+<pre>
+判断一个变量是否为空。
+以下值均为空：0 '' "" [] {} null '0' false undefined 。
+</pre>
+
+<b>【定义】</b> 文件：xiunoui/xiuno.js 大约 134 行：
+
+<pre class="brush:js">
+global.empty = function(s) {
+	if(s == '0') return true;
+	if(!s) {
+		return true;
+	} else {
+		//$.isPlainObject
+		if(s.constructor === Object) {
+			return Object.keys(s).length == 0;
+		} else if(s.constructor === Array) {
+			return s.length == 0;
+		}
+		return false;
+	}
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:js">
+var s = '';
+var b = empty(s);
+console.log(b);
+// true
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

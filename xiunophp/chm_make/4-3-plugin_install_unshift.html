@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>plugin_install_unshift()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+
+<h3>plugin_install_unshift($file, $s)</h3>
+
+<hr>
+
+<pre>
+将 $s 插入到 $file 前端。
+
+$file: 要操作的文件
+$s: 在文件前端插入的代码
+</pre>
+
+<b>【定义】</b> 文件：model/plugin.func.php 大约 103 行：
+
+<pre class="brush:php">
+function plugin_install_unshift($file, $s) {
+	$old = file_get_contents($file);
+	$new = $s.$old;
+	if(strpos($old, $s) !== FALSE) return TRUE; // 如果已经存在，则不再追加
+	return file_put_contents($file, $new);
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+include './model/plugin.func.php';
+
+$file = './pc/view/footer.inc.htm';
+$code = '&lt;script&gt;alert(123);&lt;/script&gt;';
+
+plugin_install_unshift($file, $code);
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

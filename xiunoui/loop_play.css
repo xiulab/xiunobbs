@@ -1,0 +1,47 @@
+.loop_play {
+	width: 1015px;
+	height: 409px;
+	overflow: hidden;
+	transition: all 2s;
+	-ms-transition: all 2s;
+	-moz-transition: all 2s;
+	-webkit-transition: all 2s;
+	-o-transition: all 2s;
+	margin: auto;
+}
+.loop_play div.player {
+	width: 1015px;
+	height: 409px;
+	position: relative;
+	margin: auto;
+}
+.loop_play div.thumber {
+	text-align: center;
+	z-index: 1001;
+	position: relative;
+	top: -30px;
+}
+.loop_play span.thumb {
+	cursor:pointer;
+	color: white;
+	opacity: 0.45;
+}
+.loop_play span.thumb.active {
+	color: red;
+	opacity: 1;
+}
+.loop_play div.wrap {
+	width: 100%;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index: 100;
+	display: none;
+}
+.loop_play div.loop {
+	min-width: 1004px;
+	max-width: 1440px;
+	height: 600px;
+	margin: auto;
+	/*cursor: pointer;*/
+}

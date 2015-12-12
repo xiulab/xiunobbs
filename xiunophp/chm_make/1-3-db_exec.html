@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>db_exec()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>db_exec($sql, $abort = TRUE)</h3>
+
+<hr>
+
+<pre>
+执行一条 SQL 语句，失败返回 FALSE，并且自动记录到错误日志。
+
+$sql：SQL 语句
+$abort：在失败时是否终止流程
+一般是写入操作：INSERT, UPDATE, DELETE
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 515 行：
+
+<pre class="brush:php">
+// 如果为 INSERT 或者 REPLACE，则返回 mysql_insert_id();
+// 如果为 UPDATE 或者 DELETE，则返回 mysql_affected_rows();
+// 对于非自增的表，INSERT 后，返回的一直是 0
+// 判断是否执行成功: mysql_exec() === FALSE
+function db_exec($sql, $abort = TRUE) {
+	global $db;
+	if(!$db) return FALSE;
+	DEBUG AND xn_log($sql, 'mysql_exec');
+	$n = $db->exec($sql);
+	if($n === FALSE && $db->errno != 0) {
+		$s = "sql: $sql, sql errno: ".$db->errno.", errstr: ".$db->errstr;
+		xn_log($s, 'db_error');
+		$abort AND xn_message(-1, $db->errstr);
+	}
+	return $n;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+
+$uid = db_exec("INSERT INTO bbs_user SET username='test'");
+echo $uid;  // 返回自增的 uid
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>array_diff()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>array_diff(arr1, arr2)</h3>
+
+<hr>
+
+<pre>
+比较两个数组的差异，在 arr1 之中，但是不在 arr2 中。返回差异结果集的新数组。
+</pre>
+
+<b>【定义】</b> 文件：xiunoui/xiuno.js 大约 293 行：
+
+<pre class="brush:js">
+global.array_diff = function(arr1, arr2) {
+	if(arr1.__proto__ === Array.prototype) {
+		var o = {};
+		for(var i = 0, len = arr2.length; i < len; i++) o[arr2[i]] = true;
+		var r = [];
+		for(i = 0, len = arr1.length; i < len; i++) {
+			var v = arr1[i];
+			if(o[v]) continue;
+			r.push(v);
+		}
+		return r;
+	} else {
+		var r = {};
+		for(k in arr1) {
+			if(!arr2[k]) r[k] = arr1[k];
+		}
+		return r;
+	}
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:js">
+var arr1 = [1, 2, 3];
+var arr2 = [3, 4, 5];
+var arr = array_diff(arr1, arr2);
+console.log(arr);
+// [1, 2]
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

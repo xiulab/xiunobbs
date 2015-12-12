@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>关于 URL 格式</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>关于 URL 格式</h3>
+
+<hr>
+
+<pre>
+XiunoPHP 除了支持原生的 URL 格式，还支持以下两种伪静态 URL 格式，前提是做好 URL-Rewrite，具体方法，请参看  <a href="4-1-4.html">4.1.4: URL-Rewrite</a>。
+
+http://domain.com/user-login.htm
+http://domain.com/user-login.htm?uid=123
+
+http://domain.com/user/login
+http://domain.com/user/login?uid=123
+
+获取参数的方法：
+</pre>
+
+<pre class="brush:php">
+&lt;?php
+
+include './xiunophp/xiunophp.php';
+print_r($_REQUEST);
+/*
+Array(
+	0 => 'user',
+	1 => 'login',
+	'uid' => 123,
+)
+*/
+
+// 获取参数
+$a = param(0);		// "user"
+$c = param(1);		// "login"
+$uid = param('uid', 0); // 123	第二个参数为默认的数据类型和值，用来安全获取参数
+
+?&gt;
+</pre>
+
+<pre>
+4. 执行命令，输出 Hello, World：
+</pre>
+
+<pre class="brush:php">
+php 1.php
+Hello, World
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

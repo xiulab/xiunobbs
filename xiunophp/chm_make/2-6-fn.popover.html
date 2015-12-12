@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>$.fn.popover()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>$.fn.popover(message, pos)</h3>
+
+<hr>
+
+<pre>
+在控件的指定位置弹出一个提示信息（泡泡信息），一般用作表单控件错误提示。
+
+pos: top|bottom|left|right
+</pre>
+
+<b>【定义】</b> 文件：xiunoui/xiuno.js 大约 1289 行：
+
+<pre class="brush:js">
+$.fn.popover = function(message, pos, classname) {
+	if(!pos) pos = 'top';
+	classname = classname ? ' ' + classname : '';
+	var jthis = $(this);
+	if(jthis.length == 0) return;
+	var offset = jthis.position(); // offsetParent
+
+	var width = jthis.width();
+	var height = jthis.height();
+
+	var left = offset.left;
+	var top = offset.top;
+
+	// 创建 popover
+	var jpopover = $('&lt;div class=&quot;popover'+classname+'&quot; style=&quot;display: block&quot;&gt;&lt;span class=&quot;arrow '+pos+'&quot;&gt;&lt;/span&gt;'+message+'&lt;/div&gt;').insertAfter(jthis);
+	var pop_width = jpopover.width();
+	var pop_height = jpopover.height();
+
+	if(pos == 'top') {
+		jpopover.css({left: left, top: top - pop_height - 2});
+	} else if(pos == 'bottom') {
+		jpopover.css({left: left, top: top + height + 4});
+	} else if(pos == 'left') {
+		jpopover.css({left: left - pop_width - 2, top: top + (height &gt; pop_height ? ((height - pop_height) / 2) : 0)});
+	} else if(pos == 'right') {
+		jpopover.css({left: left + width + 2, top: top + (height &gt; pop_height ? ((height - pop_height) / 2) : 0)});
+	}
+	jthis.on('change keyup click blur', function() {
+		jpopover.remove();
+	});
+	this.jpopover = jpopover;
+	return this;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:js">
+&lt;input type=&quot;text&quot; id=&quot;id1&quot; value=&quot;名字&quot;&gt;
+&lt;script&gt;
+$('#id1').popover('请输入名字！');
+&lt;/script&gt;
+</pre>
+
+效果：<br><br><br>
+<img src="image/popover.png">
+<!--
+<div style="position: absolute;">
+<input type="text" id="id1" value="名字">
+</div>
+<br><br>
+-->
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>
+
+<script>
+$('#id1').popover('请输入名字！');
+</script>

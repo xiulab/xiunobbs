@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>http_get()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>http_get($url, $timeout = 5, $times = 3)</h3>
+
+<hr>
+
+<pre>
+对 URL 发起一个 HTTP GET 请求，支持设置超时和重试次数，成功返回网页内容（不包含头信息），失败返回 FALSE。
+
+$url: 请求 URL
+$timeout: 超时秒数
+$times: 重试次数
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 1269 行：
+
+<pre class="brush:php">
+function http_get($url, $timeout = 5, $times = 3) {
+	$arr = array(
+		'http' => array(
+			'method'=> 'GET',
+			'timeout' => $timeout
+		)
+	);
+	$stream = stream_context_create($arr);
+	while($times-- > 0) {
+		$s = file_get_contents($url, NULL, $stream, 0, 4096000);
+		if($s !== FALSE) return $s;
+	}
+	return FALSE;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+
+$s = http_get('http://www.xiuno.com/');
+echo $s;
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

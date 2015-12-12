@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>XiunoPHP</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body style="background: #DDDDDD;">
+
+<h3>TABLE(表格)</h3>
+
+<hr>
+
+<pre>
+常用表格样式，常被用作输出数据库内容。
+</pre>
+
+<hr>
+
+<pre>
+【1. table.tborder】
+</pre>
+
+<xmp>
+<table class="tborder" width="800">
+	<tr>
+		<th>title1</th>
+		<th>title2</th>
+		<th>title3</th>
+		<th>title4</th>
+	</tr>
+	<tr>
+		<td>No.1</td>
+		<td>No.2</td>
+		<td>No.3</td>
+		<td>No.4</td>
+	</tr>
+	<tr>
+		<td>Jack</td>
+		<td>Mary</td>
+		<td>Mary</td>
+		<td>Mary</td>
+	</tr>
+</table>
+</xmp>
+
+<pre>
+浏览器打开效果：
+</pre>
+
+<img src="image/2-3-4-1.png">
+<!--
+<table class="tborder" width="800">
+	<tr>
+		<th>title1</th>
+		<th>title2</th>
+		<th>title3</th>
+		<th>title4</th>
+	</tr>
+	<tr>
+		<td>No.1</td>
+		<td>No.2</td>
+		<td>No.3</td>
+		<td>No.4</td>
+	</tr>
+	<tr>
+		<td>Jack</td>
+		<td>Mary</td>
+		<td>Mary</td>
+		<td>Mary</td>
+	</tr>
+</table>
+-->
+
+<hr>
+
+<pre>
+【2. table.tlist】：
+</pre>
+
+<xmp>
+<table class="tlist" width="800">
+	<tr align="left">
+		<th>title1</th>
+		<th>title2</th>
+		<th>title3</th>
+		<th>title4</th>
+	</tr>
+	<tr>
+		<td>No.1</td>
+		<td>No.2</td>
+		<td>No.3</td>
+		<td>No.4</td>
+	</tr>
+	<tr>
+		<td>Jack</td>
+		<td>Mary</td>
+		<td>Mary</td>
+		<td>Mary</td>
+	</tr>
+</table>
+</xmp>
+
+<pre>
+浏览器打开效果：
+</pre>
+
+<img src="image/2-3-4-2.png">
+<!--
+<table class="tlist" width="800">
+	<tr align="left">
+		<th>title1</th>
+		<th>title2</th>
+		<th>title3</th>
+		<th>title4</th>
+	</tr>
+	<tr>
+		<td>No.1</td>
+		<td>No.2</td>
+		<td>No.3</td>
+		<td>No.4</td>
+	</tr>
+	<tr>
+		<td>Jack</td>
+		<td>Mary</td>
+		<td>Mary</td>
+		<td>Mary</td>
+	</tr>
+</table>
+-->
+
+<hr>
+
+<pre>
+【3. table.panel.tborder】：
+</pre>
+
+<xmp>
+<table class="panel tborder" width="800">
+	<tr align="left">
+		<th>title1</th>
+		<th>title2</th>
+		<th>title3</th>
+		<th>title4</th>
+	</tr>
+	<tr>
+		<td>No.1</td>
+		<td>No.2</td>
+		<td>No.3</td>
+		<td>No.4</td>
+	</tr>
+	<tr>
+		<td>Jack</td>
+		<td>Mary</td>
+		<td>Mary</td>
+		<td>Mary</td>
+	</tr>
+	<tr>
+		<td>Jack</td>
+		<td>Mary</td>
+		<td>Mary</td>
+		<td>Mary</td>
+	</tr>
+</table>
+</xmp>
+
+<pre>
+浏览器打开效果：
+</pre>
+
+<img src="image/2-3-4-3.png">
+<!--
+<table class="panel tborder" width="800">
+	<tr align="left">
+		<th>title1</th>
+		<th>title2</th>
+		<th>title3</th>
+		<th>title4</th>
+	</tr>
+	<tr>
+		<td>No.1</td>
+		<td>No.2</td>
+		<td>No.3</td>
+		<td>No.4</td>
+	</tr>
+	<tr>
+		<td>Jack</td>
+		<td>Mary</td>
+		<td>Mary</td>
+		<td>Mary</td>
+	</tr>
+	<tr>
+		<td>Jack</td>
+		<td>Mary</td>
+		<td>Mary</td>
+		<td>Mary</td>
+	</tr>
+</table>
+-->
+
+<hr>
+
+<pre>
+【4. table.panel.tlist】：
+</pre>
+
+<xmp>
+<table class="panel tlist" width="800">
+	<tr align="left">
+		<th>title1</th>
+		<th>title2</th>
+		<th>title3</th>
+		<th>title4</th>
+	</tr>
+	<tr>
+		<td>No.1</td>
+		<td>No.2</td>
+		<td>No.3</td>
+		<td>No.4</td>
+	</tr>
+	<tr>
+		<td>Jack</td>
+		<td>Mary</td>
+		<td>Mary</td>
+		<td>Mary</td>
+	</tr>
+	<tr>
+		<td>Jack</td>
+		<td>Mary</td>
+		<td>Mary</td>
+		<td>Mary</td>
+	</tr>
+</table>
+</xmp>
+
+<pre>
+浏览器打开效果：
+</pre>
+
+<img src="image/2-3-4-4.png">
+<!--
+<table class="panel tlist" width="800">
+	<tr align="left">
+		<th>title1</th>
+		<th>title2</th>
+		<th>title3</th>
+		<th>title4</th>
+	</tr>
+	<tr>
+		<td>No.1</td>
+		<td>No.2</td>
+		<td>No.3</td>
+		<td>No.4</td>
+	</tr>
+	<tr>
+		<td>Jack</td>
+		<td>Mary</td>
+		<td>Mary</td>
+		<td>Mary</td>
+	</tr>
+	<tr>
+		<td>Jack</td>
+		<td>Mary</td>
+		<td>Mary</td>
+		<td>Mary</td>
+	</tr>
+</table>
+-->
+
+<hr>
+
+<pre>
+【5. table.panel.tlist + tr.caption】：
+</pre>
+
+<xmp>
+<table class="panel tlist" width="800">
+	<tr align="left">
+		<th colspan="4">title1</th>
+	</tr>
+	<tr align="left" class="caption">
+		<th>title1</th>
+		<th>title2</th>
+		<th>title3</th>
+		<th>title4</th>
+	</tr>
+	<tr>
+		<td>No.1</td>
+		<td>No.2</td>
+		<td>No.3</td>
+		<td>No.4</td>
+	</tr>
+	<tr>
+		<td>Jack</td>
+		<td>Mary</td>
+		<td>Mary</td>
+		<td>Mary</td>
+	</tr>
+	<tr>
+		<td>Jack</td>
+		<td>Mary</td>
+		<td>Mary</td>
+		<td>Mary</td>
+	</tr>
+</table>
+</xmp>
+
+<pre>
+浏览器打开效果：
+</pre>
+<img src="image/2-3-4-5.png">
+<!--
+<table class="panel tlist" width="800">
+	<tr align="left">
+		<th colspan="4">title1</th>
+	</tr>
+	<tr align="left" class="caption">
+		<th>title1</th>
+		<th>title2</th>
+		<th>title3</th>
+		<th>title4</th>
+	</tr>
+	<tr>
+		<td>No.1</td>
+		<td>No.2</td>
+		<td>No.3</td>
+		<td>No.4</td>
+	</tr>
+	<tr>
+		<td>Jack</td>
+		<td>Mary</td>
+		<td>Mary</td>
+		<td>Mary</td>
+	</tr>
+	<tr>
+		<td>Jack</td>
+		<td>Mary</td>
+		<td>Mary</td>
+		<td>Mary</td>
+	</tr>
+</table>
+-->
+<hr>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

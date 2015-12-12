@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>cache_get()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>cache_get($k, $fromkv = FALSE)</h3>
+
+<hr>
+
+<pre>
+查询缓存，成功返回存入的时的值，失败返回 FALSE，并且自动记录到错误日志。
+
+$k：Key
+$fromkv：是否从 kv 持久化数据中查找，双重保险，一般不需要
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 634 行：
+
+<pre class="brush:php">
+function cache_get($k, $fromkv = FALSE) {
+	global $cache, $db;
+	if(!$cache) return $db ? kv_get($k) : FALSE;
+	$r = $cache->get($k);
+	if($r === FALSE && $cache->errno != 0) {
+		xn_message(-1, $cache->errstr);
+	} elseif($r === NULL && $fromkv) {
+		$r = kv_get($k);
+		cache_set($k, $r);
+		return $r;
+	}
+	return $r;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+
+$r = cache_get('key1');
+print_r($r);
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

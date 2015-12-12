@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>image_clip_thumb()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>image_clip_thumb($sourcefile, $destfile, $forcedwidth = 80, $forcedheight = 80)</h3>
+
+<hr>
+
+<pre>先裁切后缩略，因为确定了，width, height, 不需要返回宽高。</pre>
+
+<b>【定义】</b> 文件：xiunophp/image.func.php 大约 223 行：
+
+<pre class="brush:php">
+function image_clip_thumb($sourcefile, $destfile, $forcedwidth = 80, $forcedheight = 80) {
+	// 获取原图片宽高
+	$getimgsize = getimagesize($sourcefile);
+	if(empty($getimgsize)) {
+		return 0;
+	} else {
+		$src_width = $getimgsize[0];
+		$src_height = $getimgsize[1];
+		if($src_width == 0 || $src_height == 0) {
+			return 0;
+		}
+	}
+
+	$src_scale = $src_width / $src_height;
+	$des_scale = $forcedwidth / $forcedheight;
+
+	if($src_width <= $forcedwidth && $src_height <= $forcedheight) {
+		$des_width = $src_width;
+		$des_height = $src_height;
+		$n = image_clip($sourcefile, $destfile, 0, 0, $des_width, $des_height);
+		return filesize($destfile);
+	// 原图为横着的矩形
+	} elseif($src_scale >= $des_scale) {
+		// 以原图的高度作为标准，进行缩略
+		$des_height = $src_height;
+		$des_width = $src_height / $des_scale;
+		$n = image_clip($sourcefile, $destfile, 0, 0, $des_width, $des_height);
+		if($n <= 0) return 0;
+		$r = image_thumb($destfile, $destfile, $forcedwidth, $forcedheight);
+		return $r['filesize'];
+	// 原图为竖着的矩形
+	} else {
+		// 以原图的宽度作为标准，进行缩略
+		$des_width = $src_width;
+		$des_height = $src_width / $des_scale;
+
+		// echo "src_scale: $src_scale, src_width: $src_width, src_height: $src_height \n";
+		// echo "des_scale: $des_scale, forcedwidth: $forcedwidth, forcedheight: $forcedheight \n";
+		// echo "des_width: $des_width, des_height: $des_height \n";
+		// exit;
+
+		$n = image_clip($sourcefile, $destfile, 0, 0, $des_width, $des_height);
+		if($n <= 0) return 0;
+		$r = image_thumb($destfile, $destfile, $forcedwidth, $forcedheight);
+		return $r['filesize'];
+	}
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+include './xiunophp/image.func.php';
+
+$r = image_clip_thumb('old.jpg', 'new.jpg', 200, 200);
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>
+

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>json_encode()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>json_encode(s)</h3>
+
+<hr>
+
+<pre>
+对一个对象进行 json 编码。
+</pre>
+
+<b>【定义】</b> 文件：xiunoui/xiuno.js 大约 182 行：
+
+<pre class="brush:js">
+global.json_encode = function(o) {
+	var json_replace_chars = function(chr) {
+		var specialChars = { '\b': '\\b', '\t': '\\t', '\n': '\\n', '\f': '\\f', '\r': '\\r', '"': '\\"', '\\': '\\\\' };
+		return specialChars[chr] || '\\u00' + Math.floor(chr.charCodeAt() / 16).toString(16) + (chr.charCodeAt() % 16).toString(16);
+	};
+
+	var s = [];
+	switch (json_type(o)) {
+		case 'undefined':
+			return 'undefined';
+			break;
+		case 'null':
+			return 'null';
+			break;
+		case 'number':
+		case 'boolean':
+		case 'date':
+		case 'function':
+			return o.toString();
+			break;
+		case 'string':
+			return '"' + o.replace(/[\x00-\x1f\\"]/g, json_replace_chars) + '"';
+			break;
+		case 'array':
+			for (var i = 0, l = o.length; i < l; i++) {
+				s.push(json_encode(o[i]));
+			}
+			return '[' + s.join(',') + ']';
+			break;
+		case 'error':
+		case 'object':
+			for (var p in o) {
+				s.push('"' + p + '"' + ':' + json_encode(o[p]));
+			}
+			return '{' + s.join(',') + '}';
+			break;
+		default:
+			return '';
+			break;
+	}
+};
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:js">
+var obj = {"username": "Lilei"};
+var s = json_encode(obj);
+console.log(s);
+// {"username":"Lilei"}
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

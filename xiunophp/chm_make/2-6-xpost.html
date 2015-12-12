@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>$.xpost()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>$.xpost(url, postdata, callback)</h3>
+
+<hr>
+
+<pre>
+发送 AJAX POST 请求，与 $.post() 不同的是，它可以识别服务端约定的数据格式：
+{code: 0, message: "data"}
+code = 0, 表示正确，非 0 表示错误。
+在请求的过程中发生异常，或者服务端发生错误，这个函数依然会以 code, message 的方式回调，使用比较方便。
+</pre>
+
+<b>【定义】</b> 文件：xiunoui/xiuno.js 大约 625 行：
+
+<pre class="brush:js">
+$.xpost = function(url, postdata, callback) {
+	if($.isFunction(postdata)) {
+		callback = postdata;
+		postdata = null;
+	}
+	
+	$.ajax({
+		type: 'POST',
+		url: url,
+		data: postdata,
+		dataType: 'text',
+		timeout: 60000,
+		success: function(r){
+			if(!r) return callback(-1, 'Server Response Empty!');
+			var s = json_decode(r);
+			if(!s || s.code === undefined) return callback(-1, 'Server Response Not JSON：'+r);
+			if(s.code == 0) {
+				return callback(0, s.message);
+			//业务逻辑错误
+			} else if(s.code &gt; 0) {
+				return callback(s.code, s.message);
+			//系统错误
+			} else if(s.code &lt; 0) {
+				return callback(s.code, s.message);
+			}
+		},
+		error: function(xhr, type) {
+			if(type != 'abort' &amp;&amp; type != 'error' || xhr.status == 403) {
+				return callback(-1000, &quot;xhr.responseText:&quot;+xhr.responseText+', type:'+type);
+			} else {
+				return callback(-1001, &quot;xhr.responseText:&quot;+xhr.responseText+', type:'+type);
+				console.log(&quot;xhr.responseText:&quot;+xhr.responseText+', type:'+type);
+			}
+		}
+	});
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:js">
+$.xpost('1.php', function(code, message) {
+	console.log(code); 	// 0
+	console.log(message); 	// "ok"
+});
+</pre>
+
+<br><b>1.php</b>
+<pre class="brush:php">
+&lt;?php echo '{"code":0, "message":"ok"}';?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

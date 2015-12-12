@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>pages()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>pages(url, totalnum, page, pagesize)</h3>
+
+<hr>
+
+<pre>
+js 版本的翻页函数，生成页码，在无刷新页面可能用到。
+</pre>
+
+<b>【定义】</b> 文件：xiunoui/xiuno.js 大约 353 行：
+
+<pre class="brush:js">
+global.pages = function (url, totalnum, page, pagesize) {
+	if(!page) page = 1;
+	if(!pagesize) pagesize = 20;
+	var totalpage = ceil(totalnum / pagesize);
+	if(totalpage &lt; 2) return '';
+	page = min(totalpage, page);
+	var shownum = 5;	// 显示多少个页 * 2
+
+	var start = max(1, page - shownum);
+	var end = min(totalpage, page + shownum);
+
+	// 不足 
+	var right = page + shownum - totalpage;
+	if(right &gt; 0) start = max(1, start -= right);
+	left = page - shownum;
+	if(left &lt; 0) end = min(totalpage, end -= left);
+
+	var s = '';
+	if(page != 1) s += '&lt;a href=&quot;'+str_replace('{page}', page-1, url)+'&quot;&gt;◀&lt;/a&gt;';
+	if(start &gt; 1) s += '&lt;a href=&quot;'+str_replace('{page}', 1, url)+'&quot;&gt;1 '+(start &gt; 2 ? '... ' : '')+'&lt;/a&gt;';
+	for(i=start; i&lt;=end; i++) {
+		if(i == page) {
+			s += '&lt;a href=&quot;'+str_replace('{page}', i, url)+'&quot; class=&quot;active&quot;&gt;'+i+'&lt;/a&gt;';// active
+		} else {
+			s += '&lt;a href=&quot;'+str_replace('{page}', i, url)+'&quot;&gt;'+i+'&lt;/a&gt;';
+		}
+	}
+	if(end != totalpage) s += '&lt;a href=&quot;'+str_replace('{page}', totalpage, url)+'&quot;&gt;'+(totalpage - end &gt; 1 ? '... ' : '')+totalpage+'&lt;/a&gt;';
+	if(page != totalpage) s += '&lt;a href=&quot;'+str_replace('{page}', page+1, url)+'&quot;&gt;▶&lt;/a&gt;';
+	return s;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:js">
+var s = pages('http://bbs.xiuno.com/forum-1-{page}.htm', 30, 1, 10);
+console.log(s);
+/*
+	&lt;a href=&quot;http://bbs.xiuno.com/forum-1-{page}.htm&quot; class=&quot;active&quot;&gt;1&lt;/a&gt;
+	&lt;a href=&quot;http://bbs.xiuno.com/forum-1-{page}.htm&quot;&gt;2&lt;/a&gt;
+	&lt;a href=&quot;http://bbs.xiuno.com/forum-1-{page}.htm&quot;&gt;3&lt;/a&gt;
+*/
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

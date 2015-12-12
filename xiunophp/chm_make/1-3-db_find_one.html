@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>db_find_one()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>db_find_one($sql, $abort = TRUE)</h3>
+
+<hr>
+
+<pre>
+查询数据库，成功返回一维数组（一条记录），失败返回 FALSE，并且自动记录到错误日志。
+
+$sql：SQL 语句
+$abort：在失败时是否终止流程
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 503 行：
+
+<pre class="brush:php">
+function db_find_one($sql, $abort = TRUE) {
+	global $db;
+	if(!$db) return FALSE;
+	$arr = $db->find_one($sql);
+	if($arr === FALSE && $db->errno != 0) {
+		$s = "mysql sql: $sql, mysql errno: ".$db->errno.", errstr: ".$db->errstr;
+		xn_log($s, 'mysql_error');
+		$abort AND xn_message(-1, $db->errstr);
+	}
+	return $arr;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+
+$arr = db_find_one('SELECT * FROM bbs_user WHERE uid=1');
+print_r($arr);
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

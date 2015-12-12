@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>arrlist_key_values()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>arrlist_key_values($arrlist, $key, $value)</h3>
+
+<hr>
+
+<pre>
+从一个二维数组中取出一个 key=>value 格式的一维数组。
+
+$arrlist: 二维数组
+$key: 键
+$value: 值
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 373 行：
+
+<pre class="brush:php">
+function arrlist_key_values($arrlist, $key, $value) {
+	$return = array();
+	if($key) {
+		foreach((array)$arrlist as $arr) {
+			$return[$arr[$key]] = $arr[$value];
+		}
+	} else {
+		foreach((array)$arrlist as $arr) {
+			$return[] = $arr[$value];
+		}
+	}
+	return $return;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+
+$arrlist = array(
+	array('a'=&gt;3,'b'=&gt;4,'c'=&gt;7),
+	array('a'=&gt;2,'b'=&gt;5,'c'=&gt;8),
+	array('a'=&gt;1,'b'=&gt;6,'c'=&gt;9),
+);
+$arrlist = arrlist_key_values($arrlist, 'a', 'b');
+print_r($arrlist);
+
+/* 返回：
+Array
+(
+    [3] =&gt; 4
+    [2] =&gt; 5
+    [1] =&gt; 6
+)*/
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

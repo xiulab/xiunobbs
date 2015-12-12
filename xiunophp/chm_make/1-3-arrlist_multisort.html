@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>arrlist_multisort()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>arrlist_multisort(&$arrlist, $col, $asc = TRUE)</h3>
+
+<hr>
+
+<pre>
+对多维数组排序。
+
+$arrlist: 二维数组
+$col: Key
+$asc: 排序方式
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 319 行：
+
+<pre class="brush:php">
+function arrlist_multisort(&$arrlist, $col, $asc = TRUE) {
+	$colarr = array();
+	foreach($arrlist as $k=>$arr) {
+		$colarr[$k] = $arr[$col];
+	}
+	$asc = $asc ? SORT_ASC : SORT_DESC;
+	array_multisort($colarr, $asc, $arrlist);
+	return $arrlist;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+
+$data = array();
+$data[] = array('volume' =&gt; 67, 'edition' =&gt; 2);
+$data[] = array('volume' =&gt; 86, 'edition' =&gt; 1);
+$data[] = array('volume' =&gt; 85, 'edition' =&gt; 6);
+$data[] = array('volume' =&gt; 98, 'edition' =&gt; 2);
+$data[] = array('volume' =&gt; 86, 'edition' =&gt; 6);
+$data[] = array('volume' =&gt; 67, 'edition' =&gt; 7);
+$r = arrlist_multisort($data, 'edition', TRUE);
+print_r($r);
+
+/*
+Array
+(
+    [0] =&gt; Array
+        (
+            [volume] =&gt; 86
+            [edition] =&gt; 1
+        )
+
+    [1] =&gt; Array
+        (
+            [volume] =&gt; 67
+            [edition] =&gt; 2
+        )
+
+    [2] =&gt; Array
+        (
+            [volume] =&gt; 98
+            [edition] =&gt; 2
+        )
+
+    [3] =&gt; Array
+        (
+            [volume] =&gt; 85
+            [edition] =&gt; 6
+        )
+
+    [4] =&gt; Array
+        (
+            [volume] =&gt; 86
+            [edition] =&gt; 6
+        )
+
+    [5] =&gt; Array
+        (
+            [volume] =&gt; 67
+            [edition] =&gt; 7
+        )
+
+)
+*/
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

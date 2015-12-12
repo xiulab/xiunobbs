@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>humandate()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>humandate($timestamp)</h3>
+
+<hr>
+
+<pre>
+将 UNIX 时间戳格式化为容易阅读的格式。
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 947 行：
+
+<pre class="brush:php">
+function humandate($timestamp) {
+	global $time;
+	$seconds = $time - $timestamp;
+	if($seconds > 31536000) {
+		return date('Y-n-j', $timestamp);
+	} elseif($seconds > 2592000) {
+		return floor($seconds / 2592000).'月前';
+	} elseif($seconds > 86400) {
+		return floor($seconds / 86400).'天前';
+	} elseif($seconds > 3600) {
+		return floor($seconds / 3600).'小时前';
+	} elseif($seconds > 60) {
+		return floor($seconds / 60).'分钟前';
+	} else {
+		return $seconds.'秒前';
+	}
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+
+$r = humandate(1448518999);
+print_r($r); // 5分钟前
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

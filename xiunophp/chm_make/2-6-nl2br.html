@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>nl2br()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>nl2br(s)</h3>
+
+<hr>
+
+<pre>
+将文本字符串中的 \r\n 替换为 <br> ，返回字符串。
+</pre>
+
+<b>【定义】</b> 文件：xiunoui/xiuno.js 大约 102 行：
+
+<pre class="brush:js">
+global.nl2br = function(s) {
+	s = s.replace("\r\n", "\n");
+	s = s.replace("\n", "<br>");
+	s = s.replace("\t", "&nbsp; &nbsp; &nbsp; &nbsp; ");
+	return s;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:js">
+var s = "a \r\n b";
+var s2 = nl2br(s);
+console.log(s2);
+// a <br> b
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

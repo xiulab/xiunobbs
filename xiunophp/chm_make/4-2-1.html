@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>目录结构</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>Xiuno BBS 3.0 目录结构</h3>
+
+<hr>
+
+<pre>Xiuno BBS 3.0 基于 XiunoUI、XiunoPHP、Xiuno Editor，有单独的手机端（考虑到降低复杂度，没有采用响应式）。</pre>
+
+<xmp>
+index.php		-- PC 入口文件，如果为手机，会在 pc/index.php 入口处进行跳转
+model.inc.php		-- 各种业务相关的函数文件包含
+model/			-- 类库
+	article.func.php  	-- 文章
+	attach.func.php  	-- 附件（重要）
+	banip.func.php  	-- 禁止IP
+	check.func.php  	-- 各种检查
+	cron.func.php  		-- 计划任务
+	forum.func.php  	-- 板块（重要）
+	forum_access.func.php  	-- 板块权限
+	friendlink.func.php  	-- 友情链接
+	group.func.php  	-- 用户组
+	guest_agree.func.php  	-- 游客喜欢
+	ipaccess.func.php  	-- IP 存取权限
+	misc.func.php  		-- 杂项：badword、check_runlevel、check_banip、conf_xxx()
+	modlog.func.php  	-- 版主日志，预留
+	myagree.func.php  	-- 我喜欢的
+	mythread.func.php  	-- 我发表的主题
+	online.func.php  	-- 在线
+	plugin.func.php  	-- 插件
+	post.func.php  		-- 帖子（重要）
+	sms.func.php  		-- 发送手机短信，预留
+	smtp.func.php  		-- 发送邮件
+	table_day.func.php  	-- 表每日最大 id，用来提速
+	thread.func.php  	-- 主题（重要）
+	thread_lastpid.func.php  -- 最后回复
+	thread_new.func.php  	-- 最新主题
+	thread_top.func.php  	-- 置顶主题
+	user.func.php  		-- 用户（重要）
+	
+admin/			-- 管理后台
+	route/		-- 业务逻辑
+	view/		-- 业务模板
+	index.php	-- 后台入口
+conf/
+	conf.php	-- 配置文件
+	attach.conf.php	-- 附件上传白名单
+	sae.conf.php	-- SAE 云平台配置
+install/
+	route/		-- 安装业务
+	view/		-- 安装模板
+	index.php	-- 安装入口
+	install.sql	-- 安装的 SQL 结构和数据
+mobile/
+	route/		-- 手机版业务
+	view/		-- 手机版模板
+	index.php	-- 手机版入口
+pc/
+	route/		-- PC 版业务
+	view/		-- PC 版模板
+	index.php	-- PC 版入口
+plugin/			-- 插件目录
+	xn_ad/		-- 广告示例插件
+	xn_qq_login/	-- QQ 登陆插件
+static/			-- BBS 相关的静态资源：图片、js、css
+	filetype/	-- 文件类型小图标
+	bbs.css		-- BBS CSS
+	bbs.js		-- BBS js
+	*.gif		-- BBS 图片
+tmp/			-- 存放临时文件，可以随时清空
+upload/			-- 文件上传存放的目录
+	article/	-- 后台上传的文章包含的图片，格式：upload/article/150728/1_1_1438066368.jpg
+	attach/		-- BBS 上传的图片/附件文件，格式：upload/attach/20150728/6565_20121206120752bc33d_1438067203.jpg
+	avatar/		-- BBS 上传的头像文件，格式：upload/avatar/000/1.png
+	forum/		-- BBS 上传的头像文件，格式：upload/forum/1.png
+	sitemap.xml	-- 站点地图，SEO 相关，每天生成一次，保存最新的主题
+xiunophp/
+	cache.class.php	-- 缓存操作类
+	db.class.php	-- 数据库操作类
+	form.class.php	-- 生成 Form 表单的字符串
+	image.class.php	-- 图形处理，缩略，裁剪
+	xiunophp.php	-- 常用变量和函数
+	xn_html_safe.func.php	-- 对字符串安全过滤
+	xn_send_mail.func.php	-- 发送邮件
+	xn_zip.func.php		-- 解压缩
+xiunoui/
+	async.js	-- 异步转同步 js 库
+	datepicker.js	-- 日历
+	dialog.js	-- 对话框
+	fontawesome-webfont.xxx	字体文件，适应于各个平台
+	icon.css	-- 图标 css，图形放在 fontawesome-webfont.xxx
+	icon.html	-- 图标示例文件
+	index.html	-- xiunoui 演示文件
+	jquery-1.11.1.js -- JQuery
+	md5.js		-- md5() 加密
+	upload.js	-- 上传
+	xiuno.css	-- BootStrap 的简化版本
+	xiuno.js	-- 公共的 js 函数，实现了很多 PHP 的函数
+	zepto.js	-- jquery 的简化版，只支持标准浏览器
+</xmp>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

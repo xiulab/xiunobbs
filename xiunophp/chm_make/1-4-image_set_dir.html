@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>image_set_dir()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>image_set_dir($id, $dir)</h3>
+
+<hr>
+
+<pre>根据 ID 生成目录，最多 2 层，999/999，最多可以支持 1,000,000 个目录。
+
+$id: 编号
+$dir: 在哪个目录下生成
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/image.func.php 大约 62 行：
+
+<pre class="brush:php">
+function image_set_dir($id, $dir) {
+
+	$id = sprintf("%09d", $id);
+	$s1 = substr($id, 0, 3);
+	$s2 = substr($id, 3, 3);
+	$dir = $dir."$s1/$s2";
+	!is_dir($dir) && mkdir($dir, 0777, TRUE);
+
+	return "$s1/$s2";
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+include './xiunophp/image.func.php';
+
+$r = image_set_dir(123, './upload/');
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>
+

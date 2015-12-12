@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>json_decode()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>json_decode(s)</h3>
+
+<hr>
+
+<pre>
+对一个字符串进行 JSON 解码，返回一个对象，错误时返回 null 。
+</pre>
+
+<b>【定义】</b> 文件：xiunoui/xiuno.js 大约 224 行：
+
+<pre class="brush:js">
+global.json_decode = function(s) {
+	if(!s) return null;
+	try {
+		// 去掉广告代码。这行代码挺无语的，为了照顾国内很多人浏览器中广告病毒的事实。
+		// s = s.replace(/\}\s*&lt;script[^&gt;]*&gt;[\s\S]*?&lt;\/script&gt;\s*$/ig, '}');
+		if(s.match(/^&lt;!DOCTYPE/i)) return null;
+		var json = $.parseJSON(s);
+		return json;
+	} catch(e) {
+		//alert('JSON格式错误：' + s);
+		//window.json_error_string = s;	// 记录到全局
+		return null;
+	}
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:js">
+var s = '{"username":"Lilei"}';
+var obj = json_decode(s);
+console.log(obj);
+// {"username":"Lilei"}
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>$db</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>$db</h3>
+
+<hr>
+
+<pre>
+默认数据库实例
+如果配置文件设置了数据库相关的配置，则框架会自动实例化一个 DB 类。
+一般不用直接使用这个变量，除非在升级，转换需要多个连接的时候。
+一般用 db_find(), db_find_one(), db_exec(), db_count() 函数来操作数据库。
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 76 行：
+
+<pre class="brush:php">
+$db = !empty($conf['db']) ? db_new($conf['db']) : NULL;
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+
+$arr = $db->find_one("SELECT * FROM bbs_user LIMIT 1");
+
+?&gt;
+</pre>
+
+<br><b>【conf.php】</b>
+<pre class="brush:php">
+&lt;?php
+return  array (
+	// -------------> xiunophp 依赖的配置
+	'db'=>array(
+		'type'=>'pdo_mysql',
+		'pdo_mysql' => array (
+			'master' => array (								
+				'host' => 'localhost',				
+				'user' => 'root',
+				'password' => 'root',	
+				'name' => 'test',
+				'charset' => 'utf8',				
+				'engine'=>'myisam',  // innodb
+			),			
+			'slaves' => array()
+		)
+	),
+	'tmp_path' => './',			// 可以配置为 linux 下的 /dev/shm ，通过内存缓存临时文件
+	'log_path' => './'
+);
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

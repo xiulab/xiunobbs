@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>image_thumb()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>image_thumb($sourcefile, $destfile, $forcedwidth = 80, $forcedheight = 80)</h3>
+
+<hr>
+
+<pre>生成缩略图，返回数组。
+
+$sourcefile: 源文件
+$sourcefile: 目标文件
+$forcedwidth: 强制宽度
+$forcedheight: 强制高度
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/image.func.php 大约 88 行：
+
+<pre class="brush:php">
+function image_thumb($sourcefile, $destfile, $forcedwidth = 80, $forcedheight = 80) {
+	$return = array('filesize'=>0, 'width'=>0, 'height'=>0);
+	$destext = image_ext($destfile);
+	if(!in_array($destext, array('gif', 'jpg', 'bmp', 'png'))) {
+		return $return;
+	}
+
+	$imginfo = getimagesize($sourcefile);
+	$src_width = $imginfo[0];
+	$src_height = $imginfo[1];
+	if($src_width == 0 || $src_height == 0) {
+		return $return;
+	}
+
+	if(!function_exists('imagecreatefromjpeg')) {
+		copy($sourcefile, $destfile);
+		$return = array('filesize'=>filesize($destfile), 'width'=>$src_width, 'height'=>$src_height);
+		return $return;
+	}
+
+	// 按规定比例缩略
+	$src_scale = $src_width / $src_height;
+	$des_scale = $forcedwidth / $forcedheight;
+	if($src_width <= $forcedwidth && $src_height <= $forcedheight) {
+		$des_width = $src_width;
+		$des_height = $src_height;
+	} elseif($src_scale >= $des_scale) {
+		$des_width = ($src_width >= $forcedwidth) ? $forcedwidth : $src_width;
+		$des_height = $des_width / $src_scale;
+		$des_height = ($des_height >= $forcedheight) ? $forcedheight : $des_height;
+	} else {
+		$des_height = ($src_height >= $forcedheight) ? $forcedheight : $src_height;
+		$des_width = $des_height * $src_scale;
+		$des_width = ($des_width >= $forcedwidth) ? $forcedwidth : $des_width;
+	}
+
+	switch ($imginfo['mime']) {
+		case 'image/jpeg':
+			$img_src = imagecreatefromjpeg($sourcefile);
+			!$img_src && $img_src = imagecreatefromgif($sourcefile);
+			break;
+		case 'image/gif':
+			$img_src = imagecreatefromgif($sourcefile);
+			!$img_src && $img_src = imagecreatefromjpeg($sourcefile);
+			break;
+		case 'image/png':
+			$img_src = imagecreatefrompng($sourcefile);
+			break;
+		case 'image/wbmp':
+			$img_src = imagecreatefromwbmp($sourcefile);
+			break;
+		default :
+			return $return;
+	}
+
+	if(!$img_src) return $return;
+
+	$img_dst = imagecreatetruecolor($des_width, $des_height);
+	imagefill($img_dst, 0, 0 , 0xFFFFFF);
+	imagecopyresampled($img_dst, $img_src, 0, 0, 0, 0, $des_width, $des_height, $src_width, $src_height);
+
+	$tmppath = ini_get('upload_tmp_dir').'/';
+	$tmppath == '/' AND $tmppath = './tmp/';
+
+	$tmpfile = $tmppath.md5($destfile).'.tmp';
+	switch($destext) {
+		case 'jpg': imagejpeg($img_dst, $tmpfile, 90); break;
+		case 'gif': imagegif($img_dst, $tmpfile); break;
+		case 'png': imagepng($img_dst, $tmpfile); break;
+	}
+	$r = array('filesize'=>filesize($tmpfile), 'width'=>$des_width, 'height'=>$des_height);;
+	copy($tmpfile, $destfile);
+	is_file($tmpfile) && unlink($tmpfile);
+	imagedestroy($img_dst);
+	return $r;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+include './xiunophp/image.func.php';
+
+$r = image_thumb('old.jpg', 'new.jpg');
+print_r($r);
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>
+

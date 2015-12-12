@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>pages()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>pages($url, $totalnum, $page, $pagesize = 20)</h3>
+
+<hr>
+
+<pre>
+常用的分页函数，获取分页的 HTML 字符串。
+
+$url: 格式 http://domain.com/forum-{page}.htm 
+$totalnum: 总的记录行数
+$page: 当前页
+$pagesize: 每页记录条数
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 891 行：
+
+<pre class="brush:php">
+function pages($url, $totalnum, $page, $pagesize = 20) {
+	$totalpage = ceil($totalnum / $pagesize);
+	if($totalpage < 2) return '';
+	$page = min($totalpage, $page);
+	$shownum = 5;	// 显示多少个页 * 2
+
+	$start = max(1, $page - $shownum);
+	$end = min($totalpage, $page + $shownum);
+
+	// 不足 $shownum，补全左右两侧
+	$right = $page + $shownum - $totalpage;
+	$right > 0 && $start = max(1, $start -= $right);
+	$left = $page - $shownum;
+	$left < 0 && $end = min($totalpage, $end -= $left);
+
+	$s = '';
+	$page != 1 && $s .= '<a href="'.str_replace('{page}', $page-1, $url).'">◀</a>';
+	if($start > 1) $s .= '<a href="'.str_replace('{page}', 1, $url).'">1 '.($start > 2 ? '... ' : '').'</a>';
+	for($i=$start; $i<=$end; $i++) {
+		if($i == $page) {
+			$s .= '<a href="'.str_replace('{page}', $i, $url).'" class="active">'.$i.'</a>';// active
+		} else {
+			$s .= '<a href="'.str_replace('{page}', $i, $url).'">'.$i.'</a>';
+		}
+	}
+	if($end != $totalpage) $s .= '<a href="'.str_replace('{page}', $totalpage, $url).'">'.($totalpage - $end > 1 ? '... ' : '').$totalpage.'</a>';
+	$page != $totalpage && $s .= '<a href="'.str_replace('{page}', $page+1, $url).'">▶</a>';
+	return $s;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+
+$s = pages('forum-{page}.htm', 30, 1, 10);
+echo $s;
+/*
+&lt;a href=&quot;forum-1.htm&quot; class=&quot;active&quot;&gt;1&lt;/a&gt;
+&lt;a href=&quot;forum-2.htm&quot;&gt;2&lt;/a&gt;
+&lt;a href=&quot;forum-3.htm&quot;&gt;3&lt;/a&gt;
+*/
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>
+

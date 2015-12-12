@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>$cache</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>$cache</h3>
+
+<hr>
+
+<pre>
+默认缓存实例
+如果配置文件设置了缓存相关的配置，则框架会自动实例化一个 Cache 类。
+一般不用直接使用这个变量，除非在升级，转换需要多个连接的时候。
+一般用 cache_set(), cache_get() 函数来操作缓存。
+使用时，需要配置好 Cache 服务和 PHP 相关的 Cache 扩展，目前支持：apc|xcache|memcached|redis|mysql 。
+如果为单机，建议使用 xcache，速度比较快，相关文档：<a href="http://bbs.xiuno.com/thread-8762.htm" target="_blank">http://bbs.xiuno.com/thread-8762.htm </a> 。
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 77 行：
+
+<pre class="brush:php">
+$cache = !empty($conf['cache']) ? cache_new($conf['cache']) : NULL;
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+
+$cache->set('key1', 'value1');
+$cache->get('key1');
+
+?&gt;
+</pre>
+
+<br><b>【conf.php】</b>
+<pre class="brush:php">
+&lt;?php
+return  array (
+	// -------------> xiunophp 依赖的配置
+	'cache'=> array(
+		'enable' => TRUE,
+		'type'=> 'xcache', // apc|xcache|memcached|redis|mysql
+		'memcached'=> array (
+			'host'=>'localhost',
+			'port'=>'11211',
+		),
+		'redis'=> array (
+			'host'=>'localhost',
+			'port'=>'6379',
+		),
+	),
+	'tmp_path' => './',			// 可以配置为 linux 下的 /dev/shm ，通过内存缓存临时文件
+	'log_path' => './'
+);
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

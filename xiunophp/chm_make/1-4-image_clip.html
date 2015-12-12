@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>image_clip()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>image_clip($sourcefile, $destfile, $clipx, $clipy, $clipwidth, $clipheight)</h3>
+
+<hr>
+
+<pre>
+对图片进行裁切，返回裁切后的文件尺寸，FALSE 为失败。
+
+$sourcefile: 原图片路径
+$destfile: 裁切后图片路径
+$clipx: 被裁切图片的 X 坐标
+$clipy: 被裁切图片的 Y 坐标
+$clipwidth: 被裁区域的宽度
+$clipheight: 被裁区域的高度
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/image.func.php 大约 177 行：
+
+<pre class="brush:php">
+function image_clip($sourcefile, $destfile, $clipx, $clipy, $clipwidth, $clipheight) {
+	$getimgsize = getimagesize($sourcefile);
+	if(empty($getimgsize)) {
+		return 0;
+	} else {
+		$imgwidth = $getimgsize[0];
+		$imgheight = $getimgsize[1];
+		if($imgwidth == 0 || $imgheight == 0) {
+			return 0;
+		}
+	}
+
+	if(!function_exists('imagecreatefromjpeg')) {
+		copy($sourcefile, $destfile);
+		return filesize($destfile);
+	}
+	switch($getimgsize[2]) {
+		case 1 :
+			$imgcolor = imagecreatefromgif($sourcefile);
+			break;
+		case 2 :
+			$imgcolor = imagecreatefromjpeg($sourcefile);
+			break;
+		case 3 :
+			$imgcolor = imagecreatefrompng($sourcefile);
+			break;
+	}
+
+	if(!$imgcolor) return 0;
+
+	$img_dst = imagecreatetruecolor($clipwidth, $clipheight);
+	imagefill($img_dst, 0, 0 , 0xFFFFFF);
+	imagecopyresampled($img_dst, $imgcolor, 0, 0, $clipx, $clipy, $imgwidth, $imgheight, $imgwidth, $imgheight);
+
+	$tmppath = ini_get('upload_tmp_dir').'/';
+	$tmppath == '/' AND $tmppath = './tmp/';
+
+	$tmpfile = $tmppath.md5($destfile).'.tmp';
+	imagejpeg($img_dst, $tmpfile, 100);
+	$n = filesize($tmpfile);
+	copy($tmpfile, $destfile);
+	is_file($tmpfile) && @unlink($tmpfile);
+	return $n;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+include './xiunophp/image.func.php';
+
+$r = image_clip('xxx/x.jpg', 'xxx/newx.jpg', 10, 40, 150, 150);
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>
+

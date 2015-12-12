@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>array_assoc_slice()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>array_assoc_slice($arrlist, $start, $length = 0)</h3>
+
+<hr>
+
+<pre>
+从数组中取出一段，支持关联数组。
+$arrlist: 二维数组
+$start: 开始位置
+$length: 取出长度
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 359 行：
+
+<pre class="brush:php">
+function array_assoc_slice($arrlist, $start, $length = 0) {
+	if(isset($arrlist[0])) return array_slice($arrlist, $start, $pagesize);
+	$keys = array_keys($arrlist);
+	$keys2 = array_slice($keys, $start, $length);
+	$retlist = array();
+	foreach ($keys2 as $key) {
+		$retlist[$key] = $arrlist[$key];
+	}
+
+	return $retlist;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+
+$arrlist = array('a'=&gt;'b', 'c'=&gt;'d', 'e'=&gt;'f', 'g'=&gt;'h');
+$r = array_assoc_slice($arrlist, 1, 2);
+print_r($r);
+
+/* 结果：
+Array
+(
+    [c] =&gt; d
+    [e] =&gt; f
+)
+*/
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

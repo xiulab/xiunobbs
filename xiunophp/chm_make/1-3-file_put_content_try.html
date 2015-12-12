@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>file_put_content_try()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>file_put_content_try($file, $s, $times = 3)</h3>
+
+<hr>
+
+<pre>
+将一个字符串写入文件（加锁），file_put_content 的增强版，支持失败重试，返回写入的字节数，失败返回 FALSE。
+
+$file: 文件路径
+$s: 字符串
+$times: 重试次数
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 1410 行：
+
+<pre class="brush:php">
+function file_put_content_try($file, $s, $times = 3) {
+	while($times-- > 0) {
+		$fp = fopen($file, 'wb');
+		if($fp AND flock($fp, LOCK_EX)){
+			$n = fwrite($fp, $s);
+			version_compare(PHP_VERSION, '5.3.2', '>=') AND flock($fp, LOCK_UN);
+			fclose($fp);
+			return $n;
+		} else {
+			sleep(1);
+		}
+	}
+	return FALSE;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+
+$n = file_put_content_try('./1.txt', 'abc', 2);
+echo $n; // 3
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

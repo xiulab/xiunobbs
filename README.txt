@@ -1,3 +1,10 @@
+[How to git clone]
+git clone https://github.com/xiuno/xiunobbs
+cd xiunobbs
+git clone https://github.com/xiuno/xiunoui
+git clone https://github.com/xiuno/xiunophp
+git clone https://github.com/xiuno/xneditor
+
 [BBS Xiuno 3 what is it? ]
 BBS Xiuno is a compact, stable, support in large data still remain high load capacity of the light forum. It is only 20+ tables, source code 800K+ (ziped), run very fast, processing a single request in 0.01 second level, in APC, XCache environment can run for 0.00x seconds, little dependent on third party libraries, the front only rely on jquery.js/zepto.js, the author considers it as a pure handmade Ferrari, strong power, no fat, easy deployment and maintenance, is a very good two development foundation.
 

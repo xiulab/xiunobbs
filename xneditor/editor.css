@@ -1,0 +1,121 @@
+
+/*
+* Copyright (C) 2015 xiuno.com
+*/
+
+div.editor {
+	background: #F6F6F6; border:solid 1px #dbdbdb;
+}
+div.editor > div.toolbar {
+	height: 25px; overflow: hidden; _zoom: 1; margin-bottom: 0px; border-bottom: 1px solid #dbdbdb; padding: 2px; padding-bottom: 0px;
+}
+div.editor > div.toolbar a {
+	width: 22px; height: 22px; float: left; display: block; background: url(bg-default.gif); margin-right: 2px;
+}
+div.editor > div.toolbar a:hover { background-image: url(bg-hover.gif); }
+div.editor div.toolbar a.checked { background-image: url(bg-checked.gif); }
+div.editor > div.toolbar a.disabled { background-image: url(bg-disabled.gif); }
+div.editor > div.body {resize: off;  outline: none; overflow-y: auto; background: #FFFFFF; padding: 8px; line-height: 1.6; }
+div.editor > div.body i {font-style: italic; color: inherit; font-size: inherit;}
+
+div.editor > textarea {border: none; padding: 0px; outline: none; spellcheck: false;}
+div.editor > div.toolbar > a.undo{background-position: -537px 0px;}
+div.editor > div.toolbar > a.redo{background-position: -567px 0px;}
+div.editor > div.toolbar > a.bold{background-position: 0px 0px;}
+div.editor > div.toolbar > a.italic{background-position: -30px 0px;}
+div.editor > div.toolbar > a.underline{background-position: -58px 0px;}
+div.editor > div.toolbar > a.fontsize, 
+div.editor > div.toolbar > a.fontpg {background-position: -86px 0px; width: 73px; height: 22px; line-height: 20px; text-indent: 4px; text-decoration: none;}
+div.editor > div.toolbar > a.fontcolor{background-position: -164px 0px; background-color: #000;}
+div.editor > div.toolbar > a.link{background-position: -194px 0px;}
+div.editor > div.toolbar > a.unlink{background-position: -840px 0px;}
+div.editor > div.toolbar > a.justifyleft{background-position: -674px 0px;}
+div.editor > div.toolbar > a.justifycenter{background-position: -702px 0px;}
+div.editor > div.toolbar > a.justifyright{background-position: -730px 0px;}
+div.editor > div.toolbar > a.insertcode{background-position: -810px 0px;}
+div.editor > div.toolbar > a.marklist{background-position: -228px 0px;}
+div.editor > div.toolbar > a.numberlist{background-position: -256px 0px;}
+div.editor > div.toolbar > a.html{background-position: -868px 0px;}
+div.editor > div.toolbar > a.brush{background-position: -894px 0px;}
+div.editor > div.toolbar > a.table{background-position: -946px 0px;}
+div.editor > div.toolbar > a.fullscreen{background-position: -972px 0px;}
+
+div.editor > div.toolbar > a.image{background-position: -290px  0px; width: 49px; overflow: hidden;}
+div.editor > div.toolbar > a.file{background-position: -756px  0px; width: 49px;}
+div.editor > div.toolbar > a.file input{opacity: 0; filter: alpha(opacity=0); cursor: pointer; width: 49px; overflow: hidden;}
+div.editor > div.toolbar > a.image input{opacity: 0; filter: alpha(opacity=0); cursor: pointer; width: 49px; overflow: hidden;}
+div.editor > div.toolbar > a.imageloading{background:none; width: 49px; display: none;}
+div.editor > div.toolbar > a.imageloading:hover{background:none;}
+
+div.editor > div.toolbar > a.face{background-position: -403px 0px;}
+div.editor > div.toolbar > a.justifyfull{background-position: -460px 0px; width: 46px;}
+div.editor > div.toolbar > a.sep{width: 1px; background: #c8c8c8;}
+
+divdiv.editor > div.footer {overflow: hidden; height: 18px;}
+
+div.editor > div.menu > div {display: none;}
+div.editor > div.menu > div.fontsize , 
+div.editor > div.menu > div.fontpg {width: 184px; height: auto; overflow: visible; background: #FFFFFF; border: 1px solid #DDDDDD; padding: 4px;}
+div.editor > div.menu > div.fontsize a, 
+div.editor > div.menu > div.fontpg a {display: block; width: 100%; line-height: 1.5; margin: auto; margin-top: 4px; padding-left: 4px; border: 1px solid #DDDDDD; text-indent: 4px; text-decoration: none;}
+div.editor > div.menu > div.fontsize a:hover, 
+div.editor > div.menu > div.fontpg a:hover {background: #00AA11; border: 1px solid #217347; color: #FFFFFF; text-shadow: none;}
+
+div.editor > div.menu > div.fontcolor {width:172px; height: 185px; background: #FFFFFF; border: 1px solid #DDDDDD;}
+div.editor > div.menu > div.fontcolor a{width: 22px; height: 14px; border: 1px solid #000000; margin-left: 2px; _margin-left: 1px; margin-top: 2px; float: left;}
+
+div.editor > div.menu > div.link {border: 1px solid #BBBBBB; background: #FFFFFF;}
+div.editor > div.menu > div.insertcode {border: 1px solid #BBBBBB; background: #FFFFFF;}
+div.editor > div.menu > div.insertcode textarea {width: 400px; height: 200px;}
+
+/* 图片 附件上传区 */
+div.upload {width: 538px;}
+div.upload ul {width: 512px; height: 264px; padding: 0px; margin: 0px; position: relative;}
+div.upload ul > li {width: 124px; height: 124px; margin-right: 4px; margin-bottom: 4px; list-style: none; display: block;  float: left; position: relative; border: 2px solid #BBBBBB; cursor: pointer;}
+div.upload ul > li.checked, div.editor > div.menu > div.upload ul > li:hover {border: 2px solid #50A4DE;}
+div.upload ul > li.checked:after {
+	font-family: FontsIcon;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	content: "\f00c";
+	left: 38px;
+	top:50px;
+	width: 32px;
+	height: 48px;
+	font-size: 48px;
+	color: #50A4DE;
+	font-size: 48px;
+	position: absolute;
+}
+div.upload ul > li > span._cotent {width: 120px; height: 120px;}
+div.upload ul > li > span._progress_bg {width: 100%; height: 17px; position: absolute; bottom: 0px; left: 0px; background: #000000; opacity: 0.3}
+div.upload ul > li > span._progress_current {width: 1%; height: 17px; position: absolute; bottom: 0px; left: 0px; background: #50A4DE;}
+div.upload ul > li > span._progress_title {width: 100%; height: 17px; position: absolute; bottom: 0px; left: 0px; font-size: 12px; line-height: 17px; color: #FFFFFF; overflow: hidden; white-space: nowrap;}
+div.upload ul > li > span._middle {position: absolute; left: 32px; top: 32px; width: 32px; height: 48px; font-size: 48px;}
+div.upload ul > li > span._error {position: absolute; left: 0px; top: 88px; width: 100%; text-align: center; height: 16px; whilte-space: nowrap; overflow: hidden;}
+div.upload ul > li > span._trash {position: absolute; right: 0px; bottom: 0px; width: 16px; height: 16px; margin-right: 1px; margin-bottom: 1px;}
+div.upload ul > li > span._trash:hover { color: #BB0000;}
+
+div.editor > div.menu > div.upload span._content i {margin-left: 45px; margin-top: 30px;}
+div.editor > div.menu > div.table td { padding: 8px; background: #FFFFFF;}
+div.editor > div.menu > div.table td.checked { background: #BBBBBB;}
+div.editor > div.menu > div.table tr:hover { background: #FFFFFF;}
+	
+/* resize */
+div.editor > div.menu > div.resize { border: 1px solid blue; position: absolute; z-index: 10; left: 0px; top: 0px; width: 102px; height: 102px; background: transparent;}
+div.editor > div.menu > div.resize span { width: 6px; height: 6px; background: blue; position: absolute;}
+div.editor > div.menu > div.resize span.point0{ left: -3px; top: -3px; cursor: default; border: 1px solid blue; background: #FFFFFF;}
+div.editor > div.menu > div.resize span.point1{ left: 47px; top: -3px; cursor: default; border: 1px solid blue; background: #FFFFFF;}
+div.editor > div.menu > div.resize span.point2{ left: 97px; top: -3px; cursor: default; border: 1px solid blue; background: #FFFFFF;}
+div.editor > div.menu > div.resize span.point3{ left: -3px; top: 47px; cursor: default; border: 1px solid blue; background: #FFFFFF;}
+div.editor > div.menu > div.resize span.point4{ left: 97px; top: 47px; cursor: e-resize;}
+div.editor > div.menu > div.resize span.point5{ left: -3px; top: 97px; cursor: default; border: 1px solid blue; background: #FFFFFF;}
+div.editor > div.menu > div.resize span.point6{ left: 47px; top: 97px; cursor: s-resize;}
+div.editor > div.menu > div.resize span.point7{ left: 97px; top: 97px; cursor: se-resize;}
+
+div.editor > div.menu > div.context_menu{ width: 200px; }
+

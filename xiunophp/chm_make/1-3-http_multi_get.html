@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>http_multi_get()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>http_multi_get($url, $timeout = 5, $times = 3)</h3>
+
+<hr>
+
+<pre>
+多线程抓取数据，需要 CURL 支持，一般在命令行下执行，返回数组。
+
+$urls: 请求 URL 数组。
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 1356 行：
+
+<pre class="brush:php">
+function http_multi_get($urls) {
+	// 如果不支持，则转为单线程顺序抓取
+	if(!function_exists('curl_multi_init')) {
+		$data = array();
+		foreach($urls as $k=>$url) {
+			$data[$k] = https_get($url);
+		}
+		return $data;
+	}
+
+	$multi_handle = curl_multi_init();
+	foreach ($urls as $i => $url) {
+		$conn[$i] = curl_init($url);
+		curl_setopt($conn[$i], CURLOPT_RETURNTRANSFER, 1);
+		$timeout = 3;
+		curl_setopt($conn[$i], CURLOPT_CONNECTTIMEOUT, $timeout); // 超时 seconds
+		curl_setopt($conn[$i], CURLOPT_FOLLOWLOCATION, 1);
+		//curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
+		curl_multi_add_handle($multi_handle, $conn[$i]);
+	}
+	do{
+		$mrc = curl_multi_exec($multi_handle, $active);
+	} while ($mrc == CURLM_CALL_MULTI_PERFORM);
+	while($active and $mrc == CURLM_OK) {
+		if(curl_multi_select($multi_handle) != - 1) {
+			do{
+				$mrc = curl_multi_exec($multi_handle, $active);
+			} while ($mrc == CURLM_CALL_MULTI_PERFORM);
+		}
+	}
+	foreach($urls as $i => $url) {
+		$data[$i] = curl_multi_getcontent($conn[$i]);
+		curl_multi_remove_handle($multi_handle, $conn[$i]);
+		curl_close($conn[$i]);
+	}
+	return $data;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+
+$urlarr = array('http://www.xiuno.com/', 'http://bbs.xiuno.com/');
+$arrr = http_multi_get($urlarr);
+print_r($arrr);
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>xn_unzip()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>xn_unzip($zipfile, $destpath)</h3>
+
+<hr>
+
+<pre>解压缩 zip 格式的文件。
+
+$zipfile: zip 文件路径
+$destpath: 目标目录
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xn_zip.func.php 大约 513 行：
+
+<pre class="brush:php">
+function xn_unzip($zipfile, $destpath) {
+	$tmppath = ini_get('upload_tmp_dir').'/';
+	$destpath = str_replace('\\', '/', $destpath);
+	substr($destpath, -1, 1) != '/' && $destpath .= '/';
+	$archive = new php_zip();
+	$tmppath = $tmppath.md5($zipfile).'/';
+	!is_dir($destpath) && mkdir($destpath, 0777);
+	!is_dir($tmppath) && mkdir($tmppath, 0777);
+	$archive->unzip($zipfile, $tmppath);
+	foreach($archive->files as $file) {
+		// 判断目录是否存在,
+		xn_mkdir_by_filename($destpath.$file);
+		copy($tmppath.$file, $destpath.$file);
+		unlink($tmppath.$file);
+	}
+	//misc::rmdir($tmppath);
+	return $archive->files;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+include './xiunophp/xn_zip.func.php';
+
+xn_unzip('./upload/file/123.zip', './tmp/file/');
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>
+

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>xn_html_safe()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>xn_html_safe($doc)</h3>
+
+<hr>
+
+<pre>
+HTML 代码安全过滤。
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xn_html_safe.func.php 大约 1609 行：
+
+<pre class="brush:php">
+function xn_html_safe($doc) {
+	$pattern = array (
+		'img_url'=>'#^(https?://[^\'"\\\\<>:\s]+(:\d+)?)?([^\'"\\\\<>:\s]+?)*$#is',
+		'url'=>'#^(https?://[^\'"\\\\<>:\s]+(:\d+)?)?([^\'"\\\\<>:\s]+?)*$#is',
+		'mailto'=>'#^mailto:([\w%\-\.]+)@([\w%\-\.]+)(\.[\w%\-\.]+?)+$#is',
+		'ftp_url'=>'#^ftp:([\w%\-\.]+)@([\w%\-\.]+)(\.[\w%\-\.]+?)+$#is',
+		'ed2k_url'=>'#^(?:ed2k|thunder|qvod|magnet)://[^\s\'\"\\\\<>]+$#is',
+		'color'=>'#^(\#\w{3,6})|(rgb\(\d+,\s*\d+,\s*\d+\)|(\w{3,10}))$#is',
+		'safe'=>'#^[\w\-\:\.\s\x7f-\xff]+$#is',
+		'css'=>'#^[\(,\)\#;\w\-\.\s\x7f-\xff]+$#is',
+		'word'=>'#^[\w\-\x7f-\xff]+$#is',
+	);
+
+	$white_tag = array('a', 'b', 'i', 'u', 'font', 'strong', 'em', 'span',
+		'table', 'tr', 'td', 'th', 'tbody', 'thead', 'tfoot','caption',
+		'ol', 'ul', 'li', 'dl', 'dt', 'dd', 'menu', 'multicol',
+		'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'p', 'div', 'pre',
+		'br', 'img', 'area',  'embed', 'code', 'blockquote'
+	);
+	$white_value = array(
+		'href'=>array('pcre', '', array($pattern['url'], $pattern['ed2k_url'])),
+		'src'=>array('pcre', '', array($pattern['img_url'])),
+		'width'=>array('range', '', array(0, 4096)),
+		'height'=>array('range', 'auto', array(0, 80000)),
+		'size'=>array('range', 4, array(-10, 10)),
+		'border'=>array('range', 0, array(0, 10)),
+		'family'=>array('pcre', '', array($pattern['word'])),
+		'class'=>array('pcre', '', array($pattern['safe'])),
+		'face'=>array('pcre', '', array($pattern['word'])),
+		'color'=>array('pcre', '', array($pattern['color'])),
+		'alt'=>array('pcre', '', array($pattern['safe'])),
+		'title'=>array('pcre', '', array($pattern['safe'])),
+		'target'=>array('list', '_self', array('_blank', '_self')),
+		'type'=>array('pcre', '', array('#^[\w/\-]+$#')),
+		'allowfullscreen'=>array('list', 'true', array('true', '1', 'on')),
+		'wmode'=>array('list', 'transparent', array('transparent', '')),
+		'allowscriptaccess'=>array('list', 'never', array('never')),
+		'value'=>array('list', '', array('#^[\w+/\-]$#')),
+		'cellspacing'=>array('range', 0, array(0, 10)),
+		'cellpadding'=>array('range', 0, array(0, 10)),
+		'frameborder'=>array('range', 0, array(0, 10)),
+		'align'=>array('list', 'left', array('left', 'center', 'right')),
+		'valign'=>array('list', 'middle', array('middle', 'top', 'bottom')),
+	);
+	$white_css = array(
+		'font'=>array('pcre', 'none', array($pattern['safe'])),
+		'font-style'=>array('pcre', 'none', array($pattern['safe'])),
+		'font-weight'=>array('pcre', 'none', array($pattern['safe'])),
+		'font-family'=>array('pcre', 'none', array($pattern['word'])),
+		'font-size'=>array('range', 9, array(6, 26)),
+		'width'=>array('range', '100%', array(1, 1800)),
+		'height'=>array('range', '', array(1, 80000)),
+		'min-width'=>array('range', 1, array(1, 80000)),
+		'min-height'=>array('range', 400, array(1, 80000)),
+		'max-width'=>array('range', 1800, array(1, 80000)),
+		'max-height'=>array('range', 80000, array(1, 80000)),
+		'line-height'=>array('range', '14px', array(1, 50)),
+		'color'=>array('pcre', '#000000', array($pattern['color'])),
+		'background'=>array('pcre', 'none', array($pattern['color'], '#url\((https?://[^\'"\\\\<>]+?:?\d?)?([^\'"\\\\<>:]+?)*\)[\w\s\-]*$#')),
+		'background-color'=>array('pcre', 'none', array($pattern['color'])),
+		'background-image'=>array('pcre', 'none', array($pattern['img_url'])),
+		'background-position'=>array('pcre', 'none', array($pattern['safe'])),
+		'border'=>array('pcre', 'none', array($pattern['css'])),
+		'border-left'=>array('pcre', 'none', array($pattern['css'])),
+		'border-right'=>array('pcre', 'none', array($pattern['css'])),
+		'border-top'=>array('pcre', 'none', array($pattern['css'])),
+		'border-left-color'=>array('pcre', 'none', array($pattern['css'])),
+		'border-right-color'=>array('pcre', 'none', array($pattern['css'])),
+		'border-top-color'=>array('pcre', 'none', array($pattern['css'])),
+		'border-bottom-color'=>array('pcre', 'none', array($pattern['css'])),
+		'border-left-width'=>array('pcre', 'none', array($pattern['css'])),
+		'border-right-width'=>array('pcre', 'none', array($pattern['css'])),
+		'border-top-width'=>array('pcre', 'none', array($pattern['css'])),
+		'border-bottom-width'=>array('pcre', 'none', array($pattern['css'])),
+		'border-bottom-style'=>array('pcre', 'none', array($pattern['css'])),
+		'margin-left'=>array('range', 0, array(0, 100)),
+		'margin-right'=>array('range', 0, array(0, 100)),
+		'margin-top'=>array('range', 0, array(0, 100)),
+		'margin-bottom'=>array('range', 0, array(0, 100)),
+		'margin'=>array('pcre', '', array($pattern['safe'])),
+		'padding'=>array('pcre', '', array($pattern['safe'])),
+		'padding-left'=>array('range', 0, array(0, 100)),
+		'padding-right'=>array('range', 0, array(0, 100)),
+		'padding-top'=>array('range', 0, array(0, 100)),
+		'padding-bottom'=>array('range', 0, array(0, 100)),
+		'zoom'=>array('range', 1, array(1, 10)),
+		'list-style'=>array('list', 'none', array('disc', 'circle', 'square', 'decimal', 'lower-roman', 'upper-roman', 'none')),
+		'text-align'=>array('list', 'left', array('left', 'right', 'center', 'justify')),
+		'text-indent'=>array('range', 0, array(0, 100)),
+
+		// 代码高亮需要支持，但是不安全！
+		/*
+		'position'=>array('list', 'static', array('absolute', 'fixed', 'relative', 'static')),
+		'left'=>array('range', 0, array(0, 1000)),
+		'top'=>array('range', 0, array(0, 1000)),
+		'white-space'=>array('list', 'nowrap', array('nowrap', 'pre')),
+		'word-wrap'=>array('list', 'normal', array('break-word', 'normal')),
+		'word-break'=>array('list', 'break-all', array('break-all', 'normal')),
+		'display'=>array('list', 'block', array('block', 'table', 'none', 'inline-block', 'table-cell')),
+		'overflow'=>array('list', 'auto', array('scroll', 'hidden', 'auto')),
+		'overflow-x'=>array('list', 'auto', array('scroll', 'hidden', 'auto')),
+		'overflow-y'=>array('list', 'auto', array('scroll', 'hidden', 'auto')),
+		*/
+
+	);
+	$safehtml = new HTML_White($white_tag, $white_value, $white_css);
+	$result = $safehtml->parse($doc);
+	return $result;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+include './xiunophp/xn_html_safe.func.php';
+
+$s = '&lt;img src="1.jpg" onload="alert(123"&gt;';
+echo xn_html_safe($s);
+
+// &lt;img src="1.jpg"&gt;
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>
+

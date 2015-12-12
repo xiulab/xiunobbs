@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>编码规范</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>编码规范</h3>
+
+<hr>
+
+<pre>
+XiunoPHP 提倡 Linux 的编码风格（<b>小写 + 下划线</b>），但如果您喜欢匈牙利和骆驼也没有关系。
+</pre>
+<h4>1. 变量名，函数名全部为： 小写 +　下划线，比如：</h4>
+<pre class="brush:php">
+&lt?php
+$uid = 0;
+$username = '';
+mysql_connect();
+mysql_query();
+mysql_fetch_assoc();
+?&gt;
+</pre>
+
+<h4>2. 常量全部大写：</h4>
+<pre class="brush:php">
+&lt?php
+define('DEBUG', 1); 		// 1: 开发模式， 2: 线上调试：日志记录，0: 关闭
+define('APP_NAME', 'www');
+?&gt;
+</pre>
+
+<h4>3. 空格，缩进，换行，参考以下格式：</h4>
+<p>一个 TAB = 8 个空格，尽量减少 TAB 缩进。</p>
+<pre class="brush:php">
+&lt?php
+function array_addslashes(&$var) {
+	if(is_array($var)) {
+		foreach($var as $k=>&$v) {
+			array_addslashes($v);
+		}
+	} else {
+		$var = addslashes($var);
+	}
+	return $var;
+}
+?&gt;
+</pre>
+
+
+<h4>4. 单引号、双引号：</h4>
+<pre>
+在PHP 当中，尽量使用单引号，解析速度比双引号快。
+如果里面包含变量，为了代码的美观，可以使用双引号。
+在双引号中的数组 key 不应该加单引号。
+在单引号中仅仅转义 \，其他字符都不转义，如 \t\r\n $。
+以下为正确用例：
+</pre>
+<pre class="brush:php">
+&lt?php
+$sitename = '我在北京吸雾霾';
+$info = "站点名称：$sitename";
+$info = "用户名：$user[name]";
+?&gt;
+</pre>
+
+<h4>5. 类、继承、接口、构造、析构、魔术方法：</h4>
+<pre>
+尽量不要使用 PHP 高级特性，但是需要懂（为了阅读他人代码）。
+高级特性消耗自己和同事更多的学习成本，往往与带来的好处不成正比。
+不是刚需，不要用。
+</pre>
+
+<h4>6. 正则表达式：</h4>
+<pre>
+尽量使用单引号，分隔符为 # 。
+禁止使用 e 修饰符，如果刚需，请使用 preg_replace_callback() 代替。
+尽量使用 \w \s \S 内置的表示方法，不要啰嗦的去写 [0-9a-zA-Z_] 。
+为什么不用 / 作为分隔符？
+因为 WEB 开发过程中，字符串中出现 / 的概率太高。
+以下正则格式符合标准：
+</pre>
+<pre class="brush:php">
+preg_match('#\w+@\w+\.\w+#is', $email);
+</pre>
+
+
+<h4>7. include include_once require require_once：</h4>
+<pre>
+尽量使用 include，速度快，并且不会中断业务逻辑。
+require 在文件不存在或不可读的时候，会暴力终止业务逻辑。
+路径采用相对路径，一般相对于网站根目录 ./ 。
+切换路径的时候使用：
+</pre>
+<pre class="brush:php">
+chdir('../');
+include './xiunophp/xiunophp.php';
+</pre>
+
+<h4>8. error_reporting：</h4>
+<pre>
+在本地开发环境下使用，使用 E_ALL，消灭所有 NOTICE。
+线上环境使用 0，并且配置 php.ini error_log 记录到服务器日志，避免错误信息外泄。
+</pre>
+
+<h4>9. 模板：</h4>
+<pre>
+不要用 Smarty 等任何类型的模板“引擎”，他们不时真正意义上的引擎，只是一堆正则替换而已。而且效率低下，学习的时间成本高，浪费脑细胞。
+直接使用PHP 的 原生标签，比如：
+</pre>
+<pre class="brush:php">
+&lt;?php include &quot;./pc/view/header.inc.htm&quot;; ?&gt;
+Hello, &lt;?php echo $username; ?&gt;!
+&lt;?php include &quot;./pc/view/footer.inc.htm&quot;; ?&gt;
+</pre>
+
+
+<h4>10. 目录约定：</h4>
+<pre>
+为了便于部署和排查，约定以下目录用途（非强制）：
+Web 目录：/home/wwwroot/xxx.com
+Web 日志：/home/wwwlog
+MySQL 数据：/home/mysql
+备份目录：/home/backup
+Nginx 配置文件：/usr/local/nginx/conf/nginx.conf
+MySQL 配置文件：/etc/my.cnf
+PHP 配置文件：/usr/local/php/etc/php.ini
+PHP-CGI 配置文件：/usr/local/php/etc/php-fpm.conf
+</pre>
+
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

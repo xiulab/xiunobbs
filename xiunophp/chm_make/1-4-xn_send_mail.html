@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>xn_send_mail()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>xn_send_mail($smtp, $username, $email, $subject, $message, $charset = 'UTF-8')</h3>
+
+<hr>
+
+<pre>
+发送邮件。
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xn_send_mail.func.php 大约 3362 行：
+
+<pre class="brush:php">
+function xn_send_mail($smtp, $username, $email, $subject, $message, $charset = 'UTF-8') {
+	// 部分 SMTP 不支持UTF-8
+	/*
+	if(in_array($smtp, array('smtp.126.com', 'smtp.163.com'))) {
+		$charset = 'GBK';
+	} else {
+		$charset = 'UTF-8';
+	}
+	$charset = 'GBK';
+	*/
+	$mail             = new PHPMailer();
+	//$mail->PluginDir = FRAMEWORK_PATH.'lib/';
+	$mail->IsSMTP(); // telling the class to use SMTP
+	$mail->IsHTML(TRUE);		//$mail->ContentType= 'text/html';
+	$mail->SMTPDebug  = 0;                     // enables SMTP debug information (for testing)
+	                                   // 1 = errors and messages
+	                                   // 2 = messages only
+	$mail->SMTPAuth   = TRUE;                  // enable SMTP authentication
+	$mail->Host       = $smtp['host']; // sets the SMTP server
+	$mail->Port       = $smtp['port'];                    // set the SMTP port for the GMAIL server
+	$mail->Username   = $smtp['user']; // SMTP account username
+	$mail->Password   = $smtp['pass'];        // SMTP account password
+	$mail->Timeout    = 5;	//
+	$mail->CharSet    = $charset;
+
+	$mail->Encoding   = 'base64';
+
+	//$subject = $charset == 'UTF-8' ? iconv('UTF-8', 'GBK', $subject) : $subject;
+	//$message = $charset == 'UTF-8' ? iconv('UTF-8', 'GBK', $message) : $message;
+	//$username = $charset == 'UTF-8' ? iconv('UTF-8', 'GBK', $username) : $username;
+	//$fromemail = $this->conf['reg_email_user'].'@'.$this->conf['reg_email_host'];
+
+	$mail->SetFrom($smtp['email'], $username);
+	$mail->AddReplyTo($smtp['email'], $email);
+	$mail->Subject    = $subject;
+	$mail->AltBody    = $message; // optional, comment out and test
+	$message          = str_replace("\\",'',$message);
+	$mail->MsgHTML($message);
+
+	$mail->AddAddress($email, $username);
+
+	//$mail->AddAttachment("images/phpmailer.gif");      // attachment
+	//$mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
+	if(!$mail->Send()) {
+		return xn_error(-1, $mail->ErrorInfo);
+	} else {
+		return TRUE;
+	}
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+include './xiunophp/xn_send_mail.func.php';
+
+$smtp = array('host'=>'smtp.163.com', 'port'=>25, 'user'=>'zhangsan', 'pass'=>'123456');
+xn_send_mail($smtp, '名字', 'zhangsan@163.com', '邮件标题', '邮件内容');
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>
+

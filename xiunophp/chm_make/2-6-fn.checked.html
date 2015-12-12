@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>$.fn.checked()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>$.fn.checked(v)</h3>
+
+<hr>
+
+<pre>
+这是一个 JQuery/Zepto 插件，它可以获取选中状态的控件的值，也可以设置。
+支持：select checkbox radio，写起来再也不用那么啰嗦了。
+</pre>
+
+<b>【定义】</b> 文件：xiunoui/xiuno.js 大约 1145 行：
+
+<pre class="brush:js">
+$.fn.checked = function(v) {
+	// 转字符串
+	if(v) v = v instanceof Array ? v.map(function(vv) {return vv+&quot;&quot;}) : v + &quot;&quot;;
+	var filter = function() {return !(v instanceof Array) ? (this.value == v) : ($.inArray(this.value, v) != -1)};
+	// 设置
+	if(v) {
+		this.each(function() {
+			if(strtolower(this.tagName) == 'select') {
+				$(this).find('option').filter(filter).prop('selected', true);
+			} else if(strtolower(this.type) == 'checkbox' || strtolower(this.type) == 'radio') {
+				// console.log(v);
+				$(this).filter(filter).prop('checked', true);
+			}
+		});
+		return this;
+	// 获取，值用数组的方式返回
+	} else {
+		if(this.length &lt; 0) return this;
+		var tagtype = strtolower(this[0].tagName) == 'select' ? 'select' : strtolower(this[0].type);
+		var r = (tagtype == 'checkbox' ? [] : '');
+		for(var i=0; i&lt;this.length; i++) {
+			var tag = this[i];
+			if(tagtype == 'select') {
+				var joption = $(tag).find('option').filter(function() {return this.selected == true});
+				if(joption.length &gt; 0) return joption.attr('value');
+			} else if(tagtype == 'checkbox') {
+				if(tag.checked) r.push(tag.value);
+			} else if(tagtype == 'radio') {
+				if(tag.checked) return tag.value;
+			}
+		}
+		return r;
+	}
+}
+
+</pre>
+
+<br><b>【用例】</b>
+<xmp><select id="select1">
+	<option value="1">value1</option>
+	<option value="1">value2</option>
+	<option value="1">value3</option>
+</select>
+
+<input type="checkbox" value="1">
+<input type="checkbox" value="2">
+<input type="checkbox" value="3">
+
+<input type="radio" value="1">
+<input type="radio" value="2">
+<input type="radio" value="3">
+
+<script>
+$('select1').checked(1);
+$('input[type="checkbox"]').checked(1);
+$('input[type="radio"]').checked(1);
+</script>
+</xmp>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>$.fn.select_option()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>$.fn.select_option(v)</h3>
+
+<hr>
+
+<pre>
+这是一个 JQuery/Zepto 插件，它将值为 v 的 option 设置为选中状态。
+</pre>
+
+<b>【定义】</b> 文件：xiunoui/xiuno.js 大约 1138 行：
+
+<pre class="brush:js">
+$.fn.select_option = function(v) {
+	return this.each(function() {
+		$(this).find('option').filter(function() {return this.value == v}).prop('selected', true);
+	});
+}
+</pre>
+
+<br><b>【用例】</b>
+<xmp><select id="select1">
+	<option value="1">value1</option>
+	<option value="1">value2</option>
+	<option value="1">value3</option>
+</select>
+
+<script>
+$('select1').select_option(1);
+</script>
+</xmp>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta name="MSSmartTagsPreventParsing" content="True" />
+<meta http-equiv="MSThemeCompatible" content="Yes" />
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<link href="xiuno.css" type="text/css" rel="stylesheet" />
+<link href="icon.css" type="text/css" rel="stylesheet" />
+</head>
+<style>
+h1 {margin-top: 32px;}
+h3 {margin-top: 64px;}
+</style>
+
+<body style="background:#DDDDDD;">
+	
+	<div style="width: 960px; margin: auto">
+		
+		<h1>Xiuno UI v1.0</h1>
+		<div style="font-size: 14px;">
+			<p>Xiuno UI 是 Xiuno BBS 3.0 开发过程中的一套衍生产品，核心大小才 60k，远小于 Bootstrap 的 130k，它更像是 Bootstrap 简化版本，在命名上更加的简单，写起来更方便，体积也更小。</p>
+			<p>抛弃了坑爹的响应式布局，如果你还在沉迷于响应式布局请离开，对于响应式这个噱头，我只想说：响应式 != 移动布局。</p>
+			<p>图标与 Bootstrap 保持一致，直接采用了 awesome 字体，<a href="icon.html" target="_blank" class="bold red"><i class="icon star"></i>点击查看</a>。</p>
+			<p>它诞生于 2015 年，最低兼容到 IE8，放弃了对 IE67 的支持。</p>
+			<p>代码就是文档，F12 或者查看本页源代码进行学习即可。</p>
+		</div>
+		
+		<h3>button</h3>
+
+		<div>
+			<button class="red small" disabled >确定(small)</button>
+			<button class="red middle" >确定(middle)</button>
+			<button class="red big" >确定(big)</button>
+			<br>
+			<button class="blue small" disabled >确定(small)</button>
+			<button class="blue middle" >确定(middle)</button>
+			<button class="blue big" >确定(big)</button>
+			<br>
+			<button class="grey small" >确定(small)</button>
+			<button class="grey middle" >确定(middle)</button>
+			<button class="grey big" >确定(big)</button>
+			<br>
+			<button class="yellow small" >确定(small)</button>
+			<button class="yellow middle" >确定(middle)</button>
+			<button class="yellow big" >确定(big)</button>
+			<br>
+			<button class="grey"><span class="icon glass"></span>确定(带图标)</button>
+		</div>
+
+		<div>
+			<h3>input</h3>
+			<p><input type="text" class="small" style="width: 300px;"> <button class="blue small" >确定</button></p>
+			<p><input type="text" style="width: 300px;"> <button class="blue" >确定</button></p>
+			<p><input type="text" class="big" style="width: 300px;"> <button class="blue big" >确定</button></p>
+
+			<p><input type="text" class="error" style="width: 300px;"></p>
+			<p><input type="text" class="default" style="width: 300px;"></p>
+
+			<h3>div.panel</h3>
+			<div class="panel" style="width: 800px;">
+				<div class="header">标题</div>
+				<div class="body">
+					<h3> 这是正文 </h3>
+					<p> 内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容 </p>
+					<p> 内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容 </p>
+					<p class="hr"></p>
+					<p class="hr dashed"></p>
+					<p> 内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容 </p>
+					<p> 内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容 </p>
+					<p class="vr" style="height: 50px;"></p>
+					<p class="vr dashed" style="height: 50px;"></p>
+				</div>
+			</div>
+
+			<h3>table.tborder</h3>
+			<table class="tborder">
+				<tr>
+					<th>title1</th>
+					<th>title2</th>
+					<th>title3</th>
+					<th>title4</th>
+				</tr>
+				<tr>
+					<td>No.1</td>
+					<td>No.2</td>
+					<td>No.3</td>
+					<td>No.4</td>
+				</tr>
+				<tr>
+					<td>Jack</td>
+					<td>Mary</td>
+					<td>Mary</td>
+					<td>Mary</td>
+				</tr>
+			</table>
+
+			<h3>table.tlist</h3>
+			<table class="tlist">
+				<tr align="left">
+					<th>title1</th>
+					<th>title2</th>
+					<th>title3</th>
+					<th>title4</th>
+				</tr>
+				<tr>
+					<td>No.1</td>
+					<td>No.2</td>
+					<td>No.3</td>
+					<td>No.4</td>
+				</tr>
+				<tr>
+					<td>Jack</td>
+					<td>Mary</td>
+					<td>Mary</td>
+					<td>Mary</td>
+				</tr>
+			</table>
+
+			<h3>table.panel.tborder</h3>
+			<table class="panel tborder" width="800">
+				<tr align="left">
+					<th>title1</th>
+					<th>title2</th>
+					<th>title3</th>
+					<th>title4</th>
+				</tr>
+				<tr>
+					<td>No.1</td>
+					<td>No.2</td>
+					<td>No.3</td>
+					<td>No.4</td>
+				</tr>
+				<tr>
+					<td>Jack</td>
+					<td>Mary</td>
+					<td>Mary</td>
+					<td>Mary</td>
+				</tr>
+				<tr>
+					<td>Jack</td>
+					<td>Mary</td>
+					<td>Mary</td>
+					<td>Mary</td>
+				</tr>
+			</table>
+
+			<h3>table.panel.tborder + tr.caption</h3>
+			<table class="panel tborder" width="800">
+				<tr align="left">
+					<th colspan="4">title1</th>
+				</tr>
+				<tr align="left" class="caption">
+					<th>title1</th>
+					<th>title2</th>
+					<th>title3</th>
+					<th>title4</th>
+				</tr>
+				<tr>
+					<td>No.1</td>
+					<td>No.2</td>
+					<td>No.3</td>
+					<td>No.4</td>
+				</tr>
+				<tr>
+					<td>Jack</td>
+					<td>Mary</td>
+					<td>Mary</td>
+					<td>Mary</td>
+				</tr>
+				<tr>
+					<td>Jack</td>
+					<td>Mary</td>
+					<td>Mary</td>
+					<td>Mary</td>
+				</tr>
+			</table>
+
+			<h3>table.panel.tlist + tr.caption</h3>
+			<table class="panel tlist" width="800">
+				<tr align="left">
+					<th colspan="4">title1</th>
+				</tr>
+				<tr align="left" class="caption">
+					<th>title1</th>
+					<th>title2</th>
+					<th>title3</th>
+					<th>title4</th>
+				</tr>
+				<tr>
+					<td>No.1</td>
+					<td>No.2</td>
+					<td>No.3</td>
+					<td>No.4</td>
+				</tr>
+				<tr>
+					<td>Jack</td>
+					<td>Mary</td>
+					<td>Mary</td>
+					<td>Mary</td>
+				</tr>
+				<tr>
+					<td>Jack</td>
+					<td>Mary</td>
+					<td>Mary</td>
+					<td>Mary</td>
+				</tr>
+			</table>
+
+			<h3>table.panel.tlist</h3>
+			<table class="panel tlist" width="800">
+				<tr align="left">
+					<th>title1</th>
+					<th>title2</th>
+					<th>title3</th>
+					<th>title4</th>
+				</tr>
+				<tr>
+					<td>No.1</td>
+					<td>No.2</td>
+					<td>No.3</td>
+					<td>No.4</td>
+				</tr>
+				<tr>
+					<td>Jack</td>
+					<td>Mary</td>
+					<td>Mary</td>
+					<td>Mary</td>
+				</tr>
+				<tr>
+					<td>Jack</td>
+					<td>Mary</td>
+					<td>Mary</td>
+					<td>Mary</td>
+				</tr>
+			</table>
+
+			<h3>div.panel + table.tlist 嵌套组合</h3>
+			<div class="panel width">
+				<div class="header">确认订单信息</div>
+				<div class="body">
+					<table width="100%" class="tlist">
+						<tr align="center">
+							<th width="20"></th>
+							<th width="64">商品</th>
+							<th align="left"></th>
+							<th width="100">单价</th>
+							<th width="195">数量</th>
+							<th width="100">小计</th>
+							<th width="100">删除</th>
+						</tr>
+						<tr align="center">
+							<td>11</td>
+							<td>帽子</td>
+							<td></td>
+							<td>单价</td>
+							<td>12</td>
+							<td><span class="price">122</span></td>
+							<td>删除</td>
+						</tr>
+						<tr align="center">
+							<td>12</td>
+							<td>鞋子</td>
+							<td></td>
+							<td>单价</td>
+							<td>12</td>
+							<td><span class="price">122</span></td>
+							<td>删除</td>
+						</tr>
+					</table>
+					<div>
+						<p class="hr"></p>
+						<dl class="row form">
+							<dt><a href="javascript:void(0)" id="delete"><span class="icon delete"></span>删除选中的商品</a></dt>
+							<dd class="right"><b>总计</b>(不包含运费)：<span id="subtotal" class="subtotal price big bold"></span>&nbsp;</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+
+			<h3>div.panel + table.tborder 组合</h3>
+			<div class="panel width">
+				<div class="header">确认订单信息</div>
+				<div class="body">
+					<h4> 1. 多个表格嵌套 </h4>
+					<table width="100%" class="tborder">
+						<tr align="center">
+							<th width="20">ID</th>
+							<th width="64">商品</th>
+							<th align="left"></th>
+							<th width="100">单价</th>
+							<th width="195">数量</th>
+							<th width="100">小计</th>
+							<th width="100">删除</th>
+						</tr>
+						<tr align="center">
+							<td>11</td>
+							<td>帽子</td>
+							<td></td>
+							<td>单价</td>
+							<td>12</td>
+							<td><span class="price">122</span></td>
+							<td>删除</td>
+						</tr>
+						<tr align="center">
+							<td>12</td>
+							<td>鞋子</td>
+							<td></td>
+							<td>单价</td>
+							<td>12</td>
+							<td><span class="price">122</span></td>
+							<td>删除</td>
+						</tr>
+					</table>
+					<h4> 2. 多个表格嵌套 </h4>
+					<table width="100%" class="tborder">
+						<tr align="center">
+							<th width="20">ID</th>
+							<th width="64">商品</th>
+							<th align="left"></th>
+							<th width="100">单价</th>
+							<th width="195">数量</th>
+							<th width="100">小计</th>
+							<th width="100">删除</th>
+						</tr>
+						<tr align="center">
+							<td>11</td>
+							<td>帽子</td>
+							<td></td>
+							<td>单价</td>
+							<td>12</td>
+							<td><span class="price">122</span></td>
+							<td>删除</td>
+						</tr>
+						<tr align="center">
+							<td>12</td>
+							<td>鞋子</td>
+							<td></td>
+							<td>单价</td>
+							<td>12</td>
+							<td><span class="price">122</span></td>
+							<td>删除</td>
+						</tr>
+					</table>
+					<div>
+						<dl class="row form">
+							<dt><a href="javascript:void(0)" id="delete"><span class="icon delete"></span>删除选中的商品</a></dt>
+							<dd class="right"><b>总计</b>(不包含运费)：<span id="subtotal" class="subtotal price big bold"></span>&nbsp;</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+
+
+			<h3>The text number is h1</h3>
+			<h2>The text number is h2</h2>
+			<h3>The text number is h3</h3>
+			<h4>The text number is h4</h4>
+			<h5>The text number is h5</h5>
+			<h6>The text number is h6</h6>
+			<p>The text number is p</p>
+
+			<h3>notice</h3>
+			<p class="notice error">this is message</p>
+			<p class="notice ok">this is message</p>
+
+		</div>
+
+		<!--
+		<h3>进度条</h3>
+		<div class="progress">
+			<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:10%;"></div>
+		</div>
+		-->
+
+		<h3>dl.row</h3>
+		<dl class="row">
+			<dt style="background: red; color: #FFFFFF;">默认左宽度50%</dt>
+			<dd style="background: green; color: #FFFFFF;">默认右宽度50%</dd>
+		</dl>
+
+		<h3>dl.row 两列</h3>
+		<dl class="row">
+			<dt class="col-2" style="background: red; color: #FFFFFF;">左宽度20%</dt>
+			<dt class="col-8" style="background: green; color: #FFFFFF;">右宽度80%</dt>
+		</dl>
+
+
+		<h3>ul.row 多列</h3>
+		<ul class="row">
+			<li class="col-2" style="background: red; color: #FFFFFF;">宽度20%</li>
+			<li class="col-2" style="background: green; color: #FFFFFF;">宽度20%</li>
+			<li class="col-6" style="background: blue; color: #FFFFFF;">宽度60%</li>
+		</ul>
+
+		<h3>ul.row 多列平均</h3>
+		<ul class="row">
+			<li class="col-three" style="background: red; color: #FFFFFF;">宽度1/3</li>
+			<li class="col-three" style="background: green; color: #FFFFFF;">宽度1/3</li>
+			<li class="col-three" style="background: blue; color: #FFFFFF;">宽度1/3</li>
+		</ul>
+
+		<h3>dl.form 两列表单，左侧20%，右侧80%</h3>
+		<dl class="row form" style="width: 600px;">
+			<dt class="right col-2">姓名 ：</dt>
+			<dd class="col-8"><input type="text" style="width: 200px;" id="username"></dd>
+
+			<dt class="right col-2">手机 ：</dt>
+			<dd class="col-8"><input type="text" style="width: 200px;" id="mobile"></dd>
+
+			<dt class="right col-2">密码 ：</dt>
+			<dd class="col-8"><input type="text" style="width: 200px;" id="password"></dd>
+
+			<dt class="right col-2">内容：</dt>
+			<dd class="col-8"><textarea style="width: 300px; height: 200px;" id="message"></textarea></dd>
+
+			<dt class="col-2">&nbsp;</dt>
+			<dd class="col-8"><button type="submit" class="blue"> 提 交 </button></dd>
+		</dl>
+
+		<h3>div.tab 选项卡</h3>
+		<div class="tab">
+			<a href="javascript:;" class="active">商品介绍</a>
+			<a href="javascript:;">商品评价</a>
+			<a href="javascript:;">成交记录</a>
+		</div>
+		
+	</div>
+
+	<br>
+	<br>
+	<br>
+	<p class="center">【完】</p>
+	<br>
+	<br>
+</body>
+
+<script src="jquery-1.11.1.js"></script>
+<script src="async.js"></script>
+<script src="md5.js"></script>
+<script src="xiuno.js"></script>
+<script src="dialog.js"></script>
+
+<script>
+	//$('#username').popover('请输入姓名！');
+	$('#mobile').popover('请输入密码！', 'right');
+	$('#password').popover('请输入密码！', 'bottom');
+	$('#message').popover('请输入内容！', 'left');
+
+</script>
+</html>

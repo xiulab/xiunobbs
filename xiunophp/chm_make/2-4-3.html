@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>XiunoPHP</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>DL 布局</h3>
+
+<hr>
+
+<pre>
+相对 UL 多列布局，它更简单，但是它只支持 2 列布局，用作表单非常方便。
+它不同于 bootstrap 的 12 列，它支持 10 列。
+另外建议尽量不要使用 DIV 布局，采用 XIUNO 的 UL 或者 DL 布局，更加的清晰，简单，稳定。
+</pre>
+
+
+<pre>
+【1. dl.row】：
+</pre>
+
+<xmp>
+<dl class="row">
+	<dt class="col-2">左侧</dt>
+	<dd class="col-8">右侧</dd>
+</dl>
+</xmp>
+
+<pre>
+浏览器打开效果：
+</pre>
+
+<img src="image/2-4-3-1.png">
+<!--
+<dl class="row">
+	<dt class="col-4">左侧</dt>
+	<dd class="col-6">右侧</dd>
+</dl>-->
+
+<hr>
+
+<pre>
+【2. dl.row.form】：
+</pre>
+
+<xmp>
+<dl class="row form" style="width: 600px;">
+	<dt class="right col-2">姓名 ：</dt>
+	<dd class="col-8"><input type="text"></dd>
+
+	<dt class="right col-2">手机 ：</dt>
+	<dd class="col-8"><input type="text"></dd>
+
+	<dt class="right col-2">密码 ：</dt>
+	<dd class="col-8"><input type="text"></dd>
+
+	<dt class="right col-2">内容：</dt>
+	<dd class="col-8"><textarea></textarea></dd>
+
+	<dt class="col-2">&nbsp;</dt>
+	<dd class="col-8"><button type="submit" class="blue"> 提 交 </button></dd>
+</dl>
+</xmp>
+
+<pre>
+浏览器打开效果：
+</pre>
+<img src="image/2-4-3-2.png">
+<!--
+<dl class="row form" style="width: 600px;">
+	<dt class="right col-2">姓名 ：</dt>
+	<dd class="col-8"><input type="text"></dd>
+
+	<dt class="right col-2">手机 ：</dt>
+	<dd class="col-8"><input type="text"></dd>
+
+	<dt class="right col-2">密码 ：</dt>
+	<dd class="col-8"><input type="text"></dd>
+
+	<dt class="right col-2">内容：</dt>
+	<dd class="col-8"><textarea></textarea></dd>
+
+	<dt class="col-2">&nbsp;</dt>
+	<dd class="col-8"><button type="submit" class="blue"> 提 交 </button></dd>
+</dl>
+-->
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

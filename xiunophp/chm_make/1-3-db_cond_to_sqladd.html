@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>cond_to_sqladd()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>cond_to_sqladd($cond)</h3>
+
+<hr>
+
+<pre>
+根据条件数组组合 SQL 查询语句，可以避免 SQL 注射。
+$cond：
+	格式：
+	array('uid'=>123, 'gid'=>123)
+	array('uid'=>array('>' => 100, '<' => 200))
+	array('username'=>array('LIKE' => 'jack'))
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 454 行：
+
+<pre class="brush:php">
+function cond_to_sqladd($cond) {
+	$s = '';
+	if(!empty($cond)) {
+		$s = ' WHERE ';
+		foreach($cond as $k=>$v) {
+			if(!is_array($v)) {
+				$v = addslashes($v);
+				$s .= "$k = '$v' AND ";
+			} else {
+				foreach($v as $k1=>$v1) {
+					$v1 = addslashes($v1);
+					$k1 == 'LIKE' AND $v1 = "%$v1%";
+					$s .= "$k $k1 '$v1' AND ";
+				}
+			}
+		}
+		$s = substr($s, 0, -4);
+	}
+	return $s;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+
+$cond = array('uid'=>1, 'gid'=>2);
+$sqladd = cond_to_sqladd($cond);	// uid='1' AND gid='2'
+$arr = db_find_one("SELECT * FROM bbs_user WHERE $sqladd");
+print_r($arr);
+
+?>
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>arrlist_cond_orderby()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>arrlist_cond_orderby($arrlist, $cond = array(), $orderby = array(), $page = 1, $pagesize = 20)</h3>
+
+<hr>
+
+<pre>
+对数组进行查找，排序，筛选，只支持一种条件排序。
+
+$arrlist: 二维数组
+$cond: 条件
+$orderby: 排序条件
+$page: 页码
+$pagesize: 每页数量
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 330 行：
+
+<pre class="brush:php">
+function arrlist_cond_orderby($arrlist, $cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
+	$resultarr = array();
+	// 根据条件，筛选结果
+	if($cond) {
+		foreach($arrlist as $key=>$val) {
+			$ok = TRUE;
+			foreach($cond as $k=>$v) {
+				if(!isset($val[$k]) || $val[$k] != $v) {
+					$ok = FALSE;
+					break;
+				}
+			}
+			if($ok) $resultarr[$key] = $val;
+		}
+	} else {
+		$resultarr = $arrlist;
+	}
+
+	if($orderby) {
+		list($k, $v) = each($orderby);
+		arrlist_multisort($resultarr, $k, $v == 1);
+	}
+
+	$start = ($page - 1) * $pagesize;
+
+	$resultarr = array_assoc_slice($resultarr, $start, $pagesize);
+	return $resultarr;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+
+$arrlist = array(
+	array('a'=&gt;1,'b'=&gt;1,'c'=&gt;1),
+	array('a'=&gt;2,'b'=&gt;2,'c'=&gt;2),
+	array('a'=&gt;3,'b'=&gt;3,'c'=&gt;3),
+);
+$arrlist = arrlist_cond_orderby($arrlist, array(), array(), 1, 20);
+print_r($arrlist);
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

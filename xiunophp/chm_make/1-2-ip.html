@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>$ip</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>$ip</h3>
+
+<hr>
+
+<pre>
+客户端的 IP 地址，格式为：202.106.0.20 。
+在开启 CDN 后，它会获取 CDN 转发过来的 IP 。
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 48 行：
+
+<pre class="brush:php">
+$ip = ip();
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+include './xiunophp/xiunophp.php';
+
+echo $ip; // 127.0.0.1
+
+?&gt;
+</pre>
+
+【ip()】
+<pre class="brush:php">
+&lt;?php
+// 不安全的获取 IP 方式，在开启 CDN 的时候，如果被人猜到真实 IP，则可以伪造。
+function ip() {
+	global $conf;
+	$ip = '127.0.0.1';
+	if(empty($conf['cdn_on'])) {
+		$ip = $_SERVER['REMOTE_ADDR'];
+	} else {
+		if(isset($_SERVER['HTTP_CDN_SRC_IP'])) {
+			$ip = $_SERVER['HTTP_CDN_SRC_IP'];
+		} elseif(isset($_SERVER['HTTP_CLIENT_IP'])) {
+			$ip = $_SERVER['HTTP_CLIENT_IP'];
+		} elseif(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			$arr = array_filter(explode(',', $ip));
+			$ip = end($arr);
+		} else {
+			$ip = $_SERVER['REMOTE_ADDR'];
+		}
+	}
+	return long2ip(ip2long($ip));
+}
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>FileUploader()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>FileUploader()</h3>
+
+<hr>
+
+<pre>
+文件上传类，采用的 HTML5 的 FileReader 对象，需要标准浏览器支持。
+客户端对文件进行 base64 编码后 ajax post 方式发送给服务端，服务端解码后存为文件。
+</pre>
+
+<b>【定义】</b> 文件：xiunoui/datepicker.js：
+
+<pre class="brush:js">
+
+var FileUploader = function(fileinput, posturl, postdata) {
+	this.fileinput = fileinput;
+	this.posturl = posturl;
+	this.postdata = postdata || {};
+}
+
+// ... 具体源代码参看 upload.js
+
+</pre>
+
+<br><b>【用法】</b>
+<pre class="brush:js">
+&lt;input type="file" id="file1" accept=".jpg,.jpeg,.png,.gif,.bmp"  value="选择文件"&gt;
+
+&lt;script src=&quot;xiunoui/jquery-1.11.1.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;xiunoui/xiuno.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;xiunoui/async.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;xiunoui/upload.js&quot;&gt;&lt;/script&gt;
+
+var fileinput = $('#file1')[0];
+var jfile = $(fileinput);
+var url = '1.php';
+var up = new FileUploader(fileinput, url);
+up.filetype = 'image/png';
+up.onprogress = function(file, percent) {
+	console.log('percent:'+percent+'%');
+}
+up.ononce = function(file, e) {
+	var json = json_decode(e.target.response);
+	if(json && json.code == 0) {
+		// 成功
+	} else {
+		// 失败
+	}
+}
+up.oncomplete = function(code, files) {
+	if(code == 0) {
+		//$.alert('ok');
+	} else {
+		//alert(code);
+	}
+}
+up.onselected = function(files) {
+	var file = files[0];
+	if(!/^image/.test(file.type) || !/(.jpg|.jpeg|.gif|.png|.bmp)$/i.test(file.type)) {
+		jfile.popover('只允许上传jpg、jpeg、gif、png格式的图片'); return;
+	}
+	up.start();
+}
+up.onerror = function(file, e) {
+	console.log(e); // 错误
+}
+up.init();
+
+// 具体参看 Xiuno BBS 3.0 pc/view/my_profile.htm 47 行 
+
+</pre>
+
+<br><b>【1.php】</b>
+<pre class="brush:php">
+$upfile = $_POST['upfile'];
+$json = json_decode($upfile);
+
+$name = $json['name'];
+$width = $json['width'];
+$height = $json['height'];
+$data = base64_decode($json['data']);
+$size = strlen($data);
+
+file_put_contents("1.png", $data);
+
+echo '{"code": 0: "message": "http://xxx/1.png"}';
+
+// 具体参看 Xiuno BBS 3.0 pc/route/my.php 84 行 
+
+</pre>
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/datepicker.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+
+$('#date1').datepicker();
+</script>

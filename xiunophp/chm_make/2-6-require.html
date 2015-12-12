@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>$.require()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>$.require()</h3>
+
+<hr>
+
+<pre>
+动态加载 JS，异步的方式，并且会自动去除重复或者已经包含的 JS。
+它跟 nodejs 的同步 require 是不同的。因为 JS 线程同步加载会将整个 UI 线程锁死，导致页面失去响应。
+</pre>
+
+<b>【定义】</b> 文件：xiunoui/xiuno.js 大约 750 行：
+
+<pre class="brush:js">
+$.required = [];
+$.require = function() {
+	var args = null;
+	if(arguments[0] &amp;&amp; typeof arguments[0] == 'object') { // 如果0 为数组
+		args = arguments[0];
+		if(arguments[1]) args.push(arguments[1]);
+	} else {
+		args = arguments;
+	}
+	this.load = function(args, i) {
+		var _this = this;
+		if(args[i] === undefined) return;
+		if(typeof args[i] == 'string') {
+			var js = args[i];
+			// 避免重复加载
+			if($.inArray(js, $.required) != -1) {
+				if(i &lt; args.length) this.load(args, i+1);
+				return;
+			}
+			$.required.push(js);
+			var script = document.createElement(&quot;script&quot;);
+			script.src = js;
+			script.onerror = function() {
+				console.log('script load error:'+js);
+				_this.load(args, i+1);
+			}
+			if(is_ie) {
+				script.onreadystatechange = function() {
+					if(script.readyState == 'loaded' || script.readyState == 'complete') {
+						_this.load(args, i+1);
+						script.onreadystatechange = null;
+					}
+				};
+			} else {
+				script.onload = function() { _this.load(args, i+1); };
+			}
+			document.getElementsByTagName('head')[0].appendChild(script);
+		} else if(typeof args[i] == 'function'){
+			var f = args[i];
+			f();
+			if(i &lt; args.length) this.load(args, i+1);
+		} else {
+			_this.load(args, i+1);
+		}
+	};
+	this.load(args, 0);
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:js">
+$.require('1.js');
+$.require('1.js', '2.js', function() { alert('loaded!'); });
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

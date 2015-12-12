@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>$errno</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>$errno</h3>
+
+<hr>
+
+<pre>
+错误号，为 0 时，表示正常，非 0 时表示错误。
+在某些函数被调用后发生错误，该全局变量会被设置，有点类似于 Linux C 的 errno 。
+因为 PHP 是同步的（区别于异步）并且线程安全的，所以使用这种方法来返回错误会很方便。
+一般配合 errstr 一起使用，函数内通过 xn_error($errno, $errstr) 设置错误。
+相比起抛出异常来，这种处理方式会轻量级很多。
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 58 行：
+
+<pre class="brush:php">
+$errno = 0;
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+include './xiunophp/xiunophp.php';
+include './xiunophp/xn_send_mail.php';
+
+$r = xn_send_mail(array(), 'username', 'test@gmail.com', '标题', '内容');
+if($r === FALSE) {
+	echo "Errno:".$errno.", Errstr:".$errstr;
+}
+
+?&gt;
+</pre>
+
+<br><b>【相关函数】</b>
+<pre>
+<a href="xn_error.htm">xn_error()</a>
+</pre>
+
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>URL-Rewrite</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>如何设置Xiuno BBS URL-Rewrite（伪静态设定）</h3>
+<hr>
+<pre>
+URL-Rewrite 可以简化 URL，对 SEO 有一定的好处。
+不同的 Web Server 方法不同，下面介绍几种常见的 web server 配置方法。
+总结起来实际只有一句：<b class="red">将 *.htm 转发到 index.php?*.htm</b>
+</pre>
+
+<pre>
+Nginx：
+打开 nginx 配置文件 /usr/local/nginx/conf/nginx.conf 找到对应的虚拟主机配置处:
+</pre>
+
+<xmp>
+location / { 
+         rewrite "^(.*)/(.+?).htm$" $1/index.php?$2.htm last;
+         if (!-e $request_filename) {
+                 rewrite  ^(.*)$  /index.php?s=$1  last;
+        }
+        index    index.html index.htm index.php;
+        root     /data/wwwroot/xiuno.com;
+}
+</xmp>
+ 
+<pre>
+然后重新启动 nginx: service nginx restart
+</pre>
+
+<pre>Apache: </pre>
+<xmp>
+vim /etc/httpd/conf/httpd.conf
+<Directory d:/xiuno.com>
+    Options FollowSymLinks ExecCGI Indexes
+    AllowOverride all
+    Order deny,allow
+    Allow from all
+    Satisfy all
+</Directory>
+NameVirtualHost *:80
+</xmp>
+
+<pre>
+Apache .htaccess
+如果Appache 支持 .htaccess，那么可以编辑 .htaccess 文件放置于根目录下：
+</pre>
+<xmp>
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^admin/(.*)\.htm(.*)$ /admin/index.php?$1.htm$2 [L]
+RewriteRule ^mobile/(.*)\.htm(.*)$ /mobile/index.php?$1.htm$2 [L]
+RewriteRule ^(.*)\.htm(.*)$ /index.php?$1.htm$2 [L]
+</IfModule>
+</xmp>
+
+<pre>
+Apache httpd.conf
+如果将规则直接放入 httpd.conf 则需要在前面加 / ，看来 Apache 也反人类：
+</pre>
+<xmp>
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^/admin/(.*)\.htm(.*)$ /admin/index.php?$1.htm$2 [L]
+RewriteRule ^/mobile/(.*)\.htm(.*)$ /mobile/index.php?$1.htm$2 [L]
+RewriteRule ^/(.*)\.htm(.*)$ /index.php?$1.htm$2 [L]
+</IfModule>
+</xmp>
+
+ <pre>SAE环境，根目录建立 config.yaml 文件：</pre>
+ <xmp>
+appname: axiuno
+version: 1
+handle:
+- rewrite: if ( !is_dir() && !is_file() && path ~ "admin/(.*.htm)" ) goto "admin/index.php?%1"
+- rewrite: if ( !is_dir() && !is_file() && path ~ "mobile/(.*.htm)" ) goto "mobile/index.php?%1"
+- rewrite: if ( !is_dir() && !is_file() && path ~ "[^/?].htm" ) goto "index.php?%1"
+</xmp>
+
+
+<pre>
+IIS: 
+1. 下载 Rewrite.zip
+2. 解压到 c:\Rewrite
+3. 在IIS的Isapi上添加这个筛选器, 筛选器名称Rewrite,可执行文件选择 Rewrite.dll
+4. 重新启动IIS
+5. httpd.ini 是配置文件,如果您了解Rewrite 规则,可以直接对其进行编辑，以下为包内设置好的Xiuno BBS的规则：</pre>
+
+<xmp>
+[ISAPI_Rewrite]
+# 3600 = 1 hour
+CacheClockRate 3600
+RepeatLimit 32
+#RewriteRule .*\.(?:gif|jpg|png|css|js|txt|jpeg|swf|flv) $0 [I,L] 
+#RewriteRule /httpd(?:\.ini|\.parse\.errors) / [F,I,O]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^/mobile(.*)\.htm(.*) /mobile/index.php?$1.htm$2 [L]
+RewriteRule ^/admin(.*)\.htm(.*) /admin/index.php?$1.htm$2 [L]
+RewriteRule ^(.*)\.htm(.*) /index.php?$1.htm$2 [L]
+</xmp>
+
+<pre>另外一种 IIS Rewrite：</pre>
+<xmp>
+[ISAPI_Rewrite]
+# 3600 = 1 hour
+CacheClockRate 3600
+RepeatLimit 32
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^/mobile/(.*)\.htm(.*) /mobile/$1.htm$2 [L]
+RewriteRule ^/admin/(.*)\.htm(.*) /admin/$1.htm$2 [L]
+RewriteRule ^(.*)\.htm(.*)$ /$1.htm$2 [L]
+</xmp>
+
+<pre>如果要放到目录下，比如 bbs 目录，在 rewrite 规则前面加上目录即可，比如 apache .htaccess：</pre>
+<xmp>
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^bbs/admin/(.*)\.htm(.*)$ /admin/index.php?$1.htm$2 [L]
+RewriteRule ^bbs/mobile/(.*)\.htm(.*)$ /mobile/index.php?$1.htm$2 [L]
+RewriteRule ^bbs/(.*)\.htm(.*)$ /index.php?$1.htm$2 [L]
+</IfModule>
+</xmp>
+
+<pre>
+IIS 的高版本配置方法：
+IIS 的高版本配置方法1：http://bbs.xiuno.com/thread-9008.htm
+IIS 的高版本配置方法2：http://bbs.xiuno.com/thread-9411.htm
+IIS 的详细配置方法请参看：http://my.oschina.net/lyx2012/blog/60198
+IIS Rewrite 支持 Apache .htaccess ：ISAPI_Rewrite3.zip   
+反人类的 IIS REWRITE！！！
+</pre>
+
+更多请参考：<a href="http://bbs.xiuno.com/thread-2.htm" target="_blank">http://bbs.xiuno.com/thread-2.htm</a>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

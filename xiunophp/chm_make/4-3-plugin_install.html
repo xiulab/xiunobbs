@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>plugin_install()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+
+<h3>plugin_install(&$var)</h3>
+
+<hr>
+
+<pre>
+将 $file 的起始位置（字节偏移）到结束位置之间的数据用 $code 进行替换。
+行为类似于鼠标选中某一个段文本，然后粘贴。
+
+参数为一个数组，包含以下选项：
+$var = array (
+	'file'=> $file,							// bbs 源文件
+	'range_start'=> $range_start,					// bbs 源文件开始第几个字符
+	'range_end'=> $range_start,					// bbs 源文件结束到第几个字符
+	'code'=> $code,							// 要插入的代码
+);
+</pre>
+
+<b>【定义】</b> 文件：model/plugin.func.php 大约 51 行：
+
+<pre class="brush:php">
+function plugin_install($arr) {
+	$file = $arr['file'];
+	$range_start = intval($arr['range_start']); 
+	$range_end = intval($arr['range_end']); 
+	$code = $arr['code'];
+	
+	$s = file_get_contents($file);
+	
+	$pre = substr($s, 0, $range_start);
+	$suffix = substr($s, $range_end);
+	$s = $pre.$code.$suffix;
+	
+	$r = file_put_contents($file, $s);
+	return $r;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+include './model/plugin.func.php';
+
+$plugin = array (
+	'file'=> $file,							// bbs 源文件
+	'range_start'=> $range_start,					// bbs 源文件开始第几个字符
+	'range_end'=> $range_start,					// bbs 源文件结束到第几个字符
+	'code'=> $code,							// 要插入的代码
+);
+
+plugin_install($plugin);
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

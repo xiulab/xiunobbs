@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>XiunoPHP</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>如何使用 Xiuno Editor 1.0 ?</h3>
+<hr>
+<xmp><!DOCTYPE html>
+<html>
+<head>
+	<title>XiunoPHP</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="../xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="../xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="../xneditor/editor.css" type="text/css" rel="stylesheet" />
+</head>
+<body style="background: #EEEEEE;">
+	<textarea id="message" name="message" style="width: 100%; height: 300px;">内容</textarea>
+</body>
+</html>
+<script src="../xiunoui/jquery-1.11.1.js"></script>
+<script src="../xiunoui/async.js"></script>
+<script src="../xiunoui/xiuno.js"></script>
+<script src="../xiunoui/dialog.js"></script>
+<script src="../xiunoui/upload.js"></script>
+<script src="../xneditor/editor.js"></script>
+
+<script>
+var editor = new $.XNEditor({textarea: 'message', image_upload_url:'1.php', image_upload_width: 800, file_upload_url:'2.php'});
+//editor.clear();
+editor.focus();
+/// editor.jeditor.popover('请输入内容');
+</script>
+</xmp>
+
+<pre>
+效果：
+<img src="image/editor-2.png">
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

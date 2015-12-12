@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>form_checkbox_yes_no()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>form_checkbox_yes_no($name, $checked = 0)</h3>
+
+<hr>
+
+<pre>生成 checkbox 输入框 (yes/no) 。</pre>
+
+<b>【定义】</b> 文件：xiunophp/form.func.php 大约 12 行：
+
+<pre class="brush:php">
+function form_checkbox_yes_no($name, $checked = 0) {
+	$checked = intval($checked);
+	return form_checkbox($name,  array(1=>'', 0=>''), $checked);
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+include './xiunophp/form.func.php';
+
+$s = form_checkbox_yes_no('sex', '1');
+echo $s;
+// &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;sex&quot; value=&quot;1&quot; class=&quot;noborder&quot; checked=&quot;checked&quot; /&gt;&lt;/label&gt;
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>
+

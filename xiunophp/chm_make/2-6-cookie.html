@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>$.cookie()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>$.cookie(name, value, time, path)</h3>
+
+<hr>
+
+<pre>
+设置客户端的 cookie。
+在请求的时候会随着 HTTP 头发送到服务端，不能保存太大的数据，一般保存 sid token 这类关键数据。
+</pre>
+
+<b>【定义】</b> 文件：xiunoui/xiuno.js 大约 545 行：
+
+<pre class="brush:js">
+$.cookie = function(name, value, time, path) {
+	if(typeof value != 'undefined') {
+		if (value === null) {
+			var value = '';
+			var time = -1;
+		}
+		if(typeof time != 'undefined') {
+			date = new Date();
+			date.setTime(date.getTime() + (time * 1000));
+			var time = '; expires=' + date.toUTCString();
+		} else {
+			var time = '';
+		}
+		var path = path ? '; path=' + path : '';
+		//var domain = domain ? '; domain=' + domain : '';
+		//var secure = secure ? '; secure' : '';
+		document.cookie = name + '=' + encodeURIComponent(value) + time + path;
+	} else {
+		var v = '';
+		if(document.cookie &amp;&amp; document.cookie != '') {
+			var cookies = document.cookie.split(';');
+			for(var i = 0; i &lt; cookies.length; i++) {
+				var cookie = $.trim(cookies[i]);
+				if(cookie.substring(0, name.length + 1) == (name + '=')) {
+					v = decodeURIComponent(cookie.substring(name.length + 1)) + '';
+					break;
+				}
+			}
+		}
+		return v;
+	}
+};
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:js">
+$.cookie('key1', 'value1');
+var s = $.cookie('key1');
+console.log(s);
+// value1
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

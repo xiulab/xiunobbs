@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>parse_url()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>parse_url(url)</h3>
+
+<hr>
+
+<pre>
+解析 URL，返回 json 格式的数据，包含 URL 各种信息。
+</pre>
+
+<b>【定义】</b> 文件：xiunoui/xiuno.js 大约 385 行：
+
+<pre class="brush:js">
+global.parse_url = function(url) {
+	if(url.match(/^(([a-z]+):)\/\//i)) {
+		var arr = url.match(/^(([a-z]+):\/\/)?([^\/\?#]+)\/*([^\?#]*)\??([^#]*)#?(\w*)$/i);
+		if(!arr) return null;
+		var r = {
+		    'schema': arr[2],
+		    'host': arr[3],
+		    'path': arr[4],
+		    'query': arr[5],
+		    'anchor': arr[6],
+		    'requesturi': arr[4] + (arr[5] ? '?'+arr[5] : '') + (arr[6] ? '#'+arr[6] : '')
+		};
+		console.log(r);
+		return r;
+	} else {
+		
+		var arr = url.match(/^([^\?#]*)\??([^#]*)#?(\w*)$/i);
+		if(!arr) return null;
+		var r = {
+		    'schema': '',
+		    'host': '',
+		    'path': arr[1],
+		    'query': arr[2],
+		    'anchor': arr[3],
+		    'requesturi': arr[1] + (arr[2] ? '?'+arr[2] : '')  + (arr[3] ? '#'+arr[3] : '')
+		};
+		console.log(r);
+		return r;
+	}
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:js">
+var json = parse_url('http://bbs.xiuno.com/forum-1.htm?keyword=word#hash');
+console.log(json);
+/*
+	{
+		"schema":"http",
+		"host":"bbs.xiuno.com",
+		"path":"forum-1.htm",
+		"query":"keyword=word",
+		"anchor":"hash",
+		"requesturi":"forum-1.htm?keyword=word#hash"
+	}
+*/
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

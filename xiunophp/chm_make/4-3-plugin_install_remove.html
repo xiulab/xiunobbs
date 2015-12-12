@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>plugin_unstall_remove()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+
+<h3>plugin_unstall_remove($file, $code)</h3>
+
+<hr>
+
+<pre>
+将文件 $file 中的 $code 删除掉，一般用来卸载代码。
+
+$file: 要操作的文件
+$code: 待删除的字符串
+</pre>
+
+<b>【定义】</b> 文件：model/plugin.func.php 大约 181 行：
+
+<pre class="brush:php">
+function plugin_unstall_remove($file, $code) {
+	$range_start = range_start_keyword($file, $code);
+	if($range_start === FALSE) return xn_error(-1, '未找到特定字符串，可能版本不对或插件已经卸载。');
+	$range_end = $range_start + strlen($code);
+	
+	$plugin = array (
+		'file'=> $file,							// bbs 源文件
+		'range_start'=> $range_start,					// bbs 源文件开始第几个字符
+		'range_end'=> $range_end,					// bbs 源文件结束到第几个字符
+		'code'=> '',							// 要插入的代码
+	);
+	
+	return plugin_install($plugin);
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+include './model/plugin.func.php';
+
+$file = './pc/view/header.inc.htm';
+$code = '首页';
+
+plugin_install_remove($file, $code);
+
+?>
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>is_email()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>is_email(s)</h3>
+
+<hr>
+
+<pre>
+判断字符串是否为 Email 格式，xxx@xxx.xxx，返回布尔值。
+</pre>
+
+<b>【定义】</b> 文件：xiunoui/xiuno.js 大约 335 行：
+
+<pre class="brush:js">
+global.is_email = function(s) {
+	var r = /^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/i
+	if(!s) {
+		return false;
+	} else if(!r.test(s)) {
+		return false;
+	}
+	return true;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:js">
+var s = "zhangsan@gmail.com";
+var r = is_email(s);
+console.log(r);
+// true
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

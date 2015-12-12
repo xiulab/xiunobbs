@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>$.fn.menu_show()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>$.fn.menu_show(menuid, pos, timeout)</h3>
+
+<hr>
+
+<pre>
+将菜单浮动于控件周围，鼠标离开会有一个延迟才消失。
+
+menuid: 菜单ID
+pos: 位置
+timeout: 几秒后自动消失
+</pre>
+
+<b>【定义】</b> 文件：xiunoui/xiuno.js 大约 1204 行：
+
+<pre class="brush:js">
+// 将菜单浮动于 this 对象的周围, pos 默认为 8
+/*
+	1		2		3
+	4		<this>		6
+	7		8		9
+*/
+$.fn.menu_show = function(menuid, pos, timeout) {
+	return this.each(function() {
+		var jthis = $(this);
+		var jmenu = $(menuid);
+		jmenu.css({position: "absolute", top: '-1000px', left : '-1000px', 'z-index':10000}).show();
+		if(!pos) pos = 8;
+		var offset2 = $.link_div_position(jthis, jmenu, pos, true);
+		if(!offset2) return;
+		jmenu.css(offset2);
+		jmenu.fadeIn('fast');
+		if(timeout) jmenu.mouseout_hide(timeout, jthis);
+	});
+};
+</pre>
+
+<br><b>【用例】</b>
+<xmp><input type="text" value="姓名" id="input1">
+<div id="menu1" style="width: 100px; height: 100px;">层内内容</div>
+
+<script>
+$('#input1').menu_show('menu1', 6);	// 弹出层
+</script>
+</xmp>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

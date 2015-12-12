@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>cache_new()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>cache_new($cacheconf)</h3>
+
+<hr>
+
+<pre>
+根据配置文件实例化一个 Cache 类，失败返回 FALSE，并且自动记录到错误日志。
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 648 行：
+
+<pre class="brush:php">
+function cache_new($cacheconf) {
+	global $db;
+	// 缓存初始化，这里并不会产生连接！在真正使用的时候才连接。
+	// 这里采用最笨拙的方式而不采用 new $classname 的方式，有利于 opcode 缓存。
+	if($cacheconf && $cacheconf['enable']) {
+		switch ($cacheconf['type']) {
+			case 'redis': 	  $cache = new cache_redis($cacheconf['redis']); 	     break;
+			case 'memcached': $cache = new cache_memcached($cacheconf['memcached']); break;
+			case 'mysql': 	  $cache = new cache_mysql(!empty($cacheconf['mysql']) ? $cacheconf['mysql'] : $db); break;
+			case 'xcache': 	  $cache = new cache_xcache(); 	break;
+			case 'apc': 	  $cache = new cache_apc(); 	break;
+			case 'saekv': 	  $cache = new cache_saekv(); 	break;
+			default: xn_message(-1, '不支持的 cache type:'.$conf['cache']['type']);
+		}
+		if(!$cache || ($cache && $cache->errstr)) xn_message(-1, $cache->errstr);
+		return $cache;
+	}
+	return NULL;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+
+$cache2 = cache_new($conf);
+$cache2->set('key1', 'value1');
+
+?&gt;
+</pre>
+
+
+<br><b>【conf.php】</b>
+<pre class="brush:php">
+&lt;?php
+return  array (
+	// -------------> xiunophp 依赖的配置
+	'cache'=> array(
+		'enable' => TRUE,
+		'type'=> 'xcache', // apc|xcache|memcached|redis|mysql
+		'memcached'=> array (
+			'host'=>'localhost',
+			'port'=>'11211',
+		),
+		'redis'=> array (
+			'host'=>'localhost',
+			'port'=>'6379',
+		),
+	),
+	'tmp_path' => './',			// 可以配置为 linux 下的 /dev/shm ，通过内存缓存临时文件
+	'log_path' => './'
+);
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

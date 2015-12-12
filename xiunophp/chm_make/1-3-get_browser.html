@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>get__browser()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>get__browser()</h3>
+
+<hr>
+
+<pre>
+获取浏览器信息。
+</pre>
+
+<b>【定义】</b> 文件：xiunophp/xiunophp.php 大约 1109 行：
+
+<pre class="brush:php">
+function get__browser() {
+	// 默认为 chrome 标准浏览器
+	$browser = array(
+		'device'=>'pc', // pc|mobile|pad
+		'name'=>'chrome', // chrome|firefox|ie|opera
+		'version'=>30,
+	);
+	$agent = isset($_SERVER['HTTP_USER_AGENT']) ? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
+	// 主要判断是否为垃圾IE6789
+	if(strpos($agent, 'msie') !== FALSE || stripos($agent, 'trident') !== FALSE) {
+		$browser['name'] = 'ie';
+		$browser['version'] = 8;
+		preg_match('#MSIE\s*([\d\.]+)#is', $agent, $m);
+		if(!empty($m[1])) {
+			$v = intval($m[1]);
+			$browser['version'] = $v;
+		} else {
+			// 匹配兼容模式 Trident/7.0，兼容模式下会有此标志 $trident = 7;
+			preg_match('#Trident/([\d\.]+)#is', $agent, $m);
+			if(!empty($m[1])) {
+				$trident = intval($m[1]);
+				$trident == 4 AND $browser['version'] = 8;
+				$trident == 5 AND $browser['version'] = 9;
+				$trident > 5 AND $browser['version'] = 10;
+			}
+		}
+	}
+
+	if(isset($_SERVER['HTTP_X_WAP_PROFILE']) || (isset($_SERVER['HTTP_VIA']) && stristr($_SERVER['HTTP_VIA'], "wap") || stripos($agent, 'phone')  || stripos($agent, 'mobile') || strpos($agent, 'ipod'))) {
+		$browser['device'] = 'mobile';
+	} elseif(strpos($agent, 'pad') !== FALSE) {
+		$browser['device'] = 'pad';
+		$browser['name'] = '';
+		$browser['version'] = '';
+	/*
+	} elseif(strpos($agent, 'miui') !== FALSE) {
+		$browser['device'] = 'mobile';
+		$browser['name'] = 'xiaomi';
+		$browser['version'] = '';
+	*/
+	} else {
+		$robots = array('bot', 'spider', 'slurp');
+		foreach($robots as $robot) {
+			if(strpos($agent, $robot) !== FALSE) {
+				$browser['name'] = 'robot';
+				return $browser;
+			}
+		}
+	}
+	return $browser;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+$conf = include './conf.php';
+include './xiunophp/xiunophp.php';
+
+$r = get__browser();
+print_r($r);
+
+/*
+Array
+(
+    [device] =&gt; pc
+    [name] =&gt; chrome
+    [version] =&gt; 30
+)
+*/
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

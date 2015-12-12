@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>$.pdata()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>$.pdata(key, value)</h3>
+
+<hr>
+
+<pre>
+保存信息到客户端 localStorage 对象中，兼容 IE。
+不会随 HTTP 头发送到服务端，可以保存比较大的数据，2M 左右应该是没问题的（具体根据浏览器）。
+</pre>
+
+<b>【定义】</b> 文件：xiunoui/xiuno.js 大约 484 行：
+
+<pre class="brush:js">
+$.pdata = function(key, value) {
+	var r = '';
+	if(typeof value != 'undefined') {
+		value = json_encode(value);
+	}
+
+	// HTML 5
+	try {
+		// ie10 需要 try 一下
+		if(window.localStorage){
+			if(typeof value == 'undefined') {
+				r = localStorage.getItem(key);
+				return json_decode(r);
+			} else {
+				return localStorage.setItem(key, value);
+			}
+		}
+	} catch(e) {}
+
+	// HTML 4
+	if(is_ie && (!document.documentElement || typeof document.documentElement.load == 'unknown' || !document.documentElement.load)) {
+		return '';
+	}
+	// get
+	if(typeof value == 'undefined') {
+		if(is_ie) {
+			try {
+				document.documentElement.load(key);
+				r = document.documentElement.getAttribute(key);
+			} catch(e) {
+				//alert('$.pdata:' + e.message);
+				r = '';
+			}
+		} else {
+			try {
+				r = sessionStorage.getItem(key) && sessionStorage.getItem(key).toString().length == 0 ? '' : (sessionStorage.getItem(key) == null ? '' : sessionStorage.getItem(key));
+			} catch(e) {
+				r = '';
+			}
+		}
+		return json_decode(r);
+	// set
+	} else {
+		if(is_ie){
+			try {
+				// fix: IE TEST for ie6 崩溃
+				document.documentElement.load(key);
+				document.documentElement.setAttribute(key, value);
+				document.documentElement.save(key);
+				return  document.documentElement.getAttribute(key);
+			} catch(error) {/*alert('setdata:'+error.message);*/}
+		} else {
+			try {
+				return sessionStorage.setItem(key, value);
+			} catch(error) {/*alert('setdata:'+error.message);*/}
+		}
+	}
+};
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:js">
+$.pdata('key1', 'value1');
+var s = $.pdata('key1');
+console.log(s);
+// value1
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>

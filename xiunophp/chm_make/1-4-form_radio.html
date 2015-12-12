@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>form_radio()</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="keywords" content="XiunoPHP 开发手册" />
+	<meta name="description" content="XiunoPHP 开发手册 " />
+	<meta name="generator" content="Xiuno BBS" />
+	<meta name="author" content="Xiuno Team" />
+	<meta name="copyright" content="2008-2015 xiuno.com" />
+	<link href="xiunoui/xiuno.css" type="text/css" rel="stylesheet" />
+	<link href="xiunoui/icon.css" type="text/css" rel="stylesheet" />
+	<link href="syntaxhighlighter_3.0.83/shCoreRDark.css" type="text/css" rel="stylesheet" />
+	<link href="chm.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>form_radio($name, $arr, $checked = 0)</h3>
+
+<hr>
+
+<pre>生成选择按钮。</pre>
+
+<b>【定义】</b> 文件：xiunophp/form.func.php 大约 17 行：
+
+<pre class="brush:php">
+function form_radio($name, $arr, $checked = 0) {
+	empty($arr) && $arr = array('否', '是');
+	$s = '';
+
+	foreach((array)$arr as $k=>$v) {
+		$add = $k == $checked ? ' checked="checked"' : '';
+		$s .= "<label><input type=\"radio\" name=\"$name\" value=\"$k\" class=\"noborder\"$add />$v</label> &nbsp; \r\n";
+	}
+	return $s;
+}
+</pre>
+
+<br><b>【用例】</b>
+<pre class="brush:php">
+&lt;?php
+
+include './xiunophp/form.func.php';
+
+$r = form_radio('radio', array(1,2));
+print_r($r);
+/*
+&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio&quot; value=&quot;0&quot; class=&quot;noborder&quot; checked=&quot;checked&quot; /&gt;1&lt;/label&gt; &amp;nbsp;
+&lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;radio&quot; value=&quot;1&quot; class=&quot;noborder&quot; /&gt;2&lt;/label&gt; &amp;nbsp;
+
+*/
+
+?&gt;
+</pre>
+
+</body>
+</html>
+<script src="xiunoui/jquery-1.11.1.js"></script>
+<script src="xiunoui/async.js"></script>
+<script src="xiunoui/md5.js"></script>
+<script src="xiunoui/xiuno.js"></script>
+<script src="xiunoui/dialog.js"></script>
+<script src="syntaxhighlighter_3.0.83/shCore.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+<script src="syntaxhighlighter_3.0.83/shBrushPhp.js"></script>
+<script>
+SyntaxHighlighter.defaults['tab-size'] = 8;
+SyntaxHighlighter.all();
+</script>
+
