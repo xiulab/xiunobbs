@@ -10,7 +10,7 @@ Support SMTP mail
 Support IP limit: limit the number of daily IP posting, send e-mail, upload attachments
 
 [Performance]
-This is Xiuno's strengths, the author started with web development since 2002, has been hanging in the first pen, for web may affect the performance of all links (like bragging, is in fact a fool knows more than ten years down).
+This is Xiuno's strengths, the author started with web development since 2002, has been hanging on the line for the web pen, may very well affect the performance of the link.
 BBS Xiuno in the end how tough? Many people pay attention to this problem, the following data can be used as a reference:
 Post number: 1200w+, user 122w+, the average daily 100w+ PV (peak far beyond this), running speed 0.01s, loadavg < 0.3
 Sample site: http://www.btbbt.cc/
@@ -33,7 +33,7 @@ Xiuno BBS 是一款国产、小巧、稳定、支持在大数据量下仍然保�
 支持 IP 限制：限制每日 IP 发帖数，发邮件数，上传附件数
 
 【性能方面】
-这是 Xiuno 的强项，作者自 2002 年开始接触 web 开发，一直在一线笔耕不缀，对于 web 中可能影响性能的环节了如指掌（有点像吹牛，其实是个傻子十几年下来也都知道了）。
+这是 Xiuno 的强项，作者自 2002 年开始接触 web 开发，一直在一线笔耕不缀，对于 web 中可能影响性能的环节非常了解。
 Xiuno BBS 到底有多强悍？很多人关注这个问题，以下数据可以作为参考：
 帖子数：1200w+, 用户 122w+，平均日PV 100w+（峰值远远超出这个），运行速度 0.01s，loadavg < 0.3
 示例站点：http://www.btbbt.cc/
