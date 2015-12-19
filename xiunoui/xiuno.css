@@ -15,8 +15,8 @@
 }
 
 html, body {margin: 0px; padding: 0px; min-width: 980px;}
-body {color: #465969; overflow: auto;}
-body a {color: #465969; text-decoration: none}
+body {color: #243340; overflow: auto;}
+body a {color: #243340; text-decoration: none}
 body a:hover {color: #0097DD}
 ::selection { background: #50A4DE; color: #FFFFFF;}
 ::-moz-selection { background: #50A4DE; color: #FFFFFF;}
