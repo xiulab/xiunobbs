@@ -73,6 +73,8 @@ if($method == 'GET') {
         		message(1, $error);
 		}
 		
+		$host = $host.':'.$port;
+
 		$conf['db']['type'] = 'pdo_mysql';
 		$conf['db']['pdo_mysql'] = array(
 			'master' => array (
