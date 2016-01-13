@@ -1,5 +1,5 @@
 [What is BBS Xiuno 3 ?]
-BBS Xiuno is a compact, stable, support in large data still remain high load capacity of the light forum. It is only 20+ tables, source code 800K+ (ziped), run very fast, processing a single request in 0.01 second level, in APC, XCache environment can run for 0.00x seconds, little dependent on third party libraries, the front only rely on jquery.js/zepto.js, the author considers it as a pure handmade Ferrari, strong power, no fat, easy deployment and maintenance, is a very good two development foundation.
+BBS Xiuno is a compact, stable, support in large data still remain high load capacity of the light forum. It is only 20+ tables, source code 800K+ (ziped), run very fast, processing a single request in 0.01 second level, in APC, XCache environment can run for 0.00x seconds, little dependent on third party libraries, the front only rely on jquery.js/zepto.js, the author considers it as a pure handmade Ferrari, strong power, no fat, easy deployment and maintenance, is a very good development foundation.
 
 [Function]
 Abandoned the traditional forum, scoring, essence, highlighting and other content selection function, the introduction of the "like" mechanism, the good or bad, user groups, the upgrade, the theme color, etc..

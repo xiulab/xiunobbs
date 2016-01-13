@@ -269,6 +269,11 @@ function user_safe_info($user) {
 	unset($user['mobile']);
 	unset($user['create_ip']);
 	unset($user['create_ip_fmt']);
+	unset($user['create_date']);
+	unset($user['create_date_fmt']);
+	unset($user['login_ip_fmt']);
+	unset($user['login_date_fmt']);
+	unset($user['logins']);
 	return $user;
 }
 
