@@ -91,7 +91,8 @@ var document_scroll_top = function() {
 // 表单提交
 var jsrch_form = $('#srch_form');
 jsrch_form.on('submit', function() {
-	var href = 'search.htm?keyword='+jsrch_form.son('input').val();
+	var keyword = xn_urlencode(jsrch_form.son('input').val());
+	var href = 'search-'+keyword+'.htm';
 	window.location = href;
 	return false;
 });
