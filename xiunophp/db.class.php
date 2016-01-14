@@ -134,6 +134,7 @@ class db_mysql {
 	public function error($errno = 0, $errstr = '') {
 		$this->errno = $errno ? $errno : ($this->link ? mysql_errno($this->link) : mysql_errno());
 		$this->errstr = $errstr ? $errstr : ($this->link ? mysql_error($this->link) : mysql_error());
+		DEBUG AND trigger_error('Database Error:'.$this->errstr);
 	}
 	
 	// pconnect 不释放连接
@@ -311,6 +312,7 @@ class db_pdo_mysql {
 		$error = $this->link ? $this->link->errorInfo() : array(0, $errno, $errstr);
 		$this->errno = $errno ? $errno : (isset($error[1]) ? $error[1] : 0);
 		$this->errstr = $errstr ? $errstr : (isset($error[2]) ? $error[2] : '');
+		DEBUG AND trigger_error('Database Error:'.$this->errstr);
 	}
 	
 	public function __destruct() {
@@ -446,6 +448,7 @@ class db_pdo_sqlite {
 		$error = $this->link ? $this->link->errorInfo() : array(0, 0, '');
 		$this->errno = $errno ? $errno : (isset($error[1]) ? $error[1] : 0);
 		$this->errstr = $errstr ? $errstr : (isset($error[2]) ? $error[2] : '');
+		DEBUG AND trigger_error('Database Error:'.$this->errstr);
 	}
 	
 	public function __destruct() {
