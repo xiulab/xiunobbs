@@ -5,7 +5,8 @@
 include './xiunophp/xn_html_safe.func.php';
 
 // 模板初始化依赖
-$keyword = xn_urldecode(param(1));
+$keyword = param('keyword');
+!$keyword AND $keyword = xn_urldecode(param(1));
 
 $threadlist = thread_find_by_keyword($keyword);
 
