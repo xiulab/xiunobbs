@@ -1,2 +1,4 @@
 upload/*
+log/*
+tmp/*
 conf/conf.php
