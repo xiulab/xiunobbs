@@ -299,9 +299,9 @@ div.panel, div.dialog, table.panel {
 	-webkit-border-radius: 4px;
 	-ms-border-radius: 4px;
 
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-	-moz-box-shadow: 0 120 3px rgba(0, 0, 0, 0.2);
-	-webkit-box-shadow: 0 120 3px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 
 }
 
