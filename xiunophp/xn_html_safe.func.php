@@ -1399,7 +1399,7 @@ class HTML_White {
 				$value = substr($value, 0, -1);
 
 			// 过滤危险�?embed src=
-	               /*} elseif($name == 'src') {
+	               } elseif($name == 'src') {
 	              	 	$v = $this->white_value[$name];
 	              	 	$ok = 0;
 	              	 	foreach($v[2] as $pcre) {
@@ -1423,8 +1423,9 @@ class HTML_White {
 	               				$value = 'http://cloud.xiuno.net/check-url.htm?url='.urlencode($value);
 	               			}
 	               		}
-	               		$value = $ok ? $value : $v[1];*/
-	                // 白名单�?	                } elseif(isset($this->white_value[$name]))  {
+	               		$value = $ok ? $value : $v[1];
+	                // 白名单	                
+			} elseif(isset($this->white_value[$name]))  {
 	                	$v = $this->white_value[$name];
         			if($v[0] == 'range') {
         				$px = 0;
