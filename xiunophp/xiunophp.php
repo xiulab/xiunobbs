@@ -1118,10 +1118,13 @@ function get__browser() {
 	if(strpos($agent, 'msie') !== FALSE || stripos($agent, 'trident') !== FALSE) {
 		$browser['name'] = 'ie';
 		$browser['version'] = 8;
-		preg_match('#MSIE\s*([\d\.]+)#is', $agent, $m);
+		preg_match('#msie\s*([\d\.]+)#is', $agent, $m);
 		if(!empty($m[1])) {
-			$v = intval($m[1]);
-			$browser['version'] = $v;
+			if(strpos($agent, 'compatible; msie 7.0;') !== FALSE) {
+				$browser['version'] = 8;
+			} else {
+				$browser['version'] = intval($m[1]);
+			}
 		} else {
 			// 匹配兼容模式 Trident/7.0，兼容模式下会有此标志 $trident = 7;
 			preg_match('#Trident/([\d\.]+)#is', $agent, $m);
@@ -1292,7 +1295,7 @@ function http_get($url, $timeout = 5, $times = 3) {
 }
 
 function http_post($url, $post = '', $timeout = 10, $times = 3) {
-	$stream = stream_context_create(array('http' => array('header' => 'Content-type: application/x-www-form-urlencoded', 'method' => 'POST', 'content' => $post, 'timeout' => $timeout)));
+	$stream = stream_context_create(array('http' => array('header' => "Content-type: application/x-www-form-urlencoded\r\nx-requested-with: XMLHttpRequest", 'method' => 'POST', 'content' => $post, 'timeout' => $timeout)));
 	while($times-- > 0) {
 		$s = file_get_contents($url, NULL, $stream, 0, 4096000);
 		if($s !== FALSE) return $s;
