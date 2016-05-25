@@ -1192,6 +1192,16 @@ $.XNEditor.prototype.range_select = function(node) {
 	return range;
 }
 
+$.XNEditor.prototype.strip_tags = function (s) {
+	s = s.replace(/<br[^>]*?>/ig, "\r\t\n");
+	s = s.replace(/<tr[^>]*?>/ig, "\r\t\n");
+	s = s.replace(/<p[^>]*?>/ig, "\r\t\n");
+	s = s.replace(/<div[^>]*?>/ig, "\r\t\n");
+	s = s.replace(/(\r\t\n)+/ig, "\n");
+	s = s.replace(/<\/?\w+[^>]*?>/ig, '');
+	return s;
+}
+
 /*
 	<p><h1> 只能插入 span b i u 等内联标签
 	查找第一级的孩子里是否有 block 标签：div, table, ul, dl，他们不能插入到 p h1 当中
@@ -1212,7 +1222,9 @@ $.XNEditor.prototype.paste = function(s, ishtml) {
 	var frag = document.createElement('div');
 	frag.innerHTML = s;
 	
+	// 代码段
 	if(this.has_parent_tag(range.commonAncestorContainer, 'PRE')) {
+		frag.innerHTML = this.strip_tags(s);
 		if(frag.firstChild && frag.firstChild.tagName == 'PRE') {
 			frag.firstChild.removeAndMoveUpChildren();
 		}
