@@ -40,7 +40,7 @@ if($action == 'phperror') {
 // 用户组更新
 } elseif($action == 'update') {
 	
-?>
+
 	public function on_phperror() {
 		
 	}
@@ -128,4 +128,4 @@ if($action == 'phperror') {
 		krsort($return);
 		return $return;
 	}
-	
+?>

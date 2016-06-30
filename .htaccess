@@ -4,6 +4,6 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^admin/(.*)\.htm(.*)$ /admin/index.php?$1.htm$2 [L]
 RewriteRule ^mobile/(.*)\.htm(.*)$ /mobile/index.php?$1.htm$2 [L]
-RewriteRule ^(.*)\.htm(.*)$ /index.php?$1.htm$2 [L]
+RewriteRule ^(.*)\.htm(\??.*)$ /index.php?$1.htm$2 [L]
 #RewriteRule ^((.*?/)?|(.*?))(.*)$ $1index.php?$2 [L]
 </IfModule>

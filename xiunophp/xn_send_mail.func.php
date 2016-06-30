@@ -3408,4 +3408,14 @@ function xn_send_mail($smtp, $username, $email, $subject, $message, $charset = '
 		return TRUE;
 	}
 }
+
+/*
+$smtp = array('host'=>'smtp.sina.com', 'port'=>25, 'user'=>'axiuno@sina.com', 'pass'=>'xxxx');
+$username = 'zhangsan';
+$email = 'axiuno@gmail.com';
+$subject = 'test';
+$message = 'test';
+xn_send_mail($smtp, $username, $email, $subject, $message);
+*/
+
 ?>

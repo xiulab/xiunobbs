@@ -1598,10 +1598,7 @@ class HTML_White {
 	}
 }
 
-// class xn_html_safe �?axiuno@gmail.com 编写�?// 技术支持：http://www.xiuno.com/
-// 严格的图片URL格式
-
-
+// class xn_html_safe 由 axiuno@gmail.com 编写
 function xn_html_safe($doc) {
 	$pattern = array (
 		'img_url'=>'#^(https?://[^\'"\\\\<>:\s]+(:\d+)?)?([^\'"\\\\<>:\s]+?)*$#is',
@@ -1712,11 +1709,26 @@ function xn_html_safe($doc) {
 	return $result;
 }
 
-/*error_reporting(E_ALL);
-//$s = '<b onclick="ddd">abcc</b><table class="abc" style="width: 103330px;  expression:(alert(123)); background: url(1.jpg) no-repeat ;" allowfullscreen="xxx" allowscriptaccess="yes"><tr><td>xxxxxxxxxxx</td></tr></table>';
-//$s = '<embed wmode="transparent" src="http://player.youku.com/player.php/sid/XNDcxMDUzNzI4/v.swf" style="z-index:0;" width="876" height="454" type="application/x-shockwave-flash" allowfullscreen="true" class="border"><br><div></div>';
-//$s = '<p style="margin-top: 0px;">　　<strong style="margin: 0px; padding: 0px;">模仿视频练习杀人技�?/strong></p><p style="margin-top: 0px;">　　2007�?月，该团伙骨干成员木沙・艾山曾涉嫌暴恐活动被公安机关审查�?010�?月，木沙・艾山与喀斯木・买买提结识。此后，喀斯木・买买提先后与团伙其他成员相识�?012�?月以来，上述人员经常观看宣传宗教极端和暴恐内容的音视频，形成了暴恐团伙�?/p>';
-$s = '<a href="javascript://www.baidu.com/">baidu</a>';
-echo xn_html_safe($s);*/
+/*
+
+error_reporting(E_ALL);
+
+$s = '
+	<script >alert(/alert(123)/)</script>
+	<b onclick="ddd">abcc</b>
+	<table class="abc" style="width: 103330px;  expression:(alert(123)); background: url(1.jpg) no-repeat ;">
+		<tr><td>内容</td></tr>
+	</table>';
+
+echo xn_html_safe($s);
+
+<b>abcc</b>
+<table class="abc" style="width:100%px; background:url(1.jpg) no-repeat ;">
+	<tr><td>内容</td></tr>
+</table>
+
+*/
+
+
 
 ?>

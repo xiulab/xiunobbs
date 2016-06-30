@@ -21,7 +21,8 @@ if($action == 'create') {
 		$forumlist_allowthread = forum_list_access_filter($forumlist, $gid, 'allowthread');
 		$forumarr = xn_json_encode(arrlist_key_values($forumlist_allowthread, 'fid', 'name'));
 		if(empty($forumlist_allowthread)) {
-			header("Location:user-login.htm");
+			message(-1, '您所在的用户组没有权限发主题');
+			// header("Location:user-login.htm");
 			exit;
 		}
 		

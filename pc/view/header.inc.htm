@@ -71,7 +71,7 @@
 							<i class="icon user-create"></i><a href="user-create.htm">注册</a> &nbsp;
 							<i class="icon comment"></i><a href="thread-create<?php echo (empty($fid) ? '' : "-$fid"); ?>.htm">发帖</a> &nbsp;
 						<?php } else { ?>
-							<a href="my.htm"><img src="<?php echo $user['avatar_url']; ?>" class="avatar tiny" align="baseline"/><?php echo $user['username']; ?></a> &nbsp;
+							<a href="my.htm"><img src="<?php echo $user['avatar_url']; ?>" class="avatar tiny" align="top"  style="margin-top: 2px;" /><?php echo $user['username']; ?></a> &nbsp;
 							<i class="icon comment"></i><a href="thread-create<?php echo (empty($fid) ? '' : "-$fid"); ?>.htm">发帖</a> &nbsp;
 							<?php if($gid == 1) { ?><i class="icon cog"></i><a href="admin/" target="_blank">设置</a> <?php } ?> &nbsp;
 							<i class="icon power-off"></i><a href="user-logout.htm">退出</a> &nbsp;
