@@ -1,7 +1,10 @@
 <?php
 
+// hook sms_func_php_start.php
+
 // 接口需要够买，请自行咨询：http://inolink.com/
 function sms_send($mobile, $message, &$err) {
+	// hook sms_send_start.php
 	global $conf;
 	$arr = array(
 		'0' => 	'发送成功',
@@ -41,6 +44,10 @@ function sms_send($mobile, $message, &$err) {
 		$err = $arr[$r];
 		return $r;
 	}
+	// hook sms_send_end.php
 }
+
+
+// hook sms_func_php_end.php
 
 ?>

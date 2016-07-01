@@ -1,36 +1,54 @@
 <?php
 
+// hook thread_func_php_start.php
+
 // ------------> 最原生的 CURD，无关联其他数据。
 
 function thread__create($arr) {
+	// hook thread__create_start.php
 	$sqladd = array_to_sqladd($arr);
-	return db_exec("INSERT INTO `bbs_thread` SET $sqladd");
+	$r = db_exec("INSERT INTO `bbs_thread` SET $sqladd");
+	// hook thread__create_end.php
+	return $r;
 }
 
 function thread__update($tid, $arr) {
+	// hook thread__update_start.php
 	$sqladd = array_to_sqladd($arr);
-	return db_exec("UPDATE `bbs_thread` SET $sqladd WHERE tid='$tid'");
+	$r = db_exec("UPDATE `bbs_thread` SET $sqladd WHERE tid='$tid'");
+	// hook thread__update_end.php
+	return $r;
 }
 
 function thread__read($tid) {
-	return db_find_one("SELECT * FROM `bbs_thread` WHERE tid='$tid'");
+	// hook thread__read_start.php
+	$thread = db_find_one("SELECT * FROM `bbs_thread` WHERE tid='$tid'");
+	// hook thread__read_end.php
+	return $thread;
 }
 
 function thread__delete($tid) {
-	return db_exec("DELETE FROM `bbs_thread` WHERE tid='$tid'");
+	// hook thread__delete_start.php
+	$r = db_exec("DELETE FROM `bbs_thread` WHERE tid='$tid'");
+	// hook thread__delete_end.php
+	return $r;
 }
 
 function thread__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
+	// hook thread__find_start.php
 	$cond = cond_to_sqladd($cond);
 	$orderby = orderby_to_sqladd($orderby);
 	$offset = ($page - 1) * $pagesize;
 	$arrlist = db_find("SELECT tid FROM `bbs_thread` $cond$orderby LIMIT $offset,$pagesize");
 	if(empty($arrlist)) return array();
 	$tids = implode(',', arrlist_values($arrlist, 'tid'));
-	return db_find("SELECT * FROM `bbs_thread` WHERE tid IN ($tids)");
+	$threadlist = db_find("SELECT * FROM `bbs_thread` WHERE tid IN ($tids)");
+	// hook thread__find_end.php
+	return $threadlist;
 }
 
 function thread_create($arr, &$pid) {
+	// hook thread_create_start.php
 	global $conf;
 	$fid = $arr['fid'];
 	$uid = $arr['uid'];
@@ -121,11 +139,13 @@ function thread_create($arr, &$pid) {
 	// 更新板块信息。
 	forum_list_cache_delete();
 	
+	// hook thread_create_end.php
 	return $tid;
 }
 
 // 不要在大循环里调用此函数！比较耗费资源。
 function thread_update($tid, $arr) {
+	// hook thread_update_start.php
 	global $conf;
 	$thread = thread__read($tid);
 	
@@ -155,33 +175,42 @@ function thread_update($tid, $arr) {
 	$r = thread__update($tid, $arr);
 	!empty($arr['fid']) AND thread_tids_cache_delete($arr['fid'], TRUE);
 	
+	// hook thread_update_end.php
 	return $r;
 }
 
 // views + 1
 function thread_inc_views($tid, $n = 1) {
+	// hook thread_inc_views_start.php
 	global $conf;
 	if(!$conf['update_views_on']) return TRUE;
 	$sqladd = strpos($conf['db']['type'], 'mysql') === FALSE ? '' : ' LOW_PRIORITY';
-	return db_exec("UPDATE$sqladd `bbs_thread` SET views=views+$n WHERE tid='$tid'");
+	$r = db_exec("UPDATE$sqladd `bbs_thread` SET views=views+$n WHERE tid='$tid'");
+	// hook thread_inc_views_end.php
+	return $r;
 }
 
 function thread_read($tid) {
+	// hook thread_read_start.php
 	$thread = thread__read($tid);
 	thread_format($thread);
+	// hook thread_read_end.php
 	return $thread;
 }
 
 // 从缓存中读取，避免重复从数据库取数据，主要用来前端显示，可能有延迟。重要业务逻辑不要调用此函数，数据可能不准确，因为并没有清理缓存，针对 request 生命周期有效。
 function thread_read_cache($tid) {
+	// hook thread_read_cache_start.php
 	static $cache = array(); // 用静态变量只能在当前 request 生命周期缓存，要跨进程，可以再加一层缓存： memcached/xcache/apc/
 	if(isset($cache[$tid])) return $cache[$tid];
 	$cache[$tid] = thread_read($tid);
+	// hook thread_read_cache_end.php
 	return $cache[$tid];
 }
 
 // 删除主题
 function thread_delete($tid) {
+	// hook thread_delete_start.php
 	global $conf;
 	$thread = thread__read($tid);
 	if(empty($thread)) return TRUE;
@@ -221,18 +250,22 @@ function thread_delete($tid) {
 	thread_top_cache_delete();
 	thread_lastpid_cache_delete();
 	
+	// hook thread_delete_end.php
 	return $r;
 }
 
 function thread_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
+	// hook thread_find_start.php
 	$threadlist = thread__find($cond, $orderby, $page, $pagesize);
 	if($threadlist) foreach ($threadlist as &$thread) thread_format($thread);
+	// hook thread_find_end.php
 	return $threadlist;
 }
 
 // $order: tid/lastpid/agrees
 // 按照: 发帖时间/最后回复时间/喜欢数 倒序
 function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'tid') {
+	// hook thread_find_by_fid_start.php
 	global $conf, $forumlist;
 	$key = "forum_tids_{$order}_$fid";
 	if($page <= $conf['cache_thread_list_pages']) {
@@ -270,18 +303,22 @@ function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'tid') {
 		$toplist1 = thread_top_find($fid);
 		$threadlist = $toplist3 + $toplist1 + $threadlist;
 	}
+	// hook thread_find_by_fid_end.php
 	return $threadlist;
 }
 
 function thread_read_by_seo_url($url) {
+	// hook thread_read_by_seo_url_start.php
 	$url = addslashes($url);
 	$tid = thread_url_read_by_url($url);
 	$thread = $tid ? thread_read($tid) : array();
+	// hook thread_read_by_seo_url_end.php
 	return $thread;
 }
 
 // 默认搜索标题
 function thread_find_by_keyword($keyword) {
+	// hook thread_find_by_keyword_start.php
 	$threadlist = db_find("SELECT * FROM `bbs_thread` WHERE subject LIKE '%$keyword%' LIMIT 60");
 	arrlist_multisort($threadlist, 'tid', FALSE); // 用 PHP 排序，mysql 排序消耗太大。
 	if($threadlist) {
@@ -290,36 +327,44 @@ function thread_find_by_keyword($keyword) {
 			$thread['subject'] = post_highlight_keyword($thread['subject'], $keyword);
 		}
 	}
+	// hook thread_find_by_keyword_end.php
 	return $threadlist;
 }
 
 // 前 10 页 tids
 function thread_find_tids($fid, $pagesize = 20, $order = 'tid') {
+	// hook thread_find_tids_start.php
 	global $conf;
 	$limit = $pagesize * $conf['cache_thread_list_pages'];
 	$tidlist = db_find("SELECT tid FROM `bbs_thread` WHERE fid='$fid' ORDER BY $order DESC LIMIT 0, $limit", 'tid');
 	$tids = arrlist_values($tidlist, 'tid');
+	// hook thread_find_tids_end.php
 	return $tids;
 }
 
 function thread_find_by_tids($tids, $page = 1, $pagesize = 20, $order = 'tid') {
+	// hook thread_find_by_tids_start.php
 	$start = ($page - 1) * $pagesize;
 	$tids = array_slice($tids, $start, $pagesize);
 	if(!$tids) return array();
 	$in = implode(',', $tids);
 	$threadlist = db_find("SELECT * FROM `bbs_thread` WHERE tid IN ($in) ORDER BY $order DESC", 'tid');
 	if($threadlist) foreach($threadlist as &$thread) thread_format($thread);
+	// hook thread_find_by_tids_end.php
 	return $threadlist;
 }
 
 // $order: tid/lastpid/agrees
 function thread_tids_cache_delete_by_order($fid, $order = 'tid') {
+	// hook thread_tids_cache_delete_by_order_start.php
 	$key = "forum_tids_{$order}_$fid";
 	cache_delete($key);
+	// hook thread_tids_cache_delete_by_order_end.php
 }
 
 // 更新三种缓存，如果指定了 $tid ，则判断在缓存内才更新。
 function thread_tids_cache_delete($fid, $force = FALSE) {
+	// hook thread_tids_cache_delete_start.php
 	global $conf;
 	static $deleted = FALSE;
 	if($deleted && !$force) return;
@@ -328,9 +373,11 @@ function thread_tids_cache_delete($fid, $force = FALSE) {
 		thread_tids_cache_delete_by_order($fid, $v);
 	}
 	$deleted = TRUE;
+	// hook thread_tids_cache_delete_end.php
 }
 
 function thread_format(&$thread) {
+	// hook thread_format_start.php
 	global $conf, $forumlist;
 	if(empty($thread)) return;
 	$thread['create_date_fmt'] = humandate($thread['create_date']);
@@ -365,33 +412,45 @@ function thread_format(&$thread) {
 	$thread['thread_class'] = 'thread_agrees_'.$agree_level;
 	$thread['top_class'] = $thread['top'] ? 'thread_top_'.$thread['top'] : '';
 	
+	// hook thread_format_end.php
 }
 
 function thread_format_last_date(&$thread) {
+	// hook thread_format_last_date_start.php
 	if($thread['last_date'] != $thread['create_date']) {
 		$thread['last_date_fmt'] = humandate($thread['last_date']);
 	} else {
 		$thread['create_date_fmt'] = humandate($thread['create_date']);
 	}
+	// hook thread_format_last_date_end.php
 }
 
 function thread_count($cond = array()) {
-	return db_count('bbs_thread', $cond);
+	// hook thread_count_start.php
+	$n = db_count('bbs_thread', $cond);
+	// hook thread_count_end.php
+	return $n;
 }
 
 function thread_maxid() {
-	return db_maxid('bbs_thread', 'tid');
+	// hook thread_maxid_start.php
+	$n = db_maxid('bbs_thread', 'tid');
+	// hook thread_maxid_end.php
+	return $n;
 }
 
 function thread_get_level($n, $levelarr) {
+	// hook thread_get_level_start.php
 	foreach($levelarr as $k=>$level) {
 		if($n <= $level) return $k;
 	}
+	// hook thread_get_level_end.php
 	return $k;
 }
 
 // 检测是否在灌水，如果近期连续发表了5篇主题，或者相同标题的文章，则认为在灌水。
 function thread_check_flood($gid, $fid, $subject) {
+	// hook thread_check_flood_start.php
 	global $sid, $uid, $conf;
 	if(!$conf['check_flood_on']) return FALSE;
 	if($gid > 0 AND $gid < 5) return FALSE;
@@ -407,11 +466,13 @@ function thread_check_flood($gid, $fid, $subject) {
 		}
 	}
 	if($threads > $conf['check_flood']['threads']) return TRUE;
+	// hook thread_check_flood_end.php
 	return FALSE;
 }
 
 // 对 $threadlist 权限过滤
 function thread_list_access_filter(&$threadlist, $gid) {
+	// hook thread_list_access_filter_start.php
 	global $conf, $forumlist;
 	if(empty($threadlist)) return;
 	foreach($threadlist as $tid=>$thread) {
@@ -421,39 +482,51 @@ function thread_list_access_filter(&$threadlist, $gid) {
 			unset($threadlist[$tid]);
 		}
 	}
+	// hook thread_list_access_filter_end.php
 }
 
 // SEO URL，自定义 URL，拆分为单独的表，减小 thread 表的尺寸。
 function thread_url_read($tid) {
+	// hook thread_url_read_start.php
 	$arr = db_find_one("SELECT * FROM bbs_thread_url WHERE tid='$tid'");
+	// hook thread_url_read_end.php
 	return $arr ? $arr['url'] : '';
 }
 
 function thread_url_read_by_url($url) {
+	// hook thread_url_read_by_url_start.php
 	$arr = db_find_one("SELECT * FROM bbs_thread_url WHERE url='$url'");
+	// hook thread_url_read_by_url_end.php
 	return $arr ? $arr['tid'] : 0;
 }
 
 function thread_url_create($tid, $url) {
+	// hook thread_url_create_start.php
 	if(!$url) return TRUE;
 	$r = db_exec("INSERT INTO bbs_thread_url SET tid='$tid', url='$url'");
 	$r !== FALSE AND thread__update($tid, array('url_on' => 1));
+	// hook thread_url_create_end.php
 	return $r;
 }
 
 function thread_url_update($tid, $url) {
+	// hook thread_url_update_start.php
 	$tid = intval($tid);
 	$r = db_exec("UPDATE bbs_thread_url SET url='$url' WHERE tid='$tid'");
 	$r !== FALSE AND thread__update($tid, array('url_on' => $url ? 1 : 0));
+	// hook thread_url_update_end.php
 	return $r;
 }
 
 function thread_url_delete($tid) {
+	// hook thread_url_delete_start.php
 	$r = db_exec("DELETE FROM bbs_thread_url WHERE tid='$tid'");
+	// hook thread_url_delete_end.php
 	return $r;
 }
 
 function thread_url_replace($tid, $url) {
+	// hook thread_url_replace_start.php
 	$arr = thread_url_read($tid);
 	if($url) {
 		if(empty($arr)) {
@@ -467,9 +540,11 @@ function thread_url_replace($tid, $url) {
 		}
 		return TRUE;
 	}
+	// hook thread_url_replace_end.php
 }
 
 function thread_check_lastpid($tid, $lastpid) {
+	// hook thread_check_lastpid_start.php
 	// 查找最新的 pid
 	$thread = thread_read_cache($tid);
 	if(empty($thread)) return;
@@ -481,6 +556,10 @@ function thread_check_lastpid($tid, $lastpid) {
 		// 如果在最新主题当中，应该清理掉。
 		//thread_lastpid_truncate();
 	}
+	// hook thread_check_lastpid_end.php
 }
+
+
+// hook thread_func_php_end.php
 
 ?>

@@ -1,7 +1,10 @@
 <?php
 
+// hook cron_func_php_start.php
+
 // 计划任务
 function cron_run($force = 0) {
+	// hook cron_run_start.php
 	global $conf, $time, $forumlist, $runtime;
 	$cron_1_last_date = runtime_get('cron_1_last_date');
 	$cron_2_last_date = runtime_get('cron_2_last_date');
@@ -70,7 +73,11 @@ function cron_run($force = 0) {
 		}
 		
 	}
+	// hook cron_run_end.php
 }
 
+
+
+// hook cron_func_php_end.php
 
 ?>

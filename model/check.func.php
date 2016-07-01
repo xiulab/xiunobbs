@@ -1,22 +1,29 @@
 <?php
 
+// hook check_func_php_start.php
+
 function is_mobile($mobile, &$err) {
+	// hook is_mobile_start.php
 	if(!preg_match('#^\d{11}$#', $mobile)) {
 		$err = '手机格式不正确';
 		return FALSE;
 	}
+	// hook is_mobile_end.php
 	return TRUE;
 }
 
 function is_email($email, &$err) {
+	// hook is_email_start.php
 	if(!preg_match('/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/i', $email)) {
 		$err = 'Email 格式不正确';
 		return FALSE;
 	}
+	// hook is_email_end.php
 	return TRUE;
 }
 
 function is_username($username, &$err = '') {
+	// hook is_username_start.php
 	$len = mb_strlen($username, 'UTF-8');
 	if($len > 16) {
 		$err = '用户名太长:'.$len;
@@ -26,10 +33,12 @@ function is_username($username, &$err = '') {
 		$err = '用户名格式不正确';
 		return FALSE;
 	}
+	// hook is_username_end.php
 	return TRUE;
 }
 
 function is_password($password, &$err = '') {
+	// hook is_password_start.php
 	if(strlen($password) < 8) {
 		$err = '密码太短';
 		return FALSE;
@@ -37,7 +46,11 @@ function is_password($password, &$err = '') {
 		$err = '密码太长';
 		return FALSE;
 	}
+	// hook is_password_end.php
 	return TRUE;
 }
+
+
+// hook check_func_php_end.php
 
 ?>

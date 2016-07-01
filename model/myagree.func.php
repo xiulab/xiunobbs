@@ -7,6 +7,7 @@
 // ------------> 关联的 CURD，无关联其他数据。
 
 function myagree_create($fromuid, $touid, $pid, $tid = 0, $isfirst = 0) {
+	// hook myagree_create_start.php
 	global $time;
 	if($fromuid == 0) return TRUE; // 匿名发帖
 	$post = post_read($pid);
@@ -25,13 +26,18 @@ function myagree_create($fromuid, $touid, $pid, $tid = 0, $isfirst = 0) {
 	} else {
 		return FALSE;
 	}
+	// hook myagree_create_end.php
 }
 
 function myagree_read($pid, $uid) {
-	return db_find_one("SELECT * FROM `bbs_post_agree` WHERE pid='$pid' AND uid='$uid' LIMIT 1");
+	// hook myagree_read_start.php
+	$myagree = db_find_one("SELECT * FROM `bbs_post_agree` WHERE pid='$pid' AND uid='$uid' LIMIT 1");
+	// hook myagree_read_end.php
+	return $myagree;
 }
 
 function myagree_delete($uid, $pid, $isfirst) {
+	// hook myagree_delete_start.php
 	$agree = myagree_read($pid, $uid);
 	if(empty($agree)) return 0;
 	
@@ -53,16 +59,21 @@ function myagree_delete($uid, $pid, $isfirst) {
 	} else {
 		return FALSE;
 	}
+	// hook myagree_delete_end.php
 }
 
 function myagree_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
+	// hook myagree_find_start.php
 	$cond = cond_to_sqladd($cond);
 	$orderby = orderby_to_sqladd($orderby);
 	$offset = ($page - 1) * $pagesize;
-	return db_find("SELECT * FROM `bbs_myagree` $cond$orderby LIMIT $offset,$pagesize");
+	$myagreelist = db_find("SELECT * FROM `bbs_myagree` $cond$orderby LIMIT $offset,$pagesize");
+	// hook myagree_find_end.php
+	return $myagreelist;
 }
 
 function myagree_find_by_uid($uid, $page = 1, $pagesize = 20) {
+	// hook myagree_find_by_uid_start.php
 	$mylist = myagree_find(array('uid'=>$uid), array('pid'=>-1), $page, $pagesize);
 	if(empty($mylist)) return array();
 	$threadlist = array();
@@ -75,10 +86,12 @@ function myagree_find_by_uid($uid, $page = 1, $pagesize = 20) {
 		$thread['message'] = $post['isfirst'] ? '' : htmlspecialchars(mb_substr(strip_tags($post['message']), 0, 42, 'UTF-8'));
 		$threadlist[$myagree['pid']] = $thread;
 	}
+	// hook myagree_find_by_uid_end.php
 	return $threadlist;
 }
 
 function myagree_find_pids_by_uid($uid, $page = 1, $pagesize = 20) {
+	// hook myagree_find_pids_by_uid_start.php
 	$mylist = myagree_find(array('uid'=>$uid), array('pid'=>-1), $page, $pagesize);
 	if(empty($mylist)) return array();
 	$threadlist = array();
@@ -87,16 +100,21 @@ function myagree_find_pids_by_uid($uid, $page = 1, $pagesize = 20) {
 		$thread['create_date_fmt'] = humandate($myagree['create_date']);
 		$threadlist[$myagree['pid']] = $thread;
 	}
+	// hook myagree_find_pids_by_uid_end.php
 	return $threadlist;
 }
 
 function myagree_count_by_uid($uid) {
+	// hook myagree_count_by_uid_start.php
 	$arr = db_find_one("SELECT COUNT(*) AS num FROM `bbs_myagree` WHERE uid='$uid'");
+	// hook myagree_count_by_uid_end.php
 	return intval($arr['num']);
 }
 
 function myagree_count_by_pid($pid) {
+	// hook myagree_count_by_pid_start.php
 	$arr = db_find_one("SELECT COUNT(*) AS num FROM `bbs_myagree` WHERE pid='$pid'");
+	// hook myagree_count_by_pid_end.php
 	return intval($arr['num']);
 }
 
@@ -104,13 +122,16 @@ function myagree_count_by_pid($pid) {
 // ----------> post_agree 相关，合并到此文件，减少 include。
 
 function post_agree_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
+	// hook post_agree_find_start.php
 	$cond = cond_to_sqladd($cond);
 	$orderby = orderby_to_sqladd($orderby);
 	$offset = ($page - 1) * $pagesize;
+	// hook post_agree_find_end.php
 	return db_find("SELECT * FROM `bbs_post_agree` $cond$orderby LIMIT $offset,$pagesize");
 }
 
 function post_agree_find_by_pid($pid, $page = 1, $pagesize = 100) {
+	// hook post_agree_find_by_pid_start.php
 	$agreelist = post_agree_find(array('pid'=>$pid), array('pid'=>1), $page, $pagesize);
 	if(empty($agreelist)) return array();
 	foreach ($agreelist as &$agree) {
@@ -119,11 +140,13 @@ function post_agree_find_by_pid($pid, $page = 1, $pagesize = 100) {
 		$agree['username'] = $agree['user']['username'];
 		$agree['create_date_fmt'] = humandate($agree['create_date']);
 	}
+	// hook post_agree_find_by_pid_end.php
 	return $agreelist;
 }
 
 // 更新 agree
 function agree_update($touid, $pid, $tid, $fid, $isfirst) {
+	// hook agree_update_start.php
 	global $conf, $time, $group, $longip, $sid, $uid, $gid, $user;
 	
 	//user_login_check($user);
@@ -182,5 +205,7 @@ function agree_update($touid, $pid, $tid, $fid, $isfirst) {
 			return xn_error(0, '点喜欢成功');
 		}
 	}
+	// hook agree_update_end.php
 }
+
 ?>

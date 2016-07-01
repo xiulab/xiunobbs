@@ -4,6 +4,7 @@
 // ------------> 最原生的 CURD，无关联其他数据。
 
 function guest_agree_create($sid, $ip, $pid, $touid, $tid) {
+	// hook guest_agree_create_start.php
 	$sid = addslashes($sid);
 	$ip = intval($ip);
 	$pid = intval($pid);
@@ -20,21 +21,29 @@ function guest_agree_create($sid, $ip, $pid, $touid, $tid) {
 	} else {
 		return FALSE;
 	}
+	// hook guest_agree_create_end.php
 }
 
 function guest_agree_read($sid, $pid) {
+	// hook guest_agree_read_start.php
 	$pid = intval($pid);
 	$sid = addslashes($sid);
-	return db_find_one("SELECT * FROM `bbs_guest_agree` WHERE sid='$sid' AND pid='$pid' LIMIT 1");
+	$agree = db_find_one("SELECT * FROM `bbs_guest_agree` WHERE sid='$sid' AND pid='$pid' LIMIT 1");
+	// hook guest_agree_read_end.php
+	return $agree;
 }
 
 function guest_agree_read_by_ip_pid($ip, $pid) {
+	// hook guest_agree_read_by_ip_pid_start.php
 	$ip = intval($ip);
 	$pid = intval($pid);
-	return db_find_one("SELECT * FROM `bbs_guest_agree` WHERE ip='$ip' AND pid='$pid' LIMIT 1");
+	$agree = db_find_one("SELECT * FROM `bbs_guest_agree` WHERE ip='$ip' AND pid='$pid' LIMIT 1");
+	// hook guest_agree_read_by_ip_pid_end.php
+	return $agree;
 }
 
 function guest_agree_delete($sid, $pid, $touid, $tid) {
+	// hook guest_agree_delete_start.php
 	$pid = intval($pid);
 	$sid = addslashes($sid);
 	$r = db_exec("DELETE FROM `bbs_guest_agree` WHERE sid='$sid' AND pid='$pid'");
@@ -50,27 +59,38 @@ function guest_agree_delete($sid, $pid, $touid, $tid) {
 	} else {
 		return FALSE;
 	}
+	// hook guest_agree_delete_end.php
 }
 
 function guest_agree_delete_by_ip($ip) {
+	// hook guest_agree_delete_by_ip_start.php
 	$ip = intval($ip);
-	return db_exec("DELETE FROM `bbs_guest_agree` WHERE ip='$ip'");
+	$r = db_exec("DELETE FROM `bbs_guest_agree` WHERE ip='$ip'");
+	// hook guest_agree_delete_by_ip_end.php
+	return $r;
 }
 
 function guest_agree_count_by_sid($sid) {
+	// hook guest_agree_count_by_sid_start.php
 	$sid = addslashes($sid);
 	$arr = db_find_one("SELECT COUNT(*) AS num FROM `bbs_guest_agree` WHERE sid='$sid'");
+	// hook guest_agree_count_by_sid_end.php
 	return $arr['num'];
 }
 
 function guest_agree_count_by_ip($ip) {
+	// hook guest_agree_count_by_ip_start.php
 	$ip = intval($ip);
 	$arr = db_find_one("SELECT COUNT(*) AS num FROM `bbs_guest_agree` WHERE ip='$ip'");
+	// hook guest_agree_count_by_ip_end.php
 	return $arr['num'];
 }
 
 function guest_agree_truncate() {
-	return db_exec('TRUNCATE `bbs_guest_agree`');
+	// hook guest_agree_truncate_start.php
+	$r = db_exec('TRUNCATE `bbs_guest_agree`');
+	// hook guest_agree_truncate_end.php
+	return $r;
 }
 
 ?>

@@ -1,36 +1,54 @@
 <?php
 
+// hook post_func_php_start.php
+
 // ------------> 最原生的 CURD，无关联其他数据。
 
 function post__create($arr) {
+	// hook post__create_start.php
 	$sqladd = array_to_sqladd($arr);
-	return db_exec("INSERT INTO `bbs_post` SET $sqladd");
+	$r = db_exec("INSERT INTO `bbs_post` SET $sqladd");
+	// hook post__create_end.php
+	return $r;
 }
 
 function post__update($pid, $arr) {
+	// hook post__update_start.php
 	$sqladd = array_to_sqladd($arr);
-	return db_exec("UPDATE `bbs_post` SET $sqladd WHERE pid='$pid'");
+	$r = db_exec("UPDATE `bbs_post` SET $sqladd WHERE pid='$pid'");
+	// hook post__update_end.php
+	return $r;
 }
 
 function post__read($pid) {
-	return db_find_one("SELECT * FROM `bbs_post` WHERE pid='$pid'");
+	// hook post__read_start.php
+	$post = db_find_one("SELECT * FROM `bbs_post` WHERE pid='$pid'");
+	// hook post__read_end.php
+	return $post;
 }
 
 function post__delete($pid) {
-	return db_exec("DELETE FROM `bbs_post` WHERE pid='$pid'");
+	// hook post__delete_start.php
+	$r = db_exec("DELETE FROM `bbs_post` WHERE pid='$pid'");
+	// hook post__delete_end.php
+	return $r;
 }
 
 function post__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
+	// hook post__find_start.php
 	$cond = cond_to_sqladd($cond);
 	$orderby = orderby_to_sqladd($orderby);
 	$offset = ($page - 1) * $pagesize;
-	return db_find("SELECT * FROM `bbs_post` $cond$orderby LIMIT $offset,$pagesize", 'pid');
+	$postlist = db_find("SELECT * FROM `bbs_post` $cond$orderby LIMIT $offset,$pagesize", 'pid');
+	// hook post__find_end.php
+	return $postlist;
 }
 
 // ------------> 关联 CURD，主要是强相关的数据，比如缓存。弱相关的大量数据需要另外处理。
 
 // 回帖
 function post_create($arr, $fid) {
+	// hook post_create_start.php
 	global $conf, $time;
 	$pid = post__create($arr);
 	if(!$pid) return $pid;
@@ -68,11 +86,13 @@ function post_create($arr, $fid) {
 		post__update($pid, array('images'=>$images, 'files'=>$files));
 	}
 	
+	// hook post_create_end.php
 	return $pid;
 }
 
 // 编辑回帖
 function post_update($pid, $arr, $tid = 0) {
+	// hook post_update_start.php
 	global $conf, $user;
 	$post = post__read($pid);
 	if(empty($post)) return FALSE;
@@ -106,25 +126,31 @@ function post_update($pid, $arr, $tid = 0) {
 		thread__update($tid, array('images'=>$images, 'files'=>$files));
 	}
 	
+	// hook post_update_end.php
 	return $r;
 }
 
 function post_read($pid) {
+	// hook post_read_start.php
 	$post = post__read($pid);
 	post_format($post);
+	// hook post_read_end.php
 	return $post;
 }
 
 // 从缓存中读取，避免重复从数据库取数据，主要用来前端显示，可能有延迟。重要业务逻辑不要调用此函数，数据可能不准确，因为并没有清理缓存，针对 request 生命周期有效。
 function post_read_cache($pid) {
+	// hook post_read_cache_start.php
 	static $cache = array(); // 用静态变量只能在当前 request 生命周期缓存，要跨进程，可以再加一层缓存： memcached/xcache/apc/
 	if(isset($cache[$pid])) return $cache[$pid];
 	$cache[$pid] = post_read($pid);
+	// hook post_read_cache_end.php
 	return $cache[$pid];
 }
 
 // $tid 用来清理缓存
 function post_delete($pid) {
+	// hook post_delete_start.php
 	global $conf;
 	$post = post_read_cache($pid);
 	if(empty($post)) return TRUE; // 已经不存在了。
@@ -153,21 +179,25 @@ function post_delete($pid) {
 	// 检查 lastpid
 	thread_check_lastpid($tid, $pid);
 	
+	// hook post_delete_end.php
 	return $r;
 }
 
 // 此处有可能会超时
 function post_delete_by_tid($tid) {
+	// hook post_delete_by_tid_start.php
 	$postlist = post_find_by_tid($tid);
 	foreach($postlist as $post) {
 		post_delete($post['pid']);
 	}
+	// hook post_delete_by_tid_end.php
 	return count($postlist);
 }
 
 // 这些 pid 都是同一个 tid 下的，它与 post_delete() 是同级关系，不能互相调用。
 /*
 function post_delete_by_pids($pids) {
+	// hook post_delete_by_pids_start.php
 	if(empty($pids)) return TRUE;
 	$sqladd = implode(',', $pids);
 	$n = count($pids);
@@ -190,27 +220,34 @@ function post_delete_by_pids($pids) {
 		$uid AND user_update($uid, array('posts-'=>$n));
 		
 	}
+	// hook post_delete_by_pids_end.php
 	return db_exec("DELETE FROM post WHERE pid IN($sqladd)");
 }
 */
 
 function post_find_by_pids($pids) {
+	// hook post_find_by_pids_start.php
 	if(empty($pids)) return array();
 	$sqladd = implode(',', $pids);
-	return db_find("SELECT * FROM bbs_post WHERE pid IN($sqladd)");
+	$postlist = db_find("SELECT * FROM bbs_post WHERE pid IN($sqladd)");
+	// hook post_find_by_pids_end.php
+	return $postlist;
 }
 
 function post_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
+	// hook post_find_start.php
 	$postlist = post__find($cond, $orderby, $page, $pagesize);
 	$floor = 0;
 	if($postlist) foreach($postlist as &$post) {
 		$post['floor'] = $floor++;
 		post_format($post);
 	}
+	// hook post_find_end.php
 	return $postlist;
 }
 
 function post_find_by_tid($tid, $pagesize = 0) {
+	// hook post_find_by_tid_start.php
 	global $conf;
 	empty($pagesize) AND $pagesize = $conf['postlist_pagesize'];
 
@@ -227,17 +264,22 @@ function post_find_by_tid($tid, $pagesize = 0) {
 			post_format($post);
 		}
 	}
+	// hook post_find_by_tid_end.php
 	return $postlist;
 }
 
 function post_list_cache_delete($tid) {
+	// hook post_list_cache_delete_start.php
 	global $conf;
-	return cache_delete("postlist_$tid");
+	$r = cache_delete("postlist_$tid");
+	// hook post_list_cache_delete_end.php
+	return $r;
 }
 
 // ------------> 其他方法
 
 function post_format(&$post) {
+	// hook post_format_start.php
 	global $conf;
 	if(empty($post)) return;
 	$post['create_date_fmt'] = humandate($post['create_date']);
@@ -255,23 +297,34 @@ function post_format(&$post) {
 	$post['allowdelete'] = (($uid != 0 && $uid == $post['uid']) || ($uid == 0 && $post['uid'] == 0 && $post['userip'] == $longip && $post['sid'] == $sid)) ? 1 : 0;
 	
 	$post['user_url'] = "user-$post[uid]".($post['uid'] ? '' : "-$post[pid]").".htm";
+	// hook post_format_end.php
 }
 
 function post_count($cond = array()) {
-	return db_count('bbs_post', $cond);
+	// hook post_count_start.php
+	$n = db_count('bbs_post', $cond);
+	// hook post_count_end.php
+	return $n;
 }
 
 function post_maxid() {
-	return db_maxid('bbs_post', 'pid');
+	// hook post_maxid_start.php
+	$n = db_maxid('bbs_post', 'pid');
+	// hook post_maxid_end.php
+	return $n;
 }
 
 function post_highlight_keyword($str, $k) {
-	return str_ireplace($k, '<span class="red">'.$k.'</span>', $str);
+	// hook post_highlight_keyword_start.php
+	$r = str_ireplace($k, '<span class="red">'.$k.'</span>', $str);
+	// hook post_highlight_keyword_end.php
+	return $r;
 }
 
 
 // 检测是否在灌水，如果近期连续发表了5篇主题，或者相同标题的文章，则认为在灌水。
 function post_check_flood($gid, $tid, $message) {
+	// hook post_check_flood_start.php
 	global $sid, $uid, $conf;
 	if(!$conf['check_flood_on']) return FALSE;
 	if($gid > 0 AND $gid < 5) return FALSE;
@@ -289,11 +342,13 @@ function post_check_flood($gid, $tid, $message) {
 		}
 	}
 	if($posts > $conf['check_flood']['posts']) return TRUE;
+	// hook post_check_flood_end.php
 	return FALSE;
 }
 
 // 将不存在的附件加入到 message
 function post_attach_list_add($imagelist, $filelist) {
+	// hook post_attach_list_add_start.php
 	$s = '';
 	if($imagelist || $filelist) {
 		$s = '<br>';
@@ -308,6 +363,12 @@ function post_attach_list_add($imagelist, $filelist) {
 		}
 		$s .= '</ul>';
 	}
-	return htmlspecialchars($s);
+	$s = htmlspecialchars($s);
+	// hook post_attach_list_add_end.php
+	return $s;
 }
+
+
+// hook post_func_php_end.php
+
 ?>

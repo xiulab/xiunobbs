@@ -1,20 +1,31 @@
 <?php
 
+// hook thread_new_func_php_start.php
+
 function thread_new_create($tid) {
-	return db_exec("INSERT INTO `bbs_thread_new` SET tid='$tid'");
+	// hook thread_new_create_start.php
+	$r = db_exec("INSERT INTO `bbs_thread_new` SET tid='$tid'");
+	// hook thread_new_create_end.php
+	return $r;
 }
 
 function thread_new_delete($tid) {
-	return db_exec("DELETE FROM `bbs_thread_new` WHERE tid='$tid'");
+	// hook thread_new_delete_start.php
+	$r = db_exec("DELETE FROM `bbs_thread_new` WHERE tid='$tid'");
+	// hook thread_new_delete_end.php
+	return $r;
 }
 
 function thread_new_count() {
+	// hook thread_new_count_start.php
 	$arr = db_find_one("SELECT COUNT(*) AS num FROM `bbs_thread_new`");
+	// hook thread_new_count_end.php
 	return $arr['num'];
 }
 
 // 最新主题
 function thread_new_find() {
+	// hook thread_new_find_start.php
 	$threadlist = db_find("SELECT * FROM `bbs_thread_new` ORDER BY tid DESC LIMIT 100");
 	if(empty($threadlist)) {
 		$threadlist = thread_find(array(), array('tid'=>-1), 1, 100);
@@ -26,15 +37,19 @@ function thread_new_find() {
 		$threadlist = thread_find_by_tids($tids, 1, 100, 'tid');
 	}
 	
+	// hook thread_new_find_end.php
 	return $threadlist;
 }
 
 function thread_new_truncate() {
+	// hook thread_new_truncate_start.php
 	db_exec("TRUNCATE `bbs_thread_new`");
 	thread_new_cache_delete();
+	// hook thread_new_truncate_end.php
 }
 
 function thread_new_find_cache() {
+	// hook thread_new_find_cache_start.php
 	global $conf, $time;
 	$threadlist = cache_get('thread_new_list');
 	if($threadlist === NULL) {
@@ -50,19 +65,23 @@ function thread_new_find_cache() {
 			$time - $thread['last_date'] < 86400 AND thread_format_last_date($thread);
 		}
 	}
+	// hook thread_new_find_cache_end.php
 	return $threadlist;
 }
 
 function thread_new_cache_delete() {
+	// hook thread_new_cache_delete_start.php
 	global $conf;
 	static $deleted = FALSE;
 	if($deleted) return;
 	cache_delete('thread_new_list');
 	$deleted = TRUE;
+	// hook thread_new_cache_delete_end.php
 }
 
 // 清理最新发帖
 function thread_new_gc() {
+	// hook thread_new_gc_start.php
 	if(thread_new_count() > 100) {
 		$threadlist = thread_new_find();
 		thread_new_truncate();
@@ -70,10 +89,12 @@ function thread_new_gc() {
 			thread_new_create($v['tid']);
 		}
 	}
+	// hook thread_new_gc_end.php
 }
 
 // 生成 sitemap
 function thread_new_sitemap() {
+	// hook thread_new_sitemap_start.php
 	global $conf;
 	$sitemap = $conf['upload_path'].'sitemap.xml';
 	!is_file($sitemap) AND @touch($sitemap);
@@ -91,6 +112,10 @@ function thread_new_sitemap() {
 	}
 	$s .= "\r\n</urlset>";
 	file_put_contents($sitemap, $s);
+	// hook thread_new_sitemap_end.php
 }
+
+
+// hook thread_new_func_php_end.php
 
 ?>
