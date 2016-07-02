@@ -1455,6 +1455,11 @@ function file_pre($filename) {
 	return substr($filename, 0, strrpos($filename, '.'));
 }
 
+// 获取路径中的文件名
+function file_name($path) {
+	return substr($path, strrpos($path, '/') + 1);
+}
+
 // 在 header 头中发送DEBUG信息
 function t($name = '') {
 	global $starttime;
@@ -1470,5 +1475,6 @@ function http_url_path() {
 	$http = (($port == 443) || (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off')) ? 'https' : 'http';
 	return  "$http://$host$path/";
 }
+
 
 ?>

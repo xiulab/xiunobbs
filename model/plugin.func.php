@@ -1,418 +1,209 @@
 <?php
 
-// 查找字符串第 n 次出现
-function strnpos($haystack, $needle, $n) {
-	// hook strnpos_start.php
-	$len = strlen($haystack);
-	$len2 = strlen($needle);
-	if($n == 1) return strpos($haystack, $needle);
-	$start = strpos($haystack, $needle); // 第一次出现的地方
-	while ($start !== FALSE && $start < $len && --$n > 0) {
-		$start = strpos($haystack, $needle, $start + $len2);
-	}
-	// hook strnpos_end.php
-	return $start;
-}
+$plugin_srcfiles = array();
+$plugin_dirs = array();
+$plugins = array();
 
-// 返回文件指定行的偏移位置，一行的开始
-function range_start_line($file, $line) {
-	// hook range_start_line_start.php
-	$s = file_get_contents($file);
-	$rn = strpos($s, "\r\n") === FALSE ? "\n" : "\r\n";
-	$len = strlen($rn);
-	if($line < 2) return 0;
-	$pos = strnpos($s, $rn, $line - 1) + $len;
-	// hook range_start_line_end.php
-	return $pos;
-}
+plugin_init();
 
-// 返回文件指定行的偏移位置，一行的结束
-function range_end_line($file, $line) {
-	// hook range_end_line_start.php
-	$s = file_get_contents($file);
-	$rn = strpos($s, "\r\n") === FALSE ? "\n" : "\r\n";
-	$len = strlen($rn);
-	if($line == 0) return 0;
-	$pos = strnpos($s, $rn, $line); // 如果等于 FALSE 则为文件末尾
-	$pos === FALSE AND $pos = strlen($s);
-	// hook range_end_line_end.php
-	return $pos;
-}
-
-// 返回文件关键词的偏移量，开始位置
-function range_start_keyword($file, $keyword) {
-	// hook range_start_keyword_start.php
-	$s = file_get_contents($file);
-	$n = strpos($s, $keyword);
-	// hook range_start_keyword_end.php
-	return $n; // 如果没有找到则为 FALSE
-}
-
-// 返回文件关键词的偏移量，结束位置
-function range_end_keyword($file, $keyword) {
-	// hook range_end_keyword_start.php
-	$s = file_get_contents($file);
-	$len = strlen($keyword);
-	$n = strpos($s, $keyword);
-	// hook range_end_keyword_end.php
-	return $n === FALSE ? FALSE : $n + $len; // 如果没有找到则为 FALSE
-}
-
-function plugin_install($arr) {
-	// hook plugin_install_start.php
-	$file = $arr['file'];
-	$range_start = intval($arr['range_start']); 
-	$range_end = intval($arr['range_end']); 
-	$code = $arr['code'];
-	
-	$s = file_get_contents($file);
-	
-	$pre = substr($s, 0, $range_start);
-	$suffix = substr($s, $range_end);
-	$s = $pre.$code.$suffix;
-	
-	$r = file_put_contents($file, $s);
-	// hook plugin_install_end.php
-	return $r;
-}
-
-// $file: 插入的源文件名
-// $keyword: 关键词
-// $codefile: 需要插入的代码
-function plugin_install_before($file, $keyword, $code) {
-	// hook plugin_install_before_start.php
-	$range_start = range_start_keyword($file, $keyword);
-	if($range_start === FALSE) return xn_error(-1, '未找到特定字符串，可能版本不对或插件已经卸载。');
-	
-	if(range_start_keyword($file, $code.$keyword) !== FALSE) return xn_error(-1, '插件点已经安装。');
-	
-	$plugin = array (
-		'file'=> $file,							// bbs 源文件
-		'range_start'=> $range_start,					// bbs 源文件开始第几个字符
-		'range_end'=> $range_start,					// bbs 源文件结束到第几个字符
-		'code'=> $code,							// 要插入的代码
+// 在安装、卸载插件的时候，需要先初始化
+function plugin_init() {
+	global $plugin_srcfiles, $plugin_dirs, $plugins;
+	$plugin_srcfiles = array_merge(
+		glob('./model/*.php'), 
+		glob('./pc/route/*.php'), 
+		glob('./pc/view/*.*'), 
+		glob('./admin/route/*.php'), 
+		glob('./admin/view/*.*')
 	);
-	
-	// hook plugin_install_before_end.php
-	return plugin_install($plugin);
-}
-
-function plugin_install_after($file, $keyword, $code) {
-	// hook plugin_install_after_start.php
-	$range_start = range_start_keyword($file, $keyword);
-	if($range_start === FALSE) return xn_error(-1, '未找到特定字符串，可能版本不对或插件已经卸载。');
-	
-	if(range_start_keyword($file, $keyword.$code) !== FALSE) return xn_error(-1, '插件点已经安装。');
-	
-	$plugin = array (
-		'file'=> $file,							// bbs 源文件
-		'range_start'=> $range_start + strlen($keyword),		// bbs 源文件开始第几个字符
-		'range_end'=> $range_start + strlen($keyword),			// bbs 源文件结束到第几个字符
-		'code'=> $code,							// 要插入的代码
-	);
-	
-	// hook plugin_install_after_end.php
-	return plugin_install($plugin);
-}
-
-// 前面追加
-function plugin_install_unshift($file, $s) {
-	// hook plugin_install_unshift_start.php
-	$old = file_get_contents($file);
-	$new = $s.$old;
-	if(strpos($old, $s) !== FALSE) return TRUE; // 如果已经存在，则不再追加
-	// hook plugin_install_unshift_end.php
-	return file_put_contents($file, $new);
-}
-
-// 末尾追加
-function plugin_install_append($file, $s) {
-	// hook plugin_install_append_start.php
-	$old = file_get_contents($file);
-	$new = $old.$s;
-	if(strpos($old, $s) !== FALSE) return TRUE; // 如果已经存在，则不再追加
-	// hook plugin_install_append_end.php
-	return file_put_contents($file, $new);
-}
-
-function plugin_install_remove($file, $old) {
-	// hook plugin_install_remove_start.php
-	$s = file_get_contents($file);
-	$new = str_replace($old, '', $s);
-	// hook plugin_install_remove_end.php
-	return file_put_contents($file, $new);
-}
-
-// $file: 需要卸载的源文件名
-// $keyword: 关键词
-// $codefile: 需要插入的代码
-function plugin_unstall_before($file, $keyword, $code) {
-	// hook plugin_unstall_before_start.php
-	$range_start = range_start_keyword($file, $code.$keyword);
-	if($range_start === FALSE) return xn_error(-1, '未找到特定字符串，可能版本不对或插件已经卸载。');
-	$range_end = $range_start + strlen($code.$keyword);
-	
-	$plugin = array (
-		'file'=> $file,							// bbs 源文件
-		'range_start'=> $range_start,					// bbs 源文件开始第几个字符
-		'range_end'=> $range_end,					// bbs 源文件结束到第几个字符
-		'code'=> $keyword,						// 要插入的代码
-	);
-	
-	// hook plugin_unstall_before_end.php
-	return plugin_install($plugin);
-}
-
-// $file: 需要卸载的源文件名
-// $keyword: 关键词
-// $codefile: 需要插入的代码
-function plugin_unstall_after($file, $keyword, $code) {
-	// hook plugin_unstall_after_start.php
-	$range_start = range_start_keyword($file, $keyword.$code);
-	if($range_start === FALSE) return xn_error(-1, '未找到特定字符串，可能版本不对或插件已经卸载。');
-	$range_end = $range_start + strlen($keyword.$code);
-	
-	$plugin = array (
-		'file'=> $file,							// bbs 源文件
-		'range_start'=> $range_start,					// bbs 源文件开始第几个字符
-		'range_end'=> $range_end,					// bbs 源文件结束到第几个字符
-		'code'=> $keyword,						// 要插入的代码
-	);
-	
-	// hook plugin_unstall_after_end.php
-	return plugin_install($plugin);
-}
-
-function plugin_install_replace($file, $old, $new) {
-	// hook plugin_install_replace_start.php
-	$s = file_get_contents($file);
-	$s2 = str_replace($old, $new, $s);
-	if($s != $s2) {
-		return file_put_contents($file, $s2);
-	} else {
-		return xn_error(-1, '为找到指定的字符串，插件不能正常安装。');
-	}
-	// hook plugin_install_replace_end.php
-}
-
-function plugin_unstall_replace($file, $new, $old) {
-	// hook plugin_unstall_replace_start.php
-	$s = file_get_contents($file);
-	$s2 = str_replace($old, $new, $s);
-	if($s != $s2) {
-		return file_put_contents($file, $s2);
-	} else {
-		return xn_error(-1, '为找到指定的字符串，可能版本不对或插件已经卸载');
-	}
-	// hook plugin_unstall_replace_end.php
-}
-
-// 卸载 code，直接删除指定的数据
-function plugin_unstall_remove($file, $code) {
-	// hook plugin_unstall_remove_start.php
-	$range_start = range_start_keyword($file, $code);
-	if($range_start === FALSE) return xn_error(-1, '未找到特定字符串，可能版本不对或插件已经卸载。');
-	$range_end = $range_start + strlen($code);
-	
-	$plugin = array (
-		'file'=> $file,							// bbs 源文件
-		'range_start'=> $range_start,					// bbs 源文件开始第几个字符
-		'range_end'=> $range_end,					// bbs 源文件结束到第几个字符
-		'code'=> '',							// 要插入的代码
-	);
-	
-	// hook plugin_unstall_remove_end.php
-	return plugin_install($plugin);
-}
-
-/*
-function plugin_install_view($name) {
-	// hook plugin_install_view_start.php
-	if(is_dir("./plugin/$name/view")) {
-		$view_name = is_file('./pc/view/.plugin_dir') ? file_get_contents('./pc/view/.plugin_dir') : 'view_default';
-		rename('./pc/view', './pc/'.$view_name);
-		rename("./plugin/$name/view", './pc/view');
-	}
-	// hook plugin_install_view_end.php
-}
-function plugin_install_route($name) {
-	// hook plugin_install_route_start.php
-	if(is_dir("./plugin/$name/route")) {
-		$route_name = is_file('./pc/route/.plugin_dir') ? file_get_contents('./pc/route/.plugin_dir') : 'route_default';
-		rename('./pc/route', './pc/'.$route_name);
-		rename("./plugin/$name/route", './pc/route');
-	}
-	// hook plugin_install_route_end.php
-}
-function plugin_unstall_view($name) {
-	// hook plugin_unstall_view_start.php
-	if(is_dir("./pc/view_default")) {
-		rename('./pc/view', "./plugin/$name/view");
-		rename("./pc/view_default", './pc/view');
-	}
-	// hook plugin_unstall_view_end.php
-}
-function plugin_unstall_route($name) {
-	// hook plugin_unstall_route_start.php
-	if(is_dir("./pc/route_default")) {
-		rename('./pc/route', "./plugin/$name/route");
-		rename("./pc/route_default", './pc/route');
-	}
-	// hook plugin_unstall_route_end.php
-}
-*/
-
-
-
-
-
-
-
-
-
-
-
-// 本地插件列表
-function plugin_local_list() {
-	// hook plugin_local_list_start.php
-	$plugin_dirs = glob('./plugin/*', GLOB_ONLYDIR|GLOB_NOSORT);
-	if(!$plugin_dirs) return array();
-	$plugins = array();
-	foreach($plugin_dirs as $dir) {
-		$dir = substr($dir, strrpos($dir, '/') + 1);
-		$plugins[$dir] = plugin_local_read($dir);
-	}
-	// hook plugin_local_list_end.php
-	return $plugins;
-}
-
-function plugin_official_total($cond = array()) {
-	// hook plugin_official_total_start.php
-	$offlist = plugin_official_list_cache();
-	// hook plugin_official_total_end.php
-	return count($offlist);
-}
-
-// 远程插件列表，从官方服务器获取插件列表，全部缓存到本地，定期更新
-function plugin_official_list($cond = array(), $orderby = array('stars'=>-1), $page = 1, $pagesize = 20) {
-	// hook plugin_official_list_start.php
-	// 服务端插件信息，缓存起来
-	$offlist = plugin_official_list_cache();
-	$offlist = arrlist_cond_orderby($offlist, $cond, $orderby, $page, $pagesize);
-	foreach($offlist as &$plugin) plugin_official_format($plugin);
-	// hook plugin_official_list_end.php
-	return $offlist;
-}
-
-/*
-return Array (
-    [xn_clear_rubbish] => Array
-        (
-            [pluginid] => 102
-            [name] => 清理论坛垃圾
-            [brief] => 清理过期的帖子，短消息，用户，附件。
-            [version] => 2.1.10
-            [bbs_version] => 2.0.3
-            [cateid] => 0
-            [styleid] => 0
-            [dir] => xn_clear_rubbish
-            [icon] => 1
-            [img1] => 0
-            [img2] => 0
-            [img3] => 0
-            [img4] => 0
-            [price] => 0
-            [uid] => 0
-            [username] => 0
-            [email] => 0
-            [lastupdate] => 1379242488
-            [stars] => 0
-            [user_stars] => 0
-            [installs] => 1102
-            [sells] => 0
-            [file_md5] => b265a5c3696e2616ebe203bcb61ca604
-            [filename] => e1719e15ae8e4a8f9ec9cc67bcfde769.zip
-            [is_cert] => 1
-            [is_show] => 0
-        )
-)
-*/
-function plugin_official_list_cache() {
-	// hook plugin_official_list_cache_start.php
-	$s = cache_get('plugin_official_list');
-	if($s === NULL || DEBUG) {
-		$url = "http://plugin.xiuno.com/plugin-list-version-3.htm"; // 获取所有的插件，匹配到3.0以上的。
-		$s = http_get($url, 30, 3);
-		if(empty($s)) {
-			xn_log('从官方获取插件数据失败。');
-			return FALSE;
+	foreach($plugin_srcfiles as $k=>$file) {
+		$filename = file_name($file);
+		if(substr($filename, 0, 7) == 'backup_') {
+			unset($plugin_srcfiles[$k]);
 		}
-		$r = xn_json_decode($s);
-		if(!empty($r['servererror']) || (!empty($r['code']) && $r['code'] != 0)) {
-			xn_log("从官方获取插件数据格式不对。");
-			return FALSE;
+	}
+	$plugin_dirs = glob('./plugin/*', GLOB_ONLYDIR);
+	foreach ($plugin_dirs as $dir) {
+		$nanme = file_name($dir);
+		$plugins[$nanme] = xn_json_decode($dir."/conf.json");
+		$plugins[$nanme]['hooks'] = array();
+		$hookpaths = glob("./plugin/$nanme/hook/*.*"); // path
+		foreach($hookpaths as $hookpath) {
+			$hookname = file_name($hookpath);
+			$plugins[$nanme]['hooks'][$hookname] = $hookpath;
 		}
+	}
+	/*
+	// 检查文件目录和文件是否可写
+	if(plugin_dir_is_writable()) {
 		
-		$s = !empty($r['message']) ? $r['message'] : $r;
-		cache_set('plugin_official_list', $s, 3600); // 缓存时间 1 小时。
 	}
-	// hook plugin_official_list_cache_end.php
+	*/
+}
+
+/*
+	插件安装：
+		把所有的插件点合并，重新写入文件。如果没有备份文件，则备份一份。
+		插件名可以为源文件名：pc/view/header.htm
+*/
+function plugin_install($dir) {
+	global $plugin_srcfiles, $plugin_dirs, $plugins;
+	// 1. 直接覆盖的方式
+	plugin_overwrite_install($dir);
+	
+	// 2. 标准的插件钩子
+	$hooks = $plugins[$dir]['hooks'];
+	$plugins[$dir]['installed'] = 1;
+	foreach($hooks as $hookname=>$hookpath) {
+		$srcfile = plugin_find_hookname_from_srcfile($hookname);
+		if(!$srcfile) continue;
+		
+		$hookscontent = plugin_hooks_merge_by_rank($dir);
+		
+		// 查找源文件，将合并的内容放进去。
+		$backfile = plugin_backup_filename($srcfile);
+		!is_file($backfile) AND is_file($srcfile) AND copy($srcfile, $backfile);
+		$basefile = is_file($backfile) ? $backfile : $srcfile;
+		
+		$s = file_get_contents($basefile);
+		$s = preg_replace("#\t*//\shook\s$hookname\s*\r\n#is", $hookscontent, $s);
+		$s = str_replace("<!--{hook $hookname}-->", $hookscontent, $s);
+		
+		
+		file_put_contents($srcfile, $s);
+	}
+	// 写入配置文件
+	json_conf_set('installed', 1, "./plugin/$dir/conf.json");
+}
+
+// copy from plugin_install 修改
+function plugin_unstall($dir) {
+	global $plugin_srcfiles, $plugin_dirs, $plugins;
+	// 1. 直接覆盖的方式
+	plugin_overwrite_unstall($dir);
+	
+	// 2. 标准的插件钩子
+	$hooks = $plugins[$dir]['hooks'];
+	$plugins[$dir]['installed'] = 0;
+	
+	foreach($hooks as $hookname=>$hookpath) {
+		$srcfile = plugin_find_hookname_from_srcfile($hookname);
+		if(!$srcfile) continue;
+		
+		$hookscontent = plugin_hooks_merge_by_rank($dir);
+		
+		// 查找源文件，将合并的内容放进去。
+		$backfile = plugin_backup_filename($srcfile);
+		!is_file($backfile) AND is_file($srcfile) AND copy($srcfile, $backfile);
+		$basefile = is_file($backfile) ? $backfile : $srcfile;
+		
+		$s = file_get_contents($basefile);
+		$s = preg_replace("#\t*//\shook\s$hookname\s*\r\n#is", $hookscontent, $s);
+		$s = str_replace("<!--{hook $hookname}-->", $hookscontent, $s);
+		
+		
+		file_put_contents($srcfile, $s);
+	}
+	// 写入配置文件
+	json_conf_set('installed', 0, "./plugin/$dir/conf.json");
+}
+
+// 将所有的同名 hook 内容合并（按照优先级排序），需要判断 installed 是否为 1
+function plugin_hooks_merge_by_rank($hookname) {
+	global $plugin_srcfiles, $plugin_dirs, $plugins;
+	$arr = array();
+	foreach($plugins as $dir=>$plugin) {
+		if(isset($plugin['installed']) && $plugin['installed'] == 0) continue;
+		foreach($plugin['hooks'] as $hookname=>$hookpath) {
+			$rank = isset($plugin['hooks_rank'][$hookname]) ? $plugin['hooks_rank'][$hookname] : 0;
+			$arr[$rank][] = file_get_contents($hookpath);
+		}
+	}
+	$s = '';
+	foreach ($arr as $arr2) {
+		$s .= implode("", $arr2);
+	}
 	return $s;
 }
 
-function plugin_official_read($dir) {
-	// hook plugin_official_read_start.php
-	$offlist = plugin_official_list_cache();
-	$plugin = isset($offlist[$dir]) ? $offlist[$dir] : array();
-	plugin_official_format($plugin);
-	// hook plugin_official_read_end.php
-	return $plugin;
-}
-
-function plugin_local_read($dir) {
-	// hook plugin_local_read_start.php
-	$empty = array('name'=>'', 'version'=>'1.0', 'bbs_version'=>'3.0', 'brief'=>'无', 'installed'=>0, 'dir'=>$dir, 'icon_url'=>'static/plugin_icon.png', 'is_official'=>0);
-	if(!is_file("./plugin/$dir/conf.json")) return $empty;
-	$plugin = xn_json_decode(file_get_contents("./plugin/$dir/conf.json"));
-	$plugin AND $r['dir'] = $dir;
-	empty($plugin['installed']) AND $plugin['installed'] = 0;
-	$plugin['icon_url'] = "plugin/$dir/icon.png";
-	$plugin['setting_url'] = is_file("./plugin/$dir/setting.php") ? "plugin/$dir/setting.php" : '';
-	$plugin['dir'] = $dir;
-	$plugin['is_official'] = 0;
-	// hook plugin_local_read_end.php
-	return $plugin ? $plugin : $empty;
-}
-
-function plugin_read($dir) {
-	// hook plugin_read_start.php
-	if(is_dir("./plugin/$dir")) {
-		$plugin = plugin_local_read($dir);
-	} else {
-		$plugin = plugin_official_read($dir);
+function plugin_find_hookname_from_srcfile($hookname) {
+	global $plugin_srcfiles, $plugin_dirs, $plugins;
+	foreach($plugin_srcfiles as $file) {
+		$backfile = plugin_backup_filename($file);
+		$basefile = is_file($backfile) ? $backfile : $file;
+		$s = file_get_contents($basefile);
+		if(strpos($s, "// hook $hookname") !== FALSE) {
+			return $file;
+		} elseif(strpos($s, "<!--{hook $hookname}-->") !== FALSE) {
+			return $file;
+		}
 	}
-	// hook plugin_read_end.php
-	return $plugin;
+	return FALSE;
 }
 
-function plugin_official_format(&$plugin) {
-	// hook plugin_official_format_start.php
-	if(empty($plugin)) return;
-	$dir = $plugin['dir'];
-	$plugin['icon_url'] = "http://plugin.xiuno.com/upload/plugin/$plugin[pluginid]/icon.png";
-	$plugin['downloaded'] = is_dir("./plugin/$plugin[dir]");
-	$plugin['stars_fmt'] = str_repeat('<span class="icon star"></span>', $plugin['stars']);
-	$plugin['user_stars_fmt'] = str_repeat('<span class="icon star"></span>', $plugin['user_stars']);
+function plugin_backup_filename($path) {
+	$dirname = dirname($path);
+	$filename = file_name($path);
+	$s = "$dirname/backup_$filename";
+	return $s;
+}
 
-	if(is_dir("./plugin/$dir")) {
-		$arr = plugin_local_read($dir);
-		$plugin = array_merge($plugin, $arr);
-	} else {
-		$plugin['installed'] = 0;
-		$plugin['setting_url'] = '';
+// 先下载，购买，付费，再安装
+function plugin_online_install($name) {
+
+}
+
+function plugin_overwrite_install($dir) {
+	$files = glob_recursive("./plugin/$dir/overwrite/*");
+	//$files = glob("./plugin/$dir/overwrite/*");
+	foreach($files as $file) {
+		$workfile = str_replace("./plugin/$dir/overwrite/", './', $file);
+		if(is_dir($file)) {
+			!is_dir($workfile) AND mkdir($workfile, 0777, TRUE);
+		} elseif(is_file($file)) {
+			$dirname = dirname($workfile);
+			$filename = file_name($workfile);
+			$backfile = "$dirname/backup_$filename";
+			if(is_file($workfile) && !is_file($backfile)) {
+				copy($workfile, $backfile);
+			}
+			copy($file, $workfile);
+		}
 	}
-	$plugin['is_official'] = 1;
-	// hook plugin_official_format_end.php
 }
 
-?>
+function plugin_overwrite_unstall($dir) {
+	$files = glob_recursive("./plugin/$dir/overwrite/*");
+	//$files = glob("./plugin/$dir/overwrite/*");
+	foreach($files as $file) {
+		$workfile = str_replace("./plugin/$dir/overwrite/", './', $file);
+		if(is_dir($file)) {
+			// !is_dir($workfile) AND mkdir($workfile, 0777, TRUE);
+		} elseif(is_file($file)) {
+			$dirname = dirname($workfile);
+			$filename = file_name($workfile);
+			$backfile = "$dirname/backup_$filename";
+			if(is_file($backfile)) {
+				copy($backfile, $workfile);
+				unlink($backfile);
+			}
+			unlink($workfile);
+		}
+	}
+}
+
+if(!function_exists('glob_recursive')) {
+	// Does not support flag GLOB_BRACE
+	function glob_recursive($pattern, $flags = 0) {
+		$files = glob($pattern, $flags);
+		foreach(glob(dirname($pattern).'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir) {
+			 $files = array_merge($files, glob_recursive($dir.'/'.basename($pattern), $flags));
+		}
+		return $files;
+	}
+}
+
+//plugin_install('xn_ad');
+plugin_unstall('xn_ad');
+
+exit;

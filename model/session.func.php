@@ -97,7 +97,7 @@ ini_set('session.cookie_httponly', 'On');
 
 ini_set('session.gc_maxlifetime', $conf['online_hold_time']);	// 活动时间 $conf['online_hold_time']
 ini_set('session.gc_probability', 1); 	// 垃圾回收概率 = gc_probability/gc_divisor
-ini_set('session.gc_divisor', 100); 	// 垃圾回收时间 5 秒
+ini_set('session.gc_divisor', 100); 	// 垃圾回收时间 5 秒，在线人数 * 10 
 
 session_set_save_handler('sess_open', 'sess_close', 'sess_read', 'sess_write', 'sess_destroy', 'sess_gc'); 
 
