@@ -16,7 +16,7 @@ function cron_run($force = 0) {
 		if($lock === NULL) {
 			cache_set('cron_lock_1', 1, 10); // 设置 10 秒超时
 			
-			sess_gc();
+			sess_gc($conf['online_hold_time']);
 			
 			runtime_set('cron_1_last_date', $time);
 			

@@ -30,8 +30,10 @@ function sess_read($sid) {
 }
 
 function sess_write($sid, $data) {
-	global $session, $sid, $time, $uid, $fid;
+	global $session, $sid, $time, $uid, $fid, $longip;
 	$url = $_SERVER['REQUEST_URI_NO_PATH'];
+	
+	$agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 	
 	//echo "sess_write($sid, $data) \r\n";
 	$arr = array(
@@ -41,6 +43,8 @@ function sess_write($sid, $data) {
 		'last_date'=>$time,
 		'fid'=>$fid,
 		'data'=> $data,
+		'ip'=> $longip,
+		'useragent'=> $agent,
 		'bigdata'=> 0,
 	);
 	
