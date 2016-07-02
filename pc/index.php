@@ -51,7 +51,6 @@ $header['description'] = $conf['sitename']; 	// 描述
 $header['navs'] = array(); 			// 描述
 
 $runtime = runtime_init();
-$sid = online_init();
 $fid = 0;					// 当前所在的板块
 
 // 检测浏览器
@@ -70,7 +69,6 @@ DEBUG AND log_post_data();
 // 全站的设置数据，站点名称，描述，关键词，页脚代码等
 $setting = cache_get('setting', TRUE);
 
-//DEBUG AND online_end();
 //DEBUG AND ($method == 'POST' || $ajax) AND sleep(1);
 
 list($tid, $thread) = parse_seo_url();
@@ -120,7 +118,6 @@ function message($code, $message) {
 	
 	if($ajax) {
 		echo xn_json_encode(array('code'=>$code, 'message'=>$message));
-		online_save();
 		runtime_save();
 	} else {
 		$header['title'] = '提示信息';

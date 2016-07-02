@@ -108,23 +108,6 @@ function log_post_data() {
 	xn_log(xn_json_encode($post), APP_NAME.'_post_data');
 }
 
-// 捕捉致命错误，然并卵，致命了就捕捉不到了。
-/*function shutdown_handle() {
-
-	function_exists('online_end') AND online_end();
-
-	$err = error_get_last();
-	if(isset($err['type']) AND in_array($err['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING, E_STRICT))) {
-		$s = "Error[$err[type]]: $err[message], File: $err[file], Line: $err[line]";
-		if($GLOBALS['ajax']) {
-			echo json_encode(array('code'=>-1, 'message'=>$s));
-		} else {
-			echo "\n$s";
-		}
-		xn_log($s, 'php_error'); // 无法记录文本日志？
-	}
-}*/
-
 // 中断流程很危险！可能会导致数据问题，线上模式不允许中断流程！
 function error_handle($errno, $errstr, $errfile, $errline) {
 	global $time, $ajax;
@@ -445,6 +428,25 @@ function array_to_sqladd($arr) {
 	return substr($s, 0, -1);
 }
 
+// $old 表示是否早期的数据，如果相等则不变更
+function array_to_sql_update($arr, $old = array()) {
+	$s = '';
+	foreach($arr as $k=>$v) {
+		$v = addslashes($v);
+		$op = substr($k, -1);
+		if($op == '+' || $op == '-') {
+			$k = substr($k, 0, -1);
+			$s .= "`$k`=`$k`$op'$v',";
+		} else {
+			if(isset($old[$k]) && $old[$k] != $v) {
+				$s .= "`$k`='$v',";
+			}
+			$s .= "`$k`='$v',";
+		}
+	}
+	return substr($s, 0, -1);
+}
+
 /*
 	array('id'=>123, 'groupid'=>123)
 	array('id'=>array('>' => 100, '<' => 200))
@@ -531,8 +533,10 @@ function db_find($sql, $key = NULL, $abort = TRUE) {
 function db_exec($sql, $abort = TRUE) {
 	global $db;
 	if(!$db) return FALSE;
+	
 	DEBUG AND xn_log($sql, 'mysql_exec');
 	$n = $db->exec($sql);
+	
 	if($n === FALSE && $db->errno != 0) {
 		$s = "sql: $sql, sql errno: ".$db->errno.", errstr: ".$db->errstr;
 		xn_log($s, 'db_error');

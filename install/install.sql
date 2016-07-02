@@ -322,23 +322,31 @@ CREATE TABLE bbs_guest_agree (
   KEY (ip, pid)						# 
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 在线用户，每隔五分钟插入一次，版块在线和当前在线人信息，
+# session 表
 # 缓存到 runtime 表。 online_0 全局 online_fid 版块。提高遍历效率。
-DROP TABLE IF EXISTS bbs_online;
-CREATE TABLE bbs_online (
-  sid char(16) NOT NULL default '0',			# 随机生成 id 不能重复 uniqueid() 13 位
+DROP TABLE IF EXISTS bbs_session;
+CREATE TABLE bbs_session (
+  sid char(32) NOT NULL default '0',			# 随机生成 id 不能重复 uniqueid() 13 位
   uid int(11) unsigned NOT NULL default '0',		# 用户id 未登录为 0，可以重复
-  gid tinyint(3) unsigned NOT NULL default '0',		# 用户组，图标
   fid tinyint(3) unsigned NOT NULL default '0',		# 所在的版块
   url char(32) NOT NULL default '',			# 当前访问 url
   ip int(11) unsigned NOT NULL default '0',		# 用户ip
   useragent char(32) NOT NULL default '',		# 用户浏览器信息
-  data char(255) NOT NULL default '',			# session 数据
+  data char(255) NOT NULL default '',			# session 数据，超大数据存入大表。
+  bigdata tinyint(1) NOT NULL default '0',		# 是否有大数据。
   last_date int(11) unsigned NOT NULL default '0',	# 上次活动时间
   PRIMARY KEY (sid),
   KEY last_date (last_date),
   KEY fid (fid),
   KEY uid (uid)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+DROP TABLE IF EXISTS bbs_session_data;
+CREATE TABLE bbs_session_data (
+  sid char(32) NOT NULL default '0',			#
+  last_date int(11) unsigned NOT NULL default '0',	# 上次活动时间
+  data text NOT NULL,					# 存超大数据
+  PRIMARY KEY (sid)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 版主操作日志

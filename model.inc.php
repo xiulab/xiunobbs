@@ -24,6 +24,7 @@ include './model/banip.func.php';	//
 include './model/ipaccess.func.php';	// 
 include './model/misc.func.php';	// 杂项
 include './model/plugin.func.php';	// 
+include './model/session.func.php';	// 
 
 
 /*

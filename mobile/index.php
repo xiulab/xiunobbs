@@ -35,7 +35,6 @@ $header['description'] = $conf['sitename']; 	// 描述
 
 // 启动在线，将清理函数注册，不能写日志。
 $runtime = runtime_init();
-$sid = online_init();
 $fid = 0;
 
 // 检测浏览器
@@ -101,7 +100,6 @@ function message($code, $message) {
 	if($ajax) {
 		echo xn_json_encode(array('code'=>$code, 'message'=>$message));
 		runtime_save();
-		online_save();
 	} else {
 		$header['title'] = '提示信息';
 		include "./mobile/view/message.htm";

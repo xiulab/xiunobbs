@@ -16,8 +16,7 @@ function cron_run($force = 0) {
 		if($lock === NULL) {
 			cache_set('cron_lock_1', 1, 10); // 设置 10 秒超时
 			
-			// 清理在线
-			online_gc();
+			sess_gc();
 			
 			runtime_set('cron_1_last_date', $time);
 			
@@ -48,7 +47,7 @@ function cron_run($force = 0) {
 			thread_lastpid_gc();
 			
 			// 清理在线
-			online_gc();
+			session_gc();
 			
 			// 清理临时附件
 			attach_gc();

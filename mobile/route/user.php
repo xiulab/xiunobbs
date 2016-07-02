@@ -38,8 +38,8 @@ if($action == 'login') {
 	$conf['ipaccess_on'] AND $conf['user_create_email_on'] AND !ipaccess_check($longip, 'mails') AND message(-1, '您的 IP 今日发送邮件数达到上限，请明天再来。');
 	$conf['ipaccess_on'] AND !ipaccess_check($longip, 'users') AND message(-1, '您的 IP 今日注册用户数达到上限，请明天再来。');
 	
-	$email = online_get('create_email');
-	$verifycode = online_get('create_verifycode');
+	$email = $_SESSION['create_email'];
+	$verifycode = $_SESSION['create_verifycode'];
 
 	(empty($email) || ($conf['user_create_email_on'] && empty($verifycode))) AND message(-1, '请返回填写数据');
 	
@@ -61,7 +61,6 @@ if($action == 'login') {
 	$gid = 0;
 	
 	// 更新在线
-	online_save(TRUE);
 	online_list_cache_delete();
 	
 	header('Location: ./');
@@ -104,8 +103,8 @@ if($action == 'login') {
 	
 } elseif($action == 'resetpw') {
 	
-	$email = online_get('reset_email');
-	$verifycode = online_get('reset_verifycode');
+	$email = $_SESSION['reset_email'];
+	$verifycode = $_SESSION['reset_verifycode'];
 	(empty($email) || empty($verifycode)) AND message(0, '数据为空，请返回上一步重新填写。');
 	
 	$_user = user_read_by_email($email);

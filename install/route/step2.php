@@ -144,7 +144,6 @@ if($method == 'GET') {
 	if($test_data == 1) {
 		runtime_truncate();
 		runtime_init();
-		online_init();
 		for($i=0; $i<5; $i++) {
 			$subject = '欢迎使用 Xiuno BBS 3.0 新一代论坛系统。'.$i;
 			$message = '祝您使用愉快！';

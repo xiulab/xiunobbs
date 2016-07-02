@@ -19,8 +19,6 @@ $header['description'] = $conf['sitename']; 	// 描述
 
 // 启动在线，将清理函数注册，不能写日志。
 runtime_init();
-online_init();
-register_shutdown_function('online_save');
 register_shutdown_function('runtime_save');
 
 user_create($arr);

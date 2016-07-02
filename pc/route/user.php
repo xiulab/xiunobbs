@@ -80,13 +80,13 @@ if($action == 'login') {
 		if($conf['user_create_email_on']) {
 			
 			empty($verifycode) AND message(2, '请输入校验码。');
-			$email2 = online_get('create_email');
-			$verifycode2 = online_get('create_verifycode');
+			$email2 = $_SESSION['create_email'];
+			$verifycode2 = $_SESSION['create_verifycode'];
 			(empty($email2) || empty($verifycode2)) AND message(2, '请点击获取验证码。');
 			
 			$verifycode2 != $verifycode AND message(2, '验证码不正确');
 		} else {
-			online_set('create_email', $email);
+			$_SESSION['create_email'] = $email;
 		}
 		
 		message(0, 'Email 可以注册。');
@@ -111,8 +111,8 @@ if($action == 'login') {
 	
 	$rand = rand(1000, 9999);
 	
-	online_set('create_email', $email);
-	online_set('create_verifycode', $rand);
+	$_SESSION['create_email'] = $email;
+	$_SESSION['create_verifycode'] = $rand;
 	
 	$subject = "账号注册验证码：$rand - 【$conf[sitename]】";
 	$message = $subject;
@@ -131,8 +131,8 @@ if($action == 'login') {
 	$conf['ipaccess_on'] AND $conf['user_create_email_on'] AND !ipaccess_check($longip, 'mails') AND message(-1, '您的 IP 今日发送邮件数达到上限，请明天再来。');
 	$conf['ipaccess_on'] AND !ipaccess_check($longip, 'users') AND message(-1, '您的 IP 今日注册用户数达到上限，请明天再来。');
 	
-	$email = online_get('create_email');
-	$verifycode = online_get('create_verifycode');
+	$email = $_SESSION['create_email'];
+	$verifycode = $_SESSION['create_verifycode'];
 	
 	empty($email) AND message(-1, '请返回填写数据');
 
@@ -176,8 +176,8 @@ if($action == 'login') {
 		// 更新在线
 		online_list_cache_delete();
 		
-		online_unset('create_email');
-		online_unset('create_verifycode');
+		unset($_SESSION['create_email']);
+		unset($_SESSION['create_verifycode']);
 		
 		message(0, $user);
 	}
@@ -192,7 +192,6 @@ if($action == 'login') {
 	$gid = 0;
 	
 	// 更新在线
-	online_save(TRUE);
 	online_list_cache_delete();
 	
 	message(0, jump('退出成功', './', 1));
@@ -254,20 +253,20 @@ if($action == 'login') {
 		$verifycode = param('verifycode');
 		empty($verifycode) AND message(2, '请输入校验码');
 		
-		$email2 = online_get('reset_email');
-		$verifycode2 = online_get('reset_verifycode');
+		$email2 = $_SESSION['reset_email'];
+		$verifycode2 = $_SESSION['reset_verifycode'];
 		(empty($email2) || empty($verifycode2)) AND message(2, '请点击获取验证码');
 		
 		// 每小时只能尝试 5 次
-		$verifytimes = intval(online_get('verifytimes'));
-		$verifylastdate = intval(online_get('verifylastdate'));
+		$verifytimes = intval($_SESSION['verifytimes']);
+		$verifylastdate = intval($_SESSION['verifylastdate']);
 		if($verifytimes > 5 && $time - $verifylastdate < 3600) {
 			message(2, '请稍后重试，每个小时只能尝试5次。');
 		}
 		if($verifycode2 != $verifycode) {
 			$verifytimes++;
-			online_set('verifytimes', $verifytimes);
-			online_set('verifylastdate', $time);
+			$_SESSION['verifytimes'] = $verifytimes;
+			$_SESSION['verifylastdate'] = $time;
 			message(2, '验证码不正确');
 		}
 		
@@ -293,8 +292,8 @@ if($action == 'login') {
 	
 	$rand = rand(100000, 999999);
 	
-	online_set('reset_email', $email);
-	online_set('reset_verifycode', $rand);
+	$_SESSION['reset_email'] = $email;
+	$_SESSION['reset_verifycode'] = $rand;
 	
 	$subject = "重设密码验证码：$rand - 【$conf[sitename]】";
 	$message = $subject;
@@ -310,8 +309,8 @@ if($action == 'login') {
 // 找回密码第3步
 } elseif($action == 'resetpw') {
 	
-	$email = online_get('reset_email');
-	$verifycode = online_get('reset_verifycode');
+	$email = $_SESSION['reset_email'];
+	$verifycode = $_SESSION['reset_verifycode'];
 	(empty($email) || empty($verifycode)) AND message(0, '数据为空，请返回上一步重新填写。');
 	
 	$_user = user_read_by_email($email);
@@ -331,8 +330,8 @@ if($action == 'login') {
 		$password = md5($password.$salt);
 		user_update($_uid, array('password'=>$password));
 		
-		online_unset('reset_email');
-		online_unset('reset_verifycode');
+		unset($_SESSION['reset_email']);
+		unset($_SESSION['reset_verifycode']);
 		
 		message(0, '修改成功');
 		
