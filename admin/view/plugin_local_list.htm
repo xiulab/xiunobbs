@@ -14,12 +14,17 @@
 				<td>
 					<p class="grey"><?php echo $plugin['brief']; ?></p>
 				</td>
-				<td width="400" align="right">
+				<td width="200" align="right">
+					
+					<button class="small blue plugin_install_button <?php echo ($plugin['installed'] ? 'disabled' : ''); ?>">安装</button>
+					<button class="small red plugin_unstall_button <?php echo (!$plugin['installed'] ? 'disabled' : ''); ?>">卸载</button>
+					
+					
+				</td>
+				<td width="80" align="left">
 					<?php if(!empty($plugin['have_setting'])) { ?>
 					<button class="small grey plugin_setting_button <?php echo (!$plugin['installed'] ? 'disabled' : ''); ?>" onclick="window.location='admin/plugin-setting-<?php echo $plugin['dir'];?>.htm'">设置</button> 　　　
 					<?php } ?>
-					<button class="small blue plugin_install_button <?php echo ($plugin['installed'] ? 'disabled' : ''); ?>">安装</button> 　
-					<button class="small red plugin_unstall_button <?php echo (!$plugin['installed'] ? 'disabled' : ''); ?>">卸载</button>
 				</td>
 			</tr>
 			<?php } ?>

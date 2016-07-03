@@ -196,17 +196,18 @@ function plugin_official_read($dir) {
 
 function plugin_local_read($dir) {
 	// hook plugin_local_read_start.php
-	$empty = array('name'=>'', 'version'=>'1.0', 'bbs_version'=>'3.0', 'brief'=>'无', 'installed'=>0, 'dir'=>$dir, 'icon_url'=>'static/plugin_icon.png', 'is_official'=>0);
-	if(!is_file("./plugin/$dir/conf.json")) return $empty;
-	$plugin = xn_json_decode(file_get_contents("./plugin/$dir/conf.json"));
-	$plugin AND $r['dir'] = $dir;
-	empty($plugin['installed']) AND $plugin['installed'] = 0;
-	$plugin['icon_url'] = "plugin/$dir/icon.png";
-	$plugin['setting_url'] = is_file("./plugin/$dir/setting.php") ? "plugin/$dir/setting.php" : '';
-	$plugin['dir'] = $dir;
-	$plugin['is_official'] = 0;
+	
+	global $plugins;
+	
+	if(isset($plugins[$dir])) {
+		$plugin = $plugins[$dir];
+		$plugin['is_official'] = 0;
+	} else {
+		$plugin = array();
+	}
+	
 	// hook plugin_local_read_end.php
-	return $plugin ? $plugin : $empty;
+	return $plugin;
 }
 
 function plugin_read($dir) {
