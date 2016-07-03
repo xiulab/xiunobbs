@@ -16,4 +16,6 @@
 // 删除我的目录
 // rmdir_recusive('./mydir');
 
+ kv_delete('xn_ad_setting');
+
 ?>

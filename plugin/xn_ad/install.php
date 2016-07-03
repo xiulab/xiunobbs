@@ -16,4 +16,10 @@
 // 创建我的目录
 // mkdir('./mydir');
 
+$setting = kv_get('xn_ad_setting');
+if(empty($setting)) {
+	$setting = array('body_start'=>'', 'body_end'=>'');
+	kv_set('xn_ad_setting', $setting);
+}
+
 ?>

@@ -1,14 +1,12 @@
 <?php
 
 $plugin_srcfiles = array();
-$plugin_dirs = array();
+$plugin_paths = array();
 $plugins = array();
-
-plugin_init();
 
 // 在安装、卸载插件的时候，需要先初始化
 function plugin_init() {
-	global $plugin_srcfiles, $plugin_dirs, $plugins;
+	global $plugin_srcfiles, $plugin_paths, $plugins;
 	$plugin_srcfiles = array_merge(
 		glob('./model/*.php'), 
 		glob('./pc/route/*.php'), 
@@ -22,15 +20,21 @@ function plugin_init() {
 			unset($plugin_srcfiles[$k]);
 		}
 	}
-	$plugin_dirs = glob('./plugin/*', GLOB_ONLYDIR);
-	foreach ($plugin_dirs as $dir) {
-		$nanme = file_name($dir);
-		$plugins[$nanme] = xn_json_decode($dir."/conf.json");
-		$plugins[$nanme]['hooks'] = array();
-		$hookpaths = glob("./plugin/$nanme/hook/*.*"); // path
+	$plugin_paths = glob('./plugin/*', GLOB_ONLYDIR);
+	foreach ($plugin_paths as $path) {
+		$dir = file_name($path);
+		$plugins[$dir] = xn_json_decode(file_get_contents($path."/conf.json"));
+		
+		// 额外的信息
+		$plugins[$dir]['dir'] = $dir;
+		$plugins[$dir]['icon_url'] = "plugin/$dir/icon.png";
+		$plugins[$dir]['have_setting'] = is_file("./plugin/$dir/setting.php");
+		
+		$plugins[$dir]['hooks'] = array();
+		$hookpaths = glob("./plugin/$dir/hook/*.*"); // path
 		foreach($hookpaths as $hookpath) {
 			$hookname = file_name($hookpath);
-			$plugins[$nanme]['hooks'][$hookname] = $hookpath;
+			$plugins[$dir]['hooks'][$hookname] = $hookpath;
 		}
 	}
 	/*
@@ -47,7 +51,7 @@ function plugin_init() {
 		插件名可以为源文件名：pc/view/header.htm
 */
 function plugin_install($dir) {
-	global $plugin_srcfiles, $plugin_dirs, $plugins;
+	global $plugin_srcfiles, $plugin_paths, $plugins;
 	// 1. 直接覆盖的方式
 	plugin_overwrite_install($dir);
 	
@@ -58,27 +62,38 @@ function plugin_install($dir) {
 		$srcfile = plugin_find_hookname_from_srcfile($hookname);
 		if(!$srcfile) continue;
 		
-		$hookscontent = plugin_hooks_merge_by_rank($dir);
+		$hookscontent = plugin_hooks_merge_by_rank($hookname);
 		
 		// 查找源文件，将合并的内容放进去。
 		$backfile = plugin_backup_filename($srcfile);
-		!is_file($backfile) AND is_file($srcfile) AND copy($srcfile, $backfile);
-		$basefile = is_file($backfile) ? $backfile : $srcfile;
 		
-		$s = file_get_contents($basefile);
-		$s = preg_replace("#\t*//\shook\s$hookname\s*\r\n#is", $hookscontent, $s);
-		$s = str_replace("<!--{hook $hookname}-->", $hookscontent, $s);
-		
-		
-		file_put_contents($srcfile, $s);
+		if($hookscontent) {
+			!is_file($backfile) AND is_file($srcfile) AND copy($srcfile, $backfile);
+			$basefile = is_file($backfile) ? $backfile : $srcfile;
+			
+			$s = file_get_contents($basefile);
+			$s = preg_replace("#\t*//\shook\s$hookname\s*\r\n#is", $hookscontent, $s);
+			$s = str_replace("<!--{hook $hookname}-->", $hookscontent, $s);
+			
+			file_put_contents($srcfile, $s);
+			
+		// 如果为空，则表示没有插件安装到此处，还原备份文件，删除备份文件
+		} else {
+			if(is_file($backfile)) {
+				copy($backfile, $srcfile);
+				clearstatcache();
+				(filesize($srcfile) == filesize($backfile)) AND unlink($backfile);
+			}
+		}
 	}
 	// 写入配置文件
 	json_conf_set('installed', 1, "./plugin/$dir/conf.json");
+	return TRUE;
 }
 
 // copy from plugin_install 修改
 function plugin_unstall($dir) {
-	global $plugin_srcfiles, $plugin_dirs, $plugins;
+	global $plugin_srcfiles, $plugin_paths, $plugins;
 	// 1. 直接覆盖的方式
 	plugin_overwrite_unstall($dir);
 	
@@ -90,44 +105,58 @@ function plugin_unstall($dir) {
 		$srcfile = plugin_find_hookname_from_srcfile($hookname);
 		if(!$srcfile) continue;
 		
-		$hookscontent = plugin_hooks_merge_by_rank($dir);
+		$hookscontent = plugin_hooks_merge_by_rank($hookname);
 		
 		// 查找源文件，将合并的内容放进去。
 		$backfile = plugin_backup_filename($srcfile);
-		!is_file($backfile) AND is_file($srcfile) AND copy($srcfile, $backfile);
-		$basefile = is_file($backfile) ? $backfile : $srcfile;
 		
-		$s = file_get_contents($basefile);
-		$s = preg_replace("#\t*//\shook\s$hookname\s*\r\n#is", $hookscontent, $s);
-		$s = str_replace("<!--{hook $hookname}-->", $hookscontent, $s);
-		
-		
-		file_put_contents($srcfile, $s);
+		if($hookscontent) {
+			!is_file($backfile) AND is_file($srcfile) AND copy($srcfile, $backfile);
+			$basefile = is_file($backfile) ? $backfile : $srcfile;
+			
+			$s = file_get_contents($basefile);
+			$s = preg_replace("#\t*//\shook\s$hookname\s*\r\n#is", $hookscontent, $s);
+			$s = str_replace("<!--{hook $hookname}-->", $hookscontent, $s);
+			
+			file_put_contents($srcfile, $s);
+			
+		// 如果为空，则表示没有插件安装到此处，还原备份文件，删除备份文件
+		} else {
+			if(is_file($backfile)) {
+				copy($backfile, $srcfile);
+				clearstatcache();
+				(filesize($srcfile) == filesize($backfile)) AND unlink($backfile);
+			}
+		}
 	}
 	// 写入配置文件
 	json_conf_set('installed', 0, "./plugin/$dir/conf.json");
+	return TRUE;
 }
 
 // 将所有的同名 hook 内容合并（按照优先级排序），需要判断 installed 是否为 1
 function plugin_hooks_merge_by_rank($hookname) {
-	global $plugin_srcfiles, $plugin_dirs, $plugins;
+	global $plugin_srcfiles, $plugin_paths, $plugins;
 	$arr = array();
+	
 	foreach($plugins as $dir=>$plugin) {
 		if(isset($plugin['installed']) && $plugin['installed'] == 0) continue;
-		foreach($plugin['hooks'] as $hookname=>$hookpath) {
+		foreach($plugin['hooks'] as $hookname2=>$hookpath) {
+			if($hookname2 != $hookname) continue;
 			$rank = isset($plugin['hooks_rank'][$hookname]) ? $plugin['hooks_rank'][$hookname] : 0;
+			$s = file_get_contents($hookpath);
 			$arr[$rank][] = file_get_contents($hookpath);
 		}
 	}
 	$s = '';
 	foreach ($arr as $arr2) {
-		$s .= implode("", $arr2);
+		$s .= implode("\r\n", $arr2);
 	}
 	return $s;
 }
 
 function plugin_find_hookname_from_srcfile($hookname) {
-	global $plugin_srcfiles, $plugin_dirs, $plugins;
+	global $plugin_srcfiles, $plugin_paths, $plugins;
 	foreach($plugin_srcfiles as $file) {
 		$backfile = plugin_backup_filename($file);
 		$basefile = is_file($backfile) ? $backfile : $file;
@@ -149,7 +178,7 @@ function plugin_backup_filename($path) {
 }
 
 // 先下载，购买，付费，再安装
-function plugin_online_install($name) {
+function plugin_online_install($dir) {
 
 }
 
@@ -178,6 +207,7 @@ function plugin_overwrite_unstall($dir) {
 	foreach($files as $file) {
 		$workfile = str_replace("./plugin/$dir/overwrite/", './', $file);
 		if(is_dir($file)) {
+			// todo: 删除目录
 			// !is_dir($workfile) AND mkdir($workfile, 0777, TRUE);
 		} elseif(is_file($file)) {
 			$dirname = dirname($workfile);
@@ -192,18 +222,6 @@ function plugin_overwrite_unstall($dir) {
 	}
 }
 
-if(!function_exists('glob_recursive')) {
-	// Does not support flag GLOB_BRACE
-	function glob_recursive($pattern, $flags = 0) {
-		$files = glob($pattern, $flags);
-		foreach(glob(dirname($pattern).'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir) {
-			 $files = array_merge($files, glob_recursive($dir.'/'.basename($pattern), $flags));
-		}
-		return $files;
-	}
-}
-
 //plugin_install('xn_ad');
-plugin_unstall('xn_ad');
-
-exit;
+//plugin_unstall('xn_ad');
+//exit

@@ -67,6 +67,9 @@
 			<td>
 				<button class="small blue" id="plugin_install_button">安装</button> 　
 				<button class="small red" id="plugin_unstall_button">卸载</button>
+				<?php if(!empty($plugin['have_setting'])) { ?>
+				<button class="small grey plugin_setting_button <?php echo (!$plugin['installed'] ? 'disabled' : ''); ?>" onclick="window.location='admin/plugin-setting-<?php echo $plugin['name'];?>.htm'">设置</button> 　　　
+				<?php } ?>
 			</td>
 		</tr>
 		</table>
@@ -78,7 +81,7 @@
 <script>
 var dir = '<?php echo $dir; ?>';
 $('#plugin_install_button').on('click', function() {
-	$.xget('plugin/'+dir+'/install.php', function(code, message) {
+	$.xget('admin/plugin-install-'+dir+'.htm', function(code, message) {
 		if(code == 0) {
 			$('#plugin_install_button').button('disabled');
 			$('#plugin_unstall_button').button('reset');
@@ -89,7 +92,7 @@ $('#plugin_install_button').on('click', function() {
 	});
 });
 $('#plugin_unstall_button').on('click', function() {
-	$.xget('plugin/'+dir+'/unstall.php', function(code, message) {
+	$.xget('admin/plugin-unstall-'+dir+'.htm', function(code, message) {
 		if(code == 0) {
 			$.alert('卸载成功');
 			$('#plugin_install_button').button('reset');

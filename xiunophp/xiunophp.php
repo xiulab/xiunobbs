@@ -1476,5 +1476,35 @@ function http_url_path() {
 	return  "$http://$host$path/";
 }
 
+// 递归遍历目录
+function glob_recursive($pattern, $flags = 0) {
+	$files = glob($pattern, $flags);
+	foreach(glob(dirname($pattern).'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir) {
+		 $files = array_merge($files, glob_recursive($dir.'/'.basename($pattern), $flags));
+	}
+	return $files;
+}
+
+// 递归删除目录，这个函数比较危险，传参一定要小心
+function rmdir_recusive($dir, $keepdir = 0) {
+	if($dir == '/' || $dir == './' || $dir == '../') return FALSE;// 不允许删除根目录，避免程序意外删除数据。
+	if(!is_dir($dir)) return FALSE;
+	
+	substr($dir, -1) != '/' AND $dir .= '/';
+	$dir2 = $dir.'*';
+	
+	$files = glob($dir2);
+	foreach($files as $file) {
+		if($file == '.' || $file == '..') continue;
+		if(!is_dir($file)) {
+			unlink($file);
+		} else {
+			rmdir_recusive($file);
+		}
+	}
+	if(!$keepdir) rmdir($dir);
+	return TRUE;
+}
+
 
 ?>

@@ -15,8 +15,8 @@
 					<p class="grey"><?php echo $plugin['brief']; ?></p>
 				</td>
 				<td width="400" align="right">
-					<?php if(!empty($plugin['setting_url'])) { ?>
-					<button class="small grey plugin_setting_button <?php echo (!$plugin['installed'] ? 'disabled' : ''); ?>" onclick="window.location='<?php echo $plugin['setting_url']; ?>'">设置</button> 　　　
+					<?php if(!empty($plugin['have_setting'])) { ?>
+					<button class="small grey plugin_setting_button <?php echo (!$plugin['installed'] ? 'disabled' : ''); ?>" onclick="window.location='admin/plugin-setting-<?php echo $plugin['dir'];?>.htm'">设置</button> 　　　
 					<?php } ?>
 					<button class="small blue plugin_install_button <?php echo ($plugin['installed'] ? 'disabled' : ''); ?>">安装</button> 　
 					<button class="small red plugin_unstall_button <?php echo (!$plugin['installed'] ? 'disabled' : ''); ?>">卸载</button>
@@ -33,7 +33,7 @@
 $('button.plugin_install_button').on('click', function() {
 	var jtr = $(this).closest('tr');
 	var dir = jtr.attr('dir');
-	$.xget('plugin/'+dir+'/install.php', function(code, message) {
+	$.xget('admin/plugin-install-'+dir+'.htm', function(code, message) {
 		if(code == 0) {
 			jtr.find('button.plugin_install_button').button('disabled');
 			jtr.find('button.plugin_unstall_button').button('reset');
@@ -47,7 +47,7 @@ $('button.plugin_install_button').on('click', function() {
 $('button.plugin_unstall_button').on('click', function() {
 	var jtr = $(this).closest('tr');
 	var dir = jtr.attr('dir');
-	$.xget('plugin/'+dir+'/unstall.php', function(code, message) {
+	$.xget('admin/plugin-unstall-'+dir+'.htm', function(code, message) {
 		if(code == 0) {
 			jtr.find('button.plugin_install_button').button('reset');
 			jtr.find('button.plugin_unstall_button').button('disabled');
