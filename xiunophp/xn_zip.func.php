@@ -112,12 +112,20 @@ class php_zip {
 		$filename = str_replace('\\', '/', $filename);
 
 		$dtime	= dechex($this->unix_to_dos_time($time));
+		
+		// fixed by axiuno@gmail.com 干掉 eval()
+		$hexdtime = pack("C*", hexdec('0x'.$dtime[6].$dtime[7]), hexdec('0x'.$dtime[4].$dtime[5]), hexdec('0x'.$dtime[2].$dtime[3]), hexdec('0x'.$dtime[0].$dtime[1]));
+
+		/*
 		$hexdtime = '\x' . $dtime[6] . $dtime[7]
 				  . '\x' . $dtime[4] . $dtime[5]
 				  . '\x' . $dtime[2] . $dtime[3]
 				  . '\x' . $dtime[0] . $dtime[1];
+				  
+				  echo '$hexdtime = "' . $hexdtime . '";';exit;
 		eval('$hexdtime = "' . $hexdtime . '";');
-
+		*/
+		
 		$fr	   = "\x50\x4b\x03\x04";
 		$fr	  .= "\x14\x00";
 		$fr	  .= "\x00\x00";
@@ -532,6 +540,7 @@ function xn_unzip($zipfile, $destpath) {
 // 不支持对 storage 打包
 function xn_zip($destzip, $srcpath) {
 	$tmppath = ini_get('upload_tmp_dir').'/';
+	$tmppath == '/' AND $tmppath = './';
 	$srcpath = str_replace('\\', '/', $srcpath);
 	substr($srcpath, -1, 1) != '/' && $srcpath .= '/';
 	$tmpzip = $tmppath.rand(1, 10000000000).'.tmp.zip';

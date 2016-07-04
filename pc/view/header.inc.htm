@@ -4,10 +4,12 @@
 	!isset($header['title']) AND $header['title'] = '';
 	!isset($keyword) AND $keyword = '';
 ?>
+<!--{hook file_header_start.htm}-->
 <!DOCTYPE html>
 <html>
+<!--{hook tag_head_before.htm}-->
 <head>
-	<!--{hook head_start.htm}-->
+	<!--{hook tag_head_start.htm}-->
 	<?php if(APP_PATH != './') { ?> <base href="<?php echo APP_PATH; ?>"> <?php } ?>
 	<meta content="True" name="HandheldFriendly">
 	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
@@ -25,27 +27,34 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="static/bbs.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="pc/view/pc.css" />
 	<script>var debug = <?php echo DEBUG; ?>;</script>
-	<!--{hook head_start.htm}-->
+	<!--{hook tag_head_start.htm}-->
 </head>
+<!--{hook tag_head_after.htm}-->
 
 <body>
+<!--{hook tag_body_start.htm}-->
 
-<!--{hook body_start.htm}-->
-
+<!--{hook id_header_before.htm}-->
 <div id="header">
+	<!--{hook id_header_start.htm}-->
 	<table class="layout width">
 		<tr>
+			<!--{hook id_header_td_1.htm}-->
 			<td valign="top">
 				<a href="./"><img src="static/logo.png" align="top" class="logo" /></a>
 			</td>
+			<!--{hook id_header_td_2.htm}-->
 			<td valign="top">
 				<ul id="forumlist" style="margin-top: 4px;">
+					<!--{hook id_header_forumlist_start.htm}-->
 					<li fid="0"><a href="./"><span>首页</span> <i class="newthreads" fid="0">0</i></a></li>
 					<?php if(is_array($forumlist_show)) { foreach($forumlist_show as &$f) { ?>
 					<li fid="<?php echo $f['fid']; ?>"><a href="forum-<?php echo $f['fid']; ?>.htm"><?php echo $f['name']; ?> <i class="newthreads" fid="<?php echo $f['fid']; ?>">0</i></a></li>
 					<?php } } ?>
+					<!--{hook id_header_forumlist_end.htm}-->
 				</ul>
 			</td>
+			<!--{hook id_header_td_3.htm}-->
 			<td align="right">
 				<div>
 					<form action="search.htm" method="GET" id="srch_form">
@@ -54,22 +63,32 @@
 					</form>
 				</div>
 			</td>
+			<!--{hook id_header_td_4.htm}-->
 		</tr>
 	</table>
+	<!--{hook id_header_end.htm}-->
 </div>
+<!--{hook id_header_after.htm}-->
 
+<!--{hook id_body_before.htm}-->
 <div id="body">
 	<div class="width">
-		<div class="panel_header margin">
+		<!--{hook id_body_start.htm}-->
+		<div class="panel_header margin" id="breadcrumb">
 			<table class="layout">
 				<tr>
-					<td>	
+					<!--{hook id_breadcrumb_td_1.htm}-->
+					<td id="nav">	
+						<!--{hook id_nav_start.htm}-->
 						<a href="./"><i class="icon home"></i></a>
 						<?php if(!empty($header['navs'])) { foreach($header['navs'] as $nav) { ?>
 							<i class="icon angle-right"></i> <?php echo $nav; ?>
 						<?php } } ?>
+						<!--{hook id_nav_end.htm}-->
 					</td>
+					<!--{hook id_breadcrumb_td_2.htm}-->
 					<td id="user" align="right">
+						<!--{hook id_user_start.htm}-->
 						<?php if(empty($gid)) { ?>
 							<i class="icon user"></i><a href="user-login.htm">登录</a> &nbsp;
 							<i class="icon user-create"></i><a href="user-create.htm">注册</a> &nbsp;
@@ -80,7 +99,11 @@
 							<?php if($gid == 1) { ?><i class="icon cog"></i><a href="admin/" target="_blank">设置</a> <?php } ?> &nbsp;
 							<i class="icon power-off"></i><a href="user-logout.htm">退出</a> &nbsp;
 						<?php } ?>
+						<!--{hook id_user_end.htm}-->
 					</td>
+					<!--{hook id_breadcrumb_td_3.htm}-->
 				</tr>
 			</table>
 		</div>
+		
+<!--{hook file_header_end.htm}-->

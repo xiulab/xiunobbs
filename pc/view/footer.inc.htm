@@ -1,8 +1,12 @@
+		<!--{hook id_body_end.htm}-->
 	</div>
 </div>
+<!--{hook id_body_after.htm}-->
 
+<!--{hook id_footer_before.htm}-->
 <div id="footer" class="margin">
 	<div class="width">
+		<!--{hook id_footer_start.htm}-->
 		<dl class="row">
 			<dt>
 				© 2008-2016 Xiuno<br>
@@ -15,12 +19,16 @@
 				Cache: <?php echo ($conf['cache']['enable'] ? $conf['cache']['type'] : 'Off'); ?>
 			</dd>
 		</dl>
+		<!--{hook id_footer_end.htm}-->
 		<?php include './pc/view/footer_debug.inc.htm'; ?>
 	</div>
 </div>
+<!--{hook id_footer_after.htm}-->
 
 <div id="scroll_top" title="回到顶部"></div>
 
+
+<!--{hook file_footer_script_start.htm}-->
 <script id="script_data">
 // 全局的数据
 var fid = <?php echo $fid; ?>;					// 当前激活的 fid
@@ -39,15 +47,16 @@ var new_thread_days = <?php echo $conf['new_thread_days']; ?>;
 <script src="static/bbs.js"></script>
 <script src="pc/view/pc.js"></script>
 
-
 <script>
 render_header();
 render_forumlist();
 </script>
 
+<!--{hook file_footer_script_after.htm}-->
+
 <?php echo isset($setting['footer_code']) ? $setting['footer_code'] : ''; ?>
 
-<!--{hook body_end.htm}-->
+<!--{hook tag_body_end.htm}-->
 
 </body>
 </html>
@@ -56,3 +65,4 @@ render_forumlist();
 cron_run();
 runtime_save();
 ?>
+<!--{hook file_footer_end.htm}-->

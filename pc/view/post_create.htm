@@ -1,5 +1,6 @@
 <?php include "./pc/view/header.inc.htm"; ?>
 
+<!--{hook post_create_form_before.htm}-->
 <div class="panel_body margin">
 	<dl class="row vtop" id="post_create_dl">
 		<dt>
@@ -16,19 +17,25 @@
 			</dl>
 			<div class="post">
 				<form method="POST" id="post_create_form" action="post-create-<?php echo $tid; ?>.htm" class="form margin">
+					<!--{hook post_create_form_start.htm}-->
 					<div><textarea id="post_message" name="message" placeholder="内容" style="width: 100%; height: 300px;"></textarea></div>
 					<dl class="row margin">
 						<dt>
+							<!--{hook post_create_submit_start.htm}-->
 							<button type="button" loading-text="正在提交" class="big blue" style="width: 208px;">发帖</button>
+							<!--{hook post_create_submit_end.htm}-->
 						</dt>
 						<dd class="right">
+							<!--{hook post_create_submit_right.htm}-->
 						</dd>
 					</dl>
+					<!--{hook post_create_form_end.htm}-->
 				</form>
 			</div>
 		</dd>
 	</dl>
 </div>
+<!--{hook post_create_form_after.htm}-->
 
 <?php include "./pc/view/footer.inc.htm"; ?>
 
@@ -76,3 +83,5 @@ jsubmit.off('click').on('click', function() {
 });
 //}, 1000);
 </script>
+
+<!--{hook file_post_create_end.htm}-->

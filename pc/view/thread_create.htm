@@ -1,23 +1,32 @@
 <?php include "./pc/view/header.inc.htm"; ?>
 
+<!--{hook thread_create_form_before.htm}-->
 <div class="panel_body margin">
 	<div class="body">
 		<form method="POST" id="thread_create_form" action="thread-create.htm">
+			<!--{hook thread_create_form_start.htm}-->
 			<p class="margin"><span id="forum_select"></span> <input type="text" placeholder="标题" name="subject" style="width: 700px;"></p>
+			<!--{hook thread_create_form_message_before.htm}-->
 			<p class="margin"><textarea id="message" name="message" placeholder="内容" style="width: 100%; height: 500px;"></textarea></p>
+			<!--{hook thread_create_form_message_after.htm}-->
 			<?php if($conf['seo_url_rewrite'] && $group['allowcustomurl']) { ?>
 			<p class="margin"><input type="text" placeholder="自定义 URL：just-like-this-why-sky-is-blue" name="seo_url" style="width: 100%;"></p>
 			<?php } ?>
 			<dl class="row margin">
 				<dt>
+					<!--{hook thread_create_submit_before.htm}-->
 					<button type="submit" loading-text="正在提交..." class="big blue" style="width: 208px;">发帖</button>
+					<!--{hook thread_create_submit_after.htm}-->
 				</dt>
 				<dd class="right">
+					<!--{hook thread_create_submit_right.htm}-->
 				</dd>
 			</dl>
+			<!--{hook thread_create_form_end.htm}-->
 		</form>
 	</div>
 </div>
+<!--{hook thread_create_form_after.htm}-->
 
 <script id="script_data">
 var fid = <?php echo $fid; ?>;// 当前激活的 fid
@@ -92,3 +101,5 @@ jform.keyup(function(e) {
 });
 
 </script>
+
+<!--{hook file_thread_create_end.htm}-->

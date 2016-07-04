@@ -1,4 +1,7 @@
 <?php include "./pc/view/header.inc.htm"; ?>
+
+<!--{hook file_thread_start.htm}-->
+
 <div class="panel_body margin">
 	<dl class="row" pid="<?php echo $first['pid']; ?>" id="firstpost">
 		<dt class="vtop">
@@ -101,6 +104,8 @@ var allowpost = <?php echo $allowpost; ?>;
 var tid = <?php echo $tid; ?>;
 var thread = <?php echo xn_json_encode($thread); ?>;
 </script>
+
+<!--{hook file_thread_end.htm}-->
 
 <?php include "./pc/view/footer.inc.htm"; ?>
 

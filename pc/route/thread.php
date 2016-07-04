@@ -9,12 +9,18 @@ $action = param(1);
 $uid AND $user = user_read($uid);
 empty($user) AND $user = user_guest();
 
+// hook thread_action_before.php
+
 // 发表主题帖
 if($action == 'create') {
+	
+	// hook thread_create_get_post.php
 	
 	$conf['ipaccess_on'] AND !ipaccess_check($longip, 'threads') AND message(-1, '您的 IP 今日发表主题数达到上限，请明天再来。');
 	
 	if($method == 'GET') {
+		
+		// hook thread_create_get_start.php
 		
 		check_standard_browser();
 		$fid = param(2, 0);
@@ -27,9 +33,14 @@ if($action == 'create') {
 		}
 		
 		$header['title'] = '发帖'.($uid == 0 ? ' [匿名模式]' : '');
+		
+		// hook thread_create_get_end.php
+		
 		include './pc/view/thread_create.htm';
 		
 	} else {
+		
+		// hook thread_create_post_start.php
 		
 		$fid = param('fid', 0);
 		$forum = forum_read($fid);
@@ -82,14 +93,21 @@ if($action == 'create') {
 		
 		$conf['ipaccess_on'] AND ipaccess_inc($longip, 'threads');
 		
+		
+		
 		if($ajax) {
 			ob_start();
 			$thread = thread_read($tid);
 			$threadlist = array($thread);
+			
+			// hook thread_create_post_ajax_end.php
+			
 			include './pc/view/thread_list_body.inc.htm';
 			$middle = ob_get_clean();
 			message(0, $middle);
 		} else {
+			
+			// hook thread_create_post_ajax_end.php
 			message(0, '发帖成功');
 		}
 	}
@@ -97,14 +115,20 @@ if($action == 'create') {
 // 处理 2.1 老版本 URL
 } else if($action == 'index') {
 	
+	// hook thread_index_get.php
+	
 	$tid = param(5, 0);
 	header("HTTP/1.1 301 Moved Permanently");
 	header("Location: thread-$tid.htm");
 	exit;
 	
+// hook thread_action_add.php
+
 // 帖子详情
 // $action == 'seo' 也会跳到此处
 } else {
+	
+	// hook thread_info_start.php
 	
 	// 支持自定义的 SEO URL: http://x.com/xxx-xxx-xxx
 	// Rewrite 以后：http://x.com/thread-seo-xxx-xxx-xxxx-xxx.htm
@@ -154,7 +178,6 @@ if($action == 'create') {
 	$seo_url = $thread['seo_url']; // 模板需要
 	
 	
-	
 	// 升级需要查找附件
 	$attachlist = $imagelist = $filelist = array();
 	if($first['images'] || $first['files']) {
@@ -171,6 +194,8 @@ if($action == 'create') {
 		unset($thread['userip']);
 		unset($thread['sid']);
 	}
+	
+	// hook thread_info_end.php
 	include './pc/view/thread.htm';
 	
 }

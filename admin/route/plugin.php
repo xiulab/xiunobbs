@@ -36,14 +36,13 @@ if(empty($action) || $action == 'local_list') {
 	
 	include "./admin/view/plugin_read.htm";
 	
-// 下载官方插件。
+// 下载官方插件，如果为收费插件，则需要微信支付。客户端循环请求，直到支付成功。
 } elseif($action == 'download') {
 	
-	$tmppath = ini_get('upload_tmp_dir').'/';
-	$tmppath == '/' AND $tmppath = './tmp/';
+	$tmppath = $conf['tmp_path'];
 
 	$dir = param(2);
-	!preg_match('#^\w+$#', $dir) AND message(-1, 'dir 不合法。');
+	plugin_check_dir($dir);
 	
 	$official = plugin_official_read($dir);
 	empty($official) AND message(-1, '插件不存在');
@@ -59,12 +58,15 @@ if(empty($action) || $action == 'local_list') {
 	$app_url = urlencode($app_url);
 	$url = "http://plugin.xiuno.com/plugin-down-dir-$dir-siteid-$siteid-ajax-1.htm?app_url=$app_url";
 
-	// 服务端开始下载
-	$s = http_get($url, 60);
+	// 服务端开始下载，超时为 60 秒。
+	$timeout = intval(ini_get('max_execution_time'));
+	empty($timeout) AND $timeout = 60;
+	$s = http_get($url, $timeout);
 	if(empty($s) || substr($s, 0, 2) != 'PK') {
 		$arr = xn_json_decode($s);
-		empty($arr['message']) && $arr['message'] = '';
-		message(-1, '服务端返回数据错误：'.$arr['message']);
+		empty($arr) AND message(-1, '服务端返回数据错误:'.$s);
+		// code == 100 为收费插件
+		message($arr['code'], $arr['message']); // 收费插件
 	}
 	$zipfile = $tmppath.$dir.'.zip';
 	$destpath = "./plugin/$dir/";
@@ -111,12 +113,12 @@ if(empty($action) || $action == 'local_list') {
 	}
 }
 
-function plugin_check_name($name) {
+// 预留
+function plugin_check_dir($name) {
 	if(!preg_match('#^\w+$#', $name)) {
 		message(-1, '插件名称只能由字母、数字、下划线组成。');
 	}
 }
-
 
 // 远程插件列表，从官方服务器获取插件列表，全部缓存到本地，定期更新
 function plugin_official_list($cond = array(), $orderby = array('stars'=>-1), $page = 1, $pagesize = 20) {
@@ -162,6 +164,7 @@ return Array (
         )
 )
 */
+
 function plugin_official_list_cache() {
 	// hook plugin_official_list_cache_start.php
 	$s = cache_get('plugin_official_list');

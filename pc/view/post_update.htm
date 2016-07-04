@@ -1,19 +1,32 @@
 <?php include "./pc/view/header.inc.htm"; ?>
 
 <?php if($isfirst) { ?>
-	<div class="panel_body margin">
+<div class="panel_body margin">
 	<div class="body">
+		<!--{hook thread_update_form_before.htm}-->
 		<form method="POST" id="post_update_form_<?php echo $pid; ?>" action="post-update-<?php echo $pid; ?>.htm" class="form margin">
+			<!--{hook thread_update_form_start.htm}-->
 			<p><span class="forum_select"></span> <input type="text" placeholder="标题" name="subject" value="<?php echo $thread['subject']; ?>" style="width: 540px;"></p>
+			<!--{hook thread_update_form_message_before.htm}-->
 			<p><textarea id="post_update_message" name="message" placeholder="内容" style="width: 100%; height: 500px;"><?php echo $post['message']; ?></textarea></p>
+			<!--{hook thread_update_form_message_after.htm}-->
 			<?php if($conf['seo_url_rewrite'] && $group['allowcustomurl']) { ?>
 			<p><input type="text" placeholder="自定义 URL：just-like-this-why-sky-is-blue" name="seo_url" value="<?php echo $thread['seo_url']; ?>" style="width: 100%;"></p>
 			<?php } ?>
+			<!--{hook thread_update_form_seo_url_after.htm}-->
 			<dl class="row margin">
-				<dt><button type="button" loading-text="正在提交..." class="big blue" style="width: 208px;">编辑帖子</button></dt>
-				<dd class="right"></dd>
+				<dt>
+					<!--{hook thread_update_submit_before.htm}-->
+					<button type="button" loading-text="正在提交..." class="big blue" style="width: 208px;">编辑帖子</button>
+					<!--{hook thread_update_submit_before.htm}-->
+				</dt>
+				<dd class="right">
+					<!--{hook thread_update_submit_right.htm}-->
+				</dd>
 			</dl>
+			<!--{hook thread_update_form_end.htm}-->
 		</form>
+		<!--{hook thread_update_form_after.htm}-->
 	</div>
 </div>
 
@@ -34,11 +47,20 @@
 				</dl>
 				<div class="post">
 					<form method="POST" id="post_update_form_<?php echo $pid; ?>" action="post-update-<?php echo $pid; ?>.htm" class="form margin">
+						<!--{hook post_update_form_before.htm}-->
 						<div><textarea id="post_update_message" name="message" placeholder="内容" style="width: 100%; height: 300px;"><?php echo $post['message']; ?></textarea></div>
+						<!--{hook post_update_form_message_after.htm}-->
 						<dl class="row margin">
-							<dt><button type="button" loading-text="正在提交..." class="big blue" style="width: 208px;">编辑帖子</button></dt>
-							<dd class="right"></dd>
+							<dt>
+								<!--{hook post_update_submit_before.htm}-->
+								<button type="button" loading-text="正在提交..." class="big blue" style="width: 208px;">编辑帖子</button>
+								<!--{hook post_update_submit_before.htm}-->
+							</dt>
+							<dd class="right">
+								<!--{hook post_update_submit_right.htm}-->
+							</dd>
 						</dl>
+						<!--{hook post_update_form_before.htm}-->
 					</form>
 				</div>
 			</dd>
