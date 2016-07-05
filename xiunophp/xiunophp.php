@@ -601,7 +601,7 @@ function db_read($table, $cond) {
 }
 	
 function db_find($table, $cond = array(), $orderby = array(), $page = 0, $pagesize = 10, $key = '', $abort = TRUE) {
-	if(is_array($cond)) {
+	if(substr($table, 0, 7) != 'SELECT ') {
 		$cond = cond_to_sqladd($cond);
 		$orderby = orderby_to_sqladd($orderby);
 		$offset = ($page - 1) * $pagesize;
@@ -616,7 +616,7 @@ function db_find($table, $cond = array(), $orderby = array(), $page = 0, $pagesi
 }
 
 function db_find_one($table, $cond = array(), $orderby = array()) {
-	if(is_array($cond)) {
+	if(substr($table, 0, 7) != 'SELECT ') {
 		$cond = cond_to_sqladd($cond);
 		$orderby = orderby_to_sqladd($orderby);
 		return db_sql_find_one("SELECT * FROM `$table` $cond$orderby LIMIT 1");
