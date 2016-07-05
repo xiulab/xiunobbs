@@ -33,7 +33,7 @@ $model_merge_file = './tmp/model.inc.php';
 
 $include_merge_model = FALSE;
 $isfile = is_file($model_merge_file);
-if(!DEBUG && !IN_SAE && !$isfile) {
+if(!DEBUG && !$isfile) {
 	$s = php_strip_whitespace('./model/group.func.php');
 	$s .= php_strip_whitespace('./model/user.func.php');
 	$s .= php_strip_whitespace('./model/forum.func.php');

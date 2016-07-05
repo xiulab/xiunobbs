@@ -3,12 +3,10 @@
 define('DEBUG', 1);
 define('APP_NAME', 'bbs_admin');
 define('APP_PATH', '../');
-define('IN_SAE', class_exists('SaeKV'));
 
 chdir(APP_PATH);
 
 $conf = (@include './conf/conf.php') OR exit(header('Location: ../install/'));
-IN_SAE AND include './conf/sae.conf.php'; 	// 支持 SAE
 
 include './xiunophp/xiunophp.php';
 include './model.inc.php';

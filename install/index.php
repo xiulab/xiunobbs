@@ -5,12 +5,8 @@ chdir('../');
 define('DEBUG', 0);
 define('APP_NAME', 'install');
 
-define('IN_SAE', class_exists('SaeKV'));
-
 $conf = (@include './conf/conf.default.php');
 
-// 支持 SAE
-IN_SAE AND include './conf/sae.conf.php';
 include './xiunophp/xiunophp.php';
 include './model.inc.php';
 include './model/friendlink.func.php';

@@ -99,7 +99,7 @@ if(empty($action) || $action == 'profile') {
 	$dir = substr(sprintf("%09d", $uid), 0, 3).'/';
 	$path = $conf['upload_path'].'avatar/'.$dir;
 	$url = $conf['upload_url'].'avatar/'.$dir.$filename;
-	!IN_SAE AND !is_dir($path) AND (mkdir($path, 0777, TRUE) OR message(-2, '目录创建失败'));
+	!is_dir($path) AND (mkdir($path, 0777, TRUE) OR message(-2, '目录创建失败'));
 	
 	file_put_contents($path.$filename, $data) OR message(-1, '写入文件失败');
 	

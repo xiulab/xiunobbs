@@ -147,7 +147,7 @@ if($action == 'list') {
 	$filename = "$fid.png";
 	$path = $conf['upload_path'].'forum/';
 	$url = $conf['upload_url'].'forum/'.$filename;
-	!IN_SAE AND !is_dir($path) AND (mkdir($path, 0777, TRUE) OR message(-2, '目录创建失败'));
+	!is_dir($path) AND (mkdir($path, 0777, TRUE) OR message(-2, '目录创建失败'));
 	
 	file_put_contents($path.$filename, $data) OR message(-1, '写入文件失败');
 	

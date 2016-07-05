@@ -5,7 +5,7 @@
 		<?php if($agreelist) { ?>
 		<p>
 			<?php foreach ($agreelist as $agree) { ?>
-			<a href="user-<?php echo $agree['uid']; ?>.htm" target="_blank" nofollow>
+			<a href="<?php echo url("user-$agree[uid].htm");?>" target="_blank" nofollow>
 				<img src="<?php echo $agree['avatar_url']; ?>" class="avatar tiny" />
 				<?php echo $agree['username']; ?>
 			</a>

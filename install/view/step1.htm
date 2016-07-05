@@ -27,57 +27,6 @@
 		</tr>
 	<?php } ?>
 	
-	<?php if(!IN_SAE) { ?>
-	
-		<tr align="center">
-			<td colspan="3" align="left"><b>目录 / 文件 权限检测</b></td>
-			<td>检测结果</td>
-		</tr>
-
-		<?php foreach($write as $k=>$v) { ?>
-		<tr>
-			<td colspan="3"><?php echo $k;?></td>
-			<td align="center">
-				<?php if($v) { ?><div class="ok"><b class="icon check green"></b>可写</div><?php } ?>
-				<?php if(!$v) { $succeed = 0;?><div class="error"><b class="icon close red"></b>不可写</div><?php } ?>
-			</td>
-		</tr>
-		<?php } ?>
-		
-	<?php } else { ?>
-		
-		<tr class="header">
-			<td colspan="4">SAE 检测目录文件可写</td>
-		</tr>
-
-		<tr>
-			<td>saekv://tmp/</td>
-			<td>可读写</td>
-			<td><b><?php echo $saewrite['tmp_path'] ? '可写' : '不可写';?></b></td>
-			<td>
-			<?php if($saewrite['tmp_path']) { ?>
-				<div class="ok">✔通过</div>
-			<?php } else { $succeed = 0; ?>
-				<div class="error">✘未通过 （请设置为：0777)</div>
-			<?php } ?>
-			</td>
-		</tr>
-
-		<tr>
-			<td>saestor://upload/</td>
-			<td>可读写</td>
-			<td><b><?php echo $saewrite['upload_path'] ? '可写' : '不可写';?></b></td>
-			<td width="33%">
-			<?php if($saewrite['upload_path']) { ?>
-				<div class="ok">✔通过</div>
-			<?php } else { $succeed = 0; ?>
-				<div class="error">✘未通过</div>（请在SAE创建 upload 域，<a href="http://bbs.xiuno.com/thread-806.htm" target="_blank">查看帮助</a>）
-			<?php } ?>
-			</td>
-		</tr>
-		
-	<?php } ?>
-	
 	</table>
 </div>
 

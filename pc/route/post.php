@@ -251,7 +251,7 @@ if($action == 'create') {
 	$day = date('Ymd', $time);
 	$path = $conf['upload_path'].'attach/'.$day;
 	$url = $conf['upload_url'].'attach/'.$day;
-	!IN_SAE AND !is_dir($path) AND (mkdir($path, 0777, TRUE) OR message(-2, '目录创建失败'));
+	!is_dir($path) AND (mkdir($path, 0777, TRUE) OR message(-2, '目录创建失败'));
 	
 	$savename = $uid.'_'.attach_safe_name($name, $allowtypes);
 	

@@ -151,7 +151,7 @@ if($action == 'list') {
 	$dir = date('ymd', $time).'/';
 	$path = $conf['upload_path'].'article/'.$dir;
 	$url = $conf['upload_url'].'article/'.$dir.$filename;
-	!IN_SAE AND !is_dir($path) AND (mkdir($path, 0777, TRUE) OR message(-2, '目录创建失败'));
+	!is_dir($path) AND (mkdir($path, 0777, TRUE) OR message(-2, '目录创建失败'));
 	
 	file_put_contents($path.$filename, $data) OR message(-1, '写入文件失败');
 	message(0, array('url'=>$url, 'width'=>$width, 'height'=>$height, 'name'=>$filename));

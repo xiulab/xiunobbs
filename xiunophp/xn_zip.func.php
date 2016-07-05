@@ -1,7 +1,7 @@
 <?php
 
 /*
-   该类库收集于互联网，版权未知，由 axiuno@gmail.com 修正了部分64位下的 bug, 支持了SAE, 如果谁知道请麻烦告知作者。
+   该类库收集于互联网，版权未知，由 axiuno@gmail.com 修正了部分64位下的 bug, 如果谁知道请麻烦告知作者。
 */
 
 /*if(!defined('FRAMEWORK_TMP_TMP_PATH')) {
@@ -13,7 +13,7 @@ class php_zip {
 	private $ctrl_dir	= array();
 	private $datasec	= array();
 	//public $fileList 	= array();
-	public $files		= array(); // 用来返回文件名，SAE 需要。
+	public $files		= array(); // 用来返回文件名， 需要。
 
 	public function zip($dir, $saveName) {
 		if(@!function_exists('gzcompress')){ throw new Exception('gzcompress does not exits.'); }

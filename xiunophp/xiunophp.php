@@ -16,7 +16,8 @@
 
 !defined('DEBUG') AND define('DEBUG', 1); // 1: 开发模式， 2: 线上调试：日志记录，0: 关闭
 !defined('APP_NAME') AND define('APP_NAME', 'www');
-!defined('IN_SAE') AND define('IN_SAE', class_exists('SaeKV'));
+!defined('CACHE_PRE') AND define('CACHE_PRE', 'pre_');
+
 
 error_reporting(DEBUG ? E_ALL : 0);
 version_compare(PHP_VERSION, '5.3.0', '<') AND set_magic_quotes_runtime(0);
@@ -502,7 +503,7 @@ function db_new($dbconf) {
 	return NULL;
 }
 
-function db_find_one($sql, $abort = TRUE) {
+function db_sql_find_one($sql, $abort = TRUE) {
 	global $db;
 	if(!$db) return FALSE;
 	$arr = $db->find_one($sql);
@@ -514,7 +515,7 @@ function db_find_one($sql, $abort = TRUE) {
 	return $arr;
 }
 
-function db_find($sql, $key = NULL, $abort = TRUE) {
+function db_sql_find($sql, $key = NULL, $abort = TRUE) {
 	global $db;
 	if(!$db) return FALSE;
 	$arr = $db->find($sql, $key);
@@ -567,10 +568,19 @@ function db_maxid($table, $field, $abort = TRUE) {
 	return $r;
 }
 
-/* db 层不对外提供，会导致大量的 NOSQL 写法，不利于阅读和维护。
+/* db 层不对外提供，会导致大量的 NOSQL 写法，不利于阅读和维护。 */
 function db_create($table, $arr) {
+	return db_insert($table, $arr);
+}
+
+function db_insert($table, $arr) {
 	$sqladd = array_to_sqladd($arr);
 	return db_exec("INSERT INTO `$table` $sqladd");
+}
+
+function db_replace($table, $arr) {
+	$sqladd = array_to_sqladd($arr);
+	return db_exec("REPLACE INTO `$table` $sqladd");
 }
 
 function db_update($table, $cond, $update) {
@@ -589,12 +599,46 @@ function db_read($table, $cond) {
 	$sql = "SELECT * FROM `$table` $sqladd";
 	return db_find_one($sql);
 }
-*/
+	
+function db_find($table, $cond = array(), $orderby = array(), $page = 0, $pagesize = 10, $key = '', $abort = TRUE) {
+	if(is_array($cond)) {
+		$cond = cond_to_sqladd($cond);
+		$orderby = orderby_to_sqladd($orderby);
+		$offset = ($page - 1) * $pagesize;
+		return db_sql_find("SELECT * FROM `$table` $cond$orderby LIMIT $offset,$pagesize", $key, $abort);
+	} else {
+		// 兼容 XiunoPHP 3.0
+		$sql = $table;
+		$key = $cond;
+		$abort = $orderby;
+		return db_sql_find($sql, $key, $abort);
+	}
+}
+
+function db_find_one($table, $cond = array(), $orderby = array()) {
+	if(is_array($cond)) {
+		$cond = cond_to_sqladd($cond);
+		$orderby = orderby_to_sqladd($orderby);
+		return db_sql_find_one("SELECT * FROM `$table` $cond$orderby LIMIT 1");
+	} else {
+		// 兼容 XiunoPHP 3.0
+		$sql = $table;
+		$abort = $cond;
+		return db_sql_find_one($sql, $abort);
+	}
+}
 
 function db_connect(&$err) {
 	global $db;
 	$r = $db->connect();
-	$err = $db->errstr;
+	//$err = $db->errstr;
+	return $r;
+}
+
+function db_close() {
+	global $db;
+	$r = $db->close();
+	//$err = $db->errstr;
 	return $r;
 }
 
@@ -1035,7 +1079,6 @@ function ip() {
 // 日志记录
 function xn_log($s, $file = 'error') {
 	global $time, $ip, $conf, $uid;
-	if(IN_SAE) return;
 	$day = date('Ymd', $time);
 	$mtime = date('Y-m-d H:i:s'); // 默认值为 time()
 	$url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
@@ -1438,8 +1481,6 @@ function in_string($s, $str) {
 }
 
 function move_upload_file($srcfile, $destfile) {
-	// if(IN_SAE) return sae_move_upload_file($srcfile, $destfile);
-	//if(IN_SAE) return copy($srcfile, $destfile);
 	//$r = move_uploaded_file($srcfile, $destfile);
 	$r = copy($srcfile, $destfile);
 	return $r;

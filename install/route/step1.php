@@ -47,8 +47,6 @@ function get_env(&$env, &$write) {
 	$env['php_short_open_tag']['status'] = ini_get('short_open_tag') ? 1 : 0;
 	*/
 
-	// 如果sae直接跳过目录检测 因为这并没有什么卵用
-	if(IN_SAE) return true;
 	// 目录可写
 	$writedir = array(
 		'conf/',

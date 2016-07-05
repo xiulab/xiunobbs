@@ -4,10 +4,9 @@
 	!isset($header['title']) AND $header['title'] = '';
 	!isset($keyword) AND $keyword = '';
 ?>
-<!--{hook file_header_start.htm}-->
+<!--{hook tag_html_before.htm}-->
 <!DOCTYPE html>
 <html>
-<!--{hook tag_head_before.htm}-->
 <head>
 	<!--{hook tag_head_start.htm}-->
 	<?php if(APP_PATH != './') { ?> <base href="<?php echo APP_PATH; ?>"> <?php } ?>
@@ -29,21 +28,17 @@
 	<script>var debug = <?php echo DEBUG; ?>;</script>
 	<!--{hook tag_head_start.htm}-->
 </head>
-<!--{hook tag_head_after.htm}-->
 
 <body>
+
 <!--{hook tag_body_start.htm}-->
 
-<!--{hook id_header_before.htm}-->
 <div id="header">
-	<!--{hook id_header_start.htm}-->
 	<table class="layout width">
 		<tr>
-			<!--{hook id_header_td_1.htm}-->
 			<td valign="top">
 				<a href="./"><img src="static/logo.png" align="top" class="logo" /></a>
 			</td>
-			<!--{hook id_header_td_2.htm}-->
 			<td valign="top">
 				<ul id="forumlist" style="margin-top: 4px;">
 					<!--{hook id_header_forumlist_start.htm}-->
@@ -54,7 +49,6 @@
 					<!--{hook id_header_forumlist_end.htm}-->
 				</ul>
 			</td>
-			<!--{hook id_header_td_3.htm}-->
 			<td align="right">
 				<div>
 					<form action="search.htm" method="GET" id="srch_form">
@@ -63,21 +57,18 @@
 					</form>
 				</div>
 			</td>
-			<!--{hook id_header_td_4.htm}-->
 		</tr>
 	</table>
-	<!--{hook id_header_end.htm}-->
 </div>
-<!--{hook id_header_after.htm}-->
 
 <!--{hook id_body_before.htm}-->
 <div id="body">
+	<!--{hook id_body_start.htm}-->
 	<div class="width">
-		<!--{hook id_body_start.htm}-->
+		<!--{hook id_breadcrumb_before.htm}-->
 		<div class="panel_header margin" id="breadcrumb">
 			<table class="layout">
 				<tr>
-					<!--{hook id_breadcrumb_td_1.htm}-->
 					<td id="nav">	
 						<!--{hook id_nav_start.htm}-->
 						<a href="./"><i class="icon home"></i></a>
@@ -86,7 +77,6 @@
 						<?php } } ?>
 						<!--{hook id_nav_end.htm}-->
 					</td>
-					<!--{hook id_breadcrumb_td_2.htm}-->
 					<td id="user" align="right">
 						<!--{hook id_user_start.htm}-->
 						<?php if(empty($gid)) { ?>
@@ -101,9 +91,7 @@
 						<?php } ?>
 						<!--{hook id_user_end.htm}-->
 					</td>
-					<!--{hook id_breadcrumb_td_3.htm}-->
 				</tr>
 			</table>
 		</div>
-		
-<!--{hook file_header_end.htm}-->
+		<!--{hook id_breadcrumb_after.htm}-->

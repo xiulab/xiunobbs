@@ -23,12 +23,11 @@
 define('DEBUG', 1); 				// 发布的时候改为 0 
 define('APP_NAME', 'bbs');			// 应用的名称
 !defined('APP_PATH') AND define('APP_PATH', '../'); // 判断是否被 include
-define('IN_SAE', class_exists('SaeKV'));	// 一般应用不需要支持 SAE，可以删掉
 
 chdir(APP_PATH);
 
 $conf = (@include './conf/conf.php') OR exit(header('Location: install/'));
-IN_SAE AND include './conf/sae.conf.php'; 	// 支持 SAE
+//define('CACHE_PRE', $conf['cache_pre']); 	// 缓存的头
 
 include './xiunophp/xiunophp.php';
 include './model.inc.php';
