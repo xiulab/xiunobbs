@@ -16,15 +16,14 @@
 
 !defined('DEBUG') AND define('DEBUG', 1); // 1: 开发模式， 2: 线上调试：日志记录，0: 关闭
 !defined('APP_NAME') AND define('APP_NAME', 'www');
-!defined('CACHE_PRE') AND define('CACHE_PRE', 'pre_');
-
 
 error_reporting(DEBUG ? E_ALL : 0);
 version_compare(PHP_VERSION, '5.3.0', '<') AND set_magic_quotes_runtime(0);
 $get_magic_quotes_gpc = get_magic_quotes_gpc();
 
 // 头部，判断是否运行在命令行下
-if(!empty($_SERVER['SHELL']) || empty($_SERVER['REMOTE_ADDR'])) {
+define('IN_CMD', !empty($_SERVER['SHELL']) || empty($_SERVER['REMOTE_ADDR']));
+if(IN_CMD) {
 	!isset($_SERVER['REMOTE_ADDR']) AND $_SERVER['REMOTE_ADDR'] = '';
 	!isset($_SERVER['REQUEST_URI']) AND $_SERVER['REQUEST_URI'] = '';
 	!isset($_SERVER['REQUEST_METHOD']) AND $_SERVER['REQUEST_METHOD'] = 'GET';
@@ -44,18 +43,26 @@ $time = time();
 empty($conf) AND $conf = array('db'=>NULL, 'cache'=>NULL, 'tmp_path'=>'./', 'log_path'=>'./', 'timezone'=>'Asia/Shanghai');
 empty($uid) AND $uid = 0;
 
-define('APP_TMP_PATH', $conf['tmp_path']);
+$upload_tmp_dir = ini_get('upload_tmp_dir');
+!$upload_tmp_dir AND $upload_tmp_dir = './';
+define('APP_TMP_PATH', empty($conf['tmp_path']) ? $upload_tmp_dir : $conf['tmp_path']);
+define('APP_LOG_PATH', empty($conf['log_path']) ? './' : $conf['log_path']);
+define('APP_CACHE_PRE', empty($conf['cache']['pre']) ? 'pre_' : $conf['cache']['pre']);
+define('URL_REWRITE_PATH_FORMAT_ON', !empty($conf['url_rewrite_on']) && $conf['url_rewrite_on'] == 3);	// 是否开启 / 路径
 
 $ip = ip();
 // $ip = '220.166.164.200';
 $longip = ip2long($ip);
 $longip < 0 AND $longip = sprintf("%u", $longip); // fix 32 位 OS 下溢出的问题
 
+// 语言包变量
+$lang = array();
 
 // $_SERVER['REQUEST_METHOD'] === 'PUT' ? @parse_str(file_get_contents('php://input', false , null, -1 , $_SERVER['CONTENT_LENGTH']), $_PUT) : $_PUT = array(); // 不需要支持 PUT
 $ajax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower(trim($_SERVER['HTTP_X_REQUESTED_WITH'])) == 'xmlhttprequest';
 $method = $_SERVER['REQUEST_METHOD'];
 
+// 全局的错误，进程下很方便。
 $errno = 0;
 $errstr = '';
 
@@ -69,15 +76,9 @@ date_default_timezone_set($conf['timezone']);
 $_GET += init_query_string();
 $_REQUEST = array_merge($_COOKIE, $_POST, $_GET);
 
-// 初始化 db cache，这里并没有连接，在获取数据的时候会自动连接。
 
-include './xiunophp/db.class.php';
-include './xiunophp/cache.class.php';
-
-$db = !empty($conf['db']) ? db_new($conf['db']) : NULL;
-$cache = !empty($conf['cache']) ? cache_new($conf['cache']) : NULL;
-$db AND $db->errno AND xn_message(-1, $db->errstr); // 安装的时候检测过了，不必每次都检测。但是要考虑环境移植。
-$cache AND $cache->errno AND xn_message(-1, $cache->errstr);
+$db = NULL;
+$cache = NULL;
 
 // ----------------------------------------------------------> 全局变量申明结束
 
@@ -113,6 +114,7 @@ function log_post_data() {
 function error_handle($errno, $errstr, $errfile, $errline) {
 	global $time, $ajax;
 	$br = ($ajax ? "\n" : "<br>\n");
+	IN_CMD AND $errstr = str_replace('<br>', "\n", $errstr);
 	$s = $br."Error[$errno]: $errstr, File: $errfile, Line: $errline";
 	xn_log($s, 'php_error'); // 所有PHP错误报告都记录日志
 	if(DEBUG) {
@@ -225,7 +227,7 @@ function param_force($val, $defval, $safe = TRUE) {
 	lang('mobile_length_error');
 	lang('mobile_length_error', array('mobile'=>$mobile));
 */
-/*function lang($key, $arr = array()) {
+function lang($key, $arr = array()) {
 	global $lang;
 	if(!isset($lang[$key])) return 'lang['.$key.']';
 	$s = $lang[$key];
@@ -235,7 +237,7 @@ function param_force($val, $defval, $safe = TRUE) {
 		}
 	}
 	return $s;
-}*/
+}
 
 function jump($message, $url = '', $delay = 3) {
 	global $ajax;
@@ -575,17 +577,20 @@ function db_create($table, $arr) {
 
 function db_insert($table, $arr) {
 	$sqladd = array_to_sqladd($arr);
-	return db_exec("INSERT INTO `$table` $sqladd");
+	if(!$sqladd) return FALSE;
+	return db_exec("INSERT INTO `$table` SET $sqladd");
 }
 
 function db_replace($table, $arr) {
 	$sqladd = array_to_sqladd($arr);
-	return db_exec("REPLACE INTO `$table` $sqladd");
+	if(!$sqladd) return FALSE;
+	return db_exec("REPLACE INTO `$table` SET $sqladd");
 }
 
 function db_update($table, $cond, $update) {
 	$condadd = cond_to_sqladd($cond);
 	$sqladd = array_to_sqladd($update);
+	if(!$sqladd) return FALSE;
 	return db_exec("UPDATE `$table` SET $sqladd $condadd");
 }
 
@@ -600,8 +605,8 @@ function db_read($table, $cond) {
 	return db_find_one($sql);
 }
 	
-function db_find($table, $cond = array(), $orderby = array(), $page = 0, $pagesize = 10, $key = '', $abort = TRUE) {
-	if(substr($table, 0, 7) != 'SELECT ') {
+function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesize = 10, $key = '', $abort = TRUE) {
+	if(strtoupper(substr($table, 0, 7)) != 'SELECT ') {
 		$cond = cond_to_sqladd($cond);
 		$orderby = orderby_to_sqladd($orderby);
 		$offset = ($page - 1) * $pagesize;
@@ -616,7 +621,7 @@ function db_find($table, $cond = array(), $orderby = array(), $page = 0, $pagesi
 }
 
 function db_find_one($table, $cond = array(), $orderby = array()) {
-	if(substr($table, 0, 7) != 'SELECT ') {
+	if(strtoupper(substr($table, 0, 7)) != 'SELECT ') {
 		$cond = cond_to_sqladd($cond);
 		$orderby = orderby_to_sqladd($orderby);
 		return db_sql_find_one("SELECT * FROM `$table` $cond$orderby LIMIT 1");
@@ -1082,7 +1087,7 @@ function xn_log($s, $file = 'error') {
 	$day = date('Ymd', $time);
 	$mtime = date('Y-m-d H:i:s'); // 默认值为 time()
 	$url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
-	$logpath = $conf['log_path'].$day;
+	$logpath = APP_LOG_PATH.$day;
 	!is_dir($logpath) AND mkdir($logpath, 0777, true);
 
 	$s = str_replace(array("\r\n", "\n", "\t"), ' ', $s);
@@ -1517,6 +1522,23 @@ function http_url_path() {
 	return  "$http://$host$path/";
 }
 
+function url($url) {
+	global $conf;
+	empty($conf['url_rewrite_on']) AND $conf['url_rewrite_on'] = 0;
+	if($conf['url_rewrite_on'] == 0) {
+		$url = "?$url.htm";
+	} elseif($conf['url_rewrite_on'] == 1) {
+		$url = "$url.htm";
+	} elseif($conf['url_rewrite_on'] == 2) {
+		$url = str_replace('-', '/', $url);
+		$url = "?$url";
+	} elseif($conf['url_rewrite_on'] == 3) {
+		$url = str_replace('-', '/', $url);
+		$url = "$url";
+	}
+	return $url;
+}
+
 // 递归遍历目录
 function glob_recursive($pattern, $flags = 0) {
 	$files = glob($pattern, $flags);
@@ -1547,5 +1569,1137 @@ function rmdir_recusive($dir, $keepdir = 0) {
 	return TRUE;
 }
 
+/*************************** form.func.php ************************************/
+
+function form_radio_yes_no($name, $checked = 0) {
+	$checked = intval($checked);
+	return form_radio($name, array(1=>'是', 0=>'否'), $checked);
+}
+
+function form_radio($name, $arr, $checked = 0) {
+	empty($arr) && $arr = array('否', '是');
+	$s = '';
+
+	foreach((array)$arr as $k=>$v) {
+		$add = $k == $checked ? ' checked="checked"' : '';
+		$s .= "<label><input type=\"radio\" name=\"$name\" value=\"$k\" class=\"noborder\"$add />$v</label> &nbsp; \r\n";
+	}
+	return $s;
+}
+
+function form_select($name, $arr, $checked = 0, $id = TRUE) {
+	if(empty($arr)) return '';
+	$idadd = $id === TRUE ? "id=\"$name\"" : ($id ? "id=\"$id\"" : '');
+	$s = "<select name=\"$name\" $idadd> \r\n";
+	$s .= form_options($arr, $checked);
+	$s .= "</select> \r\n";
+	return $s;
+}
+
+function form_options($arr, $checked = 0) {
+	$s = '';
+	foreach((array)$arr as $k=>$v) {
+		$add = $k == $checked ? ' selected="selected"' : '';
+		$s .= "<option value=\"$k\"$add>$v</option> \r\n";
+	}
+	return $s;
+}
+
+function form_text($name, $value, $width = 150) {
+	is_numeric($width) AND $width .= 'px';
+	$s = "<input type=\"text\" name=\"$name\" id=\"$name\" value=\"$value\" style=\"width: {$width}\" />";
+	return $s;
+}
+
+function form_hidden($name, $value) {
+	$s = "<input type=\"hidden\" name=\"$name\" id=\"$name\" value=\"$value\" />";
+	return $s;
+}
+
+function form_textarea($name, $value, $width = 600,  $height = 300) {
+	is_numeric($width) AND $width .= 'px';
+	is_numeric($height) AND $height .= 'px';
+	$s = "<textarea name=\"$name\" id=\"$name\" style=\"width: {$width}; height: {$height};\">$value</textarea>";
+	return $s;
+}
+
+function form_password($name, $value, $width = 150) {
+	is_numeric($width) AND $width .= 'px';
+	$s = "<input type=\"password\" name=\"$name\" id=\"$name\" value=\"$value\" style=\"width: {$width}\" />";
+	return $s;
+}
+
+function form_time($name, $value, $width = 150) {
+	is_numeric($width) AND $width .= 'px';
+	$s = "<input type=\"text\" name=\"$name\" id=\"$name\" value=\"$value\" style=\"width: {$width}\" />";
+	return $s;
+}
+
+/*************************** image.func.php ************************************/
+
+// 安全缩略，按照ID存储
+/*
+	$arr = image_safe_thumb('abc.jpg', 123, '.jpg', './upload/', 100, 100);
+	array(
+		'filesize'=>1234,
+		'width'=>100,
+		'height'=>100,
+		'fileurl' => '001/0123/1233.jpg'
+	);
+*/
+
+// 不包含 .
+function image_ext($filename) {
+	return strtolower(substr(strrchr($filename, '.'), 1));
+}
+
+// 获取安全的文件名，如果文件存在，则加时间戳和随机数，避免重复
+function image_safe_name($filename, $dir) {
+	global $time;
+	// 最后一个 . 保留，其他的 . 替换
+	$s1 = substr($filename, 0, strrpos($filename, '.'));
+	$s2 = substr(strrchr($filename, '.'), 1);
+	$s1 = preg_replace('#\W#', '_', $s1);
+	$s2 = preg_replace('#\W#', '_', $s2);
+	if(is_file($dir."$s1.$s2")) {
+		$newname = $s1.$time.rand(1, 1000).'.'.$s2;
+	} else {
+		$newname = "$s1.$s2";
+	}
+	return $newname;
+}
+
+// 缩略图的名字
+function image_thumb_name($filename) {
+	return substr($filename, 0, strrpos($filename, '.')).'_thumb'.strrchr($filename, '.');
+}
+
+// 随即文件名
+function image_rand_name($k) {
+	global $time;
+	return $time.'_'.rand(1000000000, 9999999999).'_'.$k;
+}
+
+/*
+	实例：
+	image_set_dir(123, './upload');
+
+	000/000/1.jpg
+	000/000/100.jpg
+	000/000/100.jpg
+	000/000/999.jpg
+	000/001/1000.jpg
+	000/001/001.jpg
+	000/002/001.jpg
+*/
+function image_set_dir($id, $dir) {
+
+	$id = sprintf("%09d", $id);
+	$s1 = substr($id, 0, 3);
+	$s2 = substr($id, 3, 3);
+	$dir = $dir."$s1/$s2";
+	!is_dir($dir) && mkdir($dir, 0777, TRUE);
+
+	return "$s1/$s2";
+}
+
+// 取得 user home 路径
+function image_get_dir($id) {
+	$id = sprintf("%09d", $id);
+	$s1 = substr($id, 0, 3);
+	$s2 = substr($id, 3, 3);
+	return "$s1/$s2";
+}
+
+/*
+	实例：
+ 	image_thumb('xxx.jpg', 'xxx_thumb.jpg', 200, 200);
+
+ 	返回：
+ 	array('filesize'=>0, 'width'=>0, 'height'=>0)
+ */
+function image_thumb($sourcefile, $destfile, $forcedwidth = 80, $forcedheight = 80) {
+	$return = array('filesize'=>0, 'width'=>0, 'height'=>0);
+	$destext = image_ext($destfile);
+	if(!in_array($destext, array('gif', 'jpg', 'bmp', 'png'))) {
+		return $return;
+	}
+
+	$imginfo = getimagesize($sourcefile);
+	$src_width = $imginfo[0];
+	$src_height = $imginfo[1];
+	if($src_width == 0 || $src_height == 0) {
+		return $return;
+	}
+
+	if(!function_exists('imagecreatefromjpeg')) {
+		copy($sourcefile, $destfile);
+		$return = array('filesize'=>filesize($destfile), 'width'=>$src_width, 'height'=>$src_height);
+		return $return;
+	}
+
+	// 按规定比例缩略
+	$src_scale = $src_width / $src_height;
+	$des_scale = $forcedwidth / $forcedheight;
+	if($src_width <= $forcedwidth && $src_height <= $forcedheight) {
+		$des_width = $src_width;
+		$des_height = $src_height;
+	} elseif($src_scale >= $des_scale) {
+		$des_width = ($src_width >= $forcedwidth) ? $forcedwidth : $src_width;
+		$des_height = $des_width / $src_scale;
+		$des_height = ($des_height >= $forcedheight) ? $forcedheight : $des_height;
+	} else {
+		$des_height = ($src_height >= $forcedheight) ? $forcedheight : $src_height;
+		$des_width = $des_height * $src_scale;
+		$des_width = ($des_width >= $forcedwidth) ? $forcedwidth : $des_width;
+	}
+
+	switch ($imginfo['mime']) {
+		case 'image/jpeg':
+			$img_src = imagecreatefromjpeg($sourcefile);
+			!$img_src && $img_src = imagecreatefromgif($sourcefile);
+			break;
+		case 'image/gif':
+			$img_src = imagecreatefromgif($sourcefile);
+			!$img_src && $img_src = imagecreatefromjpeg($sourcefile);
+			break;
+		case 'image/png':
+			$img_src = imagecreatefrompng($sourcefile);
+			break;
+		case 'image/wbmp':
+			$img_src = imagecreatefromwbmp($sourcefile);
+			break;
+		default :
+			return $return;
+	}
+
+	if(!$img_src) return $return;
+
+	$img_dst = imagecreatetruecolor($des_width, $des_height);
+	imagefill($img_dst, 0, 0 , 0xFFFFFF);
+	imagecopyresampled($img_dst, $img_src, 0, 0, 0, 0, $des_width, $des_height, $src_width, $src_height);
+
+	$tmppath = APP_TMP_PATH;
+
+	$tmpfile = $tmppath.md5($destfile).'.tmp';
+	switch($destext) {
+		case 'jpg': imagejpeg($img_dst, $tmpfile, 90); break;
+		case 'gif': imagegif($img_dst, $tmpfile); break;
+		case 'png': imagepng($img_dst, $tmpfile); break;
+	}
+	$r = array('filesize'=>filesize($tmpfile), 'width'=>$des_width, 'height'=>$des_height);;
+	copy($tmpfile, $destfile);
+	is_file($tmpfile) && unlink($tmpfile);
+	imagedestroy($img_dst);
+	return $r;
+}
+
+
+/**
+ * 图片裁切
+ *
+ * @param string $sourcefile	原图片路径(绝对路径/abc.jpg)
+ * @param string $destfile 		裁切后生成新名称(绝对路径/rename.jpg)
+ * @param int $clipx 			被裁切图片的X坐标
+ * @param int $clipy 			被裁切图片的Y坐标
+ * @param int $clipwidth 		被裁区域的宽度
+ * @param int $clipheight 		被裁区域的高度
+ * image_clip('xxx/x.jpg', 'xxx/newx.jpg', 10, 40, 150, 150)
+ */
+function image_clip($sourcefile, $destfile, $clipx, $clipy, $clipwidth, $clipheight) {
+	$getimgsize = getimagesize($sourcefile);
+	if(empty($getimgsize)) {
+		return 0;
+	} else {
+		$imgwidth = $getimgsize[0];
+		$imgheight = $getimgsize[1];
+		if($imgwidth == 0 || $imgheight == 0) {
+			return 0;
+		}
+	}
+
+	if(!function_exists('imagecreatefromjpeg')) {
+		copy($sourcefile, $destfile);
+		return filesize($destfile);
+	}
+	switch($getimgsize[2]) {
+		case 1 :
+			$imgcolor = imagecreatefromgif($sourcefile);
+			break;
+		case 2 :
+			$imgcolor = imagecreatefromjpeg($sourcefile);
+			break;
+		case 3 :
+			$imgcolor = imagecreatefrompng($sourcefile);
+			break;
+	}
+
+	if(!$imgcolor) return 0;
+
+	$img_dst = imagecreatetruecolor($clipwidth, $clipheight);
+	imagefill($img_dst, 0, 0 , 0xFFFFFF);
+	imagecopyresampled($img_dst, $imgcolor, 0, 0, $clipx, $clipy, $imgwidth, $imgheight, $imgwidth, $imgheight);
+
+	$tmppath = APP_TMP_PATH;
+
+	$tmpfile = $tmppath.md5($destfile).'.tmp';
+	imagejpeg($img_dst, $tmpfile, 100);
+	$n = filesize($tmpfile);
+	copy($tmpfile, $destfile);
+	is_file($tmpfile) && @unlink($tmpfile);
+	return $n;
+}
+
+// 先裁切后缩略，因为确定了，width, height, 不需要返回宽高。
+function image_clip_thumb($sourcefile, $destfile, $forcedwidth = 80, $forcedheight = 80) {
+	// 获取原图片宽高
+	$getimgsize = getimagesize($sourcefile);
+	if(empty($getimgsize)) {
+		return 0;
+	} else {
+		$src_width = $getimgsize[0];
+		$src_height = $getimgsize[1];
+		if($src_width == 0 || $src_height == 0) {
+			return 0;
+		}
+	}
+
+	$src_scale = $src_width / $src_height;
+	$des_scale = $forcedwidth / $forcedheight;
+
+	if($src_width <= $forcedwidth && $src_height <= $forcedheight) {
+		$des_width = $src_width;
+		$des_height = $src_height;
+		$n = image_clip($sourcefile, $destfile, 0, 0, $des_width, $des_height);
+		return filesize($destfile);
+	// 原图为横着的矩形
+	} elseif($src_scale >= $des_scale) {
+		// 以原图的高度作为标准，进行缩略
+		$des_height = $src_height;
+		$des_width = $src_height / $des_scale;
+		$n = image_clip($sourcefile, $destfile, 0, 0, $des_width, $des_height);
+		if($n <= 0) return 0;
+		$r = image_thumb($destfile, $destfile, $forcedwidth, $forcedheight);
+		return $r['filesize'];
+	// 原图为竖着的矩形
+	} else {
+		// 以原图的宽度作为标准，进行缩略
+		$des_width = $src_width;
+		$des_height = $src_width / $des_scale;
+
+		// echo "src_scale: $src_scale, src_width: $src_width, src_height: $src_height \n";
+		// echo "des_scale: $des_scale, forcedwidth: $forcedwidth, forcedheight: $forcedheight \n";
+		// echo "des_width: $des_width, des_height: $des_height \n";
+		// exit;
+
+		$n = image_clip($sourcefile, $destfile, 0, 0, $des_width, $des_height);
+		if($n <= 0) return 0;
+		$r = image_thumb($destfile, $destfile, $forcedwidth, $forcedheight);
+		return $r['filesize'];
+	}
+}
+
+function image_safe_thumb($sourcefile, $id, $ext, $dir1, $forcedwidth, $forcedheight, $randomname = 0) {
+	global $time, $ip;
+	$dir2 = image_set_dir($id, $dir1);
+	$filename = $randomname ? md5(rand(0, 1000000000).$time.$ip).$ext : $id.$ext;
+	$filepath = "$dir1$dir2/$filename";
+	$arr = image_thumb($sourcefile, $filepath, $forcedwidth, $forcedheight);
+	$arr['fileurl'] = "$dir2/$filename";
+	return $arr;
+}
+
+// image_thumb('D:/image/IMG_0433.JPG', 'd:/image/xxx.gif');
+// echo image_clip_thumb('d:/image/editor_bg.gif', 'd:/image/editor_bg_2.gif', 200, 200);
+
+/*************************** db.class.php ************************************/
+
+class db_mysql {
+	
+	public $conf = array(); // 配置，可以支持主从
+	public $wlink = NULL;  // 写连接
+	public $rlink = NULL;  // 读连接
+	public $link = NULL;   // 最后一次使用的连接
+	public $errno = 0;
+	public $errstr = '';
+	public $sqls = array();
+	
+	public function __construct(&$conf) {
+		$this->conf = &$conf;
+	}
+	
+	// 根据配置文件连接
+	public function connect() {
+		$this->wlink = $this->connect_master();
+		$this->rlink = $this->connect_slave();
+		return $this->wlink && $this->rlink;
+	}
+	
+	// 连接写服务器
+	public function connect_master() {
+		if($this->wlink) return $this->wlink;
+		$conf = $this->conf['master'];
+		if(!$this->wlink) $this->wlink = $this->real_connect($conf['host'], $conf['user'], $conf['password'], $conf['name'], $conf['charset'], $conf['engine']);
+		return $this->wlink;
+	}
+	
+	// 连接从服务器，如果有多台，则随机挑选一台，如果为空，则与主服务器一致。
+	public function connect_slave() {
+		if($this->rlink) return $this->rlink;
+		if(empty($this->conf['slaves'])) {
+			if($this->wlink === NULL) $this->wlink = $this->connect_master();
+			$this->rlink = $this->wlink;
+		} else {
+			$n = array_rand($this->conf['slaves']);
+			$conf = $this->conf['slaves'][$n];
+			$this->rlink = $this->real_connect($conf['host'], $conf['user'], $conf['password'], $conf['name'], $conf['charset'], $conf['engine']);
+		}
+		return $this->rlink;
+	}
+	
+	public function real_connect($host, $user, $password, $name, $charset = '', $engine = '') {
+		if(IN_SAE) {
+			$link = @mysql_connect($host, $user, $password); // 如果用户名相同，则返回同一个连接。 fastcgi 持久连接更省资源
+		} else {
+			$link = @mysql_pconnect($host, $user, $password); // 如果用户名相同，则返回同一个连接。 fastcgi 持久连接更省资源
+		}
+		if(!$link) { $this->error(-10000); return FALSE; }
+		if(!mysql_select_db($name, $link)) { $this->error(-10001); return FALSE; }
+		strtolower($engine) == 'innodb' AND $this->query("SET innodb_flush_log_at_trx_commit=no", $link);
+		$charset AND $this->query("SET names $charset, sql_mode=''", $link);
+		return $link;
+	}
+	
+	public function find_one($sql) {
+		$query = $this->query($sql);
+		if(!$query) return $query;
+		// 如果结果为空，返回 FALSE
+		return mysql_fetch_assoc($query);
+	}
+	
+	public function find($sql, $key = NULL) {
+		$query = $this->query($sql);
+		if(!$query) return $query;
+		$arrlist = array();
+		while($arr = mysql_fetch_assoc($query)) {
+			$key ? $arrlist[$arr[$key]] = $arr : $arrlist[] = $arr; // 顺序没有问题，尽管是数字，仍然是有序的，看来内部实现是链表，与 js 数组不同。
+		}
+		return $arrlist;
+	}
+	
+	public function query($sql, $link = NULL) {
+		if(!$link) {
+			if(!$this->rlink && !$this->connect_slave()) return FALSE;;
+			$link = $this->link = $this->rlink;
+		}
+		$query = mysql_query($sql, $link);
+		if($query === FALSE) $this->error();
+		
+		if(count($this->sqls) < 1000) $this->sqls[] = $sql;
+		
+		return $query;
+	}
+	
+	public function exec($sql, $link = NULL) {
+		if(!$link) {
+			if(!$this->wlink && !$this->connect_master()) return FALSE;
+			$link = $this->link = $this->wlink;
+		}
+		$query = mysql_query($sql, $this->wlink);
+		if($query !== FALSE) {
+			$pre = strtoupper(substr(trim($sql), 0, 7));
+			if($pre == 'INSERT ' || $pre == 'REPLACE') return mysql_insert_id($this->wlink);
+			elseif($pre == 'UPDATE ' || $pre == 'DELETE ') return mysql_affected_rows($this->wlink);
+		} else {
+			$this->error();
+		}
+		
+		if(count($this->sqls) < 1000) $this->sqls[] = $sql;
+		
+		return $query;
+	}
+	
+	public function count($table, $cond = array()) {
+		$cond = cond_to_sqladd($cond);
+		$sql = "SELECT COUNT(*) AS num FROM `$table` $cond";
+		$arr = $this->find_one($sql);
+		return !empty($arr) ? intval($arr['num']) : $arr;
+	}
+	
+	public function maxid($table, $field) {
+		$sql = "SELECT MAX($field) AS maxid FROM `$table`";
+		$arr = $this->find_one($sql);
+		return !empty($arr) ? intval($arr['maxid']) : $arr;
+	}
+	
+	//public function version() {
+	//	return mysql_get_server_info($this->link);
+	//}
+	
+	public function version() {
+		$r = $this->find_one("SELECT VERSION() AS v");
+		return $r['v'];
+	}
+	
+	public function error($errno = 0, $errstr = '') {
+		$this->errno = $errno ? $errno : ($this->link ? mysql_errno($this->link) : mysql_errno());
+		$this->errstr = $errstr ? $errstr : ($this->link ? mysql_error($this->link) : mysql_error());
+		DEBUG AND trigger_error('Database Error:'.$this->errstr);
+	}
+	
+	// pconnect 不释放连接
+	public function __destruct() {
+		if($this->wlink) $this->wlink = NULL;
+		if($this->rlink) $this->rlink = NULL;
+	}
+}
+
+/*
+$conf = array (
+	'master' => array (								
+		'host' => 'localhost',					
+		'user' => 'root',		
+		'password' => 'root',	
+		'name' => 'test',	
+		'charset' => 'utf8',	
+		'tablepre' => 'bbs_',				
+		'engine'=>'MyISAM',
+	),			
+	'slaves' => array(
+		array(
+		'host' => 'localhost',					
+		'user' => 'root',		
+		'password' => 'root',	
+		'name' => 'test',	
+		'charset' => 'utf8',	
+		'tablepre' => 'bbs_',				
+		'engine'=>'MyISAM',
+		),
+	)
+);
+$m = new db_mysql($conf);
+if($m->errno) exit($m->errstr);
+$userlist = $m->find_one("SELECT * FROM user");
+$r = $m->exec("UPDATE user SET mobile='abc' WHERE uid=1");
+if($m->errno) exit($m->errstr);
+print_r($userlist);*/
+
+
+
+
+class db_pdo_mysql {
+	
+	public $conf = array(); // 配置，可以支持主从
+	public $wlink = NULL;  // 写连接
+	public $rlink = NULL;  // 读连接
+	public $link = NULL;   // 最后一次使用的连接
+	public $errno = 0;
+	public $errstr = '';
+	public $sqls = array();
+	
+	public function __construct(&$conf) {
+		$this->conf = &$conf;
+	}
+	
+	// 根据配置文件连接
+	public function connect() {
+		$this->wlink = $this->connect_master();
+		$this->rlink = $this->connect_slave();
+		return $this->wlink && $this->rlink;
+	}
+	
+	// 连接写服务器
+	public function connect_master() {
+		if($this->wlink) return $this->wlink;
+		$conf = $this->conf['master'];
+		$this->wlink = $this->real_connect($conf['host'], $conf['user'], $conf['password'], $conf['name'], $conf['charset'], $conf['engine']);
+		return $this->wlink;
+	}
+	
+	// 连接从服务器，如果有多台，则随机挑选一台，如果为空，则与主服务器一致。
+	public function connect_slave() {
+		if($this->rlink) return $this->rlink;
+		if(empty($this->conf['slaves'])) {
+			if(!$this->wlink) $this->wlink = $this->connect_master();
+			$this->rlink = $this->wlink;
+		} else {
+			$n = array_rand($this->conf['slaves']);
+			$conf = $this->conf['slaves'][$n];
+			$this->rlink = $this->real_connect($conf['host'], $conf['user'], $conf['password'], $conf['name'], $conf['charset'], $conf['engine']);
+		}
+		return $this->rlink;
+	}
+	
+	public function real_connect($host, $user, $password, $name, $charset = '', $engine = '') {
+		if(strpos($host, ':') !== FALSE) {
+			list($host, $port) = explode(':', $host);
+		} else {
+			$port = 3306;
+		}
+		try {
+			$link = new PDO("mysql:host=$host;port=$port;dbname=$name", $user, $password);
+			//$link->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+		} catch (Exception $e) {  
+			$this->error(-10000, '连接数据库服务器失败:'.$e->getMessage());
+			return FALSE;
+	        }
+	        //$link->setFetchMode(PDO::FETCH_ASSOC);
+			$charset AND $link->query("SET names $charset, sql_mode=''");
+		 //$link->query('SET NAMES '.($charset ? $charset.',' : '').', sql_mode=""');  
+		return $link;
+	}
+
+	public function find_one($sql) {
+		$query = $this->query($sql);
+		if(!$query) return $query;
+		$query->setFetchMode(PDO::FETCH_ASSOC);
+		return $query->fetch();
+	}
+	
+	public function find($sql, $key = NULL) {
+		$query = $this->query($sql);
+		if(!$query) return $query;
+		$query->setFetchMode(PDO::FETCH_ASSOC);
+		$arrlist = $query->fetchAll();
+		$key AND arrlist_change_key($arrlist, $key);
+		return $arrlist;
+	}
+	
+	public function query($sql) {
+		if(!$this->rlink && !$this->connect_slave()) return FALSE;
+		$link = $this->link = $this->rlink;
+		$query = $link->query($sql);
+		if($query === FALSE) $this->error();
+		if(count($this->sqls) < 1000) $this->sqls[] = $sql;
+		return $query;
+	}
+	
+	public function exec($sql) {
+		if(!$this->wlink && !$this->connect_master()) return FALSE;
+		$link = $this->link = $this->wlink;
+		$n = $link->exec($sql); // 返回受到影响的行，插入的 id ?
+		if($n !== FALSE) {
+			$pre = strtoupper(substr(trim($sql), 0, 7));
+			if($pre == 'INSERT ' || $pre == 'REPLACE') {
+				return $this->last_insert_id();
+			}
+		} else {
+			$this->error();
+		}
+		
+		if(count($this->sqls) < 1000) $this->sqls[] = $sql;
+		
+		return $n;
+	}
+	
+	// innoDB 通过 information_schema 读取大致的行数
+	// SELECT TABLE_ROWS FROM information_schema.tables WHERE TABLE_SCHEMA = '$table' AND TABLE_NAME = '$table';
+	// SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '$table';
+	public function count($table, $cond = array()) {
+		$cond = cond_to_sqladd($cond);
+		$sql = "SELECT COUNT(*) AS num FROM `$table` $cond";
+		$arr = $this->find_one($sql);
+		return !empty($arr) ? intval($arr['num']) : $arr;
+	}
+	
+	public function maxid($table, $field) {
+		$sql = "SELECT MAX($field) AS maxid FROM `$table`";
+		$arr = $this->find_one($sql);
+		return !empty($arr) ? intval($arr['maxid']) : $arr;
+	}
+	
+	public function last_insert_id() {
+		return $this->wlink->lastinsertid();
+	}
+	
+	public function version() {
+		$r = $this->find_one("SELECT VERSION() AS v");
+		return $r['v'];
+	}
+	
+	// 设置错误。
+	public function error($errno = 0, $errstr = '') {
+		$error = $this->link ? $this->link->errorInfo() : array(0, $errno, $errstr);
+		$this->errno = $errno ? $errno : (isset($error[1]) ? $error[1] : 0);
+		$this->errstr = $errstr ? $errstr : (isset($error[2]) ? $error[2] : '');
+		DEBUG AND trigger_error('Database Error:'.$this->errstr);
+	}
+	
+	public function __destruct() {
+		if($this->wlink) $this->wlink = NULL;
+		if($this->rlink) $this->rlink = NULL;
+	}
+}
+
+
+class db_pdo_sqlite {
+	public $conf = array(); // 配置，可以支持主从
+	public $wlink = NULL;  // 写连接
+	public $rlink = NULL;  // 读连接
+	public $link = NULL;   // 最后一次使用的连接
+	public $errno = 0;
+	public $errstr = '';
+	public function __construct(&$conf) {
+		$this->conf = &$conf;
+	}
+	
+	// 根据配置文件连接
+	public function connect() {
+		$this->wlink = $this->connect_master();
+		$this->rlink = $this->connect_slave();
+		return $this->wlink && $this->rlink;
+	}
+	
+	// 连接写服务器
+	public function connect_master() {
+		if($this->wlink) return $this->wlink;
+		$conf = $this->conf['master'];
+		$this->wlink = $this->real_connect($conf['host'], $conf['user'], $conf['password'], $conf['name'], $conf['charset'], $conf['engine']);
+		return $this->wlink;
+	}
+	
+	// 连接从服务器，如果有多台，则随机挑选一台，如果为空，则与主服务器一致。
+	public function connect_slave() {
+		if($this->rlink) return $this->rlink;
+		if(empty($this->conf['slaves'])) {
+			if(!$this->wlink) $this->wlink = $this->connect_master();
+			$this->rlink = $this->wlink;
+		} else {
+			$n = array_rand($this->conf['slaves']);
+			$conf = $this->conf['slaves'][$n];
+			$this->rlink = $this->real_connect($conf['host'], $conf['user'], $conf['password'], $conf['name'], $conf['charset'], $conf['engine']);
+		}
+		return $this->rlink;
+	}
+	
+	public function real_connect($host, $user, $password, $name, $charset = '', $engine = '') {
+		$sqlitedb = "sqlite:$host";
+		try {
+			$link = new PDO($sqlitedb);//连接sqlite
+			$link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		} catch (Exception $e) {
+			$this->error(-10000, '连接数据库服务器失败:'.$e->getMessage());
+			return FALSE;
+	        }
+	        //$link->setFetchMode(PDO::FETCH_ASSOC);
+		return $link;
+		
+	}
+
+	public function find_one($sql) {
+		$query = $this->query($sql);
+		if(!$query) return $query;
+		$query->setFetchMode(PDO::FETCH_ASSOC);
+		return $query->fetch();
+	}
+	
+	public function find($sql, $key = NULL) {
+		$query = $this->query($sql);
+		if(!$query) return $query;
+		$query->setFetchMode(PDO::FETCH_ASSOC);
+		$arrlist = $query->fetchAll();
+		$key AND arrlist_change_key($arrlist, $key);
+		return $arrlist;
+	}
+	
+	public function query($sql) {
+		if(!$this->rlink && !$this->connect_slave()) return FALSE;
+		$link = $this->link = $this->rlink;
+		$query = $link->query($sql);
+		if($query === FALSE) $this->error();
+		
+		if(count($this->sqls) < 1000) $this->sqls[] = $sql;
+		
+		return $query;
+	}
+	
+	public function exec($sql) {
+		if(!$this->wlink && !$this->connect_master()) return FALSE;
+		$link = $this->link = $this->wlink;
+		$n = $link->exec($sql); // 返回受到影响的行，插入的 id ?
+		if($n !== FALSE) {
+			$pre = strtoupper(substr(trim($sql), 0, 7));
+			if($pre == 'INSERT ' || $pre == 'REPLACE') {
+				return $this->last_insert_id();
+			}
+		} else {
+			$this->error();
+		}
+		
+		if(count($this->sqls) < 1000) $this->sqls[] = $sql;
+		
+		return $n;
+	}
+	
+	public function count($table, $cond = array()) {
+		$cond = cond_to_sqladd($cond);
+		$sql = "SELECT COUNT(*) AS num FROM `$table` $cond";
+		$arr = $this->find_one($sql);
+		return !empty($arr) ? intval($arr['num']) : $arr;
+	}
+	
+	public function maxid($table, $field) {
+		$sql = "SELECT MAX($field) AS maxid FROM `$table`";
+		$arr = $this->find_one($sql);
+		return !empty($arr) ? intval($arr['maxid']) : $arr;
+	}
+	
+	public function last_insert_id() {
+		$this->wlink->lastinsertid();
+	}
+	
+	public function version() {
+		$r = $this->find_one("SELECT VERSION() AS v");
+		return $r['v'];
+	}
+	
+	// 设置错误。
+	public function error($errno = 0, $errstr = '') {
+		$error = $this->link ? $this->link->errorInfo() : array(0, 0, '');
+		$this->errno = $errno ? $errno : (isset($error[1]) ? $error[1] : 0);
+		$this->errstr = $errstr ? $errstr : (isset($error[2]) ? $error[2] : '');
+		DEBUG AND trigger_error('Database Error:'.$this->errstr);
+	}
+	
+	public function __destruct() {
+		if($this->wlink) $this->wlink = NULL;
+		if($this->rlink) $this->rlink = NULL;
+	}
+}
+
+
+/*************************** cache.class.php ************************************/
+
+
+class cache_apc {
+        public $conf = array();
+        public $link = NULL;
+        public $errno = 0;
+        public $errstr = '';
+        public function __construct($conf = array()) {
+                if(!function_exists('apc_get')) {
+                        $this->error(1, 'APC 扩展没有加载，请检查您的 PHP 版本');
+                        return FALSE;
+                }
+                $this->conf = $conf;
+        }
+        public function connect() {
+        }
+        public function set($k, $v, $life) {
+        	$k = APP_CACHE_PRE.$k;
+                return apc_store($k, $v, $life);
+        }
+        public function get($k) {
+        	$k = APP_CACHE_PRE.$k;
+                return apc_get($k);
+        }
+        public function delete($k) {
+        	$k = APP_CACHE_PRE.$k;
+                return apc_delete($k);
+        }
+        public function truncate() {
+                return apc_clear_cache('user');
+        }
+        public function error($errno, $errstr) {
+                $this->errno = $errno;
+                $this->errstr = $errstr;
+        }
+        public function __destruct() {
+
+        }
+}
+
+// 经过测试 xcache3.1 xcache_set() life 参数不管用
+class cache_xcache {
+        public $conf = array();
+        public $link = NULL;
+        public $errno = 0;
+        public $errstr = '';
+        public function __construct($conf = array()) {
+                if(!function_exists('xcache_set')) {
+                        $this->error(1, 'Xcache 扩展没有加载，请检查您的 PHP 版本');
+                        return FALSE;
+                }
+                $this->conf = $conf;
+        }
+        public function connect() {
+        }
+        public function set($k, $v, $life) {
+        	$k = APP_CACHE_PRE.$k;
+                return xcache_set($k, $v, $life);
+        }
+        // 取不到数据的时候返回 NULL，不是 FALSE
+        public function get($k) {
+        	$k = APP_CACHE_PRE.$k;
+                return xcache_get($k);
+        }
+        public function delete($k) {
+        	$k = APP_CACHE_PRE.$k;
+                return xcache_unset($k);
+        }
+        public function truncate() {
+                xcache_unset_by_prefix(APP_CACHE_PRE);
+                return TRUE;
+        }
+        public function error($errno, $errstr) {
+                $this->errno = $errno;
+                $this->errstr = $errstr;
+        }
+        public function __destruct() {
+
+        }
+}
+
+class cache_redis {
+        public $conf = array();
+        public $link = NULL;
+        public $errno = 0;
+        public $errstr = '';
+        public function __construct($conf = array()) {
+                if(!extension_loaded('Redis')) {
+                        $this->error(1, ' Redis 扩展没有加载');
+                        return FALSE;
+                }
+                $this->conf = $conf;
+        }
+        public function connect() {
+                if($this->link) return $this->link;
+                $redis = new Redis;
+                $r = $redis->connect('localhost', '6379');
+                if(!$r) {
+                        $this->error(2, '连接 Redis 服务器失败。');
+                        return FALSE;
+                }
+                //$redis->select('xn');
+                $this->link = $redis;
+                return $this->link;
+        }
+        public function set($k, $v, $life = 0) {
+                if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
+                $v = xn_json_encode($v);
+                $r = $this->link->set($k, $v);
+                $life AND $r AND $this->link->expire($k, $life);
+                return $r;
+        }
+        public function get($k) {
+                if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
+                $r = $this->link->get($k);
+                return $r === FALSE ? NULL : xn_json_decode($r);
+        }
+        public function delete($k) {
+                if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
+                return $this->link->del($k) ? TRUE : FALSE;
+        }
+        public function truncate() {
+                if(!$this->link && !$this->connect()) return FALSE;
+                return $this->link->flushdb(); // flushall
+        }
+        public function error($errno, $errstr) {
+                $this->errno = $errno;
+                $this->errstr = $errstr;
+        }
+        public function __destruct() {
+
+        }
+}
+
+class cache_memcached {
+        public $conf = array();
+        public $link = NULL;
+        public $errno = 0;
+        public $errstr = '';
+        public function __construct($conf = array()) {
+                if(!extension_loaded('Memcache') && !extension_loaded('Memcached') ) {
+                        $this->error(1, ' Memcached 扩展没有加载，请检查您的 PHP 版本');
+                        return FALSE;
+                }
+                $this->conf = $conf;
+        }
+        public function connect() {
+                $conf = $this->conf;
+                if($this->link) return $this->link;
+                if(extension_loaded('Memcache')) {
+                        $memcache = new Memcache;
+                } elseif(extension_loaded('Memcached')) {
+                        $memcache = new Memcached;
+                } else {
+                        $this->error(2, 'Memcache 扩展不存在。');
+                        return FALSE;
+                }
+                $r = $memcache->connect($conf['host'], $conf['port']);
+                if(!$r) {
+                        $this->error(3, '连接 Memcached 服务器失败。');
+                        return FALSE;
+                }
+                $this->link = $memcache;
+                return $this->link;
+        }
+        public function set($k, $v, $life = 0) {
+                if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
+                $r = $this->link->set($k, $v, 0, $life);
+                return $r;
+        }
+        public function get($k) {
+                if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
+                $r = $this->link->get($k);
+                return $r === FALSE ? NULL : $r;
+        }
+        public function delete($k) {
+                if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
+                return $this->link->delete($k); // TRUE|FALSE
+        }
+        public function truncate() {
+                if(!$this->link && !$this->connect()) return FALSE;
+                return $this->link->flush();
+        }
+        public function error($errno = 0, $errstr = '') {
+                $this->errno = $errno;
+                $this->errstr = $errstr;
+        }
+        public function __destruct() {
+
+        }
+}
+
+// mysql 的实现封装耦合性有点高，要求有 bbs_cache 表存在。参看 install/install.sql 中的结构。
+class cache_mysql {
+        public $conf = array();
+        public $db = NULL;
+        public $link = NULL;
+        public $errno = 0;
+        public $errstr = '';
+        public $table = 'bbs_cache';
+        public function __construct($conf = array()) {
+                if(!is_array($conf)) {
+                        $this->db = $conf;
+                } else {
+                        $this->conf = $conf;
+                        if(function_exists('mysql_connect')) {
+                                $db = new db_mysql($conf);
+                                $db->errstr AND $this->error($db->errno, $db->errstr);
+                        } elseif(class_exists('PDO')) {
+                                $db = new db_pdo_mysql($conf);
+                                $db->errstr AND $this->error($db->errno, $db->errstr);
+                        } else {
+                                $this->error(1, 'PHP 的 mysqllib, pdo_mysql 扩展没有加载');
+                        }
+                        $this->db = $db;
+                }
+        }
+        public function connect() {
+                if($this->link) return $this->link;
+                $db = $this->db;
+                $this->link = $db->connect();
+                $db->errstr AND $this->error($db->errno, $db->errstr);
+                return $this->link;
+        }
+        public function set($k, $v, $life = 0) {
+                if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
+                $time = time();
+                $expiry = $life ? $time + $life : 0;
+                $v = addslashes(xn_json_encode($v));
+                $r = $this->db->exec("REPLACE INTO `{$this->table}` SET k='$k',v='$v',expiry='$expiry'");
+                if($this->db->errno) $this->error($this->db->errno, $this->db->errstr);
+                return $r !== FALSE;
+        }
+        public function get($k) {
+                if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
+                $time = time();
+                $arr = $this->db->find_one("SELECT * FROM `{$this->table}` WHERE k='$k'");
+                if(!$arr) return NULL;
+                if($arr['expiry'] && $time > $arr['expiry']) {
+                        $this->db->exec("DELETE FROM `{$this->table}` WHERE k='$k'", $this->link);
+                        return NULL;
+                }
+                return xn_json_decode($arr['v'], 1);
+        }
+        public function delete($k) {
+                if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
+                $r = $this->db->exec("DELETE FROM `{$this->table}` WHERE k='$k'", $this->link);
+                return empty($r) ? FALSE : TRUE;
+        }
+        public function truncate() {
+                if(!$this->link && !$this->connect()) return FALSE;
+                $r = $this->db->exec("TRUNCATE `{$this->table}`", $this->link);
+                return TRUE;
+        }
+        public function error($errno = 0, $errstr = '') {
+                $this->errno = $errno ? $errno : ($this->link ? mysql_errno($this->link) : mysql_errno());
+                $this->errstr = $errstr ? $errstr : ($this->link ? mysql_error($this->link) : mysql_error());
+        }
+        public function __destruct() {
+
+        }
+}
+
+class cache_saekv {
+        public $conf = array();
+        public $link = NULL;
+        public $errno = 0;
+        public $errstr = '';
+        public function __construct($conf = array()) {
+                if(!extension_loaded('SaeKV')) {
+                        $this->error(1, ' SaeKV 扩展没有加载，请检查您的 PHP 版本');
+                        return FALSE;
+                }
+                $kv = new SaeKV();
+                $this->link = $kv;
+                $this->conf = $conf;
+        }
+        public function connect() {
+                if($this->link) return $this->link;
+                $this->link->init();
+                return $this->link;
+        }
+        public function set($k, $v, $life = 0) {
+                if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
+                $r = $this->link->set($k, $v, 0, $life);
+                return $r;
+        }
+        public function get($k) {
+                if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
+                return $this->link->get($k);
+        }
+        public function delete($k) {
+                if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
+                return $this->link->delete($k);
+        }
+        public function truncate() {
+                if(!$this->link && !$this->connect()) return FALSE;
+                $keys = $kv->pkrget(APP_CACHE_PRE, 100); // 获取 100 条
+                foreach($keys as $k) {
+                        $this->delete($k);
+                }
+                return TRUE;// $this->link->flush(); // 很不幸 sae 并未提供 flush all 接口
+        }
+        public function error($errno = 0, $errstr = '') {
+                $this->errno = $errno;
+                $this->errstr = $errstr;
+        }
+        public function __destruct() {
+
+        }
+}
+
+/*************** 如果配置文件配置了 DB, CACHE, 初始化 DB CACHE **************/
+
+// 初始化 db cache，这里并没有连接，在获取数据的时候会自动连接。
+
+$db = !empty($conf['db']) ? db_new($conf['db']) : NULL;
+$cache = !empty($conf['cache']) ? cache_new($conf['cache']) : NULL;
+$db AND $db->errno AND xn_message(-1, $db->errstr); // 安装的时候检测过了，不必每次都检测。但是要考虑环境移植。
+$cache AND $cache->errno AND xn_message(-1, $cache->errstr);
 
 ?>
