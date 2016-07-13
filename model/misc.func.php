@@ -193,36 +193,6 @@ function str_line_replace($s, $startline, $endline, $replacearr) {
 }
 */
 
-
-/* index.php 需要的函数 */
-// 自定义 URL，类似于：http://bbs.xiuno.com/why-sky-is-blue
-function parse_seo_url() {
-	// hook parse_seo_url_start.php
-	global $conf;
-	// 支持 seo url rewrite
-	$tid = 0;
-	$thread = array();
-	$seo_url = '';
-	if($conf['seo_url_rewrite']) {
-		$url = $_SERVER['REQUEST_URI'];
-		$lastpos = strrpos($url, '/');
-		$qmark = strpos($url, '?');
-		$qmark = $qmark === FALSE ? strlen($url) : $qmark - 1;
-		$tid = 0;
-		$url2 = substr($url, $lastpos + 1, $qmark);
-		if(preg_match('#^[\w\-]+$#', $url2)) {
-			$seo_url = $url2;
-			$thread = thread_read_by_seo_url($seo_url);
-			$tid = empty($thread) ?  -1 : $thread['tid'];
-			$_REQUEST[0] = 'thread';
-			$_REQUEST[1] = $tid;
-			return array($tid, $thread);
-		}
-	}
-	// hook parse_seo_url_end.php
-	return array($tid, $thread);
-}
-
 // 检测站点的运行级别
 function check_runlevel() {
 	// hook check_runlevel_start.php

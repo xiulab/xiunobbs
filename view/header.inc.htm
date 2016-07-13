@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Required meta tags always come first -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="XiunoBBS 3.0" />
+	<meta name="keywords" content="签名设计 叶根友" />
+	<meta name="description" content="叶根友签名设计-自动化签名设计" />
+	<meta name="csrf-param" content="authenticity_token" />
+	<meta name="csrf-token" content="xxxxxxxxxxxxxxxxxxxxxxxxx" />
+
+	<!-- Bootstrap CSS -->
+	<link rel="shortcut icon" href="view/img/favicon.ico" />
+	<link rel="icon" sizes="32x32" href="view/img/favicon.ico">
+	<link rel="Bookmark" href="view/img/favicon.ico" />
+	<link rel="stylesheet" href="view/css/bootstrap.css">
+	<link rel="stylesheet" href="view/css/tether.min.css">
+	
+	<style>
+		/*
+		.nav-more {background: url(view/img/more.png) no-repeat center; opacity: 1; width: 22px; height: 38px;}
+		.nav-more:hover {opacity: 1;}
+		*/
+		/* fix bootstrap nav bg-inverse dropdown 未跟着改变 */
+		nav.bg-inverse .dropdown-menu {
+			background-color: #373a3c;
+			border: 1px solid #272a2c;
+		}
+		nav.bg-inverse .dropdown-item {
+			color: rgba(255, 255, 255, 0.5);
+		}
+		nav.bg-inverse .dropdown-item:hover {
+			background-color: #575a5c;
+			color: rgba(255, 255, 255, 1);
+		}
+	</style>
+</head>
+
+<body>
+	<nav class="navbar navbar-dark bg-inverse navbar-full">
+		<div class="container hidden-lg-up navbar-nav">
+			<div class="row">
+				<div class="col-xs-4">
+					 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar">
+						☰
+					 </button>
+				</div>
+				<div class="col-xs-4">
+					<a class="nav-link" href="">LOGO</a>
+				</div>
+				<div class="col-xs-4">
+					<div class="nav-item"><a class="nav-link" href="#"><small>登陆</small></a></div>
+				</div>
+			</div>
+		</div>
+		<div class="container collapse navbar-toggleable-md">
+			<div class="row">
+				<div class="col-md-8">
+					<ul class="nav navbar-nav">
+						<li class="nav-item active">
+							<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">Features</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">Pricing</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">About</a>
+						</li>
+						<li class="nav-item">
+							<div class="dropdown">
+								<a class="nav-link nav-more dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">更多</a>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+									<button class="dropdown-item" type="button">Action</button>
+									<button class="dropdown-item" type="button">Another action</button>
+									<button class="dropdown-item" type="button">Something else here</button>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="col-md-4">
+					<ul class="nav navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link" href="#"><small>登陆</small></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#"><small>注册</small></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="collapse" id="exCollapsingNavbar">
+			<div class="bg-inverse p-a-1">
+				<h4>Collapsed content</h4>
+				<span class="text-muted">Toggleable via the navbar brand.</span>
+			</div>
+		</div>
+	</nav>
+	
+	<div id="body" class="container">

@@ -57,17 +57,14 @@ if($action == 'create') {
 		
 		$subject = htmlspecialchars(param('subject', '', FALSE));
 		$message = param('message', '', FALSE);
-		$seo_url = $conf['seo_url_rewrite'] && $group['allowcustomurl'] ? preg_replace('#[^\w\-]#', '', strtolower(param('seo_url'))) : ''; // 只允许英文和 - 
 		
 		empty($subject) AND message(1, '标题不能为空'.$fid);
 		$gid != 1 AND $subject = badword_filter($subject, $badword);
 		$subject === FALSE AND message(1, '标题中包含敏感关键词: '.$badword);
 		empty($message) AND message(2, '内容不能为空'.$fid);
-		$conf['seo_url_rewrite'] AND $seo_url AND thread_read_by_seo_url($seo_url) AND message(4, '自定义的 URL 已经存在，请修改。'); // 这里可能有并发问题，seo_url 并非 UNIQUE KEY
 		$gid != 1 AND $message = xn_html_safe($message);
 		$gid != 1 AND $message = badword_filter($message, $badword);
 		$message === FALSE AND message(2, '内容中包含敏感关键词: '.$badword);
-		strlen($seo_url) > 128 AND message(3, '自定义 URL 太长');
 		mb_strlen($subject, 'UTF-8') > 128 AND message(1, '标题最长80个字符');
 		mb_strlen($message, 'UTF-8') > 2028000 AND message(2, '内容太长');
 		
@@ -86,7 +83,6 @@ if($action == 'create') {
 			'longip'=>$longip,
 			'sid'=>$sid,
 		);
-		$seo_url AND $thread['seo_url'] = $seo_url;
 		$tid = thread_create($thread, $pid);
 		$pid === FALSE AND message(1, '创建帖子失败');
 		$tid === FALSE AND message(1, '创建主题失败');
@@ -129,17 +125,10 @@ if($action == 'create') {
 } else {
 	
 	// hook thread_info_start.php
+	$tid = param(1, 0);
+	$thread = thread_read($tid);
+	empty($thread) AND exit(header("HTTP/1.0 404 Not Found"));
 	
-	// 支持自定义的 SEO URL: http://x.com/xxx-xxx-xxx
-	// Rewrite 以后：http://x.com/thread-seo-xxx-xxx-xxxx-xxx.htm
-	// index 中如果开启了 rewrite, $tid, $thread 会被初始化！
-	
-	$conf['seo_url_rewrite'] AND $tid == -1 AND exit(header("HTTP/1.1 404 Not Found"));
-	if(!$conf['seo_url_rewrite'] || $conf['seo_url_rewrite'] && isset($tid) && $tid == 0) {
-		$tid = param(1, 0);
-		$thread = thread_read($tid);
-		empty($thread) AND exit(header("HTTP/1.1 404 Not Found"));
-	}
 	$fid = $thread['fid'];
 	$forum = forum_read($fid);
 	empty($forum) AND message(3, '板块不存在'.$fid);
@@ -174,9 +163,6 @@ if($action == 'create') {
 	$pagesize = $conf['pagesize'];
 	$pages = pages("forum-$fid-{page}.htm", $forum['threads'], $page, $pagesize);
 	$threadlist = thread_find(array('fid'=>$fid), array('tid'=>-1), $page = 1, $pagesize);
-	
-	$seo_url = $thread['seo_url']; // 模板需要
-	
 	
 	// 升级需要查找附件
 	$attachlist = $imagelist = $filelist = array();

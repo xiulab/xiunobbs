@@ -24,13 +24,12 @@ register_shutdown_function('runtime_save');
 $fid = 1;
 $uid = 1;
 $subject = $message = 'test';
-$seo_url = '';
 
 // 检查总帖数
 $forum1 = forum__read($fid);
 $user1 = user__read($uid);
 
-thread_create($fid, $uid, $subject, $message, $seo_url, $time, $longip);
+thread_create($fid, $uid, $subject, $message, $time, $longip);
 
 $forum2 = forum__read($fid);
 $user2 = user__read($uid);

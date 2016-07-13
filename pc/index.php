@@ -70,8 +70,6 @@ $setting = cache_get('setting', TRUE);
 
 //DEBUG AND ($method == 'POST' || $ajax) AND sleep(1);
 
-list($tid, $thread) = parse_seo_url();
-
 $route = param(0, 'index');
 
 //thread_new_sitemap();

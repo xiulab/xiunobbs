@@ -22,7 +22,6 @@ for($i=1; $i<1000; $i++) {
 		'uid'=>1,
 		'subject'=>$subject,
 		'message'=>$message,
-		'seo_url'=>'',
 		'time'=>$time,
 		'longip'=>$longip,
 	);

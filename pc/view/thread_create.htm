@@ -9,9 +9,6 @@
 			<!--{hook thread_create_form_message_before.htm}-->
 			<p class="margin"><textarea id="message" name="message" placeholder="内容" style="width: 100%; height: 500px;"></textarea></p>
 			<!--{hook thread_create_form_message_after.htm}-->
-			<?php if($conf['seo_url_rewrite'] && $group['allowcustomurl']) { ?>
-			<p class="margin"><input type="text" placeholder="自定义 URL：just-like-this-why-sky-is-blue" name="seo_url" style="width: 100%;"></p>
-			<?php } ?>
 			<dl class="row margin">
 				<dt>
 					<!--{hook thread_create_submit_before.htm}-->
@@ -46,7 +43,6 @@ var jform = $('#thread_create_form');
 var jinput = jform.find('input');
 var jsubject = jinput.filter('[name="subject"]').focus();
 var jmessage = $('#message');
-var jseo_url = jform.find('input[name="seo_url"]');
 var jsubmit = jform.find('button').filter('[type="submit"]');
 
 // 选择论坛
@@ -82,8 +78,6 @@ jform.off('submit').on('submit', function() {
 			jmessage.popover(message).focus();
 		} else if(code == 3) {
 			jselect.popover(message).focus();
-		} else if(code == 4) {
-			jseo_url.popover(message).focus();
 		} else {
 			$.alert(message);
 		}

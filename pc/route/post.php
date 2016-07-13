@@ -138,7 +138,6 @@ if($action == 'create') {
 		
 		$subject = htmlspecialchars(param('subject', '', FALSE));
 		$message = param('message', '', FALSE);
-		$seo_url = strtolower(param('seo_url'));
 		
 		empty($message) AND message(2, '内容不能为空');
 		$gid != 1 AND $message = xn_html_safe($message);
@@ -154,12 +153,6 @@ if($action == 'create') {
 				!forum_access_user($fid, $gid, 'allowthread') AND message(-1, '您（'.$user['groupname'].'）无权限在此版块回帖');
 				$post['uid'] != $uid AND !forum_access_mod($fid, $gid, 'allowupdate') AND message(-1, '您（'.$user['groupname'].'）无权限在此版块编辑帖子');
 				$arr['fid'] = $newfid;
-			}
-			if($seo_url != $thread['seo_url'] && $conf['seo_url_rewrite'] && $group['allowcustomurl']) {
-				$seo_url = preg_replace('#[\W]#', '-', $seo_url); // 只允许英文和 - 
-				$seo_url AND thread_read_by_seo_url($seo_url) AND message(4, '自定义的 URL 已经存在，请修改。'); // 这里可能有并发问题，seo_url 并非 UNIQUE KEY
-				strlen($seo_url) > 128 AND message(3, '自定义 URL 太长');
-				$arr['seo_url'] = $seo_url;
 			}
 			if($subject != $thread['subject']) {
 				mb_strlen($subject, 'UTF-8') > 80 AND message(1, '标题最长80个字符');

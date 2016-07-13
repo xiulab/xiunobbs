@@ -152,7 +152,6 @@ if($method == 'GET') {
 				'uid'=>1,
 				'subject'=>$subject,
 				'message'=>$message,
-				'seo_url'=>'',
 				'time'=>$time,
 				'longip'=>$longip,
 			);

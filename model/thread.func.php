@@ -123,9 +123,6 @@ function thread_create($arr, &$pid) {
 	($images || $files) AND thread__update($tid, array('images'=>$images, 'files'=>$files));
 	($images || $files) AND post__update($pid, array('images'=>$images, 'files'=>$files));
 	
-	// SEO URL
-	isset($arr['seo_url']) AND thread_url_create($tid, $arr['seo_url']);
-	
 	// 全站发帖数
 	runtime_set('threads+', 1);
 	runtime_set('todaythreads+', 1);
@@ -163,12 +160,6 @@ function thread_update($tid, $arr) {
 	}
 	
 	!empty($thread['fid']) AND thread_tids_cache_delete($thread['fid']);
-	
-	// SEO URL
-	if(isset($arr['seo_url'])) {
-		thread_url_replace($tid, $arr['seo_url']);
-		unset($arr['seo_url']);
-	}
 	
 	if(!$arr) return TRUE;
 	
@@ -231,9 +222,6 @@ function thread_delete($tid) {
 	// 更新统计
 	forum__update($fid, array('threads-'=>1));
 	user__update($uid, array('threads-'=>1));
-	
-	// 删除 SEO URL
-	thread_url_delete($tid);
 	
 	// 全站统计
 	runtime_set('threads-', 1);
@@ -305,15 +293,6 @@ function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'tid') {
 	}
 	// hook thread_find_by_fid_end.php
 	return $threadlist;
-}
-
-function thread_read_by_seo_url($url) {
-	// hook thread_read_by_seo_url_start.php
-	$url = addslashes($url);
-	$tid = thread_url_read_by_url($url);
-	$thread = $tid ? thread_read($tid) : array();
-	// hook thread_read_by_seo_url_end.php
-	return $thread;
 }
 
 // 默认搜索标题
@@ -401,8 +380,7 @@ function thread_format(&$thread) {
 		$thread['lastusername'] = $thread['lastuid'] ? $lastuser['username'] : '游客';
 	}
 	
-	$thread['seo_url'] = $conf['seo_url_rewrite'] && $thread['url_on'] ? thread_url_read($thread['tid']) : '';
-	$thread['url'] = $thread['seo_url'] ? $thread['seo_url'] : "thread-$thread[tid].htm";
+	$thread['url'] = "thread-$thread[tid].htm";
 	$thread['user_url'] = "user-$thread[uid]".($thread['uid'] ? '' : "-$thread[firstpid]").".htm";
 	
 	$n = $thread['agrees'] + $thread['posts'];
@@ -483,64 +461,6 @@ function thread_list_access_filter(&$threadlist, $gid) {
 		}
 	}
 	// hook thread_list_access_filter_end.php
-}
-
-// SEO URL，自定义 URL，拆分为单独的表，减小 thread 表的尺寸。
-function thread_url_read($tid) {
-	// hook thread_url_read_start.php
-	$arr = db_find_one("SELECT * FROM bbs_thread_url WHERE tid='$tid'");
-	// hook thread_url_read_end.php
-	return $arr ? $arr['url'] : '';
-}
-
-function thread_url_read_by_url($url) {
-	// hook thread_url_read_by_url_start.php
-	$arr = db_find_one("SELECT * FROM bbs_thread_url WHERE url='$url'");
-	// hook thread_url_read_by_url_end.php
-	return $arr ? $arr['tid'] : 0;
-}
-
-function thread_url_create($tid, $url) {
-	// hook thread_url_create_start.php
-	if(!$url) return TRUE;
-	$r = db_exec("INSERT INTO bbs_thread_url SET tid='$tid', url='$url'");
-	$r !== FALSE AND thread__update($tid, array('url_on' => 1));
-	// hook thread_url_create_end.php
-	return $r;
-}
-
-function thread_url_update($tid, $url) {
-	// hook thread_url_update_start.php
-	$tid = intval($tid);
-	$r = db_exec("UPDATE bbs_thread_url SET url='$url' WHERE tid='$tid'");
-	$r !== FALSE AND thread__update($tid, array('url_on' => $url ? 1 : 0));
-	// hook thread_url_update_end.php
-	return $r;
-}
-
-function thread_url_delete($tid) {
-	// hook thread_url_delete_start.php
-	$r = db_exec("DELETE FROM bbs_thread_url WHERE tid='$tid'");
-	// hook thread_url_delete_end.php
-	return $r;
-}
-
-function thread_url_replace($tid, $url) {
-	// hook thread_url_replace_start.php
-	$arr = thread_url_read($tid);
-	if($url) {
-		if(empty($arr)) {
-			return thread_url_create($tid, $url);
-		} else {
-			return thread_url_update($tid, $url);
-		}
-	} else {
-		if(!empty($arr)) {
-			return thread_url_delete($tid);
-		}
-		return TRUE;
-	}
-	// hook thread_url_replace_end.php
 }
 
 function thread_check_lastpid($tid, $lastpid) {

@@ -10,10 +10,7 @@
 			<!--{hook thread_update_form_message_before.htm}-->
 			<p><textarea id="post_update_message" name="message" placeholder="内容" style="width: 100%; height: 500px;"><?php echo $post['message']; ?></textarea></p>
 			<!--{hook thread_update_form_message_after.htm}-->
-			<?php if($conf['seo_url_rewrite'] && $group['allowcustomurl']) { ?>
-			<p><input type="text" placeholder="自定义 URL：just-like-this-why-sky-is-blue" name="seo_url" value="<?php echo $thread['seo_url']; ?>" style="width: 100%;"></p>
-			<?php } ?>
-			<!--{hook thread_update_form_seo_url_after.htm}-->
+			
 			<dl class="row margin">
 				<dt>
 					<!--{hook thread_update_submit_before.htm}-->
@@ -81,7 +78,6 @@ var editor = new $.XNEditor({textarea: 'post_update_message', image_upload_url:'
 
 var jform = $('#post_update_form_<?php echo $pid; ?>');
 var jmessage = jform.find('textarea');
-var jseo_url = jform.find('input[name="seo_url"]');
 var jsubmit = jform.find('button').filter('[type="button"]');
 
 // 选择论坛
@@ -110,8 +106,6 @@ jsubmit.off('click').on('click', function() {
 			return;
 		} else if(code == 2) {
 			jmessage.popover(message).focus();
-		} else if(code == 4) {
-			jseo_url.popover(message).focus();
 		} else {
 			$.alert(message);
 		}
