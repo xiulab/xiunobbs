@@ -3,18 +3,30 @@
 <div class="row">
 	<div class="col-md-8 col-md-offset-2">
 		<form class="form-group-sm" action="<?php echo url('user-login');?>" method="post" id="form">
+			<br>
+			<div class="input-group">
+				<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+				<input type="text" class="form-control" placeholder="手机号/Email" aria-describedby="basic-addon1">
+			</div>
+			<br>
+			<div class="input-group">
+				<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
+				<input type="text" class="form-control" placeholder="密码" aria-describedby="basic-addon1">
+			</div>
+			<br>
+			<!--
 			<fieldset class="form-group">
 				<label for="exampleInputEmail1">Email address</label>
-				<input type="email" class="form-control col-xs-12 col-lg-5" id="exampleInputEmail1" placeholder="Enter email">
+				<input type="text" class="form-control col-xs-12 col-lg-5" name="email" id="exampleInputEmail1" placeholder="Enter email">
 				<small class="text-muted">We'll never share your email with anyone else.</small>
 			</fieldset>
 			<fieldset class="form-group">
 				<label for="exampleInputPassword1">Password</label>
-				<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+				<input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Password">
 			</fieldset>
 			<fieldset class="form-group">
 				<label for="exampleSelect1">Example select</label>
-				<select class="form-control" id="exampleSelect1">
+				<select class="form-control" id="exampleSelect1"  name="option1">
 					<option>1</option>
 					<option>2</option>
 					<option>3</option>
@@ -22,9 +34,10 @@
 					<option>5</option>
 				</select>
 			</fieldset>
+			
 			<fieldset class="form-group">
 				<label for="exampleSelect2">Example multiple select</label>
-				<select multiple class="form-control" id="exampleSelect2">
+				<select multiple class="form-control" id="exampleSelect2" name="option2">
 					<option>1</option>
 					<option>2</option>
 					<option>3</option>
@@ -34,34 +47,34 @@
 			</fieldset>
 			<fieldset class="form-group">
 				<label for="exampleTextarea">Example textarea</label>
-				<textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+				<textarea class="form-control" id="exampleTextarea" rows="3" name="textarea1"></textarea>
 			</fieldset>
-			<fieldset class="form-group">
+			<fieldset class="form-group" style="display: none;">
 				<label for="exampleInputFile">File input</label>
-				<input type="file" class="form-control-file" id="exampleInputFile">
+				<input type="file" class="form-control-file" id="exampleInputFile" name="file">
 				<small class="text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
 			</fieldset>
 			<div class="radio">
 				<label>
-					<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+					<input type="radio" name="optionsRadios1" id="optionsRadios1" value="option1" checked>
 					Option one is this and that&mdash;be sure to include why it's great
 				</label>
 			</div>
 			<div class="radio">
 				<label>
-					<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+					<input type="radio" name="optionsRadios2" id="optionsRadios2" value="option2">
 					Option two can be something else and selecting it will deselect option one
 				</label>
 			</div>
 			<div class="radio disabled">
 				<label>
-					<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" disabled>
+					<input type="radio" name="optionsRadios3" id="optionsRadios3" value="option3" disabled>
 					Option three is disabled
 				</label>
 			</div>
 			<div class="checkbox">
 				<label>
-					<input type="checkbox"> Check me out
+					<input type="checkbox" name="checkbox1"> Check me out
 				</label>
 			</div>
 			
@@ -76,7 +89,7 @@
 			</div>
 			<div class="form-group has-danger">
 				<label class="control-label" for="inputError1">Input with error</label>
-				<input type="text" class="form-control form-control-error" id="inputError1">
+				<input type="text" class="form-control form-control-danger" id="inputError1">
 			</div>
 			
 			<div class="has-success">
@@ -103,8 +116,9 @@
 					</label>
 				</div>
 			</div>
+			-->
 				
-			<button type="submit" class="btn btn-primary" id="submit">登陆</button>
+			<button type="submit" class="btn btn-primary" id="submit" data-loading-text="正在提交...">登陆</button>
 			
 			<br>
 			<br>
@@ -117,39 +131,19 @@
 <?php include "./view/footer.inc.htm"; ?>
 
 <script>
-var jsubmit = $('#submit');
-jsubmit.on('click', function() {
-	var jname = $('#name');
-	var name = jname.val();
-	if(!name) {
-		alert('请输入姓名！');
-		jname.focus();
-		return false;
-	}
-	if(name.length > 4) {
-		alert('最多只支持 4 个字！');
-		jname.focus();
-		return false;
-	}
-	jsubmit.button('loading');
-	window.location = 'index-'+jname.val()+'.htm';
-});
-
 var jform = $('#form');
 var jsubmit = $('#submit');
 jform.on('submit', function() {
 	var postdata = jform.serialize();
+	jsubmit.button('loading');
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
 			jsubmit.button('登录成功');
-			//$.pdata('user', user);
-			$.pdata('myagreelist', message.myagreelist);
 			// 服务端已经设置了 cookie
-			//$.cookie('bbs_token', message.token);
 			setTimeout(function() {window.location='./';}, 1000);
 		} else if(code > 0) {
-			if(code == 1) jaccount.popover(message).focus();
-			if(code == 2) jpassword.popover(message).focus();
+			if(code == 1) jaccount.alert(message).focus();
+			if(code == 2) jpassword.alert(message).focus();
 			jsubmit.button('reset');
 		} else if(code < 0) {
 			alert(message);

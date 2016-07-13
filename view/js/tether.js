@@ -110,7 +110,7 @@ var getOrigin = function getOrigin() {
 };
 
 function removeUtilElements() {
-  document.body.removeChild(zeroElement);
+  if(zeroElement) document.body.removeChild(zeroElement);
   zeroElement = undefined;
 };
 
