@@ -58,28 +58,4 @@ switch ($route) {
 		is_file($filename) ? include($filename) : message(-1, '该功能未实现。');
 }
 
-/*
-	message(0, 'ok');
-	message(1, 'error');
-	message(-1, 'system error');
-	message(0, jump($message, $url, 3));
-*/
-function message($code, $message) {
-	global $db, $cache, $ajax, $starttime, $browser, $conf, $uid, $gid, $user, $header, $forumlist;
-	
-	// 防止 message 本身出现错误死循环
-	static $called = FALSE;
-	$called ? exit("code: $code, message: $message") : $called = TRUE;
-	
-	
-	if($ajax) {
-		echo xn_json_encode(array('code'=>$code, 'message'=>$message));
-		runtime_save();
-	} else {
-		$header['title'] = '提示信息';
-		include "./admin/view/message.htm";
-	}
-	exit;
-}
-
 ?>
