@@ -11,7 +11,7 @@ function sess_open($save_path, $session_name) {
 function sess_close() {
 	//echo "sess_close() \r\n";
 	return true; 
-} 
+}
 
 function sess_read($sid) { 
 	global $session, $sid;
@@ -67,14 +67,14 @@ function sess_write($sid, $data) {
 		db_exec("UPDATE bbs_session_data SET $sqladd2  WHERE sid='$sid'");
 	}
 	return TRUE;
-} 
+}
 
 function sess_destroy($sid) { 
 	//echo "sess_destroy($sid) \r\n";
 	db_exec("DELETE FROM bbs_session WHERE sid='$sid'");
 	db_exec("DELETE FROM bbs_session_data WHERE sid='$sid'");
 	return TRUE; 
-} 
+}
 
 function sess_gc($maxlifetime) {
 	//echo "sess_gc($maxlifetime) \r\n";
@@ -83,7 +83,7 @@ function sess_gc($maxlifetime) {
 	db_exec("DELETE FROM bbs_session WHERE last_date<$expiry");
 	db_exec("DELETE FROM bbs_session_data WHERE last_date<$expiry");
 	return TRUE; 
-} 
+}
 
 ini_set('session.name', 'sid');
 

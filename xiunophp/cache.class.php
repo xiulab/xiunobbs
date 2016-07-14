@@ -1,8 +1,5 @@
 <?php
 
-/*
-* Copyright (C) 2015 xiuno.com
-*/
 
 class cache_apc {
         public $conf = array();
@@ -19,12 +16,15 @@ class cache_apc {
         public function connect() {
         }
         public function set($k, $v, $life) {
+        	$k = APP_CACHE_PRE.$k;
                 return apc_store($k, $v, $life);
         }
         public function get($k) {
+        	$k = APP_CACHE_PRE.$k;
                 return apc_get($k);
         }
         public function delete($k) {
+        	$k = APP_CACHE_PRE.$k;
                 return apc_delete($k);
         }
         public function truncate() {
@@ -55,17 +55,20 @@ class cache_xcache {
         public function connect() {
         }
         public function set($k, $v, $life) {
+        	$k = APP_CACHE_PRE.$k;
                 return xcache_set($k, $v, $life);
         }
         // 取不到数据的时候返回 NULL，不是 FALSE
         public function get($k) {
+        	$k = APP_CACHE_PRE.$k;
                 return xcache_get($k);
         }
         public function delete($k) {
+        	$k = APP_CACHE_PRE.$k;
                 return xcache_unset($k);
         }
         public function truncate() {
-                xcache_unset_by_prefix('');
+                xcache_unset_by_prefix(APP_CACHE_PRE);
                 return TRUE;
         }
         public function error($errno, $errstr) {
@@ -103,6 +106,7 @@ class cache_redis {
         }
         public function set($k, $v, $life = 0) {
                 if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
                 $v = xn_json_encode($v);
                 $r = $this->link->set($k, $v);
                 $life AND $r AND $this->link->expire($k, $life);
@@ -110,11 +114,13 @@ class cache_redis {
         }
         public function get($k) {
                 if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
                 $r = $this->link->get($k);
                 return $r === FALSE ? NULL : xn_json_decode($r);
         }
         public function delete($k) {
                 if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
                 return $this->link->del($k) ? TRUE : FALSE;
         }
         public function truncate() {
@@ -163,16 +169,19 @@ class cache_memcached {
         }
         public function set($k, $v, $life = 0) {
                 if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
                 $r = $this->link->set($k, $v, 0, $life);
                 return $r;
         }
         public function get($k) {
                 if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
                 $r = $this->link->get($k);
                 return $r === FALSE ? NULL : $r;
         }
         public function delete($k) {
                 if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
                 return $this->link->delete($k); // TRUE|FALSE
         }
         public function truncate() {
@@ -222,6 +231,7 @@ class cache_mysql {
         }
         public function set($k, $v, $life = 0) {
                 if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
                 $time = time();
                 $expiry = $life ? $time + $life : 0;
                 $v = addslashes(xn_json_encode($v));
@@ -231,6 +241,7 @@ class cache_mysql {
         }
         public function get($k) {
                 if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
                 $time = time();
                 $arr = $this->db->find_one("SELECT * FROM `{$this->table}` WHERE k='$k'");
                 if(!$arr) return NULL;
@@ -242,6 +253,7 @@ class cache_mysql {
         }
         public function delete($k) {
                 if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
                 $r = $this->db->exec("DELETE FROM `{$this->table}` WHERE k='$k'", $this->link);
                 return empty($r) ? FALSE : TRUE;
         }
@@ -280,20 +292,23 @@ class cache_saekv {
         }
         public function set($k, $v, $life = 0) {
                 if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
                 $r = $this->link->set($k, $v, 0, $life);
                 return $r;
         }
         public function get($k) {
                 if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
                 return $this->link->get($k);
         }
         public function delete($k) {
                 if(!$this->link && !$this->connect()) return FALSE;
+                $k = APP_CACHE_PRE.$k;
                 return $this->link->delete($k);
         }
         public function truncate() {
                 if(!$this->link && !$this->connect()) return FALSE;
-                $keys = $kv->pkrget('', 100); // 获取 100 条
+                $keys = $kv->pkrget(APP_CACHE_PRE, 100); // 获取 100 条
                 foreach($keys as $k) {
                         $this->delete($k);
                 }

@@ -22,7 +22,7 @@ if($action == 'login') {
 		
 		// hook user_login_get_end.php
 		
-		include './pc/view/user_login.htm';
+		include './view/user_login.htm';
 
 	} else if($method == 'POST') {
 

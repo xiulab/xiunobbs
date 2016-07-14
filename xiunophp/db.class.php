@@ -1,9 +1,5 @@
 <?php
 
-/*
-* Copyright (C) 2015 xiuno.com
-*/
-
 class db_mysql {
 	
 	public $conf = array(); // 配置，可以支持主从
@@ -48,9 +44,11 @@ class db_mysql {
 	}
 	
 	public function real_connect($host, $user, $password, $name, $charset = '', $engine = '') {
-		
-		$link = @mysql_connect($host, $user, $password); // 如果用户名相同，则返回同一个连接。 fastcgi 持久连接更省资源
-		
+		if(IN_SAE) {
+			$link = @mysql_connect($host, $user, $password); // 如果用户名相同，则返回同一个连接。 fastcgi 持久连接更省资源
+		} else {
+			$link = @mysql_pconnect($host, $user, $password); // 如果用户名相同，则返回同一个连接。 fastcgi 持久连接更省资源
+		}
 		if(!$link) { $this->error(-10000); return FALSE; }
 		if(!mysql_select_db($name, $link)) { $this->error(-10001); return FALSE; }
 		strtolower($engine) == 'innodb' AND $this->query("SET innodb_flush_log_at_trx_commit=no", $link);
