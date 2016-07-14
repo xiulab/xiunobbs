@@ -39,12 +39,26 @@
 			background-color: #575a5c;
 			color: rgba(255, 255, 255, 1);
 		}
-		body {background: #f4f4f4;}
+		
+		html, body {height:100%;}
+		body {background: #f4f4f4; }
+		#wrapper { min-height:100%; position:relative; }
+		#body { padding-bottom: 60px; }
+		#footer {
+			font-size: 0.75rem;
+			background: #eee;
+			width:100%;
+			height:60px;
+			position:absolute;
+			bottom:0;
+			left:0;
+		}
+		
 	</style>
 </head>
 
-<body>
-	<nav class="navbar navbar-dark bg-inverse navbar-full">
+<body><div id="wrapper">
+	<nav class="navbar navbar-dark bg-inverse navbar-full" id="header">
 		<div class="container hidden-lg-up navbar-nav">
 			<div class="row">
 				<div class="col-xs-4">
@@ -107,5 +121,6 @@
 			</div>
 		</div>
 	</nav>
+	
 	
 	<div id="body" class="container">

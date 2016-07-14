@@ -12,7 +12,7 @@ db_connect($err) OR exit($err);
 include './model.inc.php';
 
 // 用户
-$uid = $session['uid'];
+$uid = _SESSION('uid');
 $user = user_read($uid); 
 
 // 用户组
