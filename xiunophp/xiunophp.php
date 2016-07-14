@@ -40,6 +40,30 @@ if(IN_CMD) {
 
 // ----------------------------------------------------------> 全局变量申明开始，一共大概十几个
 
+// db cache
+include './xiunophp/db_mysql.class.php';
+include './xiunophp/db_pdo_mysql.class.php';
+include './xiunophp/db_pdo_sqlite.class.php';
+include './xiunophp/cache_apc.class.php';
+include './xiunophp/cache_memcached.class.php';
+include './xiunophp/cache_mysql.class.php';
+include './xiunophp/cache_redis.class.php';
+include './xiunophp/cache_saekv.class.php';
+include './xiunophp/cache_xcache.class.php';
+include './xiunophp/db.func.php';
+include './xiunophp/cache.func.php';
+
+// ----------------------------------------------------------> 全局变量申明结束
+
+// ----------------------------------------------------------> 全局函数
+
+include './xiunophp/form.func.php';
+include './xiunophp/image.func.php';
+include './xiunophp/array.func.php';
+include './xiunophp/xn_encrypt.func.php';
+include './xiunophp/misc.func.php';
+
+
 $starttime = microtime(1);
 $time = time();
 
@@ -79,19 +103,6 @@ date_default_timezone_set($conf['timezone']);
 $_GET += init_query_string();
 $_REQUEST = array_merge($_COOKIE, $_POST, $_GET);
 
-// db cache
-include './xiunophp/db_mysql.class.php';
-include './xiunophp/db_pdo_mysql.class.php';
-include './xiunophp/db_pdo_sqlite.class.php';
-include './xiunophp/cache_apc.class.php';
-include './xiunophp/cache_memcached.class.php';
-include './xiunophp/cache_mysql.class.php';
-include './xiunophp/cache_redis.class.php';
-include './xiunophp/cache_saekv.class.php';
-include './xiunophp/cache_xcache.class.php';
-include './xiunophp/db.func.php';
-include './xiunophp/cache.func.php';
-
 
 // 初始化 db cache，这里并没有连接，在获取数据的时候会自动连接。
 $db = !empty($conf['db']) ? db_new($conf['db']) : NULL;
@@ -99,14 +110,5 @@ $cache = !empty($conf['cache']) ? cache_new($conf['cache']) : NULL;
 $db AND $db->errno AND xn_message(-1, $db->errstr); // 安装的时候检测过了，不必每次都检测。但是要考虑环境移植。
 $cache AND $cache->errno AND xn_message(-1, $cache->errstr);
 
-// ----------------------------------------------------------> 全局变量申明结束
-
-// ----------------------------------------------------------> 全局函数
-
-include './xiunophp/form.func.php';
-include './xiunophp/image.func.php';
-include './xiunophp/array.func.php';
-include './xiunophp/xn_encrypt.func.php';
-include './xiunophp/misc.func.php';
 
 ?>
