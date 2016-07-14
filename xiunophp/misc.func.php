@@ -8,7 +8,7 @@ function xn_message($code, $message) {
 	exit;
 }
 
-function log_post_data() {
+function xn_log_post_data() {
 	global $method;
 	if($method != 'POST') return;
 	$post = $_POST;
@@ -568,7 +568,7 @@ function is_robot() {
  *     c => d
  * )
  */
-function init_query_string() {
+function xn_init_query_string() {
 
 	!empty($_SERVER['HTTP_X_REWRITE_URL']) AND $_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_REWRITE_URL'];
 	!isset($_SERVER['REQUEST_URI']) AND $_SERVER['REQUEST_URI'] = '';
@@ -591,12 +591,12 @@ function init_query_string() {
 		$_SERVER['_GET'] = $arr2;
 		$r += $arr2;
 	}
-
+	
 	$_SERVER['REQUEST_URI_NO_PATH'] = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '/') + 1);
 
 	// 是否开启 /user/login 这种格式的 URL
-	if(defined('URL_REWRITE_PATH_FORMAT_ON')) {
-		$r = init_query_string_by_path_formt($_SERVER['REQUEST_URI']) + $r;
+	if(URL_REWRITE_PATH_FORMAT_ON) {
+		$r = xn_init_query_string_by_path_formt($_SERVER['REQUEST_URI']) + $r;
 	}
 
 	isset($r[0]) AND $r[0] == 'index.php' AND $r[0] = 'index';
@@ -612,7 +612,7 @@ function init_query_string() {
  *     b => 2
  * )
  */
-function init_query_string_by_path_formt($s) {
+function xn_init_query_string_by_path_formt($s) {
 	$get = array();
 	substr($s, 0, 1) == '/' AND $s = substr($s, 1);
 	$arr = explode('/', $s);
