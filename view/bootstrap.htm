@@ -1,131 +1,139 @@
 <?php include "./view/header.inc.htm"; ?>
 
-<div class="row">
-	<div class="col-md-8 col-md-offset-2">
-		<form class="form-group-sm" action="<?php echo url('user-login');?>" method="post" id="form">
-			<br>
-			<div class="input-group">
-				<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-				<input type="text" class="form-control" placeholder="手机号/Email" aria-describedby="basic-addon1">
-			</div>
-			<br>
-			<div class="input-group">
-				<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-				<input type="text" class="form-control" placeholder="密码" aria-describedby="basic-addon1">
-			</div>
-			<br>
-			<!--
-			<fieldset class="form-group">
-				<label for="exampleInputEmail1">Email address</label>
-				<input type="text" class="form-control col-xs-12 col-lg-5" name="email" id="exampleInputEmail1" placeholder="Enter email">
-				<small class="text-muted">We'll never share your email with anyone else.</small>
-			</fieldset>
-			<fieldset class="form-group">
-				<label for="exampleInputPassword1">Password</label>
-				<input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Password">
-			</fieldset>
-			<fieldset class="form-group">
-				<label for="exampleSelect1">Example select</label>
-				<select class="form-control" id="exampleSelect1"  name="option1">
-					<option>1</option>
-					<option>2</option>
-					<option>3</option>
-					<option>4</option>
-					<option>5</option>
-				</select>
-			</fieldset>
-			
-			<fieldset class="form-group">
-				<label for="exampleSelect2">Example multiple select</label>
-				<select multiple class="form-control" id="exampleSelect2" name="option2">
-					<option>1</option>
-					<option>2</option>
-					<option>3</option>
-					<option>4</option>
-					<option>5</option>
-				</select>
-			</fieldset>
-			<fieldset class="form-group">
-				<label for="exampleTextarea">Example textarea</label>
-				<textarea class="form-control" id="exampleTextarea" rows="3" name="textarea1"></textarea>
-			</fieldset>
-			<fieldset class="form-group" style="display: none;">
-				<label for="exampleInputFile">File input</label>
-				<input type="file" class="form-control-file" id="exampleInputFile" name="file">
-				<small class="text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
-			</fieldset>
-			<div class="radio">
-				<label>
-					<input type="radio" name="optionsRadios1" id="optionsRadios1" value="option1" checked>
-					Option one is this and that&mdash;be sure to include why it's great
-				</label>
-			</div>
-			<div class="radio">
-				<label>
-					<input type="radio" name="optionsRadios2" id="optionsRadios2" value="option2">
-					Option two can be something else and selecting it will deselect option one
-				</label>
-			</div>
-			<div class="radio disabled">
-				<label>
-					<input type="radio" name="optionsRadios3" id="optionsRadios3" value="option3" disabled>
-					Option three is disabled
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="checkbox1"> Check me out
-				</label>
-			</div>
-			
+
+<div class="row m-t-1">
+	<div class="col-lg-5 col-lg-offset-3">
+		<div class="card">
+			<img class="card-img-top" data-src="holder.js/100%x180" alt="100%x180" style="height: 180px; width: 100%; display: block;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMzE4IiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDMxOCAxODAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MTgwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTU1ZTcxNTI0NTcgdGV4dCB7IGZpbGw6cmdiYSgyNTUsMjU1LDI1NSwuNzUpO2ZvbnQtd2VpZ2h0Om5vcm1hbDtmb250LWZhbWlseTpIZWx2ZXRpY2EsIG1vbm9zcGFjZTtmb250LXNpemU6MTZwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTU1ZTcxNTI0NTciPjxyZWN0IHdpZHRoPSIzMTgiIGhlaWdodD0iMTgwIiBmaWxsPSIjNzc3Ii8+PGc+PHRleHQgeD0iMTE4LjA4NTkzNzUiIHk9Ijk3LjIiPjMxOHgxODA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" data-holder-rendered="true">
+			<div class="card-block">
+			<h4 class="bd-title">卡片抬头</h4>
+			<form class="form-group-sm" action="<?php echo url('user-login');?>" method="post" id="form">
+				<p class="input-group">
+					<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+					<input type="text" class="form-control" placeholder="手机号/Email" aria-describedby="basic-addon1">
+				</p>
+				<p class="input-group">
+					<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
+					<input type="text" class="form-control" placeholder="密码" aria-describedby="basic-addon1">
+				</p>
+				<div class="m-y-1 clearfix">
+					<div class="pull-xs-left"><small>记住密码</small></div>
+					<div class="pull-xs-right">
+						<a href="<?php echo url('user-create');?>"><small>注册新用户</small></a>
+						<a href="<?php echo url('user-findpw');?>"><small>忘记密码</small></a>
+					</div>
+				</div>
+				<p class="text-xs-right">
+					<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="正在提交...">&nbsp;  登陆  &nbsp;</button>
+				</p>
+				<!--
+				<fieldset class="form-group">
+					<label for="exampleInputEmail1">Email address</label>
+					<input type="text" class="form-control col-xs-12 col-lg-5" name="email" id="exampleInputEmail1" placeholder="Enter email">
+					<small class="text-muted">We'll never share your email with anyone else.</small>
+				</fieldset>
+				<fieldset class="form-group">
+					<label for="exampleInputPassword1">Password</label>
+					<input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Password">
+				</fieldset>
+				<fieldset class="form-group">
+					<label for="exampleSelect1">Example select</label>
+					<select class="form-control" id="exampleSelect1"  name="option1">
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+						<option>5</option>
+					</select>
+				</fieldset>
 				
-			<div class="form-group has-success">
-				<label class="control-label" for="inputSuccess1">Input with success</label>
-				<input type="text" class="form-control form-control-success" id="inputSuccess1">
-			</div>
-			<div class="form-group has-warning">
-				<label class="control-label" for="inputWarning1">Input with warning</label>
-				<input type="text" class="form-control form-control-warning" id="inputWarning1">
-			</div>
-			<div class="form-group has-danger">
-				<label class="control-label" for="inputError1">Input with error</label>
-				<input type="text" class="form-control form-control-danger" id="inputError1">
-			</div>
-			
-			<div class="has-success">
-				<div class="checkbox">
+				<fieldset class="form-group">
+					<label for="exampleSelect2">Example multiple select</label>
+					<select multiple class="form-control" id="exampleSelect2" name="option2">
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+						<option>5</option>
+					</select>
+				</fieldset>
+				<fieldset class="form-group">
+					<label for="exampleTextarea">Example textarea</label>
+					<textarea class="form-control" id="exampleTextarea" rows="3" name="textarea1"></textarea>
+				</fieldset>
+				<fieldset class="form-group" style="display: none;">
+					<label for="exampleInputFile">File input</label>
+					<input type="file" class="form-control-file" id="exampleInputFile" name="file">
+					<small class="text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
+				</fieldset>
+				<div class="radio">
 					<label>
-						<input type="checkbox" id="checkboxSuccess" value="option1">
-						Checkbox with success
+						<input type="radio" name="optionsRadios1" id="optionsRadios1" value="option1" checked>
+						Option one is this and that&mdash;be sure to include why it's great
 					</label>
 				</div>
-			</div>
-			<div class="has-warning">
-				<div class="checkbox">
+				<div class="radio">
 					<label>
-						<input type="checkbox" id="checkboxWarning" value="option1">
-						Checkbox with warning
+						<input type="radio" name="optionsRadios2" id="optionsRadios2" value="option2">
+						Option two can be something else and selecting it will deselect option one
 					</label>
 				</div>
-			</div>
-			<div class="has-danger">
-				<div class="checkbox">
+				<div class="radio disabled">
 					<label>
-						<input type="checkbox" id="checkboxError" value="option1">
-						Checkbox with error
+						<input type="radio" name="optionsRadios3" id="optionsRadios3" value="option3" disabled>
+						Option three is disabled
 					</label>
 				</div>
-			</div>
-			-->
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="checkbox1"> Check me out
+					</label>
+				</div>
 				
-			<button type="submit" class="btn btn-primary" id="submit" data-loading-text="正在提交...">登陆</button>
-			
-			<br>
-			<br>
-			<br>
-			<br>
-		</form>
+					
+				<div class="form-group has-success">
+					<label class="control-label" for="inputSuccess1">Input with success</label>
+					<input type="text" class="form-control form-control-success" id="inputSuccess1">
+				</div>
+				<div class="form-group has-warning">
+					<label class="control-label" for="inputWarning1">Input with warning</label>
+					<input type="text" class="form-control form-control-warning" id="inputWarning1">
+				</div>
+				<div class="form-group has-danger">
+					<label class="control-label" for="inputError1">Input with error</label>
+					<input type="text" class="form-control form-control-danger" id="inputError1">
+				</div>
+				
+				<div class="has-success">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" id="checkboxSuccess" value="option1">
+							Checkbox with success
+						</label>
+					</div>
+				</div>
+				<div class="has-warning">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" id="checkboxWarning" value="option1">
+							Checkbox with warning
+						</label>
+					</div>
+				</div>
+				<div class="has-danger">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" id="checkboxError" value="option1">
+							Checkbox with error
+						</label>
+					</div>
+				</div>
+				-->
+				
+			</form>
+		</div>
 	</div>
+</div>
 </div>
 
 <?php include "./view/footer.inc.htm"; ?>
