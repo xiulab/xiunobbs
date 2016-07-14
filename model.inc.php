@@ -2,6 +2,7 @@
 
 
 // 可以合并成一个文件，加快速度
+include './model/kv.func.php';
 include './model/group.func.php';
 include './model/user.func.php';
 include './model/forum.func.php';

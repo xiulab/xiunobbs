@@ -200,4 +200,56 @@ function db_close() {
 	return $r;
 }
 
+
+/*
+	array('id'=>123, 'groupid'=>123)
+	array('id'=>array('>' => 100, '<' => 200))
+	array('username'=>array('LIKE' => 'jack'))
+
+*/
+function db_cond_to_sqladd($cond) {
+	$s = '';
+	if(!empty($cond)) {
+		$s = ' WHERE ';
+		foreach($cond as $k=>$v) {
+			if(!is_array($v)) {
+				$v = addslashes($v);
+				$s .= "$k = '$v' AND ";
+			} else {
+				foreach($v as $k1=>$v1) {
+					$v1 = addslashes($v1);
+					$k1 == 'LIKE' AND $v1 = "%$v1%";
+					$s .= "$k $k1 '$v1' AND ";
+				}
+			}
+		}
+		$s = substr($s, 0, -4);
+	}
+	return $s;
+}
+
+function db_orderby_to_sqladd($orderby) {
+	$s = '';
+	if(!empty($orderby)) {
+		$s .= ' ORDER BY ';
+		$comma = '';
+		foreach($orderby as $k=>$v) {
+			$s .= $comma."$k ".($v == 1 ? ' ASC ' : ' DESC ');
+			$comma = ',';
+		}
+	}
+	return $s;
+}
+
+// 兼容 3.0
+function cond_to_sqladd($cond) {
+	return db_cond_to_sqladd($cond);
+}
+
+// 兼容 3.0
+function orderby_to_sqladd($orderby) {
+	return db_orderby_to_sqladd($orderby);
+}
+
+
 ?>
