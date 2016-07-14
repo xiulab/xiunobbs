@@ -109,7 +109,6 @@ return array (
 		'120.52.18.*',
 	),*/
 	
-	'user_create_email_on' => 0,	// 是否开启注册用户 Email 验证
 	'user_find_pw_on' => 0,		// 是否开启密码找回，需要 SMTP 有效。
 	'banip_on' => 0,		// 是否启用禁止 ip
 	'ipaccess_on' => 0,		// 是否启用 ip 访问控制，开启后将会防止灌水，每天的上限

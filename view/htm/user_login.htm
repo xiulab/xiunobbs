@@ -1,0 +1,61 @@
+<?php include "./view/header.inc.htm"; ?>
+
+<div class="row m-t-1">
+	<div class="col-lg-5 col-lg-offset-3">
+		<div class="card">
+			<img class="card-img-top" data-src="holder.js/100%x180" alt="100%x180" style="height: 180px; width: 100%; display: block;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMzE4IiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDMxOCAxODAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MTgwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTU1ZTcxNTI0NTcgdGV4dCB7IGZpbGw6cmdiYSgyNTUsMjU1LDI1NSwuNzUpO2ZvbnQtd2VpZ2h0Om5vcm1hbDtmb250LWZhbWlseTpIZWx2ZXRpY2EsIG1vbm9zcGFjZTtmb250LXNpemU6MTZwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTU1ZTcxNTI0NTciPjxyZWN0IHdpZHRoPSIzMTgiIGhlaWdodD0iMTgwIiBmaWxsPSIjNzc3Ii8+PGc+PHRleHQgeD0iMTE4LjA4NTkzNzUiIHk9Ijk3LjIiPjMxOHgxODA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" data-holder-rendered="true">
+			<div class="card-block">
+			<h4 class="bd-title">卡片抬头</h4>
+			<form class="form-group-sm" action="<?php echo url('user-login');?>" method="post" id="form">
+				<p class="input-group">
+					<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
+					<input type="text" class="form-control" placeholder="手机号/Email" aria-describedby="basic-addon1">
+				</p>
+				<p class="input-group">
+					<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
+					<input type="text" class="form-control" placeholder="密码" aria-describedby="basic-addon1">
+				</p>
+				<div class="m-y-1 clearfix">
+					<div class="pull-xs-left">
+						<a href="<?php echo url('user-create');?>" class="text-muted"><small>记住密码</small></a>
+					</div>
+					<div class="pull-xs-right">
+						<a href="<?php echo url('user-create');?>" class="text-muted"><small>注册新用户</small></a>
+						<a href="<?php echo url('user-findpw');?>" class="text-muted"><small>忘记密码</small></a>
+					</div>
+				</div>
+				<p class="text-xs-right">
+					<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="正在提交...">&nbsp;  登陆  &nbsp;</button>
+				</p>
+			</form>
+		</div>
+	</div>
+</div>
+</div>
+
+<?php include "./view/footer.inc.htm"; ?>
+
+<script>
+var jform = $('#form');
+var jsubmit = $('#submit');
+jform.on('submit', function() {
+	var postdata = jform.serialize();
+	jsubmit.button('loading');
+	$.xpost(jform.attr('action'), postdata, function(code, message) {
+		if(code == 0) {
+			jsubmit.button('登录成功');
+			// 服务端已经设置了 cookie
+			setTimeout(function() {window.location='./';}, 1000);
+		} else if(code > 0) {
+			if(code == 1) jaccount.alert(message).focus();
+			if(code == 2) jpassword.alert(message).focus();
+			jsubmit.button('reset');
+		} else if(code < 0) {
+			alert(message);
+			jsubmit.button('reset');
+		}
+	});
+	return false;
+});
+
+</script>

@@ -560,6 +560,7 @@ function is_robot() {
 }*/
 
 /**
+ * URL format: http://www.domain.com/demo/?user-login.htm?a=b&c=d
  * URL format: http://www.domain.com/demo/user-login.htm?a=b&c=d
  * array(
  *     0 => user,
@@ -575,13 +576,15 @@ function xn_init_query_string() {
 
 	// 兼容 iis6
 	$_SERVER['REQUEST_URI'] = str_replace('/index.php?', '/', $_SERVER['REQUEST_URI']);
-
-	$arr = parse_url($_SERVER['REQUEST_URI']);
-
+	// 处理: /demo/?user-login.htm?a=b&c=d
+	// 结果：/demo/user-login.htm?a=b&c=d
+	$request_url = str_replace('/?', '/', $_SERVER['REQUEST_URI']);
+	$arr = parse_url($request_url);
+	
 	$q = $arr['path'];
 	$pos = strrpos($q, '/');
 	$pos === FALSE && $pos = -1;
-	$q = substr($q, $pos + 1);
+	$q = substr($q, $pos + 1); // 截取最后一个 / 后面的内容
 	if(substr($q, -4) == '.htm') $q = substr($q, 0, -4);
 	$r = $q ? (array)explode('-', $q) : array();
 
@@ -593,7 +596,7 @@ function xn_init_query_string() {
 	}
 	
 	$_SERVER['REQUEST_URI_NO_PATH'] = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '/') + 1);
-
+	
 	// 是否开启 /user/login 这种格式的 URL
 	if(URL_REWRITE_PATH_FORMAT_ON) {
 		$r = xn_init_query_string_by_path_formt($_SERVER['REQUEST_URI']) + $r;

@@ -593,12 +593,13 @@ $.xget = function(url, callback, retry) {
 				}
 			} else if(s.code == 0) {
 				return callback(0, s.message);
-			//业务逻辑错误
-			} else if(s.code > 0) {
-				return callback(s.code, s.message);
 			//系统错误
 			} else if(s.code < 0) {
 				return callback(s.code, s.message);
+			//业务逻辑错误
+			} else {
+				return callback(s.code, s.message);
+			
 			}
 		},
 		// 网络错误，重试
@@ -635,11 +636,10 @@ $.xpost = function(url, postdata, callback) {
 			if(!s || s.code === undefined) return callback(-1, 'Server Response Not JSON：'+r);
 			if(s.code == 0) {
 				return callback(0, s.message);
-			//业务逻辑错误
-			} else if(s.code > 0) {
-				return callback(s.code, s.message);
 			//系统错误
 			} else if(s.code < 0) {
+				return callback(s.code, s.message);
+			} else {
 				return callback(s.code, s.message);
 			}
 		},

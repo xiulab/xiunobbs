@@ -22,7 +22,7 @@ if($action == 'login') {
 		
 		// hook user_login_get_end.php
 		
-		include './view/user_login.htm';
+		include './view/htm/user_login.htm';
 
 	} else if($method == 'POST') {
 
@@ -69,7 +69,7 @@ if($action == 'login') {
 
 	$conf['ipaccess_on'] AND $conf['user_create_email_on'] AND !ipaccess_check($longip, 'mails') AND message(-1, '您的 IP 今日发送邮件数达到上限，请明天再来。');
 	$conf['ipaccess_on'] AND !ipaccess_check($longip, 'users') AND message(-1, '您的 IP 今日注册用户数达到上限，请明天再来。');
-	user_check_flood($longip) AND message(3, '您当前 IP 注册太频繁，请稍后再注册。');
+	user_check_flood($longip) AND message(-1, '您当前 IP 注册太频繁，请稍后再注册。');
 	
 	// hook user_create_get_post.php
 	
@@ -78,48 +78,60 @@ if($action == 'login') {
 		// hook user_create_get_start.php
 		
 		$referer = user_http_referer();
-
 		$header['title'] = '创建用户';
 		
 		// hook user_create_get_end.php
 		
-		include './pc/view/user_create.htm';
+		include './view/htm/user_create.htm';
 
 	} else if($method == 'POST') {
 				
 		// hook user_create_post_start.php
 		
 		$email = param('email');
-		$verifycode = param('verifycode');
+		$password = param('password');
 		
-		!is_email($email, $err) AND message(1, $err);
-		mb_strlen($email, 'UTF-8') > 40 AND message(1, 'EMAIL 最长为 40 个字符。');
+		$email != $_SESSION['create_email'] AND message('email', '邮箱不一致');
+		$password != $_SESSION['create_pw'] AND message('password', '初始密码不正确');
+		
 		$user = user_read_by_email($email);
-		$user AND message(1, 'EMAIL 已经注册。');
+		$user AND message('email', 'EMAIL 已经注册。');
 		
+		// email 注册
+		$salt = rand(10000000, 99999999);
+		$pwd = md5(md5($password).$salt);
+		$gid = 101;
+		$user = array (
+			'username' => $email,
+			'email' => $email,
+			'password' => $pwd,
+			'salt' => $salt,
+			'gid' => $gid,	// 普通注册用户用户组
+			'create_ip' => $longip,
+			'create_date' => $time,
+			'logins' => 1,
+			'login_date' => $time,
+			'login_ip' => $longip,
+		);
+		$uid = user_create($user);
+		$uid === FALSE AND message('email', '用户注册失败');
+		$user = user_read($uid);
+	
+		// 更新 session
 		
-		if($conf['user_create_email_on']) {
-			
-			empty($verifycode) AND message(2, '请输入校验码。');
-			$email2 = $_SESSION['create_email'];
-			$verifycode2 = $_SESSION['create_verifycode'];
-			(empty($email2) || empty($verifycode2)) AND message(2, '请点击获取验证码。');
-			
-			$verifycode2 != $verifycode AND message(2, '验证码不正确');
-		} else {
-			$_SESSION['create_email'] = $email;
-		}
+		unset($_SESSION['create_email']);
+		unset($_SESSION['create_pw']);
 		
 		// hook user_create_post_end.php
 		
-		message(0, 'Email 可以注册。');
+		message(0, '注册成功');
 	}
 
+// 获取初始密码
+} elseif($action == 'sendinitpw') {
 	
-// 注册第2步：发送激活邮件/手机短信
-} elseif($action == 'sendactive') {
+	// hook user_sendinitpw_start.php
 	
-	!$conf['user_create_email_on'] AND message(-1, '当前未开启 Email 验证。');
 	$conf['ipaccess_on'] AND $conf['user_create_email_on'] AND !ipaccess_check($longip, 'mails') AND message(-1, '您的 IP 今日发送邮件数达到上限，请明天再来。');
 	$conf['ipaccess_on'] AND !ipaccess_check_freq($longip) AND message(0, '发送邮件比较耗费资源，请您休息一会再来。');
 	
@@ -128,96 +140,28 @@ if($action == 'login') {
 	$smtp = $smtplist[$n];
 		
 	$email = param('email');
-	!is_email($email, $err) AND message(1, $err);
+	!is_email($email, $err) AND message('email', $err);
 	$r = user_read_by_email($email);
-	$r AND message(1, 'Email 已经被注册。');
+	$r AND message('email', 'Email 已经被注册。');
 	
-	$rand = rand(1000, 9999);
+	$rand = rand(1000000, 9999999);
 	
 	$_SESSION['create_email'] = $email;
-	$_SESSION['create_verifycode'] = $rand;
+	$_SESSION['create_pw'] = $rand;
 	
-	$subject = "账号注册验证码：$rand - 【$conf[sitename]】";
+	$subject = "您的注册初始密码为：$rand ，为了您的账户安全，请及时修改密码 - 【$conf[sitename]】";
 	$message = $subject;
 	
-	// hook user_sendactive_sendmail_before.php
-	
-	$r = xn_send_mail($smtp, $conf['sitename'], $email, $subject, $message);
+	// hookuser_sendinitpw_sendmail_before.php
+	$r = DEBUG ? TRUE : xn_send_mail($smtp, $conf['sitename'], $email, $subject, $message);
+	// hookuser_sendinitpw_sendmail_after.php
 	
 	if($r === TRUE) {
-		// hook user_sendactive_sendmail_ok.php
 		$conf['ipaccess_on'] AND ipaccess_inc($longip, 'mails');
 		message(0, '发送成功。');
 	} else {
-		// hook user_sendactive_sendmail_fail.php
 		message(1, $errstr);
 	}
-
-// 注册第3步：设置密码，创建用户
-} elseif($action == 'setpw') {
-	
-	$conf['ipaccess_on'] AND $conf['user_create_email_on'] AND !ipaccess_check($longip, 'mails') AND message(-1, '您的 IP 今日发送邮件数达到上限，请明天再来。');
-	$conf['ipaccess_on'] AND !ipaccess_check($longip, 'users') AND message(-1, '您的 IP 今日注册用户数达到上限，请明天再来。');
-	
-	$email = $_SESSION['create_email'];
-	$verifycode = $_SESSION['create_verifycode'];
-	
-	empty($email) AND message(-1, '请返回填写数据');
-
-	$user = user_read_by_email($email);
-	$user AND message(1, 'EMAIL 已经注册。');
-	
-	// hook user_setpw_get_post.php
-	
-	if($method == 'GET') {
-		
-		// hook user_setpw_get_start.php
-		
-		include './pc/view/user_setpw.htm';
-		
-	} else {
-		
-		// hook user_setpw_post_start.php
-		
-		// 已经加密过的
-		$password = param('password');
-		strlen($password) !=  32 AND message(1, '密码格式不正确。');
-		
-		// email 注册
-		$salt = rand(100000, 999999);
-		$pwd = md5($password.$salt);
-	
-		$user = array (
-			'username' => $email,
-			'email' => $email,
-			'password' => $pwd,
-			'salt' => $salt,
-			'gid' => 101,	// 普通注册用户用户组
-			'create_ip' => $longip,
-			'create_date' => $time,
-			'logins' => 1,
-			'login_date' => $time,
-			'login_ip' => $longip,
-		);
-		$uid = user_create($user);
-		$uid === FALSE AND message(1, '用户注册失败。');
-		$user = user_read($uid);
-	
-		$gid = $user['gid'];
-		
-		$user['token'] = user_token_set($uid, $gid, $user['password'], $user['avatar'], $user['username'], 'bbs');
-	
-		// 更新在线
-		online_list_cache_delete();
-		
-		unset($_SESSION['create_email']);
-		unset($_SESSION['create_verifycode']);
-		
-		// hook user_setpw_post_end.php
-		
-		message(0, $user);
-	}
-
 // 退出
 } elseif($action == 'logout') {
 	
@@ -266,7 +210,7 @@ if($action == 'login') {
 		
 	// hook user_thread_end.php
 	
-	include './pc/view/user_thread.htm';
+	include './view/htm/user_thread.htm';
 	
 // 找回密码第1步
 } elseif($action == 'findpw') {
@@ -281,7 +225,7 @@ if($action == 'login') {
 		
 		// hook user_findpw_get_end.php
 		
-		include './pc/view/user_findpw.htm';
+		include './view/htm/user_findpw.htm';
 
 	} else if($method == 'POST') {
 		
@@ -378,7 +322,7 @@ if($action == 'login') {
 		
 		// hook user_resetpw_get_end.php
 		
-		include './pc/view/user_resetpw.htm';
+		include './view/htm/user_resetpw.htm';
 
 	} else if($method == 'POST') {
 		
@@ -425,7 +369,7 @@ if($action == 'login') {
 	
 	// hook user_profile_start.php
 	
-	include './pc/view/user_profile.htm';
+	include './view/htm/user_profile.htm';
 	
 }
 
