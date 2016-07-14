@@ -25,11 +25,13 @@ $fid = 0;
 $forumlist = forum_list_cache();
 $forumlist_show = forum_list_access_filter($forumlist, $gid);	// 有权限查看的板块
 
-// 头部
-$header['title'] = $conf['sitename']; 		// 网站标题
-$header['keywords'] = $conf['sitename']; 	// 关键词
-$header['description'] = $conf['sitename']; 	// 描述
-$header['navs'] = array(); 			// 描述
+// 头部 header.inc.htm 
+$header = array(
+	'title'=>$conf['sitename'],
+	'keywords'=>'',
+	'description'=>'',
+	'navs'=>array(),
+);
 
 // 运行时数据
 $runtime = runtime_init();
@@ -42,10 +44,10 @@ check_browser($browser);
 check_runlevel();
 
 // 检测 IP 封锁，可以作为自带插件
-check_banip($ip);
+//check_banip($ip);
 
 // 记录 POST 数据
-DEBUG AND xn_log_post_data();
+//DEBUG AND xn_log_post_data();
 
 // 全站的设置数据，站点名称，描述，关键词，页脚代码等
 $setting = cache_get('setting', TRUE);

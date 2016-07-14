@@ -881,4 +881,14 @@ function rmdir_recusive($dir, $keepdir = 0) {
 	return TRUE;
 }
 
+// 无 Notice 方式的获取超级全局变量中的 key
+function _GET($k) { return isset($_GET[$k]) ? $_GET[$k] : NULL; }
+function _POST($k) { return isset($_POST[$k]) ? $_POST[$k] : NULL; }
+function _COOKIE($k) { return isset($_COOKIE[$k]) ? $_COOKIE[$k] : NULL; }
+function _REQUEST($k) { return isset($_REQUEST[$k]) ? $_REQUEST[$k] : NULL; }
+function _SERVER($k) { return isset($_SERVER[$k]) ? $_SERVER[$k] : NULL; }
+function _SESSION($k) { return isset($_SESSION[$k]) ? $_SESSION[$k] : NULL; }
+function GLOBALS($k) { return isset($GLOBALS[$k]) ? $GLOBALS[$k] : NULL; }
+function G($k1, $k2 = FALSE) { return isset($GLOBALS[$k1]) ? ($k2 !== FALSE ? (isset($GLOBALS[$k1][$k2]) ? $GLOBALS[$k1][$k2] : NULL) : NULL) : NULL; }
+
 ?>

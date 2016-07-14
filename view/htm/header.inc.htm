@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<?php $header = G('header');?>
 	<!-- Required meta tags always come first -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="author" content="XiunoBBS 3.0" />
-	<meta name="keywords" content="签名设计 叶根友" />
-	<meta name="description" content="叶根友签名设计-自动化签名设计" />
+	<meta name="keywords" content="<?php echo $header['keywords'];?>" />
+	<meta name="description" content="<?php echo $header['description'];?>" />
 	<meta name="csrf-param" content="authenticity_token" />
 	<meta name="csrf-token" content="xxxxxxxxxxxxxxxxxxxxxxxxx" />
-
+	<title><?php echo $header['keywords'];?></title>
+	
 	<!-- Bootstrap CSS -->
 	<link rel="shortcut icon" href="view/img/favicon.ico" />
 	<link rel="icon" sizes="32x32" href="view/img/favicon.ico">

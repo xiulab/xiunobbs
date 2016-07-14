@@ -91,8 +91,8 @@ if($action == 'login') {
 		$email = param('email');
 		$password = param('password');
 		
-		$email != $_SESSION['create_email'] AND message('email', '邮箱不一致');
-		$password != $_SESSION['create_pw'] AND message('password', '初始密码不正确');
+		$email != _SESSION('create_email') AND message('email', '邮箱不一致');
+		$password != _SESSION('create_pw') AND message('password', '初始密码不正确');
 		
 		$user = user_read_by_email($email);
 		$user AND message('email', 'EMAIL 已经注册。');

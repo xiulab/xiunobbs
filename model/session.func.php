@@ -85,6 +85,7 @@ function sess_gc($maxlifetime) {
 	return TRUE; 
 }
 
+
 ini_set('session.name', 'sid');
 
 ini_set('session.use_cookies', 'On');

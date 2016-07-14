@@ -1,6 +1,6 @@
 <?php
 
-function array_value($arr, $key, $default = 0) {
+function array_value($arr, $key, $default = '') {
 	return isset($arr[$key]) ? $arr[$key] : $default;
 }
 

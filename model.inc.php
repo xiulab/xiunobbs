@@ -86,7 +86,7 @@ if($isfile) {
 		> 0 一般业务逻辑错误，可以定位到具体控件，比如：用户名为空/密码为空
 */
 function message($code, $message) {
-	global $db, $cache, $starttime, $conf, $browser, $ajax, $uid, $gid, $user, $header, $forumlist_show, $fid;
+	global $header;
 	
 	// 防止 message 本身出现错误死循环
 	static $called = FALSE;
@@ -97,7 +97,7 @@ function message($code, $message) {
 		runtime_save();
 	} else {
 		$header['title'] = '提示信息';
-		include "./view/message.htm";
+		include "./view/htm/message.htm";
 	}
 	exit;
 }
