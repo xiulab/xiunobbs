@@ -6,7 +6,7 @@
 $fid = param(1, 0);
 $page = param(2, 1);
 $order = param(3);
-!in_array($order, array('tid', 'lastpid', 'agrees')) AND $order = $conf['order_default']; // 默认按照顶贴时间排序
+!in_array($order, array('tid', 'lastpid')) AND $order = $conf['order_default']; // 默认按照顶贴时间排序
 
 $forum = forum_read($fid);
 empty($forum) AND message(3, '板块不存在'.$fid);

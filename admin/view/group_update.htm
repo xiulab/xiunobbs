@@ -14,18 +14,6 @@
 					<td><input type="text" name="name" value="<?php echo $group['name']; ?>" style="width: 150px;" /></td>
 				</tr>
 				<tr>
-					<th>起始喜欢数+发帖数：</th>
-					<td><input type="text" name="agreesfrom" value="<?php echo $group['agreesfrom']; ?>"style="width: 150px;"  /></td>
-				</tr>
-				<tr>
-					<th>结束喜欢数+发帖数：</th>
-					<td><input type="text" name="agreesto" value="<?php echo $group['agreesto']; ?>"style="width: 150px;"  /></td>
-				</tr>
-				<tr>
-					<th>每日最大喜欢数：</th>
-					<td><input type="text" name="maxagrees" value="<?php echo $group['maxagrees']; ?>"style="width: 150px;"  /><?php if($gid == 0) { ?>游客将按照 IP 进行限制<?php } ?></td>
-				</tr>
-				<tr>
 					<th>权限设置：<br><i>(加粗为版主权限)</i></th>
 					<td>
 						<table>
@@ -35,8 +23,6 @@
 								<td>回帖</td>
 								<td>上传</td>
 								<td>下载</td>
-								<td>喜欢</td>
-								<td>自定义URL</td>
 								<?php if($group['gid'] >= 1 AND $group['gid'] <= 5) { ?>
 								<td title="版主权限"><b>置顶</b></td>
 								<td title="版主权限"><b>编辑</b></td>
@@ -53,9 +39,7 @@
 								<td><input type="checkbox" name="allowpost" value="1" <?php echo ($group['allowpost'] ? 'checked' : ''); ?> /></td>
 								<td><input type="checkbox" name="allowattach" value="1" <?php echo ($group['allowattach'] ? 'checked' : ''); ?> <?php echo ($gid == 0 ? ' disabled' : ''); ?> /></td>
 								<td><input type="checkbox" name="allowdown" value="1" <?php echo ($group['allowdown'] ? 'checked' : ''); ?> /></td>
-								<td><input type="checkbox" name="allowagree" value="1" <?php echo ($group['allowagree'] ? 'checked' : ''); ?> /></td>
-								<td><input type="checkbox" name="allowcustomurl" value="1" <?php echo ($group['allowcustomurl'] ? 'checked' : ''); ?> /></td>
-								
+rr								
 								<?php if($group['gid'] >= 1 AND $group['gid'] <= 5) { ?>
 								<td><input type="checkbox" name="allowtop" value="1" <?php echo ($group['allowtop'] ? 'checked' : ''); ?> <?php echo ($gid == 0 || $gid > 100 ? ' disabled' : ''); ?> /></td>
 								<td><input type="checkbox" name="allowupdate" value="1" <?php echo ($group['allowupdate'] ? 'checked' : ''); ?> <?php echo ($gid == 0 || $gid > 100 ? ' disabled' : ''); ?> /></td>

@@ -168,9 +168,6 @@ function post_delete($pid) {
 	
 	!$post['isfirst'] AND runtime_set('posts-', 1);
 	
-	// 清理喜欢
-	$uid AND myagree_delete($uid, $pid, $post['isfirst']);
-	
 	// 清理缓存
 	$post['isfirst'] AND post_list_cache_delete($tid);
 	
@@ -209,8 +206,6 @@ function post_delete_by_pids($pids) {
 		 $tidarr[$post['tid']]++;
 		!isset($uidarr[$post['uid']]) AND $uidarr[$post['uid']] = 0;
 		$uidarr[$post['uid']]++;
-		
-		$post['uid'] AND myagree_delete($post['uid'], $post['pid'], $post['isfirst']); // 非常消耗资源！
 	}
 	foreach($tidarr as $tid=>$n) {
 		thread_update($tid, array('posts-'=>$n));
@@ -288,8 +283,6 @@ function post_format(&$post) {
 	$post['username'] = $user['username'];
 	$post['user_avatar_url'] = $user['avatar_url'];
 	!isset($post['floor']) AND  $post['floor'] = '';
-	
-	$post['agrees_class'] = 'agrees_'.thread_get_level($post['agrees'], $conf['agrees_level']);
 	
 	// 权限判断
 	global $uid, $sid, $longip;

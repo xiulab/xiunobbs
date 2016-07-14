@@ -16,26 +16,6 @@ CREATE TABLE `bbs_table_day` (
   PRIMARY KEY (`year`, `month`, `day`, `table`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-# 文章表
-DROP TABLE IF EXISTS bbs_article;
-CREATE TABLE bbs_article (
-  articleid int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '文章编号',
-  cateid smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '文章分类编号',	# 见 $conf['cate']，直接写在配置文件 conf/conf.php 当中
-  subject char(80) NOT NULL DEFAULT '' COMMENT '文章标题(中文)',
-  brief varchar(255) NOT NULL DEFAULT '' COMMENT '文章介绍(中文)',
-  message mediumtext NOT NULL COMMENT '文章内容(中文)',
-  cover varchar(255) NOT NULL DEFAULT '' COMMENT '缩略图', # 格式：封面图？
-  uid int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户编号',
-  create_date int(11) unsigned NOT NULL DEFAULT '0' COMMENT '发表时间',
-  update_date int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  ip int(11) unsigned NOT NULL DEFAULT '0' COMMENT '发表时IP',
-  seo_title varchar(80) NOT NULL DEFAULT '', 		# 只管中文搜索引擎
-  seo_keywords varchar(80) NOT NULL DEFAULT '', 	# 只管中文搜索引擎
-  seo_description varchar(255) NOT NULL DEFAULT '', 	# 只管中文搜索引擎
-  PRIMARY KEY (articleid),
-  KEY cateid_articleid (cateid, articleid)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
 ### 用户表 ###
 DROP TABLE IF EXISTS `bbs_user`;
 CREATE TABLE `bbs_user` (
@@ -52,10 +32,6 @@ CREATE TABLE `bbs_user` (
   qq char(15) NOT NULL DEFAULT '' COMMENT 'QQ',			# 预留，供二次开发扩展，可以弹出QQ直接聊天
   threads int(11) NOT NULL DEFAULT '0' COMMENT '发帖数',		#
   posts int(11) NOT NULL DEFAULT '0' COMMENT '回帖数',		#
-  myagrees int(11) NOT NULL DEFAULT '0' COMMENT '被赞次数',	# 我赞的帖子个数
-  agrees int(11) NOT NULL DEFAULT '0' COMMENT '被赞次数',		# 我被赞次数，包含游客赞次数
-  last_agree_date int(11) NOT NULL DEFAULT '0' COMMENT '',	# 最后一次赞的时间，如果在昨天，则将 today_agrees 清零，每次赞时修改此值
-  today_agrees int(11) NOT NULL DEFAULT '0' COMMENT '',		# 今天已经赞了多少次了，24 小时内还可以赞多少次
   credits int(11) NOT NULL DEFAULT '0' COMMENT '积分',		# 预留，供二次开发扩展
   golds int(11) NOT NULL DEFAULT '0' COMMENT '金币',		# 预留，虚拟币
   rmbs int(11) NOT NULL DEFAULT '0' COMMENT '人民币',		# 预留，人民币
@@ -68,7 +44,6 @@ CREATE TABLE `bbs_user` (
   PRIMARY KEY (uid),
   UNIQUE KEY username (username),
   UNIQUE KEY email (email),						# 升级的时候可能为空
-  KEY agrees (agrees),						# 根据被赞次数排名
   KEY gid (gid)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 INSERT INTO `bbs_user` SET uid=1, gid=1, email='admin@admin.com', username='admin',`password`='d98bb50e808918dd45a8d92feafc4fa3',salt='123456';
@@ -78,11 +53,7 @@ DROP TABLE IF EXISTS `bbs_group`;
 CREATE TABLE `bbs_group` (
   gid smallint(6) unsigned NOT NULL,			#	
   name char(20) NOT NULL default '',			# 用户组名称
-  agreesfrom int(11) NOT NULL default '0',		# 起始赞数+发帖数
-  agreesto int(11) NOT NULL default '0',		# 截止赞数+发帖数
-  maxagrees int(11) NOT NULL default '0',		# 每日最多赞次数，防止斑竹滥用权力，普通用户为 1
   allowread int(11) NOT NULL default '0',		# 允许访问
-  allowagree int(11) NOT NULL default '0',		# 允许赞
   allowthread int(11) NOT NULL default '0',		# 允许发主题
   allowpost int(11) NOT NULL default '0',		# 允许回帖
   allowattach int(11) NOT NULL default '0',		# 允许上传文件
@@ -97,22 +68,21 @@ CREATE TABLE `bbs_group` (
   allowcustomurl int(11) unsigned NOT NULL default '0',	# 允许自定义 URL
   PRIMARY KEY (gid)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-INSERT INTO `bbs_group` SET gid='0', name="游客组", agreesfrom='0', agreesto='0', maxagrees='20', allowread='1', allowagree='1', allowthread='0', allowpost='1', allowattach='0', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
+INSERT INTO `bbs_group` SET gid='0', name="游客组", allowread='1', allowthread='0', allowpost='1', allowattach='0', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
 
-INSERT INTO `bbs_group` SET gid='1', name="管理员组", agreesfrom='0', agreesto='0', maxagrees='10000', allowread='1',allowagree='1',  allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='1', allowupdate='1', allowdelete='1', allowmove='1', allowbanuser='1', allowdeleteuser='1', allowviewip='1', allowcustomurl='1';
-INSERT INTO `bbs_group` SET gid='2', name="超级版主组", agreesfrom='0', agreesto='0', maxagrees='200', allowread='1', allowagree='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='1', allowupdate='1', allowdelete='1', allowmove='1', allowbanuser='1', allowdeleteuser='1', allowviewip='1', allowcustomurl='1';
-INSERT INTO `bbs_group` SET gid='4', name="版主组", agreesfrom='0', agreesto='0', maxagrees='50', allowread='1', allowagree='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='1', allowupdate='1', allowdelete='1', allowmove='1', allowbanuser='1', allowdeleteuser='0', allowviewip='1', allowcustomurl='1';
-INSERT INTO `bbs_group` SET gid='5', name="实习版主组", agreesfrom='0', agreesto='0', maxagrees='0', allowread='1', allowagree='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='1', allowupdate='1', allowdelete='0', allowmove='1', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='1';
+INSERT INTO `bbs_group` SET gid='1', name="管理员组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='1', allowupdate='1', allowdelete='1', allowmove='1', allowbanuser='1', allowdeleteuser='1', allowviewip='1', allowcustomurl='1';
+INSERT INTO `bbs_group` SET gid='2', name="超级版主组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='1', allowupdate='1', allowdelete='1', allowmove='1', allowbanuser='1', allowdeleteuser='1', allowviewip='1', allowcustomurl='1';
+INSERT INTO `bbs_group` SET gid='4', name="版主组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='1', allowupdate='1', allowdelete='1', allowmove='1', allowbanuser='1', allowdeleteuser='0', allowviewip='1', allowcustomurl='1';
+INSERT INTO `bbs_group` SET gid='5', name="实习版主组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='1', allowupdate='1', allowdelete='0', allowmove='1', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='1';
 
-INSERT INTO `bbs_group` SET gid='6', name="待验证用户组", agreesfrom='0', agreesto='0', maxagrees='0', allowread='1', allowagree='0', allowthread='0', allowpost='1', allowattach='0', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
-INSERT INTO `bbs_group` SET gid='7', name="禁止用户组", agreesfrom='0', agreesto='0', maxagrees='0', allowread='0', allowagree='0', allowthread='0', allowpost='0', allowattach='0', allowdown='0', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
+INSERT INTO `bbs_group` SET gid='6', name="待验证用户组", allowread='1', allowthread='0', allowpost='1', allowattach='0', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
+INSERT INTO `bbs_group` SET gid='7', name="禁止用户组", allowread='0', allowthread='0', allowpost='0', allowattach='0', allowdown='0', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
 
-INSERT INTO `bbs_group` SET gid='101', name="一级用户组", agreesfrom='0', agreesto='50', maxagrees='20', allowread='1', allowagree='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
-INSERT INTO `bbs_group` SET gid='102', name="二级用户组", agreesfrom='50', agreesto='200', maxagrees='40', allowread='1', allowagree='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
-INSERT INTO `bbs_group` SET gid='103', name="三级用户组", agreesfrom='200', agreesto='1000', maxagrees='80', allowread='1', allowagree='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
-INSERT INTO `bbs_group` SET gid='104', name="四级用户组", agreesfrom='1000', agreesto='10000', maxagrees='160', allowread='1', allowagree='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
-INSERT INTO `bbs_group` SET gid='105', name="五级用户组", agreesfrom='10000', agreesto='10000000', maxagrees='320', allowread='1', allowagree='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
-
+INSERT INTO `bbs_group` SET gid='101', name="一级用户组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
+INSERT INTO `bbs_group` SET gid='102', name="二级用户组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
+INSERT INTO `bbs_group` SET gid='103', name="三级用户组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
+INSERT INTO `bbs_group` SET gid='104', name="四级用户组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
+INSERT INTO `bbs_group` SET gid='105', name="五级用户组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
 
 
 # 板块表，一级, runtime 中存放 forumlist 格式化以后的数据。
@@ -143,7 +113,6 @@ CREATE TABLE bbs_forum_access (				# 字段中文名
   fid int(11) unsigned NOT NULL default '0',		# fid
   gid int(11) unsigned NOT NULL default '0',		# fid
   allowread tinyint(1) unsigned NOT NULL default '0',	# 允许查看
-  allowagree tinyint(1) unsigned NOT NULL default '0',	# 允许赞
   allowthread tinyint(1) unsigned NOT NULL default '0',	# 允许发主题
   allowpost tinyint(1) unsigned NOT NULL default '0',	# 允许回复，赞
   allowattach tinyint(1) unsigned NOT NULL default '0',	# 允许上传附件
@@ -167,7 +136,6 @@ CREATE TABLE bbs_thread (
   last_date int(11) unsigned NOT NULL default '0',	# 最后回复时间
   views int(11) unsigned NOT NULL default '0',		# 查看次数, 剥离出去，单独的服务，避免 cache 失效
   posts int(11) unsigned NOT NULL default '0',		# 回帖数
-  agrees int(11) unsigned NOT NULL default '0',		# 这个值是一个统计值，根据赞的次数来确定是否高亮
   images tinyint(3) NOT NULL default '0',		# 附件中包含的图片数
   files tinyint(3) NOT NULL default '0',		# 附件中包含的文件数
   mods tinyint(3) NOT NULL default '0',			# 预留：版主操作次数，如果 > 0, 则查询 modlog，显示斑竹的评分
@@ -178,16 +146,7 @@ CREATE TABLE bbs_thread (
   PRIMARY KEY (tid),					# 主键
   KEY (fid, tid),					# 发帖时间排序，正序。数据量大时可以考虑建立小表，对小表进行分区优化，只有数据量达到千万级以上时才需要。
   KEY (fid, lastpid),					# 顶贴时间排序，倒序
-  KEY (fid, agrees)					# 赞数排序，倒序
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-DROP TABLE IF EXISTS bbs_thread_url;
-CREATE TABLE bbs_thread_url (
-  tid int(11) unsigned NOT NULL default '0',		# 主题id
-  url char(128) NOT NULL default '',			# SEO URL
-  KEY (tid),						#
-  KEY (url)						#
-);
 
 # 置顶主题/最新主题，小表，记录 10 个，最新
 DROP TABLE IF EXISTS bbs_thread_top;
@@ -229,16 +188,6 @@ CREATE TABLE bbs_thread_top (
   KEY (fid, top)					# 版块置顶的贴 fid=1 and top=1
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 相关帖子：大表，比如一次发了10个帖子，发帖时会根据标题和发帖人自动关联。由用户和版主设置。
-# 3.1 预留
-DROP TABLE IF EXISTS bbs_thread_relate;
-CREATE TABLE bbs_thread_relate (
-  tid int(11) unsigned NOT NULL default '0',		# tid
-  rtid int(11) unsigned NOT NULL default '0',		# 相关的 tid
-  uid smallint(6) NOT NULL default '0',			# uid，用于删除
-  KEY (tid, rtid)					# where tid=1 order by rtid
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
 # 论坛帖子数据，一页显示，不分页。
 DROP TABLE IF EXISTS bbs_post;
 CREATE TABLE bbs_post (
@@ -251,7 +200,6 @@ CREATE TABLE bbs_post (
   sid char(16) NOT NULL default '',			# sid, 用来判断游客身份
   images smallint(3) NOT NULL default '0',		# 附件中包含的图片数
   files smallint(3) NOT NULL default '0',		# 附件中包含的文件数
-  agrees int(11) unsigned NOT NULL default '0',		# 被赞的次数
   message longtext NOT NULL,				# 内容，存放的过滤后的html内容
   PRIMARY KEY (pid),
   KEY (tid, pid)
@@ -288,38 +236,6 @@ CREATE TABLE bbs_mythread (
   uid int(11) unsigned NOT NULL default '0',		# uid
   tid int(11) unsigned NOT NULL default '0',		# 用来清理，删除板块的时候需要
   PRIMARY KEY (uid, tid)				# 每一个帖子只能插入一次 unique
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-# 我点赞的帖子，根据 uid 分区
-DROP TABLE IF EXISTS bbs_myagree;
-CREATE TABLE bbs_myagree (
-  uid int(11) unsigned NOT NULL default '0',		#  谁赞的
-  touid int(11) unsigned NOT NULL default '0',		# 赞的是谁
-  pid int(11) unsigned NOT NULL default '0',		#
-  tid int(11) unsigned NOT NULL default '0',		# 用来清理，删除板块的时候需要
-  create_date int(11) unsigned NOT NULL default '0',	# 创建时间
-  PRIMARY KEY (uid, pid)				# 查看某人赞过那些帖子，按照时间排序
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-# 被点赞的帖子，根据 pid 分区，跟 myagree 同结构，用来分散压力
-DROP TABLE IF EXISTS bbs_post_agree;
-CREATE TABLE bbs_post_agree (
-  uid int(11) unsigned NOT NULL default '0',		# 谁赞的
-  touid int(11) unsigned NOT NULL default '0',		# 赞的是谁
-  pid int(11) unsigned NOT NULL default '0',		#
-  tid int(11) unsigned NOT NULL default '0',		# 用来清理，删除板块的时候需要
-  create_date int(11) unsigned NOT NULL default '0',	# 创建时间
-  PRIMARY  KEY (pid, uid)				# 查找是否赞过，新帖分区后，最近的比较活跃
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-# 用来限制游客投票，根据 IP 限制，一个IP一天只能投票多少次。计划任务，每日清空此表。
-DROP TABLE IF EXISTS bbs_guest_agree;
-CREATE TABLE bbs_guest_agree (
-  ip int(11) unsigned NOT NULL default '0',		#
-  pid int(11) unsigned NOT NULL default '0',		# 
-  sid char(16) NOT NULL default '',			# 
-  PRIMARY  KEY (sid, pid),				# 
-  KEY (ip, pid)						# 
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # session 表

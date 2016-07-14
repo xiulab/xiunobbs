@@ -1,9 +1,5 @@
 <?php
 
-/*
-	TAB = 8 个空格
-*/
-
 // DEBUG
 // $_SERVER['REQUEST_URI'] = '/forum-2.htm';
 // $_SERVER['HTTP_USER_AGENT'] = 'Baiduspider+(+http://www.baidu.com/search/spider.htm”) ';
@@ -19,7 +15,6 @@
 // $_COOKIE['bbs_sid'] = '5588c68700b8d';
 // $_COOKIE['bbs_token'] = 'Ndh_2FySTsF4oWsGsh2y7ywcJRhI_2FqXEHw3G1aH8_2FnSzvOyXW79A5Xat_2F0qclUSnKi6CSW_2FHWh2mPEKpS00wZxfwaBS0tTNMxAjj_2b3FTzwR3I_3d';
 
-
 define('DEBUG', 1); 				// 发布的时候改为 0 
 define('APP_NAME', 'bbs');			// 应用的名称
 
@@ -27,34 +22,43 @@ $conf = (@include './conf/conf.php') OR exit(header('Location: install/'));
 //define('CACHE_PRE', $conf['cache_pre']); 	// 缓存的头
 
 include './xiunophp/xiunophp.php';
-include './model.inc.php';
 
 // 测试数据库连接
 db_connect($err) OR exit($err);
 
-$grouplist = group_list_cache();
-$forumlist = forum_list_cache();
-$user = user_token_get(); 			// 全局的 user
-$uid = $user['uid'];				// 全局的 uid
-$gid = $user['gid'];				// 全局的 gid
-$group = $grouplist[$gid]; 			// 全局的 group
+include './model.inc.php';
 
+// 用户
+$uid = $session['uid'];
+$user = user_read($uid); 
+
+// 用户组
+$gid = empty($user) ? 0 : $user['gid'];
+$grouplist = group_list_cache();
+$group = isset($grouplist[$gid]) ? $grouplist[$gid] : array();
+
+// 版块
+$fid = 0;
+$forumlist = forum_list_cache();
 $forumlist_show = forum_list_access_filter($forumlist, $gid);	// 有权限查看的板块
 
+// 头部
 $header['title'] = $conf['sitename']; 		// 网站标题
 $header['keywords'] = $conf['sitename']; 	// 关键词
 $header['description'] = $conf['sitename']; 	// 描述
 $header['navs'] = array(); 			// 描述
 
+// 运行时数据
 $runtime = runtime_init();
-$fid = 0;					// 当前所在的板块
-
-// 检测浏览器
+				// 当前所在的板块
+// 检测浏览器， 不支持 IE8
 $browser = get__browser();
 check_browser($browser);
 
 // 检测站点运行级别
 check_runlevel();
+
+// 检测 IP 封锁
 check_banip($ip);
 
 // 记录 POST 数据
@@ -69,7 +73,6 @@ $route = param(0, 'index');
 
 // todo: HHVM 不支持动态 include $filename
 switch ($route) {
-	case 'agree': 	include './route/agree.php'; 	break;
 	case 'browser': include './route/browser.php'; 	break;
 	case 'forum': 	include './route/forum.php'; 	break;
 	case 'index': 	include './route/index.php'; 	break;
@@ -81,33 +84,6 @@ switch ($route) {
 	case 'thread':	include './route/thread.php'; 	break;
 	case 'user': 	include './route/user.php'; 	break;
 	default: exit(header('HTTP/1.0 404 Not Found'));
-}
-
-/*
-	message(0, '登录成功');
-	message(1, '密码错误');
-	message(-1, '数据库连接失败');
-	
-	code:
-		< 0 全局错误，比如：系统错误：数据库丢失连接/文件不可读写
-		= 0 正确
-		> 0 一般业务逻辑错误，可以定位到具体控件，比如：用户名为空/密码为空
-*/
-function message($code, $message) {
-	global $db, $cache, $starttime, $conf, $browser, $ajax, $uid, $gid, $user, $header, $forumlist_show, $fid;
-	
-	// 防止 message 本身出现错误死循环
-	static $called = FALSE;
-	$called ? exit("code: $code, message: $message") : $called = TRUE;
-	
-	if($ajax) {
-		echo xn_json_encode(array('code'=>$code, 'message'=>$message));
-		runtime_save();
-	} else {
-		$header['title'] = '提示信息';
-		include "./view/message.htm";
-	}
-	exit;
 }
 
 ?>

@@ -46,7 +46,6 @@
 								<th width="100">允许看帖</th>
 								<th width="100">发主题</th>
 								<th width="100">回贴</td>
-								<th width="100">喜欢</th>
 								<th width="100">下载</th>
 							</tr>
 							<?php foreach ($accesslist as $group) { ?>
@@ -56,7 +55,6 @@
 								<td><input type="checkbox" name="allowread[<?php echo $group['gid']; ?>]" value="1"<?php echo ($group['allowread'] ? 'checked' : ''); ?> /></td>
 								<td><input type="checkbox" name="allowthread[<?php echo $group['gid']; ?>]" value="1"<?php echo ($group['allowthread'] ? 'checked' : ''); ?> /></td>
 								<td><input type="checkbox" name="allowpost[<?php echo $group['gid']; ?>]" value="1"<?php echo ($group['allowpost'] ? 'checked' : ''); ?> /></td>
-								<td><input type="checkbox" name="allowagree[<?php echo $group['gid']; ?>]" value="1"<?php echo ($group['allowagree'] ? 'checked' : ''); ?> /></td>
 								<td><input type="checkbox" name="allowdown[<?php echo $group['gid']; ?>]" value="1"<?php echo ($group['allowdown'] ? 'checked' : ''); ?> /></td>
 							</tr>
 							<?php } ?>

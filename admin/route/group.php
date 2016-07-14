@@ -21,18 +21,12 @@ if($action == 'list') {
 	$group AND message(-1, '用户组已经存在!');
 	
 	$name = param('name');
-	$agreesfrom = param('agreesfrom', 0);
-	$agreesto = param('agreesto', 0);
-	$maxagrees = param('maxagrees', 0);
 	
 	empty($name) AND message(1, '用户组名称不能为空');
 	
 	$arr = array(
 		'gid'        => $gid,
 		'name'       => $name,
-		'agreesfrom' => $agreesfrom,
-		'agreesto'   => $agreesto,
-		'maxagrees'  => $maxagrees,
 	);
 	
 	$r = group_create($arr);
@@ -52,9 +46,6 @@ if($action == 'list') {
 	} else {
 		// 两种情况的提交 list/update
 		$name = param('name');
-		$agreesfrom = param('agreesfrom', 0);
-		$agreesto = param('agreesto', 0);
-		$maxagrees = param('maxagrees', 0);
 		
 		// 标示是不是更新详情
 		$detail = param(3);
@@ -62,9 +53,6 @@ if($action == 'list') {
 		$arr = array(
 			'gid'        => $gid,
 			'name'       => $name,
-			'agreesfrom' => $agreesfrom,
-			'agreesto'   => $agreesto,
-			'maxagrees'  => $maxagrees,
 		);
 		if($detail == 'detail') {
 			$allowread = param('allowread', 0);
@@ -72,7 +60,6 @@ if($action == 'list') {
 			$allowpost = param('allowpost', 0);
 			$allowattach = param('allowattach', 0);
 			$allowdown = param('allowdown', 0);
-			$allowagree = param('allowagree', 0);
 			
 			$allowtop = param('allowtop', 0);
 			$allowupdate = param('allowupdate', 0);
@@ -81,7 +68,6 @@ if($action == 'list') {
 			$allowbanuser = param('allowbanuser', 0);
 			$allowdeleteuser = param('allowdeleteuser', 0);
 			$allowviewip = param('allowviewip', 0);
-			$allowcustomurl = param('allowcustomurl', 0);
 			
 			$arr2 = array(
 				'allowread'  => $allowread,
@@ -89,7 +75,6 @@ if($action == 'list') {
 				'allowpost'  => $allowpost,
 				'allowattach'  => $allowattach,
 				'allowdown'  => $allowdown,
-				'allowagree'  => $allowagree,
 				
 				'allowtop'  => $allowtop,
 				'allowupdate'  => $allowupdate,
@@ -98,7 +83,6 @@ if($action == 'list') {
 				'allowbanuser'  => $allowbanuser,
 				'allowdeleteuser'  => $allowdeleteuser,
 				'allowviewip'  => $allowviewip,
-				'allowcustomurl'  => $allowcustomurl,
 			);
 			$arr += $arr2;
 		}

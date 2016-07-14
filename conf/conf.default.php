@@ -1,10 +1,10 @@
 <?php
 
 /*
-	Xiuno BBS 3.0
+	Xiuno BBS 4.0
 	支持多台 DB，主从配置好以后，xn 会自动根据 SQL 读写分离。
 	支持各种 cache，本机 apc/xcache/yac, 网络: redis/memcached/ttserver/mysql
-	支持 CDN，细化可以单独针对 view upload 目录做 CDN，并且可以设置 CDN IP 白名单
+	支持 CDN，细化可以单独针对 view upload 目录做 CDN，开启 CDN 后，配置 cdn_on 为 1
 	支持临时目录设置，独立 Linux 主机，可以设置为 /dev/shm 通过内存加速
 */
 return array (
@@ -53,7 +53,7 @@ return array (
 	
 	// -------------> xiuno bbs 3.0 配置
 	
-	'static_url' => 'static/',		// 可以设置为 cdn 的 url
+	'view_url' => 'view/',			// 可以设置为 cdn 的 url
 	'upload_url' => 'upload/',		// 可以设置为 cdn 的 url
 	'upload_path' => './upload/',		// 可以多台 web 时，可以通过 nfs 映射到文件服务器，文件服务器单独配置域名 upload_url
 	
@@ -83,11 +83,11 @@ return array (
 	'update_views_on' => 1,					// 是否更新点击次数，比较消耗资源，大站请关闭此项。
 	
 	// 分级显示，次数越多越显眼，顺序从大到小！
-	'agrees_level' => array(30, 80, 150, 300),
 	'posts_level' => array(10, 50, 100, 500),
   	
 	'version' => '3.0',		//
-	'cdn_on' => TRUE,		// 是否启用 CDN，将改变IP的获取方式
+	'cdn_on' => 1,						// 是否启用 CDN，将改变IP的获取方式
+	
 	/* 抛弃
 	// // 可以设置 cdn ip 白名单，找 cdn 服务商要列表，一下为 360 cdn 实例
 	'cdn_ip' => array (
@@ -109,23 +109,16 @@ return array (
 		'120.52.18.*',
 	),*/
 	
-	// 文章分类，根据二次开发需求自行扩充
-	'cate' => array(
-		1=>'页脚文章',
-		2=>'公司动态',
-	),
-	
 	'user_create_email_on' => 0,	// 是否开启注册用户 Email 验证
 	'user_find_pw_on' => 0,		// 是否开启密码找回，需要 SMTP 有效。
 	'banip_on' => 0,		// 是否启用禁止 ip
 	'ipaccess_on' => 0,		// 是否启用 ip 访问控制，开启后将会防止灌水，每天的上限
 	'ipaccess' => array('mails'=>0, 'users'=>0, 'threads'=> 0, 'posts'=> 0, 'attachs'=>0, 'attachsizes'=>0, 'action1'=>0, 'action2'=>0, 'action3'=>0, 'action4'=>0),
+	
+	// todo: 插件
 	'check_flood_on' => 0,		// 开启防止灌水
 	'check_flood' => array('users'=>10, 'posts'=>10, 'threads'=>5),	// 一段时间内连续操作的数量上限
 	'badword_on' => 0,		// 开启关键词过滤
-	
-	'tietuku_on' => 0,		// 是否开启贴图库，节省站点空间
-	'tietuku_token' => '00f47da319173e011683b6f4c63b46f8fe8a9471:ak9XYzQ5YmhIalIwYlNwMFJwaVB6Vm9XMFBjPQ==:eyJkZWFkbGluZSI6MTQ0MDY2MzkzOSwiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNTgyNyIsImFpZCI6IjEyNzc5IiwiZnJvbSI6ImZpbGUifQ==',
 	
 	'version' => '3.0',		// 版本
 	'installed' => 0,		// 安装时间

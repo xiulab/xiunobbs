@@ -43,7 +43,6 @@ if($action == 'create') {
 		
 	} else {
 		
-		$agree = param('agree', 0);
 		$message = param('message', '', FALSE);
 		!trim(str_replace(array('　', '&nbsp;', '<br>', '<br/>', '<br />'), '', $message)) AND message(2, '内容不能为空');
 		$gid != 1 AND $message = xn_html_safe($message);
@@ -71,11 +70,6 @@ if($action == 'create') {
 		);
 		$pid = post_create($post, $fid);
 		empty($pid) AND message(1, '创建帖子失败');
-		
-		// 喜欢，不通过服务端，客户端 ajax 发起请求更简洁
-		//if($agree) {
-		//	$r = agree_update($thread['uid'], $thread['firstpid'], $tid, $fid, 1);
-		//}
 		
 		// 最新发帖
 		// thread_top_create($fid, $tid);

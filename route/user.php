@@ -242,7 +242,6 @@ if($action == 'login') {
 	// hook user_read_start.php
 	
 	$user = user_read($uid);
-	$agreelist = myagree_find_by_uid($uid);
 	
 	empty($user) AND $user = user_guest();
 	user_ajax_info($user);
@@ -250,24 +249,6 @@ if($action == 'login') {
 	// hook user_read_end.php
 	
 	message(0, $user);
-
-// 用户发表的喜欢
-} elseif($action == 'agree') {
-
-	// hook user_agree_start.php
-	
-	$_uid = param(2, 0);
-	$_user = user_read($_uid);
-	
-	$page = param(3, 1);
-	$pagesize = 10; //$conf['pagesize'];
-	$totalnum = $_user['myagrees'];
-	$pages = pages("user-agree-$_uid-{page}.htm", $totalnum, $page, $pagesize);
-	$threadlist = myagree_find_by_uid($_uid, $page, $pagesize);
-		
-	// hook user_agree_end.php
-	
-	include './pc/view/user_agree.htm';
 
 // 用户发表的主题
 } elseif($action == 'thread') {
@@ -468,12 +449,6 @@ function user_ajax_info(&$user) {
 		user_safe_info($user);
 	}
 	
-	// 获取用户关注的信息，最近100条，仅仅返回 pid
-	$myagreelist = myagree_find_by_uid($user['uid'], 1, 100);
-	foreach ($myagreelist as $k=>$v) {
-		$myagreelist[$k] = $k;
-	}
-	$user['myagreelist'] = $myagreelist;
 	// hook user_ajax_info_end.php
 	
 }

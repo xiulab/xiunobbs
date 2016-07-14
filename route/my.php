@@ -69,17 +69,6 @@ if(empty($action) || $action == 'profile') {
 	$threadlist = mythread_find_by_uid($uid, $page, $pagesize);
 		
 	include './pc/view/my_thread.htm';
-	
-} elseif($action == 'agree') {
-
-	$page = param(2, 1);
-	$pagesize = 20; // $conf['pagesize']
-	$totalnum = $user['myagrees'];
-	$pages = pages('my-agree-{page}.htm', $totalnum, $page, $pagesize);
-	$threadlist = myagree_find_by_uid($uid, $page, $pagesize);
-		
-	include './pc/view/my_agree.htm';
-	
 
 } elseif($action == 'uploadavatar') {
 	

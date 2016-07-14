@@ -70,6 +70,7 @@ function user_update($uid, $arr) {
 
 function user_read($uid) {
 	// hook user_read_start.php
+	if(empty($uid)) return array();
 	$user = user__read($uid);
 	user_format($user);
 	// hook user_read_end.php
@@ -263,7 +264,6 @@ function user_guest() {
 		
 		'threads' => 0,
 		'posts' => 0,
-		'agrees' => 0,
 	);
 	// hook user_guest_end.php
 	return $guest; // 防止内存拷贝
@@ -287,15 +287,18 @@ function user_update_group($uid) {
 	if($user['gid'] < 100) return FALSE;
 	
 	// 遍历 agrees 范围，调整用户组
+	// todo:
+	/*
 	foreach($grouplist as $group) {
 		if($group['gid'] < 100) continue;
-		$n = $user['agrees'] + $user['threads'] + $user['posts'];
+		$n = $user['threads'] + $user['posts'];
 		if($n > $group['agreesfrom'] && $n < $group['agreesto']) {
 			$user['gid'] = $group['gid'];
 			user_update($uid, array('gid'=>$group['gid']));
 			return TRUE;
 		}
 	}
+	*/
 	// hook user_update_group_end.php
 	return FALSE;
 }
@@ -321,7 +324,6 @@ function user_safe_info($user) {
 	// hook user_safe_info_start.php
 	unset($user['password']);
 	unset($user['email']);
-	unset($user['today_agrees']);
 	unset($user['salt']);
 	unset($user['password_sms']);
 	unset($user['idnumber']);

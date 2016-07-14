@@ -125,7 +125,7 @@ function forum_access_find_by_fid($fid) {
 	return $accesslist;
 }
 
-// 普通用户权限判断: allowread, allowagree, allowthread, allowpost, allowattach, allowdown
+// 普通用户权限判断: allowread, allowthread, allowpost, allowattach, allowdown
 function forum_access_user($fid, $gid, $access) {
 	// hook forum_access_user_start.php
 	global $conf, $grouplist, $forumlist;

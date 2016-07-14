@@ -76,7 +76,6 @@ if($action == 'list') {
 				$allowread = param('allowread', array(0));
 				$allowthread = param('allowthread', array(0));
 				$allowpost = param('allowpost', array(0));
-				$allowagree = param('allowagree', array(0));
 				//$allowattach = param('allowattach', array(0));
 				$allowdown = param('allowdown', array(0));
 				foreach ($grouplist as $gid=>$v) {
@@ -84,7 +83,6 @@ if($action == 'list') {
 						'allowread'=>array_value($allowread, $gid, 0),
 						'allowthread'=>array_value($allowthread, $gid, 0),
 						'allowpost'=>array_value($allowpost, $gid, 0),
-						'allowagree'=>array_value($allowagree, $gid, 0),
 						//'allowattach'=>array_value($allowattach, $gid, 0),
 						'allowdown'=>array_value($allowdown, $gid, 0),
 					);

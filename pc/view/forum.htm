@@ -7,13 +7,11 @@
 				<td>
 					<?php if($order == 'tid') { ?>最新主题<?php } ?>
 					<?php if($order == 'lastpid') { ?>最新回复<?php } ?>
-					<?php if($order == 'agrees') { ?>最多喜欢<?php } ?>
 				</td>
 				<td id="threadlist_orderby" align="right" class="normal">
 					<span class="grey">排序：</span>		
 					<a href="forum-<?php echo $fid; ?>-<?php echo $page; ?>-lastpid.htm" nofollow <?php echo ($order == 'lastpid' ? 'class="active"' : ''); ?>><span class="icon comments" title="回帖时间"></span>回帖时间</a>
 					<a href="forum-<?php echo $fid; ?>-<?php echo $page; ?>-tid.htm" nofollow <?php echo ($order == 'tid' ? 'class="active"' : ''); ?>><span class="icon comment<?php echo ($order == 'tid' ? ' active' : ''); ?>" title="发帖时间"></span>发帖时间</a>
-					<a href="forum-<?php echo $fid; ?>-<?php echo $page; ?>-agrees.htm" nofollow <?php echo ($order == 'agrees' ? 'class="active"' : ''); ?>><span class="icon heart<?php echo ($order == 'agrees' ? ' active' : ''); ?>" title="被喜欢数"></span>喜欢数</a>
 				</td>
 			</tr>
 		</table>

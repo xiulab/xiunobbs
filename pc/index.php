@@ -76,7 +76,6 @@ $route = param(0, 'index');
 
 // todo: HHVM 不支持动态 include $filename
 switch ($route) {
-	case 'agree': 	include './pc/route/agree.php'; 	break;
 	case 'browser': include './pc/route/browser.php'; 	break;
 	case 'forum': 	include './pc/route/forum.php'; 	break;
 	case 'index': 	include './pc/route/index.php'; 	break;

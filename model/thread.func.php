@@ -250,7 +250,7 @@ function thread_find($cond = array(), $orderby = array(), $page = 1, $pagesize =
 	return $threadlist;
 }
 
-// $order: tid/lastpid/agrees
+// $order: tid/lastpid
 // 按照: 发帖时间/最后回复时间/喜欢数 倒序
 function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'tid') {
 	// hook thread_find_by_fid_start.php
@@ -333,7 +333,7 @@ function thread_find_by_tids($tids, $page = 1, $pagesize = 20, $order = 'tid') {
 	return $threadlist;
 }
 
-// $order: tid/lastpid/agrees
+// $order: tid/lastpid
 function thread_tids_cache_delete_by_order($fid, $order = 'tid') {
 	// hook thread_tids_cache_delete_by_order_start.php
 	$key = "forum_tids_{$order}_$fid";
@@ -348,7 +348,7 @@ function thread_tids_cache_delete($fid, $force = FALSE) {
 	static $deleted = FALSE;
 	if($deleted && !$force) return;
 	$limit = $conf['cache_thread_list_pages'] * $conf['pagesize'];
-	foreach(array('tid', 'lastpid', 'agrees') as $v) {
+	foreach(array('tid', 'lastpid') as $v) {
 		thread_tids_cache_delete_by_order($fid, $v);
 	}
 	$deleted = TRUE;
@@ -383,11 +383,8 @@ function thread_format(&$thread) {
 	$thread['url'] = "thread-$thread[tid].htm";
 	$thread['user_url'] = "user-$thread[uid]".($thread['uid'] ? '' : "-$thread[firstpid]").".htm";
 	
-	$n = $thread['agrees'] + $thread['posts'];
-	$agree_level = thread_get_level($n, $conf['agrees_level']);
 	$thread['posts_class'] = 'posts_'.thread_get_level($thread['posts'], $conf['posts_level']);
-	$thread['agrees_class'] = 'agrees_'.$agree_level;
-	$thread['thread_class'] = 'thread_agrees_'.$agree_level;
+	$thread['thread_class'] = '';// todo:
 	$thread['top_class'] = $thread['top'] ? 'thread_top_'.$thread['top'] : '';
 	
 	// hook thread_format_end.php
