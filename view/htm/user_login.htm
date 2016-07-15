@@ -15,6 +15,9 @@
 						<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-lock"></span></span>
 						<input type="password" class="form-control" placeholder="<?php echo lang('password');?>" id="password" name="password">
 					</p>
+					<p class="text-xs-right">
+						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." disabled><?php echo lang('login');?></button>
+					</p>
 					<div class="m-y-1 clearfix">
 						<div class="pull-xs-left">
 							<a href="<?php echo url('user-create');?>" class="text-muted"><small><?php echo lang('forgot_pw');?></small></a>
@@ -24,9 +27,6 @@
 							<a href="<?php echo url('user-findpw');?>" class="text-muted"><small><?php echo lang('forgot_pw');?></small></a>
 						</div>
 					</div>
-					<p class="text-xs-right">
-						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." disabled><?php echo lang('login');?></button>
-					</p>
 				</form>
 			</div>
 		</div>

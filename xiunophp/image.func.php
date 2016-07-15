@@ -280,3 +280,5 @@ function image_safe_thumb($sourcefile, $id, $ext, $dir1, $forcedwidth, $forcedhe
 
 // image_thumb('D:/image/IMG_0433.JPG', 'd:/image/xxx.gif');
 // echo image_clip_thumb('d:/image/editor_bg.gif', 'd:/image/editor_bg_2.gif', 200, 200);
+
+?>

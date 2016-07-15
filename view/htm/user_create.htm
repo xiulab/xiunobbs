@@ -53,7 +53,7 @@ jsendinitpw.on('click', function() {
 	jsendinitpw.button('loading');
 	$.xpost(jsendinitpw.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
-			alert(<?php echo lang('user_send_init_pw_sucessfully');?>);
+			alert('<?php echo lang('user_send_init_pw_sucessfully');?>');
 			jpassword.focus();
 			var t = 60; // 倒计时
 			jsendinitpw.button('<?php echo lang('user_send_sucessfully');?> 60 ');

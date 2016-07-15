@@ -1,6 +1,5 @@
 <?php
 
-
 // 可以合并成一个文件，加快速度
 include './model/kv.func.php';
 include './model/group.func.php';
@@ -24,7 +23,6 @@ include './model/ipaccess.func.php';	//
 include './model/misc.func.php';	// 杂项
 include './model/plugin.func.php';	// 
 include './model/session.func.php';	// 
-
 
 /*
 // 实际测试，加速非常有限，反而增加了复杂度。
@@ -102,7 +100,6 @@ function message($code, $message) {
 		} else {
 			include "./admin/view/message.htm";
 		}
-		
 	}
 	exit;
 }

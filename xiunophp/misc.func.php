@@ -341,7 +341,7 @@ function humansize($num) {
 	}
 }
 
-// 不安全的获取 IP 方式，在开启CDN的时候，如果被人猜到真实 IP，则可以伪造。
+// 不安全的获取 IP 方式，在开启 CDN 的时候，如果被人猜到真实 IP，则可以伪造。
 function ip() {
 	global $conf;
 	$ip = '127.0.0.1';
@@ -474,8 +474,8 @@ function get__browser() {
 		'name'=>'chrome', // chrome|firefox|ie|opera
 		'version'=>30,
 	);
-	$agent = isset($_SERVER['HTTP_USER_AGENT']) ? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
-	// 主要判断是否为垃圾IE6789
+	$agent = _SERVER('HTTP_USER_AGENT');
+	// 主要判断是否为垃圾 IE6789
 	if(strpos($agent, 'msie') !== FALSE || stripos($agent, 'trident') !== FALSE) {
 		$browser['name'] = 'ie';
 		$browser['version'] = 8;
@@ -522,33 +522,27 @@ function get__browser() {
 	return $browser;
 }
 
-function check_browser($browser, $abort = TRUE) {
+function check_browser($browser) {
 	if($browser['name'] == 'ie' && $browser['version'] < 8) {
-		include './pc/view/browser.htm';
+		include './view/htm/browser.htm';
 		exit;
-	//} elseif($browser['device'] != 'pc') {
-	//	header('Location: mobile/');
-	//	exit;
 	}
 }
 
 function is_robot() {
-	$browser = isset($_SERVER['HTTP_USER_AGENT']) ? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
+	$agent = _SERVER('HTTP_USER_AGENT');
 	$robots = array('bot', 'spider', 'slurp');
 	foreach($robots as $robot) {
-		if(strpos($browser, $robot) !== FALSE) {
+		if(strpos($agent, $robot) !== FALSE) {
 			return TRUE;
 		}
 	}
 	return FALSE;
 }
 
-// 语言包导致代码可读性变差，语言包自己想办法吧，大部分项目是不需要的。
-// return : zh-cn / ko-kr / en
-// zh-CN,zh;q=0.8,en;q=0.6
-/*function browser_lang() {
+function browser_lang() {
 	// return 'zh-cn';
-	$accept = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']) : '';
+	$accept = _SERVER('HTTP_ACCEPT_LANGUAGE');
 	$accept = substr($accept, 0, strpos($accept, ';'));
 	if(strpos($accept, 'ko-kr') !== FALSE) {
 		return 'ko-kr';
@@ -557,7 +551,7 @@ function is_robot() {
 	} else {
 		return 'zh-cn';
 	}
-}*/
+}
 
 /**
  * URL format: http://www.domain.com/demo/?user-login.htm?a=b&c=d

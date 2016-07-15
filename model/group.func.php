@@ -95,6 +95,11 @@ function group_format(&$group) {
 	
 }
 
+function group_name($gid) {
+	global $grouplist;
+	return isset($grouplist[$gid]['name']) ? $grouplist[$gid]['name'] : '';
+}
+
 
 function group_count($cond = array()) {
 	$n = db_count('bbs_group', $cond);

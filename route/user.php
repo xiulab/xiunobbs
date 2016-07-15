@@ -75,6 +75,7 @@ if($action == 'login') {
 	
 	if($method == 'GET') {
 
+		$_SESSION['aaa'] = str_repeat('a', 1);
 		// hook user_create_get_start.php
 		
 		$referer = user_http_referer();

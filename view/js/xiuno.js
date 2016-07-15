@@ -1034,10 +1034,12 @@ global.nodeHasParent = function(node, topNode) {
 	return false;
 }
 
-/*window.onerror = function(msg, url, line) {
+// 表单提交碰到错误的时候，依赖此处，否则错误会直接跳过，不利于发现错误
+window.onerror = function(msg, url, line) {
+	if(!debug) return;
 	alert("error: "+msg+"\r\n line: "+line+"\r\n url: "+url);
 	return false;
-}*/
+}
 
 // remove() 并不清除子节点事件！！用来替代 remove()，避免内存泄露
 $.fn.removeDeep = function() {

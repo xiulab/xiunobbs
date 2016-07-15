@@ -9,34 +9,21 @@ function sess_open($save_path, $session_name) {
 }
 
 function sess_close() {
-	global $sid, $uid, $fid, $time, $session;
 	//echo "sess_close() \r\n";
-	
-	$update = array(
-		'uid'=>$uid,
-		'fid'=>$fid,
-		'url'=>$_SERVER['REQUEST_URI_NO_PATH'],
-		'last_date'=>$time,
-		'fid'=>$fid,
-	);
-	$update = array_diff($update, $session);
-	
-	db_update('bbs_session', array('sid'=>$sid), $update);
-	
 	return true; 
 }
 
 function sess_read($sid) { 
 	global $session, $sid;
-	if(empty($sid)) {
-		sess_new();
-		return '';
-	}
+	
+	// 为了 ab 测试导致的 session 暴涨，只有在 $_SESSION['xxx'] 设置有值得时候，才会查询 session 表。
+	if(empty($sid)) return '';
 	$arr = db_find_one('bbs_session', array('sid'=>$sid));
 	if(empty($arr)) {
-		sess_new();
+		setcookie('sid', '', 0, '');
 		return '';
 	}
+
 	if($arr['bigdata'] == 1) {
 		$arr2 = db_find_one('bbs_session_data', array('sid'=>$sid));
 		$arr['data'] = $arr2['data'];
@@ -45,35 +32,16 @@ function sess_read($sid) {
 	return $arr ? $arr['data'] : '';
 }
 
-function sess_new() {
-	global $session, $sid, $uid, $fid, $time, $longip;
-	// 可能会暴涨
-	$url = _SERVER('REQUEST_URI_NO_PATH');
-	$agent = _SERVER('HTTP_USER_AGENT');
-	$arr = array(
-		'sid'=>$sid,
-		'uid'=>$uid,
-		'fid'=>$fid,
-		'url'=>$url,
-		'last_date'=>$time,
-		'fid'=>$fid,
-		'data'=> '',
-		'ip'=> $longip,
-		'useragent'=> $agent,
-		'bigdata'=> 0,
-	);
-	db_insert('bbs_session', $arr);
-}
-
 function sess_write($sid, $data) {
 	global $session, $sid, $time, $uid, $fid, $longip;
+	$url = $_SERVER['REQUEST_URI_NO_PATH'];
 	
-	$url = _SERVER('REQUEST_URI_NO_PATH');
-	$agent = _SERVER('HTTP_USER_AGENT');
+	$agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+	
 	$arr = array(
 		'uid'=>$uid,
 		'fid'=>$fid,
-		'url'=>$url,
+		'url'=>$_SERVER['REQUEST_URI_NO_PATH'],
 		'last_date'=>$time,
 		'fid'=>$fid,
 		'data'=> $data,
@@ -81,6 +49,12 @@ function sess_write($sid, $data) {
 		'useragent'=> $agent,
 		'bigdata'=> 0,
 	);
+	
+	// 不跟踪游客的状态，仅仅是需要的时候跟踪。
+	if(empty($session)) {
+		$session = db_find_one('bbs_session', array('sid'=>$sid));
+		empty($session) AND db_insert('bbs_session', array('sid'=>$sid));
+	}
 	
 	// 判断数据是否超长
 	$data = addslashes($data);

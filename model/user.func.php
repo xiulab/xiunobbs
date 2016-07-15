@@ -6,42 +6,30 @@
 
 function user__create($arr) {
 	// hook user__create_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("INSERT INTO `bbs_user` SET $sqladd");
+	$r = db_insert('bbs_user', $arr);
 	// hook user__create_end.php
 	return $r;
 }
 
-function user__update($uid, $arr) {
+function user__update($uid, $update) {
 	// hook user__update_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("UPDATE `bbs_user` SET $sqladd WHERE uid='$uid'");
+	$r = db_update('bbs_user', array('uid'=>$uid), $update);
 	// hook user__update_end.php
 	return $r;
 }
 
 function user__read($uid) {
 	// hook user__read_start.php
-	$user = db_find_one("SELECT * FROM `bbs_user` WHERE uid='$uid'");
+	$user = db_find_one('bbs_user', array('uid'=>$uid));
 	// hook user__read_end.php
 	return $user;
 }
 
 function user__delete($uid) {
 	// hook user__delete_start.php
-	$r = db_exec("DELETE FROM `bbs_user` WHERE uid='$uid'");
+	$r = db_delete('bbs_user', array('uid'=>$uid));
 	// hook user__delete_end.php
 	return $r;
-}
-
-function user__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
-	// hook user__find_start.php
-	$cond = cond_to_sqladd($cond);
-	$orderby = orderby_to_sqladd($orderby);
-	$offset = ($page - 1) * $pagesize;
-	$userlist = db_find("SELECT * FROM `bbs_user` $cond$orderby LIMIT $offset,$pagesize");
-	// hook user__find_end.php
-	return $userlist;
 }
 
 // ------------> 关联 CURD，主要是强相关的数据，比如缓存。弱相关的大量数据需要另外处理。
@@ -122,7 +110,7 @@ function user_delete($uid) {
 
 function user_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook user_find_start.php
-	$userlist = user__find($cond, $orderby, $page, $pagesize);
+	$userlist = db_find('bbs_user', $cond, $orderby, $page, $pagesize);
 	if($userlist) foreach ($userlist as &$user) user_format($user);
 	// hook user_find_end.php
 	return $userlist;
@@ -135,21 +123,6 @@ function user_read_by_email($email) {
 	$user = db_find_one("SELECT * FROM `bbs_user` WHERE email='$email' LIMIT 1");
 	user_format($user);
 	// hook user_read_by_email_end.php
-	return $user;
-}
-
-function user_read_by_mobile($mobile) {
-	// hook user_read_by_mobile_start.php
-	$user = db_find_one("SELECT * FROM `bbs_user` WHERE mobile='$mobile' LIMIT 1");
-	user_format($user);
-	// hook user_read_by_mobile_end.php
-	return $user;
-}
-
-function user_read_by_platid_openid($platid, $openid) {
-	// hook user_read_by_platid_openid_start.php
-	$user = db_find_one("SELECT * FROM `bbs_user` WHERE platid='$platid' AND openid='$openid' LIMIT 1");
-	// hook user_read_by_platid_openid_end.php
 	return $user;
 }
 
@@ -185,8 +158,7 @@ function user_format(&$user) {
 	$user['login_ip_fmt']    = long2ip($user['login_ip']);
 	$user['login_date_fmt'] = empty($user['login_date']) ? '0000-00-00' : date('Y-m-d', $user['login_date']);
 	
-	$group = $grouplist[$user['gid']];
-	$user['groupname'] = $group['name'];
+	$user['groupname'] = group_name($user['gid']);
 	
 	$dir = substr(sprintf("%09d", $user['uid']), 0, 3);
 	$user['avatar_url'] = $user['avatar'] ? $conf['upload_url']."avatar/$dir/$user[uid].png?".$user['avatar'] : 'static/avatar.png';
