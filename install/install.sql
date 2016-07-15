@@ -253,7 +253,7 @@ CREATE TABLE bbs_session (
   bigdata tinyint(1) NOT NULL default '0',		# 是否有大数据。
   last_date int(11) unsigned NOT NULL default '0',	# 上次活动时间
   PRIMARY KEY (sid),
-  KEY last_date (last_date),
+  KEY ip (ip),
   KEY fid (fid),
   KEY uid (uid)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

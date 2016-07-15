@@ -12,6 +12,9 @@ function sess_close() {
 	global $sid, $uid, $fid, $time, $session;
 	//echo "sess_close() \r\n";
 	
+	$session_invalid = _SERVER('session_invalid');
+	if($session_invalid) return TRUE;
+	
 	$update = array(
 		'uid'=>$uid,
 		'fid'=>$fid,
@@ -27,8 +30,11 @@ function sess_close() {
 }
 
 function sess_read($sid) { 
-	global $session, $sid;
+	global $session, $sid, $longip, $time;
 	if(empty($sid)) {
+		// 查找刚才是不是已经插入一条了？  如果相隔时间特别短，并且 data 为空，则删除。
+		// 测试是否支持 cookie，如果不支持 cookie，则不生成 sid
+		$sid = session_id();
 		sess_new();
 		return '';
 	}
@@ -46,10 +52,32 @@ function sess_read($sid) {
 }
 
 function sess_new() {
-	global $session, $sid, $uid, $fid, $time, $longip;
+	global $session, $sid, $uid, $fid, $time, $longip, $conf;
+	
+	$agent = _SERVER('HTTP_USER_AGENT');
+	
+	// 干掉同 ip 的 sid，仅仅在遭受攻击的时候
+	//db_delete('bbs_session', array('ip'=>$longip));
+	$cookie_test = _COOKIE('cookie_test');
+	if($cookie_test) {
+		$cookie_test_decode = xn_decrypt($cookie_test, $conf['auth_key']);
+		if($cookie_test_decode != md5($agent.$longip)) {
+			// 无效的请求，可能受到攻击
+			$_SERVER['session_invalid'] = 1;
+			return;
+		} else {
+			setcookie('cookie_test', $cookie_test, $time - 86400, '');
+		}
+	} else {
+		$cookie_test = xn_encrypt(md5($agent.$longip), $conf['auth_key']);
+		setcookie('cookie_test', $cookie_test, $time + 86400, '');
+		$_SERVER['session_invalid'] = 1;
+		return;
+	}
+	
 	// 可能会暴涨
 	$url = _SERVER('REQUEST_URI_NO_PATH');
-	$agent = _SERVER('HTTP_USER_AGENT');
+	
 	$arr = array(
 		'sid'=>$sid,
 		'uid'=>$uid,
@@ -63,10 +91,14 @@ function sess_new() {
 		'bigdata'=> 0,
 	);
 	db_insert('bbs_session', $arr);
+	
 }
 
 function sess_write($sid, $data) {
 	global $session, $sid, $time, $uid, $fid, $longip;
+	
+	$session_invalid = _SERVER('session_invalid');
+	if($session_invalid) return TRUE;
 	
 	$url = _SERVER('REQUEST_URI_NO_PATH');
 	$agent = _SERVER('HTTP_USER_AGENT');
@@ -133,7 +165,7 @@ ini_set('session.cookie_httponly', 'On');
 
 ini_set('session.gc_maxlifetime', $conf['online_hold_time']);	// 活动时间 $conf['online_hold_time']
 ini_set('session.gc_probability', 1); 	// 垃圾回收概率 = gc_probability/gc_divisor
-ini_set('session.gc_divisor', 100); 	// 垃圾回收时间 5 秒，在线人数 * 10 
+ini_set('session.gc_divisor', 500); 	// 垃圾回收时间 5 秒，在线人数 * 10 
 
 session_set_save_handler('sess_open', 'sess_close', 'sess_read', 'sess_write', 'sess_destroy', 'sess_gc'); 
 

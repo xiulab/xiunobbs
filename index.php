@@ -38,7 +38,7 @@ $header = array(
 
 // 运行时数据
 $runtime = runtime_init();
-				// 当前所在的板块
+
 // 检测浏览器， 不支持 IE8
 $browser = get__browser();
 check_browser($browser);
