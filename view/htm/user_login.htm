@@ -8,24 +8,24 @@
 				<h4 class="bd-title">卡片抬头</h4>
 				<form class="form-group-sm" action="<?php echo url('user-login');?>" method="post" id="form">
 					<p class="input-group">
-						<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>
-						<input type="text" class="form-control" placeholder="手机号/Email" aria-describedby="basic-addon1">
+						<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span></span>
+						<input type="text" class="form-control" placeholder="<?php echo lang('email');?>" id="email" name="email">
 					</p>
 					<p class="input-group">
-						<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-						<input type="text" class="form-control" placeholder="密码" aria-describedby="basic-addon1">
+						<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-lock"></span></span>
+						<input type="password" class="form-control" placeholder="<?php echo lang('password');?>" id="password" name="password">
 					</p>
 					<div class="m-y-1 clearfix">
 						<div class="pull-xs-left">
-							<a href="<?php echo url('user-create');?>" class="text-muted"><small>记住密码</small></a>
+							<a href="<?php echo url('user-create');?>" class="text-muted"><small><?php echo lang('forgot_pw');?></small></a>
 						</div>
 						<div class="pull-xs-right">
-							<a href="<?php echo url('user-create');?>" class="text-muted"><small>注册新用户</small></a>
-							<a href="<?php echo url('user-findpw');?>" class="text-muted"><small>忘记密码</small></a>
+							<a href="<?php echo url('user-create');?>" class="text-muted"><small><?php echo lang('user_create');?></small></a>
+							<a href="<?php echo url('user-findpw');?>" class="text-muted"><small><?php echo lang('forgot_pw');?></small></a>
 						</div>
 					</div>
 					<p class="text-xs-right">
-						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="正在提交...">&nbsp;  登陆  &nbsp;</button>
+						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." disabled><?php echo lang('login');?></button>
 					</p>
 				</form>
 			</div>
@@ -43,7 +43,7 @@ jform.on('submit', function() {
 	jsubmit.button('loading');
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
-			jsubmit.button('登录成功');
+			jsubmit.button('<?php echo lang('user_login_successfully');?>');
 			// 服务端已经设置了 cookie
 			setTimeout(function() {window.location='./';}, 1000);
 		} else if(code > 0) {

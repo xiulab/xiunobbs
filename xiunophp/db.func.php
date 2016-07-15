@@ -3,6 +3,7 @@
 function db_new($dbconf) {
 	// 数据库初始化，这里并不会产生连接！
 	if($dbconf) {
+		// 代码不仅仅是给人看的，更重要的是给编译器分析的，不要玩 $db = new $dbclass()，那样不利于优化和 opcache 。
 		switch ($dbconf['type']) {
 			case 'mysql':      $db = new db_mysql($dbconf['mysql']); 		break;
 			case 'pdo_mysql':  $db = new db_pdo_mysql($dbconf['pdo_mysql']);	break;
@@ -87,39 +88,39 @@ function db_create($table, $arr) {
 }
 
 function db_insert($table, $arr) {
-	$sqladd = array_to_sqladd($arr);
+	$sqladd = db_array_to_sqladd($arr);
 	if(!$sqladd) return FALSE;
 	return db_exec("INSERT INTO `$table` SET $sqladd");
 }
 
 function db_replace($table, $arr) {
-	$sqladd = array_to_sqladd($arr);
+	$sqladd = db_array_to_sqladd($arr);
 	if(!$sqladd) return FALSE;
 	return db_exec("REPLACE INTO `$table` SET $sqladd");
 }
 
 function db_update($table, $cond, $update) {
-	$condadd = cond_to_sqladd($cond);
-	$sqladd = array_to_sqladd($update);
+	$condadd = db_cond_to_sqladd($cond);
+	$sqladd = db_array_to_sqladd($update);
 	if(!$sqladd) return FALSE;
 	return db_exec("UPDATE `$table` SET $sqladd $condadd");
 }
 
 function db_delete($table, $cond) {
-	$condadd = cond_to_sqladd($cond);
+	$condadd = db_cond_to_sqladd($cond);
 	return db_exec("DELETE FROM `$table` $condadd");
 }
 
 function db_read($table, $cond) {
-	$sqladd = cond_to_sqladd($cond);
+	$sqladd = db_cond_to_sqladd($cond);
 	$sql = "SELECT * FROM `$table` $sqladd";
 	return db_find_one($sql);
 }
 	
 function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesize = 10, $key = '', $abort = TRUE) {
 	if(strtoupper(substr($table, 0, 7)) != 'SELECT ') {
-		$cond = cond_to_sqladd($cond);
-		$orderby = orderby_to_sqladd($orderby);
+		$cond = db_cond_to_sqladd($cond);
+		$orderby = db_orderby_to_sqladd($orderby);
 		$offset = ($page - 1) * $pagesize;
 		return db_sql_find("SELECT * FROM `$table` $cond$orderby LIMIT $offset,$pagesize", $key, $abort);
 	} else {
@@ -133,8 +134,8 @@ function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesi
 
 function db_find_one($table, $cond = array(), $orderby = array()) {
 	if(strtoupper(substr($table, 0, 7)) != 'SELECT ') {
-		$cond = cond_to_sqladd($cond);
-		$orderby = orderby_to_sqladd($orderby);
+		$cond = db_cond_to_sqladd($cond);
+		$orderby = db_orderby_to_sqladd($orderby);
 		return db_sql_find_one("SELECT * FROM `$table` $cond$orderby LIMIT 1");
 	} else {
 		// 兼容 XiunoPHP 3.0

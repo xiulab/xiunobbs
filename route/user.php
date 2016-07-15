@@ -91,7 +91,7 @@ if($action == 'login') {
 		$email = param('email');
 		$password = param('password');
 		
-		$email != _SESSION('create_email') AND message('email', '邮箱不一致');
+		$email != _SESSION('create_email') AND message('sendinitpw', '请先点击获取初始密码');
 		$password != _SESSION('create_pw') AND message('password', '初始密码不正确');
 		
 		$user = user_read_by_email($email);

@@ -11,6 +11,9 @@ db_connect($err) OR exit($err);
 
 include './model.inc.php';
 
+// 语言包
+$lang = include('./lang/zh-cn.php');
+
 // 用户
 $uid = _SESSION('uid');
 $user = user_read($uid); 

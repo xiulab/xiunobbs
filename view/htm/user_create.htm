@@ -5,33 +5,33 @@
 		<div class="card">
 			<img class="card-img-top" data-src="holder.js/100%x180" alt="100%x180" style="height: 80px; width: 100%; display: block;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMzE4IiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDMxOCAxODAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MTgwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTU1ZTcxNTI0NTcgdGV4dCB7IGZpbGw6cmdiYSgyNTUsMjU1LDI1NSwuNzUpO2ZvbnQtd2VpZ2h0Om5vcm1hbDtmb250LWZhbWlseTpIZWx2ZXRpY2EsIG1vbm9zcGFjZTtmb250LXNpemU6MTZwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTU1ZTcxNTI0NTciPjxyZWN0IHdpZHRoPSIzMTgiIGhlaWdodD0iMTgwIiBmaWxsPSIjNzc3Ii8+PGc+PHRleHQgeD0iMTE4LjA4NTkzNzUiIHk9Ijk3LjIiPjMxOHgxODA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" data-holder-rendered="true">
 			<div class="card-block">
-				<h4 class="bd-title">用户注册</h4>
+				<h4><?php echo lang('user_create');?></h4>
 				<form class="form-group-sm" action="<?php echo url('user-create');?>" method="post" id="form">
 					<p class="input-group">
 						<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-						<input type="text" class="form-control" placeholder="邮箱" name="email" id="email">
+						<input type="text" class="form-control" placeholder="<?php echo lang('email');?>" name="email" id="email">
 					</p>
 					<div class="row">
 						<div class="col-xs-8">
 							<p class="input-group">
 								<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-								<input type="password" class="form-control" placeholder="初始密码" name="password" id="password">
+								<input type="password" class="form-control" placeholder="<?php echo lang('init_pw');?>" name="password" id="password">
 							</p>
 						</div>
 						<div class="col-xs-4">
-							<button type="submit" class="btn btn-primary btn-sm btn-block" id="sendinitpw" data-loading-text="正在发送..." action="<?php echo url('user-sendinitpw');?>">获取初始密码</button>
+							<button type="submit" class="btn btn-primary btn-sm btn-block" id="sendinitpw" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-sendinitpw');?>"><?php echo lang('get_init_pw');?></button>
 						</div>
 					</div>
 					<p class="text-xs-right">
-						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="正在提交...">注册</button>
+						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." disabled><?php echo lang('register');?></button>
 					</p>
 					<div class="clearfix">
 						<div class="pull-xs-left">
 							
 						</div>
 						<div class="pull-xs-right">
-							<a href="<?php echo url('user-login');?>" class="text-muted"><small>登陆</small></a>
-							<a href="<?php echo url('user-findpw');?>" class="text-muted"><small>忘记密码</small></a>
+							<a href="<?php echo url('user-login');?>" class="text-muted"><small><?php echo lang('login');?></small></a>
+							<a href="<?php echo url('user-findpw');?>" class="text-muted"><small><?php echo lang('forgot_pw');?></small></a>
 						</div>
 					</div>
 				</form>
@@ -53,23 +53,25 @@ jsendinitpw.on('click', function() {
 	jsendinitpw.button('loading');
 	$.xpost(jsendinitpw.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
-			alert('初始密码已经发送往您的邮箱（'+jemail.val()+'），请查收。');
+			alert(<?php echo lang('user_send_init_pw_sucessfully');?>);
 			jpassword.focus();
 			var t = 60; // 倒计时
-			jsendinitpw.button('发送成功 60 ');
+			jsendinitpw.button('<?php echo lang('user_send_sucessfully');?> 60 ');
+			jsubmit.button('reset');
 			// 倒计时，重新发送
 			var handler = setInterval(function() {
-				jsendinitpw.button('发送成功 '+(--t)+' ');
+				jsendinitpw.button('<?php echo lang('user_send_sucessfully');?> '+(--t)+' ');
 				if(t == 0) {
+					clearInterval(handler);
 					jsendinitpw.button('reset');
 				}
 			}, 1000);
 		} else if(code == 'email') {
 			jemail.alert(message).focus();
-			jsubmit.button('reset');
+			jsendinitpw.button('reset');
 		} else if(code == 'password') {
 			jpassword.alert(message).focus();
-			jsubmit.button('reset');
+			jsendinitpw.button('reset');
 		} else {
 			alert(message);
 			jsendinitpw.button('reset');
@@ -83,7 +85,7 @@ jform.on('submit', function() {
 	jsubmit.button('loading');
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
-			jsubmit.button('登录成功');
+			jsubmit.button('<?php echo lang('user_login_successfully');?>');
 			// 服务端已经设置了 cookie
 			setTimeout(function() {window.location='./';}, 1000);
 		} else if(code == 'email') {
@@ -91,6 +93,9 @@ jform.on('submit', function() {
 			jsubmit.button('reset');
 		} else if(code == 'password') {
 			jpassword.alert(message).focus();
+			jsubmit.button('reset');
+		} else if(code == 'sendinitpw') {
+			jsendinitpw.alert(message).focus();
 			jsubmit.button('reset');
 		} else {
 			alert(message);

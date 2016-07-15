@@ -16,13 +16,14 @@ function sess_close() {
 function sess_read($sid) { 
 	global $session, $sid;
 	//echo "sess_read($sid) \r\n";
-	$arr = db_find_one("SELECT * FROM bbs_session WHERE sid='$sid'");
+	$arr = db_find_one('bbs_session', array('sid'=>$sid));
 	if(empty($arr)) {
-		db_exec("INSERT INTO bbs_session SET sid='$sid'");
+		$sid = session_id();
+		db_insert('bbs_session', array('sid'=>$sid));
 		return '';
 	}
 	if($arr['bigdata'] == 1) {
-		$arr2 = db_find_one("SELECT * FROM bbs_session_data WHERE sid='$sid'");
+		$arr2 = db_find_one('bbs_session_data', array('sid'=>$sid));
 		$arr['data'] = $arr2['data'];
 	}
 	$session = $arr;
@@ -52,27 +53,23 @@ function sess_write($sid, $data) {
 	$data = addslashes($data);
 	$len = strlen($data);
 	if($len <= 255) {
-		$sqladd = array_to_sql_update($arr, $session);
-		db_exec("UPDATE bbs_session SET $sqladd WHERE sid='$sid'");
+		db_update('bbs_session', array('sid'=>$sid), array_diff($arr, $session));
 		if(!empty($session) && $session['bigdata'] == 1) {
-			db_exec("DELETE FROM bbs_session_data WHERE sid='$sid'");
+			db_delete('bbs_session_data', array('sid'=>$sid));
 		}
 	} else {
 		$arr['data'] = '';
 		$arr['bigdata'] = 1;
-		$sqladd = array_to_sql_update($arr, $session);
-		db_exec("UPDATE bbs_session SET $sqladd WHERE sid='$sid'");
-		$arr2 = array('data'=>$data);
-		$sqladd2 = array_to_sql_update($arr2, $session);
-		db_exec("UPDATE bbs_session_data SET $sqladd2  WHERE sid='$sid'");
+		db_update('bbs_session', array('sid'=>$sid), array_to_sql_update(array_diff($arr, $session)));
+		db_update('bbs_session_data', array('sid'=>$sid), array_to_sql_update(array_diff(array('data'=>$data), $session)));
 	}
 	return TRUE;
 }
 
 function sess_destroy($sid) { 
 	//echo "sess_destroy($sid) \r\n";
-	db_exec("DELETE FROM bbs_session WHERE sid='$sid'");
-	db_exec("DELETE FROM bbs_session_data WHERE sid='$sid'");
+	db_delete('bbs_session', array('sid'=>$sid));
+	db_delete('bbs_session_data', array('sid'=>$sid));
 	return TRUE; 
 }
 
@@ -80,8 +77,8 @@ function sess_gc($maxlifetime) {
 	//echo "sess_gc($maxlifetime) \r\n";
 	global $time;
 	$expiry = $time - $maxlifetime;
-	db_exec("DELETE FROM bbs_session WHERE last_date<$expiry");
-	db_exec("DELETE FROM bbs_session_data WHERE last_date<$expiry");
+	db_delete('bbs_session', array('last_date'=>array('<'=>$expiry)));
+	db_delete('bbs_session_data', array('last_date'=>array('<'=>$expiry)));
 	return TRUE; 
 }
 
