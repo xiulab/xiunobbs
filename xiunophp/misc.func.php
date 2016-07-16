@@ -882,7 +882,7 @@ function xn_rand($n = 16) {
 	$return = '';
 	for($i=0; $i<$n; $i++) {
 		$r = rand(1, $len);
-		$return .= $str[$r];
+		$return .= $str[$r - 1];
 	}
 	return $return;
 }

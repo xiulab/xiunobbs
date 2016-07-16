@@ -36,7 +36,7 @@ if($action == 'create') {
 		
 		// hook thread_create_get_end.php
 		
-		include './pc/view/thread_create.htm';
+		include './view/htm/thread_create.htm';
 		
 	} else {
 		
@@ -44,7 +44,7 @@ if($action == 'create') {
 		
 		$fid = param('fid', 0);
 		$forum = forum_read($fid);
-		empty($forum) AND message(3, '板块不存在'.$fid);
+		empty($forum) AND message('fid', '板块不存在'.$fid);
 		
 		$r = forum_access_user($fid, $gid, 'allowthread');
 		if(!$r) {
@@ -52,26 +52,24 @@ if($action == 'create') {
 				$r = forum_access_user($fid, 101, 'allowthread');
 				$r AND user_login_check($user);
 			}
-			message(10, '您（'.$user['groupname'].'）无权限在此版块发帖');
+			message(-1, '您（'.$user['groupname'].'）无权限在此版块发帖');
 		}
 		
 		$subject = htmlspecialchars(param('subject', '', FALSE));
 		$message = param('message', '', FALSE);
 		
-		empty($subject) AND message(1, '标题不能为空'.$fid);
+		empty($subject) AND message('subject', '标题不能为空'.$fid);
 		$gid != 1 AND $subject = badword_filter($subject, $badword);
-		$subject === FALSE AND message(1, '标题中包含敏感关键词: '.$badword);
-		empty($message) AND message(2, '内容不能为空'.$fid);
+		$subject === FALSE AND message('subject', '标题中包含敏感关键词: '.$badword);
+		empty($message) AND message('message', '内容不能为空'.$fid);
 		$gid != 1 AND $message = xn_html_safe($message);
 		$gid != 1 AND $message = badword_filter($message, $badword);
-		$message === FALSE AND message(2, '内容中包含敏感关键词: '.$badword);
-		mb_strlen($subject, 'UTF-8') > 128 AND message(1, '标题最长80个字符');
-		mb_strlen($message, 'UTF-8') > 2028000 AND message(2, '内容太长');
+		$message === FALSE AND message('message', '内容中包含敏感关键词: '.$badword);
+		mb_strlen($subject, 'UTF-8') > 128 AND message('subject', '标题最长80个字符');
+		mb_strlen($message, 'UTF-8') > 2028000 AND message('message', '内容太长');
 		
-		
-		
-		// 检测是否灌水
-		thread_check_flood($gid, $fid, $subject) AND message(1, '系统检测到您可能在灌水。');
+		// todo: 检测是否灌水
+		thread_check_flood($gid, $fid, $subject) AND message(-1, '系统检测到您可能在灌水。');
 		
 		$thread = array(
 			'fid'=>$fid,
@@ -84,28 +82,13 @@ if($action == 'create') {
 			'sid'=>$sid,
 		);
 		$tid = thread_create($thread, $pid);
-		$pid === FALSE AND message(1, '创建帖子失败');
-		$tid === FALSE AND message(1, '创建主题失败');
+		$pid === FALSE AND message(-1, '创建帖子失败');
+		$tid === FALSE AND message(-1, '创建主题失败');
 		
 		$conf['ipaccess_on'] AND ipaccess_inc($longip, 'threads');
 		
-		
-		
-		if($ajax) {
-			ob_start();
-			$thread = thread_read($tid);
-			$threadlist = array($thread);
-			
-			// hook thread_create_post_ajax_end.php
-			
-			include './pc/view/thread_list_body.inc.htm';
-			$middle = ob_get_clean();
-			message(0, $middle);
-		} else {
-			
-			// hook thread_create_post_ajax_end.php
-			message(0, '发帖成功');
-		}
+		// hook thread_create_post_ajax_end.php
+		message(0, '发帖成功');
 	}
 	
 // 处理 2.1 老版本 URL

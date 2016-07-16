@@ -13,10 +13,17 @@ return array(
 	'submiting'=>'正在提交',
 	'register'=>'注册',
 	'user_login_successfully'=>'登陆成功',
-	'user_send_init_pw_sucessfully'=>'初始密码已经发送往您的邮箱（\'+jemail.val()+\'），请查收',
+	'user_send_init_pw_sucessfully'=>'初始密码已经发送往您的邮箱，请查收',
 	'user_send_sucessfully'=>'发送成功',
 	'user_create'=>'用户注册',
+	'user_create_sucessfully'=>'用户注册成功',
 	'user_login'=>'用户登陆',
+	
+	'subject'=>'主题',
+	'message'=>'内容',
+	'thread_create'=>'发表主题',
+	'thread_create_successfully'=>'发表主题成功',
+	
 );
 
 ?>

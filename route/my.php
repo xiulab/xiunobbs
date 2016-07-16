@@ -2,8 +2,6 @@
 
 !defined('DEBUG') AND exit('Access Denied.');
 
-include './xiunophp/image.func.php';
-
 $action = param(1);
 
 $user = user_read($uid);

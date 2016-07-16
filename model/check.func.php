@@ -15,7 +15,7 @@ function is_mobile($mobile, &$err) {
 function is_email($email, &$err) {
 	// hook is_email_start.php
 	if(!preg_match('/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/i', $email)) {
-		$err = 'Email 格式不正确';
+		$err = 'Email 格式不正确'.$email;
 		return FALSE;
 	}
 	// hook is_email_end.php

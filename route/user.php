@@ -48,7 +48,7 @@ if($action == 'login') {
 		
 		// hook user_login_post_end.php
 		
-		message(0, '登陆成功');
+		message(0, lang('user_login_successfully'));
 
 	}
 
@@ -113,7 +113,7 @@ if($action == 'login') {
 		
 		// hook user_create_post_end.php
 		
-		message(0, '注册成功');
+		message(0, lang('user_create_sucessfully'));
 	}
 
 // 获取初始密码
@@ -148,7 +148,7 @@ if($action == 'login') {
 	
 	if($r === TRUE) {
 		$conf['ipaccess_on'] AND ipaccess_inc($longip, 'mails');
-		message(0, '发送成功。');
+		message(0, lang('user_send_init_pw_sucessfully'));
 	} else {
 		message(1, $errstr);
 	}

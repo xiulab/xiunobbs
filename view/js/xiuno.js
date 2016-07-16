@@ -454,6 +454,11 @@ global.param = function(key) {
 
 }
 
+$.location = function(url, seconds) {
+	if(seconds === undefined) seconds = 1;
+	setTimeout(function() {window.location='./';}, seconds * (debug ? 1000000 : 1000));
+}
+
 // 二级数组排序
 /*var first = function(obj) {for(var k in obj) return k;}
 Array.prototype.proto_sort = Array.prototype.sort;
