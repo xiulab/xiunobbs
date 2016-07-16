@@ -215,12 +215,12 @@ function db_cond_to_sqladd($cond) {
 		foreach($cond as $k=>$v) {
 			if(!is_array($v)) {
 				$v = addslashes($v);
-				$s .= "$k = '$v' AND ";
+				$s .= "$k='$v' AND ";
 			} else {
 				foreach($v as $k1=>$v1) {
 					$v1 = addslashes($v1);
-					$k1 == 'LIKE' AND $v1 = "%$v1%";
-					$s .= "$k $k1 '$v1' AND ";
+					$k1 == 'LIKE' AND $v1="%$v1%";
+					$s .= "$k$k1'$v1' AND ";
 				}
 			}
 		}

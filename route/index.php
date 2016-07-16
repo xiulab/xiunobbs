@@ -6,6 +6,11 @@
 
 !defined('DEBUG') AND exit('Access Denied.');
 
+$cond = array('sid'=>'73b868b0fe921d444c400cfcd061f39');
+$update = array ( 'uid' => NULL, 'last_date' => 1468625602, 'data' => 'aaa|s:1:"a";bbb|s:10:"bbbbbbbbbb";', 'useragent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.99 Safari/537.36');
+db_update('bbs_session', $cond, $update);
+
+
 include './model/friendlink.func.php';
 
 $order = param(1, $conf['order_default']);

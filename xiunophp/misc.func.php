@@ -875,6 +875,30 @@ function rmdir_recusive($dir, $keepdir = 0) {
 	return TRUE;
 }
 
+function xn_shutdown_handle() {
+	xn_debug_info();
+}
+
+function xn_debug_info() {
+	global $db;
+	if(DEBUG) {
+		if(IN_CMD) {
+			foreach($db->sqls as $sql) {
+				echo "$sql\r\n";
+			}
+		} else {
+			echo "\r\n<ul>\r\n";
+			foreach($db->sqls as $sql) {
+				echo "<li>$sql</li>\r\n";
+			}
+			echo "</ul>\r\n";
+			echo '_REQUEST:<pre>';
+			print_r($_REQUEST);
+			echo '</pre>';
+		}
+	}
+}
+
 // 无 Notice 方式的获取超级全局变量中的 key
 function _GET($k) { return isset($_GET[$k]) ? $_GET[$k] : NULL; }
 function _POST($k) { return isset($_POST[$k]) ? $_POST[$k] : NULL; }

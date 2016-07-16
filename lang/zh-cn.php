@@ -15,6 +15,7 @@ return array(
 	'user_send_init_pw_sucessfully'=>'初始密码已经发送往您的邮箱（\'+jemail.val()+\'），请查收',
 	'user_send_sucessfully'=>'发送成功',
 	'user_create'=>'用户注册',
+	'user_login'=>'用户登陆',
 );
 
 ?>

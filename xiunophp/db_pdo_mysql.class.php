@@ -91,6 +91,8 @@ class db_pdo_mysql {
 		if(!$this->wlink && !$this->connect_master()) return FALSE;
 		$link = $this->link = $this->wlink;
 		$n = $link->exec($sql); // 返回受到影响的行，插入的 id ?
+		if(count($this->sqls) < 1000) $this->sqls[] = $sql;
+		
 		if($n !== FALSE) {
 			$pre = strtoupper(substr(trim($sql), 0, 7));
 			if($pre == 'INSERT ' || $pre == 'REPLACE') {
@@ -99,8 +101,6 @@ class db_pdo_mysql {
 		} else {
 			$this->error();
 		}
-		
-		if(count($this->sqls) < 1000) $this->sqls[] = $sql;
 		
 		return $n;
 	}

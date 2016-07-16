@@ -28,39 +28,27 @@ if($action == 'login') {
 
 		// hook user_login_post_start.php
 		
-		$account = param('account');			// 邮箱或者手机号
+		$email = param('email');			// 邮箱或者手机号
 		$password = param('password');
-		empty($account) AND message(1, '账号为空');
-		if(is_email($account, $err)) {
-			$user = user_read_by_email($account);
-			empty($user) AND message(1, 'Email 不存在');
+		empty($email) AND message(1, '账号为空');
+		if(is_email($email, $err)) {
+			$user = user_read_by_email($email);
+			empty($user) AND message('email', 'Email 不存在');
 		} else {
-			$user = user_read_by_username($account);
-			empty($user) AND message(1, '用户名不存在');
+			$user = user_read_by_username($email);
+			empty($user) AND message('email', '用户名不存在');
 		}
 
-		md5($password.$user['salt']) != $user['password'] AND message(2, '密码错误');
+		md5($password.$user['salt']) != $user['password'] AND message('password', '密码错误');
 
 		// 更新登录时间和次数
 		user_update($user['uid'], array('login_ip'=>$longip, 'login_date' =>$time , 'logins+'=>1));
 
 		$uid = $user['uid'];
-		$gid = $user['gid'];
-		
-		$user['token'] = user_token_set($uid, $gid, $user['password'], $user['avatar'], $user['username'], '', 86400 * 30);
-
-		unset($user['password']);
-		unset($user['password_sms']);
-		unset($user['salt']);
-		
-		// 更新在线
-		online_list_cache_delete();
-		
-		user_ajax_info($user);
 		
 		// hook user_login_post_end.php
 		
-		message(0, $user);
+		message(0, '登陆成功');
 
 	}
 
@@ -75,7 +63,7 @@ if($action == 'login') {
 	
 	if($method == 'GET') {
 
-		$_SESSION['aaa'] = str_repeat('a', 1);
+		
 		// hook user_create_get_start.php
 		
 		$referer = user_http_referer();
@@ -145,7 +133,7 @@ if($action == 'login') {
 	$r = user_read_by_email($email);
 	$r AND message('email', 'Email 已经被注册。');
 	
-	$rand = rand(1000000, 9999999);
+	$rand = rand(10000000, 99999999);
 	
 	$_SESSION['create_email'] = $email;
 	$_SESSION['create_pw'] = $rand;
@@ -168,14 +156,7 @@ if($action == 'login') {
 	
 	// hook user_logout_start.php
 	
-	$user = user_guest();
-	user_token_clean();
-	
 	$uid = 0;
-	$gid = 0;
-	
-	// 更新在线
-	online_list_cache_delete();
 	
 	// hook user_logout_end.php
 	

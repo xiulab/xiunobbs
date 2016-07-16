@@ -44,11 +44,7 @@ class db_mysql {
 	}
 	
 	public function real_connect($host, $user, $password, $name, $charset = '', $engine = '') {
-		if(IN_SAE) {
-			$link = @mysql_connect($host, $user, $password); // 如果用户名相同，则返回同一个连接。 fastcgi 持久连接更省资源
-		} else {
-			$link = @mysql_pconnect($host, $user, $password); // 如果用户名相同，则返回同一个连接。 fastcgi 持久连接更省资源
-		}
+		$link = @mysql_pconnect($host, $user, $password); // 如果用户名相同，则返回同一个连接。 fastcgi 持久连接更省资源
 		if(!$link) { $this->error(-10000); return FALSE; }
 		if(!mysql_select_db($name, $link)) { $this->error(-10001); return FALSE; }
 		strtolower($engine) == 'innodb' AND $this->query("SET innodb_flush_log_at_trx_commit=no", $link);
@@ -92,15 +88,18 @@ class db_mysql {
 			$link = $this->link = $this->wlink;
 		}
 		$query = mysql_query($sql, $this->wlink);
+		if(count($this->sqls) < 1000) $this->sqls[] = $sql;
+		
 		if($query !== FALSE) {
 			$pre = strtoupper(substr(trim($sql), 0, 7));
-			if($pre == 'INSERT ' || $pre == 'REPLACE') return mysql_insert_id($this->wlink);
-			elseif($pre == 'UPDATE ' || $pre == 'DELETE ') return mysql_affected_rows($this->wlink);
+			if($pre == 'INSERT ' || $pre == 'REPLACE') {
+				return mysql_insert_id($this->wlink);
+			} elseif($pre == 'UPDATE ' || $pre == 'DELETE ') {
+				return mysql_affected_rows($this->wlink);
+			}
 		} else {
 			$this->error();
 		}
-		
-		if(count($this->sqls) < 1000) $this->sqls[] = $sql;
 		
 		return $query;
 	}

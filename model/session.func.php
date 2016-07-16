@@ -3,6 +3,8 @@
 // 如果数据不变，则不写入。
 $session = array();
 
+// 如果是管理员, sid, 与 ip 绑定，一旦 IP 发生变化，则需要重新登录
+
 function sess_open($save_path, $session_name) { 
 	//echo "sess_open($save_path,$session_name) \r\n";
 	return true;
@@ -26,11 +28,12 @@ function sess_close() {
 	
 	db_update('bbs_session', array('sid'=>$sid), $update);
 	
-	return true; 
+	return true;
 }
 
-function sess_read($sid) { 
+function sess_read($sidarg) { 
 	global $session, $sid, $longip, $time;
+	$sid = $sidarg;
 	if(empty($sid)) {
 		// 查找刚才是不是已经插入一条了？  如果相隔时间特别短，并且 data 为空，则删除。
 		// 测试是否支持 cookie，如果不支持 cookie，则不生成 sid
@@ -58,6 +61,7 @@ function sess_new() {
 	
 	// 干掉同 ip 的 sid，仅仅在遭受攻击的时候
 	//db_delete('bbs_session', array('ip'=>$longip));
+	
 	$cookie_test = _COOKIE('cookie_test');
 	if($cookie_test) {
 		$cookie_test_decode = xn_decrypt($cookie_test, $conf['auth_key']);
@@ -121,7 +125,8 @@ function sess_write($sid, $data) {
 		db_insert('bbs_session_data', array('sid'=>$sid));
 	}
 	if($len <= 255) {
-		db_update('bbs_session', array('sid'=>$sid), array_diff($arr, $session));
+		$update = array_diff($arr, $session);
+		db_update('bbs_session', array('sid'=>$sid), $update);
 		if(!empty($session) && $session['bigdata'] == 1) {
 			db_delete('bbs_session_data', array('sid'=>$sid));
 		}
@@ -153,15 +158,15 @@ function sess_gc($maxlifetime) {
 }
 
 
-ini_set('session.name', 'sid');
+ini_set('session.name', 'bbs_sid');
 
 ini_set('session.use_cookies', 'On');
 ini_set('session.use_only_cookies', 'On');
 ini_set('session.cookie_domain', '');
 ini_set('session.cookie_path', '');
-ini_set('session.cookie_secure', 'Off'); // 打开以后 sid 每次刷新会变
+ini_set('session.cookie_secure', 'Off'); // 打开后，只有通过 https 才有效。
 ini_set('session.cookie_lifetime', 86400);
-ini_set('session.cookie_httponly', 'On');
+ini_set('session.cookie_httponly', 'On'); // 打开后 js 获取不到 HTTP 设置的 cookie, 有效防止 XSS，这个对于安全很重要，除非有 BUG，否则不要关闭。
 
 ini_set('session.gc_maxlifetime', $conf['online_hold_time']);	// 活动时间 $conf['online_hold_time']
 ini_set('session.gc_probability', 1); 	// 垃圾回收概率 = gc_probability/gc_divisor
