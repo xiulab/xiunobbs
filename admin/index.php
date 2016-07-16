@@ -16,7 +16,7 @@ db_connect($err) OR exit($err);
 
 $grouplist = group_list_cache();
 $forumlist = forum_list_cache();
-$user = user_token_get('', 'bbs'); 			// 全局的 user
+
 $uid = $user['uid'];				// 全局的 uid
 $gid = $user['gid'];				// 全局的 gid
 

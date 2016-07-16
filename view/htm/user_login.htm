@@ -34,6 +34,7 @@
 </div>
 
 <?php include "./view/htm/footer.inc.htm"; ?>
+<script src="view/js/md5.js"></script>
 
 <script>
 var jform = $('#form');
@@ -41,7 +42,8 @@ var jsubmit = $('#submit');
 var jemail = $('#email');
 var jpassword = $('#password');
 jform.on('submit', function() {
-	var postdata = jform.serialize();
+	var postdata = jform.serializeObject();
+	postdata.password = $.md5(postdata.password);
 	jsubmit.button('loading');
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {

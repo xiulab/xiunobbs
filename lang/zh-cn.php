@@ -8,6 +8,7 @@ return array(
 	'get_init_pw'=>'获取初始密码',
 	'sending'=>'正在发送',
 	'login'=>'登陆',
+	'logout'=>'退出',
 	'forgot_pw'=>'忘记密码',
 	'submiting'=>'正在提交',
 	'register'=>'注册',

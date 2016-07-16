@@ -875,28 +875,42 @@ function rmdir_recusive($dir, $keepdir = 0) {
 	return TRUE;
 }
 
+// 随机字符
+function xn_rand($n = 16) {
+	$str = '0123456789abcdefghijklmnopqrstuvwxyz';
+	$len = strlen($str);
+	$return = '';
+	for($i=0; $i<$n; $i++) {
+		$r = rand(1, $len);
+		$return .= $str[$r];
+	}
+	return $return;
+}
+
 function xn_shutdown_handle() {
-	xn_debug_info();
 }
 
 function xn_debug_info() {
 	global $db;
+	$s = '<small>';
 	if(DEBUG) {
 		if(IN_CMD) {
 			foreach($db->sqls as $sql) {
-				echo "$sql\r\n";
+				$s = "$sql\r\n";
 			}
 		} else {
-			echo "\r\n<ul>\r\n";
+			$s ."\r\n<ul>\r\n";
 			foreach($db->sqls as $sql) {
-				echo "<li>$sql</li>\r\n";
+				$s .= "<li>$sql</li>\r\n";
 			}
-			echo "</ul>\r\n";
-			echo '_REQUEST:<pre>';
-			print_r($_REQUEST);
-			echo '</pre>';
+			$s .= "</ul>\r\n";
+			$s .= '_REQUEST:<pre>';
+			$s .= print_r($_REQUEST, 1);
+			$s .= '</pre>';
 		}
 	}
+	$s .= '</small>';
+	return $s;
 }
 
 // 无 Notice 方式的获取超级全局变量中的 key
@@ -905,8 +919,8 @@ function _POST($k) { return isset($_POST[$k]) ? $_POST[$k] : NULL; }
 function _COOKIE($k) { return isset($_COOKIE[$k]) ? $_COOKIE[$k] : NULL; }
 function _REQUEST($k) { return isset($_REQUEST[$k]) ? $_REQUEST[$k] : NULL; }
 function _SERVER($k) { return isset($_SERVER[$k]) ? $_SERVER[$k] : NULL; }
-function _SESSION($k) { return isset($_SESSION[$k]) ? $_SESSION[$k] : NULL; }
+function _SESSION($k) {global $g_session; return isset($_SESSION[$k]) ? $_SESSION[$k] : (isset($g_session[$k]) ? $g_session[$k] : NULL); }
 function GLOBALS($k) { return isset($GLOBALS[$k]) ? $GLOBALS[$k] : NULL; }
-function G($k1, $k2 = FALSE) { return isset($GLOBALS[$k1]) ? ($k2 !== FALSE ? (isset($GLOBALS[$k1][$k2]) ? $GLOBALS[$k1][$k2] : NULL) : NULL) : NULL; }
+function G($k) { return isset($GLOBALS[$k]) ? $GLOBALS[$k] : NULL; }
 
 ?>

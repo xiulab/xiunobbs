@@ -1,12 +1,13 @@
 <?php include "./view/htm/header.inc.htm"; ?>
 
-<div class="panel">
-	<div class="header">提示信息</div>
-	<div class="body">
-		<h3 style="margin: 16px;">
-			<span style="font-size: 24px;" class="icon <?php echo $code == 0 ? 'check-circle green' : 'minus-circle red'; ?>"></span>
-			<?php echo is_array($message) ? print_r($message, 1) : $message;?>
-		</h3>
+<div class="row">
+	<div class="col-lg-8 col-lg-offset-2">
+		<div class="card card-block m-t-1">
+			<h4 class="card-title"><?php echo lang('message_title');?></h4>
+			<p class="card-text"><?php echo is_array($message) ? print_r($message, 1) : $message;?></p>
+			<a href="#" class="card-link">Card link</a>
+			<a href="#" class="card-link">Another link</a>
+		</div>
 	</div>
 </div>
 

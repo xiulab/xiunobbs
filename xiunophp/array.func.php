@@ -54,6 +54,14 @@ function array_trim(&$var) {
 	return $var;
 }
 
+// 比较数组的值，如果不相同则保留，以第一个数组为准
+function array_diff_value($arr1, $arr2) {
+	foreach ($arr1 as $k=>$v) {
+		if(isset($arr2[$k]) && $arr2[$k] == $v ) unset($arr1[$k]);
+	}
+	return $arr1;
+}
+
 /*
 	$data = array();
 	$data[] = array('volume' => 67, 'edition' => 2);

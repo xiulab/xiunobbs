@@ -166,58 +166,6 @@ function user_format(&$user) {
 	// hook user_format_end.php
 }
 
-function user_token_set($uid = 0, $gid = 0, $password = '', $avatar = 0, $username = '', $cookipre = '', $expiry = 86400, $path = '/', $domain = '') {
-	// hook user_token_set_start.php
-	global $time, $conf, $ip;
-	empty($cookipre) AND $cookipre = APP_NAME;
-	empty($path) AND $path = $conf['cookie_path'];
-	empty($domain) AND $domain = $conf['cookie_domain'];
-	$s = encrypt("$uid\t$gid\t$time\t$ip\t$password\t$avatar\t$username", $conf['auth_key']);
-	setcookie($cookipre.'_token', $s, $time + $expiry, $path, $domain);
-	// hook user_token_set_end.php
-	return $s;
-}
-
-// 这个函数会支持游客，其他函数需要自行判断！！！
-function user_token_get($s = '', $cookipre = '') {
-	// hook user_token_get_start.php
-	global $conf;
-	empty($cookipre) AND $cookipre = APP_NAME;
-	$guest = user_guest();
-	if (!$s) $s = param($cookipre.'_token');
-	if (!$s) return $guest;
-	$s2 = decrypt($s, $conf['auth_key']);
-	if (!$s2) return $guest;
-	$arr = explode("\t", $s2);
-	if (count($arr) < 7) return $guest;
-	$token = array();
-	$token['uid'] = $arr[0];
-	$token['gid'] = $arr[1];
-	$token['time'] = $arr[2];
-	$token['ip'] = $arr[3];
-	$token['password'] = $arr[4];
-	$token['avatar'] = $arr[5];
-	
-	$dir = substr(sprintf("%09d", $token['uid']), 0, 3);
-	$token['avatar_url'] = $token['avatar'] ? $conf['upload_url']."avatar/$dir/$token[uid].png?".$token['avatar'] : 'static/avatar.png';
-	
-	$token['username'] = $arr[6];
-	
-	// if($token['password'] != $user['password']) return array(); // 修改密码，需要重新登录
-	// hook user_token_get_end.php
-	return $token;
-}
-
-function user_token_clean($path = '/', $domain = '', $cookiepre = '') {
-	// hook user_token_clean_start.php
-	global $time, $conf;
-	empty($path) AND $path = $conf['cookie_path'];
-	empty($domain) AND $domain = $conf['cookie_domain'];
-	!$cookiepre AND $cookiepre = APP_NAME;
-	setcookie($cookiepre.'_token', '', $time, $path, $domain);
-	// hook user_token_clean_end.php
-}
-
 function user_guest() {
 	// hook user_guest_start.php
 	global $conf;

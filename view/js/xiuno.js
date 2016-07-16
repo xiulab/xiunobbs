@@ -1038,6 +1038,7 @@ global.nodeHasParent = function(node, topNode) {
 window.onerror = function(msg, url, line) {
 	if(!debug) return;
 	alert("error: "+msg+"\r\n line: "+line+"\r\n url: "+url);
+	// 阻止所有的 form 提交动作
 	return false;
 }
 
@@ -1375,7 +1376,7 @@ $.fn.fadeOut = function(ms, complete){
 }
 */
 
-$.fn.serializeObj = function() {
+$.fn.serializeObject = function() {
 	var formobj = {};
 	$([].slice.call(this.get(0).elements)).each(function() {
 		var jthis = $(this);

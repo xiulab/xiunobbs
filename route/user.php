@@ -87,7 +87,7 @@ if($action == 'login') {
 		$user AND message('email', 'EMAIL 已经注册。');
 		
 		// email 注册
-		$salt = rand(10000000, 99999999);
+		$salt = xn_rand(16);
 		$pwd = md5(md5($password).$salt);
 		$gid = 101;
 		$user = array (
@@ -133,6 +133,7 @@ if($action == 'login') {
 	$r = user_read_by_email($email);
 	$r AND message('email', 'Email 已经被注册。');
 	
+	// 八位随机密码
 	$rand = rand(10000000, 99999999);
 	
 	$_SESSION['create_email'] = $email;
@@ -160,7 +161,8 @@ if($action == 'login') {
 	
 	// hook user_logout_end.php
 	
-	message(0, jump('退出成功', './', 1));
+	message(0, 'xx');
+	//message(0, jump('退出成功', './', 1));
 
 // 获取当前用户的信息
 } elseif($action == 'read') {

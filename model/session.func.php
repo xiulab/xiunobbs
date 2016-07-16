@@ -1,7 +1,7 @@
 <?php 
 
 // 如果数据不变，则不写入。
-$session = array();
+$g_session = array();
 
 // 如果是管理员, sid, 与 ip 绑定，一旦 IP 发生变化，则需要重新登录
 
@@ -11,7 +11,7 @@ function sess_open($save_path, $session_name) {
 }
 
 function sess_close() {
-	global $sid, $uid, $fid, $time, $session;
+	global $sid, $uid, $fid, $time, $g_session;
 	//echo "sess_close() \r\n";
 	
 	$session_invalid = _SERVER('session_invalid');
@@ -22,9 +22,8 @@ function sess_close() {
 		'fid'=>$fid,
 		'url'=>$_SERVER['REQUEST_URI_NO_PATH'],
 		'last_date'=>$time,
-		'fid'=>$fid,
 	);
-	$update = array_diff($update, $session);
+	$update = array_diff_value($update, $g_session);
 	
 	db_update('bbs_session', array('sid'=>$sid), $update);
 	
@@ -32,7 +31,7 @@ function sess_close() {
 }
 
 function sess_read($sidarg) { 
-	global $session, $sid, $longip, $time;
+	global $g_session, $sid, $longip, $time;
 	$sid = $sidarg;
 	if(empty($sid)) {
 		// 查找刚才是不是已经插入一条了？  如果相隔时间特别短，并且 data 为空，则删除。
@@ -50,12 +49,12 @@ function sess_read($sidarg) {
 		$arr2 = db_find_one('bbs_session_data', array('sid'=>$sid));
 		$arr['data'] = $arr2['data'];
 	}
-	$session = $arr;
+	$g_session = $arr;
 	return $arr ? $arr['data'] : '';
 }
 
 function sess_new() {
-	global $session, $sid, $uid, $fid, $time, $longip, $conf;
+	global $sid, $uid, $fid, $time, $longip, $conf;
 	
 	$agent = _SERVER('HTTP_USER_AGENT');
 	
@@ -99,7 +98,7 @@ function sess_new() {
 }
 
 function sess_write($sid, $data) {
-	global $session, $sid, $time, $uid, $fid, $longip;
+	global $g_session, $sid, $time, $uid, $fid, $longip;
 	
 	$session_invalid = _SERVER('session_invalid');
 	if($session_invalid) return TRUE;
@@ -121,21 +120,21 @@ function sess_write($sid, $data) {
 	// 判断数据是否超长
 	$data = addslashes($data);
 	$len = strlen($data);
-	if($len > 255 && $session['bigdata'] == 0) {
+	if($len > 255 && $g_session['bigdata'] == 0) {
 		db_insert('bbs_session_data', array('sid'=>$sid));
 	}
 	if($len <= 255) {
-		$update = array_diff($arr, $session);
+		$update = array_diff_value($arr, $g_session);
 		db_update('bbs_session', array('sid'=>$sid), $update);
-		if(!empty($session) && $session['bigdata'] == 1) {
+		if(!empty($g_session) && $g_session['bigdata'] == 1) {
 			db_delete('bbs_session_data', array('sid'=>$sid));
 		}
 	} else {
 		$arr['data'] = '';
 		$arr['bigdata'] = 1;
-		$update = array_diff($arr, $session);
+		$update = array_diff_value($arr, $g_session);
 		$update AND db_update('bbs_session', array('sid'=>$sid), $update);
-		$update2 = array_diff(array('data'=>$data, 'last_date'=>$time), $session);
+		$update2 = array_diff_value(array('data'=>$data, 'last_date'=>$time), $g_session);
 		$update2 AND db_update('bbs_session_data', array('sid'=>$sid), $update2);
 	}
 	return TRUE;

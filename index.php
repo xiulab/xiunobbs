@@ -16,7 +16,7 @@ $lang = include('./lang/zh-cn.php');
 
 // 用户
 $uid = _SESSION('uid');
-$user = user_read($uid); 
+$user = user_read($uid);
 
 // 用户组
 $gid = empty($user) ? 0 : $user['gid'];
