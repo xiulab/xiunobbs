@@ -107,10 +107,14 @@ if($action == 'create') {
 // $action == 'seo' 也会跳到此处
 } else {
 	
+	
+	
 	// hook thread_info_start.php
 	$tid = param(1, 0);
 	$thread = thread_read($tid);
-	empty($thread) AND exit(header("HTTP/1.0 404 Not Found"));
+	empty($thread) AND message(-1, '主题不存在');;
+	
+	echo 1;
 	
 	$fid = $thread['fid'];
 	$forum = forum_read($fid);
@@ -132,7 +136,7 @@ if($action == 'create') {
 		$thread['subject'] = post_highlight_keyword($thread['subject'], $keyword);
 		//$first['message'] = post_highlight_keyword($first['subject']);
 	}
-	
+	echo 2;
 	$allowpost = forum_access_user($fid, $gid, 'allowpost') ? 1 : 0;
 	$allowupdate = forum_access_mod($fid, $gid, 'allowupdate') ? 1 : 0;
 	$allowdelete = forum_access_mod($fid, $gid, 'allowdelete') ? 1 : 0;
@@ -163,9 +167,9 @@ if($action == 'create') {
 		unset($thread['userip']);
 		unset($thread['sid']);
 	}
-	
+	echo 3;
 	// hook thread_info_end.php
-	include './pc/view/thread.htm';
+	include './view/htm/thread.htm';
 	
 }
 

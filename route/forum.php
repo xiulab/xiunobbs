@@ -25,6 +25,6 @@ $header['keywords'] = $forum['seo_keywords']; 		// 关键词
 
 $header['navs'][] = "<a href=\"forum-$fid.htm\">$forum[name]</a>";
 
-include './pc/view/forum.htm';
+include './view/htm/forum.htm';
 
 ?>

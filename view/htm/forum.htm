@@ -1,0 +1,90 @@
+<?php include "./view/htm/header.inc.htm"; ?>
+
+<div class="row m-t-1">
+	<div class="col-lg-8">
+		<div class="card">
+			<table class="table table-hover threadlist">
+				<tbody>
+					<?php for($i=0; $i<10; $i++) { ?>
+					<tr class="thread">
+						<td width="60"><img src="view/img/avatar.png" alt="..." width="50" height="50" class="img-circle"></td>
+						<td>
+							<p class="subject">
+								<a href="<?php echo url('thread-123');?>">标标题标题标题标题标题标题标题标题标题标题 题标标题标题标题标题标题标题标题标题 标题标题题标标题标题标题标题标题标题标题标题标题标题题</a>
+							</p>
+							<div class="row m-x-0 small text-muted">
+								<div class="pull-left"><b>张三标</b> 发表于: 2016-1-2</div>
+								<div class="pull-right text-right">
+									<i class="icon-eye-open"></i> 123 &nbsp;
+									<i class="icon-comment"></i> 456
+								</div>
+							</div>
+						</td>
+					</tr>
+					<?php } ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="col-lg-4">
+		<div class="card">
+			<img class="center-block m-y-1" data-src="holder.js/100%x180" alt="100%x180" src="view/img/avatar.png" width="100" height="100">
+			<h4 class="text-xs-center">版块名称</h4>
+			<p class="m-x-1">这个版块的介绍是这个版块的介绍是这个版块的介绍是这个版块的介绍是</p>
+			<div class="card-group card-group-nest">
+				<div class="card">
+					<div class="card-block">
+						<div class="text-xs-center text-muted small">今日</div>
+						<h5 class="text-xs-center">123</h5>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-block">
+						<div class="text-xs-center text-muted small">主题</div>
+						<h5 class="text-xs-center">234</h5>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-block">
+						<div class="text-xs-center text-muted small">排名</div>
+						<h5 class="text-xs-center">2</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card">
+			<div class="card-block">
+				<h4>版块公告</h4>
+				<p>
+					版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容
+				</p>
+				<h6>论坛版主：</h6>
+				<div class="row">
+					<div class="col-xs-3 text-xs-center">
+						<a href="#"><img src="view/img/avatar.png" alt="..." width="32" height="32" class="img-circle"></a><br>
+						<a href="#" class="small text-muted text-nowrap">名名称名称</a>
+					</div>
+					<div class="col-xs-3 text-xs-center">
+						<a href="#"><img src="view/img/avatar.png" alt="..." width="32" height="32" class="img-circle"></a><br>
+						<a href="#" class="small text-muted">名称</a>
+					</div>
+					<div class="col-xs-3 text-xs-center">
+						<a href="#"><img src="view/img/avatar.png" alt="..." width="32" height="32" class="img-circle"></a><br>
+						<a href="#" class="small text-muted">名称</a>
+					</div>
+					<div class="col-xs-3 text-xs-center">
+						<a href="#"><img src="view/img/avatar.png" alt="..." width="32" height="32" class="img-circle"></a><br>
+						<a href="#" class="small text-muted">名称</a>
+					</div>
+					<div class="col-xs-3 text-xs-center">
+						<a href="#"><img src="view/img/avatar.png" alt="..." width="32" height="32" class="img-circle"></a><br>
+						<a href="#" class="small text-muted">名称</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<?php include "./view/htm/footer.inc.htm"; ?>

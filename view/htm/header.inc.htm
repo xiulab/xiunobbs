@@ -16,39 +16,8 @@
 	<link rel="stylesheet" href="view/css/bootstrap.css">
 	<link rel="stylesheet" href="view/css/font-awesome.css">
 	<link rel="stylesheet" href="view/css/tether.css">
-	<link rel="stylesheet" href="view/css/xiuno.css">
+	<link rel="stylesheet" href="view/css/bbs.css">
 	<style>
-		/*
-		.nav-more {background: url(view/img/more.png) no-repeat center; opacity: 1; width: 22px; height: 38px;}
-		.nav-more:hover {opacity: 1;}
-		*/
-		/* fix bootstrap nav bg-inverse dropdown 未跟着改变 */
-		
-		nav.bg-inverse .dropdown-menu {
-			background-color: #373a3c;
-			border: 1px solid #272a2c;
-		}
-		nav.bg-inverse .dropdown-item {
-			color: rgba(255, 255, 255, 0.5);
-		}
-		nav.bg-inverse .dropdown-item:hover {
-			background-color: #575a5c;
-			color: rgba(255, 255, 255, 1);
-		}
-		html, body {height:100%; font-family:"Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", "微软雅黑", "华文细黑", STHeiti, sans-serif}
-		body {background: #f4f4f4; }
-		#wrapper { min-height:100%; position:relative; }
-		#body { padding-bottom: 60px; }
-		#footer {
-			font-size: 0.75rem;
-			background: #eee;
-			border-top: 1px solid #ddd;
-			width:100%;
-			height:60px;
-			position:absolute;
-			bottom:0;
-			left:0;
-		}
 		
 	</style>
 </head>
@@ -66,12 +35,14 @@
 					<a class="nav-link" href="">LOGO</a>
 				</div>
 				<div class="col-xs-4">
-					<div class="nav-item">
-						<?php if(empty($uid)) { ?>
-						<a class="nav-link" href="<?php echo url('user-login');?>"><small><?php echo lang('login');?></small></a>
-						<?php } else { ?>
-						<a class="nav-link" href="<?php echo url('my');?>"><small><?php echo $user['username'];?></small></a>
-						<?php } ?>
+					<div class="pull-right">
+						<div class="nav-item">
+							<?php if(empty($uid)) { ?>
+							<a class="nav-link" href="<?php echo url('user-login');?>"><small><?php echo lang('login');?></small></a>
+							<?php } else { ?>
+							<a class="nav-link" href="<?php echo url('my');?>"><small><?php echo $user['username'];?></small></a>
+							<?php } ?>
+						</div>
 					</div>
 				</div>
 			</div>
