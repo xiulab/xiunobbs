@@ -89,7 +89,7 @@ INSERT INTO `bbs_group` SET gid='105', name="五级用户组", allowread='1', al
 DROP TABLE IF EXISTS bbs_forum;
 CREATE TABLE bbs_forum (				
   fid int(11) unsigned NOT NULL auto_increment,		# fid
-  fup int(11) unsigned NOT NULL auto_increment,		# 上一级版块
+ # fup int(11) unsigned NOT NULL auto_increment,	# 上一级版块，二级版块作为插件
   name char(16) NOT NULL default '',			# 版块名称
   rank tinyint(3) unsigned NOT NULL default '0',	# 显示，倒序，数字越大越靠前
   threads mediumint(8) unsigned NOT NULL default '0',	# 主题数

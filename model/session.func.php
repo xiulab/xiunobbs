@@ -1,7 +1,7 @@
 <?php 
 
-// 如果数据不变，则不写入。
-$g_session = array();
+$g_session = array();	// 记录数据库读出来的 session 记录，用来对比数据是否发生变化，负载高的时候，可以切换到 session_safe.func.php (不支持在线统计）
+$g_session_invalid = 0; // 0: 有效， 1：无效
 
 // 如果是管理员, sid, 与 ip 绑定，一旦 IP 发生变化，则需要重新登录
 
@@ -11,11 +11,10 @@ function sess_open($save_path, $session_name) {
 }
 
 function sess_close() {
-	global $sid, $uid, $fid, $time, $g_session;
+	global $sid, $uid, $fid, $time, $g_session, $g_session_invalid;
 	//echo "sess_close() \r\n";
 	
-	$session_invalid = _SERVER('session_invalid');
-	if($session_invalid) return TRUE;
+	if($g_session_invalid) return TRUE;
 	
 	$update = array(
 		'uid'=>$uid,
@@ -66,7 +65,7 @@ function sess_new() {
 		$cookie_test_decode = xn_decrypt($cookie_test, $conf['auth_key']);
 		if($cookie_test_decode != md5($agent.$longip)) {
 			// 无效的请求，可能受到攻击
-			$_SERVER['session_invalid'] = 1;
+			$g_session_invalid = 1;
 			return;
 		} else {
 			setcookie('cookie_test', $cookie_test, $time - 86400, '');
@@ -74,7 +73,7 @@ function sess_new() {
 	} else {
 		$cookie_test = xn_encrypt(md5($agent.$longip), $conf['auth_key']);
 		setcookie('cookie_test', $cookie_test, $time + 86400, '');
-		$_SERVER['session_invalid'] = 1;
+		$g_session_invalid = 1;
 		return;
 	}
 	
@@ -98,10 +97,9 @@ function sess_new() {
 }
 
 function sess_write($sid, $data) {
-	global $g_session, $sid, $time, $uid, $fid, $longip;
+	global $g_session, $sid, $time, $uid, $fid, $longip, $g_session_invalid;
 	
-	$session_invalid = _SERVER('session_invalid');
-	if($session_invalid) return TRUE;
+	if($g_session_invalid) return TRUE;
 	
 	$url = _SERVER('REQUEST_URI_NO_PATH');
 	$agent = _SERVER('HTTP_USER_AGENT');

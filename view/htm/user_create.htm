@@ -8,13 +8,13 @@
 				<h4><?php echo lang('user_create');?></h4>
 				<form class="form-group-sm" action="<?php echo url('user-create');?>" method="post" id="form">
 					<p class="input-group">
-						<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+						<span class="input-group-addon"><i class="icon icon-user"></i></span>
 						<input type="text" class="form-control" placeholder="<?php echo lang('email');?>" name="email" id="email">
 					</p>
 					<div class="row">
 						<div class="col-xs-8">
 							<p class="input-group">
-								<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+								<span class="input-group-addon"><i class="icon icon-lock"></i></span>
 								<input type="password" class="form-control" placeholder="<?php echo lang('init_pw');?>" name="password" id="password">
 							</p>
 						</div>
@@ -26,10 +26,10 @@
 						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." disabled><?php echo lang('register');?></button>
 					</p>
 					<div class="clearfix">
-						<div class="pull-xs-left">
+						<div class="pull-left">
 							
 						</div>
-						<div class="pull-xs-right">
+						<div class="pull-right">
 							<a href="<?php echo url('user-login');?>" class="text-muted"><small><?php echo lang('login');?></small></a>
 							<a href="<?php echo url('user-findpw');?>" class="text-muted"><small><?php echo lang('forgot_pw');?></small></a>
 						</div>

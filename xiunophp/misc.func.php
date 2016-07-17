@@ -918,6 +918,7 @@ function _GET($k) { return isset($_GET[$k]) ? $_GET[$k] : NULL; }
 function _POST($k) { return isset($_POST[$k]) ? $_POST[$k] : NULL; }
 function _COOKIE($k) { return isset($_COOKIE[$k]) ? $_COOKIE[$k] : NULL; }
 function _REQUEST($k) { return isset($_REQUEST[$k]) ? $_REQUEST[$k] : NULL; }
+function _ENV($k) { return isset($_ENV[$k]) ? $_ENV[$k] : NULL; }
 function _SERVER($k) { return isset($_SERVER[$k]) ? $_SERVER[$k] : NULL; }
 function _SESSION($k) {global $g_session; return isset($_SESSION[$k]) ? $_SESSION[$k] : (isset($g_session[$k]) ? $g_session[$k] : NULL); }
 function GLOBALS($k) { return isset($GLOBALS[$k]) ? $GLOBALS[$k] : NULL; }

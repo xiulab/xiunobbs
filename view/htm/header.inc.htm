@@ -14,7 +14,7 @@
 	<link rel="icon" sizes="32x32" href="view/img/favicon.ico">
 	<link rel="Bookmark" href="view/img/favicon.ico" />
 	<link rel="stylesheet" href="view/css/bootstrap.css">
-	<link rel="stylesheet" href="view/css/bootstrap-icon.css">
+	<link rel="stylesheet" href="view/css/font-awesome.css">
 	<link rel="stylesheet" href="view/css/tether.css">
 	<link rel="stylesheet" href="view/css/xiuno.css">
 	<style>
@@ -35,8 +35,7 @@
 			background-color: #575a5c;
 			color: rgba(255, 255, 255, 1);
 		}
-		
-		html, body {height:100%;}
+		html, body {height:100%; font-family:"Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", "微软雅黑", "华文细黑", STHeiti, sans-serif}
 		body {background: #f4f4f4; }
 		#wrapper { min-height:100%; position:relative; }
 		#body { padding-bottom: 60px; }
@@ -104,7 +103,7 @@
 					</ul>
 				</div>
 				<div class="col-md-4">
-					<ul class="nav navbar-nav">
+					<ul class="nav navbar-nav pull-right">
 						<?php if(empty($uid)) { ?>
 						<li class="nav-item">
 							<a class="nav-link" href="<?php echo url('user-login');?>"><small><?php echo lang('login');?></small></a>

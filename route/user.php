@@ -30,7 +30,7 @@ if($action == 'login') {
 		
 		$email = param('email');			// 邮箱或者手机号
 		$password = param('password');
-		empty($email) AND message(1, '账号为空');
+		empty($email) AND message('email', '请填写 Email');
 		if(is_email($email, $err)) {
 			$user = user_read_by_email($email);
 			empty($user) AND message('email', 'Email 不存在');
