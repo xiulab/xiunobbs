@@ -39,6 +39,7 @@ body {background: #f4f4f4; }
 	text-overflow: ellipsis; 
 	-o-text-overflow: ellipsis; 
 	overflow: hidden; */
+	margin-bottom: 0.5rem;
 }
 .thread .subject a { color: #373a3c;}
 
