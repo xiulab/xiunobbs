@@ -4,6 +4,18 @@
 	<div class="col-lg-8">
 		<div class="card">
 			<table class="table table-hover threadlist">
+				<thead>
+					<tr>
+						<th colspan="2">
+							<dl class="row">
+								<dt>最新回复</dt>
+								<dd>
+									<button type="submit" class="btn btn-primary btn-sm pull-right" id="submit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('post_new');?></button>
+								</dd>
+							</dl>
+						</th>
+					</tr>
+				</thead>
 				<tbody>
 					<?php for($i=0; $i<10; $i++) { ?>
 					<tr class="thread">

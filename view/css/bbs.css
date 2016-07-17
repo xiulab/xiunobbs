@@ -31,13 +31,14 @@ body {background: #f4f4f4; }
 }
 
 
-.threadlist {table-layout: fixed; margin-bottom: 0px}
+.threadlist {/*table-layout: fixed; */margin-bottom: 0px}
 .thread .subject {
+	/*
 	width: 100%; 
 	white-space: nowrap; 
 	text-overflow: ellipsis; 
 	-o-text-overflow: ellipsis; 
-	overflow: hidden; 
+	overflow: hidden; */
 }
 .thread .subject a { color: #373a3c;}
 
@@ -53,3 +54,18 @@ body {background: #f4f4f4; }
 	-o-text-overflow: ellipsis; 
 	overflow: hidden; 
 }
+
+
+
+/*                 ul, dl 多列定义，用来模拟简单的表格布局                           */
+
+dl.row, ul.row { display: table; width: 100%; clear: both;}
+dl.row, dl.row > dt, dl.row > dd, ul.row, ul.row > li {margin: 0px; padding: 0px;}
+dl.row > dt, dl.row > dd, ul.row > li {display: table-cell; vertical-align: middle;}
+dl.row > dt, dl.row > dd, ul.row > li {list-style: none; min-height: 16px;}
+dl.row > dt, dl.row > dd {width: auto; /* auto */}
+/*
+dl.form {display: block; overflow: hidden;}
+dl.row.form > dt, dl.row.form > dd, ul.row.form > li {display: block; float: left; vertical-align: middle;}
+dl.form > dt, dl.form > dd{line-height: 34px; min-height:34px;}
+*/
