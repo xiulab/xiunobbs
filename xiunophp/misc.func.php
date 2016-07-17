@@ -830,7 +830,7 @@ function http_url_path() {
 
 function url($url) {
 	global $conf;
-	empty($conf['url_rewrite_on']) AND $conf['url_rewrite_on'] = 0;
+	!isset($conf['url_rewrite_on']) AND $conf['url_rewrite_on'] = 0;
 	if($conf['url_rewrite_on'] == 0) {
 		$url = "?$url.htm";
 	} elseif($conf['url_rewrite_on'] == 1) {

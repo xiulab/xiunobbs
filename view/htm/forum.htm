@@ -10,25 +10,25 @@
 							<dl class="row">
 								<dt>最新回复</dt>
 								<dd>
-									<button type="submit" class="btn btn-primary btn-sm pull-right" id="submit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('post_new');?></button>
+									<a role="button" class="btn btn-primary btn-sm pull-right" id="submit" data-loading-text="<?php echo lang('submiting');?>..." href="<?php echo url('thread-create');?>"><?php echo lang('thread_create_new');?></a>
 								</dd>
 							</dl>
 						</th>
 					</tr>
 				</thead>
 				<tbody>
-					<?php for($i=0; $i<10; $i++) { ?>
+					<?php foreach($threadlist as $thread) { ?>
 					<tr class="thread">
 						<td width="60"><img src="view/img/avatar.png" alt="..." width="50" height="50" class="img-circle center-block"></td>
 						<td class="p-l-0">
 							<p class="subject">
-								<a href="<?php echo url('thread-123');?>">标标题标题标题标题标题标题标题标题标题标题 题标标题标题标题标题标题标题标题标题 标题标题题标标题标题标题标题标题标题标题标题标题标题题</a>
+								<a href="<?php echo url("thread-$thread[tid]");?>"><?php echo $thread['subject'];?></a>
 							</p>
 							<div class="row m-x-0 small text-muted">
-								<div class="pull-left"><b>张三标</b> 发表于: 2016-1-2</div>
+								<div class="pull-left"><?php echo $thread['username'];?> 发表于: <?php echo $thread['create_date_fmt'];?></div>
 								<div class="pull-right text-right">
-									<i class="icon-eye-open"></i> 123 &nbsp;
-									<i class="icon-comment"></i> 456
+									<i class="icon-eye-open"></i> <?php echo $thread['views'];?> &nbsp;
+									<i class="icon-comment"></i> <?php echo $thread['posts'];?>
 								</div>
 							</div>
 						</td>
@@ -41,8 +41,8 @@
 	<div class="col-lg-4">
 		<div class="card">
 			<img class="center-block m-y-1" data-src="holder.js/100%x180" alt="100%x180" src="view/img/avatar.png" width="100" height="100">
-			<h4 class="text-xs-center">版块名称</h4>
-			<p class="m-x-1">这个版块的介绍是这个版块的介绍是这个版块的介绍是这个版块的介绍是</p>
+			<h4 class="text-xs-center"><?php echo $forum['name'];?></h4>
+			<p class="m-x-1"><?php echo $forum['brief'];?></p>
 			<div class="card-group card-group-nest">
 				<div class="card">
 					<div class="card-block">

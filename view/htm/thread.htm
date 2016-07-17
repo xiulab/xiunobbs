@@ -1,0 +1,99 @@
+<?php include "./view/htm/header.inc.htm"; ?>
+
+<div class="row m-t-1">
+	<div class="col-lg-8">
+		<div class="card p-x-1 p-y-1">
+			<dl class="row">
+				<dt class="vtop p-r-1"><img src="view/img/avatar.png" alt="..." width="50" height="50" class="img-circle center-block"></dt>
+				<dd>
+					<h3><?php echo $thread['subject'];?></h3>
+					<dl class="row small">
+						<dt><?php echo $thread['username'];?> <?php echo $thread['create_date_fmt'];?> </dt>
+						<dd class="text-right">
+							<a href="<?php echo url("thread-update-$thread[tid]");?>"><i class="icon-edit"></i> 编辑</a> &nbsp;
+							<a href="<?php echo url("thread-delete-$thread[tid]");?>"><i class="icon-remove"></i> 删除</a>
+						</dd>
+					</dl>
+				</dd>
+			</dl>
+			<hr></hr>
+			<div class="message">
+				<?php echo $first['message'];?>
+			</div>
+		</div>
+		<div class="card">
+			<table class="table table-hover threadlist">
+				<thead>
+					<tr>
+						<th colspan="2">
+							<dl class="row">
+								<dt>最新回复(<?php echo $thread['posts'];?>)</dt>
+								<dd>
+								</dd>
+							</dl>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach($postlist as $post) { ?>
+					<tr class="thread">
+						<td width="60"><img src="view/img/avatar.png" alt="..." width="50" height="50" class="img-circle center-block"></td>
+						<td class="p-l-0">
+							<p class="subject">
+								<a href="<?php echo url("thread-$thread[tid]");?>"><?php echo $thread['subject'];?></a>
+							</p>
+							<div class="row m-x-0 small text-muted">
+								<div class="pull-left"><?php echo $thread['username'];?> 发表于: <?php echo $thread['create_date_fmt'];?></div>
+								<div class="pull-right text-right">
+									<i class="icon-eye-open"></i> <?php echo $thread['views'];?> &nbsp;
+									<i class="icon-comment"></i> <?php echo $thread['posts'];?>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<?php } ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="col-lg-4">
+		<div class="card">
+			<img class="center-block m-y-1" data-src="holder.js/100%x180" alt="100%x180" src="view/img/avatar.png" width="100" height="100">
+			<h4 class="text-xs-center"><?php echo $thread['username'];?></h4>
+			<div class="card-group card-group-nest">
+				<div class="card">
+					<div class="card-block">
+						<div class="text-xs-center text-muted small">主题</div>
+						<h5 class="text-xs-center">123</h5>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-block">
+						<div class="text-xs-center text-muted small">回复</div>
+						<h5 class="text-xs-center">234</h5>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-block">
+						<div class="text-xs-center text-muted small">注册排名</div>
+						<h5 class="text-xs-center">2</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card">
+			<div class="card-block">
+				<h4>作者最近主题</h4>
+				<ul>
+					<li>版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容 - 2 天前</li>
+					<li>版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容 - 2 天前</li>
+					<li>版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容 - 2 天前</li>
+					<li>版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容 - 2 天前</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<?php include "./view/htm/footer.inc.htm"; ?>

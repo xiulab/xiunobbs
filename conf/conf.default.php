@@ -118,7 +118,8 @@ return array (
 	'check_flood_on' => 0,		// 开启防止灌水
 	'check_flood' => array('users'=>10, 'posts'=>10, 'threads'=>5),	// 一段时间内连续操作的数量上限
 	'badword_on' => 0,		// 开启关键词过滤
-	
+	'url_rewrite_on' => 0,
+	 
 	'version' => '3.0',		// 版本
 	'installed' => 0,		// 安装时间
 );

@@ -23,6 +23,8 @@ return array(
 	'message'=>'内容',
 	'thread_create'=>'发表主题',
 	'thread_create_successfully'=>'发表主题成功',
+	'thread_create_new'=>'发新帖',
+	'post_create_new'=>'发新帖',
 	
 );
 

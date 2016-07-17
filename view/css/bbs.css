@@ -4,6 +4,52 @@
 */
 /* fix bootstrap nav bg-inverse dropdown 未跟着改变 */
 
+
+
+
+/********************************* 对 bootstrasp 进行增强 *************************************/
+
+/* card 嵌套 card-group 的时候 */
+.card-group-nest .card:first-child {border-left:0px; border-bottom: 0px; border-top-left-radius: 0}
+.card-group-nest .card:last-child {border-right:0px; border-bottom: 0px; border-top-right-radius: 0}
+.card-group-nest .card {border-bottom: 0px;}
+.card-group-nest .card .card-block {padding: 0.5rem;}
+.card-group-nest .card .card-block h5 {margin-bottom: 0;}
+
+.text-ellipsis {
+	/*width: 100%;*/
+	white-space: nowrap; 
+	text-overflow: ellipsis; 
+	-o-text-overflow: ellipsis; 
+	overflow: hidden; 
+}
+
+.text-right {text-align: right;}
+.text-left {text-align: left;}
+
+/*  ul, dl 多列定义，用来模拟简单的表格布局  */
+dl.row, ul.row { display: table; width: 100%; clear: both;}
+dl.row, dl.row > dt, dl.row > dd, ul.row, ul.row > li {margin: 0px; padding: 0px;}
+dl.row > dt, dl.row > dd, ul.row > li {display: table-cell; vertical-align: middle;}
+dl.row > dt, dl.row > dd, ul.row > li {list-style: none; min-height: 16px;}
+dl.row > dt, dl.row > dd {width: auto; /* auto */}
+
+ul.row.vtop > li, ul.row > li.vtop {vertical-align: top;}
+dl.row.vtop > dt, dl.row.vtop > dd, dl.row > dt.vtop, dl.row > dd.vtop {vertical-align: top;}
+ul.row.vbottom > li, ul.row > li.vbottom {vertical-align: bottom;}
+dl.row.vbottom > dt, dl.row.vbottom > dd, dl.row > dt.vbottom, dl.row > dd.vbottom {vertical-align: bottom;}
+
+/*
+dl.form {display: block; overflow: hidden;}
+dl.row.form > dt, dl.row.form > dd, ul.row.form > li {display: block; float: left; vertical-align: middle;}
+dl.form > dt, dl.form > dd{line-height: 34px; min-height:34px;}
+*/
+
+
+
+
+/********************************* bbs 业务部分 *************************************/
+
 nav.bg-inverse .dropdown-menu {
 	background-color: #373a3c;
 	border: 1px solid #272a2c;
@@ -15,6 +61,8 @@ nav.bg-inverse .dropdown-item:hover {
 	background-color: #575a5c;
 	color: rgba(255, 255, 255, 1);
 }
+
+
 html, body {height:100%; font-family:"Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", "微软雅黑", "华文细黑", STHeiti, sans-serif}
 body {background: #f4f4f4; }
 #wrapper { min-height:100%; position:relative; }
@@ -30,8 +78,8 @@ body {background: #f4f4f4; }
 	left:0;
 }
 
-
 .threadlist {/*table-layout: fixed; */margin-bottom: 0px}
+.threadlist th {padding-top: 0.5rem; padding-bottom: 0.5rem;}
 .thread .subject {
 	/*
 	width: 100%; 
@@ -39,34 +87,6 @@ body {background: #f4f4f4; }
 	text-overflow: ellipsis; 
 	-o-text-overflow: ellipsis; 
 	overflow: hidden; */
-	margin-bottom: 0.5rem;
+	margin-bottom: 0.2rem;
 }
 .thread .subject a { color: #373a3c;}
-
-/* card 嵌套 card-group 的时候 */
-.card-group-nest .card:first-child {border-left:0px; border-bottom: 0px; border-top-left-radius: 0}
-.card-group-nest .card:last-child {border-right:0px; border-bottom: 0px; border-top-right-radius: 0}
-.card-group-nest .card {border-bottom: 0px;}
-
-.text-ellipsis {
-	/*width: 100%;*/
-	white-space: nowrap; 
-	text-overflow: ellipsis; 
-	-o-text-overflow: ellipsis; 
-	overflow: hidden; 
-}
-
-
-
-/*                 ul, dl 多列定义，用来模拟简单的表格布局                           */
-
-dl.row, ul.row { display: table; width: 100%; clear: both;}
-dl.row, dl.row > dt, dl.row > dd, ul.row, ul.row > li {margin: 0px; padding: 0px;}
-dl.row > dt, dl.row > dd, ul.row > li {display: table-cell; vertical-align: middle;}
-dl.row > dt, dl.row > dd, ul.row > li {list-style: none; min-height: 16px;}
-dl.row > dt, dl.row > dd {width: auto; /* auto */}
-/*
-dl.form {display: block; overflow: hidden;}
-dl.row.form > dt, dl.row.form > dd, ul.row.form > li {display: block; float: left; vertical-align: middle;}
-dl.form > dt, dl.form > dd{line-height: 34px; min-height:34px;}
-*/
