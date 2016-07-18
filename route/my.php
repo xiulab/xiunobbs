@@ -78,30 +78,36 @@ if(empty($action)) {
 		
 	include './view/htm/my_thread.htm';
 
-} elseif($action == 'uploadavatar') {
+} elseif($action == 'avatar') {
 	
-	$upfile = param('upfile', '', FALSE);
-	empty($upfile) AND message(-1, 'upfile 数据为空');
-	$json = xn_json_decode($upfile);
-	empty($json) AND message(-1, '数据有问题: json 为空');
+	if($method == 'GET') {
+		
+		include './view/htm/my_avatar.htm';
 	
-	$name = $json['name'];
-	$width = $json['width'];
-	$height = $json['height'];
-	$data = base64_decode($json['data']);
-	$size = strlen($data);
-	
-	$filename = "$uid.png";
-	$dir = substr(sprintf("%09d", $uid), 0, 3).'/';
-	$path = $conf['upload_path'].'avatar/'.$dir;
-	$url = $conf['upload_url'].'avatar/'.$dir.$filename;
-	!is_dir($path) AND (mkdir($path, 0777, TRUE) OR message(-2, '目录创建失败'));
-	
-	file_put_contents($path.$filename, $data) OR message(-1, '写入文件失败');
-	
-	user_update($uid, array('avatar'=>$time));
-	message(0, $url);
-	
+	} else {
+		
+		$upfile = param('upfile', '', FALSE);
+		empty($upfile) AND message(-1, 'upfile 数据为空');
+		$json = xn_json_decode($upfile);
+		empty($json) AND message(-1, '数据有问题: json 为空');
+		
+		$name = $json['name'];
+		$width = $json['width'];
+		$height = $json['height'];
+		$data = base64_decode($json['data']);
+		$size = strlen($data);
+		
+		$filename = "$uid.png";
+		$dir = substr(sprintf("%09d", $uid), 0, 3).'/';
+		$path = $conf['upload_path'].'avatar/'.$dir;
+		$url = $conf['upload_url'].'avatar/'.$dir.$filename;
+		!is_dir($path) AND (mkdir($path, 0777, TRUE) OR message(-2, '目录创建失败'));
+		
+		file_put_contents($path.$filename, $data) OR message(-1, '写入文件失败');
+		
+		user_update($uid, array('avatar'=>$time));
+		message(0, $url);
+	}
 }
 
 ?>
