@@ -8,15 +8,23 @@ $user = user_read($uid);
 user_login_check($user);
 
 // 账户（密码、头像），主题
-if(empty($action) || $action == 'profile') {
+if(empty($action)) {
 	
+	$header['title'] = '个人中心';
+	include './view/htm/my.htm';
+	
+} elseif($action == 'profile') {
+	
+	include './view/htm/my_profile.htm';
+/*
+} elseif($action == 'profile') {
+		
 	if($method == 'GET') {
 
-		$header['title'] = '个人中心';
-		
-		include './view/htm/my.htm';
+		include './view/htm/my_profile.htm';
 	
 	} else {
+		
 		$username = param('username');
 		$email = param('email');
 		!is_username($username, $err) AND message(1, $err);
@@ -41,7 +49,8 @@ if(empty($action) || $action == 'profile') {
 			message(0, '已保存');
 		}
 	}
-	
+*/
+
 } elseif($action == 'password') {
 	
 	if($method == 'GET') {
@@ -50,11 +59,11 @@ if(empty($action) || $action == 'profile') {
 		
 	} elseif($method == 'POST') {
 		
-		$password = param('password');
-		$newpassword = param('newpassword');
-		md5($password.$user['salt']) != $user['password'] AND message(1, '旧密码不正确');
-		$newpassword = md5($newpassword.$user['salt']);
-		$r = user_update($uid, array('password'=>$newpassword));
+		$password_old = param('password_old');
+		$password_new = param('password_new');
+		md5($password_old.$user['salt']) != $user['password'] AND message('password_old', '旧密码不正确');
+		$password_new = md5($password_new.$user['salt']);
+		$r = user_update($uid, array('password'=>$password_new));
 		$r !== FALSE ? message(0, '密码修改成功') : message(-1, '密码修改失败');
 		
 	}

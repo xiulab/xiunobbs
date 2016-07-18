@@ -1358,12 +1358,8 @@ $.fn.alert = function(message) {
 	jpthis = jthis.parent('.form-group');
 	jpthis.addClass('has-danger');
 	jthis.addClass('form-control-danger');
-	if(in_mobile) {
-		// 此处调用 toast 或者系统的 alert 方法
-		alert(message);
-	} else {
-		jthis.data('title', message).tooltip('show');
-	}
+	//if(in_mobile) alert(message);
+	jthis.data('title', message).tooltip('show');
 	return this;
 }
 

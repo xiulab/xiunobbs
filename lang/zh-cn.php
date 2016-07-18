@@ -1,6 +1,7 @@
 <?php
 
 return array(
+	'back'=>'返回',
 	'username'=>'用户名',
 	'email'=>'Email',
 	'password'=>'密码',
@@ -26,6 +27,11 @@ return array(
 	'thread_create_new'=>'发新帖',
 	'post_create_new'=>'发新帖',
 	'post_create'=>'回帖',
+	
+	'password_old'=>'旧密码',
+	'password_new'=>'新密码',
+	'password_new_repeat'=>'重复新密码',
+	'update_password'=>'修改密码',
 	
 );
 

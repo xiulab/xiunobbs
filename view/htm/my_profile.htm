@@ -1,0 +1,49 @@
+<?php include "./view/htm/header.inc.htm"; ?>
+
+<div class="row">
+	<div class="col-lg-6 col-lg-offset-3">
+		<div class="card card-block m-t-1">
+			<img class="center-block m-t-0" data-src="holder.js/100%x180" alt="100%x180" src="view/img/avatar.png" width="50" height="50">
+			<div class="text-center text-bold"><?php echo $user['username'];?></div>
+			<div class="text-center small">[<?php echo $user['groupname'];?>]</div>
+			<hr />
+			<div class="row">
+				<div class="col-xs-12  col-sm-6 m-b-1 p-l-2 p-r-2">
+					<dl class="row m-b-1">
+						<dt class="text-muted">用户名：</dt>
+						<dd class="text-right">张三</dd>
+					</dl>
+					<dl class="row m-b-1">
+						<dt class="text-muted">Email：</dt>
+						<dd class="text-right">xxxx@xxxxx.com</dd>
+					</dl>
+					<dl class="row m-b-1">
+						<dt class="text-muted">注册时间：</dt>
+						<dd class="text-right">2015-1-12</dd>
+					</dl>
+					<dl class="row m-b-1">
+						<dt class="text-muted">最后登录：</dt>
+						<dd class="text-right">2015-1-12</dd>
+					</dl>
+				</div>
+				<div class="col-xs-12  col-sm-6 m-b-1 p-l-2 p-r-2">
+					<dl class="row m-b-1">
+						<dt class="text-muted">主题：</dt>
+						<dd class="text-right">123</dd>
+					</dl>
+					<dl class="row m-b-1">
+						<dt class="text-muted">回复：</dt>
+						<dd class="text-right">2345</dd>
+					</dl>
+					<dl class="row m-b-1">
+						<dt class="text-muted">精华：</dt>
+						<dd class="text-right">12</dd>
+					</dl>
+				</div>
+			</div>
+			<a role="button" class="btn btn-primary center-block" href="<?php echo url('my');?>"> <?php echo lang('back');?> </a>
+		</div>
+	</div>
+</div>
+
+<?php include "./view/htm/footer.inc.htm"; ?>

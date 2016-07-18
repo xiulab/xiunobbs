@@ -54,6 +54,7 @@
 .text-right { text-align: right; }
 .text-center { text-align: center; }
 .text-left { text-align: left; }
+.text-bold { font-weight: bold !important; }
 .text-grey { color: #bbb; }
 
 /*  ul, dl 多列定义，用来模拟简单的表格布局  */

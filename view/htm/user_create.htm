@@ -11,28 +11,26 @@
 						<span class="input-group-addon"><i class="icon icon-user"></i></span>
 						<input type="text" class="form-control" placeholder="<?php echo lang('email');?>" name="email" id="email">
 					</p>
-					<div class="row">
-						<div class="col-xs-8">
+					<dl class="row">
+						<dt style="width: 68%">
 							<p class="input-group">
 								<span class="input-group-addon"><i class="icon icon-lock"></i></span>
 								<input type="password" class="form-control" placeholder="<?php echo lang('init_pw');?>" name="password" id="password">
 							</p>
-						</div>
-						<div class="col-xs-4">
-							<button type="submit" class="btn btn-primary btn-sm btn-block" id="sendinitpw" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-sendinitpw');?>"><?php echo lang('get_init_pw');?></button>
-						</div>
-					</div>
+						</dt>
+						<dd class="text-right vtop">
+							<button type="submit" class="btn btn-primary btn-sm m-l-1" id="sendinitpw" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-sendinitpw');?>"><?php echo lang('get_init_pw');?></button>
+						</dd>
+					</dl>
 					<p>
 						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." disabled><?php echo lang('register');?></button>
 					</p>
-					<div class="clearfix">
-						<div class="pull-left">
-							
-						</div>
-						<div class="pull-right">
+					<dl class="row">
+						<dt></dt>
+						<dd class="text-right">
 							<a href="<?php echo url('user-login');?>" class="text-muted"><small><?php echo lang('login');?></small></a>
 							<a href="<?php echo url('user-findpw');?>" class="text-muted"><small><?php echo lang('forgot_pw');?></small></a>
-						</div>
+						</dd>
 					</div>
 				</form>
 			</div>
