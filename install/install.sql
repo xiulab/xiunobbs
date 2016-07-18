@@ -65,24 +65,23 @@ CREATE TABLE `bbs_group` (
   allowbanuser int(11) NOT NULL default '0',		# 允许禁止用户
   allowdeleteuser int(11) NOT NULL default '0',		# 允许删除用户
   allowviewip int(11) unsigned NOT NULL default '0',	# 允许查看用户敏感信息
-  allowcustomurl int(11) unsigned NOT NULL default '0',	# 允许自定义 URL
   PRIMARY KEY (gid)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-INSERT INTO `bbs_group` SET gid='0', name="游客组", allowread='1', allowthread='0', allowpost='1', allowattach='0', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
+INSERT INTO `bbs_group` SET gid='0', name="游客组", allowread='1', allowthread='0', allowpost='1', allowattach='0', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
 
-INSERT INTO `bbs_group` SET gid='1', name="管理员组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='1', allowupdate='1', allowdelete='1', allowmove='1', allowbanuser='1', allowdeleteuser='1', allowviewip='1', allowcustomurl='1';
-INSERT INTO `bbs_group` SET gid='2', name="超级版主组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='1', allowupdate='1', allowdelete='1', allowmove='1', allowbanuser='1', allowdeleteuser='1', allowviewip='1', allowcustomurl='1';
-INSERT INTO `bbs_group` SET gid='4', name="版主组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='1', allowupdate='1', allowdelete='1', allowmove='1', allowbanuser='1', allowdeleteuser='0', allowviewip='1', allowcustomurl='1';
-INSERT INTO `bbs_group` SET gid='5', name="实习版主组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='1', allowupdate='1', allowdelete='0', allowmove='1', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='1';
+INSERT INTO `bbs_group` SET gid='1', name="管理员组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='1', allowupdate='1', allowdelete='1', allowmove='1', allowbanuser='1', allowdeleteuser='1', allowviewip='1';
+INSERT INTO `bbs_group` SET gid='2', name="超级版主组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='1', allowupdate='1', allowdelete='1', allowmove='1', allowbanuser='1', allowdeleteuser='1', allowviewip='1';
+INSERT INTO `bbs_group` SET gid='4', name="版主组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='1', allowupdate='1', allowdelete='1', allowmove='1', allowbanuser='1', allowdeleteuser='0', allowviewip='1';
+INSERT INTO `bbs_group` SET gid='5', name="实习版主组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='1', allowupdate='1', allowdelete='0', allowmove='1', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
 
-INSERT INTO `bbs_group` SET gid='6', name="待验证用户组", allowread='1', allowthread='0', allowpost='1', allowattach='0', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
-INSERT INTO `bbs_group` SET gid='7', name="禁止用户组", allowread='0', allowthread='0', allowpost='0', allowattach='0', allowdown='0', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
+INSERT INTO `bbs_group` SET gid='6', name="待验证用户组", allowread='1', allowthread='0', allowpost='1', allowattach='0', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
+INSERT INTO `bbs_group` SET gid='7', name="禁止用户组", allowread='0', allowthread='0', allowpost='0', allowattach='0', allowdown='0', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
 
-INSERT INTO `bbs_group` SET gid='101', name="一级用户组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
-INSERT INTO `bbs_group` SET gid='102', name="二级用户组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
-INSERT INTO `bbs_group` SET gid='103', name="三级用户组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
-INSERT INTO `bbs_group` SET gid='104', name="四级用户组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
-INSERT INTO `bbs_group` SET gid='105', name="五级用户组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0', allowcustomurl='0';
+INSERT INTO `bbs_group` SET gid='101', name="一级用户组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
+INSERT INTO `bbs_group` SET gid='102', name="二级用户组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
+INSERT INTO `bbs_group` SET gid='103', name="三级用户组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
+INSERT INTO `bbs_group` SET gid='104', name="四级用户组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
+INSERT INTO `bbs_group` SET gid='105', name="五级用户组", allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
 
 
 # 板块表，一级, runtime 中存放 forumlist 格式化以后的数据。
@@ -314,19 +313,6 @@ CREATE TABLE bbs_ipaccess (
   action4 int(11) NOT NULL default '0',		# 预留4，供插件使用
   PRIMARY KEY (ip)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-DROP TABLE IF EXISTS bbs_friendlink;
-CREATE TABLE bbs_friendlink (
-  linkid bigint(11) unsigned NOT NULL auto_increment,	# 
-  `type` smallint(11) NOT NULL default '0',		#
-  rank smallint(11) NOT NULL default '0',		#
-  create_date int(11) unsigned NOT NULL default '0',	# 添加时间
-  name char(32) NOT NULL default '',
-  url char(64) NOT NULL default '',
-  PRIMARY KEY (linkid),
-  KEY (`type`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-INSERT INTO bbs_friendlink SET `name`='Xiuno BBS', url='http://bbs.xiuno.com/';
         
 # 持久的 key value 数据存储, ttserver, mysql
 DROP TABLE IF EXISTS bbs_kv;

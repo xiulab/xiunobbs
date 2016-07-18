@@ -7,6 +7,7 @@ $action = param(1);
 $user = user_read($uid);
 user_login_check($user);
 
+// 账户（密码、头像），主题
 if(empty($action) || $action == 'profile') {
 	
 	if($method == 'GET') {

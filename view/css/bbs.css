@@ -15,6 +15,35 @@
 .card-group-nest .card {border-bottom: 0px;}
 .card-group-nest .card .card-block {padding: 0.5rem;}
 .card-group-nest .card .card-block h5 {margin-bottom: 0;}
+.card > .table thead th {border-top: 0;}
+
+.m-b-sm { margin-bottom: 0.5rem }
+.m-t-sm { margin-top: 0.5rem }
+.m-l-sm { margin-left: 0.5rem }
+.m-r-sm { margin-right: 0.5rem }
+.m-x-sm { margin-left: 0.5rem; margin-right: 0.5rem }
+.m-y-sm { margin-top: 0.5rem; margin-bottom: 0.5rem }
+.p-b-sm { padding-bottom: 0.5rem }
+.p-t-sm { padding-top: 0.5rem }
+.p-l-sm { padding-left: 0.5rem }
+.p-r-sm { padding-right: 0.5rem }
+.p-x-sm { padding-left: 0.5rem; padding-right: 0.5rem }
+.p-y-sm { padding-top: 0.5rem; padding-bottom: 0.5rem }
+.p-a-sm { padding: 0.5rem;}
+
+.m-b-xs { margin-bottom: 0.3rem }
+.m-t-xs { margin-top: 0.3rem }
+.m-l-xs { margin-left: 0.3rem }
+.m-r-xs { margin-right: 0.3rem }
+.m-x-xs { margin-left: 0.3rem; margin-right: 0.3rem }
+.m-y-xs { margin-top: 0.3rem; margin-bottom: 0.3rem }
+.p-b-xs { padding-bottom: 0.3rem }
+.p-t-xs { padding-top: 0.3rem }
+.p-l-xs { padding-left: 0.3rem }
+.p-r-xs { padding-right: 0.3rem }
+.p-x-xs { padding-left: 0.3rem; padding-right: 0.3rem }
+.p-y-xs { padding-top: 0.3rem; padding-bottom: 0.3rem }
+.p-a-xs { padding: 0.3rem; }
 
 .text-ellipsis {
 	/*width: 100%;*/
@@ -33,6 +62,7 @@ dl.row, dl.row > dt, dl.row > dd, ul.row, ul.row > li {margin: 0px; padding: 0px
 dl.row > dt, dl.row > dd, ul.row > li {display: table-cell; vertical-align: middle;}
 dl.row > dt, dl.row > dd, ul.row > li {list-style: none; min-height: 16px;}
 dl.row > dt, dl.row > dd {width: auto; /* auto */}
+dl.row > dt {font-weight: normal}
 
 ul.row.vtop > li, ul.row > li.vtop {vertical-align: top;}
 dl.row.vtop > dt, dl.row.vtop > dd, dl.row > dt.vtop, dl.row > dd.vtop {vertical-align: top;}
@@ -90,3 +120,5 @@ body {background: #f4f4f4; }
 	margin-bottom: 0.2rem;
 }
 .thread .subject a { color: #373a3c;}
+dl.row > dt.avatar-parent, .avatar-parent { width: 65px;}
+.avatar { width: 50px; }

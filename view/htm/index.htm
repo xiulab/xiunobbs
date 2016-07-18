@@ -2,13 +2,13 @@
 
 <div class="row m-t-1">
 	<div class="col-lg-8">
-		<div class="card">
+		<div class="card p-a-sm">
 			<table class="table table-hover threadlist">
 				<thead>
 					<tr>
-						<th colspan="2">
+						<th colspan="2" class="p-t-0 p-l-0">
 							<dl class="row">
-								<dt>最新回复</dt>
+								<dt><b>最新回复</b></dt>
 								<dd>
 									<a role="button" class="btn btn-primary btn-sm pull-right" id="submit" data-loading-text="<?php echo lang('submiting');?>..." href="<?php echo url('thread-create');?>"><?php echo lang('thread_create_new');?></a>
 								</dd>
@@ -19,7 +19,7 @@
 				<tbody>
 					<?php foreach($threadlist as $thread) { ?>
 					<tr class="thread">
-						<td width="60"><img src="view/img/avatar.png" alt="..." width="50" height="50" class="img-circle center-block"></td>
+						<td class="avatar-parent"><img src="view/img/avatar.png" alt="..." class="img-circle avatar"></td>
 						<td class="p-l-0">
 							<p class="subject">
 								<a href="<?php echo url("thread-$thread[tid]");?>"><?php echo $thread['subject'];?></a>

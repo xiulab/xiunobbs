@@ -25,6 +25,7 @@ return array(
 	'thread_create_successfully'=>'发表主题成功',
 	'thread_create_new'=>'发新帖',
 	'post_create_new'=>'发新帖',
+	'post_create'=>'回帖',
 	
 );
 
