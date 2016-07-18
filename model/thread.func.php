@@ -366,6 +366,7 @@ function thread_format(&$thread) {
 	empty($user) AND $user = user_guest();
 	$thread['username'] = $user['username'];
 	$thread['user_avatar_url'] = $user['avatar_url'];
+	$thread['user'] = $user;
 	
 	$forum = $forumlist[$thread['fid']];
 	$thread['forumname'] = $forum['name'];

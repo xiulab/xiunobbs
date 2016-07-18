@@ -14,7 +14,7 @@ if(empty($action) || $action == 'profile') {
 
 		$header['title'] = '个人中心';
 		
-		include './pc/view/my_profile.htm';
+		include './view/htm/my_profile.htm';
 	
 	} else {
 		$username = param('username');
@@ -46,7 +46,7 @@ if(empty($action) || $action == 'profile') {
 	
 	if($method == 'GET') {
 		
-		include './pc/view/my_password.htm';
+		include './view/htm/my_password.htm';
 		
 	} elseif($method == 'POST') {
 		
@@ -67,10 +67,9 @@ if(empty($action) || $action == 'profile') {
 	$pages = pages('my-thread-{page}.htm', $totalnum, $page, $pagesize);
 	$threadlist = mythread_find_by_uid($uid, $page, $pagesize);
 		
-	include './pc/view/my_thread.htm';
+	include './view/htm/my_thread.htm';
 
 } elseif($action == 'uploadavatar') {
-	
 	
 	$upfile = param('upfile', '', FALSE);
 	empty($upfile) AND message(-1, 'upfile 数据为空');

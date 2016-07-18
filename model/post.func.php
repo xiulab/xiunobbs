@@ -282,6 +282,7 @@ function post_format(&$post) {
 	$user = $post['uid'] ? user_read_cache($post['uid']) : user_guest();
 	$post['username'] = $user['username'];
 	$post['user_avatar_url'] = $user['avatar_url'];
+	$post['user'] = $user;
 	!isset($post['floor']) AND  $post['floor'] = '';
 	
 	// 权限判断

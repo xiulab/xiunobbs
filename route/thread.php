@@ -107,8 +107,6 @@ if($action == 'create') {
 // $action == 'seo' 也会跳到此处
 } else {
 	
-	
-	
 	// hook thread_info_start.php
 	$tid = param(1, 0);
 	$thread = thread_read($tid);

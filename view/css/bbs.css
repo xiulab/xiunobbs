@@ -5,8 +5,6 @@
 /* fix bootstrap nav bg-inverse dropdown 未跟着改变 */
 
 
-
-
 /********************************* 对 bootstrasp 进行增强 *************************************/
 
 /* card 嵌套 card-group 的时候 */
@@ -77,8 +75,6 @@ dl.form > dt, dl.form > dd{line-height: 34px; min-height:34px;}
 */
 
 
-
-
 /********************************* bbs 业务部分 *************************************/
 
 nav.bg-inverse .dropdown-menu {
@@ -97,7 +93,7 @@ nav.bg-inverse .dropdown-item:hover {
 html, body {height:100%; font-family:"Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", "微软雅黑", "华文细黑", STHeiti, sans-serif}
 body {background: #f4f4f4; }
 #wrapper { min-height:100%; position:relative; }
-#body { padding-bottom: 6rem; margin-top: 4rem;}
+#body { padding-bottom: 6rem; margin-top: 3.8rem;}
 #footer {
 	font-size: 0.75rem;
 	background: #eee;
@@ -124,19 +120,10 @@ body {background: #f4f4f4; }
 dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
 .avatar { width: 3rem; }
 
-
-@media (min-width: 992px) {
-    .col-lg-8 {
-        padding-right: 0px;
-    }
+.col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12 {
+  padding-right: .37rem;
+  padding-left: .37rem;
 }
-@media (max-width: 768px) {
-    .col-lg-4 {
-        padding-left: 0.2rem;
-        padding-right: 0.2rem;
-    }
-    .col-lg-8 {
-        padding-left: 0.2rem;
-        padding-right: 0.2rem;
-    }
-}
+/* 自定义更多 */
+.dropdown-toggle::after {width: 22px; height: 16px; background: url(../img/more.png); opacity: 0.5; border: 0; }
+.dropdown-toggle:hover::after {opacity: 1;  }
