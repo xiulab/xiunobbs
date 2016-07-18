@@ -28,6 +28,7 @@ SHOP 插件
 手机账号插件（直接替换 Email）
 友情链接插件
 模板插件
+REFERER + POST 校验安全插件
 	
 C 开发 XiunoPHP 4.0 （商业版收费）
 	

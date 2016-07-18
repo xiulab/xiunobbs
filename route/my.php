@@ -14,7 +14,7 @@ if(empty($action) || $action == 'profile') {
 
 		$header['title'] = '个人中心';
 		
-		include './view/htm/my_profile.htm';
+		include './view/htm/my.htm';
 	
 	} else {
 		$username = param('username');
