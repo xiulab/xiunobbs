@@ -7,7 +7,7 @@
 			<hr />
 			<div style="width: 60%; margin: auto;">
 				<p class="text-center">
-					<img class="m-t-0" data-src="holder.js/100%x180" alt="100%x180" src="view/img/avatar.png" width="100" height="100">
+					<img id="avatar_img" class="avatar-lg" src="<?php echo $user['avatar_url'];?>">
 				</p>
 				<p class="text-center">
 					<!--
@@ -18,7 +18,7 @@
 					-->
 					<input type="file" id="avatar_upload" accept=".jpg,.jpeg,.png,.gif,.bmp"  class="upload" style="width: 200px; opacity: 0.7" value="更换头像"/>
 				</p>
-				<div style="width: 100%; height: 12px; border: 1px border green; margin-top: 2px;" id="avatar_progress"><div style="width: 0px;  height: 12px; background: green;"></div></div>
+				<progress class="progress progress-success" value="0" max="100" id="avatar_progress">0%</progress>
 			</div>
 		</div>
 		<a role="button" class="btn btn-primary center-block" href="<?php echo url('my');?>"> <?php echo lang('back');?> </a>
@@ -36,22 +36,23 @@ $('#avatar_upload').one('click', function() {
 	var fileinput = this;
 	var jfile = $(fileinput);
 	var jimg = $('#avatar_img');
-	var url = 'my-uploadavatar.htm';
+	var jprogress = $('#avatar_progress');
+	var url = 'my-avatar.htm';
 	var up = new FileUploader(fileinput, url);
 	up.filetype = 'image/png';
-	up.thumb_width = 64;
+	up.thumb_width = 128;
 	up.onprogress = function(file, percent) {
-		$('#avatar_progress').show().son('div').width(percent+'%');
+		jprogress.val(percent);
 	}
 	up.ononce = function(file, e) {
 		var json = json_decode(e.target.response);
 		if(json && json.code == 0) {
-			$('#avatar_img').attr('src', json.message+'?'+Math.random());
+			jimg.attr('src', json.message+'?'+Math.random());
 		} else {
 			var err = json && json.message ? json.message : e.target.response;
 			alert(err);
 		}
-		setTimeout(function() {$('#avatar_progress').son('div').width(0)}, 2000);
+		setTimeout(function() {jprogress.val(0);}, 2000);
 	}
 	up.oncomplete = function(code, files) {
 		if(code == 0) {
