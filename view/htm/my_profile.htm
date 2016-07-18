@@ -4,8 +4,7 @@
 	<div class="col-lg-6 col-lg-offset-3">
 		<div class="card card-block m-t-1">
 			<img class="center-block m-t-0" data-src="holder.js/100%x180" alt="100%x180" src="view/img/avatar.png" width="50" height="50">
-			<div class="text-center text-bold"><?php echo $user['username'];?></div>
-			<div class="text-center small">[<?php echo $user['groupname'];?>]</div>
+			<div class="text-center"><?php echo $user['username'];?></div>
 			<hr />
 			<div class="row">
 				<div class="col-xs-12  col-sm-6 m-b-1 p-l-2 p-r-2">
@@ -16,6 +15,10 @@
 					<dl class="row m-b-1">
 						<dt class="text-muted">Email：</dt>
 						<dd class="text-right">xxxx@xxxxx.com</dd>
+					</dl>
+					<dl class="row m-b-1">
+						<dt class="text-muted">用户组：</dt>
+						<dd class="text-right"><?php echo $user['groupname'];?></dd>
 					</dl>
 					<dl class="row m-b-1">
 						<dt class="text-muted">注册时间：</dt>
