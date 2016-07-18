@@ -123,3 +123,20 @@ body {background: #f4f4f4; }
 .thread .subject a { color: #373a3c;}
 dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
 .avatar { width: 3rem; }
+
+
+@media (min-width: 992px) {
+    .col-lg-8 {
+        padding-right: 0px;
+    }
+}
+@media (max-width: 768px) {
+    .col-lg-4 {
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
+    }
+    .col-lg-8 {
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
+    }
+}

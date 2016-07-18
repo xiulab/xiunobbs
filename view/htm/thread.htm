@@ -10,14 +10,17 @@
 		</ol>
 		<div class="card p-a-1">
 			<dl class="row">
-				<dt class="vtop p-r-1"><img src="view/img/avatar.png" alt="..." width="50" height="50" class="img-circle center-block"></dt>
+				<dt class="vtop p-r-1 avatar-parent"><img src="view/img/avatar.png" alt="..." width="50" height="50" class="img-circle avatar"></dt>
 				<dd>
 					<h3><?php echo $thread['subject'];?></h3>
 					<dl class="row small">
-						<dt><?php echo $thread['username'];?> <?php echo $thread['create_date_fmt'];?> </dt>
+						<dt>
+							<span class="username text-muted"><?php echo $thread['username'];?></span>
+							<span class="date text-grey m-l-1"><?php echo $thread['create_date_fmt'];?></span>
+						</dt>
 						<dd class="text-right">
-							<a href="<?php echo url("thread-update-$thread[tid]");?>"><i class="icon-edit"></i> 编辑</a> &nbsp;
-							<a href="<?php echo url("thread-delete-$thread[tid]");?>"><i class="icon-remove"></i> 删除</a>
+							<a href="<?php echo url("thread-update-$thread[tid]");?>" class="text-grey"><i class="icon-edit"></i> 编辑</a> &nbsp;
+							<a href="<?php echo url("thread-delete-$thread[tid]");?>" class="text-grey"><i class="icon-remove"></i> 删除</a>
 						</dd>
 					</dl>
 				</dd>
@@ -125,6 +128,7 @@ jform.on('submit', function() {
 			var jtr = $(s).find('tr');
 			jtr.insertBefore($('table.postlist tr').last());
 			jsubmit.button('reset');
+			$('#message').val('');
 		} else if(code < 0) {
 			alert(message);
 			jsubmit.button('reset');
