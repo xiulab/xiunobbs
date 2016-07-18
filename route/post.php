@@ -4,7 +4,6 @@
 !defined('DEBUG') AND exit('Access Denied.');
 
 include './xiunophp/xn_html_safe.func.php';
-include './xiunophp/image.func.php';
 
 $action = param(1);
 
@@ -17,12 +16,12 @@ if($action == 'create') {
 	$quick = param(3);
 		
 	$thread = thread_read($tid);
-	empty($thread) AND message(3, '主题不存在:'.$tid);
+	empty($thread) AND message(-1, '主题不存在:'.$tid);
 	
 	$fid = $thread['fid'];
 	
 	$forum = forum_read($fid);
-	empty($forum) AND message(3, '板块不存在:'.$fid);
+	empty($forum) AND message(-1, '板块不存在:'.$fid);
 	
 	$r = forum_access_user($fid, $gid, 'allowpost');
 	if(!$r) {
@@ -30,7 +29,7 @@ if($action == 'create') {
 			$r = forum_access_user($fid, 101, 'allowpost');
 			$r AND user_login_check($user);
 		}
-		message(10, '您（'.$user['groupname'].'）无权限在此版块发帖');
+		message(-1, '您（'.$user['groupname'].'）无权限在此版块发帖');
 	}
 	
 	$conf['ipaccess_on'] AND !ipaccess_check($longip, 'posts') AND message(-1, '您的 IP 今日回帖数达到上限，请明天再来。');
@@ -39,20 +38,20 @@ if($action == 'create') {
 		
 		check_standard_browser();
 		
-		include './pc/view/post_create.htm';
+		include './view/htm/post_create.htm';
 		
 	} else {
 		
 		$message = param('message', '', FALSE);
-		!trim(str_replace(array('　', '&nbsp;', '<br>', '<br/>', '<br />'), '', $message)) AND message(2, '内容不能为空');
+		!trim(str_replace(array('　', '&nbsp;', '<br>', '<br/>', '<br />'), '', $message)) AND message('message', '内容不能为空');
 		$gid != 1 AND $message = xn_html_safe($message);
 		$gid != 1 AND $message = badword_filter($message, $badword);
-		$message === FALSE AND message(2, '内容中包含敏感关键词: '.$badword);
-		mb_strlen($message, 'UTF-8') > 2048000 AND message('内容太长');
+		$message === FALSE AND message('message', '内容中包含敏感关键词: '.$badword);
+		mb_strlen($message, 'UTF-8') > 2048000 AND message('message', '内容太长');
 		$quick AND $message = nl2br(str_replace("\t", "&nbsp; &nbsp; &nbsp; &nbsp; ", $message));
 		
 		// 检测是否灌水
-		post_check_flood($gid, $tid, $message) AND message(2, '系统检测到您可能在灌水');
+		post_check_flood($gid, $tid, $message) AND message('message', '系统检测到您可能在灌水');
 		
 		// 检测是否超过最大回复数
 		$thread['posts'] >= 1000 AND message(-1, '该主题已经达到最大回复数 1000，不能再回复，请另起主题。');
@@ -69,7 +68,7 @@ if($action == 'create') {
 			'message'=>$message,
 		);
 		$pid = post_create($post, $fid);
-		empty($pid) AND message(1, '创建帖子失败');
+		empty($pid) AND message(-1, '创建帖子失败');
 		
 		// 最新发帖
 		// thread_top_create($fid, $tid);
@@ -83,7 +82,7 @@ if($action == 'create') {
 		$allowdelete = forum_access_mod($fid, $gid, 'allowdelete');
 		
 		ob_start();
-		include './pc/view/post_list_body.inc.htm';
+		include './view/htm/post_list.inc.htm';
 		$s = ob_get_clean();
 		$conf['ipaccess_on'] AND ipaccess_inc($longip, 'posts');
 		message(0, $s);

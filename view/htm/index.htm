@@ -17,23 +17,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($threadlist as $thread) { ?>
-					<tr class="thread">
-						<td class="avatar-parent"><img src="view/img/avatar.png" alt="..." class="img-circle avatar"></td>
-						<td class="p-l-0">
-							<p class="subject">
-								<a href="<?php echo url("thread-$thread[tid]");?>"><?php echo $thread['subject'];?></a>
-							</p>
-							<div class="row m-x-0 small text-muted">
-								<div class="pull-left"><?php echo $thread['username'];?> 发表于: <?php echo $thread['create_date_fmt'];?></div>
-								<div class="pull-right text-right">
-									<i class="icon-eye-open"></i> <?php echo $thread['views'];?> &nbsp;
-									<i class="icon-comment"></i> <?php echo $thread['posts'];?>
-								</div>
-							</div>
-						</td>
-					</tr>
-					<?php } ?>
+					<?php include './view/htm/thread_list.inc.htm';?>
 				</tbody>
 			</table>
 		</div>
@@ -58,6 +42,5 @@
 		</div>
 	</div>
 </div>
-
 
 <?php include "./view/htm/footer.inc.htm"; ?>

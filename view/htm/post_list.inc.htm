@@ -1,0 +1,15 @@
+					<?php foreach($postlist as $post) { ?>
+					<tr class="post">
+						<td class="vtop avatar-parent"><img src="view/img/avatar.png" class="img-circle avatar"></td>
+						<td class="p-l-0">
+							<dl class="row small text-muted">
+								<dt>
+									<span class="username text-muted"><?php echo $post['username'];?></span>
+									<span class="date text-grey m-l-1"><?php echo $post['create_date_fmt'];?></span>
+								</dt>
+								<dd class="text-right text-grey floor"><?php echo $post['floor'];?>楼</dd>
+							</dl>
+							<div class="message m-t-xs"><?php echo $post['message'];?></div>
+						</td>
+					</tr>
+					<?php } ?>

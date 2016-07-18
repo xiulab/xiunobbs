@@ -1,0 +1,21 @@
+					<?php foreach($threadlist as $thread) { ?>
+					<tr class="thread">
+						<td class="avatar-parent"><img src="view/img/avatar.png" alt="..." class="img-circle avatar"></td>
+						<td class="p-l-0">
+							<div class="subject">
+								<a href="<?php echo url("thread-$thread[tid]");?>"><?php echo $thread['subject'];?></a>
+							</div>
+							<div class="small text-muted hidden-sm-up m-b-xs"><?php echo $thread['username'];?></div>
+							<dl class="row small text-grey">
+								<dt>
+									<span class="username hidden-xs-down"><?php echo $thread['username'];?></span>
+									<span class="date"><?php echo $thread['create_date_fmt'];?></span>
+								</dt>
+								<dd class="text-right">
+									<i class="icon-eye-open"></i> <?php echo $thread['views'];?> &nbsp;
+									<i class="icon-comment"></i> <?php echo $thread['posts'];?>
+								</dd>
+							</dl>
+						</td>
+					</tr>
+					<?php } ?>

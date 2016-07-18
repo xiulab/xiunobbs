@@ -2,13 +2,13 @@
 
 <div class="row m-t-1">
 	<div class="col-lg-8">
-		<div class="card p-a-1">
+		<div class="card p-a-sm">
 			<table class="table table-hover threadlist">
 				<thead>
 					<tr>
-						<th colspan="2">
+						<th colspan="2" class="p-t-0 p-l-0">
 							<dl class="row">
-								<dt>最新回复</dt>
+								<dt><b>最新回复</b></dt>
 								<dd>
 									<a role="button" class="btn btn-primary btn-sm pull-right" id="submit" data-loading-text="<?php echo lang('submiting');?>..." href="<?php echo url('thread-create');?>"><?php echo lang('thread_create_new');?></a>
 								</dd>
@@ -17,23 +17,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($threadlist as $thread) { ?>
-					<tr class="thread">
-						<td width="60"><img src="view/img/avatar.png" alt="..." width="50" height="50" class="img-circle center-block"></td>
-						<td class="p-l-0">
-							<p class="subject">
-								<a href="<?php echo url("thread-$thread[tid]");?>"><?php echo $thread['subject'];?></a>
-							</p>
-							<div class="row m-x-0 small text-muted">
-								<div class="pull-left"><?php echo $thread['username'];?> 发表于: <?php echo $thread['create_date_fmt'];?></div>
-								<div class="pull-right text-right">
-									<i class="icon-eye-open"></i> <?php echo $thread['views'];?> &nbsp;
-									<i class="icon-comment"></i> <?php echo $thread['posts'];?>
-								</div>
-							</div>
-						</td>
-					</tr>
-					<?php } ?>
+					<?php include './view/htm/thread_list.inc.htm';?>
 				</tbody>
 			</table>
 		</div>

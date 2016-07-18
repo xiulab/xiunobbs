@@ -29,7 +29,7 @@
 		</div>
 		
 		<div class="card post p-a-1">
-			<table class="table table-hover threadlist">
+			<table class="table table-hover postlist">
 				<thead>
 					<tr>
 						<th colspan="2" class="p-t-0 p-l-0">
@@ -45,26 +45,14 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach($postlist as $post) { ?>
-					<tr class="thread">
-						<td class="vtop avatar-parent"><img src="view/img/avatar.png" class="img-circle avatar"></td>
-						<td class="p-l-0">
-							<dl class="row small text-muted">
-								<dt class="username">用户名</dt>
-								<dd class="text-right floor">12楼</dd>
-							</dl>
-							<div class="message m-t-xs">发帖内容发帖内容发帖内容发帖内容发帖内容</div>
-							<div class="small text-muted  m-t-xs date">1111-11-1</div>
-						</td>
-					</tr>
-					<?php } ?>
-					<tr class="thread">
+					<?php include 'view/htm/post_list.inc.htm'; ?>
+					<tr class="post">
 						<td class="avatar-parent"><img src="view/img/avatar.png" class="img-circle avatar"></td>
 						<td class="p-l-0">
-							<form action="<?php echo url('thread-create');?>" method="post" id="form">	
+							<form action="<?php echo url("post-create-$tid-1");?>" method="post" id="form">	
 								<dl class="row small text-muted">
 									<dt class="username">用户名</dt>
-									<dd class="text-right floor">12楼</dd>
+									<dd class="text-right text-grey floor">12楼</dd>
 								</dl>
 								<div class="message m-t-xs">
 									<fieldset class="form-group">
@@ -77,14 +65,13 @@
 							</form>
 						</td>
 					</tr>
-				
 				</tbody>
 			</table>
 		</div>
 		
 	</div>
 	<div class="col-lg-4">
-		<div class="card  hidden-lg-down">
+		<div class="card hidden-lg-down">
 			<img class="center-block m-y-1" data-src="holder.js/100%x180" alt="100%x180" src="view/img/avatar.png" width="100" height="100">
 			<h4 class="text-xs-center"><?php echo $thread['username'];?></h4>
 			<div class="card-group card-group-nest">
@@ -110,7 +97,8 @@
 		</div>
 		<div class="card">
 			<div class="card-block">
-				<h4>作者最近主题</h4>
+				<b>作者最近主题</b>
+				<hr class="m-t-sm" />
 				<ul>
 					<li>版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容 - 2 天前</li>
 					<li>版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容 - 2 天前</li>
@@ -124,3 +112,27 @@
 
 
 <?php include "./view/htm/footer.inc.htm"; ?>
+
+<script>
+var jform = $('#form');
+var jsubmit = $('#submit');
+jform.on('submit', function() {
+	var postdata = jform.serialize();
+	jsubmit.button('loading');
+	$.xpost(jform.attr('action'), postdata, function(code, message) {
+		if(code == 0) {
+			var s = '<table>'+message+'</table>';
+			var jtr = $(s).find('tr');
+			jtr.insertBefore($('table.postlist tr').last());
+			jsubmit.button('reset');
+		} else if(code < 0) {
+			alert(message);
+			jsubmit.button('reset');
+		} else {
+			jform.find('[name="'+code+'"]').alert(message).focus();
+			jsubmit.button('reset');
+		}
+	});
+	return false;
+});
+</script>
