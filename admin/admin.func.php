@@ -42,4 +42,11 @@ function admin_token_clean() {
 	setcookie('bbs_admin_token', '', $time - 86400, '', '', 0, TRUE);
 }
 
+function bootstrap_tab_active($arr, $active) {
+	$s = '';
+	foreach ($arr as $k=>$v) {
+		$s .= '<a role="button" class="btn btn btn-secondary'.($active == $k ? ' active' : '').'" href="'.$v['url'].'">'.$v['text'].'</a>';
+	}
+	return $s;
+}
 ?>

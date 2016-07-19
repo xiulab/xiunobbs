@@ -71,6 +71,8 @@ if($gid != 1) {
 // 管理员令牌检查
 admin_token_check();
 
+$menu = include './admin/menu.conf.php';
+
 // todo: HHVM 不支持动态 include $filename
 switch ($route) {
 	case 'index':		include './admin/route/index.php'; 		break;

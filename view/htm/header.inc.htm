@@ -51,15 +51,15 @@
 		<div class="container collapse navbar-toggleable-md">
 			<div class="row">
 				<div class="col-md-8">
-					<ul class="nav navbar-nav">
+					<ul class="nav navbar-nav" id="nav_pc">
 						<li class="nav-item">
 							<img src="view/img/logo.png" class="logo-sm">
 						</li>
-						<li class="nav-item active">
+						<li class="nav-item home" fid="0">
 							<a class="nav-link" href="."><?php echo lang('index_page');?> <span class="sr-only">(current)</span></a>
 						</li>
 						<?php foreach($forumlist_show as $forum) { ?>
-						<li class="nav-item">
+						<li class="nav-item" fid="<?php echo $forum['fid'];?>">
 							<a class="nav-link" href="<?php echo url("forum-$forum[fid]");?>"><?php echo $forum['name'];?></a>
 						</li>
 						<?php } ?>
@@ -107,9 +107,9 @@
 		</div>
 		<div class="collapse" id="collapsing_bavbar">
 			<div class="bg-inverse p-a-1">
-				<ul>
+				<ul id="nav_mobile">
 					<?php foreach($forumlist_show as $forum) { ?>
-					<li class="nav-item">
+					<li class="nav-item" fid="<?php echo $forum['fid'];?>">
 						<a class="nav-link" href="<?php echo url("forum-$forum[fid]");?>"><?php echo $forum['name'];?></a>
 					</li>
 					<?php } ?>

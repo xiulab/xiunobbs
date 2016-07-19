@@ -65,8 +65,12 @@ return array(
 	'post_admin'=>'帖子管理',
 	'plugin_admin'=>'插件管理',
 	'other_admin'=>'其他管理',
+	'plugin_admin'=>'插件管理',
+	
 	'admin_index_page'=>'后台首页',
 	'admin_site_setting'=>'站点设置',
+	'admin_setting_base'=>'基本设置',
+	'admin_setting_smtp'=>'SMTP设置',
 	
 	
 );

@@ -1,16 +1,13 @@
 <?php include './admin/view/header.inc.htm'; ?>
 
-
-
 <div class="row m-t-1">
 	<div class="col-lg-10 col-lg-offset-1">
-		<div class="btn-group m-b-1" role="group" aria-label="Basic example">
-			<a role="button" class="btn btn btn-secondary active" href="admin/<?php echo url('setting-base');?>">基本设置</a>
-			<a role="button" class="btn btn btn-secondary" href="admin/<?php echo url('setting-smtp');?>">SMTP 设置</a>
+		<div class="btn-group m-b-1" role="group">
+			<?php echo bootstrap_tab_active($menu['setting']['tab'], 'base');?>
 		</div>
 		<div class="card">
 			<div class="card-block">
-				<h4 class="card-title">设置</h4>
+				<h4 class="card-title"><?php echo lang('admin_setting_base');?></h4>
 				<form action="admin/<?php echo url('setting-base');?>" method="post" id="form">
 					<div class="form-group row">
 						<label class="col-sm-2 form-control-label">站点名称：</label>
@@ -63,4 +60,8 @@ jform.on('submit', function(){
 	});
 	return false;
 });
+
+$('#nav_pc li.setting').tab('show');
+$('#nav_mobile li.setting').tab('show');
+
 </script>

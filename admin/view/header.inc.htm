@@ -51,28 +51,18 @@
 		<div class="container collapse navbar-toggleable-md">
 			<div class="row">
 				<div class="col-md-8">
-					<ul class="nav navbar-nav">
-						<li class="nav-item active">
+					<ul class="nav navbar-nav" id="nav_pc">
+						<li class="nav-item">
 							<img src="view/img/logo.png" class="logo-sm">
 						</li>
-						<li class="nav-item active">
+						<li class="nav-item home">
 							<a class="nav-link" href="admin/"> 后台首页</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="admin/<?php echo url('setting');?>"><i class="icon-cog"></i> <?php echo lang('admin_site_setting');?></a>
+						<?php foreach ($menu as $k=>$v) { ?>
+						<li class="nav-item <?php echo $k;?>">
+							<a class="nav-link" href="<?php echo $v['url'];?>"><i class="icon-cog"></i> <?php echo $v['text'];?></a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="admin/<?php echo url('user');?>"><i class="icon-user"></i> <?php echo lang('user_admin');?></a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="admin/<?php echo url('post');?>"><i class="icon-comment"></i> <?php echo lang('post_admin');?></a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="admin/<?php echo url('other');?>"><i class="icon-circle-blank"></i> <?php echo lang('other_admin');?></a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="admin/<?php echo url('plugin');?>"><i class="icon-cogs"></i> <?php echo lang('plugin_admin');?></a>
-						</li>
+						<?php  } ?>
 					</ul>
 				</div>
 				<div class="col-md-4">
@@ -96,29 +86,18 @@
 		</div>
 		<div class="collapse" id="collapsing_bavbar">
 			<div class="bg-inverse p-a-1">
-				<ul>
-					<li class="nav-item active">
+				<ul id="nav_mobile">
+					<li class="nav-item home">
 						<a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_index_page');?></a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="admin/<?php echo url('setting');?>"><i class="icon-cog"></i> <?php echo lang('admin_site_setting');?></a>
+					<?php foreach ($menu as $k=>$v) { ?>
+					<li class="nav-item <?php echo $k;?>">
+						<a class="nav-link" href="<?php echo $v['url'];?>"><i class="icon-cog"></i> <?php echo $v['text'];?></a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="admin/<?php echo url('user');?>"><i class="icon-user"></i> <?php echo lang('user_admin');?></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="admin/<?php echo url('post');?>"><i class="icon-comment"></i> <?php echo lang('post_admin');?></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="admin/<?php echo url('other');?>"><i class="icon-circle-blank"></i> <?php echo lang('other_admin');?></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="admin/<?php echo url('plugin');?>"><i class="icon-cogs"></i> <?php echo lang('plugin_admin');?></a>
-					</li>
+					<?php  } ?>
 				</ul>
 			</div>
 		</div>
 	</nav>
-	
 	
 	<div id="body" class="container">

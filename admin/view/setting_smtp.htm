@@ -3,13 +3,12 @@
 <div class="row m-t-1">
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="btn-group m-b-1" role="group" aria-label="Basic example">
-			<a role="button" class="btn btn btn-secondary" href="admin/<?php echo url('setting-base');?>">基本设置</a>
-			<a role="button" class="btn btn btn-secondary active" href="admin/<?php echo url('setting-smtp');?>">SMTP 设置</a>
+			<?php echo bootstrap_tab_active($menu['setting']['tab'], 'smtp');?>
 		</div>
 		<div class="card">
 			<div class="card-block">
 				<form action="admin/<?php echo url('setting-smtp');?>" method="post" id="form">
-					<h4 class="card-title">设置</h4>
+					<h4 class="card-title"><?php echo lang('admin_setting_smtp');?></h4>
 					<div class="form-group row">
 						<label class="col-sm-3 form-control-label">开启注册邮箱验证：</label>
 						<div class="col-sm-9">
@@ -22,7 +21,7 @@
 							<?php echo $input_user_find_pw_on;?>
 						</div>
 					</div>
-					<h4 class="card-title">SMTP 列表</h4>
+					<h5 class="card-title">SMTP 列表</h5>
 					<div class="table-responsive arrlist">
 						<table width="100%" class="table">
 							<thead>
@@ -98,4 +97,9 @@ jadd.on('click', function() {
 	jclone.insertAfter(jarrlist.find('tr').last());
 	return false;
 });
+
+
+$('#nav_pc li.setting').tab('show');
+$('#nav_mobile li.setting').tab('show');
+
 </script>
