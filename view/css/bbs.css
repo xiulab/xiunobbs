@@ -135,4 +135,4 @@ dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
 /* 自定义更多 */
 .dropdown-toggle::after {width: 22px; height: 16px; background: url(../img/more.png); opacity: 0.5; border: 0; }
 .dropdown-toggle:hover::after {opacity: 1;  }
-.breadcrumb {background: #fff; border: 1px solid #e5e5e5;}
+.breadcrumb {background: #fff; border: 1px solid #e5e5e5; font-size: 95%; padding: 0.5rem 1rem;}

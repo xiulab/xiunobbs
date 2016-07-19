@@ -4,10 +4,12 @@ function array_value($arr, $key, $default = '') {
 	return isset($arr[$key]) ? $arr[$key] : $default;
 }
 
+/*
 function array_isset_push(&$arr, $key, $value) {
 	!isset($arr[$key]) AND $arr[$key] = array();
 	$arr[$key][] = $value;
 }
+*/
 
 
 function array_addslashes(&$var) {
@@ -176,59 +178,6 @@ function arrlist_chunk($arrlist, $key) {
 		$r[$arr[$key]][] = $arr;
 	}
 	return $r;
-}
-
-/*
-	array(
-		'name'=>'abc',
-		'stocks+'=>1,
-		'date'=>12345678900,
-	)
-
-*/
-
-// 兼容 3.0
-function array_to_sqladd($arr) {
-	return db_array_to_sqladd($arr);
-}
-
-// 兼容 3.0
-function array_to_sql_update($arr, $old = array()) {
-	return db_array_to_sql_update(array_diff($arr, $old));
-}
-
-function db_array_to_sqladd($arr) {
-	$s = '';
-	foreach($arr as $k=>$v) {
-		$v = addslashes($v);
-		$op = substr($k, -1);
-		if($op == '+' || $op == '-') {
-			$k = substr($k, 0, -1);
-			$s .= "`$k`=`$k`$op'$v',";
-		} else {
-			$s .= "`$k`='$v',";
-		}
-	}
-	return substr($s, 0, -1);
-}
-
-// $old 表示是否早期的数据，如果相等则不变更
-function db_array_to_sql_update($arr) {
-	$s = '';
-	foreach($arr as $k=>$v) {
-		$v = addslashes($v);
-		$op = substr($k, -1);
-		if($op == '+' || $op == '-') {
-			$k = substr($k, 0, -1);
-			$s .= "`$k`=`$k`$op'$v',";
-		} else {
-			//if(isset($old[$k]) && $old[$k] != $v) {
-				//$s .= "`$k`='$v',";
-			//}
-			$s .= "`$k`='$v',";
-		}
-	}
-	return substr($s, 0, -1);
 }
 
 ?>

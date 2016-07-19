@@ -1,10 +1,23 @@
-	<br>
-	</li>
-</ul>
 
-<div style="background: #000; line-height: 1.5; padding: 32px 0px;">
-	<?php include './pc/view/footer_debug.inc.htm'; ?>
-	
+<?php echo xn_debug_info();?>
+
 </div>
 
-<?php include './admin/view/footer.inc.inc.htm'; ?>
+<div class="text-muted" id="footer">
+	<div class="container" style="overflow: hidden;">
+		<div>xxx</div>
+	</div>
+</div>
+
+<!--[if lt IE 9]>
+<script>window.location = '<?php echo url('browser');?>';</script>
+<![endif]-->
+
+<script src="view/js/jquery-1.11.1.js"></script>
+<script src="view/js/tether.js"></script>
+<script src="view/js/bootstrap.js"></script>
+<script>var debug = DEBUG = <?php echo DEBUG; ?>;</script>
+<script src="view/js/xiuno.js"></script>
+
+</div></body>
+</html>

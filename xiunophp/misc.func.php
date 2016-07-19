@@ -913,6 +913,36 @@ function xn_debug_info() {
 	return $s;
 }
 
+// 输出
+function http_404() {
+	header('HTTP/1.1 404 Not Found'); 
+	header('Status: 404 Not Found'); 
+	echo '<h1>404 Not Found</h1>';
+	exit;
+}
+
+// 兼容 3.0，如果没有使用过，可以砍掉
+function array_to_sqladd($arr) {
+	return db_array_to_sqladd($arr);
+}
+
+// 兼容 3.0，如果没有使用过，可以砍掉
+function array_to_sql_update($arr, $old = array()) {
+	return db_array_to_sql_update(array_diff($arr, $old));
+}
+
+
+// 兼容 3.0，如果没有使用过，可以砍掉
+function cond_to_sqladd($cond) {
+	return db_cond_to_sqladd($cond);
+}
+
+// 兼容 3.0，如果没有使用过，可以砍掉
+function orderby_to_sqladd($orderby) {
+	return db_orderby_to_sqladd($orderby);
+}
+
+
 // 无 Notice 方式的获取超级全局变量中的 key
 function _GET($k) { return isset($_GET[$k]) ? $_GET[$k] : NULL; }
 function _POST($k) { return isset($_POST[$k]) ? $_POST[$k] : NULL; }

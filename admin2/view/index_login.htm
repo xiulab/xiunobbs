@@ -1,0 +1,44 @@
+<?php include './admin/view/header.inc.inc.htm'; ?>
+
+<div style="width: 300px; margin: 150px auto;">
+	<form method="POST" id="form" action="admin/index-login.htm" class="form">
+		<h2>登录后台管理</h2>
+		<p><input type="text" placeholder="用户名" name="username" style="width: 100%;"></p>
+		<p><input type="password" placeholder="密码" name="password" style="width: 100%;"></p>
+		<p><button type="submit" loading-text="正在登录..." class="blue middle">登录</button></p>
+	</form>
+</div>
+
+<p align="center">Process: <?php echo substr(microtime(1) - $starttime, 0, 7);?></p>
+
+<?php include './admin/view/footer.inc.inc.htm'; ?>
+
+<script type="text/javascript">
+var jform = $('#form');
+var jsubmit = jform.find('button').filter('[type="submit"]');
+var jinput = jform.find('input');
+var jusername = jinput.filter('[name="username"]').focus();
+var jpassword = jinput.filter('[name="password"]');
+jform.on('submit', function() {
+	var postdata = {username:jusername.val(), password: $.md5(jpassword.val())};
+	jsubmit.button('loading');
+	$.xpost(jform.attr('action'), postdata, function(code, message) {
+		if(code == 0) {
+			jsubmit.text('登录成功');
+			$.pdata('user', message);
+			setTimeout(function() {window.location='./admin/';}, 2000);
+		} else if(code > 0) {
+			if(code == 1) jusername.popover(message).focus();
+			if(code == 2) jpassword.popover(message).focus();
+			jsubmit.button('reset');
+		} else {
+			alert(message);
+			jsubmit.button('reset');
+		}
+	});
+
+	return false;
+});
+</script>
+</body>
+</html>

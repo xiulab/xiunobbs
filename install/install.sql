@@ -129,7 +129,6 @@ CREATE TABLE bbs_thread (
   tid int(11) unsigned NOT NULL auto_increment,		# 主题id
   top tinyint(1) NOT NULL default '0',			# 置顶级别: 0: 普通主题, 1-3 置顶的顺序
   uid int(11) unsigned NOT NULL default '0',		# 用户id
-  sid char(32) NOT NULL default '',			# sid, 用来判断游客身份
   userip int(11) unsigned NOT NULL default '0',		# 发帖时用户ip ip2long()
   subject char(128) NOT NULL default '',		# 主题
   create_date int(11) unsigned NOT NULL default '0',	# 发帖时间
@@ -197,7 +196,6 @@ CREATE TABLE bbs_post (
   isfirst int(11) unsigned NOT NULL default '0',	# 是否为首帖，与 thread.firstpid 呼应
   create_date int(11) unsigned NOT NULL default '0',	# 发贴时间
   userip int(11) unsigned NOT NULL default '0',		# 发帖时用户ip ip2long()
-  sid char(32) NOT NULL default '',			# sid, 用来判断游客身份
   images smallint(3) NOT NULL default '0',		# 附件中包含的图片数
   files smallint(3) NOT NULL default '0',		# 附件中包含的文件数
   message longtext NOT NULL,				# 内容，存放的过滤后的html内容

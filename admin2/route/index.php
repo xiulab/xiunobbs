@@ -86,9 +86,9 @@ if($action == 'login') {
 	$info['memory_limit'] = ini_get('memory_limit');
 	$info['max_execution_time'] = ini_get('max_execution_time');
 	$info['dbversion'] = $db->version();
-	$info['SERVER_SOFTWARE'] = _SERVER('SERVER_SOFTWARE');
-	$info['HTTP_X_FORWARDED_FOR'] = _SERVER('HTTP_X_FORWARDED_FOR');
-	$info['REMOTE_ADDR'] = _SERVER('REMOTE_ADDR');
+	$info['SERVER_SOFTWARE'] = array_value($_SERVER, 'SERVER_SOFTWARE', '');
+	$info['HTTP_X_FORWARDED_FOR'] = array_value($_SERVER, 'HTTP_X_FORWARDED_FOR', '');
+	$info['REMOTE_ADDR'] = array_value($_SERVER, 'REMOTE_ADDR', '');
 	
 	
 	$stat = array();

@@ -76,6 +76,7 @@ $ip = ip();
 // $ip = '220.166.164.200';
 $longip = ip2long($ip);
 $longip < 0 AND $longip = sprintf("%u", $longip); // fix 32 位 OS 下溢出的问题
+$useragent = _SERVER('HTTP_USER_AGENT');
 
 // 语言包变量
 $lang = array();

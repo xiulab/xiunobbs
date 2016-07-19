@@ -49,6 +49,8 @@ return array(
 	
 	'post_update'=>'编辑帖子',
 	
+	'admin_login'=>'管理员登陆',
+	
 	
 );
 

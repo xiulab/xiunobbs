@@ -60,18 +60,19 @@ $setting = cache_get('setting', TRUE);
 $route = param(0, 'index');
 
 // todo: HHVM 不支持动态 include $filename
+// 按照使用的频次排序，增加命中率，提高效率
 switch ($route) {
-	case 'browser': include './route/browser.php'; 	break;
-	case 'forum': 	include './route/forum.php'; 	break;
 	case 'index': 	include './route/index.php'; 	break;
-	case 'mod': 	include './route/mod.php'; 	break;
-	case 'my': 	include './route/my.php'; 	break;
-	case 'post': 	include './route/post.php'; 	break;
-	case 'search': 	include './route/search.php'; 	break;
-	case 'test': 	include './route/test.php'; 	break;
 	case 'thread':	include './route/thread.php'; 	break;
+	case 'forum': 	include './route/forum.php'; 	break;
 	case 'user': 	include './route/user.php'; 	break;
-	default: exit(header('HTTP/1.0 404 Not Found'));
+	case 'my': 	include './route/my.php'; 	break;
+	case 'search': 	include './route/search.php'; 	break;
+	case 'post': 	include './route/post.php'; 	break;
+	case 'mod': 	include './route/mod.php'; 	break;
+	case 'test': 	include './route/test.php'; 	break;
+	case 'browser': include './route/browser.php'; 	break;
+	default: http_404();
 }
 
 ?>

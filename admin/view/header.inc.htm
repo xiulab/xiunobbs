@@ -1,22 +1,118 @@
-<?php include './admin/view/header.inc.inc.htm'; ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-<ul class="row" id="admin_header" style="background: #000000; line-height: 36px;">
-	<li style="width: 100px;">
-		<a href="./"><img src="static/logo.png" height="26" align="top" style="margin-top: 4px;" /></a>
-	</li>
-	<li id="admin_link">
-		<a href="admin" style="color:red;">后台</a>
-		<a href="./" target="_blank">前台</a>
-	</li>
-	<li style="width: 200px;" class="right">
-		欢迎您，<?php echo $user['username']; ?>, <a href="admin/index-logout.htm">退出</a> &nbsp;
-	</li>
-</ul>
+	<base href="../" />
+	
+	<?php $header = G('header');?>
+	<?php $forumlist_show = G('forumlist_show');?>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="XiunoBBS 4.0" />
+	<meta name="keywords" content="<?php echo $header['keywords'];?>" />
+	<meta name="description" content="<?php echo $header['description'];?>" />
+	<title><?php echo $header['keywords'];?></title>
+	
+	
+	<link rel="shortcut icon" href="view/img/favicon.ico" />
+	<link rel="icon" sizes="32x32" href="view/img/favicon.ico">
+	<link rel="Bookmark" href="view/img/favicon.ico" />
+	<link rel="stylesheet" href="view/css/bootstrap.css">
+	<link rel="stylesheet" href="view/css/font-awesome.css">
+	<link rel="stylesheet" href="view/css/tether.css">
+	<link rel="stylesheet" href="view/css/bbs.css">
+	<style>
+		
+	</style>
+</head>
 
-<ul class="row vtop">
-	<li style="width: 200px;">
-		<div id="admin_menu" class="left_menu margin">
-			<?php include './admin/view/left_menu.inc.htm'; ?>
+<body><div id="wrapper">
+	<nav class="navbar navbar-dark bg-inverse navbar-full navbar-fixed-top" id="header">
+		<div class="container hidden-lg-up navbar-nav">
+			<div class="row">
+				<div class="col-xs-4">
+					 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsing_bavbar">
+						☰
+					 </button>
+				</div>
+				<div class="col-xs-4">
+					<a class="nav-link" href="">LOGO</a>
+				</div>
+				<div class="col-xs-4">
+					<div class="pull-right">
+						<div class="nav-item small">
+							<?php if(empty($uid)) { ?>
+							<a class="nav-link" href="<?php echo url('user-login');?>"><?php echo lang('login');?></a>
+							<?php } else { ?>
+							<a class="nav-link" href="<?php echo url('my');?>"><?php echo $user['username'];?></a>
+							<?php } ?>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-	</li>
-	<li style="vertical-align: top; padding: 0px 8px; ">
+		<div class="container collapse navbar-toggleable-md">
+			<div class="row">
+				<div class="col-md-8">
+					<ul class="nav navbar-nav">
+						<li class="nav-item active">
+							<a class="nav-link" href="."><?php echo lang('index_page');?> <span class="sr-only">(current)</span></a>
+						</li>
+						
+						<?php foreach($forumlist_show as $forum) { ?>
+						<li class="nav-item">
+							<a class="nav-link" href="<?php echo url("forum-$forum[fid]");?>"><?php echo $forum['name'];?></a>
+						</li>
+						<?php } ?>
+						
+						<li class="nav-item">
+							<div class="dropdown">
+								<a class="nav-link nav-more dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"></a>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+									<button class="dropdown-item" type="button">Action</button>
+									<button class="dropdown-item" type="button">Another action</button>
+									<button class="dropdown-item" type="button">Something else here</button>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="col-md-4">
+					<ul class="nav navbar-nav pull-right small">
+						<?php if(empty($uid)) { ?>
+						<li class="nav-item">
+							<a class="nav-link" href="<?php echo url('user-login');?>"><?php echo lang('login');?></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<?php echo url('user-create');?>"><?php echo lang('register');?></a>
+						</li>
+						<?php } else { ?>
+						<li class="nav-item">
+							<a class="nav-link" href="<?php echo url('my');?>"><img class="avatar-xs" src="<?php echo $user['avatar_url'];?>"></a>
+						</li>
+						<li class="nav-item m-l-xs">
+							<a class="nav-link" href="<?php echo url('my');?>"><?php echo $user['username'];?></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<?php echo url('user-logout');?>"><?php echo lang('logout');?></a>
+						</li>
+						<?php } ?>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="collapse" id="collapsing_bavbar">
+			<div class="bg-inverse p-a-1">
+				<ul>
+					<?php foreach($forumlist_show as $forum) { ?>
+					<li class="nav-item">
+						<a class="nav-link" href="<?php echo url("forum-$forum[fid]");?>"><?php echo $forum['name'];?></a>
+					</li>
+					<?php } ?>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	
+	
+	<div id="body" class="container">

@@ -30,5 +30,7 @@ SHOP 插件
 模板插件
 REFERER + POST 校验安全插件
 	
+去掉游客发帖
+
 C 开发 XiunoPHP 4.0 （商业版收费）
 	

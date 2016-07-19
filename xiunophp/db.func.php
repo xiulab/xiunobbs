@@ -206,7 +206,6 @@ function db_close() {
 	return $r;
 }
 
-
 /*
 	array('id'=>123, 'groupid'=>123)
 	array('id'=>array('>' => 100, '<' => 200))
@@ -247,14 +246,47 @@ function db_orderby_to_sqladd($orderby) {
 	return $s;
 }
 
-// 兼容 3.0
-function cond_to_sqladd($cond) {
-	return db_cond_to_sqladd($cond);
+
+/*
+	$arr = array(
+		'name'=>'abc',
+		'stocks+'=>1,
+		'date'=>12345678900,
+	)
+	db_array_to_sqladd($arr);
+*/
+function db_array_to_sqladd($arr) {
+	$s = '';
+	foreach($arr as $k=>$v) {
+		$v = addslashes($v);
+		$op = substr($k, -1);
+		if($op == '+' || $op == '-') {
+			$k = substr($k, 0, -1);
+			$s .= "`$k`=`$k`$op'$v',";
+		} else {
+			$s .= "`$k`='$v',";
+		}
+	}
+	return substr($s, 0, -1);
 }
 
-// 兼容 3.0
-function orderby_to_sqladd($orderby) {
-	return db_orderby_to_sqladd($orderby);
+// $old 表示是否早期的数据，如果相等则不变更
+function db_array_to_sql_update($arr) {
+	$s = '';
+	foreach($arr as $k=>$v) {
+		$v = addslashes($v);
+		$op = substr($k, -1);
+		if($op == '+' || $op == '-') {
+			$k = substr($k, 0, -1);
+			$s .= "`$k`=`$k`$op'$v',";
+		} else {
+			//if(isset($old[$k]) && $old[$k] != $v) {
+				//$s .= "`$k`='$v',";
+			//}
+			$s .= "`$k`='$v',";
+		}
+	}
+	return substr($s, 0, -1);
 }
 
 

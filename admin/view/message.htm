@@ -1,0 +1,18 @@
+<?php $header['title'] = lang('message_title'); ?>
+<?php include "./admin/view/header.inc.htm"; ?>
+
+<div class="row">
+	<div class="col-lg-8 col-lg-offset-2">
+		<div class="card card-block m-t-1">
+			<h4 class="card-title text-xs-center">
+				<i class="icon-<?php echo $code == 0 ? 'ok' : 'warning-sign'; ?>"></i> 
+				<?php echo $message;?>
+			</h4>
+			<!--
+			<p class="text-xs-center"><a href="#">Card link</a></p>
+			-->
+		</div>
+	</div>
+</div>
+
+<?php include "./admin/view/footer.inc.htm"; ?>
