@@ -141,3 +141,12 @@ dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
 
 /* 靠的太远 */
 .navbar-nav .nav-item + .nav-item.username { margin-left: 0.3rem; }
+/*
+.nowrap { 
+	width: 100%;
+	white-space: nowrap;
+	text-overflow: ellipsis; 
+	-o-text-overflow: ellipsis; 
+	overflow: hidden;
+}
+*/

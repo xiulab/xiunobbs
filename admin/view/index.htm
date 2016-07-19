@@ -5,52 +5,45 @@
 		<h3>后台首页</h3>
 		<hr />
 		<div class="card card-block m-t-1">
-			<h3>站点统计信息</h3>
+			<h5>站点统计信息</h5>
 			<hr />
 			<div class="row">
 				<div class="col-md-4 p-l-2 p-r-2">
 					<dl class="row m-b-1">
-						<dt class="text-muted">用户名：</dt>
-						<dd class="text-right">张三</dd>
+						<dt class="text-muted">主题数：</dt>
+						<dd class="text-right"><?php echo $stat['threads']; ?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">Email：</dt>
-						<dd class="text-right">xxxx@xxxxx.com</dd>
+						<dt class="text-muted">帖子数：</dt>
+						<dd class="text-right"><?php echo $stat['posts']; ?>m</dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">用户组：</dt>
-						<dd class="text-right"><?php echo $user['groupname'];?></dd>
+						<dt class="text-muted">用户数：</dt>
+						<dd class="text-right"><?php echo $stat['users']; ?></dd>
+					</dl>
+					
+				</div>
+				<div class="col-md-4 m-b-1 p-l-2 p-r-2">
+					<dl class="row m-b-1">
+						<dt class="text-muted">附件总数：</dt>
+						<dd class="text-right"><?php echo $stat['attachs']; ?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">注册时间：</dt>
+						<dt class="text-muted">附件大小：</dt>
 						<dd class="text-right">2015-1-12</dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">最后登录：</dt>
-						<dd class="text-right">2015-1-12</dd>
+						<dt class="text-muted">磁盘剩余空间：</dt>
+						<dd class="text-right"><?php echo $stat['disk_free_space']; ?></dd>
 					</dl>
 				</div>
 				<div class="col-md-4 m-b-1 p-l-2 p-r-2">
 					<dl class="row m-b-1">
-						<dt class="text-muted">主题：</dt>
+						<dt class="text-muted">在线人数：</dt>
 						<dd class="text-right">123</dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">回复：</dt>
-						<dd class="text-right">2345</dd>
-					</dl>
-					<dl class="row m-b-1">
-						<dt class="text-muted">精华：</dt>
-						<dd class="text-right">12</dd>
-					</dl>
-				</div>
-				<div class="col-md-4 m-b-1 p-l-2 p-r-2">
-					<dl class="row m-b-1">
-						<dt class="text-muted">主题：</dt>
-						<dd class="text-right">123</dd>
-					</dl>
-					<dl class="row m-b-1">
-						<dt class="text-muted">回复：</dt>
+						<dt class="text-muted">站点上线时间：</dt>
 						<dd class="text-right">2345</dd>
 					</dl>
 					<dl class="row m-b-1">
@@ -62,61 +55,94 @@
 		</div>
 		
 		<div class="card card-block m-t-1">
-			<h3>服务器信息</h3>
+			<h5>服务器信息 <a href="admin/<?php echo url('index-phpinfo');?>"><small>[查看 PHPINFO]</small></a></h5>
 			<hr />
 			<div class="row">
 				<div class="col-md-4 m-b-1 p-l-2 p-r-2">
 					<dl class="row m-b-1">
-						<dt class="text-muted">用户名：</dt>
-						<dd class="text-right">张三</dd>
+						<dt class="text-muted">操作系统：</dt>
+						<dd class="text-right"><?php echo PHP_OS; ?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">Email：</dt>
-						<dd class="text-right">xxxx@xxxxx.com</dd>
+						<dt class="text-muted">Web Server：</dt>
+						<dd class="text-right nowrap"><?php echo $info['SERVER_SOFTWARE']; ?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">用户组：</dt>
-						<dd class="text-right"><?php echo $user['groupname'];?></dd>
+						<dt class="text-muted">PHP：</dt>
+						<dd class="text-right"><?php echo PHP_VERSION;?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">注册时间：</dt>
-						<dd class="text-right">2015-1-12</dd>
-					</dl>
-					<dl class="row m-b-1">
-						<dt class="text-muted">最后登录：</dt>
-						<dd class="text-right">2015-1-12</dd>
+						<dt class="text-muted">数据库：</dt>
+						<dd class="text-right"><?php echo $conf['db']['type']; ?><br><small> (<?php echo $info['dbversion']; ?>)</small></dd>
 					</dl>
 				</div>
 				<div class="col-md-4 m-b-1 p-l-2 p-r-2">
 					<dl class="row m-b-1">
-						<dt class="text-muted">主题：</dt>
-						<dd class="text-right">123</dd>
+						<dt class="text-muted">最大 POST 数据大小：</dt>
+						<dd class="text-right"><?php echo $info['post_max_size']; ?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">回复：</dt>
-						<dd class="text-right">2345</dd>
+						<dt class="text-muted">最大文件上传大小：</dt>
+						<dd class="text-right"><?php echo $info['upload_max_filesize']; ?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">精华：</dt>
-						<dd class="text-right">12</dd>
+						<dt class="text-muted">允许开启远程 URL：</dt>
+						<dd class="text-right"><?php echo $info['allow_url_fopen']; ?> </dd>
+					</dl>
+					<dl class="row m-b-1">
+						<dt class="text-muted">安全模式（safe_mode）：</dt>
+						<dd class="text-right"><?php echo $info['safe_mode']; ?></dd>
 					</dl>
 				</div>
 				<div class="col-md-4 m-b-1 p-l-2 p-r-2">
 					<dl class="row m-b-1">
-						<dt class="text-muted">主题：</dt>
-						<dd class="text-right">123</dd>
+						<dt class="text-muted">最长执行时间：</dt>
+						<dd class="text-right"><?php echo $info['max_execution_time']; ?>秒</dd>
+					</dl>
+					
+					<dl class="row m-b-1">
+						<dt class="text-muted">内存上限：</dt>
+						<dd class="text-right"><?php echo $info['memory_limit']; ?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">回复：</dt>
-						<dd class="text-right">2345</dd>
+						<dt class="text-muted">客户端 IP：</dt>
+						<dd class="text-right"><?php echo $ip; ?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">精华：</dt>
-						<dd class="text-right">12</dd>
+						<dt class="text-muted">服务端 IP：</dt>
+						<dd class="text-right"><?php echo _SERVER('SERVER_ADDR'); ?></dd>
 					</dl>
 				</div>
 			</div>
 		</div>
+		
+		
+		<div class="card card-block m-t-1">
+			<h5>开发团队信息</h5>
+			<hr />
+			<p>Dev Leader: axiuno@gmail.com</p>
+			<p>Official Site: <a href="http://www.xiuno.com" target="_blank">http://www.xiuno.com/</a></p>
+			<p>Dev Team: </p>
+			<blockquote class="m-l-3">
+				<a href="http://artery.cn/" target="_blank">Artery</a>　
+				<a href="http://www.zd.hk/" target="_blank">杨永全</a>
+				<a href="http://bbs.xiuno.com/" target="_blank">倚楼观天象</a>
+				<a href="http://bbs.xiuno.com/user-123.htm" target="_blank">右键森林@xiuno</a>
+			</blockquote>
+			<p>Thanks For: </p>
+			<blockquote class="m-l-3">
+				<a href="http://artery.cn/" target="_blank">Artery</a>　
+				<a href="http://www.zd.hk/" target="_blank">杨永全</a>
+				<a href="http://www.wooyun.org/" target="_blank">剑心@wooyun</a>
+				<a href="http://kc.4181.cn/" target="_blank">吴兆焕@twcms</a>
+				<a href="http://bbs.xiuno.com/" target="_blank">倚楼观天象</a>
+				<a href="http://bbs.xiuno.com/" target="_blank">小龙@xiuno</a>
+				<a href="http://bbs.xiuno.com/" target="_blank">吴健@xiuno</a>
+				<a href="http://bbs.xiuno.com/" target="_blank">鲁广@xiuno</a>
+				<a href="http://bbs.xiuno.com/" target="_blank">小飞@xiuno</a>
+			</blockquote>
+		</div>
+		
 		<a role="button" class="btn btn-primary center-block hidden-md-up" href="<?php echo url('my');?>"> <?php echo lang('back');?> </a>
 	</div>
 </div>

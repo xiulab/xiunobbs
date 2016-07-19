@@ -37,7 +37,8 @@ function admin_token_set() {
 	setcookie('bbs_admin_token', $admin_token, $time + 3600, '',  '', 0, TRUE);
 }
 
-function admin_token_clear() {
+function admin_token_clean() {
+	global $time;
 	setcookie('bbs_admin_token', '', $time - 86400, '', '', 0, TRUE);
 }
 

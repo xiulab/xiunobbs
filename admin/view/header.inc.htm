@@ -5,6 +5,7 @@
 	<base href="../" />
 	
 	<?php $header = G('header');?>
+	<?php $user = G('user');?>
 	<?php $forumlist_show = G('forumlist_show');?>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -87,7 +88,7 @@
 							<a class="nav-link" href="./"><i class="icon-home"></i> 返回前台</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="<?php echo url('user-logout');?>"><?php echo lang('logout');?></a>
+							<a class="nav-link" href="admin/<?php echo url('index-logout');?>"><?php echo lang('logout');?></a>
 						</li>
 					</ul>
 				</div>
