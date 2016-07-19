@@ -55,10 +55,7 @@
 .text-bold { font-weight: bold; }
 .text-grey { color: #bbb ; }
 
-.text-middle {
-  font-size: 95%;
-  font-weight: normal;
-}
+.text-middle { font-size: 95%; }
 
 /*  ul, dl 多列定义，用来模拟简单的表格布局  */
 dl.row, ul.row { display: table; width: 100%; clear: both;}
