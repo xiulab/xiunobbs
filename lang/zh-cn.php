@@ -12,7 +12,20 @@ return array(
 	'logout'=>'退出',
 	'forgot_pw'=>'忘记密码',
 	'submiting'=>'正在提交',
-	'register'=>'注册',
+	'create'=>'创建',
+	'update'=>'更新',
+	'edit'=>'编辑',
+	'modify'=>'修改',
+	'delete'=>'删除',
+	
+	'update_failed'=>'编辑失败',
+	'delete_failed'=>'删除失败',
+	'create_failed'=>'创建失败',
+	
+	'update_success'=>'编辑成功',
+	'delete_success'=>'删除成功',
+	'create_success'=>'创建成功',
+	
 	'user_login_successfully'=>'登陆成功',
 	'user_send_init_pw_sucessfully'=>'初始密码已经发送往您的邮箱，请查收',
 	'user_send_sucessfully'=>'发送成功',
@@ -33,6 +46,9 @@ return array(
 	'password_new_repeat'=>'重复新密码',
 	'update_password'=>'修改密码',
 	'index_page'=>'首页',
+	
+	'post_update'=>'编辑帖子',
+	
 	
 );
 

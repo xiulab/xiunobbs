@@ -23,8 +23,13 @@
 							<span class="date text-grey m-l-1"><?php echo $thread['create_date_fmt'];?></span>
 						</dt>
 						<dd class="text-right">
-							<a href="<?php echo url("thread-update-$thread[tid]");?>" class="text-grey"><i class="icon-edit"></i> 编辑</a> &nbsp;
-							<a href="<?php echo url("thread-delete-$thread[tid]");?>" class="text-grey"><i class="icon-remove"></i> 删除</a>
+							<?php if($allowupdate || $first['allowupdate']) { ?>
+							<a href="<?php echo url("post-update-$thread[firstpid]");?>" class="text-grey m-r-1 post_update"><i class="icon-edit"></i> <?php echo lang('edit');?></a>
+							<?php } ?>
+							
+							<?php if($allowdelete || $first['allowdelete']) { ?>
+							<a href="<?php echo url("post-delete-$thread[firstpid]");?>" class="text-grey post_delete"><i class="icon-remove"></i> <?php echo lang('delete');?></a>
+							<?php } ?>
 						</dd>
 					</dl>
 				</dd>
@@ -42,7 +47,7 @@
 						<th colspan="2" class="p-t-0 p-l-0">
 							<dl class="row">
 								<dt>
-									<b>最新回复</b>(<?php echo $thread['posts'];?>)
+									<b>最新回复</b>(<span class="posts"><?php echo $thread['posts'];?></span>)
 								</dt>
 								<dd>
 								
@@ -62,8 +67,8 @@
 						<td class="p-l-0">
 							<form action="<?php echo url("post-create-$tid-1");?>" method="post" id="form">	
 								<dl class="row small text-muted">
-									<dt class="username">用户名</dt>
-									<dd class="text-right text-grey floor">12楼</dd>
+									<dt class="username"><?php echo $user['username'];?></dt>
+									<dd class="text-right text-grey"><span class="floor"><?php echo ($thread['posts'] + 1);?></span>楼</dd>
 								</dl>
 								<div class="message m-t-xs">
 									<fieldset class="form-group">
@@ -123,7 +128,6 @@
 	</div>
 </div>
 
-
 <?php include "./view/htm/footer.inc.htm"; ?>
 
 <script>
@@ -139,6 +143,15 @@ jform.on('submit', function() {
 			jtr.insertBefore($('table.postlist tr').last());
 			jsubmit.button('reset');
 			$('#message').val('');
+			
+			// 楼层 +1
+			var jfloor = jform.find('.floor');
+			jfloor.html(intval(jfloor.html()) + 1);
+			
+			// 回复数 +1
+			var jposts = $('.posts');
+			jposts.html(intval(jposts.html()) + 1);
+			
 		} else if(code < 0) {
 			alert(message);
 			jsubmit.button('reset');
@@ -147,6 +160,32 @@ jform.on('submit', function() {
 			jsubmit.button('reset');
 		}
 	});
+	return false;
+});
+
+// 删除帖子
+var jpost_delete = $('.post_delete');
+jpost_delete.on('click', function() {
+	var jthis = $(this);
+	var href = jthis.attr('href');
+	var isfirst = jthis.attr('isfirst');
+	if(window.confirm('确定删除？')) {
+		$.xpost(href, function(code, message) {
+			if(code == 0) {
+				if(isfirst) {
+					$.location('<?php echo url("forum-$fid");?>');
+				} else {
+					// 删掉楼层
+					jthis.parents('tr').remove();
+					// 回复数 -1
+					var jposts = $('.posts');
+					jposts.html(intval(jposts.html()) + 1);
+				}
+			} else {
+				alert(message);
+			}
+		});
+	}
 	return false;
 });
 </script>

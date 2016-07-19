@@ -101,8 +101,7 @@ if($action == 'create') {
 	
 	$fid = $thread['fid'];
 	$forum = forum_read($fid);
-	empty($forum) AND message(1, '板块不存在:'.$fid);
-	
+	empty($forum) AND message(-1, '板块不存在:'.$fid);
 	
 	$isfirst = $post['isfirst'];
 	
@@ -125,22 +124,22 @@ if($action == 'create') {
 		}
 		
 		check_standard_browser();
-		include './pc/view/post_update.htm';
+		include './view/htm/post_update.htm';
 		
 	} elseif($method == 'POST') {
 		
 		$subject = htmlspecialchars(param('subject', '', FALSE));
 		$message = param('message', '', FALSE);
 		
-		empty($message) AND message(2, '内容不能为空');
+		empty($message) AND message('message', '内容不能为空');
 		$gid != 1 AND $message = xn_html_safe($message);
-		mb_strlen($message, 'UTF-8') > 2048000 AND message('内容太长');
+		mb_strlen($message, 'UTF-8') > 2048000 AND message('message', '内容太长');
 		
 		$arr = array();
 		if($isfirst) {
 			$newfid = param('fid');
 			$forum = forum_read($newfid);
-			empty($forum) AND message(1, '板块不存在:'.$newfid);
+			empty($forum) AND message('fid', '板块不存在:'.$newfid);
 			
 			if($fid != $newfid) {
 				!forum_access_user($fid, $gid, 'allowthread') AND message(-1, '您（'.$user['groupname'].'）无权限在此版块回帖');
@@ -148,7 +147,7 @@ if($action == 'create') {
 				$arr['fid'] = $newfid;
 			}
 			if($subject != $thread['subject']) {
-				mb_strlen($subject, 'UTF-8') > 80 AND message(1, '标题最长80个字符');
+				mb_strlen($subject, 'UTF-8') > 80 AND message('subject', '标题最长80个字符');
 				$arr['subject'] = $subject;
 			}
 			$arr AND thread_update($tid, $arr) === FALSE AND message(-1, '更新主题失败');
@@ -156,7 +155,8 @@ if($action == 'create') {
 		$r = post_update($pid, array('message'=>$message));
 		$r === FALSE AND message(-1, '更新帖子失败');
 		
-		message(0, array('pid'=>$pid, 'subject'=>$subject, 'message'=>$message));
+		message(0, lang('update_success'));
+		//message(0, array('pid'=>$pid, 'subject'=>$subject, 'message'=>$message));
 	}
 	
 } elseif($action == 'delete') {
@@ -191,7 +191,7 @@ if($action == 'create') {
 	}
 	
 	
-	message(0, '删除成功');
+	message(0, lang('delete_success'));
 	
 // 接受 base64 文件上传
 } elseif($action == 'upload') {

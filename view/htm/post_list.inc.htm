@@ -1,19 +1,28 @@
-					<?php foreach($postlist as $post) { ?>
+					<?php foreach($postlist as $_post) { ?>
 					<tr class="post">
 						<td class="vtop avatar-parent">
 							<a href="<?php echo url("user-$thread[uid]");?>">
-								<img class="avatar" src="<?php echo $post['user_avatar_url'];?>">
+								<img class="avatar" src="<?php echo $_post['user_avatar_url'];?>">
 							</a>
 						</td>
 						<td class="p-l-0">
 							<dl class="row small text-muted">
 								<dt>
-									<span class="username text-muted"><?php echo $post['username'];?></span>
-									<span class="date text-grey m-l-1"><?php echo $post['create_date_fmt'];?></span>
+									<span class="username text-muted"><?php echo $_post['username'];?></span>
+									<span class="date text-grey m-l-1"><?php echo $_post['create_date_fmt'];?></span>
 								</dt>
-								<dd class="text-right text-grey floor"><?php echo $post['floor'];?>楼</dd>
+								<dd class="text-right text-grey ">
+									<?php if($allowupdate || $_post['allowupdate']) { ?>
+									<a href="<?php echo url("post-update-$_post[pid]");?>" class="text-grey post_update m-r-1"><i class="icon-edit"></i> <?php echo lang('edit');?></a>
+									<?php } ?>
+								
+									<?php if($allowdelete || $_post['allowdelete']) { ?>
+									<a href="<?php echo url("post-delete-$_post[pid]");?>" class="text-grey post_delete m-r-1"><i class="icon-remove"></i> <?php echo lang('delete');?></a>
+									<?php } ?>
+									<span class="floor"><?php echo $_post['floor'];?></span>楼
+								</dd>
 							</dl>
-							<div class="message m-t-xs"><?php echo $post['message'];?></div>
+							<div class="message m-t-xs"><?php echo $_post['message'];?></div>
 						</td>
 					</tr>
 					<?php } ?>
