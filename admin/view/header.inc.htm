@@ -52,32 +52,39 @@
 				<div class="col-md-8">
 					<ul class="nav navbar-nav">
 						<li class="nav-item active">
-							<a class="nav-link" href="."><?php echo lang('admin_index_page');?></a>
+							<img src="view/img/logo.png" class="logo-sm">
+						</li>
+						<li class="nav-item active">
+							<a class="nav-link" href="admin/"> 后台首页</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="admin/<?php echo url('setting');?>"><?php echo lang('admin_site_setting');?></a>
+							<a class="nav-link" href="admin/<?php echo url('setting');?>"><i class="icon-cog"></i> <?php echo lang('admin_site_setting');?></a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="admin/<?php echo url('user');?>"><?php echo lang('user_admin');?></a>
+							<a class="nav-link" href="admin/<?php echo url('user');?>"><i class="icon-user"></i> <?php echo lang('user_admin');?></a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="admin/<?php echo url('post');?>"><?php echo lang('post_admin');?></a>
+							<a class="nav-link" href="admin/<?php echo url('post');?>"><i class="icon-comment"></i> <?php echo lang('post_admin');?></a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="admin/<?php echo url('other');?>"><?php echo lang('other_admin');?></a>
+							<a class="nav-link" href="admin/<?php echo url('other');?>"><i class="icon-circle-blank"></i> <?php echo lang('other_admin');?></a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="admin/<?php echo url('plugin');?>"><?php echo lang('plugin_admin');?></a>
+							<a class="nav-link" href="admin/<?php echo url('plugin');?>"><i class="icon-cogs"></i> <?php echo lang('plugin_admin');?></a>
 						</li>
 					</ul>
 				</div>
 				<div class="col-md-4">
 					<ul class="nav navbar-nav pull-right small">
+						
 						<li class="nav-item">
 							<a class="nav-link" href="<?php echo url('my');?>"><img class="avatar-xs" src="<?php echo $user['avatar_url'];?>"></a>
 						</li>
-						<li class="nav-item m-l-xs">
+						<li class="nav-item username">
 							<a class="nav-link" href="<?php echo url('my');?>"><?php echo $user['username'];?></a>
+						</li>
+						<li class="nav-item m-l-xs">
+							<a class="nav-link" href="./"><i class="icon-home"></i> 返回前台</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="<?php echo url('user-logout');?>"><?php echo lang('logout');?></a>
@@ -90,22 +97,22 @@
 			<div class="bg-inverse p-a-1">
 				<ul>
 					<li class="nav-item active">
-						<a class="nav-link" href="."><?php echo lang('index_page');?></a>
+						<a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_index_page');?></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="admin/<?php echo url('setting');?>"><?php echo lang('setting');?></a>
+						<a class="nav-link" href="admin/<?php echo url('setting');?>"><i class="icon-cog"></i> <?php echo lang('admin_site_setting');?></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="admin/<?php echo url('user');?>"><?php echo lang('user_admin');?></a>
+						<a class="nav-link" href="admin/<?php echo url('user');?>"><i class="icon-user"></i> <?php echo lang('user_admin');?></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="admin/<?php echo url('post');?>"><?php echo lang('post_admin');?></a>
+						<a class="nav-link" href="admin/<?php echo url('post');?>"><i class="icon-comment"></i> <?php echo lang('post_admin');?></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="admin/<?php echo url('other');?>"><?php echo lang('other_admin');?></a>
+						<a class="nav-link" href="admin/<?php echo url('other');?>"><i class="icon-circle-blank"></i> <?php echo lang('other_admin');?></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="admin/<?php echo url('plugin');?>"><?php echo lang('plugin_admin');?></a>
+						<a class="nav-link" href="admin/<?php echo url('plugin');?>"><i class="icon-cogs"></i> <?php echo lang('plugin_admin');?></a>
 					</li>
 				</ul>
 			</div>

@@ -136,3 +136,8 @@ dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
 .dropdown-toggle::after {width: 22px; height: 16px; background: url(../img/more.png); opacity: 0.5; border: 0; }
 .dropdown-toggle:hover::after {opacity: 1;  }
 .breadcrumb {background: #fff; border: 1px solid #e5e5e5; font-size: 95%; padding: 0.5rem 1rem;}
+.logo-xs {width: 1.3rem; height: 1.3rem; }
+.logo-sm {width: 2.2rem; height: 2.2rem; margin-top: 2px;}
+
+/* 靠的太远 */
+.navbar-nav .nav-item + .nav-item.username { margin-left: 0.3rem; }
