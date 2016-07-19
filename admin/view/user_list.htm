@@ -28,8 +28,7 @@
 		<div class="notice error">暂无用户</div>
 	<?php } else { ?>
 		
-		<table class="table" width="100%" id="userlist">
-			<thead>
+		<table class="tlist" width="100%" id="userlist">
 			<tr>
 				<th width="60" class="center">删除</th>
 				<th width="100">ID</th>
@@ -43,8 +42,6 @@
 				<th>登录次数</th>
 				<th>操作</th>
 			</tr>
-			</thead>
-			<tbody>
 		<?php foreach($userlist as &$_user){ ?>
 			<tr uid="<?php echo $_user['uid']; ?>">
 				<td class="center"><input type="checkbox" name="delete" /></td>
@@ -60,7 +57,6 @@
 				<td><a href="admin/user-update-<?php echo $_user['uid']; ?>.htm">编辑</a></td>
 			</tr>
 		<?php } ?>
-			</tbody>
 		</table>
 		<p class="hr"></p>
 		<dl class="row">

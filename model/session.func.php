@@ -160,7 +160,7 @@ ini_set('session.name', 'bbs_sid');
 ini_set('session.use_cookies', 'On');
 ini_set('session.use_only_cookies', 'On');
 ini_set('session.cookie_domain', '');
-ini_set('session.cookie_path', '');
+ini_set('session.cookie_path', '.');	// 当前目录及下子目录，如果为空则表示仅为当前目录
 ini_set('session.cookie_secure', 'Off'); // 打开后，只有通过 https 才有效。
 ini_set('session.cookie_lifetime', 86400);
 ini_set('session.cookie_httponly', 'On'); // 打开后 js 获取不到 HTTP 设置的 cookie, 有效防止 XSS，这个对于安全很重要，除非有 BUG，否则不要关闭。

@@ -6,6 +6,7 @@
 	
 	<?php $header = G('header');?>
 	<?php $user = G('user');?>
+	<?php $menu = G('menu');?>
 	<?php $forumlist_show = G('forumlist_show');?>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -56,7 +57,7 @@
 							<img src="view/img/logo.png" class="logo-sm">
 						</li>
 						<li class="nav-item home">
-							<a class="nav-link" href="admin/"> 后台首页</a>
+							<a class="nav-link" href="admin/"><i class="icon-home"></i> 后台首页</a>
 						</li>
 						<?php foreach ($menu as $k=>$v) { ?>
 						<li class="nav-item <?php echo $k;?>">
@@ -86,7 +87,7 @@
 		</div>
 		<div class="collapse" id="collapsing_bavbar">
 			<div class="bg-inverse p-a-1">
-				<ul id="nav_mobile">
+				<ul class="nav" id="nav_mobile">
 					<li class="nav-item home">
 						<a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_index_page');?></a>
 					</li>

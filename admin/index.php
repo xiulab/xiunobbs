@@ -43,6 +43,8 @@ $header = array(
 // 运行时数据
 $runtime = runtime_init();
 
+$menu = include './admin/menu.conf.php';
+
 // 检测浏览器， 不支持 IE8
 $browser = get__browser();
 check_browser($browser);
@@ -64,14 +66,11 @@ $setting = cache_get('setting', TRUE);
 $route = param(0, 'index');
 
 // 只允许管理员登陆后台
-if($gid != 1) {
-	message(-1, jump('对不起，您不是管理员，无权登陆后台。', url('user-login')));
-}
+// 对于越权访问，可以默认为黑客企图，不用友好提示。
+$gid != 1 AND http_403();
 
 // 管理员令牌检查
 admin_token_check();
-
-$menu = include './admin/menu.conf.php';
 
 // todo: HHVM 不支持动态 include $filename
 switch ($route) {

@@ -922,6 +922,14 @@ function http_404() {
 	exit;
 }
 
+// 无权限访问
+function http_403() {
+	header('HTTP/1.1 403 Forbidden'); 
+	header('Status: 403 Forbidden'); 
+	echo '<h1>403 Forbidden</h1>';
+	exit;
+}
+
 // 兼容 3.0，如果没有使用过，可以砍掉
 function array_to_sqladd($arr) {
 	return db_array_to_sqladd($arr);
