@@ -8,64 +8,33 @@ if($action == 'login') {
 
 	if($method == 'GET') {
 
-		// 判断已登录就跳转到后台首页
-		if($gid == 1) {
-			message(0, jump('您已经登录后台了，点击进入后台。', 'admin/', 5));
-		}
-
 		$header['title'] = '管理登陆';
 		
 		include "./admin/view/index_login.htm";
 
 	} else if($method == 'POST') {
 
-		$username = param('username');
 		$password = param('password');
-
-		$user = user_read_by_username($username);
-
-		if(empty($user)) {
-			xn_log('username: '.$username.' does not exist', 'admin_login_error');
-			message(1, '用户名不存在');
-		}
 
 		if(md5($password.$user['salt']) != $user['password']) {
 			xn_log('password error. uid:'.$user['uid'].' - ******'.substr($password, -6), 'admin_login_error');
-			message(2, '密码错误');
+			message('password', '密码错误');
 		}
 
-		// gid 不合格的用户不允许登录
-		if($user['gid'] != 1) {
-			xn_log('login illegal. uid:'.$user['uid'], 'admin_login_error');
-			message(1, '无权访问');
-		}
-
-		// 更新登录信息
-		user_update($user['uid'], array(
-			'login_ip' => $longip,
-			'login_date' => $time,
-			'logins+' => 1,
-		));
-
-		user_token_set($user['uid'], $user['gid'], $user['password'], $user['avatar'], $user['username'], 'bbs');
+		admin_token_set();
 
 		// 记录日志
 		xn_log('login successed. uid:'.$user['uid'], 'admin_login');
 
-		unset($user['password']);
-		unset($user['password_sms']);
-		unset($user['salt']);
-		
-		message(0, $user);
+		message(0, lang('login_success'));
 
 	}
 
 } elseif ($action == 'logout') {
 
-	user_token_clean('/', '', 'bbs');
+	admin_token_clean();
 
-	header('Location:index-login.htm');
-	exit;
+	message(0, jump('退出成功', './'));
 
 } elseif ($action == 'phpinfo') {
 	

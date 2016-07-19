@@ -41,11 +41,7 @@
 				<div class="col-xs-4">
 					<div class="pull-right">
 						<div class="nav-item small">
-							<?php if(empty($uid)) { ?>
-							<a class="nav-link" href="<?php echo url('user-login');?>"><?php echo lang('login');?></a>
-							<?php } else { ?>
-							<a class="nav-link" href="<?php echo url('my');?>"><?php echo $user['username'];?></a>
-							<?php } ?>
+							<a class="nav-link" href="<?php echo url('index-logout');?>"><?php echo lang('logout');?></a>
 						</div>
 					</div>
 				</div>
@@ -56,37 +52,27 @@
 				<div class="col-md-8">
 					<ul class="nav navbar-nav">
 						<li class="nav-item active">
-							<a class="nav-link" href="."><?php echo lang('index_page');?> <span class="sr-only">(current)</span></a>
+							<a class="nav-link" href="."><?php echo lang('admin_index_page');?></a>
 						</li>
-						
-						<?php foreach($forumlist_show as $forum) { ?>
 						<li class="nav-item">
-							<a class="nav-link" href="<?php echo url("forum-$forum[fid]");?>"><?php echo $forum['name'];?></a>
+							<a class="nav-link" href="admin/<?php echo url('setting');?>"><?php echo lang('admin_site_setting');?></a>
 						</li>
-						<?php } ?>
-						
 						<li class="nav-item">
-							<div class="dropdown">
-								<a class="nav-link nav-more dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"></a>
-								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-									<button class="dropdown-item" type="button">Action</button>
-									<button class="dropdown-item" type="button">Another action</button>
-									<button class="dropdown-item" type="button">Something else here</button>
-								</div>
-							</div>
+							<a class="nav-link" href="admin/<?php echo url('user');?>"><?php echo lang('user_admin');?></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="admin/<?php echo url('post');?>"><?php echo lang('post_admin');?></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="admin/<?php echo url('other');?>"><?php echo lang('other_admin');?></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="admin/<?php echo url('plugin');?>"><?php echo lang('plugin_admin');?></a>
 						</li>
 					</ul>
 				</div>
 				<div class="col-md-4">
 					<ul class="nav navbar-nav pull-right small">
-						<?php if(empty($uid)) { ?>
-						<li class="nav-item">
-							<a class="nav-link" href="<?php echo url('user-login');?>"><?php echo lang('login');?></a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="<?php echo url('user-create');?>"><?php echo lang('register');?></a>
-						</li>
-						<?php } else { ?>
 						<li class="nav-item">
 							<a class="nav-link" href="<?php echo url('my');?>"><img class="avatar-xs" src="<?php echo $user['avatar_url'];?>"></a>
 						</li>
@@ -96,7 +82,6 @@
 						<li class="nav-item">
 							<a class="nav-link" href="<?php echo url('user-logout');?>"><?php echo lang('logout');?></a>
 						</li>
-						<?php } ?>
 					</ul>
 				</div>
 			</div>
@@ -104,11 +89,24 @@
 		<div class="collapse" id="collapsing_bavbar">
 			<div class="bg-inverse p-a-1">
 				<ul>
-					<?php foreach($forumlist_show as $forum) { ?>
-					<li class="nav-item">
-						<a class="nav-link" href="<?php echo url("forum-$forum[fid]");?>"><?php echo $forum['name'];?></a>
+					<li class="nav-item active">
+						<a class="nav-link" href="."><?php echo lang('index_page');?></a>
 					</li>
-					<?php } ?>
+					<li class="nav-item">
+						<a class="nav-link" href="admin/<?php echo url('setting');?>"><?php echo lang('setting');?></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="admin/<?php echo url('user');?>"><?php echo lang('user_admin');?></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="admin/<?php echo url('post');?>"><?php echo lang('post_admin');?></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="admin/<?php echo url('other');?>"><?php echo lang('other_admin');?></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="admin/<?php echo url('plugin');?>"><?php echo lang('plugin_admin');?></a>
+					</li>
 				</ul>
 			</div>
 		</div>

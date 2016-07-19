@@ -7,6 +7,7 @@
 				<h4 class="bd-title"><?php echo lang('admin_login');?></h4>
 				<hr />
 				<form action="admin/<?php echo url('index-login');?>" method="post" id="form">
+					<p>为了您的安全，请再次输入账户密码：</p>
 					<p class="input-group">
 						<span class="input-group-addon" id="basic-addon1"><i class="icon icon-lock"></i></span>
 						<input type="password" class="form-control" placeholder="<?php echo lang('password');?>" id="password" name="password">
@@ -27,14 +28,14 @@
 var jform = $('#form');
 var jsubmit = $('#submit');
 var jemail = $('#email');
-var jpassword = $('#password');
+var jpassword = $('#password').focus();
 jform.on('submit', function() {
 	var postdata = jform.serializeObject();
 	postdata.password = $.md5(postdata.password);
 	jsubmit.button('loading');
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
-			$.location('./');
+			$.location('./admin/');
 			jsubmit.button(message);
 		} else if(code == 'email') {
 			jemail.alert(message).focus();

@@ -161,7 +161,7 @@ if($action == 'login') {
 	
 	// hook user_logout_end.php
 	
-	message(0, 'xx');
+	message(0, lang('logout_success'));
 	//message(0, jump('退出成功', './', 1));
 
 // 获取当前用户的信息

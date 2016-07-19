@@ -89,6 +89,11 @@
 						<li class="nav-item m-l-xs">
 							<a class="nav-link" href="<?php echo url('my');?>"><?php echo $user['username'];?></a>
 						</li>
+						<?php if($gid == 1) { ?>
+						<li class="nav-item">
+							<a class="nav-link" href="admin/"><?php echo lang('admin_page');?></a>
+						</li>
+						<?php } ?>
 						<li class="nav-item">
 							<a class="nav-link" href="<?php echo url('user-logout');?>"><?php echo lang('logout');?></a>
 						</li>

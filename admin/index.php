@@ -13,6 +13,7 @@ include './xiunophp/xiunophp.php';
 db_connect($err) OR exit($err);
 
 include './model.inc.php';
+include './admin/admin.func.php';
 
 // 语言包
 $lang = include('./lang/zh-cn.php');
@@ -68,7 +69,7 @@ if($gid != 1) {
 }
 
 // 管理员令牌检查
-admin_check_token();
+admin_token_check();
 
 // todo: HHVM 不支持动态 include $filename
 switch ($route) {
@@ -79,40 +80,6 @@ switch ($route) {
 	case 'group': 		include './admin/route/group.php'; 		break;
 	case 'user':		include './admin/route/user.php'; 		break;
 	default: http_404();
-}
-
-
-function admin_check_token() {
-	global $longip, $time, $useragent;
-	$admin_token = param('admin_token');
-	if(empty($admin_token)) {
-		$_REQUEST[0] = 'index';
-		$_REQUEST[1] = 'login';
-	} else {
-		$useragent_md5 = md5($useragent);
-		$key = md5($useragent_md5.$ip.$conf['auth_key']);
-		$s = xn_decrypt($admin_token, $key);
-		if(empty($s)) {
-			setcookie('admin_token', '', 0, '', '', '', TRUE);
-			message(-1, 'Token 错误');
-		}
-		list($_ip, $_useragent_md5, $_time) = explode("\t", $s);
-		// 后台超过 3600 自动退出。
-		if($_ip != $longip || $_useragent_md5 != $useragent_md5 || $time - $_time > 3600) {
-			setcookie('admin_token', '', 0, '', '', '', TRUE);
-			message(-1, '凭证失效，请重新登录');
-		}
-	}
-}
-
-function admin_set_token() {
-	global $longip, $time, $useragent;
-	$admin_token = param('admin_token');
-	$useragent_md5 = md5($useragent);
-	$key = md5($useragent_md5.$ip.$conf['auth_key']);
-	$s = "$longip	$time	$useragent_md5";
-	$admin_token = xn_encrypt($s, $key);
-	setcookie('admin_token', $admin_token, $time + 3600, '', '', '', TRUE);
 }
 
 ?>

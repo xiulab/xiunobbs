@@ -17,6 +17,8 @@ return array(
 	'edit'=>'编辑',
 	'modify'=>'修改',
 	'delete'=>'删除',
+	'register'=>'注册',
+	'setting'=>'设置',
 	
 	'update_failed'=>'编辑失败',
 	'delete_failed'=>'删除失败',
@@ -25,6 +27,11 @@ return array(
 	'update_success'=>'编辑成功',
 	'delete_success'=>'删除成功',
 	'create_success'=>'创建成功',
+	
+	'login_success'=>'登陆成功',
+	'logout_success'=>'退出成功',
+	
+	'admin_page'=>'后台管理',
 	
 	'user_login_successfully'=>'登陆成功',
 	'user_send_init_pw_sucessfully'=>'初始密码已经发送往您的邮箱，请查收',
@@ -50,6 +57,14 @@ return array(
 	'post_update'=>'编辑帖子',
 	
 	'admin_login'=>'管理员登陆',
+	
+	'user_admin'=>'会员管理',
+	'forum_admin'=>'版块管理',
+	'post_admin'=>'帖子管理',
+	'plugin_admin'=>'插件管理',
+	'other_admin'=>'其他管理',
+	'admin_index_page'=>'后台首页',
+	'admin_site_setting'=>'站点设置',
 	
 	
 );
