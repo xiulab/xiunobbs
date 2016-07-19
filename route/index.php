@@ -28,15 +28,11 @@ $onlinelist = online_find_cache();
 $runtime['onlines'] = count($onlinelist);
 
 // SEO 相关
-empty($setting) AND $setting = array('sitebrief'=>'', 'seo_title'=>'', 'seo_keywords'=>'', 'seo_description'=>'', 'footer_code'=>'');
+empty($setting) AND $setting = array('sitebrief'=>'');
 $sitebrief = $setting['sitebrief'];
-$header['title'] = $setting['seo_title'] ? $setting['seo_title'] : $conf['sitename']; 		// 网站标题
-$header['keywords'] = $setting['seo_keywords']; 		// 关键词
-$header['description'] = $setting['seo_description']; 	// 描述
-
-// 最新主题
-//$new_tids = forum_new_tids(($order == 'lastpid' ? $threadlist : array()));
-
+$header['title'] = $conf['sitename']; 		// 网站标题
+$header['keywords'] = ''; 			// 关键词
+$header['description'] = ''; 			// 描述
 
 include './view/htm/index.htm';
 

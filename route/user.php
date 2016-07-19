@@ -52,7 +52,6 @@ if($action == 'login') {
 
 	}
 
-// 注册第1步：校验 Email/code
 } elseif($action == 'create') {
 
 	$conf['ipaccess_on'] AND $conf['user_create_email_on'] AND !ipaccess_check($longip, 'mails') AND message(-1, '您的 IP 今日发送邮件数达到上限，请明天再来。');
@@ -80,8 +79,10 @@ if($action == 'login') {
 		$email = param('email');
 		$password = param('password');
 		
-		$email != _SESSION('create_email') AND message('sendinitpw', '请先点击获取初始密码');
-		$password != _SESSION('create_pw') AND message('password', '初始密码不正确');
+		if($conf['user_create_email_on']) {
+			$email != _SESSION('create_email') AND message('sendinitpw', '请先点击获取初始密码');
+			$password != _SESSION('create_pw') AND message('password', '初始密码不正确');
+		}
 		
 		$user = user_read_by_email($email);
 		$user AND message('email', 'EMAIL 已经注册。');
@@ -120,6 +121,8 @@ if($action == 'login') {
 } elseif($action == 'sendinitpw') {
 	
 	// hook user_sendinitpw_start.php
+	
+	empty($conf['user_create_email_on']) AND message(-1, '未开启邮箱验证。');
 	
 	$conf['ipaccess_on'] AND $conf['user_create_email_on'] AND !ipaccess_check($longip, 'mails') AND message(-1, '您的 IP 今日发送邮件数达到上限，请明天再来。');
 	$conf['ipaccess_on'] AND !ipaccess_check_freq($longip) AND message(0, '发送邮件比较耗费资源，请您休息一会再来。');

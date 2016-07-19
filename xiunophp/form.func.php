@@ -23,7 +23,7 @@ function form_radio($name, $arr, $checked = 0) {
 function form_select($name, $arr, $checked = 0, $id = TRUE) {
 	if(empty($arr)) return '';
 	$idadd = $id === TRUE ? "id=\"$name\"" : ($id ? "id=\"$id\"" : '');
-	$s = "<select name=\"$name\" $idadd> \r\n";
+	$s = "<select name=\"$name\" class=\"form-control\" $idadd> \r\n";
 	$s .= form_options($arr, $checked);
 	$s .= "</select> \r\n";
 	return $s;
@@ -38,9 +38,9 @@ function form_options($arr, $checked = 0) {
 	return $s;
 }
 
-function form_text($name, $value, $width = 150) {
+function form_text($name, $value, $width = '100%') {
 	is_numeric($width) AND $width .= 'px';
-	$s = "<input type=\"text\" name=\"$name\" id=\"$name\" value=\"$value\" style=\"width: {$width}\" />";
+	$s = "<input type=\"text\" name=\"$name\" id=\"$name\" value=\"$value\" class=\"form-control\" style=\"width: {$width}\" />";
 	return $s;
 }
 
@@ -52,19 +52,19 @@ function form_hidden($name, $value) {
 function form_textarea($name, $value, $width = 600,  $height = 300) {
 	is_numeric($width) AND $width .= 'px';
 	is_numeric($height) AND $height .= 'px';
-	$s = "<textarea name=\"$name\" id=\"$name\" style=\"width: {$width}; height: {$height};\">$value</textarea>";
+	$s = "<textarea name=\"$name\" id=\"$name\" class=\"form-control\" style=\"width: {$width}; height: {$height};\">$value</textarea>";
 	return $s;
 }
 
 function form_password($name, $value, $width = 150) {
 	is_numeric($width) AND $width .= 'px';
-	$s = "<input type=\"password\" name=\"$name\" id=\"$name\" value=\"$value\" style=\"width: {$width}\" />";
+	$s = "<input type=\"password\" name=\"$name\" id=\"$name\" class=\"form-control\" value=\"$value\" style=\"width: {$width}\" />";
 	return $s;
 }
 
 function form_time($name, $value, $width = 150) {
 	is_numeric($width) AND $width .= 'px';
-	$s = "<input type=\"text\" name=\"$name\" id=\"$name\" value=\"$value\" style=\"width: {$width}\" />";
+	$s = "<input type=\"text\" name=\"$name\" id=\"$name\" class=\"form-control\" value=\"$value\" style=\"width: {$width}\" />";
 	return $s;
 }
 

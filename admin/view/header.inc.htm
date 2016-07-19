@@ -37,7 +37,7 @@
 					 </button>
 				</div>
 				<div class="col-xs-4">
-					<a class="nav-link" href="">LOGO</a>
+					<a class="nav-link p-y-0" href="admin/"><img src="view/img/logo.png" class="logo-sm center-block"></a>
 				</div>
 				<div class="col-xs-4">
 					<div class="pull-right">
@@ -79,10 +79,10 @@
 					<ul class="nav navbar-nav pull-right small">
 						
 						<li class="nav-item">
-							<a class="nav-link" href="<?php echo url('my');?>"><img class="avatar-xs" src="<?php echo $user['avatar_url'];?>"></a>
+							<a class="nav-link" href="<?php echo url('my');?>"><img class="avatar-xs" src="<?php echo isset($user['avatar_url']) ? $user['avatar_url'] : '';?>"></a>
 						</li>
 						<li class="nav-item username">
-							<a class="nav-link" href="<?php echo url('my');?>"><?php echo $user['username'];?></a>
+							<a class="nav-link" href="<?php echo url('my');?>"><?php echo isset($user['username']) ? $user['username'] : '';?></a>
 						</li>
 						<li class="nav-item m-l-xs">
 							<a class="nav-link" href="./"><i class="icon-home"></i> 返回前台</a>

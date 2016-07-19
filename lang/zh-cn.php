@@ -19,6 +19,7 @@ return array(
 	'delete'=>'删除',
 	'register'=>'注册',
 	'setting'=>'设置',
+	'confirm'=>'确定',
 	
 	'update_failed'=>'编辑失败',
 	'delete_failed'=>'删除失败',

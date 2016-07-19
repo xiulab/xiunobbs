@@ -119,6 +119,8 @@ return array (
 	'check_flood' => array('users'=>10, 'posts'=>10, 'threads'=>5),	// 一段时间内连续操作的数量上限
 	'badword_on' => 0,		// 开启关键词过滤
 	'url_rewrite_on' => 0,
+	'user_create_email_on' => 0,		// 是否开启邮箱验证
+	'user_find_pw_on' => 0,		// 是否开启邮箱验证
 	 
 	'version' => '3.0',		// 版本
 	'installed' => 0,		// 安装时间

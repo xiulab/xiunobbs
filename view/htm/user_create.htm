@@ -1,7 +1,7 @@
 <?php include "./view/htm/header.inc.htm"; ?>
 
 <div class="row m-t-1">
-	<div class="col-lg-5 col-lg-offset-3">
+	<div class="col-lg-6 col-lg-offset-3">
 		<div class="card">
 			<img class="card-img-top" data-src="holder.js/100%x180" alt="100%x180" style="height: 80px; width: 100%; display: block;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMzE4IiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDMxOCAxODAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MTgwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTU1ZTcxNTI0NTcgdGV4dCB7IGZpbGw6cmdiYSgyNTUsMjU1LDI1NSwuNzUpO2ZvbnQtd2VpZ2h0Om5vcm1hbDtmb250LWZhbWlseTpIZWx2ZXRpY2EsIG1vbm9zcGFjZTtmb250LXNpemU6MTZwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTU1ZTcxNTI0NTciPjxyZWN0IHdpZHRoPSIzMTgiIGhlaWdodD0iMTgwIiBmaWxsPSIjNzc3Ii8+PGc+PHRleHQgeD0iMTE4LjA4NTkzNzUiIHk9Ijk3LjIiPjMxOHgxODA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" data-holder-rendered="true">
 			<div class="card-block">
@@ -12,6 +12,7 @@
 						<input type="text" class="form-control" placeholder="<?php echo lang('email');?>" name="email" id="email">
 					</p>
 					<dl class="row">
+						
 						<dt style="width: 68%">
 							<p class="input-group">
 								<span class="input-group-addon"><i class="icon icon-lock"></i></span>
@@ -19,11 +20,15 @@
 							</p>
 						</dt>
 						<dd class="text-right vtop">
+							<?php if($conf['user_create_email_on']) { ?>
 							<button type="submit" class="btn btn-primary btn-sm m-l-1" id="sendinitpw" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-sendinitpw');?>"><?php echo lang('get_init_pw');?></button>
+							<?php } else { ?>
+							<small>无需 Email 验证</small>
+							<?php } ?>
 						</dd>
 					</dl>
 					<p>
-						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." disabled><?php echo lang('register');?></button>
+						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." <?php if($conf['user_create_email_on']) { ?>disabled<?php } ?>><?php echo lang('register');?></button>
 					</p>
 					<dl class="row">
 						<dt></dt>
