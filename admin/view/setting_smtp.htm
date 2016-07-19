@@ -23,7 +23,7 @@
 						</div>
 					</div>
 					<h4 class="card-title">SMTP 列表</h4>
-					<div class="table-responsive">
+					<div class="table-responsive smtplist">
 						<table width="100%" class="table">
 							<thead>
 								<!--
@@ -53,12 +53,13 @@
 									<td><input type="text" class="form-control" name="port[<?php echo $smtpid;?>]" value="<?php echo $smtp['port']; ?>" style="width: 60px;" placeholder="端口"/></td>
 									<td><input type="text" class="form-control" name="user[<?php echo $smtpid;?>]" value="<?php echo $smtp['user']; ?>" style="width: 100px;" placeholder="用户名"  /></td>
 									<td><input type="text" class="form-control" name="pass[<?php echo $smtpid;?>]" value="<?php echo $smtp['pass']; ?>" style="width: 100px;" placeholder="密码"  /></td>
-									<td><a class="btn" role="btn" class="delete">删除</a></td>
+									<td><a class="btn smtp_delete" role="btn">删除</a></td>
 								</tr>
 								<?php } ?>
 							</tbody>
 						</table>
 					</div>
+					<p><a role="button" class="btn smtp_add">[+]增加一行</a></p>
 					<p class="text-center">
 						<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..." style="width: 10rem;"><?php echo lang('confirm');?></button>
 					</p>
@@ -91,14 +92,21 @@ jform.on('submit', function(){
 });
 
 // 处理删除
-var jdelete = $('a.delete');
-jdelete.on('click', function() {
+var jsmtplist = $('.smtplist');
+var jdelete = $('a.smtp_delete');
+jsmtplist.on('click', 'a.smtp_delete', function() {
 	var jthis = $(this);
 	var jtr = jthis.parents('tr');
 	var smtpid = jtr.attr('smtpid');
-	alert(smtpid);
 	jtr.remove();
 	return false;
 });
 
+var jadd = $('a.smtp_add');
+jadd.on('click', function() {
+	
+	var jclone = jsmtplist.find('tr').last().clone();
+	jclone.insertAfter(jsmtplist.find('tr').last());
+	return false;
+});
 </script>
