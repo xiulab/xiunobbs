@@ -2,13 +2,8 @@
 
 <div class="row">
 	<div class="col-lg-6 col-lg-offset-3">
-		<div class="card p-a-sm">
-			<!--
-			<img class="center-block m-t-0" data-src="holder.js/100%x180" alt="100%x180" src="view/img/avatar.png" width="50" height="50">
-			<div class="text-center"><?php echo $user['username'];?></div>
-			-->
-			<h3>我参与的主题 (<?php echo $user['threads'];?>)</h3>
-			<hr />
+		<div class="card card-block m-t-1">
+			<h4 class="card-title">我参与的主题 (<?php echo $user['threads'];?>)</h4>
  			<table class="table table-hover threadlist">
 				<tbody>
 					<?php include './view/htm/thread_list.inc.htm';?>

@@ -2,11 +2,19 @@
 return array (
   0 => 
   array (
-    'host' => 'smtp.sina.com',
-    'port' => 25,
-    'user' => 'axiuno',
-    'email' => 'axiuno@sina.com',
-    'pass' => '',
+    'email' => 'xxxx@sina.com',
+    'host' => 1234,
+    'port' => 251,
+    'user' => '123',
+    'pass' => 'xxxx',
+  ),
+  1 => 
+  array (
+    'email' => 'xxxx@sina.com',
+    'host' => 1234,
+    'port' => 251,
+    'user' => '123',
+    'pass' => 'xxxx',
   ),
 );
 ?>

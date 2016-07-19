@@ -775,6 +775,7 @@ function file_put_content_try($file, $s, $times = 3) {
 			$n = fwrite($fp, $s);
 			version_compare(PHP_VERSION, '5.3.2', '>=') AND flock($fp, LOCK_UN);
 			fclose($fp);
+			clearstatcache();
 			return $n;
 		} else {
 			sleep(1);

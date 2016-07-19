@@ -9,15 +9,14 @@
 							<div class="subject">
 								<a href="<?php echo url("thread-$thread[tid]");?>"><?php echo $thread['subject'];?></a>
 							</div>
-							<div class="small text-muted hidden-sm-up m-b-xs"><?php echo $thread['username'];?></div>
 							<dl class="row small">
 								<dt>
-									<a href="<?php echo url("user-$thread[uid]");?>" class="username text-muted hidden-xs-down m-r-1"><?php echo $thread['username'];?></a>
+									<a href="<?php echo url("user-$thread[uid]");?>" class="username text-muted m-r-xs"><?php echo $thread['username'];?></a>
 									<span class="date text-grey"><?php echo $thread['create_date_fmt'];?></span>
 								</dt>
 								<dd class="text-right text-grey">
-									<i class="icon-eye-open"></i> <?php echo $thread['views'];?> &nbsp;
-									<i class="icon-comment"></i> <?php echo $thread['posts'];?>
+									<span class="m-r-1"><i class="icon-eye-open"></i> <?php echo $thread['views'];?></span>
+									<span class="hidden-xs-down"><i class="icon-comment"></i> <?php echo $thread['posts'];?></span>
 								</dd>
 							</dl>
 						</td>

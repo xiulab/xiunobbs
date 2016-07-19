@@ -20,6 +20,7 @@ return array(
 	'register'=>'注册',
 	'setting'=>'设置',
 	'confirm'=>'确定',
+	'save'=>'保存',
 	
 	'update_failed'=>'编辑失败',
 	'delete_failed'=>'删除失败',
