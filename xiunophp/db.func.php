@@ -147,9 +147,13 @@ function db_find_one($table, $cond = array(), $orderby = array()) {
 
 // 创建表
 /*
-	$ddl = array(
-		'id' => array('');
-	);
+$ddl = array(
+	array('uid', 'int(11)'),
+	array('regip', 'int(11)'),
+	array('regdate', 'int(11)'),
+	array('username', 'char(16)'),
+	array('password', 'char(32)'),
+);
 */
 function db_table_create($tablename, $ddl) {
 	global $db;
@@ -157,33 +161,34 @@ function db_table_create($tablename, $ddl) {
 }
 
 // 删除表
-function db_table_delete($tablename) {
+function db_table_drop($tablename) {
 	global $db;
-	return $db->table_delete($tablename, $ddl);
+	return $db->table_drop($tablename);
 }
 
 // 增加一列，默认增加到最后
-function db_table_col_add($tablename, $ddl, $after = '') {
+function db_table_column_add($tablename, $ddl, $after = '') {
 	global $db;
-	return $db->table_table_col_add($tablename, $ddl, $after);
+	return $db->table_table_column_add($tablename, $ddl, $after);
 }
 
 // 删除一列，默认增加到最后
-function db_table_col_delete($tablename, $colnames) {
+
+function db_table_column_drop($tablename, $colnames) {
 	global $db;
-	return $db->table_table_col_delete($tablename, $colnames);
+	return $db->table_table_column_drop($tablename, $colnames);
 }
 
-// 添加索引 $colnames = array('gid', 'create_date')
-function db_index_create($tablename, $colnames) {
+// 添加索引 $index = array('gid'=>1, 'create_date'=>-1)
+function db_index_create($tablename, $index) {
 	global $db;
-	return $db->index_create($tablename, $colnames);
+	return $db->index_create($tablename, $index);
 }
 
-// 删除索引 $colnames = array('gid', 'create_date')
-function db_index_delete($tablename, $colnames) {
+// 删除索引 $index = array('gid'=>1, 'create_date'=>-1)
+function db_index_drop($tablename, $index) {
 	global $db;
-	return $db->index_delete($tablename, $colnames);
+	return $db->index_drop($tablename, $index);
 }
 
 // 测试连接

@@ -32,6 +32,7 @@ return array(
 	'password_new'=>'新密码',
 	'password_new_repeat'=>'重复新密码',
 	'update_password'=>'修改密码',
+	'index_page'=>'首页',
 	
 );
 

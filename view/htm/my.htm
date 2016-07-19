@@ -3,12 +3,12 @@
 <div class="row">
 	<div class="col-lg-6 col-lg-offset-3">
 		<div class="card card-block m-t-1">
-			<img class="center-block m-y-1" data-src="holder.js/100%x180" alt="100%x180" src="view/img/avatar.png" width="100" height="100">
+			<img class="avatar-lg center-block" src="<?php echo $user['avatar_url'];?>">
 			<h4 class="text-center"><?php echo $user['username'];?></h4>
 			<p class="text-center">[<?php echo $user['groupname'];?>]</p>
 			<hr />
 			<div class="row">
-				<div class="col-xs-6  col-sm-3 m-b-1 text-center">
+				<div class="col-xs-6 col-sm-3 m-b-1 text-center">
 					<a href="<?php echo url('my-profile');?>"><i class="icon-cog icon-2x"></i></a><br>
 					<a href="<?php echo url('my-profile');?>">个人资料</a>
 				</div>

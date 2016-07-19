@@ -1,6 +1,10 @@
 					<?php foreach($postlist as $post) { ?>
 					<tr class="post">
-						<td class="vtop avatar-parent"><img src="view/img/avatar.png" class="img-circle avatar"></td>
+						<td class="vtop avatar-parent">
+							<a href="<?php echo url("user-$thread[uid]");?>">
+								<img class="avatar" src="<?php echo $post['user_avatar_url'];?>">
+							</a>
+						</td>
 						<td class="p-l-0">
 							<dl class="row small text-muted">
 								<dt>

@@ -3,14 +3,18 @@
 
 <div class="row m-t-1">
 	<div class="col-lg-8">
-		<ol class="breadcrumb m-b-sm">
-			<li><a href="#">Home</a></li>
-			<li><a href="#">Library</a></li>
-			<li class="active">Data</li>
+		<ol class="breadcrumb m-b-sm hidden-lg-down">
+			<li><a href="./"><i class="icon-home"></i></a></li>
+			<li><a href="<?php echo url("forum-$fid");?>"><?php echo $forum['name'];?></a></li>
+			<li><a href="<?php echo url("thread-$tid");?>"><?php echo $thread['subject'];?></a></li>
 		</ol>
 		<div class="card p-a-1">
 			<dl class="row">
-				<dt class="vtop p-r-1 avatar-parent"><img src="view/img/avatar.png" alt="..." width="50" height="50" class="img-circle avatar"></dt>
+				<dt class="vtop p-r-1 avatar-parent">
+					<a href="<?php echo url("user-$thread[uid]");?>">
+						<img class="avatar" src="<?php echo $thread['user_avatar_url'];?>">
+					</a>
+				</dt>
 				<dd>
 					<h3><?php echo $thread['subject'];?></h3>
 					<dl class="row small">
@@ -50,7 +54,11 @@
 				<tbody>
 					<?php include 'view/htm/post_list.inc.htm'; ?>
 					<tr class="post">
-						<td class="avatar-parent"><img src="view/img/avatar.png" class="img-circle avatar"></td>
+						<td class="avatar-parent">
+							<a href="<?php echo url("user-$thread[uid]");?>">
+								<img class="avatar" src="<?php echo $user['avatar_url'];?>">
+							</a>
+						</td>
 						<td class="p-l-0">
 							<form action="<?php echo url("post-create-$tid-1");?>" method="post" id="form">	
 								<dl class="row small text-muted">
@@ -75,8 +83,10 @@
 	</div>
 	<div class="col-lg-4">
 		<div class="card hidden-lg-down">
-			<img class="center-block m-y-1" data-src="holder.js/100%x180" alt="100%x180" src="view/img/avatar.png" width="100" height="100">
-			<h4 class="text-xs-center"><?php echo $thread['username'];?></h4>
+			<a href="<?php echo url("user-$thread[uid]");?>">
+				<img class="avatar-lg center-block m-t-1" src="<?php echo $thread['user_avatar_url'];?>">
+			</a>
+			<h5 class="text-xs-center"><?php echo $thread['username'];?></h5>
 			<div class="card-group card-group-nest">
 				<div class="card">
 					<div class="card-block">

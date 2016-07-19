@@ -1,10 +1,6 @@
 <?php
 
 /*
-* Copyright (C) 2015 xiuno.com
-*/
-
-/*
 	
 	XiunoPHP 4.0 只是定义了一些函数和全局变量，方便使用，并没有要求如何组织代码。
 	XiunoPHP 4.0，采用简单结构，有利于 HHVM 编译 / opcode 缓存，完美支持 PHP7

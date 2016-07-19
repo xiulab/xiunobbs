@@ -1,6 +1,10 @@
 					<?php foreach($threadlist as $thread) { ?>
 					<tr class="thread">
-						<td class="avatar-parent"><img src="view/img/avatar.png" alt="..." class="img-circle avatar"></td>
+						<td class="avatar-parent">
+							<a href="<?php echo url("user-$thread[uid]");?>">
+								<img class="avatar" src="<?php echo $thread['user_avatar_url'];?>">
+							</a>
+						</td>
 						<td class="p-l-0">
 							<div class="subject">
 								<a href="<?php echo url("thread-$thread[tid]");?>"><?php echo $thread['subject'];?></a>
@@ -8,7 +12,7 @@
 							<div class="small text-muted hidden-sm-up m-b-xs"><?php echo $thread['username'];?></div>
 							<dl class="row small">
 								<dt>
-									<span class="username text-muted hidden-xs-down m-r-1"><?php echo $thread['username'];?></span>
+									<span class="username text-muted hidden-xs-down m-r-1"><a href="<?php echo url("user-$thread[uid]");?>"><?php echo $thread['username'];?></a></span>
 									<span class="date text-grey"><?php echo $thread['create_date_fmt'];?></span>
 								</dt>
 								<dd class="text-right text-grey">

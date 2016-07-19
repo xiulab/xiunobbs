@@ -117,6 +117,61 @@ class db_pdo_sqlite {
 		$this->wlink->lastinsertid();
 	}
 	
+	
+	// ----------> 4.0 增加的方法
+	// $index = array('uid'=>1, 'dateline'=>-1)
+	
+	public function index_create($table, $index) {
+		$keys = implode(', ', array_keys($index));
+		$keyname = implode('', array_keys($index));
+		return $this->exec("CREATE INDEX {$table}_$keyname ON $table($keys)", $this->link);
+	}
+	
+	public function index_drop($table, $index) {
+		$keys = implode(', ', array_keys($index));
+		$keyname = implode('', array_keys($index));
+		return $this->exec("DROP INDEX {$table}_$keyname", $this->link);
+	}
+	
+	// 创建表
+	public function table_create($table, $ddls, $engineer = '') {
+		$sql = "CREATE TABLE IF NOT EXISTS $table (\n";
+		$sep = '';
+		foreach($ddls as $ddl) {
+			$sqladd = $this->ddl_to_sqladd($ddl);
+			$sql .= $sep.$sqladd;
+			$sep = ",\n";
+		}
+		$sql .= ")";
+		return $this->exec($sql, $this->wlink);
+	}
+
+	// DROP table
+	public function table_drop($table) {
+		$sql = "DROP TABLE IF EXISTS $table";
+		return $this->exec($sql, $this->wlink);
+	}
+	
+	public function table_column_add($table, $ddl) {
+		$sqladd = $this->ddl_to_sqladd($ddl);
+		$sql = "ALTER TABLE $table ADD COLUMN $sqladd;";
+		return $this->exec($sql, $this->wlink);
+	}
+	
+	private function ddl_to_sqladd($ddl) {
+		$colname = $ddl[0];
+		$colattr = $ddl[1];
+		$default = strpos($colattr, 'int') !== FALSE ? "'0'" : "''";
+		$sqladd = "$colname $colattr NOT NULL DEFAULT $default;";
+		return $sqladd;
+	}
+	
+	// sqlite 不支持 drop column
+	public function table_column_drop($table, $colname) {
+		return TRUE;
+	}
+	
+	
 	public function version() {
 		$r = $this->find_one("SELECT VERSION() AS v");
 		return $r['v'];
