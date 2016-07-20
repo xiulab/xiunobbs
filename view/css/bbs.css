@@ -1,13 +1,6 @@
-/*
-.nav-more {background: url(view/img/more.png) no-repeat center; opacity: 1; width: 22px; height: 38px;}
-.nav-more:hover {opacity: 1;}
-*/
-/* fix bootstrap nav bg-inverse dropdown 未跟着改变 */
-
-
 /********************************* 对 bootstrasp 进行增强 *************************************/
 
-/* card 嵌套 card-group 的时候 */
+/* card 嵌套 card-group 的时候，去掉多余的边框 */
 .card-group-nest .card:first-child {border-left:0px; border-bottom: 0px; border-top-left-radius: 0}
 .card-group-nest .card:last-child {border-right:0px; border-bottom: 0px; border-top-right-radius: 0}
 .card-group-nest .card {border-bottom: 0px;}
@@ -15,6 +8,7 @@
 .card-group-nest .card .card-block h5 {margin-bottom: 0;}
 .card > .table thead th {border-top: 0;}
 
+/* bootstrap 的默认间距太肥大，增加小间距 */
 .m-b-sm { margin-bottom: 0.5rem }
 .m-t-sm { margin-top: 0.5rem }
 .m-l-sm { margin-left: 0.5rem }
@@ -28,7 +22,6 @@
 .p-x-sm { padding-left: 0.5rem; padding-right: 0.5rem }
 .p-y-sm { padding-top: 0.5rem; padding-bottom: 0.5rem }
 .p-a-sm { padding: 0.5rem;}
-
 .m-b-xs { margin-bottom: 0.3rem }
 .m-t-xs { margin-top: 0.3rem }
 .m-l-xs { margin-left: 0.3rem }
@@ -42,6 +35,8 @@
 .p-x-xs { padding-left: 0.3rem; padding-right: 0.3rem }
 .p-y-xs { padding-top: 0.3rem; padding-bottom: 0.3rem }
 .p-a-xs { padding: 0.3rem; }
+
+/* 文字相关的增强 */
 .text-ellipsis {
 	/*width: 100%;*/
 	white-space: nowrap; 
@@ -54,10 +49,9 @@
 .text-left { text-align: left ; }
 .text-bold { font-weight: bold; }
 .text-grey { color: #bbb ; }
-
 .text-middle { font-size: 95%; }
 
-/*  ul, dl 多列定义，用来模拟简单的表格布局  */
+/*  ul, dl 多列定义，用来模拟简单的表格布局，如果不考虑响应，比 pull-left pull-right 方便  */
 dl.row, ul.row { display: table; width: 100%; clear: both;}
 dl.row, dl.row > dt, dl.row > dd, ul.row, ul.row > li {margin: 0px; padding: 0px;}
 dl.row > dt, dl.row > dd, ul.row > li {display: table-cell; vertical-align: middle;}
@@ -70,15 +64,10 @@ dl.row.vtop > dt, dl.row.vtop > dd, dl.row > dt.vtop, dl.row > dd.vtop {vertical
 ul.row.vbottom > li, ul.row > li.vbottom {vertical-align: bottom;}
 dl.row.vbottom > dt, dl.row.vbottom > dd, dl.row > dt.vbottom, dl.row > dd.vbottom {vertical-align: bottom;}
 
-/*
-dl.form {display: block; overflow: hidden;}
-dl.row.form > dt, dl.row.form > dd, ul.row.form > li {display: block; float: left; vertical-align: middle;}
-dl.form > dt, dl.form > dd{line-height: 34px; min-height:34px;}
-*/
 
 
 /********************************* bbs 业务部分 *************************************/
-
+/* 导航下拉菜单颜色修正 */
 nav.bg-inverse .dropdown-menu {
 	background-color: #373a3c;
 	border: 1px solid #272a2c;
@@ -90,8 +79,10 @@ nav.bg-inverse .dropdown-item:hover {
 	background-color: #575a5c;
 	color: rgba(255, 255, 255, 1);
 }
-
 .navbar {padding-top: 0.3rem; padding-bottom: 0.3rem;}
+
+
+/* bbs 全局定义 */
 html, body {height:100%; font-family:"Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", "微软雅黑", "华文细黑", STHeiti, sans-serif}
 body {background: #f4f4f4; }
 #wrapper { min-height:100%; position:relative; }
@@ -125,10 +116,12 @@ dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
 .avatar { width: 3rem; height: 3rem;  border-radius: 3rem;}
 .avatar-lg { width: 6rem; height: 6rem; border-radius: 6rem;}
 
+/* bootstrap 4 默认间距太大，缩小一些 */
 .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12 {
   padding-right: .37rem;
   padding-left: .37rem;
 }
+
 /* 自定义更多 */
 .dropdown-toggle::after {width: 22px; height: 16px; background: url(../img/more.png); opacity: 0.5; border: 0; }
 .dropdown-toggle:hover::after {opacity: 1;  }
@@ -138,6 +131,7 @@ dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
 
 /* 靠的太远 */
 .navbar-nav .nav-item + .nav-item.username { margin-left: 0.3rem; }
+
 /*
 .nowrap { 
 	width: 100%;
@@ -148,7 +142,9 @@ dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
 }
 */
 
+/* 翻页使用 bootstrap 4 自带的 pagination
 .active {font-weight: 800}
 .page {padding-top: 8px; overflow: visible; clear: both; text-align: center; line-height: 1;}
 .page a, .page a.active{display: inline-block; padding: 5px 8px; margin-right: 2px; border: 1px solid #49535E; color: #E9E9E9; -webkit-border-radius: 12px; border-radius: 12px; background: #555; text-decoration: none}
-.page a:hover, .page a.active{color: #E9E9E9;  background: #000; /* transition: background 0.5s ease-in-out 0s */}
+.page a:hover, .page a.active{color: #E9E9E9;  background: #000;}
+*/

@@ -73,7 +73,7 @@ if(empty($action)) {
 	$page = param(2, 1);
 	$pagesize = 20;
 	$totalnum = $user['threads'];
-	$pages = pages('my-thread-{page}.htm', $totalnum, $page, $pagesize);
+	$pagination = pagination('my-thread-{page}.htm', $totalnum, $page, $pagesize);
 	$threadlist = mythread_find_by_uid($uid, $page, $pagesize);
 		
 	include './view/htm/my_thread.htm';
