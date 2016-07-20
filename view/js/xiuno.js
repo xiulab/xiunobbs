@@ -56,12 +56,12 @@ xn.webgl = ( function () { try { return !! window.WebGLRenderingContext && !! do
 xn.canvas = !!window.CanvasRenderingContext2D;
 xn.in_mobile = ($(window).width() < 1140) ? true : false;
 
+
 xn.htmlspecialchars = function(s) {
-	s = s.replace('<', "&lt;");
-	s = s.replace('>', "&gt;");
+	s = s.replace(/</g, "&lt;");
+	s = s.replace(/>/g, "&gt;");
 	return s;
 }
-
 xn.urlencode = function(s) {
 	s = encodeURIComponent(s);
 	s = xn.strtolower(s);
@@ -88,7 +88,7 @@ xn.urlencode_safe = function(s) {
 }
 
 xn.urldecode_safe = function(s) {
-	s = s.replace('_', "%");
+	s = s.replace(/_/g, "%");
 	s = decodeURIComponent(s);
 	return s;
 }
@@ -98,9 +98,9 @@ xn.xn_urlencode = xn.urlencode_safe;
 xn.xn_urldecode = xn.urldecode_safe;
 
 xn.nl2br = function(s) {
-	s = s.replace("\r\n", "\n");
-	s = s.replace("\n", "<br>");
-	s = s.replace("\t", "&nbsp; &nbsp; &nbsp; &nbsp; ");
+	s = s.replace(/\r\n/g, "\n");
+	s = s.replace(/\n/g, "<br>");
+	s = s.replace(/\t/g, "&nbsp; &nbsp; &nbsp; &nbsp; ");
 	return s;
 }
 
@@ -238,7 +238,7 @@ xn.json_decode = function(s) {
 // 方便移植 PHP 代码
 xn.min = function() {return Math.min.apply(this, arguments);}
 xn.max = function() {return Math.max.apply(this, arguments);}
-xn.str_replace = function(s, d, str) {return str.replace(s, d);}
+xn.str_replace = function(s, d, str) {var p = new RegExp(s, 'g'); return str.replace(p, d);}
 xn.strrpos = function(str, s) {return str.lastIndexOf(s);}
 xn.strpos = function(str, s) {return str.indexOf(s);}
 xn.substr = function(str, start, len) {
