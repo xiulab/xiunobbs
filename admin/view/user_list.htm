@@ -10,7 +10,6 @@
 			<option value="">搜索类型</option>
 			<option value="uid">用户 ID：</option>
 			<option value="username" selected>用户名：</option>
-			<!--<option value="mobile" >手机号</option>-->
 			<option value="email">Email：</option>
 			<option value="gid">用户组：</option>
 			<option value="create_ip">注册IP：</option>
@@ -60,54 +59,54 @@
 				</table>
 			</div>
 		</div>
-		<div class="page"><a>总共: <?php echo $n; ?></a><?php echo $pagehtml; ?></div>
+		<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>
 	</div>
 </div>
 
 <?php include './admin/view/footer.inc.htm'; ?>
 
 <script>
-	var jbody = $("#userbody");
-	var jcreate = $('#create');
- 	var jconfirm = $("#confirm");
-	var jsearch = $("#search");
-	var jsrchtype = $("#srchtype");
-	var jkeyword = $('#keyword');
-	var juserlist = $('#userlist');
+var jbody = $("#userbody");
+var jcreate = $('#create');
+var jconfirm = $("#confirm");
+var jsearch = $("#search");
+var jsrchtype = $("#srchtype");
+var jkeyword = $('#keyword');
+var juserlist = $('#userlist');
 
-	jsrchtype.val(jsrchtype.attr('value'));
+jsrchtype.val(jsrchtype.attr('value'));
 
-	jcreate.on('click', function(event) {
-		window.location = 'admin/user-create.htm';
-	});
+jcreate.on('click', function(event) {
+	window.location = 'admin/'+xn.url('user-create');
+});
 
-	jsearch.on('click', function(){
-		var srchtype = jsrchtype.val();
-		srchtype = srchtype ? srchtype : 'uid';
-		var keyword = $("#keyword").val();
-		var url = 'admin/'+xn.url('user-list-'+srchtype+'-'+xn.urlencode(keyword)+'-1');
-		window.location = url;
-	});
-	jkeyword.on('keydown', function(e) {
-		if(e.keyCode == 13) jsearch.trigger('click');
-	});
+jsearch.on('click', function(){
+	var srchtype = jsrchtype.val();
+	srchtype = srchtype ? srchtype : 'uid';
+	var keyword = $("#keyword").val();
+	var url = 'admin/'+xn.url('user-list-'+srchtype+'-'+xn.urlencode(keyword)+'-1');
+	window.location = url;
+});
+jkeyword.on('keydown', function(e) {
+	if(e.keyCode == 13) jsearch.trigger('click');
+});
 
-	// 删除选中的用户
-	jconfirm.on('click', function(){
-		var jchecked = juserlist.find('input[name="delete"]').filter(function(){ return this.checked; });
-		if(jchecked.length < 1) return alert("请勾选您要删除的用户");
-		if(!window.confirm("确定删除用户？")) return false;
-		jchecked.each(function() {
-			jtr = $(this).parents('tr');
-			var uid = jtr.attr('uid');
-			if(uid == 1) return alert('不允许删除管理员用户!');
-			$.xpost('admin/user-delete.htm', {uid:uid}, function(code, message) {
-				if(code == 0) {
-					jtr.remove();
-				} else {
-					jtr.addClass('error').popover(message);
-				}
-			});
+// 删除选中的用户
+jconfirm.on('click', function(){
+	var jchecked = juserlist.find('input[name="delete"]').filter(function(){ return this.checked; });
+	if(jchecked.length < 1) return alert("请勾选您要删除的用户");
+	if(!window.confirm("确定删除用户？")) return false;
+	jchecked.each(function() {
+		jtr = $(this).parents('tr');
+		var uid = jtr.attr('uid');
+		if(uid == 1) return alert('不允许删除管理员用户!');
+		$.xpost('admin/user-delete.htm', {uid:uid}, function(code, message) {
+			if(code == 0) {
+				jtr.remove();
+			} else {
+				jtr.addClass('error').popover(message);
+			}
 		});
 	});
+});
 </script>

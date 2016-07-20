@@ -146,11 +146,11 @@ jform.on('submit', function() {
 			
 			// 楼层 +1
 			var jfloor = jform.find('.floor');
-			jfloor.html(intval(jfloor.html()) + 1);
+			jfloor.html(xn.intval(jfloor.html()) + 1);
 			
 			// 回复数 +1
 			var jposts = $('.posts');
-			jposts.html(intval(jposts.html()) + 1);
+			jposts.html(xn.intval(jposts.html()) + 1);
 			
 		} else if(code < 0) {
 			alert(message);
@@ -179,7 +179,7 @@ jpost_delete.on('click', function() {
 					jthis.parents('tr').remove();
 					// 回复数 -1
 					var jposts = $('.posts');
-					jposts.html(intval(jposts.html()) + 1);
+					jposts.html(xn.intval(jposts.html()) + 1);
 				}
 			} else {
 				alert(message);

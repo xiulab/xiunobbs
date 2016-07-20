@@ -659,6 +659,7 @@ $.xpost = function(url, postdata, callback) {
 		console.log();
 	});
 */
+/*
 $.xget_sync = function(urlarr, once_callback, complete_callback) {
 	var arr = [];
 	for(var i=0; i<urlarr.length; i++) {
@@ -703,6 +704,7 @@ $.xpost_sync = function(urlarr, postdataarr, once_callback, complete_callback) {
 		}
 	});
 }
+*/
 
 /*
 	功能：
@@ -844,6 +846,8 @@ $.fn.emptyDeep = function() {
 $.fn.son = $.fn.children;
 
 /*
+	用来增强 $.fn.val()
+	
 	用来选中和获取 select radio checkbox 的值，用法：
 	$('#select1').checked(1);			// 设置 value="1" 的 option 为选中状态
 	$('#select1').checked();			// 返回选中的值。

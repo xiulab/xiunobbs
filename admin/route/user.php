@@ -15,14 +15,16 @@ if(empty($action) || $action == 'list') {
 
 	$cond = array();
 	if($keyword) {
-		!in_array($srchtype, array('uid', 'username', 'mobile', 'email', 'gid', 'create_ip')) AND $srchtype = 'uid';
+		!in_array($srchtype, array('uid', 'username', 'email', 'gid', 'create_ip')) AND $srchtype = 'uid';
 		$cond[$srchtype] = $srchtype == 'create_ip' ? ip2long($keyword) : $keyword; 
 	}
 
 	$n = user_count($cond);
+	$n = 100;
 	$page = page($page, $n, $pagesize);
 	$userlist = user_find($cond, array('uid'=>-1), $page, $pagesize);
-	$pagehtml = pages("admin/user-list-$srchtype-".urlencode($keyword).'-{page}.htm', $n, $page, $pagesize);
+	$pagination = pagination('admin/'.url("user-list-$srchtype-".urlencode($keyword).'-{page}'), $n, $page, $pagesize);
+	$pager = pager('admin/'.url("user-list-$srchtype-".urlencode($keyword).'-{page}'), $n, $page, $pagesize);
 
 	foreach ($userlist as &$_user) {
 		$_user['group'] = array_value($grouplist, $_user['gid'], '');
@@ -40,22 +42,15 @@ if(empty($action) || $action == 'list') {
 
 	} elseif ($method == 'POST') {
 
-		$mobile = param('mobile');
 		$email = param('email');
 		$username = param('username');
 		$password = param('password');
 		$gid = param('gid');
 
-		$mobile AND !is_mobile($mobile, $err) AND message(1, $err);
 		$email AND !is_email($email, $err) AND message(2, $err);
 		$username AND !is_username($username, $err) AND message(3, $err);
 		// !is_password($password, $err) AND message(4, $err);
 
-		if($mobile) {
-			$user = user_read_by_mobile($mobile);
-			$user AND message(1, '用户手机已经存在');
-		}
-		
 		$user = user_read_by_email($email);
 		$user AND message(2, '用户 EMAIL 已经存在');
 
@@ -69,7 +64,6 @@ if(empty($action) || $action == 'list') {
 			'salt'=>$salt,
 			'gid'=>$gid,
 			'email'=>$email,
-			'mobile'=>$mobile,
 			'create_ip'=>ip2long(ip()),
 			'create_date'=>$time
 		));
@@ -91,7 +85,6 @@ if(empty($action) || $action == 'list') {
 
 	} elseif($method == 'POST') {
 
-		$mobile = param('mobile');
 		$email = param('email');
 		$username = param('username');
 		$password = param('password');
@@ -107,32 +100,20 @@ if(empty($action) || $action == 'list') {
 
 		$arr = array();
 		$arr['email'] = $email;
-		// 非管理员(gid = 1)，不允许修改其他用户的手机号、用户名、用户组、密码
-		if($user['gid'] == 1) {
-			$mobile AND !is_mobile($mobile, $err) AND message(1, $err);
-			//$username AND !is_username($username, $err) AND message(3, $err);
+	
+		if($username AND $old['username'] != $username) {
+			$user = user_read_by_username($username);
+			$user AND message(3, '用户已经存在');
+		}
 
-			
-			if($mobile AND $old['mobile'] != $mobile) {
-				$user = user_read_by_mobile($mobile);
-				$user AND message(1, '用户手机已经存在');
-			}
+		$arr['username'] = $username;
+		$arr['gid'] = $gid;
 
-			if($username AND $old['username'] != $username) {
-				$user = user_read_by_username($username);
-				$user AND message(3, '用户已经存在');
-			}
-
-			$arr['mobile'] = $mobile;
-			$arr['username'] = $username;
-			$arr['gid'] = $gid;
-
-			if($password) {
-				!is_password($password, $err) AND message(4, $err);
-				$salt = mt_rand(10000000, 9999999999);
-				$arr['password'] = md5($password.$salt);
-				$arr['salt'] = $salt;
-			}
+		if($password) {
+			!is_password($password, $err) AND message(4, $err);
+			$salt = mt_rand(10000000, 9999999999);
+			$arr['password'] = md5($password.$salt);
+			$arr['salt'] = $salt;
 		}
 
 		$r = user_update($uid, $arr);

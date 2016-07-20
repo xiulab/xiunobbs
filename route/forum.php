@@ -14,7 +14,7 @@ empty($forum) AND message(3, '板块不存在'.$fid);
 forum_access_user($fid, $gid, 'allowread') OR message(-1, '您所在的用户组无权访问该板块。');
 
 $pagesize = $conf['pagesize'];
-$pages = pages("forum-$fid-{page}-$order.htm", $forum['threads'], $page, $pagesize);
+$pagination = pagination(url("forum-$fid-{page}-$order"), $forum['threads'], $page, $pagesize);
 
 $threadlist = thread_find_by_fid($fid, $page, $pagesize, $order);
 

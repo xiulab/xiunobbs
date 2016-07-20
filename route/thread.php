@@ -138,12 +138,9 @@ if($action == 'create') {
 	
 	forum_access_user($fid, $gid, 'allowread') OR message(-1, '您所在的用户组无权访问该板块。');
 	
-	// ajax 不需要以下数据
-	
-	// threadlist
 	$page = 1;
 	$pagesize = $conf['pagesize'];
-	$pages = pages("forum-$fid-{page}.htm", $forum['threads'], $page, $pagesize);
+	$pagination = pagination("thread-$tid-{page}.htm", $forum['threads'], $page, $pagesize);
 	$threadlist = thread_find(array('fid'=>$fid), array('tid'=>-1), $page = 1, $pagesize);
 	
 	// 升级需要查找附件

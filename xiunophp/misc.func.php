@@ -249,7 +249,53 @@ function ucs2_to_utf8($s) {
 
 // ---------------------> encrypt function end
 
+// bootstrap 翻页，命名与 bootstrap 保持一致
+function pagination($url, $totalnum, $page, $pagesize = 20) {
+	$totalpage = ceil($totalnum / $pagesize);
+	if($totalpage < 2) return '';
+	$page = min($totalpage, $page);
+	$shownum = 5;	// 显示多少个页 * 2
 
+	$start = max(1, $page - $shownum);
+	$end = min($totalpage, $page + $shownum);
+
+	// 不足 $shownum，补全左右两侧
+	$right = $page + $shownum - $totalpage;
+	$right > 0 && $start = max(1, $start -= $right);
+	$left = $page - $shownum;
+	$left < 0 && $end = min($totalpage, $end -= $left);
+
+	//$s = '<ul class="pagination">';
+	$s = '';
+	$page != 1 && $s .= '<li class="page-item"><a href="'.str_replace('{page}', $page-1, $url).'" class="page-link">◀</a></li>'."\r\n";
+	if($start > 1) $s .= '<li class="page-item"><a href="'.str_replace('{page}', 1, $url).'">1 '.($start > 2 ? '... ' : '').'</a></li>'."\r\n";
+	for($i=$start; $i<=$end; $i++) {
+		if($i == $page) {
+			$s .= '<li class="page-item"><a href="'.str_replace('{page}', $i, $url).'" class="page-link active">'.$i.'</a></li>'."\r\n";// active
+		} else {
+			$s .= '<li class="page-item"><a href="'.str_replace('{page}', $i, $url).'" class="page-link">'.$i.'</a></li>'."\r\n";
+		}
+	}
+	if($end != $totalpage) $s .= '<li class="page-item"><a href="'.str_replace('{page}', $totalpage, $url).'" class="page-link">'.($totalpage - $end > 1 ? '... ' : '').$totalpage.'</a></li>'."\r\n";
+	$page != $totalpage && $s .= '<li class="page-item"><a href="'.str_replace('{page}', $page+1, $url).'" class="page-link">▶</a></li>'."\r\n";
+	//$s .= '</ul>';
+	return $s;
+}
+
+// 简单的上一页，下一页，比较省资源，不用count(), 推荐使用，命名与 bootstrap 保持一致
+function pager($url, $totalnum, $page, $pagesize = 20) {
+	$totalpage = ceil($totalnum / $pagesize);
+	if($totalpage < 2) return '';
+	$page = min($totalpage, $page);
+
+	$s = '';
+	$page > 1 AND $s .= '<li><a href="'.str_replace('{page}', $page-1, $url).'">上一页</a></li>';
+	$s .= " $page / $totalpage ";
+	$totalnum >= $pagesize AND $page != $totalpage AND $s .= '<li><a href="'.str_replace('{page}', $page+1, $url).'">下一页</a></li>';
+	return $s;
+}
+
+/*
 // 用例：pages('user-list-{page}.htm', 100, 10, 5);
 function pages($url, $totalnum, $page, $pagesize = 20) {
 	$totalpage = ceil($totalnum / $pagesize);
@@ -293,6 +339,7 @@ function simple_pages($url, $totalnum, $page, $pagesize = 20) {
 	$totalnum >= $pagesize AND $page != $totalpage AND $s .= '<a href="'.str_replace('{page}', $page+1, $url).'">下一页</a>';
 	return $s;
 }
+*/
 
 function page($page, $n, $pagesize) {
 	$total = ceil($n / $pagesize);
