@@ -10,8 +10,8 @@ class db_mysql {
 	public $errstr = '';
 	public $sqls = array();
 	
-	public function __construct(&$conf) {
-		$this->conf = &$conf;
+	public function __construct($conf) {
+		$this->conf = $conf;
 	}
 	
 	// 根据配置文件连接
@@ -44,9 +44,9 @@ class db_mysql {
 	}
 	
 	public function real_connect($host, $user, $password, $name, $charset = '', $engine = '') {
-		$link = @mysql_pconnect($host, $user, $password); // 如果用户名相同，则返回同一个连接。 fastcgi 持久连接更省资源
-		if(!$link) { $this->error(-10000); return FALSE; }
-		if(!mysql_select_db($name, $link)) { $this->error(-10001); return FALSE; }
+		$link = @mysql_connect($host, $user, $password); // 如果用户名相同，则返回同一个连接。 fastcgi 持久连接更省资源
+		if(!$link) { $this->error(mysql_errno(), '连接数据库服务器失败:'.mysql_error()); return FALSE; }
+		if(!mysql_select_db($name, $link)) { $this->error(mysql_errno(), '选择数据库失败:'.mysql_error()); return FALSE; }
 		strtolower($engine) == 'innodb' AND $this->query("SET innodb_flush_log_at_trx_commit=no", $link);
 		$charset AND $this->query("SET names $charset, sql_mode=''", $link);
 		return $link;

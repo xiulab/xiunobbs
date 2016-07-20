@@ -50,6 +50,7 @@
 .text-bold { font-weight: bold; }
 .text-grey { color: #bbb ; }
 .text-middle { font-size: 95%; }
+.table-fixed { table-layout:fixed; }
 
 /*  ul, dl 多列定义，用来模拟简单的表格布局，如果不考虑响应，比 pull-left pull-right 方便  */
 dl.row, ul.row { display: table; width: 100%; clear: both;}
@@ -86,7 +87,7 @@ nav.bg-inverse .dropdown-item:hover {
 html, body {height:100%; font-family:"Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", "微软雅黑", "华文细黑", STHeiti, sans-serif}
 body {background: #f4f4f4; }
 #wrapper { min-height:100%; position:relative; }
-#body { padding-bottom: 6rem; margin-top: 3.8rem;}
+#body { padding-bottom: 6rem; padding-top: 3.8rem;}
 #footer {
 	font-size: 0.75rem;
 	background: #eee;

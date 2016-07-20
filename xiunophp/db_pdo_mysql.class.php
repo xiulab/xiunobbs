@@ -10,8 +10,8 @@ class db_pdo_mysql {
 	public $errstr = '';
 	public $sqls = array();
 	
-	public function __construct(&$conf) {
-		$this->conf = &$conf;
+	public function __construct($conf) {
+		$this->conf = $conf;
 	}
 	
 	// 根据配置文件连接
@@ -50,14 +50,19 @@ class db_pdo_mysql {
 			$port = 3306;
 		}
 		try {
-			$link = new PDO("mysql:host=$host;port=$port;dbname=$name", $user, $password);
+			$attr = array(
+				PDO::ATTR_TIMEOUT => 5,
+				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+			);
+			$link = new PDO("mysql:host=$host;port=$port;dbname=$name", $user, $password, $attr);
+			//$link->setAttribute(PDO::ATTR_TIMEOUT, 5);
 			//$link->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
 		} catch (Exception $e) {  
-			$this->error(-10000, '连接数据库服务器失败:'.$e->getMessage());
+			$this->error($e->getCode(), '连接数据库服务器失败:'.$e->getMessage());
 			return FALSE;
 	        }
 	        //$link->setFetchMode(PDO::FETCH_ASSOC);
-			$charset AND $link->query("SET names $charset, sql_mode=''");
+		$charset AND $link->query("SET names $charset, sql_mode=''");
 		 //$link->query('SET NAMES '.($charset ? $charset.',' : '').', sql_mode=""');  
 		return $link;
 	}
@@ -191,7 +196,7 @@ class db_pdo_mysql {
 		$error = $this->link ? $this->link->errorInfo() : array(0, $errno, $errstr);
 		$this->errno = $errno ? $errno : (isset($error[1]) ? $error[1] : 0);
 		$this->errstr = $errstr ? $errstr : (isset($error[2]) ? $error[2] : '');
-		DEBUG AND trigger_error('Database Error:'.$this->errstr);
+		//DEBUG AND trigger_error('Database Error:'.$this->errstr);
 	}
 	
 	public function __destruct() {

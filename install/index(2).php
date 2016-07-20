@@ -48,10 +48,8 @@ if(empty($action)) {
 		$host = param('host');	
 		$name = param('name');	
 		$user = param('user');
-		$password = param('password');
+		$pass = param('pass');
 		$force = param('force');
-		
-		
 		
 		$adminemail = param('adminemail');
 		$adminuser = param('adminuser');
@@ -68,18 +66,28 @@ if(empty($action)) {
 		ini_set('mysql.connect_timeout',  5);
 		ini_set('default_socket_timeout', 5); 
 
+		print_r($conf['db']['mysql']['master']);
+		var_dump($pass);
 		$conf['db']['type'] = $type;	
 		$conf['db']['mysql']['master']['host'] = $host;
 		$conf['db']['mysql']['master']['name'] = $name;
 		$conf['db']['mysql']['master']['user'] = $user;
-		$conf['db']['mysql']['master']['password'] = $password;
+		$conf['db']['mysql']['master']['pass'] = 123;
+		var_dump($conf['db']['mysql']['master']['pass']);
+		print_r($conf['db']['mysql']['master']);
+		exit;
+		echo $conf['db']['mysql']['master']['pass'];
+		print_r($conf['db']['mysql']['master']);exit;
 		$conf['db']['pdo_mysql']['master']['host'] = $host;
 		$conf['db']['pdo_mysql']['master']['name'] = $name;
 		$conf['db']['pdo_mysql']['master']['user'] = $user;
-		$conf['db']['pdo_mysql']['master']['password'] = $password;
+		$conf['db']['pdo_mysql']['master']['pass'] = $pass;
 		
+		print_r($_POST);
+		print_r($conf['db']);exit;
+		//print_r($conf['db']);
 		$db = db_new($conf['db']);
-		!db_connect() AND message(-1, "errno: $errno, errstr:$errstr");
+		!db_connect() AND message('host', "errno: $errno, errstr:$errstr");
 		
 		//$u = db_find_one('user', array(), array());
 		//print_r($u);exit;

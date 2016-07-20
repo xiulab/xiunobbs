@@ -1,8 +1,10 @@
 <?php
 
+// 此处的 $db 是局部变量，要注意，它返回后在定义为全局变量，可以有多个实例。
 function db_new($dbconf) {
 	// 数据库初始化，这里并不会产生连接！
 	if($dbconf) {
+		//print_r($dbconf);
 		// 代码不仅仅是给人看的，更重要的是给编译器分析的，不要玩 $db = new $dbclass()，那样不利于优化和 opcache 。
 		switch ($dbconf['type']) {
 			case 'mysql':      $db = new db_mysql($dbconf['mysql']); 		break;
@@ -15,6 +17,37 @@ function db_new($dbconf) {
 		return $db;
 	}
 	return NULL;
+}
+
+// 测试连接
+function db_connect() {
+	global $db, $errno, $errstr;
+	$r = $db->connect();
+	$errno = $db->errno;
+	$errstr = $db->errstr;
+	$errstr = db_errstr_safe($errno, $errstr);
+	return $r;
+}
+
+// 安全的错误信息
+function db_errstr_safe($errno, $errstr) {
+	if(DEBUG) return $errstr;
+	if($errno == 1049) {
+		return '数据库名不存在';
+	} elseif($errno == 2003 ) {
+		return '连接数据库服务器失败，请检查IP是否正确，或者防火墙设置';
+	} elseif($errno == 1024) {
+		return '连接数据库失败';
+	} elseif($errno == 1045) {
+		return '数据库账户密码错误';
+	}
+	return $errstr;
+}
+
+function db_close() {
+	global $db;
+	$r = $db->close();
+	return $r;
 }
 
 function db_sql_find_one($sql, $abort = TRUE) {
@@ -191,20 +224,6 @@ function db_index_drop($tablename, $index) {
 	return $db->index_drop($tablename, $index);
 }
 
-// 测试连接
-function db_connect(&$err) {
-	global $db;
-	$r = $db->connect();
-	//$err = $db->errstr;
-	return $r;
-}
-
-function db_close() {
-	global $db;
-	$r = $db->close();
-	//$err = $db->errstr;
-	return $r;
-}
 
 /*
 	array('id'=>123, 'groupid'=>123)

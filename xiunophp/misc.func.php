@@ -971,7 +971,7 @@ function xn_shutdown_handle() {
 
 function xn_debug_info() {
 	global $db;
-	$s = '<small>';
+	$s = '<div class="small">';
 	if(DEBUG) {
 		if(IN_CMD) {
 			foreach($db->sqls as $sql) {
@@ -988,7 +988,7 @@ function xn_debug_info() {
 			$s .= '</pre>';
 		}
 	}
-	$s .= '</small>';
+	$s .= '</class>';
 	return $s;
 }
 

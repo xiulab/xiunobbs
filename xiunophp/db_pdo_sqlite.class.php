@@ -8,8 +8,8 @@ class db_pdo_sqlite {
 	public $link = NULL;   // 最后一次使用的连接
 	public $errno = 0;
 	public $errstr = '';
-	public function __construct(&$conf) {
-		$this->conf = &$conf;
+	public function __construct($conf) {
+		$this->conf = $conf;
 	}
 	
 	// 根据配置文件连接

@@ -23,7 +23,7 @@
 			<div class="form-group row">
 				<label class="col-sm-3 form-control-label">数据库名：</label>
 				<div class="col-sm-9">
-					<input type="text" name="name" class="form-control" value="xiuno">
+					<input type="text" name="name" class="form-control" value="xiunoxx">
 				</div>
 			</div>
 			<div class="form-group row">
@@ -35,7 +35,7 @@
 			<div class="form-group row">
 				<label class="col-sm-3 form-control-label">数据库密码：</label>
 				<div class="col-sm-9">
-					<input type="text" name="pass" class="form-control" value="root">
+					<input type="text" name="password" class="form-control" value="root">
 				</div>
 			</div>
 			<h4>三、管理员信息</h4>
@@ -54,15 +54,15 @@
 			<div class="form-group row">
 				<label class="col-sm-3 form-control-label">管理员密码：</label>
 				<div class="col-sm-9">
-					<input type="text" name="adminpass" class="form-control" value="">
+					<input type="text" name="adminpass" class="form-control" value="1">
 				</div>
 			</div>
 			
 		</div>
 
 		<div class="text-center">
-			<button class="btn btn-secondary" onclick="history.back()">上一步</button>
-			<button type="submit" class="btn btn-primary" id="submit" <?php echo !$succeed ? 'disabled' : '';?>>下一步</button>
+			<button type="button" class="btn btn-secondary" onclick="history.back();">上一步</button>
+			<button type="submit" class="btn btn-primary" id="submit" <?php echo !$succeed ? 'disabled' : '';?> data-loading-text="正在安装，大概需要一分钟左右...">下一步</button>
 		</div>
 	</div>
 </div>
