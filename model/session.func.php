@@ -174,8 +174,4 @@ session_set_save_handler('sess_open', 'sess_close', 'sess_read', 'sess_write', '
 // 这个比须有，否则 ZEND 会提前释放 $db 资源
 register_shutdown_function('session_write_close');
 
-session_start();
-
-$sid = session_id();
-
 ?>

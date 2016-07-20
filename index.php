@@ -10,6 +10,9 @@ include './xiunophp/xiunophp.php';
 db_connect($err) OR exit($err);
 
 include './model.inc.php';
+session_start();
+
+$sid = session_id();
 
 // 语言包
 $lang = include('./lang/zh-cn.php');

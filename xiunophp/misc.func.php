@@ -941,6 +941,31 @@ function xn_rand($n = 16) {
 	return $return;
 }
 
+// 检测文件是否可写，兼容 windows
+function xn_is_writable($file) {
+	
+	if(PHP_OS != 'WINNT') {
+		return is_writable($file);
+	} else {
+		// 如果是 windows，比较麻烦，这也只是大致检测，不够精准。
+		if(is_file($file)) {
+			$fp = fopen($file, 'a+');
+			if(!$fp) return FALSE;
+			fclose($fp);
+			return TRUE;
+		} elseif(is_dir($file)) {
+			$tmpfile = $file.uniqid().'.tmp';
+			$r = touch($tmpfile);
+			if(!$r) return FALSE;
+			if(!is_file($tmpfile)) return FALSE;
+			unlink($tmpfile);
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+}
+
 function xn_shutdown_handle() {
 }
 

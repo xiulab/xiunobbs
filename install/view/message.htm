@@ -1,15 +1,12 @@
 <?php include "./install/view/header.inc.htm"; ?>
 
-<div id="body">
-	<div class="width" style="margin-top: 0px; margin-bottom: 50px;">
-		<div class="panel">
-			<div class="header">提示信息</div>
-			<div class="body">
-				<h3 style="margin: 16px;">
-					<span style="font-size: 24px;" class="icon <?php echo $code == 0 ? 'check-circle green' : 'minus-circle red'; ?>"></span>
-					<?php echo is_array($message) ? print_r($message, 1) : $message;?>
-				</h3>
-			</div>
+<div class="row">
+	<div class="col-lg-8 col-lg-offset-2">
+		<div class="card card-block m-t-1">
+			<h4 class="card-title text-xs-center">
+				<i class="icon-<?php echo $code == 0 ? 'ok' : 'warning-sign'; ?>"></i> 
+				<?php echo $message;?>
+			</h4>
 		</div>
 	</div>
 </div>
