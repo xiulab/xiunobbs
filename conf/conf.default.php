@@ -85,7 +85,7 @@ return array (
 	// 分级显示，次数越多越显眼，顺序从大到小！
 	'posts_level' => array(10, 50, 100, 500),
   	
-	'version' => '3.0',		//
+	'version' => '4.0',		//
 	'cdn_on' => 1,						// 是否启用 CDN，将改变IP的获取方式
 	
 	/* 抛弃

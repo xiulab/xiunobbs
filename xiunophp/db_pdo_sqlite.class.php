@@ -44,10 +44,13 @@ class db_pdo_sqlite {
 	public function real_connect($host, $user, $password, $name, $charset = '', $engine = '') {
 		$sqlitedb = "sqlite:$host";
 		try {
-			$link = new PDO($sqlitedb);//连接sqlite
-			$link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$attr = array(
+				PDO::ATTR_TIMEOUT => 5,
+				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+			);
+			$link = new PDO($sqlitedb, $attr);//连接sqlite
 		} catch (Exception $e) {
-			$this->error(-10000, '连接数据库服务器失败:'.$e->getMessage());
+			$this->error($e->getCode(), '连接数据库服务器失败:'.$e->getMessage());
 			return FALSE;
 	        }
 	        //$link->setFetchMode(PDO::FETCH_ASSOC);
@@ -86,6 +89,7 @@ class db_pdo_sqlite {
 		if(!$this->wlink && !$this->connect_master()) return FALSE;
 		$link = $this->link = $this->wlink;
 		$n = $link->exec($sql); // 返回受到影响的行，插入的 id ?
+		if(count($this->sqls) < 1000) $this->sqls[] = $sql;
 		if($n !== FALSE) {
 			$pre = strtoupper(substr(trim($sql), 0, 7));
 			if($pre == 'INSERT ' || $pre == 'REPLACE') {
@@ -94,8 +98,6 @@ class db_pdo_sqlite {
 		} else {
 			$this->error();
 		}
-		
-		if(count($this->sqls) < 1000) $this->sqls[] = $sql;
 		
 		return $n;
 	}
@@ -114,13 +116,13 @@ class db_pdo_sqlite {
 	}
 	
 	public function last_insert_id() {
-		$this->wlink->lastinsertid();
+		return $this->wlink->lastinsertid();
 	}
 	
 	
 	// ----------> 4.0 增加的方法
 	// $index = array('uid'=>1, 'dateline'=>-1)
-	
+	/*
 	public function index_create($table, $index) {
 		$keys = implode(', ', array_keys($index));
 		$keyname = implode('', array_keys($index));
@@ -170,7 +172,7 @@ class db_pdo_sqlite {
 	public function table_column_drop($table, $colname) {
 		return TRUE;
 	}
-	
+	*/
 	
 	public function version() {
 		$r = $this->find_one("SELECT VERSION() AS v");

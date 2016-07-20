@@ -144,7 +144,7 @@ CREATE TABLE bbs_thread (
   lastpid int(11) unsigned NOT NULL default '0',	# 最后回复的 pid
   PRIMARY KEY (tid),					# 主键
   KEY (fid, tid),					# 发帖时间排序，正序。数据量大时可以考虑建立小表，对小表进行分区优化，只有数据量达到千万级以上时才需要。
-  KEY (fid, lastpid),					# 顶贴时间排序，倒序
+  KEY (fid, lastpid)					# 顶贴时间排序，倒序
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 置顶主题/最新主题，小表，记录 10 个，最新

@@ -118,6 +118,7 @@ class db_mysql {
 	}
 	
 	
+	/*
 	// $index = array('uid'=>1, 'dateline'=>-1)
 	// $index = array('uid'=>1, 'dateline'=>-1, 'unique'=>TRUE, 'dropDups'=>TRUE)
 	// 创建索引
@@ -172,6 +173,8 @@ class db_mysql {
 		$sql = "ALTER TABLE $table DROP COLUMN $colname;";
 		return $this->exec($sql, $this->wlink);
 	}
+	*/
+	
 	
 	//public function version() {
 	//	return mysql_get_server_info($this->link);

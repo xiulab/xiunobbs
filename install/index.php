@@ -51,8 +51,6 @@ if(empty($action)) {
 		$password = param('password');
 		$force = param('force');
 		
-		
-		
 		$adminemail = param('adminemail');
 		$adminuser = param('adminuser');
 		$adminpass = param('adminpass');
@@ -79,11 +77,22 @@ if(empty($action)) {
 		$conf['db']['pdo_mysql']['master']['password'] = $password;
 		
 		$db = db_new($conf['db']);
-		!db_connect() AND message(-1, "errno: $errno, errstr:$errstr");
+		db_connect() === FALSE AND message(-1, "连接失败，errno: $errno, errstr:$errstr");
 		
-		//$u = db_find_one('user', array(), array());
-		//print_r($u);exit;
-		message(0, '安装成功');
+		// 连接成功以后，开始建表，导数据。
+		
+		install_sql_file('./install/install.sql');
+		
+		// 生成 auth_key
+		$conf['auth_key'] = xn_rand(64);
+		
+		// 设置为已经安装
+		$conf['installed'] = 1;
+		
+		// 写入配置文件
+		conf_save();
+		
+		message(0, '恭喜，安装成功');
 	}
 }
 

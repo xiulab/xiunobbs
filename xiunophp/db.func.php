@@ -13,7 +13,11 @@ function db_new($dbconf) {
 			case 'pdo_mongodb': $db = new db_pdo_mongodb($dbconf['pdo_mongodb']);	break;
 			default: xn_message(-1, '不支持的 db type:'.$dbconf['type']);
 		}
-		if(!$db || ($db && $db->errstr)) xn_message(-1, $db->errstr);
+		if(!$db || ($db && $db->errstr)) {
+			$errno = -1;
+			$errstr = $db->errstr;
+			return FALSE;
+		}
 		return $db;
 	}
 	return NULL;
@@ -21,56 +25,40 @@ function db_new($dbconf) {
 
 // 测试连接
 function db_connect() {
-	global $db, $errno, $errstr;
+	global $db;
 	$r = $db->connect();
-	$errno = $db->errno;
-	$errstr = $db->errstr;
-	$errstr = db_errstr_safe($errno, $errstr);
+	
+	db_errno_errstr($r);
+	
 	return $r;
-}
-
-// 安全的错误信息
-function db_errstr_safe($errno, $errstr) {
-	if(DEBUG) return $errstr;
-	if($errno == 1049) {
-		return '数据库名不存在';
-	} elseif($errno == 2003 ) {
-		return '连接数据库服务器失败，请检查IP是否正确，或者防火墙设置';
-	} elseif($errno == 1024) {
-		return '连接数据库失败';
-	} elseif($errno == 1045) {
-		return '数据库账户密码错误';
-	}
-	return $errstr;
 }
 
 function db_close() {
 	global $db;
 	$r = $db->close();
+	
+	db_errno_errstr($r);
+	
 	return $r;
 }
 
-function db_sql_find_one($sql, $abort = TRUE) {
+function db_sql_find_one($sql) {
 	global $db;
 	if(!$db) return FALSE;
 	$arr = $db->find_one($sql);
-	if($arr === FALSE && $db->errno != 0) {
-		$s = "mysql sql: $sql, mysql errno: ".$db->errno.", errstr: ".$db->errstr;
-		xn_log($s, 'mysql_error');
-		$abort AND xn_message(-1, $db->errstr);
-	}
+	
+	db_errno_errstr($arr);
+	
 	return $arr;
 }
 
-function db_sql_find($sql, $key = NULL, $abort = TRUE) {
+function db_sql_find($sql, $key = NULL) {
 	global $db;
 	if(!$db) return FALSE;
 	$arr = $db->find($sql, $key);
-	if($arr === FALSE && $db->errno != 0) {
-		$s = "mysql sql: $sql, mysql errno: ".$db->errno.", errstr: ".$db->errstr;
-		xn_log($s, 'mysql_error');
-		$abort AND xn_message(-1, $db->errstr);
-	}
+	
+	db_errno_errstr($arr);
+	
 	return $arr;
 }
 
@@ -78,40 +66,34 @@ function db_sql_find($sql, $key = NULL, $abort = TRUE) {
 // 如果为 UPDATE 或者 DELETE，则返回 mysql_affected_rows();
 // 对于非自增的表，INSERT 后，返回的一直是 0
 // 判断是否执行成功: mysql_exec() === FALSE
-function db_exec($sql, $abort = TRUE) {
+function db_exec($sql) {
 	global $db;
 	if(!$db) return FALSE;
 	
 	DEBUG AND xn_log($sql, 'mysql_exec');
+	
 	$n = $db->exec($sql);
 	
-	if($n === FALSE && $db->errno != 0) {
-		$s = "sql: $sql, sql errno: ".$db->errno.", errstr: ".$db->errstr;
-		xn_log($s, 'db_error');
-		$abort AND xn_message(-1, $db->errstr);
-	}
+	db_errno_errstr($n);
+	
 	return $n;
 }
 
-function db_count($table, $cond = array(), $abort = TRUE) {
+function db_count($table, $cond = array()) {
 	global $db;
 	$r = $db->count($table, $cond);
-	if($r === FALSE && $db->errno != 0) {
-		$s = "sql errno: ".$db->errno.", errstr: ".$db->errstr;
-		xn_log($s, 'db_error');
-		$abort AND xn_message(-1, $db->errstr);
-	}
+	
+	db_errno_errstr($r);
+	
 	return $r;
 }
 
-function db_maxid($table, $field, $abort = TRUE) {
+function db_maxid($table, $field) {
 	global $db;
 	$r = $db->maxid($table, $field);
-	if($r === FALSE && $db->errno != 0) {
-		$s = "sql: $sql, sql errno: ".$db->errno.", errstr: ".$db->errstr;
-		xn_log($s, 'db_error');
-		$abort AND xn_message(-1, $db->errstr);
-	}
+	
+	db_errno_errstr($r);
+	
 	return $r;
 }
 
@@ -178,7 +160,34 @@ function db_find_one($table, $cond = array(), $orderby = array()) {
 	}
 }
 
-// 创建表
+// 保存 $db 错误到全局
+function db_errno_errstr($r) {
+	global $db, $erno, $errstr;
+	if($r === FALSE && $db->errno != 0) {
+		$errno = $db->errno;
+		$errstr = db_errstr_safe($errno, $db->errstr);
+		$s = "sql errno: ".$errno.", errstr: ".$errstr;
+		xn_log($s, 'db_error');
+	}
+}
+
+// 安全的错误信息
+function db_errstr_safe($errno, $errstr) {
+	if(DEBUG) return $errstr;
+	if($errno == 1049) {
+		return '数据库名不存在';
+	} elseif($errno == 2003 ) {
+		return '连接数据库服务器失败，请检查IP是否正确，或者防火墙设置';
+	} elseif($errno == 1024) {
+		return '连接数据库失败';
+	} elseif($errno == 1045) {
+		return '数据库账户密码错误';
+	}
+	return $errstr;
+}
+
+//-----------------------------------> 表结构和索引相关，不常用
+
 /*
 $ddl = array(
 	array('uid', 'int(11)'),
@@ -188,6 +197,7 @@ $ddl = array(
 	array('password', 'char(32)'),
 );
 */
+/*
 function db_table_create($tablename, $ddl) {
 	global $db;
 	return $db->table_create($tablename, $ddl);
@@ -206,7 +216,6 @@ function db_table_column_add($tablename, $ddl, $after = '') {
 }
 
 // 删除一列，默认增加到最后
-
 function db_table_column_drop($tablename, $colnames) {
 	global $db;
 	return $db->table_table_column_drop($tablename, $colnames);
@@ -223,13 +232,14 @@ function db_index_drop($tablename, $index) {
 	global $db;
 	return $db->index_drop($tablename, $index);
 }
+*/
+//----------------------------------->  表结构和索引相关 end
 
 
 /*
 	array('id'=>123, 'groupid'=>123)
 	array('id'=>array('>' => 100, '<' => 200))
 	array('username'=>array('LIKE' => 'jack'))
-
 */
 function db_cond_to_sqladd($cond) {
 	$s = '';

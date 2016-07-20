@@ -86,7 +86,12 @@ class db_pdo_mysql {
 	public function query($sql) {
 		if(!$this->rlink && !$this->connect_slave()) return FALSE;
 		$link = $this->link = $this->rlink;
-		$query = $link->query($sql);
+		try {
+			$query = $link->query($sql);
+		} catch (Exception $e) {  
+			$this->error($e->getCode(), $e->getMessage());
+			return FALSE;
+	        }
 		if($query === FALSE) $this->error();
 		if(count($this->sqls) < 1000) $this->sqls[] = $sql;
 		return $query;
@@ -95,7 +100,12 @@ class db_pdo_mysql {
 	public function exec($sql) {
 		if(!$this->wlink && !$this->connect_master()) return FALSE;
 		$link = $this->link = $this->wlink;
-		$n = $link->exec($sql); // 返回受到影响的行，插入的 id ?
+		try {
+			$n = $link->exec($sql); // 返回受到影响的行，插入的 id ?
+		} catch (Exception $e) {  
+			$this->error($e->getCode(), $e->getMessage());
+			return FALSE;
+	        }
 		if(count($this->sqls) < 1000) $this->sqls[] = $sql;
 		
 		if($n !== FALSE) {
@@ -132,6 +142,7 @@ class db_pdo_mysql {
 	
 	
 	// ----------> 4.0 增加的方法
+	/*
 	// $index = array('uid'=>1, 'dateline'=>-1)
 	public function index_create($table, $index) {
 		$keys = implode(', ', array_keys($index));
@@ -184,7 +195,7 @@ class db_pdo_mysql {
 		$sql = "ALTER TABLE $table DROP COLUMN $colname;";
 		return $this->exec($sql, $this->wlink);
 	}
-	
+	*/
 	
 	public function version() {
 		$r = $this->find_one("SELECT VERSION() AS v");
