@@ -131,5 +131,9 @@ if(empty($action) || $action == 'list') {
 
 	message(0, '删除成功');
 
+} else {
+	
+	http_404();
+	
 }
 ?>

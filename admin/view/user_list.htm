@@ -41,7 +41,7 @@
 							<th width="60">操作</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="userlist">
 				<?php foreach($userlist as &$_user){ ?>
 					<tr uid="<?php echo $_user['uid']; ?>">
 						<td class="text-center"><input type="checkbox" name="delete" /></td>
@@ -58,6 +58,8 @@
 					</tbody>
 				</table>
 			</div>
+			<hr class="m-t-0" />
+			<p><button class="btn btn-sm m-l-1" id="confirm">删除</button></p>
 		</div>
 		<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>
 	</div>
@@ -99,14 +101,19 @@ jconfirm.on('click', function(){
 	jchecked.each(function() {
 		jtr = $(this).parents('tr');
 		var uid = jtr.attr('uid');
-		if(uid == 1) return alert('不允许删除管理员用户!');
-		$.xpost('admin/user-delete.htm', {uid:uid}, function(code, message) {
+		if(uid == 1) return alert('不允许删除管理员用户，如果确实要删除，请先调整用户组!');
+		$.xpost('admin/'+xn.url('user-delete'), {uid:uid}, function(code, message) {
 			if(code == 0) {
 				jtr.remove();
 			} else {
-				jtr.addClass('error').popover(message);
+				alert(message);
 			}
 		});
 	});
 });
+
+
+$('#nav_pc li.user').tab('show');
+$('#nav_mobile li.user').tab('show');
+
 </script>

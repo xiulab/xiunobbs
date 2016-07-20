@@ -2,7 +2,7 @@
 
 return array(
 	'setting' => array(
-		'url'=>'admin/'.url('setting'), 
+		'url'=>'admin/'.url('setting-base'), 
 		'text'=>lang('setting'), 
 		'icon'=>'icon-cog', 
 		'tab'=> array (
@@ -11,7 +11,7 @@ return array(
 		)
 	),
 	'user' => array(
-		'url'=>'admin/'.url('user'), 
+		'url'=>'admin/'.url('user-list'), 
 		'text'=>lang('user_admin'), 
 		'icon'=>'icon-user',
 		'tab'=> array (
@@ -21,7 +21,7 @@ return array(
 		)
 	),
 	'post' => array(
-		'url'=>'admin/'.url('post'), 
+		'url'=>'admin/'.url('post-list'), 
 		'text'=>lang('post_admin'), 
 		'icon'=>'icon-comment',
 		'tab'=> array (

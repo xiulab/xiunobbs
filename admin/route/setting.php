@@ -8,7 +8,7 @@ include './model/smtp.func.php';
 
 // hook admin_setting_action_before.php
 
-if(empty($action) || $action == 'base') {
+if($action == 'base') {
 	
 	if($method == 'GET') {
 		
@@ -86,6 +86,8 @@ if(empty($action) || $action == 'base') {
 		
 		message(0, '保存成功');
 	}
+} else {
+	http_404();
 }
 
 // hook admin_setting_action_after.php

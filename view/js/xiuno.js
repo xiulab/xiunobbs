@@ -44,17 +44,15 @@ if(typeof console == 'undefined') {
 
 /********************* xn 模拟 php 函数 ************************/
 
-//var xn = window; // browser， 如果要兼容以前的版本，请开启这里。
-//var xn = global; // nodejs
-var xn = {};	  // 避免冲突
+// var xn = window; // browser， 如果要兼容以前的版本，请开启这里。
+// var xn = global; // nodejs
+var xn = {};	    // 避免冲突，自己的命名空间。
 
 // 针对国内的山寨套壳浏览器检测不准确
 xn.is_ie = (!!document.all) ? true : false;// ie6789
 xn.is_ie_10 = navigator.userAgent.indexOf('Trident') != -1;
 xn.is_ff = navigator.userAgent.indexOf('Firefox') != -1;
-xn.webgl = ( function () { try { return !! window.WebGLRenderingContext && !! document.createElement( 'canvas' ).getContext( 'experimental-webgl' ); } catch( e ) { return false; } } )();
-xn.canvas = !!window.CanvasRenderingContext2D;
-xn.in_mobile = ($(window).width() < 1140) ? true : false;
+xn.in_mobile = ($(window).width() < 1140);
 
 
 xn.htmlspecialchars = function(s) {
@@ -423,21 +421,28 @@ xn.param = function(key) {
 }
 
 // 模拟服务端 url() 函数
+
 xn.url = function(u, url_rewrite_on) {
 	if(!url_rewrite_on) url_rewrite_on = 0;
-	if(url_rewrite_on == 0) {
-		u = "?"+u+".htm";
-	} else if(url_rewrite_on == 1) {
-		u = u + ".htm";
-	} else if(url_rewrite_on == 2) {
-		u = xn.str_replace('-', '/', u);
-		u = "?"+u;
-	} else if(url_rewrite_on == 3) {
-		u = xn.str_replace('-', '/', u);
+	if(xn.strpos(u, '/') != -1) {
+		var path = xn.substr(u, 0, xn.strrpos(u, '/') + 1);
+		var query = xn.substr(u, xn.strrpos(u, '/') + 1);
+	} else {
+		var path = '';
+		var query = u;
 	}
-	return u;
+	var r = '';
+	if(url_rewrite_on == 0) {
+		r = path + '?' + query + '.htm';
+	} else if(url_rewrite_on == 1) {
+		r = path + query + ".htm";
+	} else if(url_rewrite_on == 2) {
+		r = path + '?' + xn.str_replace('-', '/', query);
+	} else if(url_rewrite_on == 3) {
+		r = path + xn.str_replace('-', '/', query);
+	}
+	return r;
 }
-
 // 页面跳转的时间
 //xn.jumpdelay = xn.debug ? 20000000 : 2000;
 

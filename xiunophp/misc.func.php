@@ -879,18 +879,24 @@ function http_url_path() {
 function url($url) {
 	global $conf;
 	!isset($conf['url_rewrite_on']) AND $conf['url_rewrite_on'] = 0;
-	if($conf['url_rewrite_on'] == 0) {
-		$url = "?$url.htm";
-	} elseif($conf['url_rewrite_on'] == 1) {
-		$url = "$url.htm";
-	} elseif($conf['url_rewrite_on'] == 2) {
-		$url = str_replace('-', '/', $url);
-		$url = "?$url";
-	} elseif($conf['url_rewrite_on'] == 3) {
-		$url = str_replace('-', '/', $url);
-		$url = "$url";
+	$r = $path = $query = '';
+	if(strpos($url, '/') !== FALSE) {
+		$path = substr($url, 0, strrpos($url, '/') + 1);
+		$query = substr($url, strrpos($url, '/') + 1);
+	} else {
+		$path = '';
+		$query = $url;
 	}
-	return $url;
+	if($conf['url_rewrite_on'] == 0) {
+		$r = $path . '?' . $query . '.htm';
+	} elseif($conf['url_rewrite_on'] == 1) {
+		$r = $path . $query . '.htm';
+	} elseif($conf['url_rewrite_on'] == 2) {
+		$r = $path . '?' . str_replace('-', '/', $query);
+	} elseif($conf['url_rewrite_on'] == 3) {
+		$r = $path . str_replace('-', '/', $query);
+	}
+	return $r;
 }
 
 // 递归遍历目录
