@@ -212,7 +212,7 @@ function check_runlevel() {
 	global $conf, $method, $gid;
 	$is_user_action = (param(0) == 'user');
 	switch ($conf['runlevel']) {
-		case 0: message(-1, $conf['runlevel_reason']); break;
+		case 0: $gid != 1 AND message(-1, $conf['runlevel_reason']); break;
 		case 1: $gid != 1 AND message(-1, $conf['runlevel_reason']); break;
 		case 2: ($gid == 0 OR ($gid != 1 AND $method != 'GET' AND !$is_user_action)) AND message(-1, '当前站点设置状态：会员只读'); break;
 		case 3: $gid == 0 AND !$is_user_action AND message(-1, '当前站点设置状态：会员可读写，游客不允许访问'); break;

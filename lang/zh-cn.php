@@ -60,7 +60,7 @@ return array(
 	
 	'admin_login'=>'管理员登陆',
 	
-	'user_admin'=>'会员管理',
+	'user_admin'=>'用户管理',
 	'forum_admin'=>'版块管理',
 	'post_admin'=>'帖子管理',
 	'plugin_admin'=>'插件管理',
@@ -71,6 +71,10 @@ return array(
 	'admin_site_setting'=>'站点设置',
 	'admin_setting_base'=>'基本设置',
 	'admin_setting_smtp'=>'SMTP设置',
+	
+	'admin_user_list'=>'用户列表',
+	'admin_user_group'=>'用户组',
+	'admin_user_create'=>'创建用户',
 	
 	
 );

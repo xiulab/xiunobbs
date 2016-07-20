@@ -58,7 +58,7 @@ if($action == 'create') {
 		$subject = htmlspecialchars(param('subject', '', FALSE));
 		$message = param('message', '', FALSE);
 		
-		empty($subject) AND message('subject', '标题不能为空'.$fid);
+		empty($subject) AND message('subject', '标题不能为空');
 		$gid != 1 AND $subject = badword_filter($subject, $badword);
 		$subject === FALSE AND message('subject', '标题中包含敏感关键词: '.$badword);
 		empty($message) AND message('message', '内容不能为空'.$fid);

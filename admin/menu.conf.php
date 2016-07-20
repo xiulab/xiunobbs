@@ -15,6 +15,9 @@ return array(
 		'text'=>lang('user_admin'), 
 		'icon'=>'icon-user',
 		'tab'=> array (
+			'list'=>array('url'=>'admin/'.url('user-list'), 'text'=>lang('admin_user_list')),
+			'group'=>array('url'=>'admin/'.url('user-group'), 'text'=>lang('admin_user_group')),
+			'create'=>array('url'=>'admin/'.url('user-create'), 'text'=>lang('admin_user_create')),
 		)
 	),
 	'post' => array(
@@ -34,7 +37,7 @@ return array(
 	'plugin' => array(
 		'url'=>'admin/'.url('plugin'), 
 		'text'=>lang('plugin_admin'), 
-		'icon'=>'icon-cog',
+		'icon'=>'icon-cogs',
 		'tab'=> array (
 		)
 	)

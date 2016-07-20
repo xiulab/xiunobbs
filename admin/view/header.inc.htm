@@ -30,25 +30,8 @@
 
 <body><div id="wrapper">
 	<nav class="navbar navbar-dark bg-inverse navbar-full navbar-fixed-top" id="header">
-		<div class="container hidden-lg-up navbar-nav">
-			<div class="row">
-				<div class="col-xs-4">
-					 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsing_bavbar">
-						☰
-					 </button>
-				</div>
-				<div class="col-xs-4">
-					<a class="nav-link p-y-0" href="admin/"><img src="view/img/logo.png" class="logo-sm center-block"></a>
-				</div>
-				<div class="col-xs-4">
-					<div class="pull-right">
-						<div class="nav-item small">
-							<a class="nav-link" href="<?php echo url('index-logout');?>"><?php echo lang('logout');?></a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+	
+		<!-- pc navigation -->
 		<div class="container collapse navbar-toggleable-md">
 			<div class="row">
 				<div class="col-md-8">
@@ -61,7 +44,7 @@
 						</li>
 						<?php foreach ($menu as $k=>$v) { ?>
 						<li class="nav-item <?php echo $k;?>">
-							<a class="nav-link" href="<?php echo $v['url'];?>"><i class="icon-cog"></i> <?php echo $v['text'];?></a>
+							<a class="nav-link" href="<?php echo $v['url'];?>"><i class="<?php echo $v['icon'];?>"></i> <?php echo $v['text'];?></a>
 						</li>
 						<?php  } ?>
 					</ul>
@@ -85,7 +68,29 @@
 				</div>
 			</div>
 		</div>
-		<div class="collapse" id="collapsing_bavbar">
+		
+		
+		<!-- mobile navigation -->
+		<div class="container hidden-lg-up navbar-nav">
+			<div class="row">
+				<div class="col-xs-4">
+					 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile_collapsing_bavbar">
+						☰
+					 </button>
+				</div>
+				<div class="col-xs-4">
+					<a class="nav-link p-y-0" href="admin/"><img src="view/img/logo.png" class="logo-sm center-block"></a>
+				</div>
+				<div class="col-xs-4">
+					<div class="pull-right">
+						<div class="nav-item small">
+							<a class="nav-link" href="<?php echo url('index-logout');?>"><?php echo lang('logout');?></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="collapse" id="mobile_collapsing_bavbar">
 			<div class="bg-inverse p-a-1">
 				<ul class="nav" id="nav_mobile">
 					<li class="nav-item home">
@@ -93,12 +98,13 @@
 					</li>
 					<?php foreach ($menu as $k=>$v) { ?>
 					<li class="nav-item <?php echo $k;?>">
-						<a class="nav-link" href="<?php echo $v['url'];?>"><i class="icon-cog"></i> <?php echo $v['text'];?></a>
+						<a class="nav-link" href="<?php echo $v['url'];?>"><i class="<?php echo $v['icon'];?>"></i> <?php echo $v['text'];?></a>
 					</li>
 					<?php  } ?>
 				</ul>
 			</div>
 		</div>
+		
 	</nav>
 	
 	<div id="body" class="container">

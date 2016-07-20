@@ -25,29 +25,8 @@
 
 <body><div id="wrapper">
 	<nav class="navbar navbar-dark bg-inverse navbar-full navbar-fixed-top" id="header">
-		<div class="container hidden-lg-up navbar-nav">
-			<div class="row">
-				<div class="col-xs-4">
-					 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsing_bavbar">
-						☰
-					 </button>
-				</div>
-				<div class="col-xs-4">
-					<a class="nav-link p-y-0" href="."><img src="view/img/logo.png" class="logo-sm center-block"></a>
-				</div>
-				<div class="col-xs-4">
-					<div class="pull-right">
-						<div class="nav-item small">
-							<?php if(empty($uid)) { ?>
-							<a class="nav-link" href="<?php echo url('user-login');?>"><?php echo lang('login');?></a>
-							<?php } else { ?>
-							<a class="nav-link" href="<?php echo url('my');?>"><?php echo $user['username'];?></a>
-							<?php } ?>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+	
+		<!-- pc navigation -->
 		<div class="container collapse navbar-toggleable-md">
 			<div class="row">
 				<div class="col-md-8">
@@ -105,7 +84,32 @@
 				</div>
 			</div>
 		</div>
-		<div class="collapse" id="collapsing_bavbar">
+		
+		<!-- mobile navigation -->
+		<div class="container hidden-lg-up navbar-nav">
+			<div class="row">
+				<div class="col-xs-4">
+					 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile_collapsing_bavbar">
+						☰
+					 </button>
+				</div>
+				<div class="col-xs-4">
+					<a class="nav-link p-y-0" href="."><img src="view/img/logo.png" class="logo-sm center-block"></a>
+				</div>
+				<div class="col-xs-4">
+					<div class="pull-right">
+						<div class="nav-item small">
+							<?php if(empty($uid)) { ?>
+							<a class="nav-link" href="<?php echo url('user-login');?>"><?php echo lang('login');?></a>
+							<?php } else { ?>
+							<a class="nav-link" href="<?php echo url('my');?>"><?php echo $user['username'];?></a>
+							<?php } ?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="collapse" id="mobile_collapsing_bavbar">
 			<div class="bg-inverse p-a-1">
 				<ul class="nav" id="nav_mobile">
 					<?php foreach($forumlist_show as $forum) { ?>
@@ -116,6 +120,7 @@
 				</ul>
 			</div>
 		</div>
+		
 	</nav>
 	
 	
