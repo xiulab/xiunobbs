@@ -2,7 +2,7 @@
 
 chdir('../');
 
-define('DEBUG', 0);
+define('DEBUG', 1);
 define('APP_NAME', 'bbs_install');
 
 $conf = (@include './conf/conf.default.php');
