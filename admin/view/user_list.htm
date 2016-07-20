@@ -79,14 +79,14 @@ var juserlist = $('#userlist');
 jsrchtype.val(jsrchtype.attr('value'));
 
 jcreate.on('click', function(event) {
-	window.location = 'admin/'+xn.url('user-create');
+	window.location = xn.url('admin/user-create');
 });
 
 jsearch.on('click', function(){
 	var srchtype = jsrchtype.val();
 	srchtype = srchtype ? srchtype : 'uid';
 	var keyword = $("#keyword").val();
-	var url = 'admin/'+xn.url('user-list-'+srchtype+'-'+xn.urlencode(keyword)+'-1');
+	var url = xn.url('admin/user-list-'+srchtype+'-'+xn.urlencode(keyword)+'-1');
 	window.location = url;
 });
 jkeyword.on('keydown', function(e) {
@@ -102,7 +102,7 @@ jconfirm.on('click', function(){
 		jtr = $(this).parents('tr');
 		var uid = jtr.attr('uid');
 		if(uid == 1) return alert('不允许删除管理员用户，如果确实要删除，请先调整用户组!');
-		$.xpost('admin/'+xn.url('user-delete'), {uid:uid}, function(code, message) {
+		$.xpost(xn.url('admin/user-delete'), {uid:uid}, function(code, message) {
 			if(code == 0) {
 				jtr.remove();
 			} else {

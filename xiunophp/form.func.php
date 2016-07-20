@@ -38,9 +38,13 @@ function form_options($arr, $checked = 0) {
 	return $s;
 }
 
-function form_text($name, $value, $width = '100%') {
-	is_numeric($width) AND $width .= 'px';
-	$s = "<input type=\"text\" name=\"$name\" id=\"$name\" value=\"$value\" class=\"form-control\" style=\"width: {$width}\" />";
+function form_text($name, $value, $width = FALSE) {
+	$style = '';
+	if($width !== FALSE) {
+		is_numeric($width) AND $width .= 'px';
+		$style = " style=\"width: $width\"";
+	}
+	$s = "<input type=\"text\" name=\"$name\" id=\"$name\" value=\"$value\" class=\"form-control\"$style />";
 	return $s;
 }
 
@@ -49,22 +53,34 @@ function form_hidden($name, $value) {
 	return $s;
 }
 
-function form_textarea($name, $value, $width = 600,  $height = 300) {
-	is_numeric($width) AND $width .= 'px';
-	is_numeric($height) AND $height .= 'px';
-	$s = "<textarea name=\"$name\" id=\"$name\" class=\"form-control\" style=\"width: {$width}; height: {$height};\">$value</textarea>";
+function form_textarea($name, $value, $width = FALSE,  $height = FALSE) {
+	$style = '';
+	if($width !== FALSE) {
+		is_numeric($width) AND $width .= 'px';
+		is_numeric($height) AND $height .= 'px';
+		$style = " style=\"width: $width; height: $height; \"";
+	}
+	$s = "<textarea name=\"$name\" id=\"$name\" class=\"form-control\" $style>$value</textarea>";
 	return $s;
 }
 
-function form_password($name, $value, $width = 150) {
-	is_numeric($width) AND $width .= 'px';
-	$s = "<input type=\"password\" name=\"$name\" id=\"$name\" class=\"form-control\" value=\"$value\" style=\"width: {$width}\" />";
+function form_password($name, $value, $width = FALSE) {
+	$style = '';
+	if($width !== FALSE) {
+		is_numeric($width) AND $width .= 'px';
+		$style = " style=\"width: $width\"";
+	}
+	$s = "<input type=\"password\" name=\"$name\" id=\"$name\" class=\"form-control\" value=\"$value\" $style />";
 	return $s;
 }
 
-function form_time($name, $value, $width = 150) {
-	is_numeric($width) AND $width .= 'px';
-	$s = "<input type=\"text\" name=\"$name\" id=\"$name\" class=\"form-control\" value=\"$value\" style=\"width: {$width}\" />";
+function form_time($name, $value, $width = FALSE) {
+	$style = '';
+	if($width !== FALSE) {
+		is_numeric($width) AND $width .= 'px';
+		$style = " style=\"width: $width\"";
+	}
+	$s = "<input type=\"text\" name=\"$name\" id=\"$name\" class=\"form-control\" value=\"$value\" $style />";
 	return $s;
 }
 

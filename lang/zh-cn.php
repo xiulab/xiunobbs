@@ -76,6 +76,10 @@ return array(
 	'admin_user_group'=>'用户组',
 	'admin_user_create'=>'创建用户',
 	
+	'edit_user'=>'编辑用户',
+	'create_user'=>'创建用户',
+	'user_group'=>'用户组',
+	
 	
 );
 

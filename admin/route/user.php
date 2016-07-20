@@ -20,11 +20,10 @@ if(empty($action) || $action == 'list') {
 	}
 
 	$n = user_count($cond);
-	$n = 100;
 	$page = page($page, $n, $pagesize);
 	$userlist = user_find($cond, array('uid'=>-1), $page, $pagesize);
-	$pagination = pagination('admin/'.url("user-list-$srchtype-".urlencode($keyword).'-{page}'), $n, $page, $pagesize);
-	$pager = pager('admin/'.url("user-list-$srchtype-".urlencode($keyword).'-{page}'), $n, $page, $pagesize);
+	$pagination = pagination(url("admin/user-list-$srchtype-".urlencode($keyword).'-{page}'), $n, $page, $pagesize);
+	$pager = pager(url("admin/user-list-$srchtype-".urlencode($keyword).'-{page}'), $n, $page, $pagesize);
 
 	foreach ($userlist as &$_user) {
 		$_user['group'] = array_value($grouplist, $_user['gid'], '');
@@ -73,13 +72,19 @@ if(empty($action) || $action == 'list') {
 
 } elseif($action == 'update') {
 
-	$uid = param(2, 0);
+	$_uid = param(2, 0);
 	
 	if($method == 'GET') {
 
 		$header['title'] = '用户更新';
 		
 		$user = user_read($uid);
+		
+		$input['email'] = form_text('email', $user['email']);
+		$input['username'] = form_text('username', $user['username']);
+		$input['password'] = form_password('password', $user['password']);
+		$grouparr = arrlist_key_values($grouplist, 'gid', 'name');
+		$input['gid'] = form_select('gid', $grouparr, $user['gid']);
 
 		include "./admin/view/user_update.htm";
 
@@ -88,14 +93,15 @@ if(empty($action) || $action == 'list') {
 		$email = param('email');
 		$username = param('username');
 		$password = param('password');
-		$gid = param('gid');
+		$_gid = param('gid');
 		
-		$old = user_read($uid);
-
+		$old = user_read($_uid);
+		empty($old) AND message('username', '指定的 UID 不存在');
+		
 		$email AND !is_email($email, $err) AND message(2, $err);
 		if($email AND $old['email'] != $email) {
 			$user = user_read_by_email($email);
-			$user AND message(2, '用户 EMAIL 已经存在');
+			$user AND message('email', '用户 EMAIL 已经存在');
 		}
 
 		$arr = array();
@@ -103,21 +109,20 @@ if(empty($action) || $action == 'list') {
 	
 		if($username AND $old['username'] != $username) {
 			$user = user_read_by_username($username);
-			$user AND message(3, '用户已经存在');
+			$user AND message('username', '用户已经存在');
 		}
 
 		$arr['username'] = $username;
-		$arr['gid'] = $gid;
+		$arr['gid'] = $_gid;
 
 		if($password) {
-			!is_password($password, $err) AND message(4, $err);
 			$salt = mt_rand(10000000, 9999999999);
 			$arr['password'] = md5($password.$salt);
 			$arr['salt'] = $salt;
 		}
 
 		$r = user_update($uid, $arr);
-		$r !== FALSE ? message(0, '更新成功') : message(11, '更新失败');
+		$r !== FALSE ? message(0, '更新成功') : message(-1, '更新失败');
 	}
 
 } elseif($action == 'delete') {
