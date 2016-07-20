@@ -65,7 +65,6 @@ function thread_create($arr, &$pid) {
 		'uid'=>$uid,
 		'create_date'=>$time,
 		'userip'=>$longip,
-		'sid'=>$sid,
 		'message'=>$message,
 	);
 	$pid = post__create($post);
