@@ -31,7 +31,7 @@ var get_view_tids = function(fid, tids) {
 		return tids[fid] ? tids[fid] : {};
 	} else {
 		var r = {};
-		for(var _fid in tids) r = array_merge(r, tids[_fid]);
+		for(var _fid in tids) r = xn.array_merge(r, tids[_fid]);
 		return r;
 	}
 }
@@ -44,7 +44,7 @@ var get_new_tids = function(fid) {
 	} else {
 		var r = {};
 		for(var k in forumlist) {
-			r = array_merge(r, forumlist[k]['newtids']);
+			r = xn.array_merge(r, forumlist[k]['newtids']);
 		}
 		return r;
 	}

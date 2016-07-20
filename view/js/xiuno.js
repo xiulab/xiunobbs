@@ -1,33 +1,8 @@
 /*
-* Copyright (C) 2015 xiuno.com
+* xiuno.js 4.0，命名空间放弃 window（容易冲突），默认使用 xn.
 */
 
-var global = window;
-
-global.jumpdelay = global.debug ? 20000000 : 2000;
-
-if(typeof console == 'undefined') {
-	console = {};
-	console.log = function() {};
-}
-
-// 兼容 IE8
-/*
-var ua = navigator.userAgent.toLowerCase();
-global.is_ie = window.ActiveXObject ? true : false;			// ua.match(/msie ([\d.]+)/)[1]
-global.is_ff = document.getBoxObjectFor ? true : false;			// ua.match(/firefox\/([\d.]+)/)[1]
-global.is_chrome = window.MessageEvent && !document.getBoxObjectFor;	// ua.match(/chrome\/([\d.]+)/)[1]
-global.is_opera = window.opera ? true : false;				// ua.match(/opera.([\d.]+)/)[1]
-global.is_safari = window.openDatabase ? true : false;			// ua.match(/version\/([\d.]+)/)[1];
-*/
-
-// 针对国内的山寨套壳浏览器检测不准确
-global.is_ie = (!!document.all) ? true : false;// ie6789
-global.is_ie_10 = navigator.userAgent.indexOf('Trident') != -1;
-global.is_ff = navigator.userAgent.indexOf('Firefox') != -1;
-global.webgl = ( function () { try { return !! window.WebGLRenderingContext && !! document.createElement( 'canvas' ).getContext( 'experimental-webgl' ); } catch( e ) { return false; } } )();
-global.canvas = !!window.CanvasRenderingContext2D;
-global.in_mobile = ($(window).width() < 1140) ? true : false;
+/********************* 对 window 对象进行扩展 ************************/
 
 // 兼容 ie89
 if(!Object.keys) {
@@ -62,24 +37,43 @@ Object.sum = function(obj) {
 	return sum;
 }
 
-global.htmlspecialchars = function(s) {
+if(typeof console == 'undefined') {
+	console = {};
+	console.log = function() {};
+}
+
+/********************* xn 模拟 php 函数 ************************/
+
+//var xn = window; // browser， 如果要兼容以前的版本，请开启这里。
+//var xn = global; // nodejs
+var xn = {};	  // 避免冲突
+
+// 针对国内的山寨套壳浏览器检测不准确
+xn.is_ie = (!!document.all) ? true : false;// ie6789
+xn.is_ie_10 = navigator.userAgent.indexOf('Trident') != -1;
+xn.is_ff = navigator.userAgent.indexOf('Firefox') != -1;
+xn.webgl = ( function () { try { return !! window.WebGLRenderingContext && !! document.createElement( 'canvas' ).getContext( 'experimental-webgl' ); } catch( e ) { return false; } } )();
+xn.canvas = !!window.CanvasRenderingContext2D;
+xn.in_mobile = ($(window).width() < 1140) ? true : false;
+
+xn.htmlspecialchars = function(s) {
 	s = s.replace('<', "&lt;");
 	s = s.replace('>', "&gt;");
 	return s;
 }
 
-global.urlencode = function(s) {
+xn.urlencode = function(s) {
 	s = encodeURIComponent(s);
-	s = strtolower(s);
+	s = xn.strtolower(s);
 	return s;
 }
 
-global.urldecode = function(s) {
+xn.urldecode = function(s) {
 	s = decodeURIComponent(s);
 	return s;
 }
 
-global.xn_urlencode = function(s) {
+xn.urlencode_safe = function(s) {
 	s = encodeURIComponent(s);
 	s = s.replace(/_/g, "%5f");
 	s = s.replace(/\-/g, "%2d");
@@ -93,33 +87,37 @@ global.xn_urlencode = function(s) {
 	return s;
 }
 
-global.xn_urldecode = function(s) {
+xn.urldecode_safe = function(s) {
 	s = s.replace('_', "%");
 	s = decodeURIComponent(s);
 	return s;
 }
 
-global.nl2br = function(s) {
+// 兼容 3.0
+xn.xn_urlencode = xn.urlencode_safe;
+xn.xn_urldecode = xn.urldecode_safe;
+
+xn.nl2br = function(s) {
 	s = s.replace("\r\n", "\n");
 	s = s.replace("\n", "<br>");
 	s = s.replace("\t", "&nbsp; &nbsp; &nbsp; &nbsp; ");
 	return s;
 }
 
-global.time = function() {
-	return intval(Date.now() / 1000);
+xn.time = function() {
+	return xn.intval(Date.now() / 1000);
 }
 
-global.intval = function(s) {
+xn.intval = function(s) {
 	var i = parseInt(s);
 	return isNaN(i) ? 0 : i;
 }
 
-global.floatval = function(s) {
+xn.floatval = function(s) {
     if(!s) return 0;
     if(s.constructor === Array) {
         for(var i=0; i<s.length; i++) {
-            s[i] = floatval(s[i]);
+            s[i] = xn.floatval(s[i]);
         }
         return s;
     }
@@ -127,12 +125,12 @@ global.floatval = function(s) {
     return isNaN(r) ? 0 : r;
 }
 
-global.isset = function(k) {
+xn.isset = function(k) {
 	var t = typeof k;
 	return t != 'undefined' && t != 'unknown';
 }
 
-global.empty = function(s) {
+xn.empty = function(s) {
 	if(s == '0') return true;
 	if(!s) {
 		return true;
@@ -147,24 +145,24 @@ global.empty = function(s) {
 	}
 }
 
-global.ceil = Math.ceil;
-global.round = Math.round;
-global.floor = Math.floor;
-global.f2y = function(i, callback) {
+xn.ceil = Math.ceil;
+xn.round = Math.round;
+xn.floor = Math.floor;
+xn.f2y = function(i, callback) {
 	if(!callback) callback = round;
 	var r = i / 100;
 	return callback(r);
 }
-global.y2f = function(s) {
-	var r = round(intval(s) * 100);
+xn.y2f = function(s) {
+	var r = xn.round(xn.intval(s) * 100);
 	return r;
 }
-global.strtolower = function(s) {
+xn.strtolower = function(s) {
 	s += '';
 	return s.toLowerCase();
 }
 
-global.json_type = function(o) {
+xn.json_type = function(o) {
 	var _toS = Object.prototype.toString;
 	var _types = {
 		'undefined': 'undefined',
@@ -180,14 +178,14 @@ global.json_type = function(o) {
 	return _types[typeof o] || _types[_toS.call(o)] || (o ? 'object' : 'null');
 };
 
-global.json_encode = function(o) {
+xn.json_encode = function(o) {
 	var json_replace_chars = function(chr) {
 		var specialChars = { '\b': '\\b', '\t': '\\t', '\n': '\\n', '\f': '\\f', '\r': '\\r', '"': '\\"', '\\': '\\\\' };
 		return specialChars[chr] || '\\u00' + Math.floor(chr.charCodeAt() / 16).toString(16) + (chr.charCodeAt() % 16).toString(16);
 	};
 
 	var s = [];
-	switch (json_type(o)) {
+	switch (xn.json_type(o)) {
 		case 'undefined':
 			return 'undefined';
 			break;
@@ -205,14 +203,14 @@ global.json_encode = function(o) {
 			break;
 		case 'array':
 			for (var i = 0, l = o.length; i < l; i++) {
-				s.push(json_encode(o[i]));
+				s.push(xn.json_encode(o[i]));
 			}
 			return '[' + s.join(',') + ']';
 			break;
 		case 'error':
 		case 'object':
 			for (var p in o) {
-				s.push('"' + p + '"' + ':' + json_encode(o[p]));
+				s.push('"' + p + '"' + ':' + xn.json_encode(o[p]));
 			}
 			return '{' + s.join(',') + '}';
 			break;
@@ -222,7 +220,7 @@ global.json_encode = function(o) {
 	}
 };
 
-global.json_decode = function(s) {
+xn.json_decode = function(s) {
 	if(!s) return null;
 	try {
 		// 去掉广告代码。这行代码挺无语的，为了照顾国内很多人浏览器中广告病毒的事实。
@@ -237,43 +235,13 @@ global.json_decode = function(s) {
 	}
 }
 
-global.arrlist_values = function(arrlist, key) {
-	var arr = [];
-	$.each(arrlist, function() {
-		arr.push(this[key]);
-	})
-	return arr;
-}
-
-global.arrlist_read = function(arrlist, key, value) {
-	for(k in arrlist) {
-		if(arrlist[k][key] == value) return arrlist[k];
-	}
-	return false;
-}
-
-global.arrlist_delete = function(arrlist, key, value) {
-	for(k in arrlist) {
-		if(arrlist[k][key] == value) delete arrlist[k];
-	}
-	return false;
-}
-
-/*
-global.arrlist_sort = function(arrlist, key, sortby) {
-	for(k in arrlist) {
-		if(arrlist[k][key] == value) return arrlist[k];
-	}
-	return false;
-}*/
-
 // 方便移植 PHP 代码
-global.min = function() {return Math.min.apply(this, arguments);}
-global.max = function() {return Math.max.apply(this, arguments);}
-global.str_replace = function(s, d, str) {return str.replace(s, d);}
-global.strrpos = function(str, s) {return str.lastIndexOf(s);}
-global.strpos = function(str, s) {return str.indexOf(s);}
-global.substr = function(str, start, len) {
+xn.min = function() {return Math.min.apply(this, arguments);}
+xn.max = function() {return Math.max.apply(this, arguments);}
+xn.str_replace = function(s, d, str) {return str.replace(s, d);}
+xn.strrpos = function(str, s) {return str.lastIndexOf(s);}
+xn.strpos = function(str, s) {return str.indexOf(s);}
+xn.substr = function(str, start, len) {
 	// 支持负数
 	var end = length;
 	var length = str.length;
@@ -287,11 +255,11 @@ global.substr = function(str, start, len) {
 	}
 	return str.substring(start, end);
 }
-global.explode = function(sep, s) {return s.split(sep);}
-global.implode = function(glur, arr) {return arr.join(glur);}
-global.array_merge = function(arr1, arr2) {return arr1 && arr1.__proto__ === Array.prototype && arr2 && arr2.__proto__ === Array.prototype ? arr1.concat(arr2) : $.extend(arr1, arr2);}
+xn.explode = function(sep, s) {return s.split(sep);}
+xn.implode = function(glur, arr) {return arr.join(glur);}
+xn.array_merge = function(arr1, arr2) {return arr1 && arr1.__proto__ === Array.prototype && arr2 && arr2.__proto__ === Array.prototype ? arr1.concat(arr2) : $.extend(arr1, arr2);}
 // 比较两个数组的差异，在 arr1 之中，但是不在 arr2 中。返回差异结果集的新数组，
-global.array_diff = function(arr1, arr2) {
+xn.array_diff = function(arr1, arr2) {
 	if(arr1.__proto__ === Array.prototype) {
 		var o = {};
 		for(var i = 0, len = arr2.length; i < len; i++) o[arr2[i]] = true;
@@ -311,7 +279,8 @@ global.array_diff = function(arr1, arr2) {
 	}
 }
 
-global.template = function(s, json) {
+// 所谓的 js 编译模板，不过是一堆效率低下的正则替换，这种东西根据自己喜好用吧。
+xn.template = function(s, json) {
 	//console.log(json);
 	for(k in json) {
 		var r = new RegExp('\{('+k+')\}', 'g');
@@ -319,11 +288,10 @@ global.template = function(s, json) {
 			return json[name];
 		});
 	}
-
 	return s;
 }
 
-global.is_mobile = function(s) {
+xn.is_mobile = function(s) {
 	var r = /^\d{11}$/;
 	if(!s) {
 		return false;
@@ -333,7 +301,7 @@ global.is_mobile = function(s) {
 	return true;
 }
 
-global.is_email = function(s) {
+xn.is_email = function(s) {
 	var r = /^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/i
 	if(!s) {
 		return false;
@@ -343,7 +311,7 @@ global.is_email = function(s) {
 	return true;
 }
 
-global.is_element = function(obj) {
+xn.is_element = function(obj) {
     return !!(obj && obj.nodeType === 1);
 };
 
@@ -351,39 +319,39 @@ global.is_element = function(obj) {
 	js 版本的翻页函数
 */
 // 用例：pages('user-list-{page}.htm', 100, 10, 5);
-global.pages = function (url, totalnum, page, pagesize) {
+xn.pages = function (url, totalnum, page, pagesize) {
 	if(!page) page = 1;
 	if(!pagesize) pagesize = 20;
-	var totalpage = ceil(totalnum / pagesize);
+	var totalpage = xn.ceil(totalnum / pagesize);
 	if(totalpage < 2) return '';
-	page = min(totalpage, page);
+	page = xn.min(totalpage, page);
 	var shownum = 5;	// 显示多少个页 * 2
 
-	var start = max(1, page - shownum);
-	var end = min(totalpage, page + shownum);
+	var start = xn.max(1, page - shownum);
+	var end = xn.min(totalpage, page + shownum);
 
 	// 不足 $shownum，补全左右两侧
 	var right = page + shownum - totalpage;
-	if(right > 0) start = max(1, start -= right);
+	if(right > 0) start = xn.max(1, start -= right);
 	left = page - shownum;
-	if(left < 0) end = min(totalpage, end -= left);
+	if(left < 0) end = xn.min(totalpage, end -= left);
 
 	var s = '';
-	if(page != 1) s += '<a href="'+str_replace('{page}', page-1, url)+'">◀</a>';
-	if(start > 1) s += '<a href="'+str_replace('{page}', 1, url)+'">1 '+(start > 2 ? '... ' : '')+'</a>';
+	if(page != 1) s += '<a href="'+xn.str_replace('{page}', page-1, url)+'">◀</a>';
+	if(start > 1) s += '<a href="'+xn.str_replace('{page}', 1, url)+'">1 '+(start > 2 ? '... ' : '')+'</a>';
 	for(i=start; i<=end; i++) {
 		if(i == page) {
-			s += '<a href="'+str_replace('{page}', i, url)+'" class="active">'+i+'</a>';// active
+			s += '<a href="'+xn.str_replace('{page}', i, url)+'" class="active">'+i+'</a>';// active
 		} else {
-			s += '<a href="'+str_replace('{page}', i, url)+'">'+i+'</a>';
+			s += '<a href="'+xn.str_replace('{page}', i, url)+'">'+i+'</a>';
 		}
 	}
-	if(end != totalpage) s += '<a href="'+str_replace('{page}', totalpage, url)+'">'+(totalpage - end > 1 ? '... ' : '')+totalpage+'</a>';
-	if(page != totalpage) s += '<a href="'+str_replace('{page}', page+1, url)+'">▶</a>';
+	if(end != totalpage) s += '<a href="'+xn.str_replace('{page}', totalpage, url)+'">'+(totalpage - end > 1 ? '... ' : '')+totalpage+'</a>';
+	if(page != totalpage) s += '<a href="'+xn.str_replace('{page}', page+1, url)+'">▶</a>';
 	return s;
 }
 
-global.parse_url = function(url) {
+xn.parse_url = function(url) {
 	if(url.match(/^(([a-z]+):)\/\//i)) {
 		var arr = url.match(/^(([a-z]+):\/\/)?([^\/\?#]+)\/*([^\?#]*)\??([^#]*)#?(\w*)$/i);
 		if(!arr) return null;
@@ -414,7 +382,7 @@ global.parse_url = function(url) {
 	}
 }
 
-global.parse_str = function (str){
+xn.parse_str = function (str){
 	var sep1 = '=';
 	var sep2 = '&';
 	var arr = str.split(sep2);
@@ -427,15 +395,15 @@ global.parse_str = function (str){
 }
 
 // 解析 url 参数获取 $_GET 变量
-global.parse_url_param = function(url) {
-	var arr = parse_url(url);
+xn.parse_url_param = function(url) {
+	var arr = xn.parse_url(url);
 	var q = arr.path;
-	var pos = strrpos(q, '/');
-	q = substr(q, pos + 1);
+	var pos = xn.strrpos(q, '/');
+	q = xn.substr(q, pos + 1);
 	var r = [];
-	if(substr(q, -4) == '.htm') {
-		q = substr(q, 0, -4);
-		r = explode('-', q);
+	if(xn.substr(q, -4) == '.htm') {
+		q = xn.substr(q, 0, -4);
+		r = xn.explode('-', q);
 	// 首页
 	} else if (url && url != window.location && url != '.' && url != '/' && url != './'){
 		r = ['thread', 'seo', url];
@@ -443,16 +411,38 @@ global.parse_url_param = function(url) {
 
 	// 将 xxx.htm?a=b&c=d 后面的正常的 _GET 放到 $_SERVER['_GET']
 	if(!empty(arr['query'])) {
-		var arr2 = parse_str(arr['query']);
-		r = array_merge(r, arr2);
+		var arr2 = xn.parse_str(arr['query']);
+		r = xn.array_merge(r, arr2);
 	}
 	return r;
 }
 
 // 从参数里获取数据
-global.param = function(key) {
+xn.param = function(key) {
 
 }
+
+// 模拟服务端 url() 函数
+xn.url = function(u, url_rewrite_on) {
+	if(!url_rewrite_on) url_rewrite_on = 0;
+	if(url_rewrite_on == 0) {
+		u = "?"+u+".htm";
+	} else if(url_rewrite_on == 1) {
+		u = u + ".htm";
+	} else if(url_rewrite_on == 2) {
+		u = xn.str_replace('-', '/', u);
+		u = "?"+u;
+	} else if(url_rewrite_on == 3) {
+		u = xn.str_replace('-', '/', u);
+	}
+	return u;
+}
+
+// 页面跳转的时间
+//xn.jumpdelay = xn.debug ? 20000000 : 2000;
+
+
+/********************* 对 JQuery 进行扩展 ************************/
 
 $.location = function(url, seconds) {
 	if(seconds === undefined) seconds = 1;
@@ -480,11 +470,12 @@ Array.prototype.sort = function(arg) {
 // arrlist.sort({name:1});
 // console.log(arrlist);
 
-if($.is_ie) document.documentElement.addBehavior("#default#userdata");
+if(xn.is_ie) document.documentElement.addBehavior("#default#userdata");
+
 $.pdata = function(key, value) {
 	var r = '';
 	if(typeof value != 'undefined') {
-		value = json_encode(value);
+		value = xn.json_encode(value);
 	}
 
 	// HTML 5
@@ -493,7 +484,7 @@ $.pdata = function(key, value) {
 		if(window.localStorage){
 			if(typeof value == 'undefined') {
 				r = localStorage.getItem(key);
-				return json_decode(r);
+				return xn.json_decode(r);
 			} else {
 				return localStorage.setItem(key, value);
 			}
@@ -501,12 +492,12 @@ $.pdata = function(key, value) {
 	} catch(e) {}
 
 	// HTML 4
-	if(is_ie && (!document.documentElement || typeof document.documentElement.load == 'unknown' || !document.documentElement.load)) {
+	if(xn.is_ie && (!document.documentElement || typeof document.documentElement.load == 'unknown' || !document.documentElement.load)) {
 		return '';
 	}
 	// get
 	if(typeof value == 'undefined') {
-		if(is_ie) {
+		if(xn.is_ie) {
 			try {
 				document.documentElement.load(key);
 				r = document.documentElement.getAttribute(key);
@@ -521,10 +512,10 @@ $.pdata = function(key, value) {
 				r = '';
 			}
 		}
-		return json_decode(r);
+		return xn.json_decode(r);
 	// set
 	} else {
-		if(is_ie){
+		if(xn.is_ie){
 			try {
 				// fix: IE TEST for ie6 崩溃
 				document.documentElement.load(key);
@@ -586,9 +577,9 @@ $.xget = function(url, callback, retry) {
 		timeout: 15000,
 		success: function(r){
 			if(!r) return callback(-100, 'Server Response Empty!');
-			var s = json_decode(r);
+			var s = xn.json_decode(r);
 			if(!s) {
-				return callback(-101, r); // 'Server Response json_decode() failed：'+
+				return callback(-101, r); // 'Server Response xn.json_decode() failed：'+
 			}
 			if(s.code === undefined) {
 				if($.isPlainObject(s)) {
@@ -637,7 +628,7 @@ $.xpost = function(url, postdata, callback) {
 		timeout: 60000,
 		success: function(r){
 			if(!r) return callback(-1, 'Server Response Empty!');
-			var s = json_decode(r);
+			var s = xn.json_decode(r);
 			if(!s || s.code === undefined) return callback(-1, 'Server Response Not JSON：'+r);
 			if(s.code == 0) {
 				return callback(0, s.message);
@@ -714,28 +705,6 @@ $.xpost_sync = function(urlarr, postdataarr, once_callback, complete_callback) {
 }
 
 /*
-
-
-$.xpost_sync(['1.htm', 'index.htm', '3.htm'], ["a=b", "c=d", "e=f"], function(code, message, i){
-	console.log(i+', code:'+code);
-}, function(code, message) {
-	console.log();
-});
-*/
-
-
-/* 标准浏览器支持:
-var urlarr = typeof url == 'string' ? [url] : url;
-var worker = new Worker('sync_ajax.js');  
-worker.onmessage = function(event) {
-	console.log("收到消息:" + event.data);
-	alert("收到消息:" + event.data);
-};
-worker.onerror = function(error) {console.log("Error:" + error.message);};
-worker.postMessage(a);
-*/
-
-/*
 	功能：
 		异步加载 js, 加载成功以后 callback
 	用法：
@@ -773,7 +742,7 @@ $.require = function() {
 				console.log('script load error:'+js);
 				_this.load(args, i+1);
 			}
-			if(is_ie) {
+			if(xn.is_ie) {
 				script.onreadystatechange = function() {
 					if(script.readyState == 'loaded' || script.readyState == 'complete') {
 						_this.load(args, i+1);
@@ -811,57 +780,6 @@ $.require_css = function(filename) {
 	document.getElementsByTagName('head')[0].appendChild(link);
 }
 
-// 会阻塞UI线程，尽量不要使用。
-/*
-global.require = function(jsfile, retry) {
-	if(!retry) retry = 3;
-	var r;
-	$.ajax({
-		type: 'GET',
-		url: jsfile,
-		data: {},
-		dataType: 'text',
-		async: false,
-		timeout: 5000,
-		success: function(s){
-			r = s;
-		},
-		error: function(xhr, type) {
-			// 重试
-			if(retry > 1) {
-				return require(jsfile, retry - 1);
-			} else {
-				console.log("xhr.responseText:"+xhr.responseText+', type:'+type);
-			}
-		}
-	});
-	if(!r) {
-		return false;
-	}
-	// 尝试 json_decode
-	var s = json_decode(r);
-	if(s && $.isPlainObject(s)) {
-		if(s.code === undefined) return s; 	// 格式: {a:b}
-		if(s.code == 0) {
-			return s.message;		 // 格式: {code:0, message:{a:b}}
-		} else {
-			return null;
-		}
-	} else {
-		// 尝试 CommonJS 标准
-		var exports = null;
-		var s = r;
-		try {
-			eval(r);			// 格式: exports = {a:b};
-		} catch(e) {
-			console.log(e.message);
-		}
-		return exports;
-		//return null;
-	}
-}
-*/
-
 // 在节点上显示 loading 图标
 $.fn.loading = function(action) {
 	return this.each(function() {
@@ -874,7 +792,7 @@ $.fn.loading = function(action) {
 			var left = offset.left;
 			var top = offset.top;
 			var w = jthis.width();
-			var h = min(jthis.height(), $(window).height());
+			var h = xn.min(jthis.height(), $(window).height());
 			var left = w / 2 - jloading.width() / 2;
 			var top = (h / 2 -  jloading.height() / 2) * 2 / 3;
 			jloading.css('position', 'absolute').css('left', left).css('top', top);
@@ -885,151 +803,8 @@ $.fn.loading = function(action) {
 	});
 }
 
-
-// eval script
-
-// 获取当前已经加载的 js
-
-/* 按照 REST 规范，不再用兼容 AJAX 的方式请求页面
-
-global.get_loaded_script = function () {
-	var arr = [];
-	$('script[src]').each(function() {
-		arr.push($(this).attr('src'));
-	});
-	return arr;
-}
-global.get_script_src = function (s) {
-	var arr = [];
-	var r = s.match(/<script[^>]*?src=\s*\"([^"]+)\"[^>]*><\/script>/ig);
-	if(!r) return arr;
-	for(var i=0; i<r.length; i++) {
-		var r2 = r[i].match(/<script[^>]*?src=\s*\"([^"]+)\"[^>]*><\/script>/i);
-		arr.push(r2[1]);
-	}
-	return arr;
-}
-global.get_stylesheet_link = function (s) {
-	var arr = [];
-	var r = s.match(/<link[^>]*?href=\s*\"([^"]+)\"[^>]*>/ig);
-	if(!r) return arr;
-	for(var i=0; i<r.length; i++) {
-		var r2 = r[i].match(/<link[^>]*?href=\s*\"([^"]+)\"[^>]*>/i);
-		arr.push(r2[1]);
-	}
-	return arr;
-}
-global.strip_script_src = function (s) {
-	s = s.replace(/<script[^>]*?src=\s*\"([^"]+)\"[^>]*><\/script>/ig, '');
-	return s;
-}
-global.strip_stylesheet_link = function (s) {
-	s = s.replace(/<link[^>]*?href=\s*\"([^"]+)\"[^>]*>/ig, '');
-	return s;
-}
-
-global.strip_script_section = function (s) {
-	s = s.replace(/<script(\s*type="text\/javascript")?\s*>([\s\S]+?)<\/script>/ig, '');
-	return s;
-}
-
-global.get_script_section = function (s) {
-	var r = '';
-	var arr = s.match(/<script(\s*type="text\/javascript")?\s*>([\s\S]+?)<\/script>/ig);
-	return arr;
-}
-
-// eval_script 并且传递参数，第二个 key 是为了避免重复 new Function()
-global.eval_script = function (arr, key, args) {
-	if(!arr) return;
-	if(key === undefined) key = '0';
-	if(args === undefined) args = null;
-	
-	if(!$.eval_script_functions) $.eval_script_functions = {};
-	if(!$.eval_script_functions[key]) $.eval_script_functions[key] = [];
-	
-	for(var i=0; i<arr.length; i++) {
-		var s = arr[i].replace(/<script(\s*type="text\/javascript")?\s*>([\s\S]+?)<\/script>/i, '$2');
-		try {
-			if($.eval_script_functions[key][i]) {
-				func = $.eval_script_functions[key][i];
-			} else {
-				var func = new Function('args', s);
-				$.eval_script_functions[key][i] = func;
-			}
-			func(args);
-			//func = null;
-			//func.call(window, args); // 放到 windows 上执行会有内存泄露!!!
-		} catch(e) {
-			console.log("eval_script() error: %o, script: %s", e, s);
-			alert(s);
-		}
-	}
-}
-
-global.get_title_body_script_css = function (s) {
-	var s = $.trim(s);
-	
-	var title = '';
-	var body = '';
-	var script_sections = get_script_section(s);
-	var stylesheet_links = get_stylesheet_link(s);
-	
-	var arr1 = get_loaded_script();
-	var arr2 = get_script_src(s);
-	var script_srcs = array_diff(arr2, arr1); // 避免重复加载 js
-	
-	s = strip_script_src(s);
-	s = strip_script_section(s);
-	s = strip_stylesheet_link(s);
-	
-	var r = s.match(/<title>([^<]+?)<\/title>/i);
-	if(r && r[1]) title = r[1];
-	
-	var r = s.match(/<body[^>]*>([\s\S]+?)<\/body>/i);
-	if(r && r[1]) body = r[1];
-	
-	// jquery 更方便
-	var jtmp = $('<div>'+body+'</div>');
-	var t = jtmp.find('div.ajax_body');
-	if(t.length == 0) t = jtmp.find('div#body');
-	if(t.length > 0)  body = t.html();
-	
-//	
-//	for(var i=0; i<jtmp.length; i++) { 
-//		var jeq = jtmp.eq(i);
-//		var t = jeq.find('div[id="body"]');
-//		if(t.length == 0) t = jeq.filter('div[id="body"]');
-//		if(t.length == 0) t = jeq.filter('div.ajax_body');
-//		if(t.length == 0) t = jeq.find('div.ajax_body');
-//		if(t.length > 0) { 
-//			body = t.html();
-//			break;
-//		}
-//	}
-	
-	if(!body) body = s;
-	if(body.indexOf('<meta ') != -1) {
-		console.log('加载的数据有问题：body: %s: ', body);
-		body = '';
-	}
-	jtmp.remove();
-
-	return {title: title, body: body, script_sections: script_sections, script_srcs: script_srcs, stylesheet_links: stylesheet_links};
-}
-
-global.eval_stylesheet = function(arr) {
-	if(!arr) return;
-	if(!$.required_css) $.required_css = {};
-	for(var i=0; i<arr.length; i++) {
-		if($.required_css[arr[i]]) continue;
-		$.require_css(arr[i]);
-	}
-}
-*/
-
 // 获取所有的 父节点集合，一直到最顶层节点为止。, IE8 没有 HTMLElement
-global.nodeHasParent = function(node, topNode) {
+xn.nodeHasParent = function(node, topNode) {
 	if(!topNode) topNode = document.body;
 	var pnode = node.parentNode;
 	while(pnode) {
@@ -1066,91 +841,7 @@ $.fn.emptyDeep = function() {
 	return this;
 }
 
-/*
-	link 与 弹出的 div 对象的相对位置示意图: 1 - 9 表示它的周围的位置，再加一个 center, 默认屏幕居中。
-	1	2	3
-	4	jlink	6
-	7	8	9
-*/
-// jlink 与 jdiv 在同一个 offsetParent() 下
-/* tether.js 有完善的定位功能
-$.link_div_position = function (jlink, jdiv, position, sub_parent_offset) {
-	
-	if(typeof position == 'object') return position;
-	// 如果不指定 jlink，一般就是相对 windows 绝对居中了。
-	if(!jlink || jlink.length == 0) {
-		var link_left = 0;
-		var link_top = 0;
-		var link_width = 0;
-		var link_height = 0;
-	} else {
-		var offset = jlink.offset();
-		var jpnode = jlink.offsetParent();
-		var poffset = jpnode.offset();
-		console.log("%o, %o, %o, %o", jpnode, poffset, offset, jlink.position());
-		var link_left = sub_parent_offset ? offset.left - poffset.left : offset.left; //  - poffset.left
-		var link_top = sub_parent_offset ? offset.top - poffset.top : offset.top;; //  - poffset.top
-		var link_width = jlink.width();
-		var link_height = jlink.height();
-	}
-	
-	var div_width = jdiv.width();
-	var div_height = jdiv.height();
-	var window_width = $(window).width();
-	var window_height = $(window).height();
-	if(div_width == 0) return false; // 不显示的时候宽度为0，不需要调整。
-	
-	var left = 0;
-	var top = 0;
-	
-	if(position == 1) {
-		left = link_left - div_width;
-		top = link_top - div_height - 2;
-	} else if(position == 2) {
-		left = link_left - div_width / 2;
-		top = link_top - div_height - 2;
-	} else if(position == 3) {
-		left = link_left + link_width;
-		top = link_top - div_height - 2;
-	} else if(position == 4) {
-		left = link_left - div_width;
-		top = link_top - div_height / 2;
-	} else if(position == 5) {
-		left = link_left - div_width / 2;
-		top = link_top - div_height / 2;
-	} else if(position == 6) {
-		left = link_left + link_width;
-		top = link_top;
-	} else if(position == 7) {
-		left = link_left - div_width;
-		top = link_top + link_height + 2;
-	} else if(position == 8) {
-		left = link_left - div_width / 2;
-		top = link_top + link_height + 2;
-	} else if(position == 9) {
-		left = link_left + link_width;
-		top = link_top + link_height + 2;
-	} else if(position == 'center') {
-		// 相对于父窗口的绝对居中
-		top = ((window_height / 2 - div_height / 2) * 0.7) + $(window).scrollTop();
-		left = (window_width / 2 - div_width / 2);
-		if(top < 0) top = 10;
-	}
-	left = Math.max(0, left);
-	top = Math.max(0, top);
-	return {left: left, top: top};
-}
-*/
-
 $.fn.son = $.fn.children;
-
-// 得到选中的值，设置选中项，支持 select checkbox radio
-$.fn.select_option = function(v) {
-	return this.each(function() {
-		$(this).find('option').filter(function() {return this.value == v}).prop('selected', true);
-	});
-}
-
 
 /*
 	用来选中和获取 select radio checkbox 的值，用法：
@@ -1168,9 +859,9 @@ $.fn.checked = function(v) {
 	// 设置
 	if(v) {
 		this.each(function() {
-			if(strtolower(this.tagName) == 'select') {
+			if(xn.strtolower(this.tagName) == 'select') {
 				$(this).find('option').filter(filter).prop('selected', true);
-			} else if(strtolower(this.type) == 'checkbox' || strtolower(this.type) == 'radio') {
+			} else if(xn.strtolower(this.type) == 'checkbox' || strtolower(this.type) == 'radio') {
 				// console.log(v);
 				$(this).filter(filter).prop('checked', true);
 			}
@@ -1179,7 +870,7 @@ $.fn.checked = function(v) {
 	// 获取，值用数组的方式返回
 	} else {
 		if(this.length <= 0) return [];
-		var tagtype = strtolower(this[0].tagName) == 'select' ? 'select' : strtolower(this[0].type);
+		var tagtype = xn.strtolower(this[0].tagName) == 'select' ? 'select' : xn.strtolower(this[0].type);
 		var r = (tagtype == 'checkbox' ? [] : '');
 		for(var i=0; i<this.length; i++) {
 			var tag = this[i];
@@ -1195,104 +886,6 @@ $.fn.checked = function(v) {
 		return r;
 	}
 }
-
-// 鼠标离开 obj(<A>) 后，几秒消失, 消失后回调 recall
-/* bootstrap 菜单自带定时消失
-$.fn.mouseout_hide = function(timeout, jobj, recall) {
-	if(!timeout) { return this;}
-	return this.each(function() {
-		var jthis = $(this);
-		// 如果有 obj, 一般为A标签，则鼠标放在A标签上时不启动定时器。
-		if(jobj) {
-			jobj.on('mouseover', function() { if(jthis.htime) { clearTimeout(jthis.htime); jthis.htime = false; } return false; });
-			jobj.on('mouseout', function() {
-				if(jthis.htime) { clearTimeout(jthis.htime); jthis.htime = false; }
-				if(!jthis.htime) { jthis.htime = setTimeout(function() { jthis.fadeOut(); jthis.htime = false; if(recall) recall();}, timeout); return false;}
-			});
-		// 否则直接启动定时器
-		} else {
-			jthis.htime = setTimeout(function() { jthis.fadeOut(); jthis.htime = false;}, timeout);
-		}
-		jthis.on('mouseover', function() { if(jthis.htime) { clearTimeout(jthis.htime); jthis.htime = false; } return false; });
-		jthis.on('mouseout', function() { 
-			if(jthis.htime) { clearTimeout(jthis.htime); jthis.htime = false; }
-			if(!jthis.htime) { jthis.htime = setTimeout(function() { jthis.fadeOut(); jthis.htime = false; if(recall) recall();}, timeout); return false;}
-		});
-	});
-};
-*/
-
-// 将菜单浮动于 this 对象的周围, pos 默认为 8
-/*
-	1		2		3
-	4		<this>		6
-	7		8		9
-*/
-/* bootstrap 由替代方案 dropmenu
-$.fn.menu_show = function(menuid, pos, timeout) {
-	return this.each(function() {
-		
-		var jthis = $(this);
-		var jmenu = $(menuid);
-		jmenu.css({position: "absolute", top: '-1000px', left : '-1000px', 'z-index':10000}).show();
-		if(!pos) pos = 8;
-		var offset2 = $.link_div_position(jthis, jmenu, pos, true);
-		if(!offset2) return;
-		jmenu.css(offset2);
-		jmenu.fadeIn('fast');
-		if(timeout) jmenu.mouseout_hide(timeout, jthis);
-	});
-};
-*/
-
-// 提示行错误
-/*
-$.fn.line_ok = function() {
-	if(is_ie) return this;
-	return this.css('background', '#00AA33').animate({'background': '#FFFFFF'}, 1000, 'linear');
-}
-$.fn.line_error = function() {
-	if(is_ie) return this;
-	return this.css('background', 'red').animate({'background': 'transparent'}, 1000, 'linear');
-}
-*/
-
-// 将当前节点设置为 class="active"
-/* bootstrap 的 .tab('active') 可以替代此方法
-$.fn.class_active = function() {
-	var jnode = this.eq(0);
-	jnode.siblings().removeClass('active');
-	jnode.addClass('active');
-	return this;
-}
-*/
-
-/*
-$.fn.slide = function() {
-
-}
-*/
-
-// 标准宽度，兼容 jquery.js, zepto.js
-/* 不考虑 zepto.js 可以废弃
-$.fn.w = function(w) {
-	if(w === undefined) {
-		return intval(this[0].style.width);
-	} else {
-		this[0].style.width = w+'px';
-		return this;
-	}
-}
-$.fn.h = function(h) {
-	if(h === undefined) {
-		return intval(this[0].style.height);
-	} else {
-		this[0].style.height = h - intval(this[0].style.marginTop) + intval(this[0].style.marginBottom) + 'px';
-		console.log("height: %d, marginTop: %d, marginBottom: %d, obj:%o, obj:%o", this[0].style.height, this[0].style.marginTop, this[0].style.marginBottom, this[0], this[0].style);
-		return this;
-	}
-}
-*/
 
 $.fn.button = function(status) {
 	return this.each(function() {
@@ -1316,42 +909,6 @@ $.fn.button = function(status) {
 	});
 }
 
-// 由 fn.alert() 代替了
-$.fn.popover = function(message, pos, classname) {
-	if(!pos) pos = 'top';
-	classname = classname ? ' ' + classname : '';
-	var jthis = $(this);
-	if(jthis.length == 0) return;
-	var offset = jthis.position(); // offsetParent
-
-	var width = jthis.width();
-	var height = jthis.height();
-
-	var left = offset.left;
-	var top = offset.top;
-	
-	// 创建 popover
-	var jpopover = $('<div class="popover'+classname+'" style="display: block"><span class="arrow '+pos+'"></span>'+message+'</div>').insertAfter(jthis);
-	var pop_width = jpopover.width();
-	var pop_height = jpopover.height();
-
-	if(pos == 'top') {
-		jpopover.css({left: left, top: top - pop_height - 2});
-	} else if(pos == 'bottom') {
-		jpopover.css({left: left, top: top + height + 4});
-	} else if(pos == 'left') {
-		jpopover.css({left: left - pop_width - 2, top: top + (height > pop_height ? ((height - pop_height) / 2) : 0)});
-	} else if(pos == 'right') {
-		jpopover.css({left: left + width + 2, top: top + (height > pop_height ? ((height - pop_height) / 2) : 0)});
-	}
-	jthis.on('change keyup click blur', function() {
-		jpopover.remove();
-	});
-	this.jpopover = jpopover;
-	return this;
-}
-
-
 // 在控件上方提示错误信息，如果为手机版，则调用 toast
 $.fn.alert = function(message) {
 	var jthis = $(this);
@@ -1363,27 +920,13 @@ $.fn.alert = function(message) {
 	return this;
 }
 
-/* jquery 自带动画
-$.fn.fadeIn = function(ms, complete){
-	ms = ms || 250;
-	$(this).show().css({opacity: 0}).animate({opacity: 1}, ms, complete);
-	return this;
-}
-
-$.fn.fadeOut = function(ms, complete){
-	if(!ms) ms = 250;
-	$(this).animate({opacity: 0}, ms, complete);
-	return this;
-}
-*/
-
 $.fn.serializeObject = function() {
 	var formobj = {};
 	$([].slice.call(this.get(0).elements)).each(function() {
 		var jthis = $(this);
 		var type = jthis.attr('type');
 		var name = jthis.attr('name');
-		if (name && strtolower(this.nodeName) != 'fieldset' && !this.disabled && type != 'submit' && type != 'reset' && type != 'button' &&
+		if (name && xn.strtolower(this.nodeName) != 'fieldset' && !this.disabled && type != 'submit' && type != 'reset' && type != 'button' &&
 		((type != 'radio' && type != 'checkbox') || this.checked)) {
 			// 还有一些情况没有考虑, 比如: hidden 或 text 类型使用 name 数组时
 			if(type == 'radio' || type == 'checkbox') {
@@ -1396,159 +939,3 @@ $.fn.serializeObject = function() {
 	})
 	return formobj;
 }
-
-// 美化滚动条
-$.fn.xn_scroll = function() {
-	return this.each(function() {
-		var _this = this;
-		var jthis = $(this);
-		var jfirst = jthis.children('div').eq(0);
-		var first = jfirst[0];
-		var wrap_height = jthis.height();
-		var height = first.scrollHeight;
-		jthis.css('position', 'relative').css('overflow', 'hidden');
-		jfirst.height(jthis.height()).css('overflow', 'hidden');
-		
-		if(height <= wrap_height) return; 
-		
-		var jscrollbar = $('<div class="scrollbar"></div>').appendTo(jthis).height(100);
-		var jscrollrail = $('<div class="scrollrail"></div>').appendTo(jthis);
-		var scrollbar = jscrollbar[0];
-		
-		var scale = wrap_height / height;
-		var scrollbar_height = wrap_height * scale;
-		jscrollbar.height(scrollbar_height);
-		jscrollbar.css('top', (_this.scrollTop * scale) + 'px');
-		
-		// 键盘翻页
-		function scroll_keyup(e) {
-			var scrolltop = intval(first.scrollTop);
-			if(e.keyCode == 32) {
-				if(e.shiftKey) {
-					first.scrollTop = scrolltop - 200;
-					jscrollbar.css('top', (first.scrollTop * scale) + 'px');
-				} else {
-					first.scrollTop = scrolltop + 200;
-					jscrollbar.css('top', (first.scrollTop * scale - 4) + 'px');
-				}
-			} else if(e.keyCode == 33) {
-				first.scrollTop = scrolltop - wrap_height;
-				jscrollbar.css('top', (first.scrollTop * scale) + 'px');
-			} else if(e.keyCode == 34) {
-				first.scrollTop = scrolltop + wrap_height;
-				jscrollbar.css('top', (first.scrollTop * scale - 4) + 'px');
-			}
-			e.stopPropagation();
-		}
-		
-		jthis.on('mouseenter', function(e) {
-			jscrollrail.fadeIn();
-			jscrollbar.fadeIn();
-			$(document).on('keyup.scroll', function(e) {scroll_keyup(e);})
-		});
-		jthis.on('mouseleave', function(e) {
-			//if(e.target != first) return;
-			jscrollrail.fadeOut();
-			jscrollbar.fadeOut();
-			$(document).off('keyup.scroll');
-		});
-		jfirst.on('mousewheel DOMMouseScroll', function(e) {
-			var scrolltop = intval(first.scrollTop);
-			var delta = parseInt(e.wheelDelta || -e.detail || e.originalEvent.wheelDelta || -e.originalEvent.detail);
-			if(delta > 0) {
-				first.scrollTop = scrolltop - 60;
-				jscrollbar.css('top', (first.scrollTop * scale) + 'px');
-			} else {
-				first.scrollTop = scrolltop + 60;
-				jscrollbar.css('top', (first.scrollTop * scale - 4) + 'px');
-			}
-		});
-		function scroll_mousedown(e) {
-			scrollbar.startdrag = 1;
-			$('body').addClass('unselect');
-			scrollbar.mouse_offset_y = e.pageY - scrollbar.offsetTop;
-
-			$(document).on('mousemove'+'.scrollbar', function(e) {scroll_mousemove(e)});
-			$(document).on('mouseup'+'.scrollbar', function(e) {scroll_mouseup(e)});
-		}
-		function scroll_mousemove(e) {
-			if(scrollbar.startdrag) {
-				var y = e.pageY - scrollbar.mouse_offset_y;
-				if(y < 0) y = 0;
-				if(y >= wrap_height - scrollbar_height - 0) y = wrap_height - scrollbar_height - 0;
-				first.scrollTop = y / scale + 10; // 这里误差10个像素，不知道怎么来的。
-				jscrollbar.css('top', y);
-			}
-		}
-		function scroll_mouseup(e) {
-			$(document).off('mousemove'+'.scrollbar');		// 比较耗费资源，用完 unbind 掉。
-			$(document).off('mouseup'+'.scrollbar');			// 比较耗费资源，用完 unbind 掉。
-			scrollbar.startdrag = 0;
-			$('body').removeClass('unselect');
-		}
-		/*
-		function scroll_touchstart(e) {
-			var touch = e.touches[0];
-			scrollbar.touch_start_y = touch.pageY;
-			scrollbar.scroll_top = first.scrollTop;
-			console.log("touchstart: %o", e);
-		}
-		function scroll_touchmove(e) {
-			if(!scrollbar.touch_start_y) return;
-			var y1 = scrollbar.touch_start_y;
-			var touch = event.touches[0];
-			var y2 = touch.pageY;
-			var n = y2 - y1; // 移动的距离
-			jscrollbar.hide();
-			jscrollrail.hide();
-			// 滚动
-			first.scrollTop = scrollbar.scroll_top - n;
-			console.log("touchmove: %o", e);
-			e.preventDefault();
-		}
-		function scroll_touchend(e) {
-			scrollbar.touch_start_y = 0;
-		}
-		jfirst.on('touchstart', function(e) {scroll_touchstart(e)});
-		jfirst.on('touchmove', function(e) {scroll_touchmove(e)});
-		jfirst.on('touchend', function(e) {scroll_touchend(e)});
-		*/
-		jfirst.css('-webkit-overflow-scrolling', 'touch');
-		jscrollbar.on('mousedown', function(e) {scroll_mousedown(e)});
-		
-	});
-}
-
-// 美化菜单 <select></select>
-
-// 继承，抛弃掉。
-/*
-if(typeof Object.create !== 'function') {
-	Object.create = function (o) {
-		function F() {}
-		F.prototype = o;
-		return new F();
-	};
-}
-var MyClass = Object.create(OldClass);
-*/
-
-
-// 更好的方案，也是符合 OP 思想的方案，直接使用 js prototype __proto__  constructor 关键词来实现继承
-
-/*
-var A = function(arg) {this.age = 999;};
-A.prototype.age = 123;
-A.prototype.method1 = function() {alert('method1, age:'+this.age)};
-A.prototype.method2 = function() {};
-A.prototype.method3 = function() {};
-
-var AA = function(arg) {A.call(this, arg);};
-AA.prototype.__proto__ = A.prototype;
-//AA.prototype.constructor = A;
-AA.prototype.method4 = function() {};
-AA.prototype.method5 = function() {};
-AA.prototype.method6 = function() {};
-var aa = new AA(456);
-aa.method1();
-*/
