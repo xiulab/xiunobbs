@@ -175,7 +175,7 @@ function db_errno_errstr($r) {
 function db_errstr_safe($errno, $errstr) {
 	if(DEBUG) return $errstr;
 	if($errno == 1049) {
-		return '数据库名不存在';
+		return '数据库名不存在，请手工创建';
 	} elseif($errno == 2003 ) {
 		return '连接数据库服务器失败，请检查IP是否正确，或者防火墙设置';
 	} elseif($errno == 1024) {
