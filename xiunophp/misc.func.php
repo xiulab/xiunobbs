@@ -970,9 +970,11 @@ function xn_shutdown_handle() {
 }
 
 function xn_debug_info() {
-	global $db;
-	$s = '<div class="small">';
+	global $db, $starttime;
+	$s = '';
 	if(DEBUG) {
+		$s = '<div class="small">';
+		$s .= '<p>Processed Time:'.(microtime(1) - $starttime).'</p>';
 		if(IN_CMD) {
 			foreach($db->sqls as $sql) {
 				$s = "$sql\r\n";
@@ -987,8 +989,8 @@ function xn_debug_info() {
 			$s .= print_r($_REQUEST, 1);
 			$s .= '</pre>';
 		}
+		$s .= '</div>';
 	}
-	$s .= '</class>';
 	return $s;
 }
 

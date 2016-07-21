@@ -3,17 +3,30 @@
 <div class="row">
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="btn-group m-b-1" role="group">
-			<?php echo bootstrap_tab_active($menu['setting']['tab'], 'smtp');?>
+			<?php echo bootstrap_tab_active($menu['user']['tab'], 'group');?>
 		</div>
 		<div class="card">
 			<div class="card-block">
 				<form action="admin/<?php echo url('setting-smtp');?>" method="post" id="form">
-					<h4 class="card-title"><?php echo lang('admin_user_group');?></h4>
+					<h4 class="card-title"><?php echo lang('admin_setting_smtp');?></h4>
+					<div class="form-group row">
+						<label class="col-sm-3 form-control-label">开启注册邮箱验证：</label>
+						<div class="col-sm-9">
+							<?php echo $input_user_create_email_on;?>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-3 form-control-label">开启找回密码：</label>
+						<div class="col-sm-9">
+							<?php echo $input_user_find_pw_on;?>
+						</div>
+					</div>
+					<h5 class="card-title">用户组列表</h5>
 					<div class="table-responsive arrlist">
 						<table width="100%" class="table">
 							<thead>
 								<tr align="center">
-									<th>用户组名</th>
+									<th>邮箱</th>
 									<th>主机</th>
 									<th class="text-center">端口</th>
 									<th class="text-center">账号</th>
@@ -86,7 +99,7 @@ jadd.on('click', function() {
 });
 
 
-$('#nav_pc li.setting').tab('show');
-$('#nav_mobile li.setting').tab('show');
+$('#nav_pc li.user').tab('show');
+$('#nav_mobile li.user').tab('show');
 
 </script>

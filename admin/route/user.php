@@ -136,6 +136,39 @@ if(empty($action) || $action == 'list') {
 
 	message(0, '删除成功');
 
+} elseif($action == 'group') {
+	
+	if($method == 'GET') {
+		
+		$header['title']    = '用户组管理';
+	
+		include "./admin/view/user_group.htm";
+	
+	} else {
+		
+		conf_save() OR message(-1, '保存到配置文件 conf/conf.php 失败，请检查文件的可写权限。');
+		
+		$email = param('email', array(''));
+		$host = param('host', array(0));
+		$port = param('port', array(0));
+		$user = param('user', array(''));
+		$pass = param('pass', array(''));
+		
+		$smtplist = array();
+		foreach ($email as $k=>$v) {
+			$smtplist[$k] = array(
+				'email'=>$email[$k],
+				'host'=>$host[$k],
+				'port'=>$port[$k],
+				'user'=>$user[$k],
+				'pass'=>$pass[$k],
+			);
+		}
+		$r = file_put_content_try('./conf/smtp.conf.php', "<?php\r\nreturn ".var_export($smtplist,true).";\r\n?>");
+		!$r AND message(-1, '保存数据到配置文件 conf/smtp.conf.php 失败，请检查文件的可写权限。');
+		
+		message(0, '保存成功');
+	}
 } else {
 	
 	http_404();

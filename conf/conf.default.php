@@ -6,6 +6,8 @@
 	支持各种 cache，本机 apc/xcache/yac, 网络: redis/memcached/ttserver/mysql
 	支持 CDN，细化可以单独针对 view upload 目录做 CDN，开启 CDN 后，配置 cdn_on 为 1
 	支持临时目录设置，独立 Linux 主机，可以设置为 /dev/shm 通过内存加速
+	
+	主要从分布式部署的角度考虑，将变量存到 conf/conf.php 和 kv 表
 */
 return array (
 

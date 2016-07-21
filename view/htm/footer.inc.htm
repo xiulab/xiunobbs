@@ -5,7 +5,8 @@
 
 <div class="text-muted" id="footer">
 	<div class="container" style="overflow: hidden;">
-		<div>xxx</div>
+		<div>Processed time: <?php echo microtime(1) - $starttime;?></div>
+		<div>SQL Queries: <?php echo count($db->sqls);?></div>
 	</div>
 </div>
 

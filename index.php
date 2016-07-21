@@ -1,10 +1,14 @@
 <?php
 
-define('DEBUG', 1); 				// 发布的时候改为 0 
+define('DEBUG', 0); 				// 发布的时候改为 0 
 define('APP_NAME', 'bbs');			// 应用的名称
 
 $conf = (@include './conf/conf.php') OR exit(header('Location: install/'));
-include './xiunophp/xiunophp.php';
+if(DEBUG) {
+	include './xiunophp/xiunophp.php';
+} else {
+	include './xiunophp/xiunophp.min.php';
+}
 
 // 测试数据库连接
 db_connect() OR message(-1, $errstr);

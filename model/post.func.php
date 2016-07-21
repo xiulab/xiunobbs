@@ -287,8 +287,8 @@ function post_format(&$post) {
 	
 	// 权限判断
 	global $uid, $sid, $longip;
-	$post['allowupdate'] = (($uid != 0 && $uid == $post['uid']) || ($uid == 0 && $post['uid'] == 0 && $post['userip'] == $longip && $post['sid'] == $sid)) ? 1 : 0;
-	$post['allowdelete'] = (($uid != 0 && $uid == $post['uid']) || ($uid == 0 && $post['uid'] == 0 && $post['userip'] == $longip && $post['sid'] == $sid)) ? 1 : 0;
+	$post['allowupdate'] = ($uid == $post['uid']);
+	$post['allowdelete'] = ($uid == $post['uid']);
 	
 	$post['user_url'] = "user-$post[uid]".($post['uid'] ? '' : "-$post[pid]").".htm";
 	// hook post_format_end.php

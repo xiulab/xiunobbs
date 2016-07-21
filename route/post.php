@@ -63,7 +63,6 @@ if($action == 'create') {
 			'uid'=>$uid,
 			'create_date'=>$time,
 			'userip'=>$longip,
-			'sid'=>$sid,
 			'isfirst'=>0,
 			'message'=>$message,
 		);

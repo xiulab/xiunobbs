@@ -91,6 +91,9 @@ if(empty($action)) {
 		// 设置为已经安装
 		$conf['installed'] = 1;
 		
+		// 初始化
+		touch('./conf/conf.php');
+		
 		// 写入配置文件
 		conf_save();
 		

@@ -25,15 +25,23 @@ $s .= php_strip_whitespace($dir.'misc.func.php');
 
 $s = substr($s, 8, -2);
 
-echo $s;exit;
-
 $xiunophp = file_get_contents($dir.'xiunophp.php');
+$before = '// hook xiunophp_include_before.php';
+$after = '// hook xiunophp_include_after.php';
+$pre = substr($xiunophp, 0, strpos($xiunophp, $before) + strlen($before) + 1);
+$suffix = substr($xiunophp, strpos($xiunophp, $after));
+$xiunophp_min = $pre."\r\n\r\n".$s."\r\n\r\n".$suffix;
+
+//echo $xiunophp_min;exit;
+/*
 $p = '#//\shook\sxiunophp_include_before\.php(.*?)//\shook\sxiunophp_include_after\.php#ism';
 $xiunophp_min = preg_replace($p, $s, $xiunophp);
-echo $xiunophp_min;
-	/*
+*/
+
+/*
 $xiunophp_min = preg_replace(
-	'#//\shook\sxiunophp_include_before\.php(.*)//\shook\sxiunophp_include_after\.php#ism', 
-	'//\shook\sxiunophp_include_before.php'.$s.'//\shook\sxiunophp_include_after.php', 
-	$xiunophp);*/
+'#//\shook\sxiunophp_include_before\.php(.*)//\shook\sxiunophp_include_after\.php#ism', 
+'//\shook\sxiunophp_include_before.php'.$s.'//\shook\sxiunophp_include_after.php', 
+$xiunophp);*/
+
 file_put_contents($dir.'xiunophp.min.php', $xiunophp_min);

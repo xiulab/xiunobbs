@@ -1,6 +1,6 @@
 <?php 
 
-$g_session = array();	// 记录数据库读出来的 session 记录，用来对比数据是否发生变化，负载高的时候，可以切换到 session_safe.func.php (不支持在线统计）
+$g_session = array();	
 $g_session_invalid = 0; // 0: 有效， 1：无效
 
 // 如果是管理员, sid, 与 ip 绑定，一旦 IP 发生变化，则需要重新登录
@@ -180,7 +180,5 @@ function sess_start() {
 	return session_id();
 
 }
-
-
 
 ?>
