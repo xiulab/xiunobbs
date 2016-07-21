@@ -37,6 +37,12 @@ if(empty($action) || $action == 'list') {
 
 		$header['title'] = '用户创建';
 
+		$input['email'] = form_text('email', '');
+		$input['username'] = form_text('username','');
+		$input['password'] = form_password('password', '');
+		$grouparr = arrlist_key_values($grouplist, 'gid', 'name');
+		$input['_gid'] = form_select('_gid', $grouparr, 0);
+		
 		include "./admin/view/user_create.htm";
 
 	} elseif ($method == 'POST') {
@@ -44,29 +50,29 @@ if(empty($action) || $action == 'list') {
 		$email = param('email');
 		$username = param('username');
 		$password = param('password');
-		$gid = param('gid');
-
-		$email AND !is_email($email, $err) AND message(2, $err);
-		$username AND !is_username($username, $err) AND message(3, $err);
-		// !is_password($password, $err) AND message(4, $err);
+		$_gid = param('_gid');
+		
+		empty($email) AND message('email', '请输入邮箱');
+		$email AND !is_email($email, $err) AND message('email', $err);
+		$username AND !is_username($username, $err) AND message('username', $err);
 
 		$user = user_read_by_email($email);
-		$user AND message(2, '用户 EMAIL 已经存在');
+		$user AND message('email', '用户 EMAIL 已经存在');
 
 		$user = user_read_by_username($username);
-		$user AND message(3, '用户已经存在');
+		$user AND message('username', '用户已经存在');
 
-		$salt = mt_rand(10000000, 9999999999);
+		$salt = xn_rand(16);
 		$state = user_create(array(
 			'username'=>$username,
-			'password'=>md5($password.$salt),
+			'password'=>md5(md5($password).$salt),
 			'salt'=>$salt,
-			'gid'=>$gid,
+			'gid'=>$_gid,
 			'email'=>$email,
 			'create_ip'=>ip2long(ip()),
 			'create_date'=>$time
 		));
-		$state !== FALSE ? message(0, '创建成功') : message(11, '创建失败');
+		$state !== FALSE ? message(0, '创建成功') : message(-1, '创建失败');
 
 	}
 
@@ -78,13 +84,13 @@ if(empty($action) || $action == 'list') {
 
 		$header['title'] = '用户更新';
 		
-		$user = user_read($uid);
+		$user = user_read($_uid);
 		
 		$input['email'] = form_text('email', $user['email']);
 		$input['username'] = form_text('username', $user['username']);
-		$input['password'] = form_password('password', $user['password']);
+		$input['password'] = form_password('password', '');
 		$grouparr = arrlist_key_values($grouplist, 'gid', 'name');
-		$input['gid'] = form_select('gid', $grouparr, $user['gid']);
+		$input['_gid'] = form_select('_gid', $grouparr, $user['gid']);
 
 		include "./admin/view/user_update.htm";
 
@@ -93,7 +99,7 @@ if(empty($action) || $action == 'list') {
 		$email = param('email');
 		$username = param('username');
 		$password = param('password');
-		$_gid = param('gid');
+		$_gid = param('_gid');
 		
 		$old = user_read($_uid);
 		empty($old) AND message('username', '指定的 UID 不存在');
@@ -101,27 +107,28 @@ if(empty($action) || $action == 'list') {
 		$email AND !is_email($email, $err) AND message(2, $err);
 		if($email AND $old['email'] != $email) {
 			$user = user_read_by_email($email);
-			$user AND message('email', '用户 EMAIL 已经存在');
+			$user AND $user['uid'] != $_uid AND message('email', '用户 EMAIL 已经存在');
 		}
-
-		$arr = array();
-		$arr['email'] = $email;
-	
 		if($username AND $old['username'] != $username) {
 			$user = user_read_by_username($username);
-			$user AND message('username', '用户已经存在');
+			$user AND $user['uid'] != $_uid AND message('username', '用户已经存在');
 		}
-
+		
+		$arr = array();
+		$arr['email'] = $email;
 		$arr['username'] = $username;
 		$arr['gid'] = $_gid;
-
+		
 		if($password) {
-			$salt = mt_rand(10000000, 9999999999);
-			$arr['password'] = md5($password.$salt);
+			$salt = xn_rand(16);
+			$arr['password'] = md5(md5($password).$salt);
 			$arr['salt'] = $salt;
 		}
+		
+		// 仅仅更新发生变化的部分
+		$update = array_diff_value($arr, $old);
 
-		$r = user_update($uid, $arr);
+		$r = user_update($_uid, $update);
 		$r !== FALSE ? message(0, '更新成功') : message(-1, '更新失败');
 	}
 

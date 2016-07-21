@@ -49,16 +49,6 @@ if(empty($action) || $action == 'list') {
 		message(0, '保存成功');
 	}
 	
-} elseif($action == 'update') {
-	
-} elseif($action == 'delete') {
-	
-	if($method == 'POST') {
-		$_gid = param(2, 0);
-		group_delete($_gid);
-		group_list_cache_delete();
-	}
-	
 } else {
 	
 	http_404();

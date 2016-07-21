@@ -1,10 +1,5 @@
 <?php
 
-$_SERVER['REMOTE_ADDR'] = '255.255.255.225';
-
-/*$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko';
-$_COOKIE['cookie_test'] = 'AjtGyVzYZ143A_2bv9WBGs_2FOvb4XkJr7s9DrMyF_2FKebFf0TzAL';*/
-
 define('DEBUG', 1); 				// 发布的时候改为 0 
 define('APP_NAME', 'bbs');			// 应用的名称
 
