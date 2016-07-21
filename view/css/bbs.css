@@ -36,6 +36,11 @@
 .p-y-xs { padding-top: 0.3rem !important; padding-bottom: 0.3rem !important } 
 .p-a-xs { padding: 0.3rem !important; }
 
+.w-1 {style: width: 50px !important;}
+.w-2 {style: min-width: 100px !important;}
+.w-3 {style: min-width: 150px !important;}
+.w-4 {style: min-width: 200px !important;}
+
 /* 文字相关的增强 */
 .text-ellipsis {
 	/*width: 100%;*/

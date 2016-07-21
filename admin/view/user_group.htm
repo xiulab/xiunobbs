@@ -7,41 +7,29 @@
 		</div>
 		<div class="card">
 			<div class="card-block">
-				<form action="admin/<?php echo url('setting-smtp');?>" method="post" id="form">
-					<h4 class="card-title"><?php echo lang('admin_setting_smtp');?></h4>
-					<div class="form-group row">
-						<label class="col-sm-3 form-control-label">开启注册邮箱验证：</label>
-						<div class="col-sm-9">
-							<?php echo $input_user_create_email_on;?>
-						</div>
-					</div>
-					<div class="form-group row">
-						<label class="col-sm-3 form-control-label">开启找回密码：</label>
-						<div class="col-sm-9">
-							<?php echo $input_user_find_pw_on;?>
-						</div>
-					</div>
+				<form action="admin/<?php echo url('user-group');?>" method="post" id="form">
+					<h4 class="card-title"><?php echo lang('admin_user_group');?></h4>
 					<h5 class="card-title">用户组列表</h5>
 					<div class="table-responsive arrlist">
-						<table width="100%" class="table">
+						<table class="table" style="min-width: 800px">
 							<thead>
-								<tr align="center">
-									<th>邮箱</th>
-									<th>主机</th>
-									<th class="text-center">端口</th>
-									<th class="text-center">账号</th>
-									<th class="text-center">密码</th>
+								<tr>
+									<th width="100"  class="text-center">用户组ID</th>
+									<th>用户组名称</th>
+									<th class="text-center">起始积分</th>
+									<th class="text-center">结束积分</th>
+									<th class="text-center">编辑</th>
 									<th class="text-center">删除</th>
 								</tr>
 							<thead>
 							<tbody>
-								<?php foreach($smtplist as $rowid=>$smtp) { ?>
-								<tr align="center" rowid="<?php echo $rowid; ?>">
-									<td><input type="text" class="form-control" name="email[]" value="<?php echo $smtp['email']; ?>" style="width: 180px;" placeholder="Email" /></td>
-									<td><input type="text" class="form-control" name="host[]" value="<?php echo $smtp['host']; ?>" style="width: 180px;" placeholder="主机" /></td>
-									<td><input type="text" class="form-control" name="port[]" value="<?php echo $smtp['port']; ?>" style="width: 60px;" placeholder="端口"/></td>
-									<td><input type="text" class="form-control" name="user[]" value="<?php echo $smtp['user']; ?>" style="width: 100px;" placeholder="用户名"  /></td>
-									<td><input type="text" class="form-control" name="pass[]" value="<?php echo $smtp['pass']; ?>" style="width: 100px;" placeholder="密码"  /></td>
+								<?php foreach($grouplist as $_gid=>$_group) { ?>
+								<tr align="center" rowid="<?php echo $_gid; ?>">
+									<td class="50"><input type="text" class="form-control" name="_gid[]" value="<?php echo $_group['gid']; ?>"  placeholder="用户组ID" /></td>
+									<td><input type="text" class="form-control" name="name[]" value="<?php echo $_group['name']; ?>" placeholder="用户组名称" /></td>
+									<td><input type="text" class="form-control" name="creditsfrom[]" value="<?php echo $_group['creditsfrom']; ?>" placeholder="开始积分"/></td>
+									<td><input type="text" class="form-control" name="creditsto[]" value="<?php echo $_group['creditsto']; ?>" placeholder="结束积分"  /></td>
+									<td><a class="btn row_edit" role="btn">编辑</a></td>
 									<td><a class="btn row_delete" role="btn">删除</a></td>
 								</tr>
 								<?php } ?>

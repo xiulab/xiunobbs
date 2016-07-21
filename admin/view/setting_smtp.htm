@@ -10,12 +10,12 @@
 				<form action="admin/<?php echo url('setting-smtp');?>" method="post" id="form">
 					<h4 class="card-title"><?php echo lang('admin_user_group');?></h4>
 					<div class="table-responsive arrlist">
-						<table width="100%" class="table">
+						<table class="table"  style="min-width: 800px">
 							<thead>
 								<tr align="center">
 									<th>用户组名</th>
 									<th>主机</th>
-									<th class="text-center">端口</th>
+									<th width="100" class="text-center">端口</th>
 									<th class="text-center">账号</th>
 									<th class="text-center">密码</th>
 									<th class="text-center">删除</th>
@@ -24,11 +24,11 @@
 							<tbody>
 								<?php foreach($smtplist as $rowid=>$smtp) { ?>
 								<tr align="center" rowid="<?php echo $rowid; ?>">
-									<td><input type="text" class="form-control" name="email[]" value="<?php echo $smtp['email']; ?>" style="width: 180px;" placeholder="Email" /></td>
-									<td><input type="text" class="form-control" name="host[]" value="<?php echo $smtp['host']; ?>" style="width: 180px;" placeholder="主机" /></td>
-									<td><input type="text" class="form-control" name="port[]" value="<?php echo $smtp['port']; ?>" style="width: 60px;" placeholder="端口"/></td>
-									<td><input type="text" class="form-control" name="user[]" value="<?php echo $smtp['user']; ?>" style="width: 100px;" placeholder="用户名"  /></td>
-									<td><input type="text" class="form-control" name="pass[]" value="<?php echo $smtp['pass']; ?>" style="width: 100px;" placeholder="密码"  /></td>
+									<td><input type="text" class="form-control" name="email[]" value="<?php echo $smtp['email']; ?>" placeholder="Email" /></td>
+									<td><input type="text" class="form-control" name="host[]" value="<?php echo $smtp['host']; ?>"  placeholder="主机" /></td>
+									<td><input type="text" class="form-control" name="port[]" value="<?php echo $smtp['port']; ?>" placeholder="端口"/></td>
+									<td><input type="text" class="form-control" name="user[]" value="<?php echo $smtp['user']; ?>" placeholder="用户名"  /></td>
+									<td><input type="text" class="form-control" name="pass[]" value="<?php echo $smtp['pass']; ?>" placeholder="密码"  /></td>
 									<td><a class="btn row_delete" role="btn">删除</a></td>
 								</tr>
 								<?php } ?>
