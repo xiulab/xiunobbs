@@ -100,7 +100,7 @@ function sess_new($sid) {
 }
 
 function sess_write($sid, $data) {
-	global $g_session, $sid, $time, $uid, $fid, $longip, $g_session_invalid;
+	global $g_session, $time, $uid, $fid, $longip, $g_session_invalid;
 	
 	if($g_session_invalid) return TRUE;
 	
