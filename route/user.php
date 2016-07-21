@@ -78,6 +78,8 @@ if($action == 'login') {
 		
 		$email = param('email');
 		$password = param('password');
+		empty($email) AND message('email', '请填写邮箱');
+		empty($password) || $password == 'd41d8cd98f00b204e9800998ecf8427e' AND message('password', '请填写密码');
 		
 		if($conf['user_create_email_on']) {
 			$email != _SESSION('create_email') AND message('sendinitpw', '请先点击获取初始密码');

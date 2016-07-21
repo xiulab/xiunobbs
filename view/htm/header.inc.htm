@@ -118,6 +118,14 @@
 						<a class="nav-link" href="<?php echo url("forum-$forum[fid]");?>"><?php echo $forum['name'];?></a>
 					</li>
 					<?php } ?>
+					
+					<hr />
+					
+					<?php if($uid) { ?>
+					<li class="nav-item">
+						<a class="nav-link" href="<?php echo url('user-logout');?>"><?php echo lang('logout');?></a>
+					</li>
+					<?php } ?>
 				</ul>
 			</div>
 		</div>
