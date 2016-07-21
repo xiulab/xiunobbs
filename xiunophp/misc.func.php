@@ -1016,12 +1016,6 @@ function array_to_sqladd($arr) {
 }
 
 // 兼容 3.0，如果没有使用过，可以砍掉
-function array_to_sql_update($arr, $old = array()) {
-	return db_array_to_sql_update(array_diff($arr, $old));
-}
-
-
-// 兼容 3.0，如果没有使用过，可以砍掉
 function cond_to_sqladd($cond) {
 	return db_cond_to_sqladd($cond);
 }

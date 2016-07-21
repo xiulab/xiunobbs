@@ -105,30 +105,30 @@ function db_create($table, $arr) {
 function db_insert($table, $arr) {
 	$sqladd = db_array_to_sqladd($arr);
 	if(!$sqladd) return FALSE;
-	return db_exec("INSERT INTO `$table` SET $sqladd");
+	return db_exec("INSERT INTO $table SET $sqladd");
 }
 
 function db_replace($table, $arr) {
 	$sqladd = db_array_to_sqladd($arr);
 	if(!$sqladd) return FALSE;
-	return db_exec("REPLACE INTO `$table` SET $sqladd");
+	return db_exec("REPLACE INTO $table SET $sqladd");
 }
 
 function db_update($table, $cond, $update) {
 	$condadd = db_cond_to_sqladd($cond);
 	$sqladd = db_array_to_sqladd($update);
 	if(!$sqladd) return FALSE;
-	return db_exec("UPDATE `$table` SET $sqladd $condadd");
+	return db_exec("UPDATE $table SET $sqladd $condadd");
 }
 
 function db_delete($table, $cond) {
 	$condadd = db_cond_to_sqladd($cond);
-	return db_exec("DELETE FROM `$table` $condadd");
+	return db_exec("DELETE FROM $table $condadd");
 }
 
 function db_read($table, $cond) {
 	$sqladd = db_cond_to_sqladd($cond);
-	$sql = "SELECT * FROM `$table` $sqladd";
+	$sql = "SELECT * FROM $table $sqladd";
 	return db_find_one($sql);
 }
 	
@@ -137,7 +137,7 @@ function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesi
 		$cond = db_cond_to_sqladd($cond);
 		$orderby = db_orderby_to_sqladd($orderby);
 		$offset = ($page - 1) * $pagesize;
-		return db_sql_find("SELECT * FROM `$table` $cond$orderby LIMIT $offset,$pagesize", $key, $abort);
+		return db_sql_find("SELECT * FROM $table $cond$orderby LIMIT $offset,$pagesize", $key, $abort);
 	} else {
 		// 兼容 XiunoPHP 3.0
 		$sql = $table;
@@ -151,7 +151,7 @@ function db_find_one($table, $cond = array(), $orderby = array()) {
 	if(strtoupper(substr($table, 0, 7)) != 'SELECT ') {
 		$cond = db_cond_to_sqladd($cond);
 		$orderby = db_orderby_to_sqladd($orderby);
-		return db_sql_find_one("SELECT * FROM `$table` $cond$orderby LIMIT 1");
+		return db_sql_find_one("SELECT * FROM $table $cond$orderby LIMIT 1");
 	} else {
 		// 兼容 XiunoPHP 3.0
 		$sql = $table;
@@ -291,32 +291,12 @@ function db_array_to_sqladd($arr) {
 		$op = substr($k, -1);
 		if($op == '+' || $op == '-') {
 			$k = substr($k, 0, -1);
-			$s .= "`$k`=`$k`$op'$v',";
+			$s .= "$k=$k$op'$v',";
 		} else {
-			$s .= "`$k`='$v',";
+			$s .= "$k='$v',";
 		}
 	}
 	return substr($s, 0, -1);
 }
-
-// $old 表示是否早期的数据，如果相等则不变更
-function db_array_to_sql_update($arr) {
-	$s = '';
-	foreach($arr as $k=>$v) {
-		$v = addslashes($v);
-		$op = substr($k, -1);
-		if($op == '+' || $op == '-') {
-			$k = substr($k, 0, -1);
-			$s .= "`$k`=`$k`$op'$v',";
-		} else {
-			//if(isset($old[$k]) && $old[$k] != $v) {
-				//$s .= "`$k`='$v',";
-			//}
-			$s .= "`$k`='$v',";
-		}
-	}
-	return substr($s, 0, -1);
-}
-
 
 ?>
