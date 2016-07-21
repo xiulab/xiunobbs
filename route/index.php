@@ -22,7 +22,7 @@ $conf['order_default'] == $order AND $threadlist = $toplist + $threadlist;
 thread_list_access_filter($threadlist, $gid);
 
 // 友情链接，在线列表
-$linklist = friendlink_find_cache();
+//$linklist = friendlink_find_cache();
 $onlinelist = online_find_cache();
 
 $runtime['onlines'] = count($onlinelist);

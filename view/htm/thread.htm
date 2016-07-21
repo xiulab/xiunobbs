@@ -7,7 +7,7 @@
 			<li><a href="<?php echo url("forum-$fid");?>"><?php echo $forum['name'];?></a></li>
 			<li><a href="<?php echo url("thread-$tid");?>"><?php echo $thread['subject'];?></a></li>
 		</ol>
-		<div class="card p-a-1">
+		<div class="card p-a-sm">
 			<dl class="row">
 				<dt class="vtop p-r-1 avatar-parent">
 					<a href="<?php echo url("user-$thread[uid]");?>">
@@ -39,11 +39,11 @@
 			</div>
 		</div>
 		
-		<div class="card post p-a-1">
+		<div class="card post p-a-sm">
 			<table class="table table-hover postlist">
 				<thead>
 					<tr>
-						<th colspan="2" class="p-t-0 p-l-0">
+						<th colspan="2" class="p-a-xs">
 							<dl class="row">
 								<dt>
 									<b>最新回复</b>(<span class="posts"><?php echo $thread['posts'];?></span>)

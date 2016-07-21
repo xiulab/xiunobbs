@@ -2,3 +2,4 @@ upload/*
 tmp/*
 conf/conf.php
 tool/*
+log/*

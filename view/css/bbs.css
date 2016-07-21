@@ -9,32 +9,32 @@
 .card > .table thead th {border-top: 0;}
 
 /* bootstrap 的默认间距太肥大，增加小间距 */
-.m-b-sm { margin-bottom: 0.5rem }
-.m-t-sm { margin-top: 0.5rem }
-.m-l-sm { margin-left: 0.5rem }
-.m-r-sm { margin-right: 0.5rem }
-.m-x-sm { margin-left: 0.5rem; margin-right: 0.5rem }
-.m-y-sm { margin-top: 0.5rem; margin-bottom: 0.5rem }
-.p-b-sm { padding-bottom: 0.5rem }
-.p-t-sm { padding-top: 0.5rem }
-.p-l-sm { padding-left: 0.5rem }
-.p-r-sm { padding-right: 0.5rem }
-.p-x-sm { padding-left: 0.5rem; padding-right: 0.5rem }
-.p-y-sm { padding-top: 0.5rem; padding-bottom: 0.5rem }
+.m-b-sm { margin-bottom: 0.5rem !important } 
+.m-t-sm { margin-top: 0.5rem !important } 
+.m-l-sm { margin-left: 0.5rem !important } 
+.m-r-sm { margin-right: 0.5rem !important } 
+.m-x-sm { margin-left: 0.5rem !important; margin-right: 0.5rem !important } 
+.m-y-sm { margin-top: 0.5rem !important; margin-bottom: 0.5rem !important } 
+.p-b-sm { padding-bottom: 0.5rem !important } 
+.p-t-sm { padding-top: 0.5rem !important } 
+.p-l-sm { padding-left: 0.5rem !important } 
+.p-r-sm { padding-right: 0.5rem !important } 
+.p-x-sm { padding-left: 0.5rem !important; padding-right: 0.5rem !important } 
+.p-y-sm { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important } 
 .p-a-sm { padding: 0.5rem;}
-.m-b-xs { margin-bottom: 0.3rem }
-.m-t-xs { margin-top: 0.3rem }
-.m-l-xs { margin-left: 0.3rem }
-.m-r-xs { margin-right: 0.3rem }
-.m-x-xs { margin-left: 0.3rem; margin-right: 0.3rem }
-.m-y-xs { margin-top: 0.3rem; margin-bottom: 0.3rem }
-.p-b-xs { padding-bottom: 0.3rem }
-.p-t-xs { padding-top: 0.3rem }
-.p-l-xs { padding-left: 0.3rem }
-.p-r-xs { padding-right: 0.3rem }
-.p-x-xs { padding-left: 0.3rem; padding-right: 0.3rem }
-.p-y-xs { padding-top: 0.3rem; padding-bottom: 0.3rem }
-.p-a-xs { padding: 0.3rem; }
+.m-b-xs { margin-bottom: 0.3rem !important } 
+.m-t-xs { margin-top: 0.3rem !important } 
+.m-l-xs { margin-left: 0.3rem !important } 
+.m-r-xs { margin-right: 0.3rem !important } 
+.m-x-xs { margin-left: 0.3rem !important; margin-right: 0.3rem !important } 
+.m-y-xs { margin-top: 0.3rem !important; margin-bottom: 0.3rem !important } 
+.p-b-xs { padding-bottom: 0.3rem !important } 
+.p-t-xs { padding-top: 0.3rem !important } 
+.p-l-xs { padding-left: 0.3rem !important } 
+.p-r-xs { padding-right: 0.3rem !important } 
+.p-x-xs { padding-left: 0.3rem !important; padding-right: 0.3rem !important } 
+.p-y-xs { padding-top: 0.3rem !important; padding-bottom: 0.3rem !important } 
+.p-a-xs { padding: 0.3rem !important; }
 
 /* 文字相关的增强 */
 .text-ellipsis {
@@ -44,13 +44,13 @@
 	-o-text-overflow: ellipsis; 
 	overflow: hidden; 
 }
-.text-right { text-align: right ; }
-.text-center { text-align: center; }
-.text-left { text-align: left ; }
-.text-bold { font-weight: bold; }
-.text-grey { color: #bbb ; }
-.text-middle { font-size: 95%; }
-.table-fixed { table-layout:fixed; }
+.text-right { text-align: right  !important; }
+.text-center { text-align: center !important; }
+.text-left { text-align: left  !important; }
+.text-bold { font-weight: bold !important; }
+.text-grey { color: #bbb  !important; }
+.text-middle { font-size: 95% !important; }
+.table-fixed { table-layout:fixed !important; }
 
 /*  ul, dl 多列定义，用来模拟简单的表格布局，如果不考虑响应，比 pull-left pull-right 方便  */
 dl.row, ul.row { display: table; width: 100%; clear: both;}
@@ -131,7 +131,7 @@ dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
 .logo-sm {width: 2.2rem; height: 2.2rem; margin-top: 2px;}
 
 /* 靠的太远 */
-.navbar-nav .nav-item + .nav-item.username { margin-left: 0.3rem; }
+/*.navbar-nav .nav-item + .nav-item.username { margin-left: 0.3rem; }*/
 
 /*
 .nowrap { 
