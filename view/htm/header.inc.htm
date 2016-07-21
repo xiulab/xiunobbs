@@ -119,8 +119,13 @@
 					</li>
 					<?php } ?>
 					
-					<hr />
-					
+					<hr class="m-y-sm" />
+					<?php if($gid == 1) { ?>
+					<li class="nav-item">
+						<a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_page');?></a>
+					</li>
+					<?php } ?>
+					<hr class="m-y-sm" />
 					<?php if($uid) { ?>
 					<li class="nav-item">
 						<a class="nav-link" href="<?php echo url('user-logout');?>"><?php echo lang('logout');?></a>
