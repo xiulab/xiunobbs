@@ -10,11 +10,13 @@ function sess_open($save_path, $session_name) {
 	return true;
 }
 
-function sess_close() {
+function sess_close($apppath = '') {
 	global $sid, $uid, $fid, $time, $g_session, $g_session_invalid;
-	//echo "sess_close() \r\n";
+	echo "sess_close() \r\n";
 	
 	if($g_session_invalid) return TRUE;
+	
+	if(!empty($_SERVER['APP_PATH'])) chdir($_SERVER['APP_PATH']);
 	
 	$update = array(
 		'uid'=>$uid,
@@ -101,6 +103,8 @@ function sess_write($sid, $data) {
 	
 	if($g_session_invalid) return TRUE;
 	
+	if(!empty($_SERVER['APP_PATH'])) chdir($_SERVER['APP_PATH']);
+	
 	$url = _SERVER('REQUEST_URI_NO_PATH');
 	$agent = _SERVER('HTTP_USER_AGENT');
 	$arr = array(
@@ -173,7 +177,9 @@ function sess_start() {
 	session_set_save_handler('sess_open', 'sess_close', 'sess_read', 'sess_write', 'sess_destroy', 'sess_gc'); 
 	
 	// 这个比须有，否则 ZEND 会提前释放 $db 资源
-	register_shutdown_function('session_write_close');
+	$_SERVER['APP_PATH'] = getcwd();
+	
+	register_shutdown_function('session_write_close', getcwd());
 	
 	session_start();
 	
