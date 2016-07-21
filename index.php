@@ -1,19 +1,23 @@
 <?php
 
-define('DEBUG', 0); 				// 发布的时候改为 0 
+/*$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko';
+$_COOKIE['cookie_test'] = 'AjtGyVzYZ143A_2bv9WBGs_2FOvb4XkJr7s9DrMyF_2FKebFf0TzAL';*/
+
+define('DEBUG', 1); 				// 发布的时候改为 0 
 define('APP_NAME', 'bbs');			// 应用的名称
 
 $conf = (@include './conf/conf.php') OR exit(header('Location: install/'));
+
 if(DEBUG) {
 	include './xiunophp/xiunophp.php';
 } else {
 	include './xiunophp/xiunophp.min.php';
 }
 
+include './model.inc.php';
+
 // 测试数据库连接
 db_connect() OR message(-1, $errstr);
-
-include './model.inc.php';
 
 $sid = sess_start();
 

@@ -9,13 +9,15 @@ define('APP_NAME', 'bbs_admin');		// 应用的名称
 $conf = (@include './conf/conf.php') OR exit(header('Location: install/'));
 include './xiunophp/xiunophp.php';
 
-// 测试数据库连接
-db_connect() OR message(-1, $errstr);
-
 include './model.inc.php';
 include './admin/admin.func.php';
 
+
+// 测试数据库连接
+db_connect() OR message(-1, $errstr);
+
 $sid = sess_start();
+
 
 // 语言包
 $lang = include('./lang/zh-cn.php');

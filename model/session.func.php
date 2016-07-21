@@ -10,7 +10,7 @@ function sess_open($save_path, $session_name) {
 	return true;
 }
 
-function sess_close($apppath = '') {
+function sess_close() {
 	global $sid, $uid, $fid, $time, $g_session, $g_session_invalid;
 	//echo "sess_close() \r\n";
 	
@@ -31,19 +31,20 @@ function sess_close($apppath = '') {
 	return true;
 }
 
-function sess_read($sidarg) { 
-	global $g_session, $sid, $longip, $time;
-	$sid = $sidarg;
+// 如果 cookie 中没有 bbs_sid, php 会自动生成 sid，作为参数
+function sess_read($sid) { 
+	global $g_session, $longip, $time;
+	//echo "sess_read() sid: $sid <br>\r\n";
 	if(empty($sid)) {
 		// 查找刚才是不是已经插入一条了？  如果相隔时间特别短，并且 data 为空，则删除。
 		// 测试是否支持 cookie，如果不支持 cookie，则不生成 sid
 		$sid = session_id();
-		sess_new();
+		sess_new($sid);
 		return '';
 	}
 	$arr = db_find_one('bbs_session', array('sid'=>$sid));
 	if(empty($arr)) {
-		sess_new();
+		sess_new($sid);
 		return '';
 	}
 	if($arr['bigdata'] == 1) {
@@ -54,8 +55,8 @@ function sess_read($sidarg) {
 	return $arr ? $arr['data'] : '';
 }
 
-function sess_new() {
-	global $sid, $uid, $fid, $time, $longip, $conf;
+function sess_new($sid) {
+	global $uid, $fid, $time, $longip, $conf;
 	
 	$agent = _SERVER('HTTP_USER_AGENT');
 	
@@ -66,11 +67,11 @@ function sess_new() {
 	if($cookie_test) {
 		$cookie_test_decode = xn_decrypt($cookie_test, $conf['auth_key']);
 		if($cookie_test_decode != md5($agent.$longip)) {
-			// 无效的请求，可能受到攻击
 			$g_session_invalid = 1;
 			return;
 		} else {
 			setcookie('cookie_test', $cookie_test, $time - 86400, '');
+			$g_session_invalid = 0;
 		}
 	} else {
 		$cookie_test = xn_encrypt(md5($agent.$longip), $conf['auth_key']);
@@ -159,13 +160,13 @@ function sess_gc($maxlifetime) {
 }
 
 function sess_start() {
-	global $conf;
+	global $conf, $sid;
 	ini_set('session.name', 'bbs_sid');
 	
 	ini_set('session.use_cookies', 'On');
 	ini_set('session.use_only_cookies', 'On');
 	ini_set('session.cookie_domain', '');
-	ini_set('session.cookie_path', '.');	// 当前目录及下子目录，如果为空则表示仅为当前目录
+	ini_set('session.cookie_path', '');	// 为空则表示当前目录和子目录
 	ini_set('session.cookie_secure', 'Off'); // 打开后，只有通过 https 才有效。
 	ini_set('session.cookie_lifetime', 86400);
 	ini_set('session.cookie_httponly', 'On'); // 打开后 js 获取不到 HTTP 设置的 cookie, 有效防止 XSS，这个对于安全很重要，除非有 BUG，否则不要关闭。
@@ -179,12 +180,13 @@ function sess_start() {
 	// 这个比须有，否则 ZEND 会提前释放 $db 资源
 	$_SERVER['APP_PATH'] = getcwd();
 	
-	register_shutdown_function('session_write_close', getcwd());
+	register_shutdown_function('session_write_close');
 	
 	session_start();
 	
-	return session_id();
-
+	$sid = session_id();
+	
+	//echo "sess_start() sid: $sid <br>\r\n";
 }
 
 ?>
