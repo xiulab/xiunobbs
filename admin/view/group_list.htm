@@ -7,8 +7,7 @@
 		</div>
 		<div class="card">
 			<div class="card-block">
-				<form action="admin/<?php echo url('user-group');?>" method="post" id="form">
-					<h4 class="card-title"><?php echo lang('admin_user_group');?></h4>
+				<form action="<?php echo url('admin/group-list');?>" method="post" id="form">
 					<h5 class="card-title">用户组列表</h5>
 					<div class="table-responsive arrlist">
 						<table class="table" style="min-width: 800px">
@@ -25,10 +24,10 @@
 							<tbody>
 								<?php foreach($grouplist as $_gid=>$_group) { ?>
 								<tr align="center" rowid="<?php echo $_gid; ?>">
-									<td class="50"><input type="text" class="form-control" name="_gid[]" value="<?php echo $_group['gid']; ?>"  placeholder="用户组ID" /></td>
-									<td><input type="text" class="form-control" name="name[]" value="<?php echo $_group['name']; ?>" placeholder="用户组名称" /></td>
-									<td><input type="text" class="form-control" name="creditsfrom[]" value="<?php echo $_group['creditsfrom']; ?>" placeholder="开始积分"/></td>
-									<td><input type="text" class="form-control" name="creditsto[]" value="<?php echo $_group['creditsto']; ?>" placeholder="结束积分"  /></td>
+									<td class="50"><input type="text" class="form-control" name="_gid[<?php echo $_gid;?>]" value="<?php echo $_group['gid']; ?>"  placeholder="用户组ID" /></td>
+									<td><input type="text" class="form-control" name="name[<?php echo $_gid;?>]" value="<?php echo $_group['name']; ?>" placeholder="用户组名称" /></td>
+									<td><input type="text" class="form-control" name="creditsfrom[<?php echo $_gid;?>]" value="<?php echo $_group['creditsfrom']; ?>" placeholder="开始积分"/></td>
+									<td><input type="text" class="form-control" name="creditsto[<?php echo $_gid;?>]" value="<?php echo $_group['creditsto']; ?>" placeholder="结束积分"  /></td>
 									<td><a class="btn row_edit" role="btn">编辑</a></td>
 									<td><a class="btn row_delete" role="btn">删除</a></td>
 								</tr>
@@ -46,9 +45,36 @@
 	</div>
 </div>
 
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modal">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">警告</h4>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-danger m-a-1" role="alert">
+					<p>请谨慎编辑用户组，一旦确定后不要轻易变动，否则可能会导致用户关联错误，一般在正式运营时就不要再变动。</p>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo lang('close');?></button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <?php include './admin/view/footer.inc.htm'; ?>
 
 <script>
+
+// 警告
+if(!debug) {
+	$('#modal').modal('show');
+	setTimeout(function() {$('#modal').modal('hide');}, 5000);
+}
 
 var jform = $("#form");
 var jsubmit = $("#submit");
@@ -68,8 +94,18 @@ jform.on('submit', function(){
 	return false;
 });
 
-// 删除
+// 编辑
 var jarrlist = $('.arrlist');
+var jedit = $('a.row_edit');
+jarrlist.on('click', 'a.row_edit', function() {
+	var jthis = $(this);
+	var jtr = jthis.parents('tr');
+	var rowid = jtr.attr('rowid');
+	window.location = xn.url('admin/group-update-'+rowid);
+	return false;
+});
+
+// 删除
 var jdelete = $('a.row_delete');
 jarrlist.on('click', 'a.row_delete', function() {
 	var jthis = $(this);
@@ -83,11 +119,23 @@ var jadd = $('a.row_add');
 jadd.on('click', function() {
 	var jclone = jarrlist.find('tr').last().clone();
 	jclone.insertAfter(jarrlist.find('tr').last());
+	var jgid = jclone.find('input[name^="_gid"]');
+	var rowid = xn.intval(jgid.val()) + 1;
+	jgid.val(rowid);
+	jclone.attr('rowid', rowid);
+	
+	// 清空值
+	jclone.find('input').not('[name^="_gid"]').val('');
+	
+	// 修改 [] 中的值为 rowid
+	jclone.find('input').attr_name_index(rowid);
+	
 	return false;
 });
 
 
 $('#nav_pc li.user').tab('show');
 $('#nav_mobile li.user').tab('show');
+
 
 </script>

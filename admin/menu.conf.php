@@ -16,7 +16,7 @@ return array(
 		'icon'=>'icon-user',
 		'tab'=> array (
 			'list'=>array('url'=>url('admin/user-list'), 'text'=>lang('admin_user_list')),
-			'group'=>array('url'=>url('admin/user-group'), 'text'=>lang('admin_user_group')),
+			'group'=>array('url'=>url('admin/group-list'), 'text'=>lang('admin_user_group')),
 			'create'=>array('url'=>url('admin/user-create'), 'text'=>lang('admin_user_create')),
 		)
 	),

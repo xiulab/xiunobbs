@@ -80,7 +80,7 @@ function group_delete($gid) {
 	return $r;
 }
 
-function group_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 1000) {
+function group_find($cond = array(), $orderby = array('gid'=>1), $page = 1, $pagesize = 1000) {
 	// hook group_find_start.php
 	$grouplist = group__find($cond, $orderby, $page, $pagesize);
 	if($grouplist) foreach ($grouplist as &$group) group_format($group);

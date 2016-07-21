@@ -20,7 +20,6 @@ version_compare(PHP_VERSION, '5.3.0', '<') AND set_magic_quotes_runtime(0);
 $get_magic_quotes_gpc = get_magic_quotes_gpc();
 $starttime = microtime(1);
 $time = time();
-@ob_start('ob_gzhandler');
 
 // 头部，判断是否运行在命令行下
 define('IN_CMD', !empty($_SERVER['SHELL']) || empty($_SERVER['REMOTE_ADDR']));
@@ -86,7 +85,7 @@ $lang = array();
 $ajax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower(trim($_SERVER['HTTP_X_REQUESTED_WITH'])) == 'xmlhttprequest';
 $method = $_SERVER['REQUEST_METHOD'];
 
-// 全局的错误，进程下很方便。
+// 全局的错误，非多线程下很方便。
 $errno = 0;
 $errstr = '';
 

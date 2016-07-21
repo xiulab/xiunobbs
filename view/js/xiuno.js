@@ -948,3 +948,30 @@ $.fn.serializeObject = function() {
 	})
 	return formobj;
 }
+
+// 批量修改 input name="gid[123]" 中的 123 的值
+$.fn.attr_name_index = function(rowid) {
+	return this.each(function() {
+		var jthis = $(this);
+		var name = jthis.attr('name');
+		name = name.replace(/\[(\d+)\]/, function(all, oldid) {
+			var newid = rowid === undefined ? xn.intval(oldid) + 1 : rowid;
+			return '[' + newid + ']';
+		});
+		jthis.attr('name', name);
+	});
+}
+
+
+/*
+$.change_input_name_rowid = function(jtr, rowid) {
+	jtr.find('input').each(function() {
+		var jthis = $(this);
+		var name = jthis.attr('name');
+		name = name.replace(/\[(\d+)\]/, function(all, oldid) {
+			var newid = rowid === undefined ? xn.intval(oldid) + 1 : rowid;
+			return '[' + newid + ']';
+		});
+		jthis.attr('name', name);
+	});
+}*/

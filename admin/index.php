@@ -6,6 +6,8 @@ chdir('../');
 define('DEBUG', 1); 				// 发布的时候改为 0 
 define('APP_NAME', 'bbs_admin');		// 应用的名称
 
+ob_start('ob_gzhandler');
+
 $conf = (@include './conf/conf.php') OR exit(header('Location: install/'));
 include './xiunophp/xiunophp.php';
 

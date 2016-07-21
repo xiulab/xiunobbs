@@ -21,6 +21,7 @@ return array(
 	'setting'=>'设置',
 	'confirm'=>'确定',
 	'save'=>'保存',
+	'close'=>'关闭',
 	
 	'update_failed'=>'编辑失败',
 	'delete_failed'=>'删除失败',

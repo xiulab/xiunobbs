@@ -8,6 +8,8 @@ $_COOKIE['cookie_test'] = 'AjtGyVzYZ143A_2bv9WBGs_2FOvb4XkJr7s9DrMyF_2FKebFf0TzA
 define('DEBUG', 1); 				// 发布的时候改为 0 
 define('APP_NAME', 'bbs');			// 应用的名称
 
+ob_start('ob_gzhandler');
+
 $conf = (@include './conf/conf.php') OR exit(header('Location: install/'));
 
 if(DEBUG) {
