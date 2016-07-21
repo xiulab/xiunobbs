@@ -12,7 +12,7 @@ function sess_open($save_path, $session_name) {
 
 function sess_close($apppath = '') {
 	global $sid, $uid, $fid, $time, $g_session, $g_session_invalid;
-	echo "sess_close() \r\n";
+	//echo "sess_close() \r\n";
 	
 	if($g_session_invalid) return TRUE;
 	
