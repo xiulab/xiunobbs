@@ -107,7 +107,7 @@ function forum_format(&$forum) {
 	global $conf;
 	if(empty($forum)) return;
 	$forum['create_date_fmt'] = date('Y-n-j', $forum['create_date']);
-	$forum['icon_url'] = $forum['icon'] ? $conf['upload_url']."forum/$forum[fid].png" : 'static/forum.png';
+	$forum['icon_url'] = $forum['icon'] ? $conf['upload_url']."forum/$forum[fid].png" : 'view/img/forum.png';
 	$forum['accesslist'] = $forum['accesson'] ? forum_access_find_by_fid($forum['fid']) : array();
 	$forum['modlist'] = array();
 	if($forum['moduids']) {

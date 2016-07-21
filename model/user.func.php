@@ -161,7 +161,7 @@ function user_format(&$user) {
 	$user['groupname'] = group_name($user['gid']);
 	
 	$dir = substr(sprintf("%09d", $user['uid']), 0, 3);
-	$user['avatar_url'] = $user['avatar'] ? $conf['upload_url']."avatar/$dir/$user[uid].png?".$user['avatar'] : 'static/avatar.png';
+	$user['avatar_url'] = $user['avatar'] ? $conf['upload_url']."avatar/$dir/$user[uid].png?".$user['avatar'] : 'view/img/avatar.png';
 	$user['online_status'] = 1;
 	// hook user_format_end.php
 }
@@ -176,7 +176,7 @@ function user_guest() {
 		'gid' => 0,
 		'groupname' => '游客组',
 		'username' => '游客',
-		'avatar_url' => 'static/avatar.png',
+		'avatar_url' => 'view/img/avatar.png',
 		'create_ip_fmt' => '',
 		'create_date_fmt' => '',
 		'login_date_fmt' => '',
