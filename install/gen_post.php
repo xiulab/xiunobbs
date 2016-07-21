@@ -10,10 +10,8 @@ $conf = (@include './conf/conf.php');
 include './xiunophp/xiunophp.php';
 include './model.inc.php';
 
-$browser = get__browser();
-check_browser($browser);
-
 runtime_init();
+
 for($i=1; $i<1000; $i++) {
 	$subject = '欢迎使用 Xiuno BBS 3.0 新一代论坛系统。'.$i;
 	$message = '祝您使用愉快！';

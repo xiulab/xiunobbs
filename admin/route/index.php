@@ -26,7 +26,7 @@ if($action == 'login') {
 		// 记录日志
 		xn_log('login successed. uid:'.$user['uid'], 'admin_login');
 
-		message(0, lang('login_success'));
+		message(0, jump(lang('login_success'), 'admin/'));
 
 	}
 
