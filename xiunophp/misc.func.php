@@ -1012,7 +1012,7 @@ function http_403() {
 
 // 兼容 3.0，如果没有使用过，可以砍掉
 function array_to_sqladd($arr) {
-	return db_array_to_sqladd($arr);
+	return db_array_to_update_sqladd($arr);
 }
 
 // 兼容 3.0，如果没有使用过，可以砍掉

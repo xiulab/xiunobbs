@@ -137,9 +137,9 @@ CREATE TABLE bbs_thread (
   last_date int(11) unsigned NOT NULL default '0',	# 最后回复时间
   views int(11) unsigned NOT NULL default '0',		# 查看次数, 剥离出去，单独的服务，避免 cache 失效
   posts int(11) unsigned NOT NULL default '0',		# 回帖数
-  images tinyint(3) NOT NULL default '0',		# 附件中包含的图片数
-  files tinyint(3) NOT NULL default '0',		# 附件中包含的文件数
-  mods tinyint(3) NOT NULL default '0',			# 预留：版主操作次数，如果 > 0, 则查询 modlog，显示斑竹的评分
+  images tinyint(6) NOT NULL default '0',		# 附件中包含的图片数
+  files tinyint(6) NOT NULL default '0',		# 附件中包含的文件数
+  mods tinyint(6) NOT NULL default '0',			# 预留：版主操作次数，如果 > 0, 则查询 modlog，显示斑竹的评分
   closed tinyint(1) unsigned NOT NULL default '0',	# 预留：是否关闭，关闭以后不能再回帖、编辑。
   firstpid int(11) unsigned NOT NULL default '0',	# 首贴 pid
   lastuid int(11) unsigned NOT NULL default '0',	# 最近参与的 uid
@@ -198,8 +198,9 @@ CREATE TABLE bbs_post (
   isfirst int(11) unsigned NOT NULL default '0',	# 是否为首帖，与 thread.firstpid 呼应
   create_date int(11) unsigned NOT NULL default '0',	# 发贴时间
   userip int(11) unsigned NOT NULL default '0',		# 发帖时用户ip ip2long()
-  images smallint(3) NOT NULL default '0',		# 附件中包含的图片数
-  files smallint(3) NOT NULL default '0',		# 附件中包含的文件数
+  images smallint(6) NOT NULL default '0',		# 附件中包含的图片数
+  files smallint(6) NOT NULL default '0',		# 附件中包含的文件数
+  doctype tinyint(3) NOT NULL default '0',		# 类型，1: txt; 2: markdown; 3: html
   message longtext NOT NULL,				# 内容，存放的过滤后的html内容
   PRIMARY KEY (pid),
   KEY (tid, pid)
@@ -285,10 +286,10 @@ CREATE TABLE bbs_modlog (
 DROP TABLE IF EXISTS bbs_banip;
 CREATE TABLE bbs_banip (
   banid int(11) unsigned NOT NULL auto_increment,	# banid
-  ip0 smallint(11) NOT NULL default '0',		#
-  ip1 smallint(11) NOT NULL default '0',		#
-  ip2 smallint(11) NOT NULL default '0',		#
-  ip3 smallint(11) NOT NULL default '0',		#
+  ip0 smallint(6) NOT NULL default '0',		#
+  ip1 smallint(6) NOT NULL default '0',		#
+  ip2 smallint(6) NOT NULL default '0',		#
+  ip3 smallint(6) NOT NULL default '0',		#
   uid int(11) unsigned NOT NULL default '0',		# 添加人
   create_date int(11) unsigned NOT NULL default '0',	# 添加时间
   expiry int(11) unsigned NOT NULL default '0',		# 过期时间
@@ -300,12 +301,12 @@ CREATE TABLE bbs_banip (
 DROP TABLE IF EXISTS bbs_ipaccess;
 CREATE TABLE bbs_ipaccess (
   ip int(11) unsigned NOT NULL,			# ip 地址
-  mails smallint(11) NOT NULL default '0',	# 每日发送邮件数
-  users smallint(11) NOT NULL default '0',	# 注册用户个数
-  threads smallint(11) NOT NULL default '0',	# 发表主题数
-  posts smallint(11) NOT NULL default '0',	# 发表回帖数
-  attachs smallint(11) NOT NULL default '0',	# 发表附件数
-  attachsizes smallint(11) NOT NULL default '0',# 附件尺寸
+  mails int(11) NOT NULL default '0',		# 每日发送邮件数
+  users int(11) NOT NULL default '0',		# 注册用户个数
+  threads int(11) NOT NULL default '0',		# 发表主题数
+  posts int(11) NOT NULL default '0',		# 发表回帖数
+  attachs int(11) NOT NULL default '0',		# 发表附件数
+  attachsizes int(11) NOT NULL default '0',	# 附件尺寸
   last_date int(11) NOT NULL default '0',	# 最后一次操作的时间，用来检测频度
   actions int(11) NOT NULL default '0',		# 今日总共操作的次数
   action1 int(11) NOT NULL default '0',		# 预留1，供插件使用

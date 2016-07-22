@@ -103,20 +103,20 @@ function db_create($table, $arr) {
 }
 
 function db_insert($table, $arr) {
-	$sqladd = db_array_to_sqladd($arr);
+	$sqladd = db_array_to_insert_sqladd($arr);
 	if(!$sqladd) return FALSE;
-	return db_exec("INSERT INTO $table SET $sqladd");
+	return db_exec("INSERT INTO $table $sqladd");
 }
 
 function db_replace($table, $arr) {
-	$sqladd = db_array_to_sqladd($arr);
+	$sqladd = db_array_to_insert_sqladd($arr);
 	if(!$sqladd) return FALSE;
-	return db_exec("REPLACE INTO $table SET $sqladd");
+	return db_exec("REPLACE INTO $table $sqladd");
 }
 
 function db_update($table, $cond, $update) {
 	$condadd = db_cond_to_sqladd($cond);
-	$sqladd = db_array_to_sqladd($update);
+	$sqladd = db_array_to_update_sqladd($update);
 	if(!$sqladd) return FALSE;
 	return db_exec("UPDATE $table SET $sqladd $condadd");
 }
@@ -233,27 +233,38 @@ function db_index_drop($tablename, $index) {
 	return $db->index_drop($tablename, $index);
 }
 */
+
+
 //----------------------------------->  表结构和索引相关 end
-
-
 /*
-	array('id'=>123, 'groupid'=>123)
-	array('id'=>array('>' => 100, '<' => 200))
-	array('username'=>array('LIKE' => 'jack'))
+$cond = array('id'=>123, 'groupid'=>array('>'=>100, 'LIKE'=>'\'jack'));
+$s = db_cond_to_sqladd($cond);
+echo $s;
+
+WHERE id=123 AND groupid>100 AND groupid LIKE '%\'jack%' 
+
+// 格式：
+array('id'=>123, 'groupid'=>123)
+array('id'=>array('>' => 100, '<' => 200))
+array('username'=>array('LIKE' => 'jack'))
 */
+
 function db_cond_to_sqladd($cond) {
 	$s = '';
 	if(!empty($cond)) {
 		$s = ' WHERE ';
 		foreach($cond as $k=>$v) {
 			if(!is_array($v)) {
-				$v = addslashes($v);
-				$s .= "$k='$v' AND ";
+				$v = (is_int($v) || is_float($v)) ? $v : "'".addslashes($v)."'";
+				$s .= "$k=$v AND ";
 			} else {
 				foreach($v as $k1=>$v1) {
-					$v1 = addslashes($v1);
-					$k1 == 'LIKE' AND $v1="%$v1%";
-					$s .= "$k$k1'$v1' AND ";
+					if($k1 == 'LIKE') {
+						$k1 = ' LIKE ';
+						$v1="%$v1%";
+					}
+					$v1 = (is_int($v1) || is_float($v1)) ? $v1 : "'".addslashes($v1)."'";
+					$s .= "$k$k1$v1 AND ";
 				}
 			}
 		}
@@ -282,21 +293,47 @@ function db_orderby_to_sqladd($orderby) {
 		'stocks+'=>1,
 		'date'=>12345678900,
 	)
-	db_array_to_sqladd($arr);
+	db_array_to_update_sqladd($arr);
 */
-function db_array_to_sqladd($arr) {
+function db_array_to_update_sqladd($arr) {
 	$s = '';
 	foreach($arr as $k=>$v) {
 		$v = addslashes($v);
 		$op = substr($k, -1);
 		if($op == '+' || $op == '-') {
 			$k = substr($k, 0, -1);
-			$s .= "$k=$k$op'$v',";
+			$v = (is_int($v) || is_float($v)) ? $v : "'$v'";
+			$s .= "$k=$k$op$v,";
 		} else {
-			$s .= "$k='$v',";
+			$v = (is_int($v) || is_float($v)) ? $v : "'$v'";
+			$s .= "$k=$v,";
 		}
 	}
 	return substr($s, 0, -1);
+}
+
+/*
+	$arr = array(
+		'name'=>'abc',
+		'date'=>12345678900,
+	)
+	db_array_to_insert_sqladd($arr);
+*/
+function db_array_to_insert_sqladd($arr) {
+	$s = '';
+	$keys = array();
+	$values = array();
+	foreach($arr as $k=>$v) {
+		$k = addslashes($k);
+		$v = addslashes($v);
+		$keys[] = $k;
+		$v = (is_int($v) || is_float($v)) ? $v : "'$v'";
+		$values[] = $v;
+	}
+	$keystr = implode(',', $keys);
+	$valstr = implode(',', $values);
+	$sqladd = "($keystr) VALUES ($valstr)";
+	return $sqladd;
 }
 
 ?>
