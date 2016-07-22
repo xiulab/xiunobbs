@@ -1025,7 +1025,6 @@ function orderby_to_sqladd($orderby) {
 	return db_orderby_to_sqladd($orderby);
 }
 
-
 // 无 Notice 方式的获取超级全局变量中的 key
 function _GET($k) { return isset($_GET[$k]) ? $_GET[$k] : NULL; }
 function _POST($k) { return isset($_POST[$k]) ? $_POST[$k] : NULL; }

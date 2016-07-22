@@ -25,7 +25,7 @@
 							<tbody>
 								<?php foreach($forumlist as $_fid=>$_forum) { ?>
 								<tr align="center" rowid="<?php echo $_fid; ?>">
-									<td class="50"><input type="text" class="form-control" name="_fid[<?php echo $_fid;?>]" value="<?php echo $_forum['fid']; ?>"  placeholder="版块ID" /></td>
+									<td class="50"><input type="text" class="form-control" name="fid[<?php echo $_fid;?>]" value="<?php echo $_forum['fid']; ?>"  placeholder="版块ID" /></td>
 									<td>
 										<img src="<?php echo $_forum['icon_url']; ?>" class="forum" width="48" id="img_<?php echo $_fid;?>" />
 									</td>
@@ -33,7 +33,7 @@
 										<input type="file" multiple="multiple" accept=".jpg,.jpeg,.png,.gif,.bmp" class="form-control" name="icon[<?php echo $_fid;?>]" value="" data-assoc="img_<?php echo $_fid;?>" placeholder="版块图标" />
 									</td>
 									<td><input type="text" class="form-control" name="name[<?php echo $_fid;?>]" value="<?php echo $_forum['name']; ?>" placeholder="名称" /></td>
-									<td><input type="text" class="form-control" name="name[<?php echo $_fid;?>]" value="<?php echo $_forum['rank']; ?>" placeholder="顺序" /></td>
+									<td><input type="text" class="form-control" name="rank[<?php echo $_fid;?>]" value="<?php echo $_forum['rank']; ?>" placeholder="顺序" /></td>
 									<td><a class="btn row_edit" role="btn">编辑</a></td>
 									<td><a class="btn row_delete" role="btn">删除</a></td>
 								</tr>
@@ -106,16 +106,20 @@ var jadd = $('a.row_add');
 jadd.on('click', function() {
 	var jclone = jarrlist.find('tr').last().clone();
 	jclone.insertAfter(jarrlist.find('tr').last());
-	var jfid = jclone.find('input[name^="_fid"]');
+	var jfid = jclone.find('input[name^="fid"]');
 	var rowid = xn.intval(jfid.val()) + 1;
 	jfid.val(rowid);
 	jclone.attr('rowid', rowid);
 	
 	// 清空值
-	jclone.find('input').not('[name^="_fid"]').val('');
+	jclone.find('input').not('[name^="fid"]').val('');
 	
 	// 修改 [] 中的值为 rowid
 	jclone.find('input').attr_name_index(rowid);
+	
+	// 图片缩略
+	jclone.find('img.forum').attr('id', 'img_'+rowid);
+	jclone.find('input[type="file"]').attr('data-assoc', 'img_'+rowid);
 	
 	return false;
 });

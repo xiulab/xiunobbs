@@ -17,45 +17,55 @@ if(empty($action) || $action == 'list') {
 	
 	} elseif($method == 'POST') {
 		
-		print_r($_POST);exit;
-		$fid = param('_fid', array(0));
+		$fidarr = param('fid', array(0));
 		$namearr = param('name', array(''));
-		$creditsfromarr = param('creditsfrom', array(0));
-		$creditstoarr = param('creditsto', array(0));
+		$rankarr = param('rank', array(0));
+		$iconarr = param('icon', array(''));
 		
 		$arrlist = array();
-		foreach ($gidarr as $k=>$v) {
+		foreach ($fidarr as $k=>$v) {
 			$arr = array(
-				'gid'=>$k,
+				'fid'=>$k,
 				'name'=>$namearr[$k],
-				'creditsfrom'=>$creditsfromarr[$k],
-				'creditsto'=>$creditstoarr[$k],
+				'rank'=>$rankarr[$k]
 			);
-			if(!isset($grouplist[$k])) {
+			if(!isset($forumlist[$k])) {
 				// 添加
-				group_create($arr);
+				forum_create($arr);
 			} else {
-				// 编辑
-				group_update($k, $arr);
+				
+				forum_update($k, $arr);
+			}
+			// icon 处理
+			if(!empty($iconarr[$k])) {
+				
+				$s = $iconarr[$k];
+				$data = substr($s, strpos($s, ',') + 1);
+				$data = base64_decode($data);
+				
+				$iconfile = "./upload/forum/$k.png";
+				file_put_contents($iconfile, $data);
+				
+				forum_update($k, array('icon'=>$time));
 			}
 		}
 		
 		// 删除
-		$deletearr = array_diff_key($grouplist, $gidarr);
+		$deletearr = array_diff_key($forumlist, $fidarr);
 		foreach($deletearr as $k=>$v) {
 			if(in_array($k, $system_forum)) continue;
-			group_delete($k);
+			forum_delete($k);
 		}
 		
-		group_list_cache_delete();
+		forum_list_cache_delete();
 		
 		message(0, '保存成功');
 	}
 
 } elseif($action == 'update') {
 	
-	$_gid = param(2, 0);
-	$_group = group_read($_gid);
+	$_fid = param(2, 0);
+	$_group = group_read($_fid);
 	empty($_group) AND message(-1, '用户组不存在');
 	
 	if($method == 'GET') {
@@ -67,9 +77,9 @@ if(empty($action) || $action == 'list') {
 		$input['creditsfrom'] = form_text('creditsfrom', $_group['creditsfrom']);
 		$input['creditsto'] = form_text('creditsto', $_group['creditsto']);
 		$input['allowread'] = form_checkbox('allowread', $_group['allowread']);
-		$input['allowthread'] = form_checkbox('allowthread', $_group['allowthread'] && $_gid != 0);
-		$input['allowpost'] = form_checkbox('allowpost', $_group['allowpost'] && $_gid != 0);
-		$input['allowattach'] = form_checkbox('allowattach', $_group['allowattach'] && $_gid != 0);
+		$input['allowthread'] = form_checkbox('allowthread', $_group['allowthread'] && $_fid != 0);
+		$input['allowpost'] = form_checkbox('allowpost', $_group['allowpost'] && $_fid != 0);
+		$input['allowattach'] = form_checkbox('allowattach', $_group['allowattach'] && $_fid != 0);
 		$input['allowdown'] = form_checkbox('allowdown', $_group['allowdown']);
 		$input['allowtop'] = form_checkbox('allowtop', $_group['allowtop']);
 		$input['allowupdate'] = form_checkbox('allowupdate', $_group['allowupdate']);
@@ -102,7 +112,7 @@ if(empty($action) || $action == 'list') {
 			'allowdown'  => $allowdown,
 			
 		);
-		if($_gid >=1 && $_gid <= 5) {
+		if($_fid >=1 && $_fid <= 5) {
 			
 			$allowtop = param('allowtop', 0);
 			$allowupdate = param('allowupdate', 0);
@@ -121,7 +131,7 @@ if(empty($action) || $action == 'list') {
 				'allowviewip'  => $allowviewip
 			);
 		}
-		group_update($_gid, $arr);
+		group_update($_fid, $arr);
 		message(0, '编辑成功');	
 	}
 	
