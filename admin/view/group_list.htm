@@ -51,6 +51,8 @@
 
 if(!debug) $.alert('请谨慎编辑用户组，一旦确定后不要轻易变动，否则可能会导致用户关联错误，一般在正式运营时就不要再变动。', 4);
 
+var maxgid = <?php echo $maxgid;?>;
+
 var jform = $("#form");
 var jsubmit = $("#submit");
 jform.on('submit', function(){
@@ -94,7 +96,8 @@ jadd.on('click', function() {
 	var jclone = jarrlist.find('tr').last().clone();
 	jclone.insertAfter(jarrlist.find('tr').last());
 	var jgid = jclone.find('input[name^="_gid"]');
-	var rowid = xn.intval(jgid.val()) + 1;
+	//var rowid = xn.intval(jgid.val()) + 1;
+	var rowid = ++maxgid;
 	jgid.val(rowid);
 	jclone.attr('rowid', rowid);
 	

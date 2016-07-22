@@ -57,6 +57,8 @@
 
 if(!debug) $.alert('请谨慎编辑版块，一旦确定后不要轻易变动，否则可能会导致数据关联错误，一般在正式运营时就不要再变动。', 4);
 
+var maxfid = <?php echo $maxfid;?>;
+
 var jform = $("#form");
 var jsubmit = $("#submit");
 
@@ -107,7 +109,8 @@ jadd.on('click', function() {
 	var jclone = jarrlist.find('tr').last().clone();
 	jclone.insertAfter(jarrlist.find('tr').last());
 	var jfid = jclone.find('input[name^="fid"]');
-	var rowid = xn.intval(jfid.val()) + 1;
+	//var rowid = xn.intval(jfid.val()) + 1;
+	var rowid = ++maxfid;
 	jfid.val(rowid);
 	jclone.attr('rowid', rowid);
 	

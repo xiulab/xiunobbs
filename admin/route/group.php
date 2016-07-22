@@ -12,6 +12,8 @@ if(empty($action) || $action == 'list') {
 		
 		$header['title']    = '用户组管理';
 	
+		$maxgid = group_maxid();
+		
 		include "./admin/view/group_list.htm";
 	
 	} elseif($method == 'POST') {

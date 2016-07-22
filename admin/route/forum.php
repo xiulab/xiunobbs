@@ -13,6 +13,8 @@ if(empty($action) || $action == 'list') {
 		
 		$header['title']    = '版块管理';
 	
+		$maxfid = forum_maxid();
+		
 		include "./admin/view/forum_list.htm";
 	
 	} elseif($method == 'POST') {
