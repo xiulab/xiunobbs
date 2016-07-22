@@ -30,7 +30,7 @@ $user = user_read($uid);
 // 用户组
 $gid = empty($user) ? 0 : $user['gid'];
 $grouplist = group_list_cache();
-$group = isset($grouplist[$gid]) ? $grouplist[$gid] : array();
+$group = isset($grouplist[$gid]) ? $grouplist[$gid] : $grouplist[0];
 
 // 版块
 $fid = 0;

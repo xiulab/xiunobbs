@@ -84,6 +84,12 @@ function form_time($name, $value, $width = FALSE) {
 	return $s;
 }
 
+function form_checkbox($name, $checked = 0) {
+	$add = $checked ? ' checked="checked"' : '';
+	$s = "<input type=\"checkbox\" name=\"$name\" value=\"1\" class=\"form-control\"$add />";
+	return $s;
+}
+
 
 /**用法
 
