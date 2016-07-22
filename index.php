@@ -24,11 +24,11 @@ $sid = sess_start();
 $lang = include('./lang/zh-cn.php');
 
 // 用户
-$uid = _SESSION('uid');
+$uid = intval(_SESSION('uid'));
 $user = user_read($uid);
 
 // 用户组
-$gid = empty($user) ? 0 : $user['gid'];
+$gid = empty($user) ? 0 : intval($user['gid']);
 $grouplist = group_list_cache();
 $group = isset($grouplist[$gid]) ? $grouplist[$gid] : $grouplist[0];
 

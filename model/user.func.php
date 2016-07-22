@@ -59,6 +59,7 @@ function user_update($uid, $arr) {
 function user_read($uid) {
 	// hook user_read_start.php
 	if(empty($uid)) return array();
+	$uid = intval($uid);
 	$user = user__read($uid);
 	user_format($user);
 	// hook user_read_end.php
