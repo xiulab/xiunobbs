@@ -44,12 +44,13 @@ $('#avatar_upload').one('click', function() {
 		jprogress.val(percent);
 	}
 	up.ononce = function(file, e) {
-		var json = json_decode(e.target.response);
+		var json = xn.json_decode(e.target.response);
 		if(json && json.code == 0) {
+			$.alert('编辑成功');
 			jimg.attr('src', json.message+'?'+Math.random());
 		} else {
 			var err = json && json.message ? json.message : e.target.response;
-			alert(err);
+			$.alert(err);
 		}
 		setTimeout(function() {jprogress.val(0);}, 2000);
 	}
@@ -70,7 +71,7 @@ $('#avatar_upload').one('click', function() {
 	}
 	
 	up.onerror = function(file, e) {
-		var json = json_decode(e.target.response);
+		var json = xn.json_decode(e.target.response);
 		var err = json && json.message ? json.message : e.target.response;
 		jfile.popover(err); return;
 	}

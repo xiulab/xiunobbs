@@ -2,7 +2,7 @@
 // 0 表示永不超时，
 $.alert = function(subject, timeout, options) {
 	var options = options || {};
-	var t = timeout || 3;
+	var t = timeout || 2;
 	var s = '\
 	<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">\
 		<div class="modal-dialog modal-md">\

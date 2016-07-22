@@ -155,7 +155,7 @@ FileUploader.prototype.start = function(posturl, postdata, filename) {
 					// 如果是图片：
 					//data:image/jpeg;base64,
 					//data:application/x-msdownload;base64,
-					if(_this.thumb_width > 0 && substr(filedata, 0, 10) == 'data:image' && substr(filedata, 0, 14) != 'data:image/gif') {
+					if(_this.thumb_width > 0 && xn.substr(filedata, 0, 10) == 'data:image' && xn.substr(filedata, 0, 14) != 'data:image/gif') {
 						var img = new Image();
 						img.onload = function() {
 							var canvas = document.createElement('canvas');
