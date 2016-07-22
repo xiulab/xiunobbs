@@ -15,7 +15,9 @@ function thread_top_change($tid, $top = 0) {
 		thread_top_cache_delete();
 		thread_tids_cache_delete($fid);
 		thread_new_cache_delete();
-		$r = db_exec("REPLACE INTO `bbs_thread_top` SET fid='$fid', tid='$tid', top='$top'");
+		
+		$arr = array('fid'=>$fid, 'tid'=>$tid, 'top'=>$top);
+		$r = db_replace('bbs_thread_top', $arr);
 		return $r;
 	}
 	// hook thread_top_change_end.php
@@ -24,42 +26,17 @@ function thread_top_change($tid, $top = 0) {
 
 function thread_top_delete($tid) {
 	// hook thread_top_delete_start.php
-	$r = db_exec("DELETE FROM `bbs_thread_top` WHERE tid='$tid'");
+	$r = db_delete('bbs_thread_top', array('tid'=>$tid));
 	// hook thread_top_delete_end.php
 	return $r;
 }
 
-/*
-function thread_top_read($tid) {
-	// hook thread_top_read_start.php
-	// hook thread_top_read_end.php
-	return db_find_one("SELECT * FROM `bbs_thread_top` WHERE tid='$tid'");
-}
-
-
-
-// 保留 500 条最新贴
-function thread_top_gc($fid) {
-	// hook thread_top_gc_start.php
-	// hook thread_top_gc_end.php
-	return thread_top_delete($fid);
-}
-
-function thread_top_count() {
-	// hook thread_top_count_start.php
-	$arr = db_find_one("SELECT COUNT(*) AS num FROM `bbs_thread_top` WHERE top>0");
-	// hook thread_top_count_end.php
-	return $arr['num'];
-}
-
-*/
-
 function thread_top_find($fid = 0) {
 	// hook thread_top_find_start.php
 	if($fid == 0) {
-		$threadlist = db_find("SELECT * FROM `bbs_thread_top` WHERE top=3 ORDER BY tid DESC LIMIT 100", 'tid');
+		$threadlist = db_find('bbs_thread_top', array('top'=>3), array('tid'=>-1), 1, 100, 'tid');
 	} else {
-		$threadlist = db_find("SELECT * FROM `bbs_thread_top` WHERE fid='$fid' AND top=1 ORDER BY tid DESC LIMIT 100", 'tid');
+		$threadlist = db_find('bbs_thread_top', array('fid'=>$fid, 'top'=>1), array('tid'=>-1), 1, 100, 'tid');
 	}
 	$tids = arrlist_values($threadlist, 'tid');
 	$threadlist = thread_find_by_tids($tids, 1, 100);
@@ -96,7 +73,7 @@ function thread_top_cache_delete() {
 
 function thread_top_update_by_tid($tid, $newfid) {
 	// hook thread_top_update_by_tid_start.php
-	$r = db_exec("UPDATE bbs_thread_top SET fid='$newfid' WHERE tid='$tid'");
+	$r = db_update('bbs_thread_top', array('tid'=>$tid), array('fid'=>$newfid));
 	// hook thread_top_update_by_tid_end.php
 	return $r;
 }

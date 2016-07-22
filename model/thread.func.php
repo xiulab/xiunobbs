@@ -6,43 +6,41 @@
 
 function thread__create($arr) {
 	// hook thread__create_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("INSERT INTO `bbs_thread` SET $sqladd");
+	$r = db_insert('bbs_thread', $arr);
 	// hook thread__create_end.php
 	return $r;
 }
 
 function thread__update($tid, $arr) {
 	// hook thread__update_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("UPDATE `bbs_thread` SET $sqladd WHERE tid='$tid'");
+	$r = db_update('bbs_thread', array('tid'=>$tid), $arr);
 	// hook thread__update_end.php
 	return $r;
 }
 
 function thread__read($tid) {
 	// hook thread__read_start.php
-	$thread = db_find_one("SELECT * FROM `bbs_thread` WHERE tid='$tid'");
+	$thread = db_find_one('bbs_thread', array('tid'=>$tid));
 	// hook thread__read_end.php
 	return $thread;
 }
 
 function thread__delete($tid) {
 	// hook thread__delete_start.php
-	$r = db_exec("DELETE FROM `bbs_thread` WHERE tid='$tid'");
+	$r = db_delete('bbs_thread', array('tid'=>$tid));
 	// hook thread__delete_end.php
 	return $r;
 }
 
 function thread__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook thread__find_start.php
-	$cond = cond_to_sqladd($cond);
-	$orderby = orderby_to_sqladd($orderby);
-	$offset = ($page - 1) * $pagesize;
-	$arrlist = db_find("SELECT tid FROM `bbs_thread` $cond$orderby LIMIT $offset,$pagesize");
+	
+	$arrlist = db_find('bbs_thread', $cond, $orderby, $page, $pagesize, 'tid', array('tid'));
 	if(empty($arrlist)) return array();
-	$tids = implode(',', arrlist_values($arrlist, 'tid'));
-	$threadlist = db_find("SELECT * FROM `bbs_thread` WHERE tid IN ($tids)");
+	
+	$tidarr = arrlist_values($arrlist, 'tid');
+	$threadlist = db_find('bbs_thread', array('tid'=>$tidarr));
+	
 	// hook thread__find_end.php
 	return $threadlist;
 }

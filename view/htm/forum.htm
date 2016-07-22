@@ -55,11 +55,13 @@
 		</div>
 		<div class="card">
 			<div class="card-block">
+				<?php if($forum['announcement']) { ?>
 				<h6 class="text-bold">版块公告：</h6>
 				<hr class="m-y-sm" />
 				<p class="text-middle">
-					版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容
+					<?php echo $forum['announcement'];?>
 				</p>
+				<?php  } ?>
 				<h6 class="text-bold">论坛版主：</h6>
 				<hr class="m-y-sm" />
 				<div class="row">

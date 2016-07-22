@@ -132,12 +132,13 @@ function db_read($table, $cond) {
 	return db_find_one($sql);
 }
 	
-function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesize = 10, $key = '', $abort = TRUE) {
+function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesize = 10, $key = '', $col = array()) {
 	if(strtoupper(substr($table, 0, 7)) != 'SELECT ') {
 		$cond = db_cond_to_sqladd($cond);
 		$orderby = db_orderby_to_sqladd($orderby);
 		$offset = ($page - 1) * $pagesize;
-		return db_sql_find("SELECT * FROM $table $cond$orderby LIMIT $offset,$pagesize", $key, $abort);
+		$cols = $col ? implode(',', $col) : '*';
+		return db_sql_find("SELECT $cols FROM $table $cond$orderby LIMIT $offset,$pagesize", $key, FALSE);
 	} else {
 		// 兼容 XiunoPHP 3.0
 		$sql = $table;
@@ -245,6 +246,7 @@ WHERE id=123 AND groupid>100 AND groupid LIKE '%\'jack%'
 
 // 格式：
 array('id'=>123, 'groupid'=>123)
+array('id'=>array(1,2,3,4,5))
 array('id'=>array('>' => 100, '<' => 200))
 array('username'=>array('LIKE' => 'jack'))
 */
@@ -257,6 +259,9 @@ function db_cond_to_sqladd($cond) {
 			if(!is_array($v)) {
 				$v = (is_int($v) || is_float($v)) ? $v : "'".addslashes($v)."'";
 				$s .= "$k=$v AND ";
+			} elseif(isset($v[0])) {
+				$ids = implode(',', $v);
+				$s .= "$k IN ($ids) AND ";
 			} else {
 				foreach($v as $k1=>$v1) {
 					if($k1 == 'LIKE') {
