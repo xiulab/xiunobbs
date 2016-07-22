@@ -56,4 +56,8 @@ jform.on('submit', function() {
 
 // checked
 jform.find('[name="fid"]').checked(<?php echo $fid;?>);
+
+$('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');
+$('#nav_mobile li[fid="<?php echo $fid;?>"]').tab('show');
+
 </script>
