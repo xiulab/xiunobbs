@@ -57,6 +57,7 @@ if($action == 'base') {
 		include "./admin/view/setting_smtp.htm";
 	
 	} else {
+		
 		$user_create_email_on = param('user_create_email_on', 0);
 		$user_find_pw_on = param('user_find_pw_on', 0);
 		

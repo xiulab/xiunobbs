@@ -3,33 +3,40 @@
 <div class="row">
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="btn-group m-b-1" role="group">
-			<?php echo bootstrap_tab_active($menu['user']['tab'], 'group');?>
+			<?php echo bootstrap_tab_active($menu['forum']['tab'], 'list');?>
 		</div>
 		<div class="card">
 			<div class="card-block">
-				<form action="<?php echo url('admin/group-list');?>" method="post" id="form">
-					<h5 class="card-title">用户组列表</h5>
+				<form action="<?php echo url('admin/forum-list');?>" method="post" id="form">
+					<h5 class="card-title">版块列表</h5>
 					<div class="table-responsive arrlist">
 						<table class="table" style="min-width: 800px">
 							<thead>
 								<tr>
-									<th width="100"  class="text-center">用户组ID</th>
-									<th>用户组名称</th>
-									<th class="text-center">起始积分</th>
-									<th class="text-center">结束积分</th>
-									<th class="text-center">编辑</th>
-									<th class="text-center">删除</th>
+									<th width="100" class="text-center">版块ID</th>
+									<th width="100" class="text-center">图标</th>
+									<th width="130"></th>
+									<th>版块名称</th>
+									<th width="100" class="text-center">顺序</th>
+									<th width="100" class="text-center">编辑</th>
+									<th width="100" class="text-center">删除</th>
 								</tr>
 							<thead>
 							<tbody>
-								<?php foreach($grouplist as $_gid=>$_group) { ?>
-								<tr align="center" rowid="<?php echo $_gid; ?>">
-									<td class="50"><input type="text" class="form-control" name="_gid[<?php echo $_gid;?>]" value="<?php echo $_group['gid']; ?>"  placeholder="用户组ID" /></td>
-									<td><input type="text" class="form-control" name="name[<?php echo $_gid;?>]" value="<?php echo $_group['name']; ?>" placeholder="用户组名称" /></td>
-									<td><input type="text" class="form-control" name="creditsfrom[<?php echo $_gid;?>]" value="<?php echo $_group['creditsfrom']; ?>" placeholder="开始积分"/></td>
-									<td><input type="text" class="form-control" name="creditsto[<?php echo $_gid;?>]" value="<?php echo $_group['creditsto']; ?>" placeholder="结束积分"  /></td>
+								<?php foreach($forumlist as $_fid=>$_forum) { ?>
+								<tr align="center" rowid="<?php echo $_fid; ?>">
+									<td class="50"><input type="text" class="form-control" name="_fid[<?php echo $_fid;?>]" value="<?php echo $_forum['fid']; ?>"  placeholder="版块ID" /></td>
+									<td>
+										<img src="<?php echo $_forum['icon_url']; ?>" class="forum" width="48" />
+									</td>
+									<td>
+										<input type="file" multiple="multiple" accept=".jpg,.jpeg,.png,.gif,.bmp" class="form-control" name="icon[<?php echo $_fid;?>]" value=""  placeholder="版块图标" />
+									</td>
+									
+									<td><input type="text" class="form-control" name="name[<?php echo $_fid;?>]" value="<?php echo $_forum['name']; ?>" placeholder="名称" /></td>
+									<td><input type="text" class="form-control" name="name[<?php echo $_fid;?>]" value="<?php echo $_forum['rank']; ?>" placeholder="顺序" /></td>
 									<td><a class="btn row_edit" role="btn">编辑</a></td>
-									<td><?php if(!in_array($_gid, $system_group)) { ?><a class="btn row_delete" role="btn">删除</a><?php } ?></td>
+									<td><a class="btn row_delete" role="btn">删除</a></td>
 								</tr>
 								<?php } ?>
 							</tbody>
@@ -49,10 +56,13 @@
 
 <script>
 
-if(!debug) $.alert('请谨慎编辑用户组，一旦确定后不要轻易变动，否则可能会导致用户关联错误，一般在正式运营时就不要再变动。', 4);
+if(!debug) $.alert('请谨慎编辑版块，一旦确定后不要轻易变动，否则可能会导致数据关联错误，一般在正式运营时就不要再变动。', 4);
 
 var jform = $("#form");
 var jsubmit = $("#submit");
+
+jform.base64_encode_file(); // 对文件进行 base64 编码，处理文件上传，很方便
+
 jform.on('submit', function(){
 	var postdata = jform.serialize();
 	jsubmit.button('loading');
@@ -85,6 +95,10 @@ jarrlist.on('click', 'a.row_delete', function() {
 	var jthis = $(this);
 	var jtr = jthis.parents('tr');
 	var rowid = jtr.attr('rowid');
+	if(rowid) {
+		$.alert('不能删除系统保留的版块。');
+		return;
+	}
 	jtr.remove();
 	return false;
 });
@@ -93,13 +107,13 @@ var jadd = $('a.row_add');
 jadd.on('click', function() {
 	var jclone = jarrlist.find('tr').last().clone();
 	jclone.insertAfter(jarrlist.find('tr').last());
-	var jgid = jclone.find('input[name^="_gid"]');
+	var jgid = jclone.find('input[name^="_fid"]');
 	var rowid = xn.intval(jgid.val()) + 1;
 	jgid.val(rowid);
 	jclone.attr('rowid', rowid);
 	
 	// 清空值
-	jclone.find('input').not('[name^="_gid"]').val('');
+	jclone.find('input').not('[name^="_fid"]').val('');
 	
 	// 修改 [] 中的值为 rowid
 	jclone.find('input').attr_name_index(rowid);
@@ -108,8 +122,8 @@ jadd.on('click', function() {
 });
 
 
-$('#nav_pc li.user').tab('show');
-$('#nav_mobile li.user').tab('show');
+$('#nav_pc li.forum').tab('show');
+$('#nav_mobile li.forum').tab('show');
 
 
 </script>

@@ -16,8 +16,6 @@ if(empty($action) || $action == 'list') {
 	
 	} elseif($method == 'POST') {
 		
-		conf_save() OR message(-1, '保存到配置文件 conf/conf.php 失败，请检查文件的可写权限。');
-		
 		$gidarr = param('_gid', array(0));
 		$namearr = param('name', array(''));
 		$creditsfromarr = param('creditsfrom', array(0));

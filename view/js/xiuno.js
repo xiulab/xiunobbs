@@ -810,6 +810,32 @@ $.fn.loading = function(action) {
 	});
 }
 
+// 上传过程中，禁止 button
+$.fn.base64_encode_file = function() {
+	var jform = $(this);
+	var jsubmit = jform.find('input[type="submit"]');
+	jform.find('input[type="file"]').each(function() {
+		var jfile = $(this);
+		jfile.on('change', function(e) {
+			var obj = e.target;
+			jsubmit.button('disabled');
+			 var file = obj.files[0];
+			     
+		        // 创建一个隐藏域，用来保存 base64 数据
+			var jhidden = $('<input type="hidden" name="'+obj.name+'" />').appendTo(jform);
+		        obj.name = '';
+		        
+		        var reader = new FileReader();   
+		        reader.readAsDataURL(file);   
+		        reader.onload = function(e) {
+		        	jhidden.val(this.result);
+		        	jsubmit.button('reset');
+		              //  alert(this.result); //就是 base64
+		        }
+		});
+	});
+}
+
 // 获取所有的 父节点集合，一直到最顶层节点为止。, IE8 没有 HTMLElement
 xn.nodeHasParent = function(node, topNode) {
 	if(!topNode) topNode = document.body;
@@ -926,7 +952,11 @@ $.fn.button = function(status) {
 $.fn.location = function(href) {
 	var jthis = this;
 	jthis.queue(function(next) {
-		window.location = href;
+		if(!href) {
+			window.location.reload();
+		} else {
+			window.location = href;
+		}
 		next();
 	});
 }
