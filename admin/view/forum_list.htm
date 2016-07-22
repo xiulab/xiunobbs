@@ -107,9 +107,9 @@ var jadd = $('a.row_add');
 jadd.on('click', function() {
 	var jclone = jarrlist.find('tr').last().clone();
 	jclone.insertAfter(jarrlist.find('tr').last());
-	var jgid = jclone.find('input[name^="_fid"]');
-	var rowid = xn.intval(jgid.val()) + 1;
-	jgid.val(rowid);
+	var jfid = jclone.find('input[name^="_fid"]');
+	var rowid = xn.intval(jfid.val()) + 1;
+	jfid.val(rowid);
 	jclone.attr('rowid', rowid);
 	
 	// 清空值

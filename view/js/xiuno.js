@@ -810,8 +810,10 @@ $.fn.loading = function(action) {
 	});
 }
 
-// 上传过程中，禁止 button
-$.fn.base64_encode_file = function() {
+// 对图片进行缩略，裁剪，然后 base64 存入 form 隐藏表单，name 与 file 控件相同
+// 上传过程中，禁止 button，对图片可以缩略
+$.fn.base64_encode_file = function(width, height, action) {
+	var action = action || 'clip';
 	var jform = $(this);
 	var jsubmit = jform.find('input[type="submit"]');
 	jform.find('input[type="file"]').each(function() {
@@ -819,21 +821,96 @@ $.fn.base64_encode_file = function() {
 		jfile.on('change', function(e) {
 			var obj = e.target;
 			jsubmit.button('disabled');
-			 var file = obj.files[0];
-			     
+			var file = obj.files[0];
+
 		        // 创建一个隐藏域，用来保存 base64 数据
 			var jhidden = $('<input type="hidden" name="'+obj.name+'" />').appendTo(jform);
-		        obj.name = '';
+			obj.name = '';
 		        
 		        var reader = new FileReader();   
 		        reader.readAsDataURL(file);   
 		        reader.onload = function(e) {
-		        	jhidden.val(this.result);
-		        	jsubmit.button('reset');
-		              //  alert(this.result); //就是 base64
+		        	// 如果是图片，并且设置了，宽高，和剪切模式
+		        	if(xn.substr(this.result, 0, 10) == 'data:image' && width && height) {
+			        	xn.image_resize(this.result, width, height, action, function(code, message) {
+			        		if(code == 0) {
+			        			jhidden.val(message.data); // base64
+			        		} else {
+			        			alert(message);
+			        		}
+			        		jsubmit.button('reset');
+			        	});
+		        	} else {
+		        		jhidden.val(this.result);
+		        		jsubmit.button('reset');
+		        	}
 		        }
 		});
 	});
+}
+
+// xn.image_resize = 
+xn.image_resize = function(file_base64_data, thumb_width, thumb_height, action, callback) {
+	if(thumb_width < 1) return callback(-1, '缩略图宽度不能小于 1');
+	if(xn.substr(file_base64_data, 0, 10) != 'data:image') return callback(-1, '传入的 base64 数据有问题');
+	// && xn.substr(file_base64_data, 0, 14) != 'data:image/gif' gif 不支持
+		
+	var img = new Image();
+	img.onload = function() {
+		var canvas = document.createElement('canvas');
+		// 等比缩放
+		var width = 0, height = 0, canvas_width = 0, canvas_height = 0;
+		var dx = 0, dy = 0;
+		
+		var img_width = img.width;
+		var img_height = img.height;
+		// width, height: 计算出来的宽高（求）
+		// thumb_width, thumb_height: 要求的缩略宽高
+		// img_width, img_height: 原始图片宽高
+		// canvas_width, canvas_height: 画布宽高
+		if(action == 'thumb') {
+			// 横形
+			if(img_width / img_height > thumb_width / thumb_height) {
+				var width = thumb_width; // 以缩略图宽度为准，进行缩放
+				var height = Math.ceil((thumb_width / img_width) * img_height);
+			// 竖形
+			} else {
+				var height = thumb_height; // 以缩略图宽度为准，进行缩放
+				var width = Math.ceil((img_width / img_height) * thumb_height);
+			}
+			canvas_width = width;
+			canvas_height = height;
+		} else if(action == 'clip') {
+			// 横形
+			if(img_width / img_height > thumb_width / thumb_height) {
+				var height = thumb_height; // 以缩略图宽度为准，进行缩放
+				var width = Math.ceil((img_width / img_height) * thumb_height);
+				var dx = -((width - thumb_width) / 2);
+				var dy = 0;
+			// 竖形
+			} else {
+				var width = thumb_width; // 以缩略图宽度为准，进行缩放
+				var height = Math.ceil((img_height / img_width) * thumb_width);
+				dx = 0;
+				dy = -((height - thumb_height) / 2);
+			}
+			canvas_width = thumb_width;
+			canvas_height = thumb_height;
+		}
+		canvas.width = canvas_width;
+		canvas.height = canvas_height;
+		var ctx = canvas.getContext("2d"); 
+		ctx.clearRect(0, 0, width, height); 			// canvas清屏
+		ctx.drawImage(img, 0, 0, img_width, img_height, dx, dy, width, height);	// 将图像绘制到canvas上 
+		var filetype = 'image/jpg';
+		var s = canvas.toDataURL(filetype, 1);	
+		if(callback) callback(0, {width: width, height: height, data: s});
+	};
+	img.onerror = function(e) {
+		console.log(e);
+		alert(e);
+	}
+	img.src = file_base64_data;
 }
 
 // 获取所有的 父节点集合，一直到最顶层节点为止。, IE8 没有 HTMLElement

@@ -17,6 +17,7 @@ if(empty($action) || $action == 'list') {
 	
 	} elseif($method == 'POST') {
 		
+		print_r($_POST);exit;
 		$fid = param('_fid', array(0));
 		$namearr = param('name', array(''));
 		$creditsfromarr = param('creditsfrom', array(0));
