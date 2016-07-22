@@ -57,7 +57,7 @@ jform.on('submit', function() {
 	jsubmit.button('loading');
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
-			 $.alert('创建成功');
+			 $.alert(message);
 			 $.location('./', 3);
 			jsubmit.button(message);
 		} else if(code < 0) {
