@@ -56,6 +56,7 @@ jform.on('submit', function(){
 	jsubmit.button('loading');
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
+			$.alert(message);
 			jsubmit.text(message);
 			setTimeout(function(){ jsubmit.button('reset'); }, 1000);
 			return;
