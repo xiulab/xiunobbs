@@ -148,11 +148,12 @@ function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesi
 	}
 }
 
-function db_find_one($table, $cond = array(), $orderby = array()) {
+function db_find_one($table, $cond = array(), $orderby = array(), $col = array()) {
 	if(strtoupper(substr($table, 0, 7)) != 'SELECT ') {
 		$cond = db_cond_to_sqladd($cond);
 		$orderby = db_orderby_to_sqladd($orderby);
-		return db_sql_find_one("SELECT * FROM $table $cond$orderby LIMIT 1");
+		$cols = $col ? implode(',', $col) : '*';
+		return db_sql_find_one("SELECT $cols FROM $table $cond$orderby LIMIT 1");
 	} else {
 		// 兼容 XiunoPHP 3.0
 		$sql = $table;

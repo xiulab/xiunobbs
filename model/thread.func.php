@@ -295,7 +295,7 @@ function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'tid') {
 // 默认搜索标题
 function thread_find_by_keyword($keyword) {
 	// hook thread_find_by_keyword_start.php
-	$threadlist = db_find("SELECT * FROM `bbs_thread` WHERE subject LIKE '%$keyword%' LIMIT 60");
+	$threadlist = db_find('bbs_thread', array('subject'=>array('LIKE'=>$keyword)), array(), 1, 60);
 	arrlist_multisort($threadlist, 'tid', FALSE); // 用 PHP 排序，mysql 排序消耗太大。
 	if($threadlist) {
 		foreach ($threadlist as &$thread) {
@@ -312,7 +312,7 @@ function thread_find_tids($fid, $pagesize = 20, $order = 'tid') {
 	// hook thread_find_tids_start.php
 	global $conf;
 	$limit = $pagesize * $conf['cache_thread_list_pages'];
-	$tidlist = db_find("SELECT tid FROM `bbs_thread` WHERE fid='$fid' ORDER BY $order DESC LIMIT 0, $limit", 'tid');
+	$tidlist = db_find('bbs_thread', array('fid'=>$fid), array($order=>-1), 1, $limit, 'tid');
 	$tids = arrlist_values($tidlist, 'tid');
 	// hook thread_find_tids_end.php
 	return $tids;
@@ -323,8 +323,7 @@ function thread_find_by_tids($tids, $page = 1, $pagesize = 20, $order = 'tid') {
 	$start = ($page - 1) * $pagesize;
 	$tids = array_slice($tids, $start, $pagesize);
 	if(!$tids) return array();
-	$in = implode(',', $tids);
-	$threadlist = db_find("SELECT * FROM `bbs_thread` WHERE tid IN ($in) ORDER BY $order DESC", 'tid');
+	$threadlist = db_find('bbs_thread', array('tid'=>$tids), array($order=>-1), 1, 100, 'tid');
 	if($threadlist) foreach($threadlist as &$thread) thread_format($thread);
 	// hook thread_find_by_tids_end.php
 	return $threadlist;
@@ -464,10 +463,10 @@ function thread_check_lastpid($tid, $lastpid) {
 	$thread = thread_read_cache($tid);
 	if(empty($thread)) return;
 	if($thread['lastpid'] == $lastpid) {
-		$arr = db_find_one("SELECT pid FROM bbs_post WHERE tid='$tid' ORDER BY pid DESC LIMIT 1");
+		$arr = db_find_one('bbs_post', array('tid'=>$tid), array('pid'=>-1), 'pid');
 		if(empty($arr)) return;
 		$lastpid = $arr['pid'];
-		db_exec("UPDATE bbs_thread SET lastpid='$lastpid' WHERE tid='$tid'");
+		db_update('bbs_thread', array('tid'=>$tid), array('lastpid'=>$lastpid));
 		// 如果在最新主题当中，应该清理掉。
 		//thread_lastpid_truncate();
 	}
