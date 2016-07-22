@@ -1,0 +1,1 @@
+ALTER TABLE bbs_forum ADD COLUMN  announcement text NOT NULL;

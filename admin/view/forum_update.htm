@@ -1,0 +1,119 @@
+<?php include './admin/view/header.inc.htm'; ?>
+
+<div class="row">
+	<div class="col-lg-10 col-lg-offset-1">
+		<div class="card">
+			<div class="card-block">
+				<form action="<?php echo url("admin/forum-update-$_fid");?>" method="post" id="form">
+					<h4 class="card-title">版块编辑 - <?php echo $_forum['name'];?></h4>
+					<div class="form-group row">
+						<label class="col-sm-2 form-control-label">版块名称：</label>
+						<div class="col-sm-10">
+							<?php echo $input['name'];?>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 form-control-label">排序：</label>
+						<div class="col-sm-10">
+							<?php echo $input['rank'];?>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 form-control-label">版块介绍：</label>
+						<div class="col-sm-10">
+							<?php echo $input['brief'];?>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 form-control-label">版块公告：</label>
+						<div class="col-sm-10">
+							<?php echo $input['announcement'];?>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 form-control-label">版主：</label>
+						<div class="col-sm-10">
+							<?php echo $input['moduids'];?>
+							<p class="small">最多允许10个，逗号隔开，如：123,456,789</p>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 form-control-label">用户权限：</label>
+						<div class="col-sm-10">
+							<p><label><?php echo $input['accesson'];?> 启用</label></p>
+							<div class="table-responsive" id="accesslist_div" <?php echo ($_forum['accesson'] ? '' : 'style="display: none;"'); ?>>
+								<table class="table" id="accesslist" style="min-width: 600px;">
+									<thead>
+										<tr align="center">
+											<td width="80">全选</td>
+											<td align="left">用户组</td>
+											<td width="100">允许看帖</td>
+											<td width="100">发主题</td>
+											<td width="100">回贴</td>
+											<td width="100">上传</td>
+											<td width="100">下载</td>
+										</tr>
+									<thead>
+									<tbody>
+										<?php foreach ($accesslist as $access) { ?>
+										<tr align="center">								
+											<td><input type="checkbox" name="checkall" /></td>
+											<td align="left"><?php echo $access['name']; ?></td>
+											<td><input type="checkbox" name="allowread[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowread'] ? 'checked' : ''); ?> /></td>
+											<td><input type="checkbox" name="allowthread[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowthread'] ? 'checked' : ''); ?> /></td>
+											<td><input type="checkbox" name="allowpost[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowpost'] ? 'checked' : ''); ?> /></td>
+											<td><input type="checkbox" name="allowattach[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowattach'] ? 'checked' : ''); ?> /></td>
+											<td><input type="checkbox" name="allowdown[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowdown'] ? 'checked' : ''); ?> /></td>
+										</tr>
+										<?php } ?>
+									</tbody>
+								</table>
+							
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 form-control-label"></label>
+						<div class="col-sm-10">
+							<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
+							<a role="button" class="btn btn-secondary btn-block m-t-1" href="javascript:history.back();"><?php echo lang('back');?></a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<?php include './admin/view/footer.inc.htm'; ?>
+
+<script>
+
+var jform = $("#form");
+var jsubmit = $("#submit");
+jform.on('submit', function(){
+	var postdata = jform.serialize();
+	jsubmit.button('loading');
+	$.xpost(jform.attr('action'), postdata, function(code, message) {
+		if(code == 0) {
+			$.alert(message);
+			jsubmit.text(message).delay(3000).button('reset');
+			return;
+		} else {
+			$.alert(message);
+			jsubmit.button('reset');
+		}
+	});
+	return false;
+});
+
+// accesson
+jform.find('input[name="accesson"]').on('click', function() {
+	$('#accesslist_div').toggle();
+});
+
+$('#nav_pc li.user').tab('show');
+$('#nav_mobile li.user').tab('show');
+
+</script>

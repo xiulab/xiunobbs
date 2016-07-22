@@ -98,6 +98,7 @@ CREATE TABLE bbs_forum (
   todayposts mediumint(8) unsigned NOT NULL default '0',# 今日发帖，计划任务每日凌晨０点清空为０，
   todaythreads mediumint(8) unsigned NOT NULL default '0',# 今日发主题，计划任务每日凌晨０点清空为０
   brief text NOT NULL,					# 版块简介 允许HTML
+  announcement text NOT NULL,				# 版块公告 允许HTML
   accesson int(11) unsigned NOT NULL default '0',	# 是否开启权限控制
   orderby tinyint(11) NOT NULL default '0',		# 默认列表排序，0: 顶贴时间 last_date， 1: 发帖时间 tid
   create_date int(11) unsigned NOT NULL default '0',	# 板块创建时间
@@ -117,7 +118,7 @@ CREATE TABLE bbs_forum_access (				# 字段中文名
   gid int(11) unsigned NOT NULL default '0',		# fid
   allowread tinyint(1) unsigned NOT NULL default '0',	# 允许查看
   allowthread tinyint(1) unsigned NOT NULL default '0',	# 允许发主题
-  allowpost tinyint(1) unsigned NOT NULL default '0',	# 允许回复，赞
+  allowpost tinyint(1) unsigned NOT NULL default '0',	# 允许回复
   allowattach tinyint(1) unsigned NOT NULL default '0',	# 允许上传附件
   allowdown tinyint(1) unsigned NOT NULL default '0',	# 允许下载附件
   PRIMARY KEY (fid, gid)

@@ -67,73 +67,77 @@ if(empty($action) || $action == 'list') {
 } elseif($action == 'update') {
 	
 	$_fid = param(2, 0);
-	$_group = group_read($_fid);
-	empty($_group) AND message(-1, '用户组不存在');
+	$_forum = forum_read($_fid);
+	empty($_forum) AND message(-1, '版块不存在');
 	
 	if($method == 'GET') {
 		
-		$header['title']    = '用户组管理';
+		$header['title']    = '版块管理';
 	
-		$input = array();
-		$input['name'] = form_text('name', $_group['name']);
-		$input['creditsfrom'] = form_text('creditsfrom', $_group['creditsfrom']);
-		$input['creditsto'] = form_text('creditsto', $_group['creditsto']);
-		$input['allowread'] = form_checkbox('allowread', $_group['allowread']);
-		$input['allowthread'] = form_checkbox('allowthread', $_group['allowthread'] && $_fid != 0);
-		$input['allowpost'] = form_checkbox('allowpost', $_group['allowpost'] && $_fid != 0);
-		$input['allowattach'] = form_checkbox('allowattach', $_group['allowattach'] && $_fid != 0);
-		$input['allowdown'] = form_checkbox('allowdown', $_group['allowdown']);
-		$input['allowtop'] = form_checkbox('allowtop', $_group['allowtop']);
-		$input['allowupdate'] = form_checkbox('allowupdate', $_group['allowupdate']);
-		$input['allowdelete'] = form_checkbox('allowdelete', $_group['allowdelete']);
-		$input['allowmove'] = form_checkbox('allowmove', $_group['allowmove']);
-		$input['allowbanuser'] = form_checkbox('allowbanuser', $_group['allowbanuser']);
-		$input['allowdeleteuser'] = form_checkbox('allowdeleteuser', $_group['allowdeleteuser']);
-		$input['allowviewip'] = form_checkbox('allowviewip', $_group['allowviewip']);
+		$accesslist = forum_access_find_by_fid($_fid);
+		if(empty($accesslist)) {
+			foreach($grouplist as $group) {
+				$accesslist[$group['gid']] = $group; // 字段名相同，直接覆盖。
+			}
+		} else {
+			foreach($accesslist as &$access) {
+				$access['name'] = $grouplist[$access['gid']]['name']; // 字段名相同，直接覆盖。
+			}
+		}
 		
-		include "./admin/view/group_update.htm";
+		array_htmlspecialchars($forum);
+		
+		$input = array();
+		$input['name'] = form_text('name', $_forum['name']);
+		$input['rank'] = form_text('rank', $_forum['rank']);
+		$input['brief'] = form_textarea('brief', $_forum['brief'], '100%', 80);
+		$input['announcement'] = form_textarea('announcement', $_forum['announcement'], '100%', 80);
+		$input['accesson'] = form_checkbox('accesson', $_forum['accesson']);
+		$input['moduids'] = form_text('moduids', $_forum['moduids']);
+		
+		include "./admin/view/forum_update.htm";
 	
 	} elseif($method == 'POST') {	
 		
 		$name = param('name');
-		$creditsfrom = param('creditsfrom');
-		$creditsto = param('creditsto');
-		$allowread = param('allowread', 0);
-		$allowthread = param('allowthread', 0);
-		$allowpost = param('allowpost', 0);
-		$allowattach = param('allowattach', 0);
-		$allowdown = param('allowdown', 0);
+		$rank = param('rank', 0);
+		$brief = param('brief');
+		$announcement = param('announcement');
+		$moduids = param('moduids');
+		$accesson = param('accesson', 0);
+		
 		$arr = array (
-			'name'       => $name,
-			'creditsfrom' => $creditsfrom,
-			'creditsto'   => $creditsto,
-			'allowread'  => $allowread,
-			'allowthread'  => $allowthread,
-			'allowpost'  => $allowpost,
-			'allowattach'  => $allowattach,
-			'allowdown'  => $allowdown,
-			
+			'name' => $name,
+			'rank' => $rank,
+			'brief' => $brief,
+			'announcement' => $announcement,
+			'moduids' => $moduids,
+			'accesson' => $accesson,
 		);
-		if($_fid >=1 && $_fid <= 5) {
-			
-			$allowtop = param('allowtop', 0);
-			$allowupdate = param('allowupdate', 0);
-			$allowdelete = param('allowdelete', 0);
-			$allowmove = param('allowmove', 0);
-			$allowbanuser = param('allowbanuser', 0);
-			$allowdeleteuser = param('allowdeleteuser', 0);
-			$allowviewip = param('allowviewip', 0);
-			$arr += array(
-				'allowtop'  => $allowtop,
-				'allowupdate'  => $allowupdate,
-				'allowdelete'  => $allowdelete,
-				'allowmove'  => $allowmove,
-				'allowbanuser'  => $allowbanuser,
-				'allowdeleteuser'  => $allowdeleteuser,
-				'allowviewip'  => $allowviewip
-			);
+		forum_update($_fid, $arr);
+		
+		if($accesson) {
+			$allowread = param('allowread', array(0));
+			$allowthread = param('allowthread', array(0));
+			$allowpost = param('allowpost', array(0));
+			$allowattach = param('allowattach', array(0));
+			$allowdown = param('allowdown', array(0));
+			foreach($grouplist as $_gid=>$v) {
+				$access = array (
+					'allowread'=>array_value($allowread, $_gid, 0),
+					'allowthread'=>array_value($allowthread, $_gid, 0),
+					'allowpost'=>array_value($allowpost, $_gid, 0),
+					'allowattach'=>array_value($allowattach, $gid, 0),
+					'allowdown'=>array_value($allowdown, $_gid, 0),
+				);
+				forum_access_replace($_fid, $_gid, $access);
+			}
+		} else {
+			forum_access_delete_by_fid($_fid);
 		}
-		group_update($_fid, $arr);
+		
+		forum_list_cache_delete();
+		
 		message(0, '编辑成功');	
 	}
 	
