@@ -4,6 +4,8 @@
 
 $action = param(1);
 
+$system_group = array(0, 1, 2, 3, 4, 5, 6, 7, 101);
+
 if(empty($action) || $action == 'list') {
 	
 	if($method == 'GET') {
@@ -41,7 +43,7 @@ if(empty($action) || $action == 'list') {
 		// 删除
 		$deletearr = array_diff_key($grouplist, $gidarr);
 		foreach($deletearr as $k=>$v) {
-			if(in_array($k, array(0, 1, 2, 3, 4, 5, 6, 7, 101))) continue;
+			if(in_array($k, $system_group)) continue;
 			group_delete($k);
 		}
 		

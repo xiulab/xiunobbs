@@ -63,7 +63,7 @@ if(empty($action) || $action == 'list') {
 		$user AND message('username', '用户已经存在');
 
 		$salt = xn_rand(16);
-		$state = user_create(array(
+		$r = user_create(array(
 			'username'=>$username,
 			'password'=>md5(md5($password).$salt),
 			'salt'=>$salt,
@@ -72,7 +72,9 @@ if(empty($action) || $action == 'list') {
 			'create_ip'=>ip2long(ip()),
 			'create_date'=>$time
 		));
-		$state !== FALSE ? message(0, '创建成功') : message(-1, '创建失败');
+		$r === FALSE AND message(-1, '创建失败');
+		
+		message(0, '创建成功');
 
 	}
 
@@ -127,20 +129,28 @@ if(empty($action) || $action == 'list') {
 		
 		// 仅仅更新发生变化的部分
 		$update = array_diff_value($arr, $old);
+		empty($update) AND message(-1, '没有数据变动');
 
 		$r = user_update($_uid, $update);
-		$r !== FALSE ? message(0, '更新成功') : message(-1, '更新失败');
+		$r === FALSE AND message(-1, '更新失败');
+		
+		message(0, '更新成功');
 	}
 
 } elseif($action == 'delete') {
 
 	if($method != 'POST') message(-1, 'Method Error.');
 
-	$uid = param('uid', 0);
+	$_uid = param('uid', 0);
+	
+	$_user = user_read($_uid);
+	empty($_user) AND message(-1, '用户不存在');
+	($_user['gid'] == 1) AND message(-1, '不能直接删除管理员，请先编辑为普通用户组。');
 
-	$state = user_delete($uid);
-	$state === FALSE AND message(11, '删除失败');
-
+	$r = user_delete($_uid);
+	$r === FALSE AND message(-1, '删除失败');
+	
+	
 	message(0, '删除成功');
 	
 } else {
