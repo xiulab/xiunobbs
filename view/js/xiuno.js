@@ -818,6 +818,7 @@ $.fn.base64_encode_file = function(width, height, action) {
 	var jsubmit = jform.find('input[type="submit"]');
 	jform.find('input[type="file"]').each(function() {
 		var jfile = $(this);
+		var jassoc = $('#'+jfile.data('assoc'));
 		jfile.on('change', function(e) {
 			var obj = e.target;
 			jsubmit.button('disabled');
@@ -831,9 +832,10 @@ $.fn.base64_encode_file = function(width, height, action) {
 		        reader.readAsDataURL(file);   
 		        reader.onload = function(e) {
 		        	// 如果是图片，并且设置了，宽高，和剪切模式
-		        	if(xn.substr(this.result, 0, 10) == 'data:image' && width && height) {
+		        	if(xn.substr(this.result, 0, 10) == 'data:image') {
 			        	xn.image_resize(this.result, width, height, action, function(code, message) {
 			        		if(code == 0) {
+			        			jassoc.attr('src', message.data);
 			        			jhidden.val(message.data); // base64
 			        		} else {
 			        			alert(message);
@@ -851,6 +853,9 @@ $.fn.base64_encode_file = function(width, height, action) {
 
 // xn.image_resize = 
 xn.image_resize = function(file_base64_data, thumb_width, thumb_height, action, callback) {
+	var thumb_width = thumb_width || 100;
+	var thumb_height = thumb_height || 100;
+	var action = action || 'clip';
 	if(thumb_width < 1) return callback(-1, '缩略图宽度不能小于 1');
 	if(xn.substr(file_base64_data, 0, 10) != 'data:image') return callback(-1, '传入的 base64 数据有问题');
 	// && xn.substr(file_base64_data, 0, 14) != 'data:image/gif' gif 不支持
