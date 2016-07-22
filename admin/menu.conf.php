@@ -10,6 +10,20 @@ return array(
 			'smtp'=>array('url'=>url('admin/setting-smtp'), 'text'=>lang('admin_setting_smtp')),
 		)
 	),
+	'forum' => array(
+		'url'=>url('admin/forum-list'), 
+		'text'=>lang('forum_admin'), 
+		'icon'=>'icon-comment',
+		'tab'=> array (
+		)
+	),
+	'post' => array(
+		'url'=>url('admin/post-list'), 
+		'text'=>lang('post_admin'), 
+		'icon'=>'icon-comment',
+		'tab'=> array (
+		)
+	),
 	'user' => array(
 		'url'=>url('admin/user-list'), 
 		'text'=>lang('user_admin'), 
@@ -18,13 +32,6 @@ return array(
 			'list'=>array('url'=>url('admin/user-list'), 'text'=>lang('admin_user_list')),
 			'group'=>array('url'=>url('admin/group-list'), 'text'=>lang('admin_user_group')),
 			'create'=>array('url'=>url('admin/user-create'), 'text'=>lang('admin_user_create')),
-		)
-	),
-	'post' => array(
-		'url'=>url('admin/post-list'), 
-		'text'=>lang('post_admin'), 
-		'icon'=>'icon-comment',
-		'tab'=> array (
 		)
 	),
 	'other' => array(
