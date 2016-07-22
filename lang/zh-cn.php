@@ -61,14 +61,14 @@ return array(
 	
 	'admin_login'=>'管理员登陆',
 	
-	'user_admin'=>'用户管理',
-	'forum_admin'=>'版块管理',
-	'post_admin'=>'帖子管理',
-	'plugin_admin'=>'插件管理',
-	'other_admin'=>'其他管理',
-	'plugin_admin'=>'插件管理',
+	'user_admin'=>'用户',
+	'forum_admin'=>'版块',
+	'post_admin'=>'帖子',
+	'plugin_admin'=>'插件',
+	'other_admin'=>'其他',
 	
-	'admin_index_page'=>'后台首页',
+	'admin_index_page'=>'后台',
+	'front_index_page'=>'前台',
 	'admin_site_setting'=>'站点设置',
 	'admin_setting_base'=>'基本设置',
 	'admin_setting_smtp'=>'SMTP设置',

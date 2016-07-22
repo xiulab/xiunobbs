@@ -37,7 +37,7 @@
 							<img src="view/img/logo.png" class="logo-sm">
 						</li>
 						<li class="nav-item home">
-							<a class="nav-link" href="admin/"><i class="icon-home"></i> 后台首页</a>
+							<a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_index_page');?></a>
 						</li>
 						<?php foreach ($menu as $k=>$v) { ?>
 						<li class="nav-item <?php echo $k;?>">
@@ -52,11 +52,11 @@
 						<li class="nav-item">
 							<a class="nav-link" href="<?php echo url('my');?>"><img class="avatar-xs" src="<?php echo isset($user['avatar_url']) ? $user['avatar_url'] : '';?>"></a>
 						</li>
-						<li class="nav-item username">
+						<li class="nav-item username  m-l-xs">
 							<a class="nav-link" href="<?php echo url('my');?>"><?php echo isset($user['username']) ? $user['username'] : '';?></a>
 						</li>
-						<li class="nav-item m-l-xs">
-							<a class="nav-link" href="./"><i class="icon-home"></i> 返回前台</a>
+						<li class="nav-item">
+							<a class="nav-link" href="./"><i class="icon-home"></i> <?php echo lang('front_index_page');?></a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="admin/<?php echo url('index-logout');?>"><?php echo lang('logout');?></a>
