@@ -899,6 +899,9 @@ $.fn.checked = function(v) {
 $.fn.button = function(status) {
 	return this.each(function() {
 		var jthis = $(this);
+		
+		jthis.queue([queueName,] functionToBeExecuted(next));
+		
 		var loading_text = jthis.attr('loading-text') || jthis.data('loading-text');
 		if(status == 'loading') {
 			jthis.prop('disabled', true).addClass('disabled').attr('default-text', jthis.text());

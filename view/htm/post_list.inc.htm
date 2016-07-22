@@ -1,7 +1,7 @@
 					<?php foreach($postlist as $_post) { ?>
 					<tr class="post">
-						<td class="vtop avatar-parent">
-							<a href="<?php echo url("user-$thread[uid]");?>">
+						<td class="vtop avatar-parent" aria-hidden="true">
+							<a href="<?php echo url("user-$thread[uid]");?>" aria-hidden="true">
 								<img class="avatar" src="<?php echo $_post['user_avatar_url'];?>">
 							</a>
 						</td>
