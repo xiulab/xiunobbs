@@ -896,28 +896,38 @@ $.fn.checked = function(v) {
 	}
 }
 
+// 支持连续操作 jsubmit.button(message).delay(1000).button('reset');
 $.fn.button = function(status) {
 	return this.each(function() {
 		var jthis = $(this);
-		
-		jthis.queue([queueName,] functionToBeExecuted(next));
-		
-		var loading_text = jthis.attr('loading-text') || jthis.data('loading-text');
-		if(status == 'loading') {
-			jthis.prop('disabled', true).addClass('disabled').attr('default-text', jthis.text());
-			jthis.html(loading_text);
-		} else if(status == 'disabled') {
-			jthis.prop('disabled', true).addClass('disabled');
-		} else if(status == 'enable') {
-			jthis.prop('disabled', false).removeClass('disabled');
-		} else if(status == 'reset') {
-			jthis.prop('disabled', false).removeClass('disabled');
-			if(jthis.attr('default-text')) {
-				jthis.text(jthis.attr('default-text'));
+		jthis.queue(function (next) {
+			var loading_text = jthis.attr('loading-text') || jthis.data('loading-text');
+			if(status == 'loading') {
+				jthis.prop('disabled', true).addClass('disabled').attr('default-text', jthis.text());
+				jthis.html(loading_text);
+			} else if(status == 'disabled') {
+				jthis.prop('disabled', true).addClass('disabled');
+			} else if(status == 'enable') {
+				jthis.prop('disabled', false).removeClass('disabled');
+			} else if(status == 'reset') {
+				jthis.prop('disabled', false).removeClass('disabled');
+				if(jthis.attr('default-text')) {
+					jthis.text(jthis.attr('default-text'));
+				}
+			} else {
+				jthis.text(status);
 			}
-		} else {
-			jthis.text(status);
-		}
+			next();
+		});
+	});
+}
+
+// 支持连续操作 jsubmit.button(message).delay(1000).button('reset').delay(1000).location('http://xxxx');
+$.fn.location = function(href) {
+	var jthis = this;
+	jthis.queue(function(next) {
+		window.location = href;
+		next();
 	});
 }
 

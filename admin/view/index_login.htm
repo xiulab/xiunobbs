@@ -35,8 +35,7 @@ jform.on('submit', function() {
 	jsubmit.button('loading');
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
-			$.location('./admin/');
-			jsubmit.button(message);
+			jsubmit.button(message).delay(3000).location('./admin/');
 		} else if(code == 'email') {
 			jemail.alert(message).focus();
 			jsubmit.button('reset');

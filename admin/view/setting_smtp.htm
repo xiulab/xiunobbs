@@ -57,8 +57,7 @@ jform.on('submit', function(){
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
 			$.alert(message);
-			jsubmit.text(message);
-			setTimeout(function(){ jsubmit.button('reset'); }, 1000);
+			jsubmit.text(message).delay(1000).button('reset');
 			return;
 		} else {
 			alert(message);

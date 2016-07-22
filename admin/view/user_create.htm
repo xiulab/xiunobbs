@@ -57,8 +57,8 @@ jform.on('submit', function() {
 	jsubmit.button('loading');
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
-			$.location('./');
-			jsubmit.button(message);
+			$.alert(message);
+			jsubmit.text(message).delay(1000).location(xn.url('admin/user-list'));
 		} else if(code < 0) {
 			alert(message);
 			jsubmit.button('reset');
