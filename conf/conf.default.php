@@ -14,7 +14,6 @@ return array (
 	// -------------> xiunophp 依赖的配置
 	'db'=>array(
 		'type'=>'mysql',
-		'tablepre'=>'bbs_',
 		'mysql' => array (
 			'master' => array (		
 				'host' => 'localhost',	// 非默认端口写法：localhost:3306						

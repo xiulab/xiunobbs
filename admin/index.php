@@ -65,7 +65,7 @@ check_runlevel();
 //DEBUG AND xn_log_post_data();
 
 // 全站的设置数据，站点名称，描述，关键词，页脚代码等，应该存入 kv
-$setting = cache_get('setting');
+$setting = kv_get('setting');
 
 //DEBUG AND ($method == 'POST' || $ajax) AND sleep(1);
 

@@ -30,7 +30,6 @@ if($action == 'base') {
 		
 		$setting = array('sitebrief'=>$sitebrief);
 		kv_set('setting', $setting);
-		cache_delete('setting');
 		
 		$conf['sitename'] = $sitename;
 		$conf['runlevel'] = $runlevel;
