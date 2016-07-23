@@ -6,40 +6,35 @@
 
 function group__create($arr) {
 	// hook group__create_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("INSERT INTO `bbs_group` SET $sqladd");
+	$r = db_create('bbs_group', $arr);
 	// hook group__create_end.php
 	return $r;
 }
 
 function group__update($gid, $arr) {
 	// hook group__update_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("UPDATE `bbs_group` SET $sqladd WHERE gid='$gid'");
+	$r = db_update('bbs_group', array('gid'=>$gid), $arr);
 	// hook group__update_end.php
 	return $r;
 }
 
 function group__read($gid) {
 	// hook group__read_start.php
-	$group = db_find_one("SELECT * FROM `bbs_group` WHERE gid='$gid'");
+	$group = db_find_one('bbs_ipaccess', array('gid'=>$gid));
 	// hook group__read_end.php
 	return $group;
 }
 
 function group__delete($gid) {
 	// hook group__delete_start.php
-	$r = db_exec("DELETE FROM `bbs_group` WHERE gid='$gid'");
+	$r = db_delete('bbs_group', array('gid'=>$gid));
 	// hook group__delete_end.php
 	return $r;
 }
 
 function group__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 1000) {
 	// hook group__find_start.php
-	$cond = cond_to_sqladd($cond);
-	$orderby = orderby_to_sqladd($orderby);
-	$offset = ($page - 1) * $pagesize;
-	$grouplist = db_find("SELECT * FROM `bbs_group` $cond$orderby LIMIT $offset,$pagesize", 'gid');
+	$grouplist = db_find('bbs_ipaccess', $cond, $orderby, $page, $pagesize);
 	// hook group__find_end.php
 	return $grouplist;
 }

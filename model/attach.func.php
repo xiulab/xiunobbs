@@ -6,42 +6,37 @@
 
 function attach__create($arr) {
 	// hook attach__create_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("INSERT INTO `bbs_attach` SET $sqladd");
+	$r = db_create('bbs_attach', $arr);
 	// hook attach__create_end.php
 	return $r;
 }
 
 function attach__update($aid, $arr) {
 	// hook attach__update_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("UPDATE `bbs_attach` SET $sqladd WHERE aid='$aid'");
+	$r = db_update('bbs_attach', array('aid'=>$aid), $arr);
 	// hook attach__update_end.php
 	return $r;
 }
 
 function attach__read($aid) {
 	// hook attach__read_start.php
-	$attach = db_find_one("SELECT * FROM `bbs_attach` WHERE aid='$aid'");
+	$attach = db_find_one('bbs_attach', array('aid'=>$aid));
 	// hook attach__read_end.php
 	return $attach;
 }
 
 function attach__delete($aid) {
 	// hook attach__delete_start.php
-	$r = db_exec("DELETE FROM `bbs_attach` WHERE aid='$aid'");
+	$r = db_delete('bbs_attach', array('aid'=>$aid));
 	// hook attach__delete_end.php
 	return $r;
 }
 
 function attach__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook attach__find_start.php
-	$cond = cond_to_sqladd($cond);
-	$orderby = orderby_to_sqladd($orderby);
-	$offset = ($page - 1) * $pagesize;
-	$attach = db_find("SELECT * FROM `bbs_attach` $cond$orderby LIMIT $offset,$pagesize");
+	$attachlist = db_find('bbs_attach', $cond, $orderby, $page, $pagesize);
 	// hook attach__find_end.php
-	return $attach;
+	return $attachlist;
 }
 
 // ------------> 关联 CURD，主要是强相关的数据，比如缓存。弱相关的大量数据需要另外处理。
@@ -128,9 +123,9 @@ function attach_format(&$attach) {
 function attach_count($cond = array()) {
 	// hook attach_count_start.php
 	$cond = cond_to_sqladd($cond);
-	$arr = db_find_one("SELECT COUNT(*) AS num FROM `bbs_attach` $cond");
+	$n = db_count('bbs_attach', $cond);
 	// hook attach_count_end.php
-	return $arr['num'];
+	return $n;
 }
 
 function attach_images_files($attachlist) {
@@ -189,7 +184,7 @@ function attach_type($name, $types) {
 function attach_gc() {
 	// hook attach_gc_start.php
 	global $time, $conf;
-	$attachlist = db_find("SELECT * FROM bbs_attach WHERE pid='0'");
+	$attachlist = db_find('bbs_attach', array('pid'=>0));
 	if(empty($attachlist)) return;
 	foreach($attachlist as $attach) {
 		// 如果是 1 天内的附件，则不处理，可能正在发帖

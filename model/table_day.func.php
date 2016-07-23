@@ -3,7 +3,7 @@
 // -------------> 用来统计表每天的最大ID，有利于加速！
 function table_day_read($table, $year, $month, $day) {
 	// hook table_day_read_start.php
-	$arr = db_find_one("SELECT * FROM `bbs_table_day` WHERE year='$year' AND month='$month' AND day='$day' AND `table`='$table'");
+	$arr = db_find_one('bbs_table_day', array('year'=>$year, 'month'=>$month, 'day'=>$day, 'table'=>$table));
 	// hook table_day_read_end.php
 	return $arr;
 }
@@ -44,13 +44,18 @@ function table_day_cron($crontime = 0) {
 		'bbs_user'=>'uid',
 	);
 	foreach ($table_map as $table=>$col) {
-		$arr = db_find_one("SELECT MAX(`$col`) maxid FROM `$table` WHERE create_date<$crontime");
-		$maxid = $arr['maxid'];
-	
-		$arr = db_find_one("SELECT COUNT(*) `count` FROM `$table` WHERE create_date<$crontime");
-		$count = $arr['count'];
-	
-		db_exec("REPLACE INTO bbs_table_day SET `year`='$y', `month`='$m', `day`='$d', `create_date`='$crontime', `table`='$table', `maxid`='$maxid', `count`='$count'");
+		$maxid = db_maxid($table, $col, array('create_date'=>array('<'=>$crontime)));
+		$count = db_count($table, array('create_date'=>array('<'=>$crontime)));
+		$arr = array(
+			'year'=>$y,
+			'month'=>$m, 
+			'day'=>$d, 
+			'create_date'=>$crontime, 
+			'table'=>$table, 
+			'maxid'=>$maxid, 
+			'count'=>$count
+		);
+		db_replace('bbs_table_day', $arr);
 	}
 	// hook table_day_cron_end.php
 }

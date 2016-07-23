@@ -6,42 +6,37 @@
 
 function banip__create($arr) {
 	// hook banip__create_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("INSERT INTO `bbs_banip` SET $sqladd");
+	$r = db_create('bbs_banip', $arr);
 	// hook banip__create_end.php
 	return $r;
 }
 
 function banip__update($banid, $arr) {
 	// hook banip__update_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("UPDATE `bbs_banip` SET $sqladd WHERE banid='$banid'");
+	$r = db_update('bbs_banip', array('banid'=>$banid), $arr);
 	// hook banip__update_end.php
 	return $r;
 }
 
 function banip__read($banid) {
 	// hook banip__read_start.php
-	$banip = db_find_one("SELECT * FROM `bbs_banip` WHERE banid='$banid'");
+	$banip = db_find_one('bbs_banip', array('banid'=>$banid));
 	// hook banip__read_end.php
 	return $banip;
 }
 
 function banip__delete($banid) {
 	// hook banip__delete_start.php
-	$r = db_exec("DELETE FROM `bbs_banip` WHERE banid='$banid'");
+	$r = db_delete('bbs_banip', array('banid'=>$banid));
 	// hook banip__delete_end.php
 	return $r;
 }
 
 function banip__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook banip__find_start.php
-	$cond = cond_to_sqladd($cond);
-	$orderby = orderby_to_sqladd($orderby);
-	$offset = ($page - 1) * $pagesize;
-	$banip = db_find("SELECT * FROM `bbs_banip` $cond$orderby LIMIT $offset,$pagesize");
+	$baniplist = db_find('bbs_banip', $cond, $orderby, $page, $pagesize);
 	// hook banip__find_end.php
-	return $banip;
+	return $baniplist;
 }
 
 // ------------> 关联 CURD，主要是强相关的数据，比如缓存。弱相关的大量数据需要另外处理。
@@ -87,7 +82,13 @@ function banip_read_by_ip($ip) {
 	// hook banip_read_by_ip_start.php
 	$ip = long2ip(ip2long($ip)); // 安全过滤
 	$arr = explode('.', $ip);
-	$banip = db_find_one("SELECT * FROM `bbs_banip` WHERE ip0='$arr[0]' AND ip1='$arr[1]' AND ip2='$arr[2]' AND ip3='$arr[3]' LIMIT 1");
+	$cond = array(
+		'ip0'=>$arr[0],
+		'ip1'=>$arr[1],
+		'ip2'=>$arr[2],
+		'ip3'=>$arr[3],
+	);
+	$banip = db_find_one('bbs_banip', $cond);
 	banip_format($banip);
 	// hook banip_read_by_ip_end.php
 	return $banip;

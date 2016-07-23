@@ -4,29 +4,30 @@
 
 function thread_new_create($tid) {
 	// hook thread_new_create_start.php
-	$r = db_exec("INSERT INTO `bbs_thread_new` SET tid='$tid'");
+	$r = db_insert('bbs_thread_new', array('tid'=>$tid));
 	// hook thread_new_create_end.php
 	return $r;
 }
 
 function thread_new_delete($tid) {
 	// hook thread_new_delete_start.php
-	$r = db_exec("DELETE FROM `bbs_thread_new` WHERE tid='$tid'");
+	$r = db_insert('bbs_thread_new', array('tid'=>$tid));
 	// hook thread_new_delete_end.php
 	return $r;
 }
 
 function thread_new_count() {
 	// hook thread_new_count_start.php
-	$arr = db_find_one("SELECT COUNT(*) AS num FROM `bbs_thread_new`");
+	$n = db_count('bbs_thread_new');
 	// hook thread_new_count_end.php
-	return $arr['num'];
+	return $n;
 }
 
 // 最新主题
-function thread_new_find() {
+function thread_new_find($page = 1, $pagesize = 100) {
 	// hook thread_new_find_start.php
-	$threadlist = db_find("SELECT * FROM `bbs_thread_new` ORDER BY tid DESC LIMIT 100");
+	
+	$threadlist = db_find('bbs_thread_new', array(), array('tid'=>-1), $page, $pagesize);
 	if(empty($threadlist)) {
 		$threadlist = thread_find(array(), array('tid'=>-1), 1, 100);
 		foreach($threadlist as $thread) {
@@ -43,7 +44,7 @@ function thread_new_find() {
 
 function thread_new_truncate() {
 	// hook thread_new_truncate_start.php
-	db_exec("TRUNCATE `bbs_thread_new`");
+	db_truncate('bbs_thread_new');
 	thread_new_cache_delete();
 	// hook thread_new_truncate_end.php
 }

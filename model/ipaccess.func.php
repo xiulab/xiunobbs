@@ -6,42 +6,37 @@
 
 function ipaccess_create($arr) {
 	// hook ipaccess_create_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("INSERT INTO `bbs_ipaccess` SET $sqladd");
+	$r = db_create('bbs_ipaccess', $arr);
 	// hook ipaccess_create_end.php
 	return $r;
 }
 
 function ipaccess_update($ip, $arr) {
 	// hook ipaccess_update_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("UPDATE `bbs_ipaccess` SET $sqladd WHERE ip='$ip'");
+	$r = db_update('bbs_ipaccess', array('ip'=>$ip), $arr);
 	// hook ipaccess_update_end.php
 	return $r;
 }
 
 function ipaccess_read($ip) {
 	// hook ipaccess_read_start.php
-	$ipaccess = db_find_one("SELECT * FROM `bbs_ipaccess` WHERE ip='$ip'");
+	$ipaccess = db_find_one('bbs_ipaccess', array('ip'=>$ip));
 	// hook ipaccess_read_end.php
 	return $ipaccess;
 }
 
 function ipaccess_delete($ip) {
 	// hook ipaccess_delete_start.php
-	$r = db_exec("DELETE FROM `bbs_ipaccess` WHERE ip='$ip'");
+	$r = db_delete('bbs_ipaccess', array('ip'=>$ip));
 	// hook ipaccess_delete_end.php
 	return $r;
 }
 
 function ipaccess_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook ipaccess_find_start.php
-	$cond = cond_to_sqladd($cond);
-	$orderby = orderby_to_sqladd($orderby);
-	$offset = ($page - 1) * $pagesize;
-	$ipaccesslist = db_find("SELECT * FROM `bbs_ipaccess` $cond$orderby LIMIT $offset,$pagesize");
+	$ipaccesslist = db_find('bbs_ipaccess', $cond, $orderby, $page, $pagesize);
 	// hook ipaccess_find_end.php
-	return $ipacclist;
+	return $ipaccesslist;
 }
 
 
@@ -97,8 +92,9 @@ function ipaccess_count() {
 
 function ipaccess_truncate() {
 	// hook ipaccess_truncate_start.php
+	$r =  db_truncate('bbs_ipaccess');
 	// hook ipaccess_truncate_end.php
-	return  db_exec('TRUNCATE `bbs_ipaccess`');
+	return $r;
 }
 
 

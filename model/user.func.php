@@ -121,7 +121,7 @@ function user_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 2
 
 function user_read_by_email($email) {
 	// hook user_read_by_email_start.php
-	$user = db_find_one("SELECT * FROM `bbs_user` WHERE email='$email' LIMIT 1");
+	$user = db_find_one('bbs_user', array('email'=>$email));
 	user_format($user);
 	// hook user_read_by_email_end.php
 	return $user;
@@ -129,7 +129,7 @@ function user_read_by_email($email) {
 
 function user_read_by_username($username) {
 	// hook user_read_by_username_start.php
-	$user = db_find_one("SELECT * FROM `bbs_user` WHERE username='$username' LIMIT 1");
+	$user = db_find_one('bbs_user', array('username'=>$username));
 	user_format($user);
 	// hook user_read_by_username_end.php
 	return $user;

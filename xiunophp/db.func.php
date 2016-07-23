@@ -88,9 +88,9 @@ function db_count($table, $cond = array()) {
 	return $r;
 }
 
-function db_maxid($table, $field) {
+function db_maxid($table, $field, $cond = array()) {
 	global $db;
-	$r = $db->maxid($table, $field);
+	$r = $db->maxid($table, $field, $cond);
 	
 	db_errno_errstr($r);
 	
@@ -124,6 +124,11 @@ function db_update($table, $cond, $update) {
 function db_delete($table, $cond) {
 	$condadd = db_cond_to_sqladd($cond);
 	return db_exec("DELETE FROM $table $condadd");
+}
+
+function db_truncate($table) {
+	global $db;
+	return $db->truncate($table);
 }
 
 function db_read($table, $cond) {

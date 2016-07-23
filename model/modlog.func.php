@@ -4,40 +4,35 @@
 
 function modlog__create($arr) {
 	// hook modlog__create_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("INSERT INTO `bbs_modlog` SET $sqladd");
+	$r = db_create('bbs_modlog', $arr);
 	// hook modlog__create_end.php
 	return $r;
 }
 
 function modlog__update($logid, $arr) {
 	// hook modlog__update_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("UPDATE `bbs_modlog` SET $sqladd WHERE logid='$logid'");
+	$r = db_update('bbs_modlog', array('logid'=>$logid), $arr);
 	// hook modlog__update_end.php
 	return $r;
 }
 
 function modlog__read($logid) {
 	// hook modlog__read_start.php
-	$modlog = db_find_one("SELECT * FROM `bbs_modlog` WHERE logid='$logid'");
+	$modlog = db_find_one('bbs_modlog', array('logid'=>$logid));
 	// hook modlog__read_end.php
 	return $modlog;
 }
 
 function modlog__delete($logid) {
 	// hook modlog__delete_start.php
-	$r = db_exec("DELETE FROM `bbs_modlog` WHERE logid='$logid'");
+	$r = db_delete('bbs_modlog', array('logid'=>$logid));
 	// hook modlog__delete_end.php
 	return $r;
 }
 
 function modlog__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook modlog__find_start.php
-	$cond = cond_to_sqladd($cond);
-	$orderby = orderby_to_sqladd($orderby);
-	$offset = ($page - 1) * $pagesize;
-	$modloglist = db_find("SELECT * FROM `bbs_modlog` $cond$orderby LIMIT $offset,$pagesize");
+	$modloglist = db_find('bbs_modlog', $cond, $orderby, $page, $pagesize);
 	// hook modlog__find_end.php
 	return $modloglist;
 }

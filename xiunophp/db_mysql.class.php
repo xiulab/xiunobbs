@@ -111,12 +111,16 @@ class db_mysql {
 		return !empty($arr) ? intval($arr['num']) : $arr;
 	}
 	
-	public function maxid($table, $field) {
-		$sql = "SELECT MAX($field) AS maxid FROM `$table`";
+	public function maxid($table, $field, $cond = array()) {
+		$sqladd = db_cond_to_sqladd($cond);
+		$sql = "SELECT MAX($field) AS maxid FROM `$table` $sqladd";
 		$arr = $this->find_one($sql);
 		return !empty($arr) ? intval($arr['maxid']) : $arr;
 	}
 	
+	public function truncate($table) {
+		return $this->exec("TRUNCATE $table");
+	}
 	
 	/*
 	// $index = array('uid'=>1, 'dateline'=>-1)

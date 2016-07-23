@@ -6,40 +6,35 @@
 
 function forum__create($arr) {
 	// hook forum__create_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("INSERT INTO `bbs_forum` SET $sqladd");
+	$r = db_create('bbs_forum', $arr);
 	// hook forum__create_end.php
 	return $r;
 }
 
 function forum__update($fid, $arr) {
 	// hook forum__update_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("UPDATE `bbs_forum` SET $sqladd WHERE fid='$fid'");
+	$r = db_update('bbs_forum', array('fid'=>$fid), $arr);
 	// hook forum__update_end.php
 	return $r;
 }
 
 function forum__read($fid) {
 	// hook forum__read_start.php
-	$forum = db_find_one("SELECT * FROM `bbs_forum` WHERE fid='$fid'");
+	$forum = db_find_one('bbs_forum', array('fid'=>$fid));
 	// hook forum__read_end.php
 	return $forum;
 }
 
 function forum__delete($fid) {
 	// hook forum__delete_start.php
-	$r = db_exec("DELETE FROM `bbs_forum` WHERE fid='$fid'");
+	$r = db_delete('bbs_forum', array('fid'=>$fid));
 	// hook forum__delete_end.php
 	return $r;
 }
 
 function forum__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 1000) {
 	// hook forum__find_start.php
-	$cond = cond_to_sqladd($cond);
-	$orderby = orderby_to_sqladd($orderby);
-	$offset = ($page - 1) * $pagesize;
-	$forumlist = db_find("SELECT * FROM `bbs_forum` $cond$orderby LIMIT $offset,$pagesize", 'fid');
+	$forumlist = db_find('bbs_forum', $cond, $orderby, $page, $pagesize, 'fid');
 	// hook forum__find_end.php
 	return $forumlist;
 }
@@ -80,7 +75,8 @@ function forum_delete($fid) {
 	// hook forum_delete_start.php
 	
 	//  把板块下所有的帖子都查找出来，此处数据量大可能会超时，所以不要删除帖子特别多的板块
-	$threadlist = db_find("SELECT tid, uid FROM `bbs_thread` WHERE fid='$fid'");
+	$cond = array('fid'=>$fid);
+	$threadlist = db_find('bbs_thread', $cond, array(), 1, 1000000, '', array('tid', 'uid'));
 	foreach ($threadlist as $thread) {
 		thread_delete($thread['tid']);
 	}

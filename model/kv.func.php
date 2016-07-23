@@ -1,22 +1,22 @@
 <?php
 
-
-
 function kv_get($k) {
-	$k = addslashes($k);
-	$arr = db_find_one("SELECT k,v FROM bbs_kv WHERE k='$k'");
+	$arr = db_find_one('bbs_kv', array('k'=>$k));
 	return $arr ? xn_json_decode($arr['v']) : NULL;
 }
 
 function kv_set($k, $v, $life = 0) {
-	$k = addslashes($k);
-	$v = addslashes(xn_json_encode($v));
-	return db_exec("REPLACE INTO bbs_kv SET  k='$k', v='$v'");
+	$arr = array(
+		'k'=>$k,
+		'v'=>$v,
+	);
+	$r = db_replace('bbs_kv', $arr);
+	return $r;
 }
 
 function kv_delete($k) {
-	$k = addslashes($k);
-	return db_exec("DELETE FROM bbs_kv WHERE k='$k'");
+	$r = db_delete('bbs_kv', array('k'=>$k));
+	return $r;
 }
 
 

@@ -6,40 +6,35 @@
 
 function forum_access__create($arr) {
 	// hook forum_access__create_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("INSERT INTO `bbs_forum_access` SET $sqladd");
+	$r = db_create('bbs_forum_access', $arr);
 	// hook forum_access__create_end.php
 	return $r;
 }
 
 function forum_access__update($fid, $gid, $arr) {
 	// hook forum_access__update_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("UPDATE `bbs_forum_access` SET $sqladd WHERE fid='$fid' AND gid='$gid'");
+	$r = db_update('bbs_forum_access', array('fid'=>$fid, 'gid'=>$gid), $arr);
 	// hook forum_access__update_end.php
 	return $r;
 }
 
 function forum_access__read($fid, $gid) {
 	// hook forum_access__read_start.php
-	$access = db_find_one("SELECT * FROM `bbs_forum_access` WHERE fid='$fid' AND gid='$gid'");
+	$access = db_find_one('bbs_forum_access', array('fid'=>$fid, 'gid'=>$gid));
 	// hook forum_access__read_end.php
 	return $access;
 }
 
 function forum_access__delete($fid, $gid) {
 	// hook forum_access__delete_start.php
-	$r = db_exec("DELETE FROM `bbs_forum_access` WHERE fid='$fid' AND gid='$gid'");
+	$r = db_delete('bbs_forum_access', array('fid'=>$fid, 'gid'=>$gid));
 	// hook forum_access__delete_end.php
 	return $r;
 }
 
 function forum_access__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook forum_access__find_start.php
-	$cond = cond_to_sqladd($cond);
-	$orderby = orderby_to_sqladd($orderby);
-	$offset = ($page - 1) * $pagesize;
-	$accesslist = db_find("SELECT * FROM `bbs_forum_access` $cond$orderby LIMIT $offset,$pagesize");
+	$accesslist = db_find('bbs_forum_access', $cond, $orderby, $page, $pagesize);
 	// hook forum_access__find_end.php
 	return $accesslist;
 }
@@ -120,7 +115,9 @@ function forum_access_find($cond = array(), $orderby = array(), $page = 1, $page
 
 function forum_access_find_by_fid($fid) {
 	// hook forum_access_find_by_fid_start.php
-	$accesslist = db_find("SELECT * FROM `bbs_forum_access` WHERE fid='$fid' ORDER BY gid ASC LIMIT 100", 'gid');
+	$cond = array('fid'=>$fid);
+	$orderby = array('gid'=>-1);
+	$accesslist = db_find('bbs_forum_access', $cond, $orderby, 1, 100, 'gid');
 	// hook forum_access_find_by_fid_end.php
 	return $accesslist;
 }
@@ -187,10 +184,9 @@ function forum_access_format(&$access) {
 
 function forum_access_count($cond = array()) {
 	// hook forum_access_count_start.php
-	$cond = cond_to_sqladd($cond);
-	$arr = db_find_one("SELECT COUNT(*) AS num FROM `bbs_forum_access` $cond");
+	$n = db_count('bbs_forum_access', $cond);
 	// hook forum_access_count_end.php
-	return $arr['num'];
+	return $n;
 }
 
 
