@@ -1,4 +1,26 @@
 /********************************* 对 bootstrasp 进行增强 *************************************/
+/* fix .row .row 间距问题 */
+
+.row .row {margin-left: 0; margin-right: 0;}
+.row .row > [class^="col-"] {padding-left: 0; padding-right: 1rem; margin-left: 0; margin-right: 0;}
+.row .row > :last-child {padding-right: 0;}
+@media (max-width: 1200px) {
+	.row .row > [class^="col-xl"] { padding-right: 0; }
+}
+@media (max-width: 992px) {
+	.row .row > [class^="col-lg"] { padding-right: 0; }
+}
+@media (max-width: 768px) {
+	.row .row > [class^="col-md"] { padding-right: 0; }
+}
+@media (max-width: 544px) {
+	.row .row > [class^="col-sm"] { padding-right: 0; }
+}
+
+/*.row .row > :last-child {padding-right: 0;}*/
+/*.row .row > :last-child {padding-right: 0;}*/
+
+
 h5, h6 {font-weight: 800;}
 
 /* card 嵌套 card-group 的时候，去掉多余的边框 */
@@ -22,7 +44,7 @@ h5, h6 {font-weight: 800;}
 .p-r-sm { padding-right: 0.5rem !important } 
 .p-x-sm { padding-left: 0.5rem !important; padding-right: 0.5rem !important } 
 .p-y-sm { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important } 
-.p-a-sm { padding: 0.5rem;}
+.p-a-sm { padding: 0.5rem !important;;}
 .m-b-xs { margin-bottom: 0.3rem !important } 
 .m-t-xs { margin-top: 0.3rem !important } 
 .m-l-xs { margin-left: 0.3rem !important } 
@@ -146,6 +168,10 @@ dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
 @media (max-width: 768px) {
 	.table .avatar-parent {padding-left: 0; padding-right: 0.1rem;}
 }
+@media (min-width: 992px) {
+	div.card.p-a-sm {padding: 0.8rem !important;}
+}
+
 .table td {padding-top: 0.6rem; padding-bottom: 0.6rem;}
 
 /* 靠的太远 */

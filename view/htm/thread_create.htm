@@ -7,9 +7,22 @@
 				<h4 class="card-title"><?php echo lang('thread_create');?></h4>
 				<form action="<?php echo url('thread-create');?>" method="post" id="form">
 					<input type="hidden" name="doctype" value="1" />
-					<fieldset class="form-group">
-						<input type="text" class="form-control" placeholder="<?php echo lang('subject');?>" name="subject" id="subject">
-					</fieldset>
+					<div class="row">
+						<div class="col-lg-8">
+							<fieldset class="form-group">
+								<input type="text" class="form-control" placeholder="<?php echo lang('subject');?>" name="subject" id="subject">
+							</fieldset>
+						</div>
+						<div class="col-lg-4">
+							<fieldset class="form-group">
+								<select class="c-select" name="fid">
+									<?php foreach ($forumlist_show as $forum) { ?>
+									<option value="<?php echo $forum['fid']; ?>"><?php echo $forum['name']; ?></option>
+									<?php } ?>
+								</select>
+							</fieldset>
+						</div>
+					</div>
 					<fieldset class="form-group">
 						<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message" style="height: 300px;"></textarea>
 					</fieldset>
