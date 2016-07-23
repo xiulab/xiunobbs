@@ -178,6 +178,17 @@ function db_read($table, $cond, $d = NULL) {
 function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesize = 10, $key = '', $col = array(), $d = NULL) {
 	global $db;
 	
+	// 高效写法，定参有利于编译器优化
+	$d = $db ? $db : $d;
+	if(!$d) return FALSE;
+	
+	$cond = db_cond_to_sqladd($cond);
+	$orderby = db_orderby_to_sqladd($orderby);
+	$offset = ($page - 1) * $pagesize;
+	$cols = $col ? implode(',', $col) : '*';
+	return db_sql_find("SELECT $cols FROM {$d->tablepre}$table $cond$orderby LIMIT $offset,$pagesize", $key, $d);
+	
+	/* 兼容性写法: 需要兼容，请自行打开开这段注释，默认不兼容
 	if(is_array($table)) {
 		
 		$cond = array_value($table, 'cond');
@@ -216,12 +227,22 @@ function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesi
 		// $sql, $key, $abort(废弃）
 		return db_sql_find($table, $cond, $d);
 	}
+	*/
 }
 
 function db_find_one($table, $cond = array(), $orderby = array(), $col = array(), $d = NULL) {
 	global $db;
 	
+	// 高效写法，定参有利于编译器优化
+	$d = $db ? $db : $d;
+	if(!$d) return FALSE;
 	
+	$cond = db_cond_to_sqladd($cond);
+	$orderby = db_orderby_to_sqladd($orderby);
+	$cols = $col ? implode(',', $col) : '*';
+	return db_sql_find_one("SELECT $cols FROM {$d->tablepre}$table $cond$orderby LIMIT 1", $d);
+	
+	/* 兼容性写法: 需要兼容，请自行打开开这段注释，默认不兼容
 	if(is_array($table)) {
 		
 		$cond = array_value($table, 'cond');
@@ -255,6 +276,7 @@ function db_find_one($table, $cond = array(), $orderby = array(), $col = array()
 		// $sql, $abort(废弃)
 		return db_sql_find_one($table, $d);
 	}
+	*/
 }
 
 // 保存 $db 错误到全局

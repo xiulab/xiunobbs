@@ -1,5 +1,5 @@
 /********************************* 对 bootstrasp 进行增强 *************************************/
-/* fix .row .row 间距问题 */
+/* fix .row .row 间距问题 by axiuno@gmail.com */
 
 .row .row {margin-left: 0; margin-right: 0;}
 .row .row > [class^="col-"] {padding-left: 0; padding-right: 1rem; margin-left: 0; margin-right: 0;}

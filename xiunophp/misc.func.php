@@ -1026,6 +1026,8 @@ function http_403() {
 	exit;
 }
 
+/* 需要兼容，请自行打开开这段注释，默认不兼容
+
 // 兼容 3.0，如果没有使用过，可以砍掉
 function array_to_sqladd($arr) {
 	return db_array_to_update_sqladd($arr);
@@ -1040,6 +1042,7 @@ function cond_to_sqladd($cond) {
 function orderby_to_sqladd($orderby) {
 	return db_orderby_to_sqladd($orderby);
 }
+*/
 
 // 无 Notice 方式的获取超级全局变量中的 key
 function _GET($k) { return isset($_GET[$k]) ? $_GET[$k] : NULL; }
