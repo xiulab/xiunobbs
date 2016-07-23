@@ -203,7 +203,7 @@ CREATE TABLE bbs_post (
   files smallint(6) NOT NULL default '0',		# 附件中包含的文件数
   doctype tinyint(3) NOT NULL default '0',		# 类型，0: html, 1: txt; 2: markdown
   message longtext NOT NULL,				# 内容，用户提示的原始数据
-  message_fmt longtext NOT NULL,			# 内容，存放的过滤后的html内容
+  message_fmt longtext NOT NULL,			# 内容，存放的过滤后的html内容，可以定期清理，减肥。
   PRIMARY KEY (pid),
   KEY (tid, pid)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

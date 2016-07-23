@@ -115,7 +115,8 @@ if($action == 'create') {
 		
 		$forumlist_allowthread = forum_list_access_filter($forumlist, $gid, 'allowthread');
 		$forumarr = xn_json_encode(arrlist_key_values($forumlist_allowthread, 'fid', 'name'));
-		$post['message'] = htmlspecialchars($post['message']);
+		// 如果为数据库减肥，则 message 可能会被设置为空。
+		$post['message'] = htmlspecialchars($post['message'] ? $post['message'] : $post['message_fmt']);
 		
 		// 将未插入帖子的附件加入到末尾。
 		$attachlist = $imagelist = $filelist = array();

@@ -4,8 +4,18 @@
 
 // ------------> 最原生的 CURD，无关联其他数据。
 
-function post__create($arr) {
+// 只用传 message, message_fmt 自动生成
+function post__create($arr, $gid) {
 	// hook post__create_start.php
+	
+	// 超长内容截取
+	$arr['message'] = xn_substr($arr['message'], 0, 2028000);
+	
+	// 格式转换
+	$arr['message_fmt'] = htmlspecialchars($arr['message']);
+	$gid != 1 && $arr['doctype'] == 0 && $arr['message_fmt'] = xn_html_safe($arr['message']);
+	$arr['doctype'] == 1 && $arr['message_fmt'] = xn_txt_to_html($arr['message']);
+	
 	$r = db_insert('bbs_post', $arr);
 	// hook post__create_end.php
 	return $r;
@@ -46,17 +56,7 @@ function post_create($arr, $fid, $gid) {
 	global $conf, $time;
 	// hook post_create_start.php
 	
-	// 超长内容截取
-	$arr['message'] = xn_substr($arr['message'], 0, 2028000);
-	
-	// 格式转换
-	$arr['message_fmt'] = htmlspecialchars($arr['message']);
-	$gid != 1 && $arr['doctype'] == 0 && $arr['message_fmt'] = xn_html_safe($arr['message']);
-	$arr['doctype'] == 1 && $arr['message_fmt'] = xn_txt_to_html($arr['message']);
-	
-	// hook post_create_post__create_before.php
-	
-	$pid = post__create($arr);
+	$pid = post__create($arr, $gid);
 	if(!$pid) return $pid;
 	
 	$tid = $arr['tid'];

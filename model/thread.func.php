@@ -47,7 +47,7 @@ function thread__find($cond = array(), $orderby = array(), $page = 1, $pagesize 
 
 function thread_create($arr, &$pid) {
 	// hook thread_create_start.php
-	global $conf;
+	global $conf, $gid;
 	$fid = $arr['fid'];
 	$uid = $arr['uid'];
 	$subject = $arr['subject'];
@@ -66,7 +66,7 @@ function thread_create($arr, &$pid) {
 		'message'=>$message,
 		'doctype'=>$doctype,
 	);
-	$pid = post__create($post);
+	$pid = post__create($post, $gid);
 	if($pid === FALSE) return FALSE;
 	
 	// empty($pid) AND message(1, '创建帖子失败');

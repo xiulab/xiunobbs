@@ -92,7 +92,7 @@ nav.bg-inverse .dropdown-item:hover {
 .navbar {padding-top: 0.3rem; padding-bottom: 0.3rem;}
 
 /* checkbox 太灰 */
-.c-checkbox .c-indicator {border: 1px solid #bbb;}
+.c-checkbox .c-indicator, .c-radio .c-indicator {border: 1px solid #bbb;}
 
 
 /* bbs 全局定义 */
