@@ -11,7 +11,7 @@ function mythread_create($uid, $tid) {
 	if($uid == 0) return TRUE; // 匿名发帖
 	$thread = mythread_read($uid, $tid);
 	if(empty($thread)) {
-		$r = db_create('bbs_mythread', array('uid'=>$uid, 'tid'=>$tid));
+		$r = db_create('mythread', array('uid'=>$uid, 'tid'=>$tid));
 		return $r;
 	} else {
 		return TRUE;
@@ -21,42 +21,42 @@ function mythread_create($uid, $tid) {
 
 function mythread_read($uid, $tid) {
 	// hook mythread_read_start.php
-	$mythread = db_find_one('bbs_mythread', array('uid'=>$uid, 'tid'=>$tid));
+	$mythread = db_find_one('mythread', array('uid'=>$uid, 'tid'=>$tid));
 	// hook mythread_read_end.php
 	return $mythread;
 }
 
 function mythread_delete($uid, $tid) {
 	// hook mythread_delete_start.php
-	$r = db_delete('bbs_mythread', array('uid'=>$uid, 'tid'=>$tid));
+	$r = db_delete('mythread', array('uid'=>$uid, 'tid'=>$tid));
 	// hook mythread_delete_end.php
 	return $r;
 }
 
 function mythread_delete_by_uid($uid) {
 	// hook mythread_delete_by_uid_start.php
-	$r = db_delete('bbs_mythread', array('uid'=>$uid));
+	$r = db_delete('mythread', array('uid'=>$uid));
 	// hook mythread_delete_by_uid_end.php
 	return $r;
 }
 
 function mythread_delete_by_fid($fid) {
 	// hook mythread_delete_by_fid_start.php
-	$r = db_delete('bbs_mythread', array('fid'=>$fid));
+	$r = db_delete('mythread', array('fid'=>$fid));
 	// hook mythread_delete_by_fid_end.php
 	return $r;
 }
 
 function mythread_delete_by_tid($tid) {
 	// hook mythread_delete_by_tid_start.php
-	$r = db_delete('bbs_mythread', array('tid'=>$tid));
+	$r = db_delete('mythread', array('tid'=>$tid));
 	// hook mythread_delete_by_tid_end.php
 	return $r;
 }
 
 function mythread_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook mythread_find_start.php
-	$mythreadlist = db_find('bbs_mythread', $cond, $orderby, $page, $pagesize);
+	$mythreadlist = db_find('mythread', $cond, $orderby, $page, $pagesize);
 	// hook mythread_find_end.php
 	return $mythreadlist;
 }

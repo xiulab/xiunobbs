@@ -6,35 +6,35 @@
 
 function ipaccess_create($arr) {
 	// hook ipaccess_create_start.php
-	$r = db_create('bbs_ipaccess', $arr);
+	$r = db_create('ipaccess', $arr);
 	// hook ipaccess_create_end.php
 	return $r;
 }
 
 function ipaccess_update($ip, $arr) {
 	// hook ipaccess_update_start.php
-	$r = db_update('bbs_ipaccess', array('ip'=>$ip), $arr);
+	$r = db_update('ipaccess', array('ip'=>$ip), $arr);
 	// hook ipaccess_update_end.php
 	return $r;
 }
 
 function ipaccess_read($ip) {
 	// hook ipaccess_read_start.php
-	$ipaccess = db_find_one('bbs_ipaccess', array('ip'=>$ip));
+	$ipaccess = db_find_one('ipaccess', array('ip'=>$ip));
 	// hook ipaccess_read_end.php
 	return $ipaccess;
 }
 
 function ipaccess_delete($ip) {
 	// hook ipaccess_delete_start.php
-	$r = db_delete('bbs_ipaccess', array('ip'=>$ip));
+	$r = db_delete('ipaccess', array('ip'=>$ip));
 	// hook ipaccess_delete_end.php
 	return $r;
 }
 
 function ipaccess_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook ipaccess_find_start.php
-	$ipaccesslist = db_find('bbs_ipaccess', $cond, $orderby, $page, $pagesize);
+	$ipaccesslist = db_find('ipaccess', $cond, $orderby, $page, $pagesize);
 	// hook ipaccess_find_end.php
 	return $ipaccesslist;
 }
@@ -85,14 +85,14 @@ function ipaccess_check_freq($ip) {
 // ------------> 其他方法
 function ipaccess_count() {
 	// hook ipaccess_count_start.php
-	$n = db_count('bbs_ipaccess');
+	$n = db_count('ipaccess');
 	// hook ipaccess_count_end.php
 	return $n;
 }
 
 function ipaccess_truncate() {
 	// hook ipaccess_truncate_start.php
-	$r =  db_truncate('bbs_ipaccess');
+	$r =  db_truncate('ipaccess');
 	// hook ipaccess_truncate_end.php
 	return $r;
 }

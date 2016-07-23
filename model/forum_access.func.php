@@ -6,35 +6,35 @@
 
 function forum_access__create($arr) {
 	// hook forum_access__create_start.php
-	$r = db_create('bbs_forum_access', $arr);
+	$r = db_create('forum_access', $arr);
 	// hook forum_access__create_end.php
 	return $r;
 }
 
 function forum_access__update($fid, $gid, $arr) {
 	// hook forum_access__update_start.php
-	$r = db_update('bbs_forum_access', array('fid'=>$fid, 'gid'=>$gid), $arr);
+	$r = db_update('forum_access', array('fid'=>$fid, 'gid'=>$gid), $arr);
 	// hook forum_access__update_end.php
 	return $r;
 }
 
 function forum_access__read($fid, $gid) {
 	// hook forum_access__read_start.php
-	$access = db_find_one('bbs_forum_access', array('fid'=>$fid, 'gid'=>$gid));
+	$access = db_find_one('forum_access', array('fid'=>$fid, 'gid'=>$gid));
 	// hook forum_access__read_end.php
 	return $access;
 }
 
 function forum_access__delete($fid, $gid) {
 	// hook forum_access__delete_start.php
-	$r = db_delete('bbs_forum_access', array('fid'=>$fid, 'gid'=>$gid));
+	$r = db_delete('forum_access', array('fid'=>$fid, 'gid'=>$gid));
 	// hook forum_access__delete_end.php
 	return $r;
 }
 
 function forum_access__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook forum_access__find_start.php
-	$accesslist = db_find('bbs_forum_access', $cond, $orderby, $page, $pagesize);
+	$accesslist = db_find('forum_access', $cond, $orderby, $page, $pagesize);
 	// hook forum_access__find_end.php
 	return $accesslist;
 }
@@ -117,7 +117,7 @@ function forum_access_find_by_fid($fid) {
 	// hook forum_access_find_by_fid_start.php
 	$cond = array('fid'=>$fid);
 	$orderby = array('gid'=>-1);
-	$accesslist = db_find('bbs_forum_access', $cond, $orderby, 1, 100, 'gid');
+	$accesslist = db_find('forum_access', $cond, $orderby, 1, 100, 'gid');
 	// hook forum_access_find_by_fid_end.php
 	return $accesslist;
 }
@@ -184,7 +184,7 @@ function forum_access_format(&$access) {
 
 function forum_access_count($cond = array()) {
 	// hook forum_access_count_start.php
-	$n = db_count('bbs_forum_access', $cond);
+	$n = db_count('forum_access', $cond);
 	// hook forum_access_count_end.php
 	return $n;
 }

@@ -26,7 +26,7 @@ function sess_close() {
 	);
 	$update = array_diff_value($update, $g_session);
 	
-	db_update('bbs_session', array('sid'=>$sid), $update);
+	db_update('session', array('sid'=>$sid), $update);
 	
 	return true;
 }
@@ -42,13 +42,13 @@ function sess_read($sid) {
 		sess_new($sid);
 		return '';
 	}
-	$arr = db_find_one('bbs_session', array('sid'=>$sid));
+	$arr = db_find_one('session', array('sid'=>$sid));
 	if(empty($arr)) {
 		sess_new($sid);
 		return '';
 	}
 	if($arr['bigdata'] == 1) {
-		$arr2 = db_find_one('bbs_session_data', array('sid'=>$sid));
+		$arr2 = db_find_one('session_data', array('sid'=>$sid));
 		$arr['data'] = $arr2['data'];
 	}
 	$g_session = $arr;
@@ -61,7 +61,7 @@ function sess_new($sid) {
 	$agent = _SERVER('HTTP_USER_AGENT');
 	
 	// 干掉同 ip 的 sid，仅仅在遭受攻击的时候
-	//db_delete('bbs_session', array('ip'=>$longip));
+	//db_delete('session', array('ip'=>$longip));
 	
 	$cookie_test = _COOKIE('cookie_test');
 	if($cookie_test) {
@@ -95,7 +95,7 @@ function sess_new($sid) {
 		'useragent'=> $agent,
 		'bigdata'=> 0,
 	);
-	db_insert('bbs_session', $arr);
+	db_insert('session', $arr);
 	
 }
 
@@ -124,29 +124,29 @@ function sess_write($sid, $data) {
 	$data = addslashes($data);
 	$len = strlen($data);
 	if($len > 255 && $g_session['bigdata'] == 0) {
-		db_insert('bbs_session_data', array('sid'=>$sid));
+		db_insert('session_data', array('sid'=>$sid));
 	}
 	if($len <= 255) {
 		$update = array_diff_value($arr, $g_session);
-		db_update('bbs_session', array('sid'=>$sid), $update);
+		db_update('session', array('sid'=>$sid), $update);
 		if(!empty($g_session) && $g_session['bigdata'] == 1) {
-			db_delete('bbs_session_data', array('sid'=>$sid));
+			db_delete('session_data', array('sid'=>$sid));
 		}
 	} else {
 		$arr['data'] = '';
 		$arr['bigdata'] = 1;
 		$update = array_diff_value($arr, $g_session);
-		$update AND db_update('bbs_session', array('sid'=>$sid), $update);
+		$update AND db_update('session', array('sid'=>$sid), $update);
 		$update2 = array_diff_value(array('data'=>$data, 'last_date'=>$time), $g_session);
-		$update2 AND db_update('bbs_session_data', array('sid'=>$sid), $update2);
+		$update2 AND db_update('session_data', array('sid'=>$sid), $update2);
 	}
 	return TRUE;
 }
 
 function sess_destroy($sid) { 
 	//echo "sess_destroy($sid) \r\n";
-	db_delete('bbs_session', array('sid'=>$sid));
-	db_delete('bbs_session_data', array('sid'=>$sid));
+	db_delete('session', array('sid'=>$sid));
+	db_delete('session_data', array('sid'=>$sid));
 	return TRUE; 
 }
 
@@ -154,8 +154,8 @@ function sess_gc($maxlifetime) {
 	//echo "sess_gc($maxlifetime) \r\n";
 	global $time;
 	$expiry = $time - $maxlifetime;
-	db_delete('bbs_session', array('last_date'=>array('<'=>$expiry)));
-	db_delete('bbs_session_data', array('last_date'=>array('<'=>$expiry)));
+	db_delete('session', array('last_date'=>array('<'=>$expiry)));
+	db_delete('session_data', array('last_date'=>array('<'=>$expiry)));
 	return TRUE; 
 }
 
@@ -190,4 +190,11 @@ function sess_start() {
 	//echo "sess_start() sid: $sid <br>\r\n";
 }
 
+function online_count() {
+	return db_count('session');
+}
+
+function online_find_cache() {
+	return db_find('session');
+}
 ?>

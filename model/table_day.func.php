@@ -3,15 +3,15 @@
 // -------------> 用来统计表每天的最大ID，有利于加速！
 function table_day_read($table, $year, $month, $day) {
 	// hook table_day_read_start.php
-	$arr = db_find_one('bbs_table_day', array('year'=>$year, 'month'=>$month, 'day'=>$day, 'table'=>$table));
+	$arr = db_find_one('table_day', array('year'=>$year, 'month'=>$month, 'day'=>$day, 'table'=>$table));
 	// hook table_day_read_end.php
 	return $arr;
 }
 
 /*
 	// 支持两种日期格式：年-月-日 or UNIXTIMESTAMP
-	$maxtid = table_day_maxid('bbs_thread', '2014-9-1');
-	$maxtid = table_day_maxid('bbs_thread', 1234567890);
+	$maxtid = table_day_maxid('thread', '2014-9-1');
+	$maxtid = table_day_maxid('thread', 1234567890);
 
 */
 function table_day_maxid($table, $date) {
@@ -55,7 +55,7 @@ function table_day_cron($crontime = 0) {
 			'maxid'=>$maxid, 
 			'count'=>$count
 		);
-		db_replace('bbs_table_day', $arr);
+		db_replace('table_day', $arr);
 	}
 	// hook table_day_cron_end.php
 }

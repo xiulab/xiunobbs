@@ -6,35 +6,35 @@
 
 function attach__create($arr) {
 	// hook attach__create_start.php
-	$r = db_create('bbs_attach', $arr);
+	$r = db_create('attach', $arr);
 	// hook attach__create_end.php
 	return $r;
 }
 
 function attach__update($aid, $arr) {
 	// hook attach__update_start.php
-	$r = db_update('bbs_attach', array('aid'=>$aid), $arr);
+	$r = db_update('attach', array('aid'=>$aid), $arr);
 	// hook attach__update_end.php
 	return $r;
 }
 
 function attach__read($aid) {
 	// hook attach__read_start.php
-	$attach = db_find_one('bbs_attach', array('aid'=>$aid));
+	$attach = db_find_one('attach', array('aid'=>$aid));
 	// hook attach__read_end.php
 	return $attach;
 }
 
 function attach__delete($aid) {
 	// hook attach__delete_start.php
-	$r = db_delete('bbs_attach', array('aid'=>$aid));
+	$r = db_delete('attach', array('aid'=>$aid));
 	// hook attach__delete_end.php
 	return $r;
 }
 
 function attach__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook attach__find_start.php
-	$attachlist = db_find('bbs_attach', $cond, $orderby, $page, $pagesize);
+	$attachlist = db_find('attach', $cond, $orderby, $page, $pagesize);
 	// hook attach__find_end.php
 	return $attachlist;
 }
@@ -123,7 +123,7 @@ function attach_format(&$attach) {
 function attach_count($cond = array()) {
 	// hook attach_count_start.php
 	$cond = cond_to_sqladd($cond);
-	$n = db_count('bbs_attach', $cond);
+	$n = db_count('attach', $cond);
 	// hook attach_count_end.php
 	return $n;
 }
@@ -184,7 +184,7 @@ function attach_type($name, $types) {
 function attach_gc() {
 	// hook attach_gc_start.php
 	global $time, $conf;
-	$attachlist = db_find('bbs_attach', array('pid'=>0));
+	$attachlist = db_find('attach', array('pid'=>0));
 	if(empty($attachlist)) return;
 	foreach($attachlist as $attach) {
 		// 如果是 1 天内的附件，则不处理，可能正在发帖

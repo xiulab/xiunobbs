@@ -64,8 +64,8 @@ check_runlevel();
 // 记录 POST 数据
 //DEBUG AND xn_log_post_data();
 
-// 全站的设置数据，站点名称，描述，关键词，页脚代码等
-$setting = cache_get('setting', TRUE);
+// 全站的设置数据，站点名称，描述，关键词，页脚代码等，应该存入 kv
+$setting = cache_get('setting');
 
 //DEBUG AND ($method == 'POST' || $ajax) AND sleep(1);
 

@@ -6,28 +6,28 @@
 
 function thread__create($arr) {
 	// hook thread__create_start.php
-	$r = db_insert('bbs_thread', $arr);
+	$r = db_insert('thread', $arr);
 	// hook thread__create_end.php
 	return $r;
 }
 
 function thread__update($tid, $arr) {
 	// hook thread__update_start.php
-	$r = db_update('bbs_thread', array('tid'=>$tid), $arr);
+	$r = db_update('thread', array('tid'=>$tid), $arr);
 	// hook thread__update_end.php
 	return $r;
 }
 
 function thread__read($tid) {
 	// hook thread__read_start.php
-	$thread = db_find_one('bbs_thread', array('tid'=>$tid));
+	$thread = db_find_one('thread', array('tid'=>$tid));
 	// hook thread__read_end.php
 	return $thread;
 }
 
 function thread__delete($tid) {
 	// hook thread__delete_start.php
-	$r = db_delete('bbs_thread', array('tid'=>$tid));
+	$r = db_delete('thread', array('tid'=>$tid));
 	// hook thread__delete_end.php
 	return $r;
 }
@@ -35,11 +35,11 @@ function thread__delete($tid) {
 function thread__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook thread__find_start.php
 	
-	$arrlist = db_find('bbs_thread', $cond, $orderby, $page, $pagesize, 'tid', array('tid'));
+	$arrlist = db_find('thread', $cond, $orderby, $page, $pagesize, 'tid', array('tid'));
 	if(empty($arrlist)) return array();
 	
 	$tidarr = arrlist_values($arrlist, 'tid');
-	$threadlist = db_find('bbs_thread', array('tid'=>$tidarr));
+	$threadlist = db_find('thread', array('tid'=>$tidarr));
 	
 	// hook thread__find_end.php
 	return $threadlist;
@@ -296,7 +296,7 @@ function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'tid') {
 // 默认搜索标题
 function thread_find_by_keyword($keyword) {
 	// hook thread_find_by_keyword_start.php
-	$threadlist = db_find('bbs_thread', array('subject'=>array('LIKE'=>$keyword)), array(), 1, 60);
+	$threadlist = db_find('thread', array('subject'=>array('LIKE'=>$keyword)), array(), 1, 60);
 	arrlist_multisort($threadlist, 'tid', FALSE); // 用 PHP 排序，mysql 排序消耗太大。
 	if($threadlist) {
 		foreach ($threadlist as &$thread) {
@@ -313,7 +313,7 @@ function thread_find_tids($fid, $pagesize = 20, $order = 'tid') {
 	// hook thread_find_tids_start.php
 	global $conf;
 	$limit = $pagesize * $conf['cache_thread_list_pages'];
-	$tidlist = db_find('bbs_thread', array('fid'=>$fid), array($order=>-1), 1, $limit, 'tid');
+	$tidlist = db_find('thread', array('fid'=>$fid), array($order=>-1), 1, $limit, 'tid');
 	$tids = arrlist_values($tidlist, 'tid');
 	// hook thread_find_tids_end.php
 	return $tids;
@@ -324,7 +324,7 @@ function thread_find_by_tids($tids, $page = 1, $pagesize = 20, $order = 'tid') {
 	$start = ($page - 1) * $pagesize;
 	$tids = array_slice($tids, $start, $pagesize);
 	if(!$tids) return array();
-	$threadlist = db_find('bbs_thread', array('tid'=>$tids), array($order=>-1), 1, 100, 'tid');
+	$threadlist = db_find('thread', array('tid'=>$tids), array($order=>-1), 1, 100, 'tid');
 	if($threadlist) foreach($threadlist as &$thread) thread_format($thread);
 	// hook thread_find_by_tids_end.php
 	return $threadlist;
@@ -400,14 +400,14 @@ function thread_format_last_date(&$thread) {
 
 function thread_count($cond = array()) {
 	// hook thread_count_start.php
-	$n = db_count('bbs_thread', $cond);
+	$n = db_count('thread', $cond);
 	// hook thread_count_end.php
 	return $n;
 }
 
 function thread_maxid() {
 	// hook thread_maxid_start.php
-	$n = db_maxid('bbs_thread', 'tid');
+	$n = db_maxid('thread', 'tid');
 	// hook thread_maxid_end.php
 	return $n;
 }
@@ -464,10 +464,10 @@ function thread_check_lastpid($tid, $lastpid) {
 	$thread = thread_read_cache($tid);
 	if(empty($thread)) return;
 	if($thread['lastpid'] == $lastpid) {
-		$arr = db_find_one('bbs_post', array('tid'=>$tid), array('pid'=>-1), 'pid');
+		$arr = db_find_one('post', array('tid'=>$tid), array('pid'=>-1), 'pid');
 		if(empty($arr)) return;
 		$lastpid = $arr['pid'];
-		db_update('bbs_thread', array('tid'=>$tid), array('lastpid'=>$lastpid));
+		db_update('thread', array('tid'=>$tid), array('lastpid'=>$lastpid));
 		// 如果在最新主题当中，应该清理掉。
 		//thread_lastpid_truncate();
 	}

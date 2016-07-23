@@ -8,8 +8,11 @@ class db_pdo_sqlite {
 	public $link = NULL;   // 最后一次使用的连接
 	public $errno = 0;
 	public $errstr = '';
+	public $tablepre = '';
+	
 	public function __construct($conf) {
 		$this->conf = $conf;
+		$this->tablepre = $conf['master']['tablepre'];
 	}
 	
 	// 根据配置文件连接

@@ -4,14 +4,14 @@
 
 function thread_lastpid_read($tid) {
 	// hook thread_lastpid_read_start.php
-	$r = find_one('bbs_thread_lastpid', array('tid'=>$tid));
+	$r = find_one('thread_lastpid', array('tid'=>$tid));
 	// hook thread_lastpid_read_end.php
 	return $r;
 }
 
 function thread_lastpid__create($tid, $lastpid) {
 	// hook thread_lastpid__create_start.php
-	$r = db_create('bbs_thread_lastpid', array('tid'=>$tid, 'lastpid'=>$lastpid));
+	$r = db_create('thread_lastpid', array('tid'=>$tid, 'lastpid'=>$lastpid));
 	// hook thread_lastpid__create_end.php
 	return $r;
 }
@@ -20,7 +20,7 @@ function thread_lastpid_create($tid, $lastpid) {
 	// hook thread_lastpid_create_start.php
 	$r = thread_lastpid_read($tid);
 	if($r) {
-		$r = db_update('bbs_thread_lastpid', array('tid'=>$tid), array('lastpid'=>$lastpid));
+		$r = db_update('thread_lastpid', array('tid'=>$tid), array('lastpid'=>$lastpid));
 	} else {
 		$r = thread_lastpid__create($tid, $lastpid);
 	}
@@ -30,14 +30,14 @@ function thread_lastpid_create($tid, $lastpid) {
 
 function thread_lastpid_delete($tid) {
 	// hook thread_lastpid_delete_start.php
-	$r = db_delete('bbs_thread_lastpid', array('tid'=>$tid));
+	$r = db_delete('thread_lastpid', array('tid'=>$tid));
 	// hook thread_lastpid_delete_end.php
 	return $r;
 }
 
 function thread_lastpid_count() {
 	// hook thread_lastpid_count_start.php
-	$n = db_count('bbs_thread_lastpid');
+	$n = db_count('thread_lastpid');
 	// hook thread_lastpid_count_end.php
 	return $n;
 }
@@ -45,7 +45,7 @@ function thread_lastpid_count() {
 function thread_lastpid_find() {
 	// hook thread_lastpid_find_start.php
 	
-	$threadlist = db_find('bbs_thread_lastpid', array(), array('lastpid'=>-1), 1, 100);
+	$threadlist = db_find('thread_lastpid', array(), array('lastpid'=>-1), 1, 100);
 	if(empty($threadlist)) {
 		// 此处特殊情况，一般不会执行到此处，无须索引
 		$threadlist = thread_find(array(), array('lastpid'=>-1), 1, 100);
@@ -62,7 +62,7 @@ function thread_lastpid_find() {
 
 function thread_lastpid_truncate() {
 	// hook thread_lastpid_truncate_start.php
-	db_truncate('bbs_thread_lastpid');
+	db_truncate('thread_lastpid');
 	thread_lastpid_cache_delete();
 	// hook thread_lastpid_truncate_end.php
 }

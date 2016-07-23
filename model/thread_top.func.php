@@ -17,7 +17,7 @@ function thread_top_change($tid, $top = 0) {
 		thread_new_cache_delete();
 		
 		$arr = array('fid'=>$fid, 'tid'=>$tid, 'top'=>$top);
-		$r = db_replace('bbs_thread_top', $arr);
+		$r = db_replace('thread_top', $arr);
 		return $r;
 	}
 	// hook thread_top_change_end.php
@@ -26,7 +26,7 @@ function thread_top_change($tid, $top = 0) {
 
 function thread_top_delete($tid) {
 	// hook thread_top_delete_start.php
-	$r = db_delete('bbs_thread_top', array('tid'=>$tid));
+	$r = db_delete('thread_top', array('tid'=>$tid));
 	// hook thread_top_delete_end.php
 	return $r;
 }
@@ -34,9 +34,9 @@ function thread_top_delete($tid) {
 function thread_top_find($fid = 0) {
 	// hook thread_top_find_start.php
 	if($fid == 0) {
-		$threadlist = db_find('bbs_thread_top', array('top'=>3), array('tid'=>-1), 1, 100, 'tid');
+		$threadlist = db_find('thread_top', array('top'=>3), array('tid'=>-1), 1, 100, 'tid');
 	} else {
-		$threadlist = db_find('bbs_thread_top', array('fid'=>$fid, 'top'=>1), array('tid'=>-1), 1, 100, 'tid');
+		$threadlist = db_find('thread_top', array('fid'=>$fid, 'top'=>1), array('tid'=>-1), 1, 100, 'tid');
 	}
 	$tids = arrlist_values($threadlist, 'tid');
 	$threadlist = thread_find_by_tids($tids, 1, 100);
@@ -73,7 +73,7 @@ function thread_top_cache_delete() {
 
 function thread_top_update_by_tid($tid, $newfid) {
 	// hook thread_top_update_by_tid_start.php
-	$r = db_update('bbs_thread_top', array('tid'=>$tid), array('fid'=>$newfid));
+	$r = db_update('thread_top', array('tid'=>$tid), array('fid'=>$newfid));
 	// hook thread_top_update_by_tid_end.php
 	return $r;
 }

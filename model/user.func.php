@@ -6,28 +6,28 @@
 
 function user__create($arr) {
 	// hook user__create_start.php
-	$r = db_insert('bbs_user', $arr);
+	$r = db_insert('user', $arr);
 	// hook user__create_end.php
 	return $r;
 }
 
 function user__update($uid, $update) {
 	// hook user__update_start.php
-	$r = db_update('bbs_user', array('uid'=>$uid), $update);
+	$r = db_update('user', array('uid'=>$uid), $update);
 	// hook user__update_end.php
 	return $r;
 }
 
 function user__read($uid) {
 	// hook user__read_start.php
-	$user = db_find_one('bbs_user', array('uid'=>$uid));
+	$user = db_find_one('user', array('uid'=>$uid));
 	// hook user__read_end.php
 	return $user;
 }
 
 function user__delete($uid) {
 	// hook user__delete_start.php
-	$r = db_delete('bbs_user', array('uid'=>$uid));
+	$r = db_delete('user', array('uid'=>$uid));
 	// hook user__delete_end.php
 	return $r;
 }
@@ -111,7 +111,7 @@ function user_delete($uid) {
 
 function user_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook user_find_start.php
-	$userlist = db_find('bbs_user', $cond, $orderby, $page, $pagesize);
+	$userlist = db_find('user', $cond, $orderby, $page, $pagesize);
 	if($userlist) foreach ($userlist as &$user) user_format($user);
 	// hook user_find_end.php
 	return $userlist;
@@ -121,7 +121,7 @@ function user_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 2
 
 function user_read_by_email($email) {
 	// hook user_read_by_email_start.php
-	$user = db_find_one('bbs_user', array('email'=>$email));
+	$user = db_find_one('user', array('email'=>$email));
 	user_format($user);
 	// hook user_read_by_email_end.php
 	return $user;
@@ -129,7 +129,7 @@ function user_read_by_email($email) {
 
 function user_read_by_username($username) {
 	// hook user_read_by_username_start.php
-	$user = db_find_one('bbs_user', array('username'=>$username));
+	$user = db_find_one('user', array('username'=>$username));
 	user_format($user);
 	// hook user_read_by_username_end.php
 	return $user;
@@ -137,14 +137,14 @@ function user_read_by_username($username) {
 
 function user_count($cond = array()) {
 	// hook user_count_start.php
-	$n = db_count('bbs_user', $cond);
+	$n = db_count('user', $cond);
 	// hook user_count_end.php
 	return $n;
 }
 
 function user_maxid($cond = array()) {
 	// hook user_maxid_start.php
-	$n = db_maxid('bbs_user', 'uid');
+	$n = db_maxid('user', 'uid');
 	// hook user_maxid_end.php
 	return $n;
 }

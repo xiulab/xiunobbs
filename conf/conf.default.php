@@ -14,14 +14,17 @@ return array (
 	// -------------> xiunophp 依赖的配置
 	'db'=>array(
 		'type'=>'mysql',
+		'tablepre'=>'bbs_',
 		'mysql' => array (
-			'master' => array (								
-				'host' => 'localhost',								
+			'master' => array (		
+				'host' => 'localhost',	// 非默认端口写法：localhost:3306						
 				'user' => 'root',				
 				'password' => 'root',				
-				'name' => 'test',				
+				'name' => 'test',
+				'tablepre' => 'bbs_',
 				'charset' => 'utf8',				
 				'engine'=>'myisam', // innodb
+				
 			),			
 			'slaves' => array()
 		),
@@ -31,6 +34,7 @@ return array (
 				'user' => 'root',
 				'password' => 'root',	
 				'name' => 'test',
+				'tablepre' => 'bbs_',
 				'charset' => 'utf8',				
 				'engine'=>'myisam',  // innodb
 			),			
@@ -39,14 +43,20 @@ return array (
 	),
 	'cache'=> array(
 		'enable' => TRUE,
+		
 		'type'=> 'mysql', // apc/xcache/yac/redis/memcached/mysql/saekv
 		'memcached'=> array (
 			'host'=>'localhost',
 			'port'=>'11211',
+			'cachepre'=>'bbs_',
 		),
 		'redis'=> array (
 			'host'=>'localhost',
 			'port'=>'6379',
+			'cachepre'=>'bbs_',
+		),
+		'mysql'=> array (
+			'cachepre'=>'bbs_',
 		),
 	),
 	

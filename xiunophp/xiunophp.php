@@ -45,7 +45,6 @@ include './xiunophp/cache_apc.class.php';
 include './xiunophp/cache_memcached.class.php';
 include './xiunophp/cache_mysql.class.php';
 include './xiunophp/cache_redis.class.php';
-include './xiunophp/cache_saekv.class.php';
 include './xiunophp/cache_xcache.class.php';
 
 // ----------------------------------------------------------> 全局函数
@@ -101,8 +100,10 @@ $_REQUEST = array_merge($_COOKIE, $_POST, $_GET);
 
 // 初始化 db cache，这里并没有连接，在获取数据的时候会自动连接。
 $db = !empty($conf['db']) ? db_new($conf['db']) : NULL;
-$cache = !empty($conf['cache']) ? cache_new($conf['cache']) : NULL;
 $db AND $db->errno AND xn_message(-1, $db->errstr); // 安装的时候检测过了，不必每次都检测。但是要考虑环境移植。
-$cache AND $cache->errno AND xn_message(-1, $cache->errstr);
+
+$conf['cache']['mysql']['db'] = $db; // 这里直接传 $db，复用 $db；如果传配置文件，会产生新链接。
+$cache = !empty($conf['cache']) ? cache_new($conf['cache']) : NULL;
+!$cache AND $errno AND xn_message(-1, $errstr);
 
 ?>

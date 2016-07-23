@@ -9,9 +9,11 @@ class db_pdo_mysql {
 	public $errno = 0;
 	public $errstr = '';
 	public $sqls = array();
+	public $tablepre = '';
 	
 	public function __construct($conf) {
 		$this->conf = $conf;
+		$this->tablepre = $conf['master']['tablepre'];
 	}
 	
 	// 根据配置文件连接
@@ -146,8 +148,7 @@ class db_pdo_mysql {
 	}
 	
 	
-	// ----------> 4.0 增加的方法
-	/*
+	/* 表结构相关方法，不用
 	// $index = array('uid'=>1, 'dateline'=>-1)
 	public function index_create($table, $index) {
 		$keys = implode(', ', array_keys($index));

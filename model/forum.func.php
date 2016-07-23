@@ -6,35 +6,35 @@
 
 function forum__create($arr) {
 	// hook forum__create_start.php
-	$r = db_create('bbs_forum', $arr);
+	$r = db_create('forum', $arr);
 	// hook forum__create_end.php
 	return $r;
 }
 
 function forum__update($fid, $arr) {
 	// hook forum__update_start.php
-	$r = db_update('bbs_forum', array('fid'=>$fid), $arr);
+	$r = db_update('forum', array('fid'=>$fid), $arr);
 	// hook forum__update_end.php
 	return $r;
 }
 
 function forum__read($fid) {
 	// hook forum__read_start.php
-	$forum = db_find_one('bbs_forum', array('fid'=>$fid));
+	$forum = db_find_one('forum', array('fid'=>$fid));
 	// hook forum__read_end.php
 	return $forum;
 }
 
 function forum__delete($fid) {
 	// hook forum__delete_start.php
-	$r = db_delete('bbs_forum', array('fid'=>$fid));
+	$r = db_delete('forum', array('fid'=>$fid));
 	// hook forum__delete_end.php
 	return $r;
 }
 
 function forum__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 1000) {
 	// hook forum__find_start.php
-	$forumlist = db_find('bbs_forum', $cond, $orderby, $page, $pagesize, 'fid');
+	$forumlist = db_find('forum', $cond, $orderby, $page, $pagesize, 'fid');
 	// hook forum__find_end.php
 	return $forumlist;
 }
@@ -76,7 +76,7 @@ function forum_delete($fid) {
 	
 	//  把板块下所有的帖子都查找出来，此处数据量大可能会超时，所以不要删除帖子特别多的板块
 	$cond = array('fid'=>$fid);
-	$threadlist = db_find('bbs_thread', $cond, array(), 1, 1000000, '', array('tid', 'uid'));
+	$threadlist = db_find('thread', $cond, array(), 1, 1000000, '', array('tid', 'uid'));
 	foreach ($threadlist as $thread) {
 		thread_delete($thread['tid']);
 	}
@@ -116,14 +116,14 @@ function forum_format(&$forum) {
 
 function forum_count($cond = array()) {
 	// hook forum_count_start.php
-	$n = db_count('bbs_forum', $cond);
+	$n = db_count('forum', $cond);
 	// hook forum_count_end.php
 	return $n;
 }
 
 function forum_maxid() {
 	// hook forum_maxid_start.php
-	$n = db_maxid('bbs_forum', 'fid');
+	$n = db_maxid('forum', 'fid');
 	// hook forum_maxid_end.php
 	return $n;
 }
@@ -161,7 +161,7 @@ function forum_list_cache_delete() {
 /*function forum_new_tids($fid) {
 	// hook forum_new_tids_start.php
 	global $conf, $time;
-	$maxtid = table_day_maxid('bbs_thread', $time - $conf['new_thread_days'] * 86400);
+	$maxtid = table_day_maxid('thread', $time - $conf['new_thread_days'] * 86400);
 	$arrlist = db_find("SELECT tid,last_date FROM `bbs_thread` WHERE fid='$fid' AND tid>'$maxtid'");
 	$r = array();
 	foreach($arrlist as $arr) $r[$arr['tid']] = intval($arr['last_date']);

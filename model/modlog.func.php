@@ -4,35 +4,35 @@
 
 function modlog__create($arr) {
 	// hook modlog__create_start.php
-	$r = db_create('bbs_modlog', $arr);
+	$r = db_create('modlog', $arr);
 	// hook modlog__create_end.php
 	return $r;
 }
 
 function modlog__update($logid, $arr) {
 	// hook modlog__update_start.php
-	$r = db_update('bbs_modlog', array('logid'=>$logid), $arr);
+	$r = db_update('modlog', array('logid'=>$logid), $arr);
 	// hook modlog__update_end.php
 	return $r;
 }
 
 function modlog__read($logid) {
 	// hook modlog__read_start.php
-	$modlog = db_find_one('bbs_modlog', array('logid'=>$logid));
+	$modlog = db_find_one('modlog', array('logid'=>$logid));
 	// hook modlog__read_end.php
 	return $modlog;
 }
 
 function modlog__delete($logid) {
 	// hook modlog__delete_start.php
-	$r = db_delete('bbs_modlog', array('logid'=>$logid));
+	$r = db_delete('modlog', array('logid'=>$logid));
 	// hook modlog__delete_end.php
 	return $r;
 }
 
 function modlog__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook modlog__find_start.php
-	$modloglist = db_find('bbs_modlog', $cond, $orderby, $page, $pagesize);
+	$modloglist = db_find('modlog', $cond, $orderby, $page, $pagesize);
 	// hook modlog__find_end.php
 	return $modloglist;
 }
@@ -87,14 +87,14 @@ function modlog_format(&$modlog) {
 
 function modlog_count($cond = array()) {
 	// hook modlog_count_start.php
-	$n = db_count('bbs_modlog', $cond);
+	$n = db_count('modlog', $cond);
 	// hook modlog_count_end.php
 	return $n;
 }
 
 function modlog_maxid() {
 	// hook modlog_maxid_start.php
-	$n = db_maxid('bbs_modlog', 'logid');
+	$n = db_maxid('modlog', 'logid');
 	// hook modlog_maxid_end.php
 	return $n;
 }

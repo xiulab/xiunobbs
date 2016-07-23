@@ -9,9 +9,11 @@ class db_mysql {
 	public $errno = 0;
 	public $errstr = '';
 	public $sqls = array();
+	public $tablepre = '';
 	
 	public function __construct($conf) {
 		$this->conf = $conf;
+		$this->tablepre = $conf['master']['tablepre'];
 	}
 	
 	// 根据配置文件连接

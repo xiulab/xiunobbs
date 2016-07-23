@@ -6,35 +6,35 @@
 
 function group__create($arr) {
 	// hook group__create_start.php
-	$r = db_create('bbs_group', $arr);
+	$r = db_create('group', $arr);
 	// hook group__create_end.php
 	return $r;
 }
 
 function group__update($gid, $arr) {
 	// hook group__update_start.php
-	$r = db_update('bbs_group', array('gid'=>$gid), $arr);
+	$r = db_update('group', array('gid'=>$gid), $arr);
 	// hook group__update_end.php
 	return $r;
 }
 
 function group__read($gid) {
 	// hook group__read_start.php
-	$group = db_find_one('bbs_ipaccess', array('gid'=>$gid));
+	$group = db_find_one('group', array('gid'=>$gid));
 	// hook group__read_end.php
 	return $group;
 }
 
 function group__delete($gid) {
 	// hook group__delete_start.php
-	$r = db_delete('bbs_group', array('gid'=>$gid));
+	$r = db_delete('group', array('gid'=>$gid));
 	// hook group__delete_end.php
 	return $r;
 }
 
 function group__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 1000) {
 	// hook group__find_start.php
-	$grouplist = db_find('bbs_ipaccess', $cond, $orderby, $page, $pagesize);
+	$grouplist = db_find('group', $cond, $orderby, $page, $pagesize);
 	// hook group__find_end.php
 	return $grouplist;
 }
@@ -97,14 +97,14 @@ function group_name($gid) {
 
 
 function group_count($cond = array()) {
-	$n = db_count('bbs_group', $cond);
+	$n = db_count('group', $cond);
 	// hook group_format_end.php
 	return $n;
 }
 
 function group_maxid() {
 	// hook group_maxid_start.php
-	$n = db_maxid('bbs_group', 'gid');
+	$n = db_maxid('group', 'gid');
 	// hook group_maxid_end.php
 	return $n;
 }

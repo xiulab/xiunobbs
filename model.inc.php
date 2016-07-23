@@ -16,7 +16,6 @@ if(DEBUG) {
 	include './model/check.func.php';
 	include './model/mythread.func.php';
 	include './model/runtime.func.php';
-	include './model/online.func.php';
 	include './model/table_day.func.php';
 	include './model/cron.func.php';
 	include './model/banip.func.php';	// 

@@ -16,35 +16,35 @@ function post__create($arr, $gid) {
 	$gid != 1 && $arr['doctype'] == 0 && $arr['message_fmt'] = xn_html_safe($arr['message']);
 	$arr['doctype'] == 1 && $arr['message_fmt'] = xn_txt_to_html($arr['message']);
 	
-	$r = db_insert('bbs_post', $arr);
+	$r = db_insert('post', $arr);
 	// hook post__create_end.php
 	return $r;
 }
 
 function post__update($pid, $arr) {
 	// hook post__update_start.php
-	$r = db_update('bbs_post', array('pid'=>$pid), $arr);
+	$r = db_update('post', array('pid'=>$pid), $arr);
 	// hook post__update_end.php
 	return $r;
 }
 
 function post__read($pid) {
 	// hook post__read_start.php
-	$post = db_find_one('bbs_post', array('pid'=>$pid));
+	$post = db_find_one('post', array('pid'=>$pid));
 	// hook post__read_end.php
 	return $post;
 }
 
 function post__delete($pid) {
 	// hook post__delete_start.php
-	$r = db_delete('bbs_post', array('pid'=>$pid));
+	$r = db_delete('post', array('pid'=>$pid));
 	// hook post__delete_end.php
 	return $r;
 }
 
 function post__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook post__find_start.php
-	$postlist = db_find('bbs_post', $cond, $orderby, $page, $pagesize, 'pid');
+	$postlist = db_find('post', $cond, $orderby, $page, $pagesize, 'pid');
 	// hook post__find_end.php
 	return $postlist;
 }
@@ -239,7 +239,7 @@ function post_delete_by_pids($pids) {
 function post_find_by_pids($pids) {
 	// hook post_find_by_pids_start.php
 	if(empty($pids)) return array();
-	$postlist = db_find('bbs_post', array('pid'=>$pids), array(), 1, 1000, 'pid');
+	$postlist = db_find('post', array('pid'=>$pids), array(), 1, 1000, 'pid');
 	// hook post_find_by_pids_end.php
 	return $postlist;
 }
@@ -314,14 +314,14 @@ function post_format(&$post) {
 
 function post_count($cond = array()) {
 	// hook post_count_start.php
-	$n = db_count('bbs_post', $cond);
+	$n = db_count('post', $cond);
 	// hook post_count_end.php
 	return $n;
 }
 
 function post_maxid() {
 	// hook post_maxid_start.php
-	$n = db_maxid('bbs_post', 'pid');
+	$n = db_maxid('post', 'pid');
 	// hook post_maxid_end.php
 	return $n;
 }

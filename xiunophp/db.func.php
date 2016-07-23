@@ -24,40 +24,44 @@ function db_new($dbconf) {
 }
 
 // 测试连接
-function db_connect() {
+function db_connect($d = NULL) {
 	global $db;
-	$r = $db->connect();
+	$d = $db ? $db : $d;
+	$r = $d->connect();
 	
-	db_errno_errstr($r);
+	db_errno_errstr($r, $d);
 	
 	return $r;
 }
 
-function db_close() {
+function db_close($d = NULL) {
 	global $db;
-	$r = $db->close();
+	$d = $db ? $db : $d;
+	$r = $d->close();
 	
-	db_errno_errstr($r);
+	db_errno_errstr($r, $d);
 	
 	return $r;
 }
 
-function db_sql_find_one($sql) {
+function db_sql_find_one($sql, $d = NULL) {
 	global $db;
-	if(!$db) return FALSE;
-	$arr = $db->find_one($sql);
+	$d = $db ? $db : $d;
+	if(!$d) return FALSE;
+	$arr = $d->find_one($sql);
 	
-	db_errno_errstr($arr);
+	db_errno_errstr($arr, $d);
 	
 	return $arr;
 }
 
-function db_sql_find($sql, $key = NULL) {
+function db_sql_find($sql, $key = NULL, $d = NULL) {
 	global $db;
-	if(!$db) return FALSE;
-	$arr = $db->find($sql, $key);
+	$d = $db ? $db : $d;
+	if(!$d) return FALSE;
+	$arr = $d->find($sql, $key);
 	
-	db_errno_errstr($arr);
+	db_errno_errstr($arr, $d);
 	
 	return $arr;
 }
@@ -66,113 +70,199 @@ function db_sql_find($sql, $key = NULL) {
 // 如果为 UPDATE 或者 DELETE，则返回 mysql_affected_rows();
 // 对于非自增的表，INSERT 后，返回的一直是 0
 // 判断是否执行成功: mysql_exec() === FALSE
-function db_exec($sql) {
+function db_exec($sql, $d = NULL) {
 	global $db;
-	if(!$db) return FALSE;
+	$d = $db ? $db : $d;
+	if(!$d) return FALSE;
 	
 	DEBUG AND xn_log($sql, 'mysql_exec');
 	
-	$n = $db->exec($sql);
+	$n = $d->exec($sql);
 	
-	db_errno_errstr($n);
+	db_errno_errstr($n, $d);
 	
 	return $n;
 }
 
-function db_count($table, $cond = array()) {
+function db_count($table, $cond = array(), $d = NULL) {
 	global $db;
-	$r = $db->count($table, $cond);
+	$d = $db ? $db : $d;
+	if(!$d) return FALSE;
 	
-	db_errno_errstr($r);
+	$r = $d->count($d->tablepre.$table, $cond);
+	
+	db_errno_errstr($r, $d);
 	
 	return $r;
 }
 
-function db_maxid($table, $field, $cond = array()) {
+function db_maxid($table, $field, $cond = array(), $d = NULL) {
 	global $db;
-	$r = $db->maxid($table, $field, $cond);
+	$d = $db ? $db : $d;
+	if(!$d) return FALSE;
 	
-	db_errno_errstr($r);
+	$r = $d->maxid($d->tablepre.$table, $field, $cond);
+	
+	db_errno_errstr($r, $d);
 	
 	return $r;
 }
 
 // NO SQL 封装，可以支持 MySQL Marial PG MongoDB
-function db_create($table, $arr) {
-	return db_insert($table, $arr);
+function db_create($table, $arr, $d = NULL) {
+	global $db;
+	$d = $db ? $db : $d;
+	if(!$d) return FALSE;
+	
+	return db_insert($d->tablepre.$table, $arr);
 }
 
-function db_insert($table, $arr) {
+function db_insert($table, $arr, $d = NULL) {
+	global $db;
+	$d = $db ? $db : $d;
+	if(!$d) return FALSE;
+	
 	$sqladd = db_array_to_insert_sqladd($arr);
 	if(!$sqladd) return FALSE;
-	return db_exec("INSERT INTO $table $sqladd");
+	return db_exec("INSERT INTO {$d->tablepre}$table $sqladd", $d);
 }
 
-function db_replace($table, $arr) {
+function db_replace($table, $arr, $d = NULL) {
+	global $db;
+	$d = $db ? $db : $d;
+	if(!$d) return FALSE;
+	
 	$sqladd = db_array_to_insert_sqladd($arr);
 	if(!$sqladd) return FALSE;
-	return db_exec("REPLACE INTO $table $sqladd");
+	return db_exec("REPLACE INTO {$d->tablepre}$table $sqladd", $d);
 }
 
-function db_update($table, $cond, $update) {
+function db_update($table, $cond, $update, $d = NULL) {
+	global $db;
+	$d = $db ? $db : $d;
+	if(!$d) return FALSE;
+	
 	$condadd = db_cond_to_sqladd($cond);
 	$sqladd = db_array_to_update_sqladd($update);
 	if(!$sqladd) return FALSE;
-	return db_exec("UPDATE $table SET $sqladd $condadd");
+	return db_exec("UPDATE {$d->tablepre}$table SET $sqladd $condadd", $d);
 }
 
-function db_delete($table, $cond) {
-	$condadd = db_cond_to_sqladd($cond);
-	return db_exec("DELETE FROM $table $condadd");
-}
-
-function db_truncate($table) {
+function db_delete($table, $cond, $d = NULL) {
 	global $db;
-	return $db->truncate($table);
+	$d = $db ? $db : $d;
+	if(!$d) return FALSE;
+	
+	$condadd = db_cond_to_sqladd($cond);
+	return db_exec("DELETE FROM {$d->tablepre}$table $condadd", $d);
 }
 
-function db_read($table, $cond) {
-	$sqladd = db_cond_to_sqladd($cond);
-	$sql = "SELECT * FROM $table $sqladd";
-	return db_find_one($sql);
-}
+function db_truncate($table, $d = NULL) {
+	global $db;
+	$d = $db ? $db : $d;
+	if(!$d) return FALSE;
 	
-function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesize = 10, $key = '', $col = array()) {
-	if(strtoupper(substr($table, 0, 7)) != 'SELECT ') {
+	return $d->truncate($d->tablepre.$table);
+}
+
+function db_read($table, $cond, $d = NULL) {
+	global $db;
+	$d = $db ? $db : $d;
+	if(!$d) return FALSE;
+	
+	$sqladd = db_cond_to_sqladd($cond);
+	$sql = "SELECT * FROM {$d->tablepre}$table $sqladd";
+	return db_sql_find_one($sql, $d);
+}
+
+function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesize = 10, $key = '', $col = array(), $d = NULL) {
+	global $db;
+	
+	if(is_array($table)) {
+		
+		$cond = array_value($table, 'cond');
+		$orderby = array_value($table, 'orderby');
+		$page = array_value($table, 'page');
+		$pagesize = array_value($table, 'pagesize');
+		$key = array_value($table, 'key');
+		$d = array_value($table, 'db');
+		
+		$d = $db ? $db : $d;
+		if(!$d) return FALSE;
+		
 		$cond = db_cond_to_sqladd($cond);
 		$orderby = db_orderby_to_sqladd($orderby);
 		$offset = ($page - 1) * $pagesize;
 		$cols = $col ? implode(',', $col) : '*';
-		return db_sql_find("SELECT $cols FROM $table $cond$orderby LIMIT $offset,$pagesize", $key, FALSE);
+		return db_sql_find("SELECT $cols FROM {$d->tablepre}$table $cond$orderby LIMIT $offset,$pagesize", $key, $d);
+		
+	} elseif(strtoupper(substr($table, 0, 7)) != 'SELECT ') {
+		
+		$d = $db ? $db : $d;
+		if(!$d) return FALSE;
+		
+		$cond = db_cond_to_sqladd($cond);
+		$orderby = db_orderby_to_sqladd($orderby);
+		$offset = ($page - 1) * $pagesize;
+		$cols = $col ? implode(',', $col) : '*';
+		return db_sql_find("SELECT $cols FROM {$d->tablepre}$table $cond$orderby LIMIT $offset,$pagesize", $key, $d);
+		
 	} else {
+		
+		$d = $db ? $db : $d;
+		if(!$d) return FALSE;
+		
 		// 兼容 XiunoPHP 3.0
-		$sql = $table;
-		$key = $cond;
-		$abort = $orderby;
-		return db_sql_find($sql, $key, $abort);
+		// $sql, $key, $abort(废弃）
+		return db_sql_find($table, $cond, $d);
 	}
 }
 
-function db_find_one($table, $cond = array(), $orderby = array(), $col = array()) {
-	if(strtoupper(substr($table, 0, 7)) != 'SELECT ') {
+function db_find_one($table, $cond = array(), $orderby = array(), $col = array(), $d = NULL) {
+	global $db;
+	
+	
+	if(is_array($table)) {
+		
+		$cond = array_value($table, 'cond');
+		$orderby = array_value($table, 'orderby');
+		$d = array_value($table, 'db');
+		
+		$d = $db ? $db : $d;
+		if(!$d) return FALSE;
+		
 		$cond = db_cond_to_sqladd($cond);
 		$orderby = db_orderby_to_sqladd($orderby);
 		$cols = $col ? implode(',', $col) : '*';
-		return db_sql_find_one("SELECT $cols FROM $table $cond$orderby LIMIT 1");
+		return db_sql_find_one("SELECT $cols FROM {$d->tablepre}$table $cond$orderby LIMIT 1", $d);
+		
+	} elseif(strtoupper(substr($table, 0, 7)) != 'SELECT ') {
+		
+		$d = $db ? $db : $d;
+		if(!$d) return FALSE;
+		
+		$cond = db_cond_to_sqladd($cond);
+		$orderby = db_orderby_to_sqladd($orderby);
+		$cols = $col ? implode(',', $col) : '*';
+		return db_sql_find_one("SELECT $cols FROM {$d->tablepre}$table $cond$orderby LIMIT 1", $d);
+		
 	} else {
+		
+		$d = $db ? $db : $d;
+		if(!$d) return FALSE;
+		
 		// 兼容 XiunoPHP 3.0
-		$sql = $table;
-		$abort = $cond;
-		return db_sql_find_one($sql, $abort);
+		// $sql, $abort(废弃)
+		return db_sql_find_one($table, $d);
 	}
 }
 
 // 保存 $db 错误到全局
-function db_errno_errstr($r) {
-	global $db, $erno, $errstr;
-	if($r === FALSE && $db->errno != 0) {
-		$errno = $db->errno;
-		$errstr = db_errstr_safe($errno, $db->errstr);
+function db_errno_errstr($r, $d = NULL) {
+	global $erno, $errstr;
+	if($r === FALSE && $d->errno != 0) {
+		$errno = $d->errno;
+		$errstr = db_errstr_safe($errno, $d->errstr);
 		$s = "sql errno: ".$errno.", errstr: ".$errstr;
 		xn_log($s, 'db_error');
 	}

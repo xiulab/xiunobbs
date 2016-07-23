@@ -4,7 +4,7 @@
 
 function friendlink_create($arr) {
 	// hook friendlink_create_start.php
-	$r = db_create('bbs_friendlink', $arr);
+	$r = db_create('friendlink', $arr);
 	friendlink_list_cache_delete();
 	// hook friendlink_create_end.php
 	return $r;
@@ -12,7 +12,7 @@ function friendlink_create($arr) {
 
 function friendlink_update($linkid, $arr) {
 	// hook friendlink_update_start.php
-	$r = db_update('bbs_friendlink', array('linkid'=>$linkid), $arr);
+	$r = db_update('friendlink', array('linkid'=>$linkid), $arr);
 	friendlink_list_cache_delete();
 	// hook friendlink_update_end.php
 	return $r;
@@ -20,14 +20,14 @@ function friendlink_update($linkid, $arr) {
 
 function friendlink_read($linkid) {
 	// hook friendlink_read_start.php
-	$friendlink = db_find_one('bbs_friendlink', array('linkid'=>$linkid));
+	$friendlink = db_find_one('friendlink', array('linkid'=>$linkid));
 	// hook friendlink_read_end.php
 	return $friendlink;
 }
 
 function friendlink_delete($linkid) {
 	// hook friendlink_delete_start.php
-	$r = db_delete('bbs_friendlink', array('linkid'=>$linkid));
+	$r = db_delete('friendlink', array('linkid'=>$linkid));
 	friendlink_list_cache_delete();
 	// hook friendlink_delete_end.php
 	return $r;
@@ -35,7 +35,7 @@ function friendlink_delete($linkid) {
 
 function friendlink_find($cond = array(), $orderby = array('rank'=>-1), $page = 1, $pagesize = 1000) {
 	// hook friendlink_find_start.php
-	$friendlinklist = db_find('bbs_friendlink', $cond, $orderby, $page, $pagesize, 'linkid');
+	$friendlinklist = db_find('friendlink', $cond, $orderby, $page, $pagesize, 'linkid');
 	if($friendlinklist) foreach ($friendlinklist as &$friendlink) friendlink_format($friendlink);
 	// hook friendlink_find_end.php
 	return $friendlinklist;
@@ -61,14 +61,14 @@ function friendlink_format(&$friendlink) {
 
 function friendlink_count($cond = array()) {
 	// hook friendlink_count_start.php
-	$n = db_count('bbs_friendlink', $cond);
+	$n = db_count('friendlink', $cond);
 	// hook friendlink_count_end.php
 	return $n;
 }
 
 function friendlink_maxid() {
 	// hook friendlink_maxid_start.php
-	$n = db_maxid('bbs_friendlink', 'linkid');
+	$n = db_maxid('friendlink', 'linkid');
 	// hook friendlink_maxid_end.php
 	return $n;
 }
