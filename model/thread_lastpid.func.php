@@ -4,7 +4,7 @@
 
 function thread_lastpid_read($tid) {
 	// hook thread_lastpid_read_start.php
-	$r = find_one('thread_lastpid', array('tid'=>$tid));
+	$r = db_find_one('thread_lastpid', array('tid'=>$tid));
 	// hook thread_lastpid_read_end.php
 	return $r;
 }

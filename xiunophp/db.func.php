@@ -114,7 +114,7 @@ function db_create($table, $arr, $d = NULL) {
 	$d = $db ? $db : $d;
 	if(!$d) return FALSE;
 	
-	return db_insert($d->tablepre.$table, $arr);
+	return db_insert($table, $arr);
 }
 
 function db_insert($table, $arr, $d = NULL) {
