@@ -45,10 +45,12 @@ if($action == 'create') {
 		$message = param('message', '', FALSE);
 		!trim(str_replace(array('　', '&nbsp;', '<br>', '<br/>', '<br />'), '', $message)) AND message('message', '内容不能为空');
 		$gid != 1 AND $message = xn_html_safe($message);
-		$gid != 1 AND $message = badword_filter($message, $badword);
-		$message === FALSE AND message('message', '内容中包含敏感关键词: '.$badword);
+		
+		//$gid != 1 AND $message = badword_filter($message, $badword);
+		//$message === FALSE AND message('message', '内容中包含敏感关键词: '.$badword);
+		
 		mb_strlen($message, 'UTF-8') > 2048000 AND message('message', '内容太长');
-		$quick AND $message = nl2br(str_replace("\t", "&nbsp; &nbsp; &nbsp; &nbsp; ", $message));
+		//$quick AND $message = nl2br(str_replace("\t", "&nbsp; &nbsp; &nbsp; &nbsp; ", $message));
 		
 		// 检测是否灌水
 		post_check_flood($gid, $tid, $message) AND message('message', '系统检测到您可能在灌水');

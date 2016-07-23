@@ -54,7 +54,7 @@ function thread_create($arr, &$pid) {
 	$message = $arr['message'];
 	$time = $arr['time'];
 	$longip = $arr['longip'];
-	$sid = empty($arr['sid']) ? '' : $arr['sid'];
+	$doctype = $arr['doctype'];
 	
 	# 论坛帖子数据，一页显示，不分页。
 	$post = array(
@@ -64,6 +64,7 @@ function thread_create($arr, &$pid) {
 		'create_date'=>$time,
 		'userip'=>$longip,
 		'message'=>$message,
+		'doctype'=>$doctype,
 	);
 	$pid = post__create($post);
 	if($pid === FALSE) return FALSE;
@@ -92,7 +93,7 @@ function thread_create($arr, &$pid) {
 	$uid AND user__update($uid, array('threads+'=>1));
 	forum__update($fid, array('threads+'=>1, 'todaythreads+'=>1));
 	
-	// 反过来关联
+	// 关联
 	post__update($pid, array('tid'=>$tid), $tid);
 
 	// 最新发帖

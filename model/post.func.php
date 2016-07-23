@@ -6,40 +6,35 @@
 
 function post__create($arr) {
 	// hook post__create_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("INSERT INTO `bbs_post` SET $sqladd");
+	$r = db_insert('bbs_post', $arr);
 	// hook post__create_end.php
 	return $r;
 }
 
 function post__update($pid, $arr) {
 	// hook post__update_start.php
-	$sqladd = array_to_sqladd($arr);
-	$r = db_exec("UPDATE `bbs_post` SET $sqladd WHERE pid='$pid'");
+	$r = db_update('bbs_post', array('pid'=>$pid), $arr);
 	// hook post__update_end.php
 	return $r;
 }
 
 function post__read($pid) {
 	// hook post__read_start.php
-	$post = db_find_one("SELECT * FROM `bbs_post` WHERE pid='$pid'");
+	$post = db_find_one('bbs_post', array('pid'=>$pid));
 	// hook post__read_end.php
 	return $post;
 }
 
 function post__delete($pid) {
 	// hook post__delete_start.php
-	$r = db_exec("DELETE FROM `bbs_post` WHERE pid='$pid'");
+	$r = db_delete('bbs_post', array('pid'=>$pid));
 	// hook post__delete_end.php
 	return $r;
 }
 
 function post__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook post__find_start.php
-	$cond = cond_to_sqladd($cond);
-	$orderby = orderby_to_sqladd($orderby);
-	$offset = ($page - 1) * $pagesize;
-	$postlist = db_find("SELECT * FROM `bbs_post` $cond$orderby LIMIT $offset,$pagesize", 'pid');
+	$postlist = db_find('bbs_post', $cond, $orderby, $page, $pagesize, 'pid');
 	// hook post__find_end.php
 	return $postlist;
 }
@@ -223,8 +218,7 @@ function post_delete_by_pids($pids) {
 function post_find_by_pids($pids) {
 	// hook post_find_by_pids_start.php
 	if(empty($pids)) return array();
-	$sqladd = implode(',', $pids);
-	$postlist = db_find("SELECT * FROM bbs_post WHERE pid IN($sqladd)");
+	$postlist = db_find('bbs_post', array('pid'=>$pids), array(), 1, 1000, 'pid');
 	// hook post_find_by_pids_end.php
 	return $postlist;
 }
@@ -290,7 +284,18 @@ function post_format(&$post) {
 	$post['allowupdate'] = ($uid == $post['uid']);
 	$post['allowdelete'] = ($uid == $post['uid']);
 	
-	$post['user_url'] = "user-$post[uid]".($post['uid'] ? '' : "-$post[pid]").".htm";
+	$post['user_url'] = url("user-$post[uid]".($post['uid'] ? '' : "-$post[pid]"));
+	
+	// 内容转换:更多格式用插件实现
+	// txt
+	if($post['doctype'] == 1) {
+		$post['message_fmt'] = xn_txt_to_html($post['message']);
+	} elseif($post['doctype'] == 0) {
+		$post['message_fmt'] = $post['message'];
+	} elseif($post['doctype'] == 2) {
+		
+	}
+	
 	// hook post_format_end.php
 }
 

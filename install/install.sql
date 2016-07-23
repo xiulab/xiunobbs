@@ -201,7 +201,7 @@ CREATE TABLE bbs_post (
   userip int(11) unsigned NOT NULL default '0',		# 发帖时用户ip ip2long()
   images smallint(6) NOT NULL default '0',		# 附件中包含的图片数
   files smallint(6) NOT NULL default '0',		# 附件中包含的文件数
-  doctype tinyint(3) NOT NULL default '0',		# 类型，1: txt; 2: markdown; 3: html
+  doctype tinyint(3) NOT NULL default '0',		# 类型，0: html, 1: txt; 2: markdown
   message longtext NOT NULL,				# 内容，存放的过滤后的html内容
   PRIMARY KEY (pid),
   KEY (tid, pid)

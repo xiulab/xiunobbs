@@ -1,28 +1,5 @@
 <?php
 
-// 过滤关键词，如果返回 FALSE，则包含敏感词，不允许发。
-function badword_filter($s, &$badword) {
-	// hook badword_filter_start.php
-	global $conf;
-	if(!$conf['badword_on'] || !$s) return $s;
-	
-	static $badwords = NULL;
-	if($badwords === NULL) $badwords = (array)kv_get('badwords');
-	foreach($badwords as $k=>$v) {
-		if(strpos($s, $k) !== FALSE) {
-			if(isset($v)) {
-				$badword = $k;
-				if($v == '#') return FALSE;
-				$s = str_replace($k, $v, $s);
-			} else {
-				$s = str_replace($k, '', $s);
-			}
-		}
-	}
-	// hook badword_filter_end.php
-	return $s;
-}
-
 function badword_implode($glue1, $glue2, $arr) {
 	// hook badword_implode_start.php
 	if(empty($arr)) return '';

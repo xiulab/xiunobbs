@@ -47,31 +47,24 @@ if($action == 'create') {
 		empty($forum) AND message('fid', '板块不存在'.$fid);
 		
 		$r = forum_access_user($fid, $gid, 'allowthread');
-		if(!$r) {
-			if($gid == 0) {
-				$r = forum_access_user($fid, 101, 'allowthread');
-				$r AND user_login_check($user);
-			}
-			message(-1, '您（'.$user['groupname'].'）无权限在此版块发帖');
-		}
+		!$r AND message(-1, '您（'.$user['groupname'].'）无权限在此版块发帖');
 		
 		$subject = htmlspecialchars(param('subject', '', FALSE));
-		$message = param('message', '', FALSE);
-		
 		empty($subject) AND message('subject', '标题不能为空');
-		$gid != 1 AND $subject = badword_filter($subject, $badword);
-		$subject === FALSE AND message('subject', '标题中包含敏感关键词: '.$badword);
+		xn_strlen($subject) > 128 AND message('subject', '标题最长80个字符');
+		
+		$message = param('message', '', FALSE);
 		empty($message) AND message('message', '内容不能为空'.$fid);
-		$gid != 1 AND $message = xn_html_safe($message);
-		$gid != 1 AND $message = badword_filter($message, $badword);
-		$message === FALSE AND message('message', '内容中包含敏感关键词: '.$badword);
-		mb_strlen($subject, 'UTF-8') > 128 AND message('subject', '标题最长80个字符');
-		mb_strlen($message, 'UTF-8') > 2028000 AND message('message', '内容太长');
 		
-		// todo: 检测是否灌水
-		thread_check_flood($gid, $fid, $subject) AND message(-1, '系统检测到您可能在灌水。');
+		$doctype = param('doctype', 0);
+		$doctype > 2 AND message(-1, '不支持的文档格式。');
 		
-		$thread = array(
+		if($gid != 1) {
+			$doctype == 0 AND $message = xn_html_safe($message);
+		}
+		xn_strlen($message) > 2028000 AND message('message', '内容太长');
+		
+		$thread = array (
 			'fid'=>$fid,
 			'uid'=>$uid,
 			'sid'=>$sid,
@@ -79,7 +72,7 @@ if($action == 'create') {
 			'message'=>$message,
 			'time'=>$time,
 			'longip'=>$longip,
-			'sid'=>$sid,
+			'doctype'=>$doctype,
 		);
 		$tid = thread_create($thread, $pid);
 		$pid === FALSE AND message(-1, '创建帖子失败');

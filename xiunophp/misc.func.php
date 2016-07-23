@@ -147,6 +147,21 @@ function jump($message, $url = '', $delay = 3) {
 	return '<a href="'.$url.'">'.$message.'</a>'.$htmladd;
 }
 
+function xn_strlen($s) {
+	return mb_strlen($s, 'UTF-8');
+}
+
+function xn_substr($s, $start, $len) {
+	return mb_substr($s, $start, $len, 'UTF-8');
+}
+
+// txt 转换到 html
+function xn_txt_to_html($s) {
+	$s = str_replace("\t", ' &nbsp; &nbsp; &nbsp; &nbsp;', $s);
+	$s = str_replace("\r\n", '<br>', $s);
+	return $s;
+}
+
 function xn_urlencode($s) {
 	$s = str_replace('-', '_2d', $s);
 	$s = str_replace('.', '_2e', $s);
