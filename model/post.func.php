@@ -42,9 +42,20 @@ function post__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 
 // ------------> 关联 CURD，主要是强相关的数据，比如缓存。弱相关的大量数据需要另外处理。
 
 // 回帖
-function post_create($arr, $fid) {
-	// hook post_create_start.php
+function post_create($arr, $fid, $gid) {
 	global $conf, $time;
+	// hook post_create_start.php
+	
+	// 超长内容截取
+	$arr['message'] = xn_substr($arr['message'], 0, 2028000);
+	
+	// 格式转换
+	$arr['message_fmt'] = htmlspecialchars($arr['message']);
+	$gid != 1 && $arr['doctype'] == 0 && $arr['message_fmt'] = xn_html_safe($arr['message']);
+	$arr['doctype'] == 1 && $arr['message_fmt'] = xn_txt_to_html($arr['message']);
+	
+	// hook post_create_post__create_before.php
+	
 	$pid = post__create($arr);
 	if(!$pid) return $pid;
 	
@@ -88,12 +99,22 @@ function post_create($arr, $fid) {
 // 编辑回帖
 function post_update($pid, $arr, $tid = 0) {
 	// hook post_update_start.php
-	global $conf, $user;
+	global $conf, $user, $gid;
 	$post = post__read($pid);
 	if(empty($post)) return FALSE;
 	$tid = $post['tid'];
 	$uid = $post['uid'];
 	$isfirst = $post['isfirst'];
+	
+	// 超长内容截取
+	$arr['message'] = xn_substr($arr['message'], 0, 2028000);
+	
+	// 格式转换
+	$arr['message_fmt'] = htmlspecialchars($arr['message']);
+	$gid != 1 && $arr['doctype'] == 0 && $arr['message_fmt'] = xn_html_safe($arr['message']);
+	$arr['doctype'] == 1 && $arr['message_fmt'] = xn_txt_to_html($arr['message']);
+	
+	// hook post_create_post__create_before.php
 	
 	$r = post__update($pid, $arr);
 	
@@ -287,14 +308,6 @@ function post_format(&$post) {
 	$post['user_url'] = url("user-$post[uid]".($post['uid'] ? '' : "-$post[pid]"));
 	
 	// 内容转换:更多格式用插件实现
-	// txt
-	if($post['doctype'] == 1) {
-		$post['message_fmt'] = xn_txt_to_html($post['message']);
-	} elseif($post['doctype'] == 0) {
-		$post['message_fmt'] = $post['message'];
-	} elseif($post['doctype'] == 2) {
-		
-	}
 	
 	// hook post_format_end.php
 }
@@ -366,7 +379,6 @@ function post_attach_list_add($imagelist, $filelist) {
 	// hook post_attach_list_add_end.php
 	return $s;
 }
-
 
 // hook post_func_php_end.php
 

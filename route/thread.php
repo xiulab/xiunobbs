@@ -40,7 +40,7 @@ if($action == 'create') {
 		
 	} else {
 		
-		// hook thread_create_post_start.php
+		// hook thread_create_thread_start.php
 		
 		$fid = param('fid', 0);
 		$forum = forum_read($fid);
@@ -55,13 +55,9 @@ if($action == 'create') {
 		
 		$message = param('message', '', FALSE);
 		empty($message) AND message('message', '内容不能为空'.$fid);
-		
 		$doctype = param('doctype', 0);
 		$doctype > 2 AND message(-1, '不支持的文档格式。');
-		
-		if($gid != 1) {
-			$doctype == 0 AND $message = xn_html_safe($message);
-		}
+		$gid != 1 AND $doctype != 1 AND $message = xn_html_safe($message);
 		xn_strlen($message) > 2028000 AND message('message', '内容太长');
 		
 		$thread = array (
@@ -74,13 +70,16 @@ if($action == 'create') {
 			'longip'=>$longip,
 			'doctype'=>$doctype,
 		);
+		
+		// thread_create_thread_before.php
+		
 		$tid = thread_create($thread, $pid);
 		$pid === FALSE AND message(-1, '创建帖子失败');
 		$tid === FALSE AND message(-1, '创建主题失败');
 		
 		$conf['ipaccess_on'] AND ipaccess_inc($longip, 'threads');
 		
-		// hook thread_create_post_ajax_end.php
+		// hook thread_create_thread_end.php
 		message(0, '发帖成功');
 	}
 	

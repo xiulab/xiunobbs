@@ -6,7 +6,7 @@
 			<div class="card-block">
 				<h4 class="card-title"><?php echo lang('post_update');?></h4>
 				<form action="<?php echo url("post-update-$pid");?>" method="post" id="form">
-					<input type="hidden" name="doctype" value="1" />
+					<input type="hidden" name="doctype" value="<?php echo $post['doctype'];?>" />
 					<?php if($isfirst) { ?>
 					<fieldset class="form-group">
 						<input type="text" class="form-control" placeholder="<?php echo lang('subject');?>" name="subject" value="<?php echo $thread['subject'];?>" id="subject">

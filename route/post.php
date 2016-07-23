@@ -43,17 +43,17 @@ if($action == 'create') {
 	} else {
 		
 		$message = param('message', '', FALSE);
-		!trim(str_replace(array('　', '&nbsp;', '<br>', '<br/>', '<br />'), '', $message)) AND message('message', '内容不能为空');
-		$gid != 1 AND $message = xn_html_safe($message);
+		empty($message) AND message('message', '内容不能为空'.$fid);
+		
+		$doctype = param('doctype', 0);
+		//$gid != 1 AND $doctype != 1 AND $message = xn_html_safe($message);
+		xn_strlen($message) > 2028000 AND message('message', '内容太长');
 		
 		//$gid != 1 AND $message = badword_filter($message, $badword);
 		//$message === FALSE AND message('message', '内容中包含敏感关键词: '.$badword);
 		
-		mb_strlen($message, 'UTF-8') > 2048000 AND message('message', '内容太长');
-		//$quick AND $message = nl2br(str_replace("\t", "&nbsp; &nbsp; &nbsp; &nbsp; ", $message));
-		
 		// 检测是否灌水
-		post_check_flood($gid, $tid, $message) AND message('message', '系统检测到您可能在灌水');
+		//post_check_flood($gid, $tid, $message) AND message('message', '系统检测到您可能在灌水');
 		
 		// 检测是否超过最大回复数
 		$thread['posts'] >= 1000 AND message(-1, '该主题已经达到最大回复数 1000，不能再回复，请另起主题。');
@@ -66,9 +66,10 @@ if($action == 'create') {
 			'create_date'=>$time,
 			'userip'=>$longip,
 			'isfirst'=>0,
+			'doctype'=>$doctype,
 			'message'=>$message,
 		);
-		$pid = post_create($post, $fid);
+		$pid = post_create($post, $fid, $gid);
 		empty($pid) AND message(-1, '创建帖子失败');
 		
 		// 最新发帖
@@ -131,6 +132,7 @@ if($action == 'create') {
 		
 		$subject = htmlspecialchars(param('subject', '', FALSE));
 		$message = param('message', '', FALSE);
+		$doctype = param('doctype', 0);
 		
 		empty($message) AND message('message', '内容不能为空');
 		$gid != 1 AND $message = xn_html_safe($message);
@@ -153,7 +155,7 @@ if($action == 'create') {
 			}
 			$arr AND thread_update($tid, $arr) === FALSE AND message(-1, '更新主题失败');
 		}
-		$r = post_update($pid, array('message'=>$message));
+		$r = post_update($pid, array('doctype'=>$doctype, 'message'=>$message));
 		$r === FALSE AND message(-1, '更新帖子失败');
 		
 		message(0, lang('update_success'));

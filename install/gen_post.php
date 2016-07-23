@@ -33,7 +33,7 @@ for($i=1; $i<1000; $i++) {
 			'isfirst'=>0,
 			'message'=>$message.rand(1, 10000),
 		);
-		$pid = post_create($post, 1);
+		$pid = post_create($post, 1, 1);
 	}
 	if($i % 100 == 0) echo '.';
 }
