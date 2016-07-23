@@ -14,7 +14,7 @@
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 form-control-label">排序：</label>
-						<div class="col-sm-10">
+						<div class="col-sm-3">
 							<?php echo $input['rank'];?>
 						</div>
 					</div>
@@ -34,15 +34,15 @@
 						<label class="col-sm-2 form-control-label">版主：</label>
 						<div class="col-sm-10">
 							<?php echo $input['moduids'];?>
-							<p class="small">最多允许10个，逗号隔开，如：123,456,789</p>
+							<p class="small text-muted m-t-sm" id="modnames">最多允许10个，逗号隔开，如：123,456,789</p>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 form-control-label">用户权限：</label>
 						<div class="col-sm-10">
 							<p><label><?php echo $input['accesson'];?> 启用</label></p>
-							<div class="table-responsive" id="accesslist_div" <?php echo ($_forum['accesson'] ? '' : 'style="display: none;"'); ?>>
-								<table class="table" id="accesslist" style="min-width: 600px;">
+							<div class="table-responsive <?php echo $_forum['accesson'] ? '' : 'collapse';?>" id="accesslist_div">
+								<table class="table" id="accesslist" style="min-width: 700px;">
 									<thead>
 										<tr align="center">
 											<td width="80">全选</td>
@@ -57,13 +57,13 @@
 									<tbody>
 										<?php foreach ($accesslist as $access) { ?>
 										<tr align="center">								
-											<td><input type="checkbox" name="checkall" /></td>
+											<td><label class="c-input c-checkbox"><input type="checkbox" name="checkall" /><span class="c-indicator"></span></label></td>
 											<td align="left"><?php echo $access['name']; ?></td>
-											<td><input type="checkbox" name="allowread[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowread'] ? 'checked' : ''); ?> /></td>
-											<td><input type="checkbox" name="allowthread[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowthread'] ? 'checked' : ''); ?> /></td>
-											<td><input type="checkbox" name="allowpost[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowpost'] ? 'checked' : ''); ?> /></td>
-											<td><input type="checkbox" name="allowattach[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowattach'] ? 'checked' : ''); ?> /></td>
-											<td><input type="checkbox" name="allowdown[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowdown'] ? 'checked' : ''); ?> /></td>
+											<td><label class="c-input c-checkbox"><input type="checkbox" name="allowread[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowread'] ? 'checked' : ''); ?> /><span class="c-indicator"></span></label></td>
+											<td><label class="c-input c-checkbox"><input type="checkbox" name="allowthread[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowthread'] ? 'checked' : ''); ?> /><span class="c-indicator"></span></label></td>
+											<td><label class="c-input c-checkbox"><input type="checkbox" name="allowpost[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowpost'] ? 'checked' : ''); ?> /><span class="c-indicator"></span></label></td>
+											<td><label class="c-input c-checkbox"><input type="checkbox" name="allowattach[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowattach'] ? 'checked' : ''); ?> /><span class="c-indicator"></span></label></td>
+											<td><label class="c-input c-checkbox"><input type="checkbox" name="allowdown[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowdown'] ? 'checked' : ''); ?> /><span class="c-indicator"></span></label></td>
 										</tr>
 										<?php } ?>
 									</tbody>
@@ -108,9 +108,40 @@ jform.on('submit', function(){
 	return false;
 });
 
-// accesson
+
+
+var jaccesslist = $('#accesslist_div');
+
+// toggle
 jform.find('input[name="accesson"]').on('click', function() {
-	$('#accesslist_div').toggle();
+	//jaccesslist.collapse('toggle'); bootstrap toggler have bug
+	jaccesslist.toggle('fast');
+	return true;
+});
+
+// 全选
+jaccesslist.find('tr').each(function(k, v) {
+	var jtr = $(v);
+	jtr.find('td').eq(0).find('input[type="checkbox"]').on('click', function() {
+		jtr.find('input[type="checkbox"]').prop('checked', $(this).prop('checked'));
+	});
+});
+
+// 版主姓名：
+var jmoduids = jform.find('input[name="moduids"]');
+var jmodnames = $('#modnames');
+jmoduids.on('keyup blur', function(e) {
+	if(e.type == 'keyup' && e.keyCode != 188) return;
+	jmoduids.tooltip('dispose');
+	$.xget(xn.url('admin/forum-getname-'+xn.urlencode(jmoduids.val())), function(code, message) {
+		if(code > 0) {
+			jmoduids.alert(message).focus();
+		} else if(code ==0) {
+			jmodnames.text(message);
+		} else {
+			$.alert(message);
+		}
+	});
 });
 
 $('#nav_pc li.forum').tab('show');

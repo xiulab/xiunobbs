@@ -60,18 +60,21 @@ xn.htmlspecialchars = function(s) {
 	s = s.replace(/>/g, "&gt;");
 	return s;
 }
-xn.urlencode = function(s) {
+
+// 标准的 urlencode()
+xn._urlencode = function(s) {
 	s = encodeURIComponent(s);
 	s = xn.strtolower(s);
 	return s;
 }
 
-xn.urldecode = function(s) {
+// 标准的 urldecode()
+xn._urldecode = function(s) {
 	s = decodeURIComponent(s);
 	return s;
 }
 
-xn.urlencode_safe = function(s) {
+xn.urlencode = function(s) {
 	s = encodeURIComponent(s);
 	s = s.replace(/_/g, "%5f");
 	s = s.replace(/\-/g, "%2d");
@@ -85,7 +88,7 @@ xn.urlencode_safe = function(s) {
 	return s;
 }
 
-xn.urldecode_safe = function(s) {
+xn.urldecode = function(s) {
 	s = s.replace(/_/g, "%");
 	s = decodeURIComponent(s);
 	return s;

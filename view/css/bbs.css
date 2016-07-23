@@ -91,6 +91,9 @@ nav.bg-inverse .dropdown-item:hover {
 }
 .navbar {padding-top: 0.3rem; padding-bottom: 0.3rem;}
 
+/* checkbox 太灰 */
+.c-checkbox .c-indicator {border: 1px solid #bbb;}
+
 
 /* bbs 全局定义 */
 html, body {height:100%; font-family:"Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", "微软雅黑", "华文细黑", STHeiti, sans-serif}

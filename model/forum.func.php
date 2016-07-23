@@ -205,6 +205,20 @@ function forum_list_access_filter($forumlist, $gid, $allow = 'allowread') {
 	return $forumlist_filter;
 }
 
+function forum_filter_moduid($moduids) {
+	$moduids = trim($moduids);
+	if(empty($moduids)) return '';
+	$arr = explode(',', $moduids);
+	$r = array();
+	foreach($arr as $_uid) {
+		$_uid = intval($_uid);
+		$_user = user_read($_uid);
+		if(empty($_user)) continue;
+		if($_user['gid'] > 4) continue;
+		$r[] = $_uid;
+	}
+	return implode(',', $r);
+}
 
 // hook forum_func_php_end.php
 

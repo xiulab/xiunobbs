@@ -105,6 +105,7 @@ if(empty($action) || $action == 'list') {
 		$announcement = param('announcement');
 		$moduids = param('moduids');
 		$accesson = param('accesson', 0);
+		$moduids = forum_filter_moduid($moduids);
 		
 		$arr = array (
 			'name' => $name,
@@ -140,7 +141,24 @@ if(empty($action) || $action == 'list') {
 		
 		message(0, '编辑成功');	
 	}
+
+} elseif($action == 'getname') {
 	
+	$uids = xn_urldecode(param(2));
+	$arr = explode(',', $uids);
+	$names = array();
+	$err = '';
+	foreach($arr as $_uid) {
+		$_uid = intval($_uid);
+		if(empty($_uid)) continue;
+		$_user = user_read($_uid);
+		if(empty($_user)) { $err .= "$_uid 不存在; "; continue; }
+		if($_user['gid'] > 4) { $err .= "$_uid 不是斑竹; ";  continue; }
+		$names[] = $_user['username'];
+	}
+	$s = implode(',', $names);
+	$err ? message(1, $err) : message(0, $s);
+		
 } else {
 	
 	http_404();
