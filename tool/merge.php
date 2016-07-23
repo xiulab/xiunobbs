@@ -1,8 +1,8 @@
 <?php
 // 合并 XiunoPHP
 
-set_magic_quotes_runtime(0);
-$dir = 'D:/www/xiunobbs_git/xiunophp/';
+function_exists('set_magic_quotes_runtime') AND set_magic_quotes_runtime(0);
+$dir = '../xiunophp/';
 
 
 $s = php_strip_whitespace($dir.'db_mysql.class.php');

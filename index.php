@@ -1,6 +1,6 @@
 <?php
 
-define('DEBUG', 1); 				// 发布的时候改为 0 
+define('DEBUG', 0); 				// 发布的时候改为 0 
 define('APP_NAME', 'bbs');			// 应用的名称
 
 ob_start('ob_gzhandler');
