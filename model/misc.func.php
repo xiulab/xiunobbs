@@ -232,15 +232,19 @@ function check_standard_browser() {
 		= 0 正确
 		> 0 一般业务逻辑错误，可以定位到具体控件，比如：用户名为空/密码为空
 */
-function message($code, $message) {
+function message($code, $message, $extra = array()) {
 	global $ajax;
+	
+	$arr = $extra;
+	$arr['code'] = $code;
+	$arr['message'] = $message;
 	
 	// 防止 message 本身出现错误死循环
 	static $called = FALSE;
-	$called ? exit(xn_json_encode(array('code'=>$code, 'message'=>$message))) : $called = TRUE;
+	$called ? exit(xn_json_encode($arr)) : $called = TRUE;
 	
 	if($ajax) {
-		echo xn_json_encode(array('code'=>$code, 'message'=>$message));
+		echo xn_json_encode($arr);
 		runtime_save();
 	} else {
 		if(APP_NAME == 'bbs') {

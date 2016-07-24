@@ -280,6 +280,28 @@ function user_check_flood($longip) {
 	return FALSE;
 }
 
+// 用户
+function user_token_get() {
+	global $time, $ip, $useragent, $conf;
+	$token = param('bbs_token');
+	if(empty($token)) return FALSE;
+	$tokenkey = md5($useragent.$conf['auth_key']);
+	$s = xn_decrypt($token, $tokenkey);
+	if(empty($s)) return FALSE;
+	$arr = explode("\t", $s);
+	if(count($arr) != 3) return FALSE;
+	list($_ip, $_time, $_uid) = $arr;
+	if($ip != $_ip) return FALSE;
+	if($time - $_time > 86400) return FALSE;
+	return $_uid;	
+}
+
+function user_token_gen($uid) {
+	global $ip, $time, $useragent, $conf;
+	$tokenkey = md5($useragent.$conf['auth_key']);
+	$token = xn_encrypt("$ip	$time	$uid", $tokenkey);
+	return $token;
+}
 // hook user_func_php_end.php
 
 ?>

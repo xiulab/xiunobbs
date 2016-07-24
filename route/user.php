@@ -114,9 +114,11 @@ if($action == 'login') {
 		unset($_SESSION['create_email']);
 		unset($_SESSION['create_pw']);
 		
+		$extra = array('token'=>user_token_gen($uid));
+		
 		// hook user_create_post_end.php
 		
-		message(0, lang('user_create_sucessfully'));
+		message(0, lang('user_create_sucessfully'), $extra);
 	}
 
 // 获取初始密码

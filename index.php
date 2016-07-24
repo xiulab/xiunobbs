@@ -23,8 +23,9 @@ $sid = sess_start();
 // 语言包
 $lang = include('./lang/zh-cn.php');
 
-// 用户
-$uid = intval(_SESSION('uid'));
+// 支持 Token 接口（token 与 session 双重登陆机制，方便 REST 接口设计，也方便 $_SESSION 使用）
+$uid = user_token_get();
+empty($uid) AND $uid = intval(_SESSION('uid'));
 $user = user_read($uid);
 
 // 用户组
