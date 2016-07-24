@@ -122,7 +122,7 @@ function attach_format(&$attach) {
 
 function attach_count($cond = array()) {
 	// hook attach_count_start.php
-	$cond = cond_to_sqladd($cond);
+	$cond = db_cond_to_sqladd($cond);
 	$n = db_count('attach', $cond);
 	// hook attach_count_end.php
 	return $n;

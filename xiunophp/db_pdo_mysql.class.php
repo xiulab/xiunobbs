@@ -126,7 +126,7 @@ class db_pdo_mysql {
 	// SELECT TABLE_ROWS FROM information_schema.tables WHERE TABLE_SCHEMA = '$table' AND TABLE_NAME = '$table';
 	// SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '$table';
 	public function count($table, $cond = array()) {
-		$cond = cond_to_sqladd($cond);
+		$cond = db_cond_to_sqladd($cond);
 		$sql = "SELECT COUNT(*) AS num FROM `$table` $cond";
 		$arr = $this->find_one($sql);
 		return !empty($arr) ? intval($arr['num']) : $arr;

@@ -106,7 +106,7 @@ class db_pdo_sqlite {
 	}
 	
 	public function count($table, $cond = array()) {
-		$cond = cond_to_sqladd($cond);
+		$cond = db_cond_to_sqladd($cond);
 		$sql = "SELECT COUNT(*) AS num FROM `$table` $cond";
 		$arr = $this->find_one($sql);
 		return !empty($arr) ? intval($arr['num']) : $arr;
