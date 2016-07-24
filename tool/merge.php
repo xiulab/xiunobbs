@@ -12,7 +12,6 @@ $s .= php_strip_whitespace($dir.'cache_apc.class.php');
 $s .= php_strip_whitespace($dir.'cache_memcached.class.php');
 $s .= php_strip_whitespace($dir.'cache_mysql.class.php');
 $s .= php_strip_whitespace($dir.'cache_redis.class.php');
-$s .= php_strip_whitespace($dir.'cache_saekv.class.php');
 $s .= php_strip_whitespace($dir.'cache_xcache.class.php');
 
 $s .= php_strip_whitespace($dir.'db.func.php');
