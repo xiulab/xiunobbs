@@ -22,14 +22,14 @@ if(empty($action) || $action == 'list') {
 	$n = user_count($cond);
 	$page = page($page, $n, $pagesize);
 	$userlist = user_find($cond, array('uid'=>-1), $page, $pagesize);
-	$pagination = pagination(url("admin/user-list-$srchtype-".urlencode($keyword).'-{page}'), $n, $page, $pagesize);
-	$pager = pager(url("admin/user-list-$srchtype-".urlencode($keyword).'-{page}'), $n, $page, $pagesize);
+	$pagination = pagination(url("user-list-$srchtype-".urlencode($keyword).'-{page}'), $n, $page, $pagesize);
+	$pager = pager(url("user-list-$srchtype-".urlencode($keyword).'-{page}'), $n, $page, $pagesize);
 
 	foreach ($userlist as &$_user) {
 		$_user['group'] = array_value($grouplist, $_user['gid'], '');
 	}
 
-	include "./admin/view/user_list.htm";
+	include "./view/user_list.htm";
 
 } elseif($action == 'create') {
 
@@ -43,7 +43,7 @@ if(empty($action) || $action == 'list') {
 		$grouparr = arrlist_key_values($grouplist, 'gid', 'name');
 		$input['_gid'] = form_select('_gid', $grouparr, 0);
 		
-		include "./admin/view/user_create.htm";
+		include "./view/user_create.htm";
 
 	} elseif ($method == 'POST') {
 
@@ -94,7 +94,7 @@ if(empty($action) || $action == 'list') {
 		$grouparr = arrlist_key_values($grouplist, 'gid', 'name');
 		$input['_gid'] = form_select('_gid', $grouparr, $user['gid']);
 
-		include "./admin/view/user_update.htm";
+		include "./view/user_update.htm";
 
 	} elseif($method == 'POST') {
 

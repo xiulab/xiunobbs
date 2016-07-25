@@ -10,7 +10,7 @@ if($action == 'login') {
 
 		$header['title'] = '管理登陆';
 		
-		include "./admin/view/index_login.htm";
+		include "./view/index_login.htm";
 
 	} else if($method == 'POST') {
 
@@ -26,7 +26,7 @@ if($action == 'login') {
 		// 记录日志
 		xn_log('login successed. uid:'.$user['uid'], 'admin_login');
 
-		message(0, jump(lang('login_success'), 'admin/'));
+		message(0, jump(lang('login_success'), '.'));
 
 	}
 
@@ -80,7 +80,7 @@ if($action == 'login') {
 	
 	$check['php_ini'] = ini_get('upload_tmp_dir');
 	
-	include './admin/view/index.htm';
+	include './view/index.htm';
 
 }
 

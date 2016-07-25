@@ -1,18 +1,23 @@
 <?php
 
-// 切换到上一级目录
-chdir('../');
-
 define('DEBUG', 1); 				// 发布的时候改为 0 
 define('APP_NAME', 'bbs_admin');		// 应用的名称
+define('XIUNOPHP_PATH', '../xiunophp/');		// 应用的名称
 
 ob_start('ob_gzhandler');
 
-$conf = (@include './conf/conf.php') OR exit(header('Location: install/'));
-include './xiunophp/xiunophp.php';
+$conf = (@include '../conf/conf.php') OR exit(header('Location: install/'));
+$conf['log_path'] = '../'.$conf['log_path'];
+$conf['tmp_path'] = '../'.$conf['log_path'];
+$conf['upload_path'] = '../'.$conf['log_path'];
 
-include './model.inc.php';
-include './admin/admin.func.php';
+include '../xiunophp/xiunophp.php';
+
+// 后台路径
+$admin = 'admin';
+
+include '../model.inc.php';
+include "./admin.func.php";
 
 
 // 测试数据库连接
@@ -22,7 +27,7 @@ $sid = sess_start();
 
 
 // 语言包
-$lang = include('./lang/zh-cn.php');
+$lang = include('../lang/zh-cn.php');
 
 // 用户
 $uid = _SESSION('uid');
@@ -49,7 +54,7 @@ $header = array(
 // 运行时数据
 $runtime = runtime_init();
 
-$menu = include './admin/menu.conf.php';
+$menu = include './menu.conf.php';
 
 // 检测浏览器， 不支持 IE8
 $browser = get__browser();
@@ -80,12 +85,12 @@ admin_token_check();
 
 // todo: HHVM 不支持动态 include $filename
 switch ($route) {
-	case 'index':		include './admin/route/index.php'; 		break;
-	case 'setting': 	include './admin/route/setting.php'; 		break;
-	case 'forum': 		include './admin/route/forum.php'; 		break;
-	case 'friendlink': 	include './admin/route/friendlink.php'; 	break;
-	case 'group': 		include './admin/route/group.php'; 		break;
-	case 'user':		include './admin/route/user.php'; 		break;
+	case 'index':		include './route/index.php'; 		break;
+	case 'setting': 	include './route/setting.php'; 		break;
+	case 'forum': 		include './route/forum.php'; 		break;
+	case 'friendlink': 	include './route/friendlink.php'; 	break;
+	case 'group': 		include './route/group.php'; 		break;
+	case 'user':		include './route/user.php'; 		break;
 	default: http_404();
 }
 

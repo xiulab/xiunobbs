@@ -1,15 +1,16 @@
 <?php
 
-chdir('../');
-
 define('DEBUG', 0);
 define('APP_NAME', 'bbs_install');
 
 $conf = (@include './conf/conf.default.php');
+$conf['log_path'] = '../'.$conf['log_path'];
+$conf['tmp_path'] = '../'.$conf['log_path'];
+$conf['upload_path'] = '../'.$conf['log_path'];
 
 include './xiunophp/xiunophp.php';
-include './model.inc.php';
-include './install/install.func.php';
+include '../model.inc.php';
+include './install.func.php';
 
 $browser = get__browser();
 check_browser($browser);
@@ -21,13 +22,13 @@ is_file('./conf/conf.php') AND empty($action) AND !DEBUG AND message(0, jump('�
 
 // 第一步，阅读
 if(empty($action)) {
-	include "./install/view/index.htm";
+	include "./view/index.htm";
 } elseif($action == 'env') {
 	if($method == 'GET') {
 		$succeed = 1;
 		$env = $write = array();
 		get_env($env, $write);
-		include "./install/view/env.htm";
+		include "./view/env.htm";
 	} else {
 	
 	}
@@ -40,7 +41,7 @@ if(empty($action)) {
 		$pdo_mysql_support = extension_loaded('pdo_mysql');
 		(!$mysql_support && !$pdo_mysql_support) AND message(0, '当前 PHP 环境不支持 mysql 和 pdo_mysql，无法继续安装。');
 
-		include "./install/view/db.htm";
+		include "./view/db.htm";
 		
 	} else {
 		
@@ -83,7 +84,7 @@ if(empty($action)) {
 		
 		// 连接成功以后，开始建表，导数据。
 		
-		install_sql_file('./install/install.sql');
+		install_sql_file('./install.sql');
 		
 		// 生成 auth_key
 		$conf['auth_key'] = xn_rand(64);

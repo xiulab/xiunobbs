@@ -2,6 +2,8 @@
 
 // 可以合并成一个文件，加快速度
 if(DEBUG) {
+	$__getcwd = getcwd();
+	chdir(dirname(__FILE__));
 	include './model/kv.func.php';
 	include './model/group.func.php';
 	include './model/user.func.php';
@@ -23,6 +25,9 @@ if(DEBUG) {
 	include './model/misc.func.php';	// 杂项
 	include './model/plugin.func.php';	// 
 	include './model/session.func.php';	// 
+	chdir($__getcwd);
+	unset($__getcwd);
+	
 } else {
 	$model_min_file = './tmp/model.min.php';
 	$isfile = is_file($model_min_file);

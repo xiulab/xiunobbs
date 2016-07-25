@@ -1,4 +1,4 @@
-# Xiuno BBS 3.0 表结构
+# Xiuno BBS 4.0 表结构
 
 # 系统表, id
 # MAXID 表，几个主要的大表，每天的最大ID，用来削减索引 create_date

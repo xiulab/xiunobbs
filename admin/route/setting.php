@@ -4,7 +4,8 @@
 
 $action = param(1);
 
-include './model/smtp.func.php';
+include '../model/smtp.func.php';
+smtp_init('../conf/smtp.conf.php');
 
 // hook admin_setting_action_before.php
 
@@ -20,7 +21,7 @@ if($action == 'base') {
 		empty($setting) AND $setting = array('sitebrief'=>'');
 		$sitebrief = $setting['sitebrief']; // 站点介绍
 		
-		include './admin/view/setting_base.htm';
+		include './view/setting_base.htm';
 		
 	} else {
 		
@@ -53,7 +54,7 @@ if($action == 'base') {
 		$input_user_create_email_on = form_radio_yes_no('user_create_email_on', $conf['user_create_email_on']);
 		$input_user_find_pw_on = form_radio_yes_no('user_find_pw_on', $conf['user_find_pw_on']);
 		
-		include "./admin/view/setting_smtp.htm";
+		include "./view/setting_smtp.htm";
 	
 	} else {
 		

@@ -1,10 +1,10 @@
-<?php include './admin/view/header.inc.htm'; ?>
+<?php include './view/header.inc.htm'; ?>
 
 <div class="row">
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="card">
 			<div class="card-block">
-				<form action="<?php echo url('admin/forum-list');?>" method="post" id="form">
+				<form action="<?php echo url('forum-list');?>" method="post" id="form">
 					<h4 class="card-title">版块列表</h4>
 					<div class="table-responsive arrlist">
 						<table class="table" style="min-width: 800px">
@@ -84,7 +84,7 @@ jarrlist.on('click', 'a.row_edit', function() {
 	var jthis = $(this);
 	var jtr = jthis.parents('tr');
 	var rowid = jtr.attr('rowid');
-	window.location = xn.url('admin/forum-update-'+rowid);
+	window.location = xn.url('forum-update-'+rowid);
 });
 
 // 删除

@@ -38,28 +38,30 @@ if(IN_CMD) {
 
 // ----------------------------------------------------------> db cache class
 
-include './xiunophp/db_mysql.class.php';
-include './xiunophp/db_pdo_mysql.class.php';
-include './xiunophp/db_pdo_sqlite.class.php';
-include './xiunophp/cache_apc.class.php';
-include './xiunophp/cache_memcached.class.php';
-include './xiunophp/cache_mysql.class.php';
-include './xiunophp/cache_redis.class.php';
-include './xiunophp/cache_xcache.class.php';
+$__getcwd = getcwd();
+chdir(dirname(__FILE__));
+include './db_mysql.class.php';
+include './db_pdo_mysql.class.php';
+include './db_pdo_sqlite.class.php';
+include './cache_apc.class.php';
+include './cache_memcached.class.php';
+include './cache_mysql.class.php';
+include './cache_redis.class.php';
+include './cache_xcache.class.php';
 
 // ----------------------------------------------------------> 全局函数
 
-include './xiunophp/db.func.php';
-include './xiunophp/cache.func.php';
-include './xiunophp/form.func.php';
-include './xiunophp/image.func.php';
-include './xiunophp/array.func.php';
-include './xiunophp/xn_encrypt.func.php';
-include './xiunophp/misc.func.php';
+include './db.func.php';
+include './cache.func.php';
+include './form.func.php';
+include './image.func.php';
+include './array.func.php';
+include './xn_encrypt.func.php';
+include './misc.func.php';
+chdir($__getcwd);
+unset($__getcwd);
 
 // hook xiunophp_include_after.php
-
-// ----------------------------------------------------------> 全局变量
 
 empty($conf) AND $conf = array('db'=>NULL, 'cache'=>NULL, 'tmp_path'=>'./', 'log_path'=>'./', 'timezone'=>'Asia/Shanghai');
 empty($uid) AND $uid = 0;

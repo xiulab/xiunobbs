@@ -1,10 +1,10 @@
-<?php include './admin/view/header.inc.htm'; ?>
+<?php include './view/header.inc.htm'; ?>
 
 <div class="row">
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="card">
 			<div class="card-block">
-				<form action="<?php echo url("admin/forum-update-$_fid");?>" method="post" id="form">
+				<form action="<?php echo url("forum-update-$_fid");?>" method="post" id="form">
 					<h4 class="card-title">版块编辑 - <?php echo $_forum['name'];?></h4>
 					<div class="form-group row">
 						<label class="col-sm-2 form-control-label">版块名称：</label>
@@ -86,7 +86,7 @@
 </div>
 
 
-<?php include './admin/view/footer.inc.htm'; ?>
+<?php include './view/footer.inc.htm'; ?>
 
 <script>
 

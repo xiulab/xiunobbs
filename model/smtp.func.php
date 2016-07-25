@@ -48,10 +48,16 @@ function smtp_save() {
 	file_put_contents('./conf/smtp.conf.php', "<?php\r\nreturn ".var_export($smtplist,true).";\r\n?>");
 }
 
+function smtp_init($confile) {
+	return include $confile;
+}
+
 function smtp_find() {
 	// hook smtp_find_start.php
 	// hook smtp_find_end.php
-	return include './conf/smtp.conf.php';
+	global $smtplist;
+	return $smtplist;
+	//return include './conf/smtp.conf.php';
 }
 
 function smtp_count() {

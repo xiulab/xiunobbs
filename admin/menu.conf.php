@@ -2,47 +2,47 @@
 
 return array(
 	'setting' => array(
-		'url'=>url('admin/setting-base'), 
+		'url'=>url('setting-base'), 
 		'text'=>lang('setting'), 
 		'icon'=>'icon-cog', 
 		'tab'=> array (
-			'base'=>array('url'=>url('admin/setting-base'), 'text'=>lang('admin_setting_base')),
-			'smtp'=>array('url'=>url('admin/setting-smtp'), 'text'=>lang('admin_setting_smtp')),
+			'base'=>array('url'=>url('setting-base'), 'text'=>lang('admin_setting_base')),
+			'smtp'=>array('url'=>url('setting-smtp'), 'text'=>lang('admin_setting_smtp')),
 		)
 	),
 	'forum' => array(
-		'url'=>url('admin/forum-list'), 
+		'url'=>url('forum-list'), 
 		'text'=>lang('forum_admin'), 
 		'icon'=>'icon-comment',
 		'tab'=> array (
 		)
 	),
 	'post' => array(
-		'url'=>url('admin/post-list'), 
+		'url'=>url('post-list'), 
 		'text'=>lang('post_admin'), 
 		'icon'=>'icon-comment',
 		'tab'=> array (
 		)
 	),
 	'user' => array(
-		'url'=>url('admin/user-list'), 
+		'url'=>url('user-list'), 
 		'text'=>lang('user_admin'), 
 		'icon'=>'icon-user',
 		'tab'=> array (
-			'list'=>array('url'=>url('admin/user-list'), 'text'=>lang('admin_user_list')),
-			'group'=>array('url'=>url('admin/group-list'), 'text'=>lang('admin_user_group')),
-			'create'=>array('url'=>url('admin/user-create'), 'text'=>lang('admin_user_create')),
+			'list'=>array('url'=>url('user-list'), 'text'=>lang('admin_user_list')),
+			'group'=>array('url'=>url('group-list'), 'text'=>lang('admin_user_group')),
+			'create'=>array('url'=>url('user-create'), 'text'=>lang('admin_user_create')),
 		)
 	),
 	'other' => array(
-		'url'=>url('admin/post'), 
+		'url'=>url('post'), 
 		'text'=>lang('other_admin'), 
 		'icon'=>'icon-circle-blank',
 		'tab'=> array (
 		)
 	),
 	'plugin' => array(
-		'url'=>url('admin/plugin'), 
+		'url'=>url('plugin'), 
 		'text'=>lang('plugin_admin'), 
 		'icon'=>'icon-cogs',
 		'tab'=> array (

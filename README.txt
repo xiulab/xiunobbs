@@ -1,36 +1,23 @@
-[What is BBS Xiuno 3 ?]
-BBS Xiuno is a compact, stable, support in large data still remain high load capacity of the light forum. It is only 20+ tables, source code 800K+ (ziped), run very fast, processing a single request in 0.01 second level, in APC, XCache environment can run for 0.00x seconds, little dependent on third party libraries, the front only rely on jquery.js/zepto.js, the author considers it as a pure handmade Ferrari, strong power, no fat, easy deployment and maintenance, is a very good development foundation.
+【Xiuno BBS 4.0是什么？】
+它是 2016 年诞生的，国产、小巧、精悍、基于目前新流行的技术、有着前沿产品理念的、主要采用 PHP 开发的、遵照严格的命名和编码规范的 web 产品，它不仅仅是一个论坛，而是一个良好的二次开发基石。
 
-[Function]
-Abandoned the traditional forum, scoring, essence, highlighting and other content selection function, the introduction of the "like" mechanism, the good or bad, user groups, the upgrade, the theme color, etc..
-Write new editor support tables, pictures, additions and deletions ranks HTML5 client server CPU abbreviation, reduce operation pressure, support QQ screenshot pasted directly.
-Tourists support post replies, little love.
-Support for custom URL, SEO, web site can be like this: http://bbs.xiuno.com/xiuno-bbs-3-official-upgrade
-Support SMTP mail
-Support IP limit: limit the number of daily IP posting, send e-mail, upload attachments
-
-[Performance]
-This is Xiuno's strengths, the author started with web development since 2002, has been hanging on the line for the web pen, may very well affect the performance of the link.
-BBS Xiuno in the end how tough? Many people pay attention to this problem, the following data can be used as a reference:
-Post number: 1200w+, user 122w+, the average daily 100w+ PV (peak far beyond this), running speed 0.01s, loadavg < 0.3
-Sample site: http://www.btbbt.cc/
-
-[Authorization]
-BBS Xiuno 3 uses the MIT protocol to publish, you can freely modify, derived version, commercial and not to worry about any legal risk (to modify the original copyright information should be retained).
-
-Axiuno@gmail.com
-2015/7/25
-
-【Xiuno BBS 3.0 是什么？】
-Xiuno BBS 是一款国产、小巧、稳定、支持在大数据量下仍然保持高负载能力的轻型论坛。它只有 20 多个表，源代码压缩后 720k 左右，运行速度非常快，处理单次请求在 0.01 秒级别，在有 APC、XCache 的环境下可以跑到 0.00x 秒，对第三方类库依赖极少，仅仅前端依赖 jquery.js/zepto.js，作者认为它就像一辆纯手工打造的法拉利，动力强劲，没有一丝赘肉，方便部署和维护，是一个非常好的二次开发的基石。
-
-【功能方面】
-抛弃了传统论坛的，评分，精华，高亮等内容筛选功能，引入了“喜欢”的机制，帖子的好坏，用户组的升级、主题颜色等都与与“喜欢”紧密关联起来。
-全新编写的编辑器支持：表格、增删行列、HTML5 客户端图片缩略，降低服务端 CPU 运算压力、支持 QQ 截图直接粘贴。
-支持游客发帖、回帖、点喜欢。
-支持自定义 URL，有利于 SEO，网址可以像这样：http://bbs.xiuno.com/xiuno-bbs-3-official-upgrade
-支持 SMTP 邮件发送
-支持 IP 限制：限制每日 IP 发帖数，发邮件数，上传附件数
+【Xiuno BBS 4.0 带来了什么？】
+前端采用 BootStrap 4 + JQuery 1.x，响应式布局，自适应手机，平板，PC 设备，不再需要单独开发移动版本。
+对 Bootstrap 4 进行了增强和兼容，比如增加 button().delay().location() 的连续操作支持，修正 .row .row 嵌套导致的间距等问题。
+xiuno.js 采用了 xn. 命名空间，不再担心 js 命名冲突，完善了对常用的 php 函数的实现。
+不再支持 IE8 和以下版本，全面拥抱移动端，不用再用琢磨恶心的 css hack。
+不再强制要求 URL-Rewrite，同时支持多种 URL 格式：user-login.htm /user/login 。
+图片缩略、裁切放到了客户端，不再依赖服务端 GD 库。
+同时支持 Session 和 Token 方式登录，可以返回 json 数据，方便 REST 接口开发。
+插件机制采用 hook + overwrite 方式，方便插入，和覆盖，非常方便二次开发，并且不影响性能，不影响编译。
+db 层采用了更加方便的接口，可以同时支持 SQL 和 NoSQL 的方式操作数据（提倡 NoSQL)。
+论坛功能上更加的精简，更多功能采用插件的方式进行扩充。
+引入了语言包，自带简体、繁体、英文三个版本。
+插件中心正式开启，开发者可以入驻，开发收费插件。
+只需要一个博客插件，它就可以变成一个功能强大的博客。
+帖子支持 txt html markdown 三种格式，自带适度整合的百度编辑器插件。
+xiunophp 4.0 这个框架合并成了一个文件，只需要一个 include 就可以开始使用里面提供的方便的函数和全局变量。
+作者认为 4.0 已经接近完美，并将 Xiuno 止步于 4.0, 并且承诺 4.0 版本的主程序以后不再更新，只做修复和优化。
 
 【性能方面】
 这是 Xiuno 的强项，作者自 2002 年开始接触 web 开发，一直在一线笔耕不缀，对于 web 中可能影响性能的环节非常了解。
@@ -39,7 +26,8 @@ Xiuno BBS 到底有多强悍？很多人关注这个问题，以下数据可以�
 示例站点：http://www.btbbt.cc/
 
 【授权】
-Xiuno BBS 3.0 采用 MIT 协议发布，您可以自由修改、派生版本、商用而不用担心任何法律风险（修改后应保留原来的版权信息）。
+Xiuno BBS 4.0 采用 MIT 协议发布，您可以自由修改、派生版本、商用而不用担心任何法律风险（修改后应保留原来的版权信息）。
+我们承诺对主程序永远免费。
 
 【站长交流群】
 182731161

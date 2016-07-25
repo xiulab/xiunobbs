@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<base href="../" />
 	<?php $header = G('header');?>
 	<?php $user = G('user');?>
 	<?php $menu = G('menu');?>
@@ -13,13 +12,13 @@
 	<meta name="description" content="<?php echo $header['description'];?>" />
 	<title><?php echo $header['keywords'];?></title>
 	
-	<link rel="shortcut icon" href="view/img/favicon.ico" />
-	<link rel="icon" sizes="32x32" href="view/img/favicon.ico">
-	<link rel="Bookmark" href="view/img/favicon.ico" />
-	<link rel="stylesheet" href="view/css/bootstrap.css">
-	<link rel="stylesheet" href="view/css/font-awesome.css">
-	<link rel="stylesheet" href="view/css/tether.css">
-	<link rel="stylesheet" href="view/css/bbs.css">
+	<link rel="shortcut icon" href="../view/img/favicon.ico" />
+	<link rel="icon" sizes="32x32" href="../view/img/favicon.ico">
+	<link rel="Bookmark" href="../view/img/favicon.ico" />
+	<link rel="stylesheet" href="../view/css/bootstrap.css">
+	<link rel="stylesheet" href="../view/css/font-awesome.css">
+	<link rel="stylesheet" href="../view/css/tether.css">
+	<link rel="stylesheet" href="../view/css/bbs.css">
 	<style>
 		
 	</style>
@@ -34,10 +33,10 @@
 				<div class="col-md-8">
 					<ul class="nav navbar-nav" id="nav_pc">
 						<li class="nav-item">
-							<img src="view/img/logo.png" class="logo-sm">
+							<img src="../view/img/logo.png" class="logo-sm">
 						</li>
 						<li class="nav-item home">
-							<a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_index_page');?></a>
+							<a class="nav-link" href="./"><i class="icon-home"></i> <?php echo lang('admin_index_page');?></a>
 						</li>
 						<?php foreach ($menu as $k=>$v) { ?>
 						<li class="nav-item <?php echo $k;?>">
@@ -56,10 +55,10 @@
 							<a class="nav-link" href="<?php echo url('my');?>"><?php echo isset($user['username']) ? $user['username'] : '';?></a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="./"><i class="icon-home"></i> <?php echo lang('front_index_page');?></a>
+							<a class="nav-link" href="../"><i class="icon-home"></i> <?php echo lang('front_index_page');?></a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="admin/<?php echo url('index-logout');?>"><?php echo lang('logout');?></a>
+							<a class="nav-link" href="<?php echo url('index-logout');?>"><?php echo lang('logout');?></a>
 						</li>
 					</ul>
 				</div>
@@ -76,7 +75,7 @@
 					 </button>
 				</div>
 				<div class="col-xs-4">
-					<a class="nav-link p-y-0" href="admin/"><img src="view/img/logo.png" class="logo-sm center-block"></a>
+					<a class="nav-link p-y-0" href="."><img src="view/img/logo.png" class="logo-sm center-block"></a>
 				</div>
 				<div class="col-xs-4">
 					<div class="pull-right">
@@ -91,7 +90,7 @@
 			<div class="bg-inverse p-a-1">
 				<ul class="nav" id="nav_mobile">
 					<li class="nav-item home">
-						<a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_index_page');?></a>
+						<a class="nav-link" href="."><i class="icon-home"></i> <?php echo lang('admin_index_page');?></a>
 					</li>
 					<?php foreach ($menu as $k=>$v) { ?>
 					<li class="nav-item <?php echo $k;?>">

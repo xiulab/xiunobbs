@@ -49,9 +49,9 @@ $header = array(
 // 运行时数据
 $runtime = runtime_init();
 
-// 检测浏览器， 不支持 IE8
-$browser = get__browser();
-check_browser($browser);
+// 检测浏览器， 不支持 IE8，放到客户端检测
+//$browser = get__browser();
+//check_browser($browser);
 
 // 检测站点运行级别
 check_runlevel();

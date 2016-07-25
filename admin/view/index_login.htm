@@ -1,4 +1,4 @@
-<?php include "./admin/view/header.inc.htm"; ?>
+<?php include "./view/header.inc.htm"; ?>
 
 <div class="row m-t-1">
 	<div class="col-lg-5 col-lg-offset-3">
@@ -6,7 +6,7 @@
 			<div class="card-block">
 				<h4 class="bd-title"><?php echo lang('admin_login');?></h4>
 				<hr />
-				<form action="admin/<?php echo url('index-login');?>" method="post" id="form">
+				<form action="<?php echo url('index-login');?>" method="post" id="form">
 					<p>为了您的安全，请再次输入账户密码：</p>
 					<p class="input-group">
 						<span class="input-group-addon" id="basic-addon1"><i class="icon icon-lock"></i></span>
@@ -21,7 +21,7 @@
 	</div>
 </div>
 
-<?php include "./admin/view/footer.inc.htm"; ?>
+<?php include "./iew/footer.inc.htm"; ?>
 <script src="view/js/md5.js"></script>
 
 <script>
@@ -35,7 +35,7 @@ jform.on('submit', function() {
 	jsubmit.button('loading');
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
-			jsubmit.button(message).delay(3000).location('./admin/');
+			jsubmit.button(message).delay(3000).location('./');
 		} else if(code == 'email') {
 			jemail.alert(message).focus();
 			jsubmit.button('reset');
