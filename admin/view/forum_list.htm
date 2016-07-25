@@ -24,7 +24,7 @@
 								<tr align="center" rowid="<?php echo $_fid; ?>">
 									<td class="50"><input type="text" class="form-control" name="fid[<?php echo $_fid;?>]" value="<?php echo $_forum['fid']; ?>"  placeholder="版块ID" /></td>
 									<td align="left">
-										<img src="<?php echo $_forum['icon_url']; ?>" class="forum" width="48" id="img_<?php echo $_fid;?>" />
+										<img src="../<?php echo $_forum['icon_url']; ?>" class="forum" width="48" id="img_<?php echo $_fid;?>" />
 									</td>
 									<td>
 										<input type="file" multiple="multiple" accept=".jpg,.jpeg,.png,.gif,.bmp" class="form-control" name="icon[<?php echo $_fid;?>]" value="" data-assoc="img_<?php echo $_fid;?>" placeholder="版块图标" />
@@ -48,7 +48,7 @@
 	</div>
 </div>
 
-<?php include './admin/view/footer.inc.htm'; ?>
+<?php include './view/footer.inc.htm'; ?>
 
 <script>
 
@@ -118,7 +118,7 @@ jadd.on('click', function() {
 	jclone.find('input').attr_name_index(rowid);
 	
 	// 图片缩略
-	jclone.find('img.forum').attr('id', 'img_'+rowid).attr('src', 'view/img/forum.png');
+	jclone.find('img.forum').attr('id', 'img_'+rowid).attr('src', '../view/img/forum.png');
 	jclone.find('input[type="file"]').attr('data-assoc', 'img_'+rowid);
 	
 	return false;

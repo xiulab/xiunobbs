@@ -25,13 +25,14 @@ function badword_explode($sep1, $sep2, $s) {
 }
 
 // 谨慎的保存配置文件，先备份，再保存。
-function conf_save() {
+function conf_save($file) {
 	
 	// hook conf_save_start.php
 	
 	global $conf, $time;
-	$file = './conf/conf.php';
-	$backfile = './conf/conf-'.date('Y-n-j', $time).'.php';
+	$dir = dirname($file);
+	
+	$backfile = $dir.'/conf-'.date('Y-n-j', $time).'.php';
 	
 	$s = "<?php\r\nreturn ".var_export($conf, true).";\r\n?>";
 	// 备份文件，如果备份失败，则直接返回

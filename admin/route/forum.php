@@ -45,7 +45,7 @@ if(empty($action) || $action == 'list') {
 				$data = substr($s, strpos($s, ',') + 1);
 				$data = base64_decode($data);
 				
-				$iconfile = "./upload/forum/$k.png";
+				$iconfile = "../upload/forum/$k.png";
 				file_put_contents($iconfile, $data);
 				
 				forum_update($k, array('icon'=>$time));

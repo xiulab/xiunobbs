@@ -96,7 +96,7 @@ if(empty($action)) {
 		touch('./conf/conf.php');
 		
 		// 写入配置文件
-		conf_save();
+		conf_save('../conf/conf.php');
 		
 		message(0, '恭喜，安装成功');
 	}

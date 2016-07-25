@@ -35,7 +35,7 @@ if($action == 'base') {
 		$conf['sitename'] = $sitename;
 		$conf['runlevel'] = $runlevel;
 		
-		conf_save() OR message(-1, '写入配置文件失败');
+		conf_save('../conf/conf.php') OR message(-1, '写入配置文件失败');
 	
 		message(0, '修改成功');
 	}
@@ -64,7 +64,7 @@ if($action == 'base') {
 		$conf['user_create_email_on'] = $user_create_email_on;
 		$conf['user_find_pw_on'] = $user_find_pw_on;
 		
-		conf_save() OR message(-1, '保存到配置文件 conf/conf.php 失败，请检查文件的可写权限。');
+		conf_save('../conf/conf.php') OR message(-1, '保存到配置文件 conf/conf.php 失败，请检查文件的可写权限。');
 		
 		$email = param('email', array(''));
 		$host = param('host', array(0));

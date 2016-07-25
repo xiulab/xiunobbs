@@ -49,7 +49,7 @@
 					<ul class="nav navbar-nav pull-right small">
 						
 						<li class="nav-item">
-							<a class="nav-link" href="<?php echo url('my');?>"><img class="avatar-xs" src="<?php echo isset($user['avatar_url']) ? $user['avatar_url'] : '';?>"></a>
+							<a class="nav-link" href="<?php echo url('my');?>"><img class="avatar-xs" src="../<?php echo isset($user['avatar_url']) ? $user['avatar_url'] : '';?>"></a>
 						</li>
 						<li class="nav-item username  m-l-xs">
 							<a class="nav-link" href="<?php echo url('my');?>"><?php echo isset($user['username']) ? $user['username'] : '';?></a>

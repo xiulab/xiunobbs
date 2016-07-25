@@ -11,7 +11,11 @@ $conf['log_path'] = '../'.$conf['log_path'];
 $conf['tmp_path'] = '../'.$conf['log_path'];
 $conf['upload_path'] = '../'.$conf['log_path'];
 
-include '../xiunophp/xiunophp.php';
+if(DEBUG) {
+	include '../xiunophp/xiunophp.php';
+} else {
+	include '../xiunophp/xiunophp.min.php';
+}
 
 // 后台路径
 $admin = 'admin';
