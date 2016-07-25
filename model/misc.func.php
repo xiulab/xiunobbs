@@ -25,16 +25,31 @@ function badword_explode($sep1, $sep2, $s) {
 }
 
 // 谨慎的保存配置文件，先备份，再保存。
-function conf_save($file) {
+// 这里要小心覆盖 $conf;
+function conf_save($file, $conf2, $relative_path = '../') {
 	
 	// hook conf_save_start.php
 	
-	global $conf, $time;
+	global $time;
 	$dir = dirname($file);
+	
+	// 特殊处理几个相对路径，因为要做切换。
+	if($relative_path) {
+		$len = strlen($relative_path);
+		if(substr($conf2['tmp_path'], 0, $len) == $relative_path) {
+			$conf2['tmp_path'] = substr($conf2['tmp_path'], $len);
+		}
+		if(substr($conf2['log_path'], 0, $len) == $relative_path) {
+			$conf2['log_path'] = substr($conf2['log_path'], $len);
+		}
+		if(substr($conf2['upload_path'], 0, $len) == $relative_path) {
+			$conf2['upload_path'] = substr($conf2['upload_path'], $len);
+		}
+	}
 	
 	$backfile = $dir.'/conf-'.date('Y-n-j', $time).'.php';
 	
-	$s = "<?php\r\nreturn ".var_export($conf, true).";\r\n?>";
+	$s = "<?php\r\nreturn ".var_export($conf2, true).";\r\n?>";
 	// 备份文件，如果备份失败，则直接返回
 	$r = copy($file, $backfile);
 	if(!$r) return FALSE;

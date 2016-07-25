@@ -1,7 +1,7 @@
 <?php 
 
 $g_session = array();	
-$g_session_invalid = 0; // 0: 有效， 1：无效
+$g_session_invalid = FALSE; // 0: 有效， 1：无效
 
 // 如果是管理员, sid, 与 ip 绑定，一旦 IP 发生变化，则需要重新登录
 
@@ -56,7 +56,7 @@ function sess_read($sid) {
 }
 
 function sess_new($sid) {
-	global $uid, $fid, $time, $longip, $conf;
+	global $uid, $fid, $time, $longip, $conf, $g_session_invalid;
 	
 	$agent = _SERVER('HTTP_USER_AGENT');
 	
@@ -66,17 +66,12 @@ function sess_new($sid) {
 	$cookie_test = _COOKIE('cookie_test');
 	if($cookie_test) {
 		$cookie_test_decode = xn_decrypt($cookie_test, $conf['auth_key']);
-		if($cookie_test_decode != md5($agent.$longip)) {
-			$g_session_invalid = 1;
-			return;
-		} else {
-			setcookie('cookie_test', $cookie_test, $time - 86400, '');
-			$g_session_invalid = 0;
-		}
+		$g_session_invalid = ($cookie_test_decode != md5($agent.$longip));
+		setcookie('cookie_test', '', $time - 86400, '');
 	} else {
 		$cookie_test = xn_encrypt(md5($agent.$longip), $conf['auth_key']);
 		setcookie('cookie_test', $cookie_test, $time + 86400, '');
-		$g_session_invalid = 1;
+		$g_session_invalid = FALSE;
 		return;
 	}
 	

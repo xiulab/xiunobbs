@@ -71,7 +71,6 @@ $upload_tmp_dir = ini_get('upload_tmp_dir');
 !$upload_tmp_dir AND $upload_tmp_dir = './';
 define('APP_TMP_PATH', empty($conf['tmp_path']) ? $upload_tmp_dir : $conf['tmp_path']);
 define('APP_LOG_PATH', empty($conf['log_path']) ? './' : $conf['log_path']);
-define('APP_CACHE_PRE', empty($conf['cache']['pre']) ? 'pre_' : $conf['cache']['pre']);
 define('URL_REWRITE_PATH_FORMAT_ON', !empty($conf['url_rewrite_on']) && $conf['url_rewrite_on'] == 3);	// 是否开启 / 路径
 
 $ip = ip();

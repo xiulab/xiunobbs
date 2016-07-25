@@ -1,11 +1,11 @@
 <?php
 
-define('DEBUG', 0);
+define('DEBUG', 1);
 
-$conf = (@include './conf/conf.default.php');
-$conf['log_path'] = '../'.$conf['log_path'];
-$conf['tmp_path'] = '../'.$conf['log_path'];
-$conf['upload_path'] = '../'.$conf['log_path'];
+$conf = (@include '../conf/conf.default.php');
+$conf['log_path'][0] == '.' AND $conf['log_path'] = '../'.$conf['log_path'];
+$conf['tmp_path'][0] == '.' AND $conf['tmp_path'] = '../'.$conf['tmp_path'];
+$conf['upload_path'][0] == '.' AND $conf['upload_path'] = '../'.$conf['upload_path'];
 
 include '../xiunophp/xiunophp.php';
 include '../model.inc.php';
@@ -94,8 +94,12 @@ if(empty($action)) {
 		// 初始化
 		touch('../conf/conf.php');
 		
+		//$conf2['log_path'] = './log/';
+		//$conf2['tmp_path'] = './tmp/';
+		//$conf2['upload_path'] = './upload/';
+
 		// 写入配置文件
-		conf_save('../conf/conf.php');
+		conf_save('../conf/conf.php', $conf);
 		
 		message(0, '恭喜，安装成功');
 	}

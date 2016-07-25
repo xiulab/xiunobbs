@@ -15,11 +15,11 @@ function get_env(&$env, &$write) {
 
 	// 目录可写
 	$writedir = array(
-		'conf/',
-		'log/',
-		'tmp/',
-		'upload/',
-		'plugin/'
+		'../conf/',
+		'../log/',
+		'../tmp/',
+		'../upload/',
+		'../plugin/'
 	);
 
 	$write = array();

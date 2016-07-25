@@ -4,10 +4,10 @@ define('DEBUG', 1); 				// 发布的时候改为 0
 
 ob_start('ob_gzhandler');
 
-$conf = (@include '../conf/conf.php') OR exit(header('Location: install/'));
-$conf['log_path'] = '../'.$conf['log_path'];
-$conf['tmp_path'] = '../'.$conf['log_path'];
-$conf['upload_path'] = '../'.$conf['log_path'];
+$conf = (@include '../conf/conf.php') OR exit(header('Location: ../install/'));
+$conf['log_path'][0] == '.' AND $conf['log_path'] = '../'.$conf['log_path'];
+$conf['tmp_path'][0] == '.' AND $conf['tmp_path'] = '../'.$conf['tmp_path'];
+$conf['upload_path'][0] == '.' AND $conf['upload_path'] = '../'.$conf['upload_path'];
 
 if(DEBUG) {
 	include '../xiunophp/xiunophp.php';
@@ -15,18 +15,13 @@ if(DEBUG) {
 	include '../xiunophp/xiunophp.min.php';
 }
 
-// 后台路径
-$admin = 'admin';
-
 include '../model.inc.php';
 include "./admin.func.php";
-
 
 // 测试数据库连接
 db_connect() OR message(-1, $errstr);
 
 $sid = sess_start();
-
 
 // 语言包
 $lang = include('../lang/zh-cn.php');

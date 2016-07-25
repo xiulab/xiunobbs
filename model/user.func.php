@@ -282,6 +282,16 @@ function user_check_flood($longip) {
 
 // 用户
 function user_token_get() {
+	global $time;
+	$_uid = user_token_get_do();
+	if(!$_uid) {
+		setcookie('bbs_token', '', $time - 86400, '');
+	}
+	return $_uid;
+}
+
+// 用户
+function user_token_get_do() {
 	global $time, $ip, $useragent, $conf;
 	$token = param('bbs_token');
 	if(empty($token)) return FALSE;
