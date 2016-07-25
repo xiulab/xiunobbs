@@ -27,9 +27,9 @@ $s = substr($s, 8, -2);
 $xiunophp = file_get_contents($dir.'xiunophp.php');
 $before = '// hook xiunophp_include_before.php';
 $after = '// hook xiunophp_include_after.php';
-$pre = substr($xiunophp, 0, strpos($xiunophp, $before) + strlen($before) + 1);
+$pre = substr($xiunophp, 0, strpos($xiunophp, $before) + 1 + strlen($before));
 $suffix = substr($xiunophp, strpos($xiunophp, $after));
-$xiunophp_min = $pre."\r\n\r\n".$s."\r\n\r\n".$suffix;
+$xiunophp_min = trim($pre)."\r\n\r\n".trim($s)."\r\n\r\n".trim($suffix);
 
 //echo $xiunophp_min;exit;
 /*
@@ -44,3 +44,5 @@ $xiunophp_min = preg_replace(
 $xiunophp);*/
 
 file_put_contents($dir.'xiunophp.min.php', $xiunophp_min);
+
+echo 'ok';

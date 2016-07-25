@@ -2,7 +2,7 @@
 
 chdir('../');
 
-define('DEBUG', 1);
+define('DEBUG', 0);
 define('APP_NAME', 'bbs_install');
 
 $conf = (@include './conf/conf.default.php');
@@ -77,8 +77,8 @@ if(empty($action)) {
 		$conf['db']['pdo_mysql']['master']['password'] = $password;
 		
 		$db = db_new($conf['db']);
-		if(db_connect() === FALSE) {
-			message(-1, "连接失败，errno: $errno, errstr:$errstr");
+		if(db_connect($db) === FALSE) {
+			message(-1, "$errstr (errno: $errno)");
 		} 
 		
 		// 连接成功以后，开始建表，导数据。

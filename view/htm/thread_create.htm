@@ -14,6 +14,14 @@
 							</fieldset>
 						</div>
 						<div class="col-lg-3">
+							<!--{hook thread_create_subject_right.htm}-->
+						</div>
+					</div>
+					<fieldset class="form-group">
+						<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message" style="height: 300px;"></textarea>
+					</fieldset>
+					<div class="row">
+						<div class="col-lg-2">
 							<fieldset class="form-group">
 								<select class="c-select" name="fid">
 									<?php foreach ($forumlist_show as $forum) { ?>
@@ -22,10 +30,27 @@
 								</select>
 							</fieldset>
 						</div>
+						<div class="col-lg-10">
+							<!--{hook thread_create_fid_right.htm}-->
+							<fieldset class="form-group">
+								<select class="c-select" name="typeid">
+									<?php foreach ($forumlist_show as $forum) { ?>
+									<option value="<?php echo $forum['fid']; ?>"><?php echo $forum['name']; ?></option>
+									<?php } ?>
+								</select>
+								<select class="c-select" name="typeid">
+									<?php foreach ($forumlist_show as $forum) { ?>
+									<option value="<?php echo $forum['fid']; ?>"><?php echo $forum['name']; ?></option>
+									<?php } ?>
+								</select>
+								<select class="c-select" name="typeid">
+									<?php foreach ($forumlist_show as $forum) { ?>
+									<option value="<?php echo $forum['fid']; ?>"><?php echo $forum['name']; ?></option>
+									<?php } ?>
+								</select>
+							</fieldset>
+						</div>
 					</div>
-					<fieldset class="form-group">
-						<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message" style="height: 300px;"></textarea>
-					</fieldset>
 					<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('thread_create');?> </button>
 				</form>
 			</div>
