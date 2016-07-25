@@ -29,7 +29,7 @@ if(empty($action) || $action == 'list') {
 		$_user['group'] = array_value($grouplist, $_user['gid'], '');
 	}
 
-	include "./view/user_list.htm";
+	include "./view/htm/user_list.htm";
 
 } elseif($action == 'create') {
 
@@ -43,7 +43,7 @@ if(empty($action) || $action == 'list') {
 		$grouparr = arrlist_key_values($grouplist, 'gid', 'name');
 		$input['_gid'] = form_select('_gid', $grouparr, 0);
 		
-		include "./view/user_create.htm";
+		include "./view/htm/user_create.htm";
 
 	} elseif ($method == 'POST') {
 
@@ -94,7 +94,7 @@ if(empty($action) || $action == 'list') {
 		$grouparr = arrlist_key_values($grouplist, 'gid', 'name');
 		$input['_gid'] = form_select('_gid', $grouparr, $user['gid']);
 
-		include "./view/user_update.htm";
+		include "./view/htm/user_update.htm";
 
 	} elseif($method == 'POST') {
 

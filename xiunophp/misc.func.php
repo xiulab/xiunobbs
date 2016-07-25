@@ -16,7 +16,7 @@ function xn_log_post_data() {
 	isset($post['password_new']) AND $post['password_new'] = '******'; 	// 干掉密码信息
 	isset($post['password_old']) AND $post['password_old'] = '******'; 	// 干掉密码信息
 
-	xn_log(xn_json_encode($post), APP_NAME.'_post_data');
+	xn_log(xn_json_encode($post), 'post_data');
 }
 
 // 中断流程很危险！可能会导致数据问题，线上模式不允许中断流程！

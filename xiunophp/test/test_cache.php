@@ -1,7 +1,5 @@
 <?php
 
-define('APP_NAME', 'test');
-
 chdir(getcwd().'/../');
 
 $conf = include './conf/conf.php';

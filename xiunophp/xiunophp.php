@@ -13,7 +13,6 @@
 */
 
 !defined('DEBUG') AND define('DEBUG', 1); // 1: 开发模式， 2: 线上调试：日志记录，0: 关闭
-!defined('APP_NAME') AND define('APP_NAME', 'www');
 
 error_reporting(DEBUG ? E_ALL : 0);
 version_compare(PHP_VERSION, '5.3.0', '<') AND set_magic_quotes_runtime(0);

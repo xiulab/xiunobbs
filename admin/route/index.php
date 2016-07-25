@@ -10,7 +10,7 @@ if($action == 'login') {
 
 		$header['title'] = '管理登陆';
 		
-		include "./view/index_login.htm";
+		include "./view/htm/index_login.htm";
 
 	} else if($method == 'POST') {
 
@@ -80,7 +80,7 @@ if($action == 'login') {
 	
 	$check['php_ini'] = ini_get('upload_tmp_dir');
 	
-	include './view/index.htm';
+	include './view/htm/index.htm';
 
 }
 

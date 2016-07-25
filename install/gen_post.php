@@ -3,7 +3,6 @@
 chdir('./');
 
 define('DEBUG', 0);
-define('APP_NAME', 'bbs');
 
 $conf = (@include './conf/conf.php');
 

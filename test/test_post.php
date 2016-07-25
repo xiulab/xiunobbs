@@ -1,7 +1,5 @@
 <?php
 
-define('APP_NAME', 'test');
-
 chdir(getcwd().'/../');
 
 include './XiunoPHP.3.0.php';

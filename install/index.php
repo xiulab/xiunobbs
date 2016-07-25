@@ -1,7 +1,6 @@
 <?php
 
 define('DEBUG', 0);
-define('APP_NAME', 'bbs_install');
 
 $conf = (@include './conf/conf.default.php');
 $conf['log_path'] = '../'.$conf['log_path'];
@@ -22,13 +21,13 @@ is_file('../conf/conf.php') AND empty($action) AND !DEBUG AND message(0, jump('�
 
 // 第一步，阅读
 if(empty($action)) {
-	include "./view/index.htm";
+	include "./view/htm/index.htm";
 } elseif($action == 'env') {
 	if($method == 'GET') {
 		$succeed = 1;
 		$env = $write = array();
 		get_env($env, $write);
-		include "./view/env.htm";
+		include "./view/htm/env.htm";
 	} else {
 	
 	}
@@ -41,7 +40,7 @@ if(empty($action)) {
 		$pdo_mysql_support = extension_loaded('pdo_mysql');
 		(!$mysql_support && !$pdo_mysql_support) AND message(0, '当前 PHP 环境不支持 mysql 和 pdo_mysql，无法继续安装。');
 
-		include "./view/db.htm";
+		include "./view/htm/db.htm";
 		
 	} else {
 		

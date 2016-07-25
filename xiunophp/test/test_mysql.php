@@ -1,10 +1,6 @@
 <?php
 
-define('APP_NAME', 'test');
-
-chdir(getcwd().'/../');
-
-include './xiunophp.php';
+include '../xiunophp.php';
 
 $user = db_find_one("SELECT * FROM `user` WHERE uid='1'");
 x('select', $user['uid'], '1');

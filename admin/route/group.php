@@ -14,7 +14,7 @@ if(empty($action) || $action == 'list') {
 	
 		$maxgid = group_maxid();
 		
-		include "./view/group_list.htm";
+		include "./view/htm/group_list.htm";
 	
 	} elseif($method == 'POST') {
 		
@@ -79,7 +79,7 @@ if(empty($action) || $action == 'list') {
 		$input['allowdeleteuser'] = form_checkbox('allowdeleteuser', $_group['allowdeleteuser']);
 		$input['allowviewip'] = form_checkbox('allowviewip', $_group['allowviewip']);
 		
-		include "./view/group_update.htm";
+		include "./view/htm/group_update.htm";
 	
 	} elseif($method == 'POST') {	
 		

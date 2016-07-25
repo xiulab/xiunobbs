@@ -15,7 +15,7 @@ if(empty($action) || $action == 'list') {
 	
 		$maxfid = forum_maxid();
 		
-		include "./view/forum_list.htm";
+		include "./view/htm/forum_list.htm";
 	
 	} elseif($method == 'POST') {
 		
@@ -95,7 +95,7 @@ if(empty($action) || $action == 'list') {
 		$input['accesson'] = form_checkbox('accesson', $_forum['accesson']);
 		$input['moduids'] = form_text('moduids', $_forum['moduids']);
 		
-		include "./view/forum_update.htm";
+		include "./view/htm/forum_update.htm";
 	
 	} elseif($method == 'POST') {	
 		

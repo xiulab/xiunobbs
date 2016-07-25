@@ -248,13 +248,7 @@ function message($code, $message, $extra = array()) {
 		echo xn_json_encode($arr);
 		runtime_save();
 	} else {
-		if(APP_NAME == 'bbs') {
-			include "./view/htm/message.htm";
-		} elseif(APP_NAME == 'bbs_admin') {
-			include "./admin/view/message.htm";
-		} elseif(APP_NAME == 'bbs_install') {
-			include "./install/view/message.htm";
-		}
+		include "./view/htm/message.htm";
 	}
 	exit;
 }
