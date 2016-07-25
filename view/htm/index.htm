@@ -10,7 +10,7 @@
 							<dl class="row">
 								<dt><b>最新帖子</b></dt>
 								<dd>
-									<a role="button" class="btn btn-primary btn-sm pull-right m-b-xs" id="submit" data-loading-text="<?php echo lang('submiting');?>..." href="<?php echo url('thread-create');?>"><?php echo lang('thread_create_new');?></a>
+									<!--{hook index_new_thread_title_right.htm}-->
 								</dd>
 							</dl>
 						</th>
@@ -23,6 +23,7 @@
 		</div>
 	</div>
 	<div class="col-lg-3">
+		<a role="button" class="btn btn-primary btn-block btn-sm m-b-sm" data-loading-text="<?php echo lang('submiting');?>..." href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
 		<div class="card">
 			<h4 class="text-center m-t-1">站点名称</h4>
 			<p class="m-x-1 text-middle">站点介绍站点介绍站点介绍站点介绍站点介绍站点介绍站点介绍站点介绍站点介绍站点介绍</p>

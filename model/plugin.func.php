@@ -10,9 +10,9 @@ function plugin_init() {
 	$plugin_srcfiles = array_merge(
 		glob('./model/*.php'), 
 		glob('./pc/route/*.php'), 
-		glob('./pc/view/*.*'), 
+		glob('./pc/view/htm/*.*'), 
 		glob('./admin/route/*.php'), 
-		glob('./admin/view/*.*')
+		glob('./admin/view/htm/*.*')
 	);
 	foreach($plugin_srcfiles as $k=>$file) {
 		$filename = file_name($file);

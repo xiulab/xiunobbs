@@ -1,8 +1,11 @@
 <?php
 
-define('DEBUG', 1); 				// 发布的时候改为 0 
+!defined('DEBUG') AND define('DEBUG', 1); 				// 发布的时候改为 0 
 
 ob_start('ob_gzhandler');
+
+// 可以被外部包含，用来命令行包含执行。
+chdir(dirname(__FILE__));
 
 $conf = (@include './conf/conf.php') OR exit(header('Location: install/'));
 
@@ -66,22 +69,25 @@ $setting = kv_get('setting');
 
 //DEBUG AND ($method == 'POST' || $ajax) AND sleep(1);
 
-$route = param(0, 'index');
-
-// todo: HHVM 不支持动态 include $filename
-// 按照使用的频次排序，增加命中率，提高效率
-switch ($route) {
-	case 'index': 	include './route/index.php'; 	break;
-	case 'thread':	include './route/thread.php'; 	break;
-	case 'forum': 	include './route/forum.php'; 	break;
-	case 'user': 	include './route/user.php'; 	break;
-	case 'my': 	include './route/my.php'; 	break;
-	case 'search': 	include './route/search.php'; 	break;
-	case 'post': 	include './route/post.php'; 	break;
-	case 'mod': 	include './route/mod.php'; 	break;
-	case 'test': 	include './route/test.php'; 	break;
-	case 'browser': include './route/browser.php'; 	break;
-	default: http_404();
+if(!defined('SKIP_ROUTE')) {
+	$route = param(0, 'index');
+	
+	// todo: HHVM 不支持动态 include $filename
+	// 按照使用的频次排序，增加命中率，提高效率
+	switch ($route) {
+		case 'index': 	include './route/index.php'; 	break;
+		case 'thread':	include './route/thread.php'; 	break;
+		case 'forum': 	include './route/forum.php'; 	break;
+		case 'user': 	include './route/user.php'; 	break;
+		case 'my': 	include './route/my.php'; 	break;
+		case 'search': 	include './route/search.php'; 	break;
+		case 'post': 	include './route/post.php'; 	break;
+		case 'mod': 	include './route/mod.php'; 	break;
+		case 'test': 	include './route/test.php'; 	break;
+		case 'browser': include './route/browser.php'; 	break;
+		// 如果指定这个参数，则不爆 404，继续往下执行，方便插件继续处理
+		default: http_404();
+	}
 }
 
 ?>

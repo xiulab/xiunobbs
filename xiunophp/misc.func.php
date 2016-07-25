@@ -627,10 +627,10 @@ function browser_lang() {
  * )
  */
 function xn_init_query_string() {
-
+	
 	!empty($_SERVER['HTTP_X_REWRITE_URL']) AND $_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_REWRITE_URL'];
 	!isset($_SERVER['REQUEST_URI']) AND $_SERVER['REQUEST_URI'] = '';
-
+	
 	// 兼容 iis6
 	$_SERVER['REQUEST_URI'] = str_replace('/index.php?', '/', $_SERVER['REQUEST_URI']);
 	// 处理: /demo/?user-login.htm?a=b&c=d
@@ -658,6 +658,8 @@ function xn_init_query_string() {
 	if(URL_REWRITE_PATH_FORMAT_ON) {
 		$r = xn_init_query_string_by_path_formt($_SERVER['REQUEST_URI']) + $r;
 	}
+	
+	
 
 	isset($r[0]) AND $r[0] == 'index.php' AND $r[0] = 'index';
 	return $r;

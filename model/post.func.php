@@ -13,7 +13,7 @@ function post__create($arr, $gid) {
 	
 	// 格式转换
 	$arr['message_fmt'] = htmlspecialchars($arr['message']);
-	$gid != 1 && $arr['doctype'] == 0 && $arr['message_fmt'] = xn_html_safe($arr['message']);
+	$arr['doctype'] == 0 && $arr['message_fmt'] = ($gid == 1 ? $arr['message'] : xn_html_safe($arr['message']));
 	$arr['doctype'] == 1 && $arr['message_fmt'] = xn_txt_to_html($arr['message']);
 	
 	$r = db_insert('post', $arr);
@@ -111,7 +111,7 @@ function post_update($pid, $arr, $tid = 0) {
 	
 	// 格式转换
 	$arr['message_fmt'] = htmlspecialchars($arr['message']);
-	$gid != 1 && $arr['doctype'] == 0 && $arr['message_fmt'] = xn_html_safe($arr['message']);
+	$arr['doctype'] == 0 && $arr['message_fmt'] = ($gid == 1 ? $arr['message'] : xn_html_safe($arr['message']));
 	$arr['doctype'] == 1 && $arr['message_fmt'] = xn_txt_to_html($arr['message']);
 	
 	// hook post_create_post__create_before.php

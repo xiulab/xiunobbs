@@ -32,23 +32,6 @@
 						</div>
 						<div class="col-lg-10">
 							<!--{hook thread_create_fid_right.htm}-->
-							<fieldset class="form-group">
-								<select class="c-select" name="typeid">
-									<?php foreach ($forumlist_show as $forum) { ?>
-									<option value="<?php echo $forum['fid']; ?>"><?php echo $forum['name']; ?></option>
-									<?php } ?>
-								</select>
-								<select class="c-select" name="typeid">
-									<?php foreach ($forumlist_show as $forum) { ?>
-									<option value="<?php echo $forum['fid']; ?>"><?php echo $forum['name']; ?></option>
-									<?php } ?>
-								</select>
-								<select class="c-select" name="typeid">
-									<?php foreach ($forumlist_show as $forum) { ?>
-									<option value="<?php echo $forum['fid']; ?>"><?php echo $forum['name']; ?></option>
-									<?php } ?>
-								</select>
-							</fieldset>
 						</div>
 					</div>
 					<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('thread_create');?> </button>
@@ -87,4 +70,19 @@ jform.on('submit', function() {
 $('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');
 $('#nav_mobile li[fid="<?php echo $fid;?>"]').tab('show');
 
+</script>
+
+<!--- 百度编辑器 -->
+
+ <!-- 加载编辑器的容器 -->
+
+<!-- 配置文件 -->
+<script type="text/javascript" src="plugin/xn_ueditor/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="plugin/xn_ueditor/ueditor/ueditor.all.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+var ue = UE.getEditor('message');
+$('#message').css('padding', 0).css('border', 0);
+jform.find('input[name="doctype"]').val(0);
 </script>

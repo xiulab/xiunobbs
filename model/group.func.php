@@ -34,7 +34,7 @@ function group__delete($gid) {
 
 function group__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 1000) {
 	// hook group__find_start.php
-	$grouplist = db_find('group', $cond, $orderby, $page, $pagesize);
+	$grouplist = db_find('group', $cond, $orderby, $page, $pagesize, 'gid');
 	// hook group__find_end.php
 	return $grouplist;
 }

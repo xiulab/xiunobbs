@@ -57,7 +57,6 @@ if($action == 'create') {
 		empty($message) AND message('message', '内容不能为空'.$fid);
 		$doctype = param('doctype', 0);
 		$doctype > 2 AND message(-1, '不支持的文档格式。');
-		$gid != 1 AND $doctype != 1 AND $message = xn_html_safe($message);
 		xn_strlen($message) > 2028000 AND message('message', '内容太长');
 		
 		$thread = array (
@@ -151,6 +150,7 @@ if($action == 'create') {
 		unset($thread['userip']);
 		unset($thread['sid']);
 	}
+	
 	// hook thread_info_end.php
 	include './view/htm/thread.htm';
 	

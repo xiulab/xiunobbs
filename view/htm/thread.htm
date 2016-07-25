@@ -49,7 +49,7 @@
 									<b>最新回复</b>(<span class="posts"><?php echo $thread['posts'];?></span>)
 								</dt>
 								<dd>
-								
+									<!--{hook thread_post_list_title_right.htm}-->
 								</dd>
 							</dl>
 						</th>
@@ -87,6 +87,7 @@
 		
 	</div>
 	<div class="col-lg-3">
+		<a role="button" class="btn btn-primary btn-block btn-sm m-b-sm" data-loading-text="<?php echo lang('submiting');?>..." href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
 		<div class="card hidden-lg-down">
 			<a href="<?php echo url("user-$thread[uid]");?>">
 				<img class="avatar-lg center-block m-t-1" src="<?php echo $thread['user_avatar_url'];?>">

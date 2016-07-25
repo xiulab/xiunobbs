@@ -7,9 +7,6 @@ include './xiunophp/xn_html_safe.func.php';
 
 $action = param(1);
 
-$user = user_read($uid);
-empty($user) AND $user = user_guest();
-
 if($action == 'create') {
 	
 	$tid = param(2);
@@ -136,7 +133,6 @@ if($action == 'create') {
 		$doctype = param('doctype', 0);
 		
 		empty($message) AND message('message', '内容不能为空');
-		$gid != 1 AND $message = xn_html_safe($message);
 		mb_strlen($message, 'UTF-8') > 2048000 AND message('message', '内容太长');
 		
 		$arr = array();
@@ -196,6 +192,13 @@ if($action == 'create') {
 	
 	
 	message(0, lang('delete_success'));
+
+// 上传的临时文件，图片客户端缩略、裁切后传到服务端，服务端只保存
+} elseif($action == 'upload') {
+	// 文件保存到 tmp 目录，文件名保存到 session
+	// 发帖成功以后，替换文件内容中的 <img src="tmp/xxx.jpg" 为 <img src="upload/attach/$day/md5(id.key).jpg" />
+	// 删除文件，清除 session
+	
 	
 // 接受 base64 文件上传
 } elseif($action == 'upload') {

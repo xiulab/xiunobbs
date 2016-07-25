@@ -23829,6 +23829,8 @@ UE.plugin.register('autoupload', function (){
                 if (json.state == 'SUCCESS' && json.url) {
                     successHandler(json);
                 } else {
+                    // added by axiuno@gmail.com, print server error information, important!
+                    console.log(url + ' : ' + e.target.response);
                     errorHandler(json.state);
                 }
             }catch(er){
