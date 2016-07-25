@@ -18,7 +18,7 @@ check_browser($browser);
 $action = param('action');
 
 // 安装初始化检测,放这里
-is_file('./conf/conf.php') AND empty($action) AND !DEBUG AND message(0, jump('程序已经安装过了，如需重新安装，请删除 conf/conf.php ！', '../'));
+is_file('../conf/conf.php') AND empty($action) AND !DEBUG AND message(0, jump('程序已经安装过了，如需重新安装，请删除 conf/conf.php ！', '../'));
 
 // 第一步，阅读
 if(empty($action)) {
@@ -93,7 +93,7 @@ if(empty($action)) {
 		$conf['installed'] = 1;
 		
 		// 初始化
-		touch('./conf/conf.php');
+		touch('../conf/conf.php');
 		
 		// 写入配置文件
 		conf_save('../conf/conf.php');
