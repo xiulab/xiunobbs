@@ -8,7 +8,7 @@ function kv_get($k) {
 function kv_set($k, $v, $life = 0) {
 	$arr = array(
 		'k'=>$k,
-		'v'=>$v,
+		'v'=>xn_json_encode($v),
 	);
 	$r = db_replace('kv', $arr);
 	return $r;
