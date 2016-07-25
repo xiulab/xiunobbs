@@ -8,7 +8,7 @@ $conf['log_path'] = '../'.$conf['log_path'];
 $conf['tmp_path'] = '../'.$conf['log_path'];
 $conf['upload_path'] = '../'.$conf['log_path'];
 
-include './xiunophp/xiunophp.php';
+include '../xiunophp/xiunophp.php';
 include '../model.inc.php';
 include './install.func.php';
 

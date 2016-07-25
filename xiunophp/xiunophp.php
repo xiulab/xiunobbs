@@ -40,6 +40,7 @@ if(IN_CMD) {
 
 $__getcwd = getcwd();
 chdir(dirname(__FILE__));
+
 include './db_mysql.class.php';
 include './db_pdo_mysql.class.php';
 include './db_pdo_sqlite.class.php';
@@ -58,6 +59,7 @@ include './image.func.php';
 include './array.func.php';
 include './xn_encrypt.func.php';
 include './misc.func.php';
+
 chdir($__getcwd);
 unset($__getcwd);
 
