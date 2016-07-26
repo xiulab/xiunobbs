@@ -14,14 +14,6 @@
 							</fieldset>
 						</div>
 						<div class="col-lg-3">
-							<!--{hook thread_create_subject_right.htm}-->
-						</div>
-					</div>
-					<fieldset class="form-group">
-						<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message" style="height: 300px;"></textarea>
-					</fieldset>
-					<div class="row">
-						<div class="col-lg-2">
 							<fieldset class="form-group">
 								<select class="c-select" name="fid">
 									<?php foreach ($forumlist_show as $forum) { ?>
@@ -29,12 +21,24 @@
 									<?php } ?>
 								</select>
 							</fieldset>
-						</div>
-						<div class="col-lg-10">
-							<!--{hook thread_create_fid_right.htm}-->
+							<!--{hook thread_create_subject_right.htm}-->
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('thread_create');?> </button>
+					<fieldset class="form-group">
+						<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message" style="width: 100%; height: 300px;"></textarea>
+					</fieldset>
+					<div class="row">
+						<div class="col-lg-10">
+							<p class="small text-left"><label id="addattach"><i class="icon-folder-open-alt"></i> <span>添加附件</span></label></p>
+							<!--{hook thread_create_bottom_right.htm}-->
+						</div>
+						<div class="col-lg-2 text-right">
+							<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('thread_create');?> </button>
+							<!--{hook thread_create_bottom_left.htm}-->
+							
+						</div>
+					</div>
+					
 				</form>
 			</div>
 		</div>
@@ -66,6 +70,9 @@ jform.on('submit', function() {
 	});
 	return false;
 });
+
+var jaddattach = $('#addattach');
+
 
 $('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');
 $('#nav_mobile li[fid="<?php echo $fid;?>"]').tab('show');

@@ -9739,9 +9739,12 @@ UM.ui.define('separator', {
                 if(options.initialFrameWidth){
                     options.minFrameWidth = options.initialFrameWidth
                 }else{
-                    options.minFrameWidth = options.initialFrameWidth = editor.$body.width() || UM.defaultWidth;
+                	// axiuno: width() -> outerWidth()
+                	var editor_body_width = editor.$body.css('width').indexOf('%') == -1 ? editor.$body.outerWidth() : editor.$body.css('width');
+                	editor_body_width = '100%';
+                    options.minFrameWidth = options.initialFrameWidth = editor_body_width || UM.defaultWidth;
                 }
-
+		// axiuno: 编辑器改为百分之百的宽度
                 $container.css({
                     width: options.initialFrameWidth,
                     zIndex:editor.getOpt('zIndex')
