@@ -1,0 +1,16 @@
+
+/*设置按扭样式*/
+.edui-icon-xnimg {
+	background-position: -380px 0;
+}
+.edui-btn-xnimg input {
+	width: 20px;
+	height: 20px;
+	background: transparent;
+	opacity: 0;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.navbar-fixed-top, .navbar-fixed-bottom {z-index: 900}

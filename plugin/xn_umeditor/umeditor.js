@@ -8056,6 +8056,7 @@ UM.plugins['autoupload'] = function () {
 
     me.addListener('ready', function () {
         if (window.FormData && window.FileReader) {
+        	/*
             var autoUploadHandler = function (e) {
                 var hasImg = false,
                     items;
@@ -8078,7 +8079,8 @@ UM.plugins['autoupload'] = function () {
             };
             me.getOpt('pasteImageEnabled') && me.$body.on('paste', autoUploadHandler);
             me.getOpt('dropFileEnabled') && me.$body.on('drop', autoUploadHandler);
-
+		*/
+            
             //取消拖放图片时出现的文字光标位置提示
             me.$body.on('dragover', function (e) {
                 if (e.originalEvent.dataTransfer.types[0] == 'Files') {

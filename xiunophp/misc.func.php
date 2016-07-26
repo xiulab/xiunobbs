@@ -994,14 +994,14 @@ function xn_debug_info() {
 	global $db, $starttime;
 	$s = '';
 	if(DEBUG) {
-		$s = '<div class="small">';
+		$s .= '<div class="small">';
 		$s .= '<p>Processed Time:'.(microtime(1) - $starttime).'</p>';
 		if(IN_CMD) {
 			foreach($db->sqls as $sql) {
-				$s = "$sql\r\n";
+				$s .= "$sql\r\n";
 			}
 		} else {
-			$s ."\r\n<ul>\r\n";
+			$s .= "\r\n<ul>\r\n";
 			foreach($db->sqls as $sql) {
 				$s .= "<li>$sql</li>\r\n";
 			}

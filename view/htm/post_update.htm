@@ -1,5 +1,6 @@
 <?php include "./view/htm/header.inc.htm"; ?>
 
+
 <div class="row">
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="card">
@@ -33,6 +34,8 @@
 
 <?php include "./view/htm/footer.inc.htm"; ?>
 
+
+
 <script>
 var tid = <?php echo $tid;?>;
 var jform = $('#form');
@@ -63,145 +66,10 @@ $('#nav_mobile li[fid="<?php echo $fid;?>"]').tab('show');
 
 </script>
 
-
-
-<!--- 百度编辑器 -->
-
- <!-- 加载编辑器的容器 -->
-
- 
-<link href="plugin/xn_umeditor/themes/default/css/umeditor.min.css" type="text/css" rel="stylesheet">
-
-<style>
-
-/*设置按扭样式*/
-.edui-icon-xnimg{
-	background-position: -380px 0;
-}
-#file1 {
-	width: 20px;
-	height: 20px;
-	background: transparent;
-	opacity: 0;
-	position: absolute;
-	left: 0;
-	top: 0;
-}
-
-.navbar-fixed-top, .navbar-fixed-bottom {z-index: 900}
-</style>
-
+<link href="plugin/xn_umeditor/themes/default/css/umeditor.min.css" type="text/css" rel="stylesheet" />
+<link href="plugin/xn_umeditor/umeditor-bbs.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="plugin/xn_umeditor/umeditor.config.js"></script>
-
 <script type="text/javascript" src="plugin/xn_umeditor/umeditor.js"></script>
+<script type="text/javascript" src="plugin/xn_umeditor/umeditor-bbs.js?aa"></script>
 <script type="text/javascript" src="plugin/xn_umeditor/lang/zh-cn/zh-cn.js"></script>
-<script type="text/javascript">
-/**
- * 段落样式
- * @function
- * @name UM.execCommand
- * @param   {String}   cmdName     paragraph插入段落执行命令
- * @param   {String}   style               标签值为：'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
- * @param   {String}   attrs               标签的属性
- * @author zhanyi
- */
-/*
-UM.plugins['paragraph'] = function() {
-    var me = this;
-    me.setOpt('paragraph',{'p':'', 'h1':'', 'h2':'', 'h3':'', 'h4':'', 'h5':'', 'h6':''});
-	alert('abc');
-	var jimage = $('<input type="file" style="width: 100px; height: 40px;">').insertAfter('div.edui-icon-image');
-
-    me.commands['paragraph'] = {
-        execCommand : function( cmdName, style ) {
-       		alert(cmdName);
-            return this.document.execCommand('formatBlock',false,'<' + style + '>');
-        },
-        queryCommandValue : function() {
-            try{
-                var  val = this.document.queryCommandValue('formatBlock')
-            }catch(e){
-            }
-            return val ;
-        }
-    };
-};
-
-
-*/
-
-/*
-window.UMEDITOR_CONFIG.toolbar = [
-	// 加入一个 xnimg
-	'bold italic underline | xnimg',
-	'| fullscreen'
-];
-*/
-
-// 先执行
-UM.plugins['xnimg'] = function() {
-};
-
-// 后执行
-UM.registerUI( 'xnimg', function( name ){
-	var me = this;
-	var $btn = $.eduibutton({
-		icon: name,
-		title: 'xiuno image',
-		html: '<input type="file" value="" id="file1" />', 
-		click: function(e) {
-			console.log(e);
-		}
-	});
-	
-	// 对图片进行缩略
-	$btn.find('input[type="file"]').on('change', function(e) {
-		var reader = new FileReader();
-		var file = e.target.files[0];
-	        reader.readAsDataURL(file);
-	        reader.onload = function() {
-	        	if(xn.substr(this.result, 0, 10) != 'data:image') return;
-	        	var width = 400;
-	        	var height = 300;
-	        	var action = 'thumb';
-	        	xn.image_resize(this.result, width, height, action, function(code, message) {
-	        		if(code != 0) return alert(message);
-	        		var thumb_width = message.width;
-	        		var thumb_height = message.height;
-	        		var postdata = {width: thumb_width, height: thumb_height, name: file.name, data: message.data};
-	        		$.xpost('plugin/xn_umeditor/upload.php', postdata, function(code, message) {
-	        			var s = '<img src="'+message.url+'" width="'+thumb_height+'" height=\"'+thumb_height+'\" />';
-		        		me.execCommand('inserthtml', s);
-		        		jsubmit.button('reset');
-	        		});
-	        	});
-	        }
-    });
-    
-    me.addListener('selectionchange', function () {
-        var state = this.queryCommandState(name);
-              $btn.edui().disabled(state == -1).active(state == 1);
-    });
-    return $btn;
-    
-});
-
-// 代码高亮插件
-
-
-var um = UM.getEditor('message', {
-    lang:/^zh/.test(navigator.language || navigator.browserLanguage || navigator.userLanguage) ? 'zh-cn' : 'en',
-    langPath:UMEDITOR_CONFIG.UMEDITOR_HOME_URL + "lang/",
-    focus: true
-});
-
-um.ready(function() {
-	//$('<input type="file">').appendTo(um.);
-});
-console.log(um);
-
-
-
-
-</script>
 
