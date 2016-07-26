@@ -74,6 +74,8 @@ function runtime_save() {
 	// hook runtime_save_start.php
 	global $runtime, $g_runtime_save;
 	
+	if(!empty($_SERVER['APP_PATH'])) chdir($_SERVER['APP_PATH']);
+	
 	if(!$g_runtime_save) return;
 	$r = cache_set('runtime', $runtime);
 	
@@ -87,6 +89,7 @@ function runtime_truncate() {
 	// hook runtime_truncate_end.php
 }
 
+register_shutdown_function('runtime_save');
 
 // hook runtime_func_php_end.php
 

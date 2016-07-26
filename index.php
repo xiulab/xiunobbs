@@ -82,7 +82,6 @@ if(!defined('SKIP_ROUTE')) {
 		case 'mod': 	include './route/mod.php'; 	break;
 		case 'test': 	include './route/test.php'; 	break;
 		case 'browser': include './route/browser.php'; 	break;
-		// 如果指定这个参数，则不爆 404，继续往下执行，方便插件继续处理
 		default: http_404();
 	}
 }
