@@ -875,30 +875,34 @@ xn.image_resize = function(file_base64_data, thumb_width, thumb_height, action, 
 		// img_width, img_height: 原始图片宽高
 		// canvas_width, canvas_height: 画布宽高
 		if(action == 'thumb') {
-			// 横形
-			if(img_width / img_height > thumb_width / thumb_height) {
-				var width = thumb_width; // 以缩略图宽度为准，进行缩放
-				var height = Math.ceil((thumb_width / img_width) * img_height);
-			// 竖形
-			} else {
-				var height = thumb_height; // 以缩略图宽度为准，进行缩放
-				var width = Math.ceil((img_width / img_height) * thumb_height);
+			if(img_width > thumb_width || img_height > thumb_height) {
+				// 横形
+				if(img_width / img_height > thumb_width / thumb_height) {
+					var width = thumb_width; // 以缩略图宽度为准，进行缩放
+					var height = Math.ceil((thumb_width / img_width) * img_height);
+				// 竖形
+				} else {
+					var height = thumb_height; // 以缩略图宽度为准，进行缩放
+					var width = Math.ceil((img_width / img_height) * thumb_height);
+				}
 			}
 			canvas_width = width;
 			canvas_height = height;
 		} else if(action == 'clip') {
-			// 横形
-			if(img_width / img_height > thumb_width / thumb_height) {
-				var height = thumb_height; // 以缩略图宽度为准，进行缩放
-				var width = Math.ceil((img_width / img_height) * thumb_height);
-				var dx = -((width - thumb_width) / 2);
-				var dy = 0;
-			// 竖形
-			} else {
-				var width = thumb_width; // 以缩略图宽度为准，进行缩放
-				var height = Math.ceil((img_height / img_width) * thumb_width);
-				dx = 0;
-				dy = -((height - thumb_height) / 2);
+			if(img_width > thumb_width || img_height > thumb_height) {
+				// 横形
+				if(img_width / img_height > thumb_width / thumb_height) {
+					var height = thumb_height; // 以缩略图宽度为准，进行缩放
+					var width = Math.ceil((img_width / img_height) * thumb_height);
+					var dx = -((width - thumb_width) / 2);
+					var dy = 0;
+				// 竖形
+				} else {
+					var width = thumb_width; // 以缩略图宽度为准，进行缩放
+					var height = Math.ceil((img_height / img_width) * thumb_width);
+					dx = 0;
+					dy = -((height - thumb_height) / 2);
+				}
 			}
 			canvas_width = thumb_width;
 			canvas_height = thumb_height;

@@ -15,9 +15,8 @@ $(function() {
 	        		var postdata = {width: thumb_width, height: thumb_height, name: filename, data: message.data};
 	        		$.xpost('plugin/xn_umeditor/upload.php', postdata, function(code, message) {
 	        			if(code != 0) return alert(message);
-	        			var s = '<img src="'+message.url+'" width="'+thumb_height+'" height=\"'+thumb_height+'\" />';
+	        			var s = '<img src="'+message.url+'" width="'+thumb_width+'" height=\"'+thumb_height+'\" />';
 		        		if(callback) callback(s);
-		        		//jsubmit.button('reset');
 	        		});
 	        	});
 	        }
