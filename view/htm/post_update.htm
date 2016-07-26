@@ -69,129 +69,115 @@ $('#nav_mobile li[fid="<?php echo $fid;?>"]').tab('show');
 
  <!-- 加载编辑器的容器 -->
 
-<!-- 配置文件 -->
-<script type="text/javascript" src="plugin/xn_ueditor/ueditor/ueditor.config.js"></script>
-<!-- 编辑器源码文件 -->
-<script type="text/javascript" src="plugin/xn_ueditor/ueditor/ueditor.all.js"></script>
+ 
 
-<!-- 实例化编辑器 -->
+<link href="plugin/xn_umeditor/themes/default/css/umeditor.min.css" type="text/css" rel="stylesheet">
+
+<style>
+
+/*设置按扭样式*/
+.edui-icon-test{
+	background-position: -380px 0;
+}
+#file1 {
+	width: 20px;
+	height: 20px;
+	background: transparent;
+	opacity: 0;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+</style>
+
+<script type="text/javascript" src="plugin/xn_umeditor/umeditor.config.js"></script>
+
+<script type="text/javascript" src="plugin/xn_umeditor/umeditor.js"></script>
+<script type="text/javascript" src="plugin/xn_umeditor/lang/zh-cn/zh-cn.js"></script>
 <script type="text/javascript">
+/**
+ * 段落样式
+ * @function
+ * @name UM.execCommand
+ * @param   {String}   cmdName     paragraph插入段落执行命令
+ * @param   {String}   style               标签值为：'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
+ * @param   {String}   attrs               标签的属性
+ * @author zhanyi
+ */
+/*
+UM.plugins['paragraph'] = function() {
+    var me = this;
+    me.setOpt('paragraph',{'p':'', 'h1':'', 'h2':'', 'h3':'', 'h4':'', 'h5':'', 'h6':''});
+	alert('abc');
+	var jimage = $('<input type="file" style="width: 100px; height: 40px;">').insertAfter('div.edui-icon-image');
 
-UE.registerUI('button',function(editor,uiName){
-    //注册按钮执行时的command命令，使用命令默认就会带有回退操作
-    editor.registerCommand(uiName,{
-        execCommand:function(){
-        	editor.execCommand('inserthtml', '<img src="view/img/logo.png" />');
-        }
-    });
-
-    //创建一个button
-    var btn = new UE.ui.Button({
-        //按钮的名字
-        name:uiName,
-        //提示
-        title:uiName,
-        //需要添加的额外样式，指定icon图标，这里默认使用一个重复的icon
-        cssRules :'background-position: -500px 0;',
-        //点击时执行的命令
-        onclick:function () {
-            //这里可以不用执行命令,做你自己的操作也可
-           editor.execCommand(uiName);
-        }
-    });
-
-    //当点到编辑内容上时，按钮要做的状态反射
-    editor.addListener('selectionchange', function () {
-        var state = editor.queryCommandState(uiName);
-        if (state == -1) {
-            btn.setDisabled(true);
-            btn.setChecked(false);
-        } else {
-            btn.setDisabled(false);
-            btn.setChecked(state);
-        }
-    });
-
-    //因为你是添加button,所以需要返回这个button
-    return btn;
-}/*index 指定添加到工具栏上的那个位置，默认时追加到最后,editorId 指定这个UI是那个编辑器实例上的，默认是页面上所有的编辑器都会添加这个按钮*/);
-
-
-
-UE.registerUI('combox',function(editor,uiName){
-    //注册按钮执行时的command命令,用uiName作为command名字，使用命令默认就会带有回退操作
-    editor.registerCommand(uiName,{
-        execCommand:function(cmdName,value){
-            //这里借用fontsize的命令
-            this.execCommand('fontsize',value + 'px')
+    me.commands['paragraph'] = {
+        execCommand : function( cmdName, style ) {
+       		alert(cmdName);
+            return this.document.execCommand('formatBlock',false,'<' + style + '>');
         },
-        queryCommandValue:function(){
-            //这里借用fontsize的查询命令
-            return this.queryCommandValue('fontsize')
+        queryCommandValue : function() {
+            try{
+                var  val = this.document.queryCommandValue('formatBlock')
+            }catch(e){
+            }
+            return val ;
+        }
+    };
+};
+
+
+*/
+
+window.UMEDITOR_CONFIG.toolbar = [
+    // 加入一个 test
+    'test | bold italic underline ',
+    '| fullscreen'
+];
+
+// 先执行
+UM.plugins['test'] = function() {
+};
+
+// 后执行
+UM.registerUI( 'test', function( name ){
+    var me = this;
+    var $btn = $.eduibutton({
+        icon: name,
+        title: 'xiuno image',
+        html: '<input type="file" value="" id="file1" />', 
+        click: function(e) {
+        	console.log(e);
         }
     });
-
-
-    //创建下拉菜单中的键值对，这里我用字体大小作为例子
-    var items = [];
-    for(var i= 0,ci;ci=[10, 11, 12, 14, 16, 18, 20, 24, 36][i++];){
-        items.push({
-            //显示的条目
-            label:'字体:' + ci + 'px',
-            //选中条目后的返回值
-            value:ci,
-            //针对每个条目进行特殊的渲染
-            renderLabelHtml:function () {
-                //这个是希望每个条目的字体是不同的
-                return '<div class="edui-label %%-label" style="line-height:2;font-size:' +
-                    this.value + 'px;">' + (this.label || '') + '</div>';
-            }
-        });
-    }
-    //创建下来框
-    var combox = new UE.ui.Combox({
-        //需要指定当前的编辑器实例
-        editor:editor,
-        //添加条目
-        items:items,
-        //当选中时要做的事情
-        onselect:function (t, index) {
-            //拿到选中条目的值
-            editor.execCommand(uiName, this.items[index].value);
-        },
-        //提示
-        title:uiName,
-        //当编辑器没有焦点时，combox默认显示的内容
-        initValue:uiName
+    
+    $btn.find('input[type="file"]').on('change', function(e) {
+    	me.execCommand('inserthtml', e.target.value);
     });
-
-    editor.addListener('selectionchange', function (type, causeByUi, uiReady) {
-        if (!uiReady) {
-            var state = editor.queryCommandState(uiName);
-            if (state == -1) {
-                combox.setDisabled(true);
-            } else {
-                combox.setDisabled(false);
-                var value = editor.queryCommandValue(uiName);
-                if(!value){
-                    combox.setValue(uiName);
-                    return;
-                }
-                //ie下从源码模式切换回来时，字体会带单引号，而且会有逗号
-                value && (value = value.replace(/['"]/g, '').split(',')[0]);
-                combox.setValue(value);
-
-            }
-        }
-
+    
+    me.addListener('selectionchange', function () {
+        var state = this.queryCommandState(name);
+              $btn.edui().disabled(state == -1).active(state == 1);
     });
-    return combox;
-}, 2);
-/*index 指定添加到工具栏上的那个位置，默认时追加到最后,editorId 指定这个UI是那个编辑器实例上的，默认是页面上所有的编辑器都会添加这个按钮*/
+    return $btn;
+    
+});
 
-var ue = UE.getEditor('message');
-$('#message').css('padding', 0).css('border', 0);
-jform.find('input[name="doctype"]').val(0);
+var serverPath = '/server/umeditor/';
+
+var um = UM.getEditor('message', {
+    imageUrl:serverPath + "imageUp.php",
+    imagePath:serverPath,
+    lang:/^zh/.test(navigator.language || navigator.browserLanguage || navigator.userLanguage) ? 'zh-cn' : 'en',
+    langPath:UMEDITOR_CONFIG.UMEDITOR_HOME_URL + "lang/",
+    focus: true
+});
+
+um.ready(function() {
+	//$('<input type="file">').appendTo(um.);
+});
+console.log(um);
+
 
 
 

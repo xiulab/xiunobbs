@@ -4,9 +4,6 @@
 
 ob_start('ob_gzhandler');
 
-// 可以被外部包含，用来命令行包含执行。
-chdir(dirname(__FILE__));
-
 $conf = (@include './conf/conf.php') OR exit(header('Location: install/'));
 
 if(DEBUG) {

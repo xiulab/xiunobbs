@@ -34,7 +34,7 @@ function error_handle($errno, $errstr, $errfile, $errline) {
 		array_shift($arr);
 		foreach($arr as $v) {
 			$args = '';
-			if(!empty($v['args'])) foreach ($v['args'] as $v2) $args .= ($args ? ' , ' : '').(is_array($v2) ? 'array('.count($v2).')' : $v2);
+			if(is_array($v['args'])) foreach ($v['args'] as $v2) $args .= ($args ? ' , ' : '').(is_array($v2) ? 'array('.count($v2).')' : $v2);
 			echo $br."File: $v[file], Line: $v[line], $v[function]($args) ";
 		}
 		echo $br;
