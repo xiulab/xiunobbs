@@ -153,7 +153,8 @@
         
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
         ,toolbar:[
-            'source | undo redo | bold italic underline',
+            'source | undo redo | bold italic underline | forecolor backcolor fontfamily fontsize',
+            ' | justifyleft justifycenter justifyright justifyjustify | link unlink | xnimg',
             'fullscreen',  'formula'
         ]
         

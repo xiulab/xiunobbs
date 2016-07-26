@@ -3,3 +3,4 @@ tmp/*
 conf/conf.php
 tool/*
 log/*
+umeditor-dev

@@ -864,12 +864,15 @@ function move_upload_file($srcfile, $destfile) {
 }
 
 // 文件后缀名，不包含 .
-function file_ext($filename) {
-	return strtolower(substr(strrchr($filename, '.'), 1));
+function file_ext($filename, $max = 16) {
+	$ext = strtolower(substr(strrchr($filename, '.'), 1));
+	$ext = xn_urlencode($ext);
+	strlen($ext) > $max AND $ext = substr($filename, 0, $max);
+	return $ext;
 }
 
 // 文件的前缀，不包含 .
-function file_pre($filename) {
+function file_pre($filename, $max = 32) {
 	return substr($filename, 0, strrpos($filename, '.'));
 }
 
@@ -1010,6 +1013,15 @@ function xn_debug_info() {
 		$s .= '</div>';
 	}
 	return $s;
+}
+
+// 解码客户端提交的 base64 数据
+function base64_decode_image_data($data) {
+	if(substr($data, 0, 10) == 'data:image') {
+		$data = substr($data, strpos($data, ',') + 1);	// 去掉 data:image/png;base64,
+	}
+	$data = base64_decode($data);
+	return $data;
 }
 
 // 输出

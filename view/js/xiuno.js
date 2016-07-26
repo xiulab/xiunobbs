@@ -850,40 +850,6 @@ $.fn.base64_encode_file = function(width, height, action) {
 	        	}
 	        }
 	});
-	/*
-	jform.find('input[type="file"]').each(function() {
-		var jfile = $(this);
-		var jassoc = $('#'+jfile.data('assoc'));
-		jfile.on('change', function(e) {
-			var obj = e.target;
-			jsubmit.button('disabled');
-			var file = obj.files[0];
-
-		        // 创建一个隐藏域，用来保存 base64 数据
-			var jhidden = $('<input type="hidden" name="'+obj.name+'" />').appendTo(jform);
-			obj.name = '';
-		        
-		        var reader = new FileReader();   
-		        reader.readAsDataURL(file);   
-		        reader.onload = function(e) {
-		        	// 如果是图片，并且设置了，宽高，和剪切模式
-		        	if(xn.substr(this.result, 0, 10) == 'data:image') {
-			        	xn.image_resize(this.result, width, height, action, function(code, message) {
-			        		if(code == 0) {
-			        			jassoc.attr('src', message.data);
-			        			jhidden.val(message.data); // base64
-			        		} else {
-			        			alert(message);
-			        		}
-			        		jsubmit.button('reset');
-			        	});
-		        	} else {
-		        		jhidden.val(this.result);
-		        		jsubmit.button('reset');
-		        	}
-		        }
-		});
-	});*/
 }
 
 // xn.image_resize = 

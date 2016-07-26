@@ -8792,7 +8792,9 @@ UM.ui.define('scale', {
                 break;
             case 'mousemove':
                 if (me.dragId != -1) {
-                    me.updateContainerStyle(me.dragId, {x: e.clientX - me.prePos.x, y: e.clientY - me.prePos.y});
+                    var pos = {x: e.clientX - me.prePos.x, y: e.clientY - me.prePos.y};
+                   // console.log(pos, e.clientX, e.clientY, me.prePos.x, me.prePos.y);
+                    me.updateContainerStyle(me.dragId, pos);
                     me.prePos.x = e.clientX;
                     me.prePos.y = e.clientY;
                     me.updateTargetElement();
