@@ -142,6 +142,7 @@ body {background: #f4f4f4; }
 	text-overflow: ellipsis; 
 	-o-text-overflow: ellipsis; 
 	overflow: hidden; */
+	word-break: break-all;
 	margin-bottom: 0.2rem;
 }
 .thread .subject a { color: #373a3c;}

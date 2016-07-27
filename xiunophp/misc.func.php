@@ -1006,9 +1006,9 @@ function xn_debug_info() {
 				$s .= "<li>$sql</li>\r\n";
 			}
 			$s .= "</ul>\r\n";
-			$s .= '_REQUEST:<pre>';
-			$s .= print_r($_REQUEST, 1);
-			$s .= '</pre>';
+			$s .= '_REQUEST:<br>';
+			$s .= highlight_string(print_r($_REQUEST, 1), 1);
+			$s .= '';
 		}
 		$s .= '</div>';
 	}

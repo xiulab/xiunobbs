@@ -10,7 +10,7 @@ $(function() {
 		var $btn = $.eduibutton({
 			icon: name,
 			title: '上传图片',
-			html: '<input type="file" value="" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp"  />', 
+			html: '<input type="file" value="" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp"  multiple="multiple" />', 
 			click: function(e) {
 				console.log(e);
 			}
@@ -18,13 +18,17 @@ $(function() {
 		
 		// 对图片进行缩略
 		$btn.find('input[type="file"]').on('change', function(e) {
-			xn.upload_file(e.target.files[0], 'plugin/xn_umeditor/upload.php', function(code, json) {
-				if(code == 0) {
-					var s = '<img src="'+json.url+'" width="'+json.width+'" height=\"'+json.height+'\" />';
-					me.execCommand('inserthtml', s);
-				} else {
-					$.alert(json);
-				}
+			var files = xn.get_files_from_event(e);
+			if(!files) return;
+			$.each(files, function(i, file) {
+				xn.upload_file(file, 'plugin/xn_umeditor/upload.php', function(code, json) {
+					if(code == 0) {
+						var s = '<img src="'+json.url+'" width="'+json.width+'" height=\"'+json.height+'\" />';
+						me.execCommand('inserthtml', s);
+					} else {
+						$.alert(json);
+					}
+				});
 			});
 		});
 	    

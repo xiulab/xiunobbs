@@ -76,6 +76,8 @@ if($action == 'create') {
 		$pid === FALSE AND message(-1, '创建帖子失败');
 		$tid === FALSE AND message(-1, '创建主题失败');
 		
+		// 关联主题
+		
 		$conf['ipaccess_on'] AND ipaccess_inc($longip, 'threads');
 		
 		// hook thread_create_thread_end.php

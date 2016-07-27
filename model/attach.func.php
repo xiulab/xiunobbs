@@ -107,7 +107,12 @@ function attach_find_by_pid($pid) {
 // 查找还没有关联的附件
 function attach_find_just_upload($uid) {
 	// hook attach_find_just_upload_start.php
+	
+	// 临时文件，保存到表，并且关联。
+	$tmp_files = _SESSION('tmp_files');
+	
 	// hook attach_find_just_upload_end.php
+	
 	return attach_find(array('pid'=>0, 'uid'=>$uid), array(), 1, 1000);
 }
 
