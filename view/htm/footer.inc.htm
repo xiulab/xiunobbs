@@ -1,7 +1,7 @@
 <?php $db = G('db');?>
 <?php $starttime = G('starttime');?>
 
-<?php echo xn_debug_info(); ?>
+<?php  /* echo xn_debug_info(); */?>
 
 </div>
 
@@ -16,14 +16,13 @@
 <script>window.location = 'view/htm/browser.html';</script>
 <![endif]-->
 
-<script src="lang/zh-cn.js"></script>
-<script src="view/js/jquery-1.11.1.js"></script>
-<script src="view/js/tether.js"></script>
-<script src="view/js/bootstrap.js"></script>
-<script src="view/js/bootstrap-plugin.js"></script>
+<script src="lang/zh-cn.js<?php echo $random;?>"></script>
+<script src="view/js/jquery-1.11.1.js<?php echo $random;?>"></script>
+<script src="view/js/tether.js<?php echo $random;?>"></script>
+<script src="view/js/bootstrap.js<?php echo $random;?>"></script>
+<script src="view/js/bootstrap-plugin.js<?php echo $random;?>"></script>
 <script>var debug = DEBUG = <?php echo DEBUG; ?>;</script>
-<script src="view/js/xiuno.js"></script>
-
+<script src="view/js/xiuno.js<?php echo $random;?>"></script>
 
 </div></body>
 </html>

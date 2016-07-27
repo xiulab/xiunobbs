@@ -1007,7 +1007,7 @@ function xn_debug_info() {
 			}
 			$s .= "</ul>\r\n";
 			$s .= '_REQUEST:<br>';
-			$s .= highlight_string(print_r($_REQUEST, 1), 1);
+			$s .= xn_txt_to_html(print_r($_REQUEST, 1));
 			$s .= '';
 		}
 		$s .= '</div>';

@@ -1,4 +1,7 @@
 <?php include "./view/htm/header.inc.htm"; ?>
+
+
+
 <div class="row">
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="card">
@@ -23,9 +26,11 @@
 							<!--{hook thread_create_subject_right.htm}-->
 						</div>
 					</div>
+					
 					<fieldset class="form-group">
 						<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message" style="width: 100%; height: 300px;"></textarea>
 					</fieldset>
+					
 					<div class="row">
 						<div class="col-lg-10">
 							<p class="small text-left"><label class="addattach" id="addattach"><i class="icon-folder-open-alt"></i> <span>添加附件</span><input type="file" multiple="multiple" /></label></p>
@@ -35,10 +40,8 @@
 						<div class="col-lg-2 text-right">
 							<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('thread_create');?> </button>
 							<!--{hook thread_create_bottom_left.htm}-->
-							
 						</div>
 					</div>
-					
 				</form>
 			</div>
 		</div>
@@ -92,7 +95,6 @@ $('#nav_mobile li[fid="<?php echo $fid;?>"]').tab('show');
 </script>
 
 <!--- 百度编辑器 -->
-
 
 <link href="plugin/xn_umeditor/themes/default/css/umeditor.min.css" type="text/css" rel="stylesheet" />
 <link href="plugin/xn_umeditor/umeditor-bbs.css" type="text/css" rel="stylesheet" />

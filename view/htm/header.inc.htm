@@ -10,6 +10,7 @@
 	 <?php $pid = G('pid');?>
 	 <?php $route = G('route');?>
 	<?php $forumlist_show = G('forumlist_show');?>
+	<?php $random = DEBUG ? '?'.$time : '';?>
 	
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,10 +22,10 @@
 	<link rel="shortcut icon" href="view/img/favicon.ico" />
 	<link rel="icon" sizes="32x32" href="view/img/favicon.ico">
 	<link rel="Bookmark" href="view/img/favicon.ico" />
-	<link rel="stylesheet" href="view/css/bootstrap.css">
-	<link rel="stylesheet" href="view/css/font-awesome.css">
-	<link rel="stylesheet" href="view/css/tether.css">
-	<link rel="stylesheet" href="view/css/bbs.css">
+	<link rel="stylesheet" href="view/css/bootstrap.css<?php echo $random;?>">
+	<link rel="stylesheet" href="view/css/font-awesome.css<?php echo $random;?>">
+	<link rel="stylesheet" href="view/css/tether.css<?php echo $random;?>">
+	<link rel="stylesheet" href="view/css/bbs.css<?php echo $random;?>">
 	<style>
 		
 	</style>

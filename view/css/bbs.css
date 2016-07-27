@@ -167,6 +167,7 @@ dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
 
 
 @media (max-width: 768px) {
+	.card-block {padding: 0.5rem;}
 	.table .avatar-parent {padding-left: 0; padding-right: 0.1rem;}
 }
 @media (min-width: 992px) {

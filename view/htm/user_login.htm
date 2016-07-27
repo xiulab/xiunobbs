@@ -49,6 +49,7 @@ jform.on('submit', function() {
 		if(code == 0) {
 			$.alert(message);
 			jsubmit.button(message).delay(3000).location('./');
+			//jsubmit.button(message).delay(3000).location('./');
 		} else if(code == 'email') {
 			jemail.alert(message).focus();
 			jsubmit.button('reset');
