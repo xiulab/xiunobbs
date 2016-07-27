@@ -9700,7 +9700,7 @@ UM.ui.define('separator', {
         setTopEditor: function(editor){
             $.each(_editors, function(i, o){
                 if(editor == o) {
-                    editor.$container && editor.$container.css('zIndex', _maxZIndex + 1000);
+                    //editor.$container && editor.$container.css('zIndex', _maxZIndex + 1);
                 } else {
                     o.$container && o.$container.css('zIndex', o.getOpt('zIndex'));
                 }
@@ -9973,7 +9973,9 @@ UM.registerUI('bold italic redo undo underline strikethrough superscript subscri
             this.setDocumentStatus();
 
             this.resize();
-
+            
+            $(this.editor.container).css('zIndex', 2000);
+            
         },
         /**
          * 全屏还原
@@ -9992,6 +9994,8 @@ UM.registerUI('bold italic redo undo underline strikethrough superscript subscri
             this.revertContentAreaStatus();
 
             this.revertDocumentStatus();
+            
+            $(this.editor.container).css('zIndex', this.editor.getOpt('zIndex'));
 
         },
         /**
@@ -10036,6 +10040,7 @@ UM.registerUI('bold italic redo undo underline strikethrough superscript subscri
 
             bound = this.getBound();
 
+            // fix by axiuno: zIndex 调高
             $( editor.container ).css( {
                 width: width + 'px',
                 height: height + 'px',
@@ -10056,6 +10061,8 @@ UM.registerUI('bold italic redo undo underline strikethrough superscript subscri
                 overflowX: 'hidden',
                 overflowY: 'auto'
             });
+            
+            
 
         },
         /**
