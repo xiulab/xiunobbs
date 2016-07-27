@@ -31,6 +31,6 @@ file_put_contents($tmpfile, $data) OR message(-1, '写入文件失败');
 // 保存到 session，发帖成功以后，关联到帖子。
 $_SERVER['tmp_files'][] = $tmpfile;
 
-message(0, array('url'=>$tmpurl));
+message(0, array('url'=>$tmpurl, 'name'=>$name, 'width'=>$width, 'height'=>$height));
 
 ?>

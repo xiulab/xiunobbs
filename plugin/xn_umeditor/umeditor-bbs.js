@@ -12,7 +12,7 @@ $(function() {
 			title: '上传图片',
 			html: '<input type="file" value="" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp"  multiple="multiple" />', 
 			click: function(e) {
-				console.log(e);
+				//console.log(e);
 			}
 		});
 		

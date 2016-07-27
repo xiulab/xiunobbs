@@ -193,4 +193,18 @@ jpost_delete.on('click', function() {
 $('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');
 $('#nav_mobile li[fid="<?php echo $fid;?>"]').tab('show');
 
+// 转换为百分比，缩放图片
+var jmessagelist = $('div.message');
+var jmessage_width = jmessagelist.width();
+jmessagelist.each(function() {
+	$(this).find('img').each(function() {
+		var jimg = $(this);
+		if(jimg.width() < 500) return;
+		var img_width = jimg.width();
+		var percent = xn.min(100, xn.ceil((img_width / jmessage_width) * 100));
+		jimg.css('width', percent + '%');
+		jimg.css('height', 'auto');
+	});
+});
+
 </script>
