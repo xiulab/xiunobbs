@@ -928,8 +928,8 @@ xn.image_resize = function(file_base64_data, callback, options) {
 			canvas_height = height;
 		} else if(action == 'clip') {
 			if(img_width < thumb_width && img_height && thumb_height) {
-				thumb_width = img_width;
-				thumb_height = img_height;
+				thumb_width = width = img_width;
+				thumb_height = height = img_height;
 			} else {
 				// 横形
 				if(img_width / img_height > thumb_width / thumb_height) {

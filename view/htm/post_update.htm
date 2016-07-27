@@ -8,24 +8,43 @@
 				<h4 class="card-title"><?php echo lang('post_update');?></h4>
 				<form action="<?php echo url("post-update-$pid");?>" method="post" id="form">
 					<input type="hidden" name="doctype" value="<?php echo $post['doctype'];?>" />
+					
 					<?php if($isfirst) { ?>
-					<fieldset class="form-group">
-						<input type="text" class="form-control" placeholder="<?php echo lang('subject');?>" name="subject" value="<?php echo $thread['subject'];?>" id="subject">
-					</fieldset>
+					
+					<div class="row">
+						<div class="col-lg-9">
+							<fieldset class="form-group">
+								<input type="text" class="form-control" placeholder="<?php echo lang('subject');?>" name="subject" value="<?php echo $thread['subject'];?>" id="subject">
+							</fieldset>
+						</div>
+						<div class="col-lg-3">
+							<fieldset class="form-group">
+								<select class="c-select" name="fid">
+									<?php foreach ($forumlist_show as $forum) { ?>
+									<option value="<?php echo $forum['fid']; ?>"><?php echo $forum['name']; ?></option>
+									<?php } ?>
+								</select>
+							</fieldset>
+							<!--{hook thread_create_subject_right.htm}-->
+						</div>
+					</div>
 					<?php } ?>
 					<fieldset class="form-group">
 						<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message" style="height: 300px;"><?php echo $post['message'];?></textarea>
 					</fieldset>
-					<?php if($isfirst) { ?>
-					<fieldset class="form-group">
-						<select class="c-select" name="fid">
-							<?php foreach ($forumlist_show as $forum) { ?>
-							<option value="<?php echo $forum['fid']; ?>"><?php echo $forum['name']; ?></option>
-							<?php } ?>
-						</select>
-					</fieldset>
-					<?php } ?>
-					<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('post_update');?> </button>
+					<div class="row">
+						<div class="col-lg-10">
+							<p class="small text-left"><label class="addattach" id="addattach"><i class="icon-folder-open-alt"></i> <span>添加附件</span><input type="file" /></label></p>
+							<ul id="attachlist" class="small"></ul>
+							<!--{hook thread_create_bottom_right.htm}-->
+						</div>
+						<div class="col-lg-2 text-right">
+							<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('post_update');?> </button>
+							<!--{hook thread_create_bottom_left.htm}-->
+						</div>
+					</div>
+					
+					
 				</form>
 			</div>
 		</div>
@@ -56,6 +75,21 @@ jform.on('submit', function() {
 		}
 	});
 	return false;
+});
+
+
+
+var jaddattach = $('#addattach');
+var jattachlist = $('#attachlist');
+jaddattach.on('change', function(e) {
+	var files = xn.get_files_from_event(e);
+	if(!files) return;
+	xn.upload_file(files[0], xn.url('attach-create'), function(code, message) {
+		// 把文件 append 到附件列表
+		var url = message.url;
+		var filetype = message.filetype;
+		jattachlist.append('<li><a href="'+message.url+'" target="_blank"><i class="icon filetype '+filetype+'"></i> '+message.name+'</a></li>');
+	});
 });
 
 // checked
