@@ -29,7 +29,7 @@
 					</fieldset>
 					<div class="row">
 						<div class="col-lg-10">
-							<p class="small text-left"><label id="addattach"><i class="icon-folder-open-alt"></i> <span>添加附件</span></label></p>
+							<p class="small text-left"><label class="addattach" id="addattach"><i class="icon-folder-open-alt"></i> <span>添加附件</span><input type="file" /></label></p>
 							<!--{hook thread_create_bottom_right.htm}-->
 						</div>
 						<div class="col-lg-2 text-right">
@@ -72,7 +72,9 @@ jform.on('submit', function() {
 });
 
 var jaddattach = $('#addattach');
-
+jaddattach.on('change', function(e) {
+	
+});
 
 $('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');
 $('#nav_mobile li[fid="<?php echo $fid;?>"]').tab('show');

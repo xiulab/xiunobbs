@@ -176,6 +176,12 @@ dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
 
 .icon-2x { font-size: 1.5em; }
 
+
+/*  bbs */
+.addattach { cursor: pointer; width: 5rem; height: 1.5rem; display: block; position: relative;}
+.addattach:hover { font-weight: 800; }
+.addattach input[type="file"]{ width: 5rem; height: 1.5rem; position: absoulte; left: 0; top: 0; opacity: 0;}
+
 /* 靠的太远 */
 /*.navbar-nav .nav-item + .nav-item.username { margin-left: 0.3rem; }*/
 

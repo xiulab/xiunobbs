@@ -6,6 +6,8 @@ chdir('../../');
 
 define('SKIP_ROUTE', TRUE); // 跳过路由处理，否则 index.php 中会中断流程
 
+error_log(print_r($_POST, 1), 3, 'd:/xx.txt');
+
 include './index.php';
 
 $width = param('width', 0);
@@ -13,7 +15,7 @@ $height = param('height', 0);
 $name = param('name');
 $data = param('data', '', FALSE);
 
-empty($data) AND message(-1, 'upfile 数据为空');
+empty($data) AND message(-1, '数据为空');
 $data = base64_decode_image_data($data);
 $size = strlen($data);
 $size > 2048000 AND message(-1, '文件尺寸太大，不能超过 2M，当前大小：'.$size);

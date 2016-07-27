@@ -620,9 +620,35 @@ $.xget = function(url, callback, retry) {
 			}
 		}
 	});
-}
+};
 
-$.xpost = function(url, postdata, callback) {
+// ajax progress plugin
+(function($, window, undefined) {
+    //is onprogress supported by browser?
+    var hasOnProgress = ("onprogress" in $.ajaxSettings.xhr());
+
+    //If not supported, do nothing
+    if (!hasOnProgress) {
+        return;
+    }
+    
+    //patch ajax settings to call a progress callback
+    var oldXHR = $.ajaxSettings.xhr;
+    $.ajaxSettings.xhr = function() {
+        var xhr = oldXHR();
+        if(xhr instanceof window.XMLHttpRequest) {
+            xhr.addEventListener('progress', this.progress, false);
+        }
+        
+        if(xhr.upload) {
+            xhr.upload.addEventListener('progress', this.progress, false);
+        }
+        
+        return xhr;
+    };
+})(jQuery, window);
+
+$.xpost = function(url, postdata, callback, progress_callback) {
 	if($.isFunction(postdata)) {
 		callback = postdata;
 		postdata = null;
@@ -634,6 +660,12 @@ $.xpost = function(url, postdata, callback) {
 		data: postdata,
 		dataType: 'text',
 		timeout: 60000,
+		progress: function(e) {
+			if (e.lengthComputable) {
+				progress_callback(e.loaded / e.total * 100);
+				//console.log('progress1:'+e.loaded / e.total * 100 + '%');
+			}
+		},
 		success: function(r){
 			if(!r) return callback(-1, 'Server Response Empty!');
 			var s = xn.json_decode(r);
@@ -656,7 +688,7 @@ $.xpost = function(url, postdata, callback) {
 			}
 		}
 	});
-}
+};
 
 /*
 	异步转同步的方式执行 ajax 请求
@@ -816,7 +848,7 @@ $.fn.loading = function(action) {
 // 对图片进行缩略，裁剪，然后 base64 存入 form 隐藏表单，name 与 file 控件相同
 // 上传过程中，禁止 button，对图片可以缩略
 $.fn.base64_encode_file = function(width, height, action) {
-	var action = action || 'clip';
+	var action = action || 'thumb';
 	var jform = $(this);
 	var jsubmit = jform.find('input[type="submit"]');
 	jform.on('change', 'input[type="file"]', function(e) {
@@ -835,7 +867,7 @@ $.fn.base64_encode_file = function(width, height, action) {
 	        reader.onload = function(e) {
 	        	// 如果是图片，并且设置了，宽高，和剪切模式
 	        	if(xn.substr(this.result, 0, 10) == 'data:image') {
-		        	xn.image_resize(this.result, width, height, action, function(code, message) {
+		        	xn.image_resize(this.result, function(code, message) {
 		        		if(code == 0) {
 		        			jassoc.attr('src', message.data);
 		        			jhidden.val(message.data); // base64
@@ -843,7 +875,7 @@ $.fn.base64_encode_file = function(width, height, action) {
 		        			alert(message);
 		        		}
 		        		jsubmit.button('reset');
-		        	});
+		        	}, {width: width, height: height, action: action});
 	        	} else {
 	        		jhidden.val(this.result);
 	        		jsubmit.button('reset');
@@ -853,10 +885,13 @@ $.fn.base64_encode_file = function(width, height, action) {
 }
 
 // xn.image_resize = 
-xn.image_resize = function(file_base64_data, thumb_width, thumb_height, action, callback) {
-	var thumb_width = thumb_width || 100;
-	var thumb_height = thumb_height || 100;
-	var action = action || 'clip';
+xn.image_resize = function(file_base64_data, callback, options) {
+	var thumb_width = options.width || 800;
+	var thumb_height = options.height || 800;
+	var action = options.action || 'thumb';
+	var filetype = options.filetype || 'jpeg';
+	var qulity = options.qulity || 0.7; // 图片质量, 1 为无损
+	
 	if(thumb_width < 1) return callback(-1, '缩略图宽度不能小于 1');
 	if(xn.substr(file_base64_data, 0, 10) != 'data:image') return callback(-1, '传入的 base64 数据有问题');
 	// && xn.substr(file_base64_data, 0, 14) != 'data:image/gif' gif 不支持
@@ -875,7 +910,10 @@ xn.image_resize = function(file_base64_data, thumb_width, thumb_height, action, 
 		// img_width, img_height: 原始图片宽高
 		// canvas_width, canvas_height: 画布宽高
 		if(action == 'thumb') {
-			if(img_width > thumb_width || img_height > thumb_height) {
+			if(img_width < thumb_width && img_height && thumb_height) {
+				width = img_width;
+				height = img_height;
+			} else {
 				// 横形
 				if(img_width / img_height > thumb_width / thumb_height) {
 					var width = thumb_width; // 以缩略图宽度为准，进行缩放
@@ -889,7 +927,10 @@ xn.image_resize = function(file_base64_data, thumb_width, thumb_height, action, 
 			canvas_width = width;
 			canvas_height = height;
 		} else if(action == 'clip') {
-			if(img_width > thumb_width || img_height > thumb_height) {
+			if(img_width < thumb_width && img_height && thumb_height) {
+				thumb_width = img_width;
+				thumb_height = img_height;
+			} else {
 				// 横形
 				if(img_width / img_height > thumb_width / thumb_height) {
 					var height = thumb_height; // 以缩略图宽度为准，进行缩放
@@ -912,8 +953,7 @@ xn.image_resize = function(file_base64_data, thumb_width, thumb_height, action, 
 		var ctx = canvas.getContext("2d"); 
 		ctx.clearRect(0, 0, width, height); 			// canvas清屏
 		ctx.drawImage(img, 0, 0, img_width, img_height, dx, dy, width, height);	// 将图像绘制到canvas上 
-		var filetype = 'image/png';
-		var s = canvas.toDataURL(filetype, 1);	
+		var s = canvas.toDataURL('image/'+filetype, qulity);
 		if(callback) callback(0, {width: width, height: height, data: s});
 	};
 	img.onerror = function(e) {
@@ -921,6 +961,74 @@ xn.image_resize = function(file_base64_data, thumb_width, thumb_height, action, 
 		alert(e);
 	}
 	img.src = file_base64_data;
+}
+
+/*
+	用法：
+	var file = e.target.files[0]; // 文件控件 onchange 后触发的 event;
+	var upload_url = 'xxx.php'; // 服务端地址
+	var options = {width: 2048, height: 4096, action: 'thumb', filetype: 'jpg'}; // 如果是图片，会根据此项设定进行缩略和剪切 thumb|clip
+	xn.upload_file(file, upload_url, function(code, json) {
+		// 成功
+		if(code == 0) {
+			console.log(json.url);
+			console.log(json.width);
+			console.log(json.height);
+		} else {
+			alert(json);
+		}
+	}, options);
+*/
+xn.upload_file = function(file, upload_url, callback, options) {
+	options = options || {};
+	options.width = options.width || 1024;
+	options.height = options.height || 2048;
+	options.progress_callback = options.progress_callback || null;
+	
+	var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function() {
+        	var ajax_upload = function(upload_url, postdata, _callback) {
+        		$.xpost(upload_url, postdata, function(code, message) {
+        			if(code != 0) return _callback(code, message);
+        			var json = {width: options.width, height: options.height, url: message.url};
+        			if(_callback) _callback(0, json);
+        		}, function(percent) {
+        			if(options.progress_callback) options.progress_callback(percent);
+        		});
+        	}
+        	// 图片进行缩放，然后上传
+        	if(xn.substr(this.result, 0, 10) == 'data:image') {
+	        	var filename = file.name ? file.name : (file.type == 'image/png' ? 'capture.png' : 'capture.jpg');
+	        	xn.image_resize(this.result, function(code, message) {
+	        		if(code != 0) return alert(message);
+	        		options.width = message.width;
+	        		options.height = message.height;
+	        		// message.width, message.height 是缩略后的宽度和高度
+	        		var postdata = {name: filename, data: message.data, width:options.width, height:options.height};
+	        		ajax_upload(upload_url, postdata, callback);
+	        	}, options);
+	        // 文件直接上传， 不缩略
+        	} else {
+        		var filename = file.name ? file.name : '';
+        		var postdata = {name: file.name, data: this.result, width: 0, height: 0};
+        		ajax_upload(upload_url, postdata, callback);
+        	}
+        }
+}
+
+// 从事件对象中查找 file 对象，兼容 jquery event, clipboard, file.onchange
+xn.get_files_from_event = function(e) {
+	function get_paste_files(e) {
+		return e.clipboardData && e.clipboardData.items ? e.clipboardData.items : null;
+	}
+	function get_drop_files(e) {
+		return e.dataTransfer && e.dataTransfer.files ? e.dataTransfer.files : null;
+	}
+	if(e.originalEvent) e = e.originalEvent;
+	if(e.type == 'change' && e.target && e.target.files && e.target.files.length > 0) return e.target.files;
+	var files = e.type == 'paste' ? get_paste_files(e) : get_drop_files(e);
+	return files;
 }
 
 // 获取所有的 父节点集合，一直到最顶层节点为止。, IE8 没有 HTMLElement

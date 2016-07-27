@@ -1,26 +1,5 @@
 $(function() {
-	function xn_upload_image(file, callback) {
-		var reader = new FileReader();
-	        reader.readAsDataURL(file);
-	        reader.onload = function() {
-	        	if(xn.substr(this.result, 0, 10) != 'data:image') return;
-	        	var width = 400;
-	        	var height = 300;
-	        	var action = 'thumb';
-	        	var filename = file.name ? file.name : (file.type == 'image/png' ? 'capture.png' : 'capture.jpg');
-	        	xn.image_resize(this.result, width, height, action, function(code, message) {
-	        		if(code != 0) return alert(message);
-	        		var thumb_width = message.width;
-	        		var thumb_height = message.height;
-	        		var postdata = {width: thumb_width, height: thumb_height, name: filename, data: message.data};
-	        		$.xpost('plugin/xn_umeditor/upload.php', postdata, function(code, message) {
-	        			if(code != 0) return alert(message);
-	        			var s = '<img src="'+message.url+'" width="'+thumb_width+'" height=\"'+thumb_height+'\" />';
-		        		if(callback) callback(s);
-	        		});
-	        	});
-	        }
-	}
+	
 	
 	// 先执行
 	UM.plugins['xnimg'] = function() {
@@ -40,8 +19,13 @@ $(function() {
 		
 		// 对图片进行缩略
 		$btn.find('input[type="file"]').on('change', function(e) {
-			xn_upload_image(e.target.files[0], function(s) {
-				me.execCommand('inserthtml', s);
+			xn.upload_file(e.target.files[0], 'plugin/xn_umeditor/upload.php', function(code, json) {
+				if(code == 0) {
+					var s = '<img src="'+json.url+'" width="'+json.width+'" height=\"'+json.height+'\" />';
+					me.execCommand('inserthtml', s);
+				} else {
+					$.alert(json);
+				}
 			});
 		});
 	    
@@ -54,8 +38,6 @@ $(function() {
 		
 	
 	});
-	
-	// 代码高亮插件
 	
 	jform.find('[name="doctype"]').val(0);
 	
@@ -74,17 +56,18 @@ $(function() {
 		var xn_upload_handler = function(e) {
 			var items = e.type == 'paste' ? get_paste_image(e.originalEvent) : get_drop_image(e.originalEvent);
 			if(!items) return;
-			for(var i=0; i<items.length; i++) {
-				var file = items[i];
+			$.each(items, function(i, file) {
 				if(file.getAsFile) file = file.getAsFile();
-				if(file && file.size > 0 && /image\/\w+/i.test(file.type)) {
-					// sendAndInsertImage(file, me);
-					xn_upload_image(file, function(s) {
+				if(!file || file.size == 0 || file.type.indexOf('image') == -1) return;
+				xn.upload_file(file, 'plugin/xn_umeditor/upload.php', function(code, json) {
+					if(code == 0) {
+						var s = '<img src="'+json.url+'" width="'+json.width+'" height=\"'+json.height+'\" />';
 						me.execCommand('inserthtml', s);
-					});
-	                        }
-			}
-			console.log(e);
+					} else {
+						console.log(json);
+					}
+				});
+			});
 		}
 		function get_paste_image(e) {
 			return e.clipboardData && e.clipboardData.items && e.clipboardData.items.length == 1 && /^image\//.test(e.clipboardData.items[0].type) ? e.clipboardData.items : null;

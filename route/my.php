@@ -86,16 +86,14 @@ if(empty($action)) {
 	
 	} else {
 		
-		$upfile = param('upfile', '', FALSE);
-		empty($upfile) AND message(-1, 'upfile 数据为空');
-		$json = xn_json_decode($upfile);
-		empty($json) AND message(-1, '数据有问题: json 为空');
+		$width = param('width');
+		$height = param('height');
+		$data = param('data', '', FALSE);
 		
-		$name = $json['name'];
-		$width = $json['width'];
-		$height = $json['height'];
-		$data = base64_decode($json['data']);
+		empty($data) AND message(-1, '数据为空');
+		$data = base64_decode_image_data($data);
 		$size = strlen($data);
+		$size > 2048000 AND message(-1, '文件尺寸太大，不能超过 2M，当前大小：'.$size);
 		
 		$filename = "$uid.png";
 		$dir = substr(sprintf("%09d", $uid), 0, 3).'/';
@@ -105,8 +103,8 @@ if(empty($action)) {
 		
 		file_put_contents($path.$filename, $data) OR message(-1, '写入文件失败');
 		
-		user_update($uid, array('avatar'=>$time));
-		message(0, $url);
+		message(0, array('url'=>$url));
+		
 	}
 }
 

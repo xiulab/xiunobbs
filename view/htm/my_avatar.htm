@@ -31,52 +31,21 @@
 <script src="view/js/upload.js"></script>
 
 <script>
-$('#avatar_upload').one('click', function() {
-	var fileinput = this;
-	var jfile = $(fileinput);
-	var jimg = $('#avatar_img');
-	var jprogress = $('#avatar_progress');
-	var url = 'my-avatar.htm';
-	var up = new FileUploader(fileinput, url);
-	up.filetype = 'image/png';
-	up.thumb_width = 128;
-	up.onprogress = function(file, percent) {
-		jprogress.val(percent);
-	}
-	up.ononce = function(file, e) {
-		var json = xn.json_decode(e.target.response);
-		if(json && json.code == 0) {
-			$.alert('编辑成功');
-			jimg.attr('src', json.message+'?'+Math.random());
-		} else {
-			var err = json && json.message ? json.message : e.target.response;
-			$.alert(err);
-		}
-		setTimeout(function() {jprogress.val(0);}, 2000);
-	}
-	up.oncomplete = function(code, files) {
+var javatar_upload = $('#avatar_upload');
+var jprogress = $('#avatar_progress');
+var jimg = $('#avatar_img');
+javatar_upload.on('change', function(e) {
+	var files = xn.get_files_from_event(e);
+	jprogress.val(0);
+	xn.upload_file(files[0], xn.url('my-avatar'), function(code, message) {
 		if(code == 0) {
-			//$.alert('ok');
+			jimg.attr('src', message.url+'?'+Math.random());
 		} else {
-			//alert(code);
+			$.alert(message);
 		}
-	}
-	up.onselected = function(files) {
-		var file = files[0];
-		jimg.srcLocalFile(file);
-		if(!/^image/.test(file.type) || !/(.jpg|.jpeg|.gif|.png|.bmp)$/i.test(file.type)) {
-			jfile.popover('只允许上传jpg、jpeg、gif、png格式的图片'); return;
-		}
-		up.start();
-	}
-	
-	up.onerror = function(file, e) {
-		var json = xn.json_decode(e.target.response);
-		var err = json && json.message ? json.message : e.target.response;
-		jfile.popover(err); return;
-	}
-	up.onabort = function(file, e) {}
-	up.init();
+	}, {width: 128, height: 128, action: 'clip', filetype: 'png', 'progress_callback': function(percent) {
+		jprogress.val(percent);
+	}});
 });
 
 </script>

@@ -61,7 +61,6 @@ if($action == 'login') {
 	// hook user_create_get_post.php
 	
 	if($method == 'GET') {
-
 		
 		// hook user_create_get_start.php
 		
