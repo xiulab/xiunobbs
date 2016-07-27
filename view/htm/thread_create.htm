@@ -31,17 +31,17 @@
 						<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message" style="width: 100%; height: 300px;"></textarea>
 					</fieldset>
 					
-					<div class="row">
-						<div class="col-lg-10">
+					<dl class="row">
+						<dt>
 							<p class="small text-left"><label class="addattach" id="addattach"><i class="icon-folder-open-alt"></i> <span>添加附件</span><input type="file" multiple="multiple" /></label></p>
 							<ul id="attachlist" class="small"></ul>
 							<!--{hook thread_create_bottom_right.htm}-->
-						</div>
-						<div class="col-lg-2 text-right">
+						</dt>
+						<dd class="text-right" style="width: 30%;">
 							<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('thread_create');?> </button>
 							<!--{hook thread_create_bottom_left.htm}-->
-						</div>
-					</div>
+						</dd>
+					</dl>
 				</form>
 			</div>
 		</div>
@@ -96,9 +96,9 @@ $('#nav_mobile li[fid="<?php echo $fid;?>"]').tab('show');
 
 <!--- 百度编辑器 -->
 
-<link href="plugin/xn_umeditor/themes/default/css/umeditor.min.css" type="text/css" rel="stylesheet" />
-<link href="plugin/xn_umeditor/umeditor-bbs.css" type="text/css" rel="stylesheet" />
-<script type="text/javascript" src="plugin/xn_umeditor/umeditor.config.js"></script>
-<script type="text/javascript" src="plugin/xn_umeditor/umeditor.js"></script>
-<script type="text/javascript" src="plugin/xn_umeditor/umeditor-bbs.js?aa"></script>
-<script type="text/javascript" src="plugin/xn_umeditor/lang/zh-cn/zh-cn.js"></script>
+<link href="plugin/xn_umeditor/themes/default/css/umeditor.css<?php echo $random;?>" type="text/css" rel="stylesheet" />
+<link href="plugin/xn_umeditor/umeditor-bbs.css<?php echo $random;?>" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="plugin/xn_umeditor/umeditor.config.js<?php echo $random;?>"></script>
+<script type="text/javascript" src="plugin/xn_umeditor/umeditor.js<?php echo $random;?>"></script>
+<script type="text/javascript" src="plugin/xn_umeditor/umeditor-bbs.js<?php echo $random;?>"></script>
+<script type="text/javascript" src="plugin/xn_umeditor/lang/zh-cn/zh-cn.js<?php echo $random;?>"></script>

@@ -83,7 +83,7 @@ $(function() {
 		
 		// 小屏幕下隐藏一些工具
 		var jtoolbar = me.$container.find('.edui-btn-toolbar');
-		jtoolbar.son('.edui-btn-name-fontfamily,.edui-btn-name-fontsize,.edui-splitbutton-forecolor,.edui-splitbutton-backcolor').addClass('hidden-md-down');
+		jtoolbar.son('.edui-btn-name-fontfamily,.edui-btn-name-fontsize,.edui-splitbutton-forecolor,.edui-splitbutton-backcolor,.edui-btn-link,.edui-btn-unlink,.edui-btn-fullscreen').addClass('hidden-md-down');
 	});
 
 });
