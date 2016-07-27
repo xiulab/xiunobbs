@@ -9700,7 +9700,7 @@ UM.ui.define('separator', {
         setTopEditor: function(editor){
             $.each(_editors, function(i, o){
                 if(editor == o) {
-                    editor.$container && editor.$container.css('zIndex', _maxZIndex + 1);
+                    editor.$container && editor.$container.css('zIndex', _maxZIndex + 1000);
                 } else {
                     o.$container && o.$container.css('zIndex', o.getOpt('zIndex'));
                 }
@@ -10047,6 +10047,8 @@ UM.registerUI('bold italic redo undo underline strikethrough superscript subscri
                 overflowX: 'hidden',
                 overflowY: 'hidden'
             } );
+            // axiuno:
+            //$(editor.container).css('z-index', 3000);
 
             $( editorBody ).css({
                 width: width - 2*borderWidth - paddingWidth + 'px',
@@ -10133,8 +10135,10 @@ UM.registerUI('bold italic redo undo underline strikethrough superscript subscri
         revertDocumentStatus: function() {
 
             var status = this.getDocumentStatus();
-            $( this.getEditorDocumentBody() ).css( 'overflowX', status.body.overflowX );
-            $( this.getEditorDocumentElement() ).css( 'overflowY', status.html.overflowY );
+          //  $( this.getEditorDocumentBody() ).css( 'overflowX', status.body.overflowX );
+           //$( this.getEditorDocumentElement() ).css( 'overflowY', status.html.overflowY );
+           //$( this.getEditorDocumentElement() ).css( 'overflow', 'auto');
+           $('body').css('overflow', 'auto');
 
         },
         setDocumentStatus: function(){

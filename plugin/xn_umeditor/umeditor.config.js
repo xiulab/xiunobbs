@@ -153,7 +153,7 @@
         
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
         ,toolbar:[
-            'source | undo redo | bold italic underline | forecolor backcolor fontfamily fontsize',
+            'source | undo redo | bold italic underline | forecolor backcolor fontsize',
             ' | justifyleft justifycenter justifyright justifyjustify | link unlink | xnimg',
             'fullscreen', 
         ]
@@ -246,10 +246,10 @@
 
         //autoFloatEnabled
         //是否保持toolbar的位置不动,默认true
-        ,autoFloatEnabled:true
+        ,autoFloatEnabled:false
 
         //浮动时工具栏距离浏览器顶部的高度，用于某些具有固定头部的页面
-        ,topOffset:40
+        //,topOffset:40
 
         //填写过滤规则
         //,filterRules: {}

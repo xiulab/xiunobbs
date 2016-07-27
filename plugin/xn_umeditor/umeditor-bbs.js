@@ -1,6 +1,5 @@
 $(function() {
 	
-	
 	// 先执行
 	UM.plugins['xnimg'] = function() {
 	};
@@ -78,6 +77,9 @@ $(function() {
 		me.getOpt('pasteImageEnabled') && me.$body.on('paste', xn_upload_handler);
 		me.getOpt('dropFileEnabled') && me.$body.on('drop', xn_upload_handler);
 		
+		// 小屏幕下隐藏一些工具
+		var jtoolbar = me.$container.find('.edui-btn-toolbar');
+		jtoolbar.son('.edui-btn-name-fontfamily,.edui-btn-name-fontsize,.edui-splitbutton-forecolor,.edui-splitbutton-backcolor').addClass('hidden-md-down');
 	});
 
 });

@@ -8,6 +8,8 @@ define('SKIP_ROUTE', TRUE); // 跳过路由处理，否则 index.php 中会中�
 
 include './index.php';
 
+if($method != 'POST') exit('Not Allow');
+
 $width = param('width', 0);
 $height = param('height', 0);
 $name = param('name');
