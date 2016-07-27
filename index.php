@@ -77,6 +77,7 @@ if(!defined('SKIP_ROUTE')) {
 		case 'forum': 	include './route/forum.php'; 	break;
 		case 'user': 	include './route/user.php'; 	break;
 		case 'my': 	include './route/my.php'; 	break;
+		case 'attach': 	include './route/attach.php'; 	break;
 		case 'search': 	include './route/search.php'; 	break;
 		case 'post': 	include './route/post.php'; 	break;
 		case 'mod': 	include './route/mod.php'; 	break;

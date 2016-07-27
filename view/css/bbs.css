@@ -182,6 +182,27 @@ dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
 .addattach:hover { font-weight: 800; }
 .addattach input[type="file"]{ width: 5rem; height: 1.5rem; position: absoulte; left: 0; top: 0; opacity: 0;}
 
+/* 附件图标 */
+.icon.filetype {width: 1rem; height: 1rem; display: inline-block; background-size: 1rem; background-repeat: no-repeat; vertical-align: middle;}
+.icon.filetype.small { background-size: 16px; width: 16px; height: 16px;}
+.icon.filetype.video {background-image: url(../img/filetype/video.png)}
+.icon.filetype.music:before {content: ""}
+.icon.filetype.music {background-image: url(../img/filetype/music.png) }
+.icon.filetype.exe {background-image: url(../img/filetype/exe.png) }
+.icon.filetype.flash {background-image: url(../img/filetype/flash.png) }
+.icon.filetype.image:before {content: ""}
+.icon.filetype.image {background-image: url(../img/filetype/image.png)}
+.icon.filetype.office {background-image: url(../img/filetype/office.png) }
+.icon.filetype.pdf {background-image: url(../img/filetype/pdf.png) }
+.icon.filetype.text {background-image: url(../img/filetype/text.png) }
+.icon.filetype.unknown {background-image: url(../img/filetype/text.png) }
+.icon.filetype.zip {background-image: url(../img/filetype/zip.png) }
+.icon.filetype.other {background-image: url(../img/filetype/other.png) }
+.icon.filetype.book {background-image: url(../img/filetype/book.png) }
+.icon.filetype.torrent {background-image: url(../img/filetype/torrent.png) }
+.icon.filetype.font {background-image: url(../img/filetype/font.png) }
+
+
 /* 靠的太远 */
 /*.navbar-nav .nav-item + .nav-item.username { margin-left: 0.3rem; }*/
 

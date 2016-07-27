@@ -6,8 +6,6 @@ chdir('../../');
 
 define('SKIP_ROUTE', TRUE); // 跳过路由处理，否则 index.php 中会中断流程
 
-error_log(print_r($_POST, 1), 3, 'd:/xx.txt');
-
 include './index.php';
 
 $width = param('width', 0);
@@ -27,6 +25,9 @@ $tmpfile = $conf['upload_path'].'tmp/'.$tmpanme;
 $tmpurl = $conf['upload_url'].'tmp/'.$tmpanme;
 
 file_put_contents($tmpfile, $data) OR message(-1, '写入文件失败');
+
+// 保存到 session，发帖成功以后，关联到帖子。
+$_SERVER['tmp_files'][] = $tmpfile;
 
 message(0, array('url'=>$tmpurl));
 

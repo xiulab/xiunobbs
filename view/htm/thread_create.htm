@@ -1,5 +1,4 @@
 <?php include "./view/htm/header.inc.htm"; ?>
-
 <div class="row">
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="card">
@@ -30,6 +29,7 @@
 					<div class="row">
 						<div class="col-lg-10">
 							<p class="small text-left"><label class="addattach" id="addattach"><i class="icon-folder-open-alt"></i> <span>添加附件</span><input type="file" /></label></p>
+							<ul id="attachlist" class="small"></ul>
 							<!--{hook thread_create_bottom_right.htm}-->
 						</div>
 						<div class="col-lg-2 text-right">
@@ -72,8 +72,16 @@ jform.on('submit', function() {
 });
 
 var jaddattach = $('#addattach');
+var jattachlist = $('#attachlist');
 jaddattach.on('change', function(e) {
-	
+	var files = xn.get_files_from_event(e);
+	if(!files) return;
+	xn.upload_file(files[0], xn.url('attach-create'), function(code, message) {
+		// 把文件 append 到附件列表
+		var url = message.url;
+		var filetype = message.filetype;
+		jattachlist.append('<li><a href="'+message.url+'" target="_blank"><i class="icon filetype '+filetype+'"></i> '+message.name+'</a></li>');
+	});
 });
 
 $('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');

@@ -662,7 +662,7 @@ $.xpost = function(url, postdata, callback, progress_callback) {
 		timeout: 60000,
 		progress: function(e) {
 			if (e.lengthComputable) {
-				progress_callback(e.loaded / e.total * 100);
+				if(progress_callback) progress_callback(e.loaded / e.total * 100);
 				//console.log('progress1:'+e.loaded / e.total * 100 + '%');
 			}
 		},
@@ -967,7 +967,7 @@ xn.image_resize = function(file_base64_data, callback, options) {
 	用法：
 	var file = e.target.files[0]; // 文件控件 onchange 后触发的 event;
 	var upload_url = 'xxx.php'; // 服务端地址
-	var options = {width: 2048, height: 4096, action: 'thumb', filetype: 'jpg'}; // 如果是图片，会根据此项设定进行缩略和剪切 thumb|clip
+	var options = {width: 2048, height: 4096, action: 'thumb', filetype: 'jpg', function(percent) { console.log('progress:'+ percent); }}; // 如果是图片，会根据此项设定进行缩略和剪切 thumb|clip
 	xn.upload_file(file, upload_url, function(code, json) {
 		// 成功
 		if(code == 0) {
@@ -991,8 +991,7 @@ xn.upload_file = function(file, upload_url, callback, options) {
         	var ajax_upload = function(upload_url, postdata, _callback) {
         		$.xpost(upload_url, postdata, function(code, message) {
         			if(code != 0) return _callback(code, message);
-        			var json = {width: options.width, height: options.height, url: message.url};
-        			if(_callback) _callback(0, json);
+        			if(_callback) _callback(0, message);
         		}, function(percent) {
         			if(options.progress_callback) options.progress_callback(percent);
         		});
