@@ -62,7 +62,7 @@ return array (
 	'tmp_path' => './tmp/',			// 可以配置为 linux 下的 /dev/shm ，通过内存缓存临时文件
 	'log_path' => './log/',			// 日志目录
 	
-	// -------------> xiuno bbs 3.0 配置
+	// -------------> xiuno bbs 配置
 	
 	'view_url' => 'view/',			// 可以设置为 cdn 的 url
 	'upload_url' => 'upload/',		// 可以设置为 cdn 的 url

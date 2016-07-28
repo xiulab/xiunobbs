@@ -3,7 +3,7 @@
 function cache_new($cacheconf) {
 	// 缓存初始化，这里并不会产生连接！在真正使用的时候才连接。
 	// 这里采用最笨拙的方式而不采用 new $classname 的方式，有利于 opcode 缓存。
-	if($cacheconf && $cacheconf['enable']) {
+	if($cacheconf && !empty($cacheconf['enable'])) {
 		switch ($cacheconf['type']) {
 			case 'redis': 	  $cache = new cache_redis($cacheconf['redis']); 	     break;
 			case 'memcached': $cache = new cache_memcached($cacheconf['memcached']); break;

@@ -48,23 +48,11 @@ $header = array(
 // 运行时数据
 $runtime = runtime_init();
 
-// 检测浏览器， 不支持 IE8，放到客户端检测
-//$browser = get__browser();
-//check_browser($browser);
-
 // 检测站点运行级别
 check_runlevel();
 
-// 检测 IP 封锁，可以作为自带插件
-//check_banip($ip);
-
-// 记录 POST 数据
-//DEBUG AND xn_log_post_data();
-
 // 全站的设置数据，站点名称，描述，关键词，页脚代码等
 $setting = kv_get('setting');
-
-//DEBUG AND ($method == 'POST' || $ajax) AND sleep(1);
 
 if(!defined('SKIP_ROUTE')) {
 	$route = param(0, 'index');
