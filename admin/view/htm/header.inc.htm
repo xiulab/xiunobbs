@@ -29,9 +29,11 @@
 <body><div id="wrapper">
 	<nav class="navbar navbar-dark bg-inverse navbar-full navbar-fixed-top" id="header">
 	
-		<!-- pc navigation -->
+		<!-- PC 导航 -->
 		<div class="container collapse navbar-toggleable-md">
 			<div class="row">
+			
+				<!-- 左侧：菜单区域 -->
 				<div class="col-md-8">
 					<ul class="nav navbar-nav" id="nav_pc">
 						<li class="nav-item">
@@ -47,6 +49,8 @@
 						<?php  } ?>
 					</ul>
 				</div>
+				
+				<!-- 右侧：用户区域-->
 				<div class="col-md-4">
 					<ul class="nav navbar-nav pull-right small">
 						
@@ -68,17 +72,25 @@
 		</div>
 		
 		
-		<!-- mobile navigation -->
+		<!-- 手机导航 -->
 		<div class="container hidden-lg-up navbar-nav">
 			<div class="row">
+				<!-- 左侧：折叠图标 -->
 				<div class="col-xs-4">
 					 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile_collapsing_bavbar">
 						☰
 					 </button>
 				</div>
-				<div class="col-xs-4">
+				
+				<!-- 中间：标题 -->
+				<div class="col-xs-4 text-center">
+					<?php if($route == 'index') { ?>
 					<a class="nav-link p-y-0" href="."><img src="../view/img/logo.png" class="logo-sm center-block"></a>
+					<?php } else { ?>
+					<span class="nav-link"><?php echo $header['mobile_title'];?></span>
+					<?php } ?>
 				</div>
+				<!-- 右侧：登陆 -->
 				<div class="col-xs-4">
 					<div class="pull-right">
 						<div class="nav-item small">
@@ -88,17 +100,25 @@
 				</div>
 			</div>
 		</div>
+		
+		<!-- 手机导航：下拉菜单 -->
 		<div class="collapse" id="mobile_collapsing_bavbar">
 			<div class="bg-inverse p-a-1">
 				<ul class="nav" id="nav_mobile">
 					<li class="nav-item home">
-						<a class="nav-link" href="."><i class="icon-home"></i> <?php echo lang('admin_index_page');?></a>
+						<a class="nav-link" href="./"><i class="icon-home"></i> <?php echo lang('admin_page');?></a>
 					</li>
+					
+					<hr />
 					<?php foreach ($menu as $k=>$v) { ?>
 					<li class="nav-item <?php echo $k;?>">
 						<a class="nav-link" href="<?php echo $v['url'];?>"><i class="<?php echo $v['icon'];?>"></i> <?php echo $v['text'];?></a>
 					</li>
+					<hr />
 					<?php  } ?>
+					<li class="nav-item home">
+						<a class="nav-link" href="../"><i class="icon-home"></i> <?php echo lang('return');?><?php echo lang('front_index_page');?></a>
+					</li>
 				</ul>
 			</div>
 		</div>

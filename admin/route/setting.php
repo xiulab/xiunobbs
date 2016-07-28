@@ -21,6 +21,9 @@ if($action == 'base') {
 		empty($setting) AND $setting = array('sitebrief'=>'');
 		$sitebrief = $setting['sitebrief']; // 站点介绍
 		
+		$header['title'] = '站点设置';
+		$header['mobile_title'] = '站点设置';
+		
 		include './view/htm/setting_base.htm';
 		
 	} else {
@@ -43,7 +46,9 @@ if($action == 'base') {
 } elseif($action == 'smtp') {
 
 	if($method == 'GET') {
-		$header['title']    = 'SMTP 管理';
+		
+		$header['title'] = 'SMTP 设置';
+		$header['mobile_title'] = 'SMTP 设置';
 	
 		$smtplist = smtp_find();
 		$maxid = smtp_maxid();

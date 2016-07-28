@@ -11,7 +11,8 @@ if(empty($action) || $action == 'list') {
 	if($method == 'GET') {
 		
 		$header['title']    = '用户组管理';
-	
+		$header['mobile_title'] = '用户组管理';
+		
 		$maxgid = group_maxid();
 		
 		include "./view/htm/group_list.htm";
@@ -61,7 +62,8 @@ if(empty($action) || $action == 'list') {
 	if($method == 'GET') {
 		
 		$header['title']    = '用户组管理';
-	
+		$header['mobile_title'] = '用户组管理';
+		
 		$input = array();
 		$input['name'] = form_text('name', $_group['name']);
 		$input['creditsfrom'] = form_text('creditsfrom', $_group['creditsfrom']);

@@ -40,6 +40,7 @@ $forumlist_show = forum_list_access_filter($forumlist, $gid);	// 有权限查看
 // 头部 header.inc.htm 
 $header = array(
 	'title'=>$conf['sitename'],
+	'mobile_title'=>$conf['sitename'],
 	'keywords'=>'',
 	'description'=>'',
 	'navs'=>array(),

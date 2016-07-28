@@ -35,17 +35,19 @@
 <body><div id="wrapper">
 	<nav class="navbar navbar-dark bg-inverse navbar-full navbar-fixed-top" id="header">
 	
-		<!-- pc navigation -->
+		<!-- PC 导航 -->
 		<div class="container collapse navbar-toggleable-md">
 			<div class="row">
+				<!-- 左侧：版块区域 -->
 				<div class="col-md-8">
 					<ul class="nav navbar-nav" id="nav_pc">
-						<li class="nav-item">
-							<img src="view/img/logo.png" class="logo-sm">
-						</li>
-						<li class="nav-item home" fid="0">
-							<a class="nav-link" href="."><?php echo lang('index_page');?></a>
-						</li>
+						<!-- LOGO -->
+						<li class="nav-item"><img src="view/img/logo.png" class="logo-sm"></li>
+						
+						<!-- 前台首页 -->
+						<li class="nav-item home" fid="0"><a class="nav-link" href="."><?php echo lang('index_page');?></a></li>
+						
+						<!-- 版块 -->
 						<?php foreach($forumlist_show as $_forum) { ?>
 						<li class="nav-item" fid="<?php echo $_forum['fid'];?>">
 							<a class="nav-link" href="<?php echo url("forum-$_forum[fid]");?>"><?php echo $_forum['name'];?></a>
@@ -53,6 +55,7 @@
 						<?php } ?>
 						
 						<li class="nav-item">
+							<!-- PC 导航：更多版块，下拉菜单 -->
 							<div class="dropdown">
 								<a class="nav-link nav-more dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"></a>
 								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
@@ -64,39 +67,37 @@
 						</li>
 					</ul>
 				</div>
+				<!-- 右侧：用户区域-->
 				<div class="col-md-4">
 					<ul class="nav navbar-nav pull-right small">
+					
+						<!-- 游客 -->
 						<?php if(empty($uid)) { ?>
-						<li class="nav-item">
-							<a class="nav-link" href="<?php echo url('user-login');?>"><?php echo lang('login');?></a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="<?php echo url('user-create');?>"><?php echo lang('register');?></a>
-						</li>
+						
+						<li class="nav-item"><a class="nav-link" href="<?php echo url('user-login');?>"><?php echo lang('login');?></a></li>
+						<li class="nav-item"><a class="nav-link" href="<?php echo url('user-create');?>"><?php echo lang('register');?></a></li>
+						
+						<!-- 登陆用户 -->
 						<?php } else { ?>
-						<li class="nav-item">
-							<a class="nav-link" href="<?php echo url('my');?>"><img class="avatar-xs" src="<?php echo $user['avatar_url'];?>"></a>
-						</li>
-						<li class="nav-item username m-l-xs">
-							<a class="nav-link" href="<?php echo url('my');?>"><?php echo $user['username'];?></a>
-						</li>
+						
+						<li class="nav-item"><a class="nav-link" href="<?php echo url('my');?>"><img class="avatar-xs" src="<?php echo $user['avatar_url'];?>"></a></li>
+						<li class="nav-item username m-l-xs"><a class="nav-link" href="<?php echo url('my');?>"><?php echo $user['username'];?></a></li>
+						<!-- 管理员 -->
 						<?php if($gid == 1) { ?>
-						<li class="nav-item">
-							<a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_page');?></a>
-						</li>
+						<li class="nav-item"><a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_page');?></a></li>
 						<?php } ?>
-						<li class="nav-item">
-							<a class="nav-link" href="<?php echo url('user-logout');?>"><?php echo lang('logout');?></a>
-						</li>
+						<li class="nav-item"><a class="nav-link" href="<?php echo url('user-logout');?>"><?php echo lang('logout');?></a></li>
+						
 						<?php } ?>
 					</ul>
 				</div>
 			</div>
 		</div>
 		
-		<!-- mobile navigation -->
+		<!-- 手机导航 -->
 		<div class="container hidden-lg-up navbar-nav">
 			<div class="row">
+				<!-- 左侧：折叠图标 -->
 				<div class="col-xs-4">
 					<?php if($route != 'thread') { ?>
 					 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile_collapsing_bavbar">☰</button>
@@ -104,9 +105,17 @@
 					 <a class="nav-link icon-chevron-left icon-2x" href="<?php echo url("forum-$fid");?>"></a>
 					 <?php } ?>
 				</div>
-				<div class="col-xs-4">
+				
+				<!-- 中间：标题 -->
+				<div class="col-xs-4 text-center">
+					<?php if($route == 'index') { ?>
 					<a class="nav-link p-y-0" href="."><img src="view/img/logo.png" class="logo-sm center-block"></a>
+					<?php } else { ?>
+					<span class="nav-link"><?php echo $header['mobile_title'];?></span>
+					<?php } ?>
 				</div>
+				
+				<!-- 右侧：登陆 -->
 				<div class="col-xs-4">
 					<div class="pull-right">
 						<div class="nav-item small">
@@ -127,25 +136,35 @@
 				</div>
 			</div>
 		</div>
+		<!-- 手机导航：下拉菜单 -->
 		<div class="collapse" id="mobile_collapsing_bavbar">
 			<div class="bg-inverse p-a-1">
 				<ul class="nav" id="nav_mobile">
+					<li class="nav-item">
+						<a class="nav-link" href="./"><i class="icon-home"></i> <?php echo lang('index_page');?></a>
+					</li>
+					<hr class="m-y-sm" />
+					
 					<?php foreach($forumlist_show as $_forum) { ?>
 					<li class="nav-item" fid="<?php echo $_forum['fid'];?>">
-						<a class="nav-link" href="<?php echo url("forum-$_forum[fid]");?>"><?php echo $_forum['name'];?></a>
+						<a class="nav-link m-l-2" href="<?php echo url("forum-$_forum[fid]");?>"><i class="icon-circle-blank"></i> <?php echo $_forum['name'];?></a>
 					</li>
 					<?php } ?>
-					
 					<hr class="m-y-sm" />
+					
+					<!-- 后台 -->
 					<?php if($gid == 1) { ?>
 					<li class="nav-item">
 						<a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_page');?></a>
 					</li>
-					<?php } ?>
 					<hr class="m-y-sm" />
+					<?php } ?>
+					
+					
+					<!-- 退出 -->
 					<?php if($uid) { ?>
 					<li class="nav-item">
-						<a class="nav-link" href="<?php echo url('user-logout');?>"><?php echo lang('logout');?></a>
+						<a class="nav-link" href="<?php echo url('user-logout');?>"><i class="icon-off"></i> <?php echo lang('logout');?></a>
 					</li>
 					<?php } ?>
 				</ul>

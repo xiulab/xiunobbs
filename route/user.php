@@ -170,7 +170,7 @@ if($action == 'login') {
 	message(0, lang('logout_success'));
 	//message(0, jump('退出成功', './', 1));
 
-// 获取当前用户的信息
+// 获取当前用户的信息，可以提供给接口
 } elseif($action == 'read') {
 	
 	// hook user_read_start.php
@@ -339,23 +339,10 @@ if($action == 'login') {
 	// hook user_profile_start.php
 	
 	$_uid = param(1, 0);
-	$pid = param(2, 0); // 接受 pid，通过 pid 查询 userip
-	if($_uid == 0) {
-		$post = post_read($pid);
-		$_ip = long2ip($post['userip']);
-		$_ip_url = xn_urlencode($_ip);
-		$banip = banip_read_by_ip($_ip);
-		$_user = user_guest();
-	} else {
-		$banip = array();
-		$_user = user_read($_uid);
-		$_ip = long2ip($_user['create_ip']);
-		$banip = banip_read_by_ip($_ip);
-		$_ip_url = xn_urlencode($_ip);
-		empty($_user) AND message(0, '用户不存在');
-	}
+	$_user = user_read($_uid);
 	
 	$header['title'] = $_user['username'];
+	$header['mobile_title'] = $_user['username'];
 	
 	// hook user_profile_start.php
 	

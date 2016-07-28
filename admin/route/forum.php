@@ -12,8 +12,10 @@ if(empty($action) || $action == 'list') {
 	if($method == 'GET') {
 		
 		$header['title']    = '版块管理';
+		$header['mobile_title'] = '版块管理';
 	
 		$maxfid = forum_maxid();
+		
 		
 		include "./view/htm/forum_list.htm";
 	
@@ -73,6 +75,7 @@ if(empty($action) || $action == 'list') {
 	if($method == 'GET') {
 		
 		$header['title']    = '版块管理';
+		$header['mobile_title'] = '版块编辑';
 	
 		$accesslist = forum_access_find_by_fid($_fid);
 		if(empty($accesslist)) {

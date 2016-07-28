@@ -149,6 +149,7 @@ if($action == 'create') {
 	
 	$header['navs'][] = "<a href=\"forum-$fid.htm\">$forum[name]</a>";
 	$header['navs'][] = "<a href=\"$thread[url]\">$thread[subject]</a>";
+	$header['mobile_title'] = '帖子详情';
 	
 	if(!$group['allowviewip']) {
 		unset($thread['userip']);

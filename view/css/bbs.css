@@ -81,6 +81,7 @@ h5, h6 {font-weight: 800;}
 .text-grey { color: #bbb  !important; }
 .text-middle { font-size: 95% !important; }
 .table-fixed { table-layout:fixed !important; }
+.break-all {word-break: break-all;}
 
 
 /*  ul, dl 多列定义，用来模拟简单的表格布局，如果不考虑响应，比 pull-left pull-right 方便  */

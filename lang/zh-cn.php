@@ -2,6 +2,7 @@
 
 return array(
 	'back'=>'返回',
+	'return'=>'返回',
 	'username'=>'用户名',
 	'email'=>'Email',
 	'password'=>'密码',

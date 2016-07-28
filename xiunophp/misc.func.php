@@ -994,7 +994,7 @@ function xn_debug_info() {
 	global $db, $starttime;
 	$s = '';
 	if(DEBUG) {
-		$s .= '<div class="small">';
+		$s .= '<div class="small break-all">';
 		$s .= '<p>Processed Time:'.(microtime(1) - $starttime).'</p>';
 		if(IN_CMD) {
 			foreach($db->sqls as $sql) {

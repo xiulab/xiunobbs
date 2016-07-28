@@ -6,8 +6,9 @@ $action = param(1);
 
 if(empty($action) || $action == 'list') {
 
-	$header['title']    = '用户管理';
-
+	$header['title'] = '用户管理';
+	$header['mobile_title'] = '用户管理';
+		
 	$pagesize = 20;
 	$srchtype = param(2);
 	$keyword  = trim(urldecode(param(3)));
@@ -35,8 +36,9 @@ if(empty($action) || $action == 'list') {
 
 	if($method == 'GET') {
 
-		$header['title'] = '用户创建';
-
+		$header['title'] = '创建用户';
+		$header['mobile_title'] = '创建用户';
+		
 		$input['email'] = form_text('email', '');
 		$input['username'] = form_text('username','');
 		$input['password'] = form_password('password', '');
@@ -84,7 +86,8 @@ if(empty($action) || $action == 'list') {
 	
 	if($method == 'GET') {
 
-		$header['title'] = '用户更新';
+		$header['title'] = '编辑用户';
+		$header['mobile_title'] = '编辑用户';
 		
 		$user = user_read($_uid);
 		

@@ -10,7 +10,8 @@ $action = param(1);
 if(empty($action) || $action == 'local_list') {
 
 	$header['title']    = '插件管理';
-
+	$header['mobile_title'] = '插件管理';
+	
 	// 本地插件
 	$pluginlist = plugin_local_list();
 	include "./admin/view/plugin_local_list.htm";
