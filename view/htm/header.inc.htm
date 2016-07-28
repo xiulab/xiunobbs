@@ -140,24 +140,25 @@
 		<div class="collapse" id="mobile_collapsing_bavbar">
 			<div class="bg-inverse p-a-1">
 				<ul class="nav" id="nav_mobile">
+					<hr class="m-y-0" />
 					<li class="nav-item">
 						<a class="nav-link" href="./"><i class="icon-home"></i> <?php echo lang('index_page');?></a>
 					</li>
-					<hr class="m-y-sm" />
+					<hr class="m-y-0" />
 					
 					<?php foreach($forumlist_show as $_forum) { ?>
 					<li class="nav-item" fid="<?php echo $_forum['fid'];?>">
 						<a class="nav-link m-l-2" href="<?php echo url("forum-$_forum[fid]");?>"><i class="icon-circle-blank"></i> <?php echo $_forum['name'];?></a>
 					</li>
 					<?php } ?>
-					<hr class="m-y-sm" />
+					<hr class="m-y-0" />
 					
 					<!-- 后台 -->
 					<?php if($gid == 1) { ?>
 					<li class="nav-item">
 						<a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_page');?></a>
 					</li>
-					<hr class="m-y-sm" />
+					<hr class="m-y-0" />
 					<?php } ?>
 					
 					

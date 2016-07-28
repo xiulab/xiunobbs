@@ -105,16 +105,16 @@
 		<div class="collapse" id="mobile_collapsing_bavbar">
 			<div class="bg-inverse p-a-1">
 				<ul class="nav" id="nav_mobile">
+					<hr class="m-y-0" />
 					<li class="nav-item home">
 						<a class="nav-link" href="./"><i class="icon-home"></i> <?php echo lang('admin_page');?></a>
 					</li>
-					
-					<hr />
+					<hr class="m-y-0" />
 					<?php foreach ($menu as $k=>$v) { ?>
 					<li class="nav-item <?php echo $k;?>">
 						<a class="nav-link" href="<?php echo $v['url'];?>"><i class="<?php echo $v['icon'];?>"></i> <?php echo $v['text'];?></a>
 					</li>
-					<hr />
+					<hr class="m-y-0" />
 					<?php  } ?>
 					<li class="nav-item home">
 						<a class="nav-link" href="../"><i class="icon-home"></i> <?php echo lang('return');?><?php echo lang('front_index_page');?></a>

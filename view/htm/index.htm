@@ -1,6 +1,5 @@
 <?php include "./view/htm/header.inc.htm"; ?>
 
-<div style="width: 100%; height: 300px; background: red;" id="div1"></div>
 <div class="row">
 	<div class="col-lg-9">
 		<div class="card p-a-sm">
@@ -65,8 +64,4 @@
 
 <script>
 $('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');
-$('#div1').on('click', function(e) {
-	alert(123);
-	e.preventDefault();
-});
 </script>

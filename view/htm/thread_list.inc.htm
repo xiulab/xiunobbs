@@ -1,5 +1,5 @@
 					<?php foreach($threadlist as $thread) { ?>
-					<tr class="thread" href="<?php echo url("thread-$thread[tid]");?>">
+					<tr class="thread tap" href="<?php echo url("thread-$thread[tid]");?>">
 						<td class="avatar-parent" aria-hidden="true">
 							<a href="<?php echo url("user-$thread[uid]");?>" aria-hidden="true">
 								<img class="avatar" src="<?php echo $thread['user_avatar_url'];?>">
