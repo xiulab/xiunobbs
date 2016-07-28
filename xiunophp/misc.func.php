@@ -455,11 +455,12 @@ function ip() {
 
 // 日志记录
 function xn_log($s, $file = 'error') {
-	global $time, $ip, $conf, $uid;
+	global $time, $ip, $conf;
+	$uid = intval(G('uid'));
 	$day = date('Ymd', $time);
 	$mtime = date('Y-m-d H:i:s'); // 默认值为 time()
 	$url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
-	$logpath = APP_LOG_PATH.$day;
+	$logpath = $conf['log_path'].$day;
 	!is_dir($logpath) AND mkdir($logpath, 0777, true);
 
 	$s = str_replace(array("\r\n", "\n", "\t"), ' ', $s);
@@ -655,11 +656,10 @@ function xn_init_query_string() {
 	$_SERVER['REQUEST_URI_NO_PATH'] = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '/') + 1);
 	
 	// 是否开启 /user/login 这种格式的 URL
-	if(URL_REWRITE_PATH_FORMAT_ON) {
+	global $conf;
+	if(!empty($conf['url_rewrite_on']) && $conf['url_rewrite_on'] == 3) {
 		$r = xn_init_query_string_by_path_formt($_SERVER['REQUEST_URI']) + $r;
 	}
-	
-	
 
 	isset($r[0]) AND $r[0] == 'index.php' AND $r[0] = 'index';
 	return $r;

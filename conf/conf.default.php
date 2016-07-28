@@ -76,7 +76,7 @@ return array (
 	
 	// 'cookie_pre' => '',
 	'cookie_domain' => '',
-	'cookie_path' => '/',
+	'cookie_path' => '',
 	'auth_key' => 'efdkjfjiiiwurjdmclsldow753jsdj438',
 
 	'pagesize' => 20,

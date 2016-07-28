@@ -1,18 +1,23 @@
 <?php
 
+ // 本地插件
 $plugin_srcfiles = array();
 $plugin_paths = array();
-$plugins = array();
+$plugins = array(); // 跟官方插件合并？
+
+// 官方插件列表
+$official_plugins = array();
 
 // 在安装、卸载插件的时候，需要先初始化
 function plugin_init() {
 	global $plugin_srcfiles, $plugin_paths, $plugins;
 	$plugin_srcfiles = array_merge(
 		glob('./model/*.php'), 
-		glob('./pc/route/*.php'), 
-		glob('./pc/view/htm/*.*'), 
+		glob('./route/*.php'), 
+		glob('./view/htm/*.*'), 
 		glob('./admin/route/*.php'), 
-		glob('./admin/view/htm/*.*')
+		glob('./admin/view/htm/*.*'),
+		array('./index.php', 'admin/index.php')
 	);
 	foreach($plugin_srcfiles as $k=>$file) {
 		$filename = file_name($file);
@@ -45,10 +50,33 @@ function plugin_init() {
 	*/
 }
 
+// 插件依赖检测，返回依赖的插件列表
+/*
+	返回依赖的插件数组：
+	array(
+		'xn_ad'=>'1.0',
+		'xn_umeditor'=>'1.0',
+	);
+*/
+function plugin_dependencies($dir) {
+	global $plugin_srcfiles, $plugin_paths, $plugins;
+	$plugin = $plugins[$dir];
+	$dependencies = $plugin['dependencies'];
+	
+	// 检查插件依赖关系
+	$arr = array();
+	foreach($dependencies as $_dir=>$version) {
+		if(!isset($plugins[$_dir]) || $plugins[$_dir]['enable']) {
+			$arr[$_dir] = $version;
+		}
+	}
+	return $arr;
+}
+
 /*
 	插件安装：
 		把所有的插件点合并，重新写入文件。如果没有备份文件，则备份一份。
-		插件名可以为源文件名：pc/view/header.htm
+		插件名可以为源文件名：view/header.htm
 */
 function plugin_install($dir) {
 	global $plugin_srcfiles, $plugin_paths, $plugins;
@@ -140,7 +168,8 @@ function plugin_hooks_merge_by_rank($hookname) {
 	$arr = array();
 	
 	foreach($plugins as $dir=>$plugin) {
-		if(isset($plugin['installed']) && $plugin['installed'] == 0) continue;
+		if(isset($plugin['installed']) && $plugin['installed'] == 0) continue; // 未安装的跳过
+		if(isset($plugin['enable']) && $plugin['enable'] == 0) continue; // 禁用的跳过
 		foreach($plugin['hooks'] as $hookname2=>$hookpath) {
 			if($hookname2 != $hookname) continue;
 			$rank = isset($plugin['hooks_rank'][$hookname]) ? $plugin['hooks_rank'][$hookname] : 0;
@@ -221,6 +250,110 @@ function plugin_overwrite_unstall($dir) {
 		}
 	}
 }
+
+
+
+
+
+
+
+// -------------------> 官方插件列表缓存到本地。
+
+function plugin_official_total($cond = array()) {
+	$offlist = plugin_official_list_cache();
+	return count($offlist);
+}
+
+// 远程插件列表，从官方服务器获取插件列表，全部缓存到本地，定期更新
+function plugin_official_list($cond = array(), $orderby = array('stars'=>-1), $page = 1, $pagesize = 20) {
+	// 服务端插件信息，缓存起来
+	$offlist = plugin_official_list_cache();
+	$offlist = arrlist_cond_orderby($offlist, $cond, $orderby, $page, $pagesize);
+	foreach($offlist as &$plugin) plugin_official_format($plugin);
+	return $offlist;
+}
+
+/*
+return Array (
+    [xn_clear_rubbish] => Array
+        (
+            [pluginid] => 102
+            [dir] => xn_clear_rubbish
+            [name] => 清理论坛垃圾
+            [brief] => 清理过期的帖子，短消息，用户，附件。
+            [version] => 1.0
+            [bbs_version] => 4.0
+            [cateid] => 0
+            [styleid] => 0
+            [icon] => 1
+            [img1] => 0
+            [img2] => 0
+            [img3] => 0
+            [img4] => 0
+            [price] => 0
+            [uid] => 0
+            [username] => 0
+            [email] => 0
+            [lastupdate] => 1379242488
+            [stars] => 0
+            [user_stars] => 0
+            [installs] => 1102
+            [sells] => 0
+            [file_md5] => b265a5c3696e2616ebe203bcb61ca604
+            [filename] => e1719e15ae8e4a8f9ec9cc67bcfde769.zip
+            [is_cert] => 1
+            [is_show] => 0
+        )
+)
+*/
+function plugin_official_list_cache() {
+	$s = cache_get('plugin_official_list');
+	if($s === NULL || DEBUG) {
+		$url = "http://plugin.xiuno.com/plugin-list-version-4.htm"; // 获取所有的插件，匹配到3.0以上的。
+		$s = http_get($url, 30, 3);
+		if(empty($s)) {
+			return xn_error(-1, '从官方获取插件数据失败。');
+		}
+		$r = xn_json_decode($s);
+		if(!empty($r['servererror']) || (!empty($r['code']) && $r['code'] != 0)) {
+			return xn_error(-1, '从官方获取插件数据格式不对。');
+		}
+		
+		$s = !empty($r['message']) ? $r['message'] : $r;
+		cache_set('plugin_official_list', $s, 3600); // 缓存时间 1 小时。
+	}
+	return $s;
+}
+
+function plugin_official_read($dir) {
+	$offlist = plugin_official_list_cache();
+	$plugin = isset($offlist[$dir]) ? $offlist[$dir] : array();
+	plugin_official_format($plugin);
+	return $plugin;
+}
+
+function plugin_official_format(&$plugin) {
+	global $plugins;
+	if(empty($plugin)) return;
+	$dir = $plugin['dir'];
+	$plugin['icon_url'] = "http://plugin.xiuno.com/upload/plugin/$plugin[pluginid]/icon.png";
+	$plugin['downloaded'] = isset($plugins[$dir]);
+	$plugin['installed'] = isset($plugins[$dir]) && $plugins[$dir]['installed'];
+	$plugin['stars_fmt'] = str_repeat('<span class="icon star"></span>', $plugin['stars']);
+	$plugin['user_stars_fmt'] = str_repeat('<span class="icon star"></span>', $plugin['user_stars']);
+
+	if(is_dir("./plugin/$dir")) {
+		
+	} else {
+		$plugin['setting_url'] = '';
+	}
+	$plugin['is_official'] = 1;
+}
+
+
+
+
+
 
 //plugin_install('xn_ad');
 //plugin_unstall('xn_ad');

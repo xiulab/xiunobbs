@@ -1,11 +1,9 @@
 <?php
 
 define('DEBUG', 1);
-
-chdir('../../');
-
+define('BASE_HREF', '../../');
 define('SKIP_ROUTE', TRUE); // 跳过路由处理，否则 index.php 中会中断流程
-
+chdir('../../');
 include './index.php';
 
 if($method != 'POST') exit('Not Allow');

@@ -6,8 +6,10 @@ include './xiunophp/xn_html_safe.func.php';
 
 $action = param(1);
 
-$uid AND $user = user_read($uid);
-empty($user) AND $user = user_guest();
+if(empty($user)) {
+	header('Location: '.url('user-login'));
+	exit;
+}
 
 // hook thread_action_before.php
 

@@ -2,14 +2,14 @@
 
 define('DEBUG', 1);
 
-$conf = (@include '../conf/conf.default.php');
-$conf['log_path'][0] == '.' AND $conf['log_path'] = '../'.$conf['log_path'];
-$conf['tmp_path'][0] == '.' AND $conf['tmp_path'] = '../'.$conf['tmp_path'];
-$conf['upload_path'][0] == '.' AND $conf['upload_path'] = '../'.$conf['upload_path'];
+// 切换到上一级目录，操作很方便。
+chdir('../');
 
-include '../xiunophp/xiunophp.php';
-include '../model.inc.php';
-include './install.func.php';
+$conf = (@include './conf/conf.default.php');
+
+include './xiunophp/xiunophp.php';
+include './model.inc.php';
+include './install/install.func.php';
 
 $browser = get__browser();
 check_browser($browser);
@@ -17,17 +17,17 @@ check_browser($browser);
 $action = param('action');
 
 // 安装初始化检测,放这里
-is_file('../conf/conf.php') AND empty($action) AND !DEBUG AND message(0, jump('程序已经安装过了，如需重新安装，请删除 conf/conf.php ！', '../'));
+is_file('./conf/conf.php') AND empty($action) AND !DEBUG AND message(0, jump('程序已经安装过了，如需重新安装，请删除 conf/conf.php ！', '../'));
 
 // 第一步，阅读
 if(empty($action)) {
-	include "./view/htm/index.htm";
+	include "./install/view/htm/index.htm";
 } elseif($action == 'env') {
 	if($method == 'GET') {
 		$succeed = 1;
 		$env = $write = array();
 		get_env($env, $write);
-		include "./view/htm/env.htm";
+		include "./install/view/htm/env.htm";
 	} else {
 	
 	}
@@ -40,7 +40,7 @@ if(empty($action)) {
 		$pdo_mysql_support = extension_loaded('pdo_mysql');
 		(!$mysql_support && !$pdo_mysql_support) AND message(0, '当前 PHP 环境不支持 mysql 和 pdo_mysql，无法继续安装。');
 
-		include "./view/htm/db.htm";
+		include "./install/view/htm/db.htm";
 		
 	} else {
 		
@@ -83,7 +83,7 @@ if(empty($action)) {
 		
 		// 连接成功以后，开始建表，导数据。
 		
-		install_sql_file('./install.sql');
+		install_sql_file('./install/install.sql');
 		
 		// 生成 auth_key
 		$conf['auth_key'] = xn_rand(64);
@@ -92,14 +92,14 @@ if(empty($action)) {
 		$conf['installed'] = 1;
 		
 		// 初始化
-		touch('../conf/conf.php');
+		touch('./conf/conf.php');
 		
 		//$conf2['log_path'] = './log/';
 		//$conf2['tmp_path'] = './tmp/';
 		//$conf2['upload_path'] = './upload/';
 
 		// 写入配置文件
-		conf_save('../conf/conf.php', $conf);
+		conf_save('./conf/conf.php', $conf);
 		
 		message(0, '恭喜，安装成功');
 	}

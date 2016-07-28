@@ -82,7 +82,7 @@ if($action == 'base') {
 				'pass'=>$pass[$k],
 			);
 		}
-		$r = file_put_content_try('./conf/smtp.conf.php', "<?php\r\nreturn ".var_export($smtplist,true).";\r\n?>");
+		$r = file_put_content_try('../conf/smtp.conf.php', "<?php\r\nreturn ".var_export($smtplist,true).";\r\n?>");
 		!$r AND message(-1, '保存数据到配置文件 conf/smtp.conf.php 失败，请检查文件的可写权限。');
 		
 		message(0, '保存成功');

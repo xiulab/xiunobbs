@@ -4,8 +4,12 @@
         "version" : "1.0",
         "bbs_version" : "3.0",
         "installed" : 0,
+        "enable" : 0,
         "hooks_rank": {
         	"body_start.htm": 0,
         	"body_end.htm": 0
+        }
+        "dependencies": {
+        	
         }
 }
