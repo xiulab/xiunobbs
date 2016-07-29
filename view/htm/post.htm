@@ -11,6 +11,7 @@
 		$form_doctype = 1;
 		$isfirst = 1;
 		$location = url("forum-'+jfid.checked()+'");
+		$attachlist = array();
 	} elseif($route == 'post' && $action == 'update') {
 		$form_title = lang('post_update');
 		$form_action = url("post-update-$pid");
@@ -29,7 +30,10 @@
 		$form_doctype = 1;
 		$isfirst = 0;
 		$location = url("thread-$tid");
+		$attachlist = array();
 	}
+	
+	$attachlist += (array)_SESSION('tmp_files');
 ?>
 
 <div class="row">
@@ -66,9 +70,21 @@
 						<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message" style="height: 300px;"><?php echo $form_message;?></textarea>
 					</fieldset>
 					<div class="row">
-						<div class="col-lg-10">
+						<div class="col-lg-10" id="attachlist_parent">
 							<p class="small text-left"><label class="addattach" id="addattach"><i class="icon-folder-open-alt"></i> <span>添加附件</span><input type="file" /></label></p>
-							<ul id="attachlist" class="small"></ul>
+							<?php if($attachlist) { ?>
+							<ul id="attachlist" class="small">
+								<?php foreach ($attachlist as $attach) { ?>
+								<li aid="<?php echo $attach['aid'];?>">
+									<a href="<?php echo $attach['url'];?>" target="_blank">
+										<i class="icon filetype <?php echo $attach['filetype'];?>"></i> 
+										<?php echo $attach['name'];?>
+									</a>
+									<a href="javascript:void(0)" class="delete m-l-1"><i class="icon-remove"></i> 删除</a>
+								</li>
+								<?php } ?>
+							</ul>
+							<?php } ?>
 							<!--{hook thread_create_bottom_right.htm}-->
 						</div>
 						<div class="col-lg-2 text-right">
@@ -108,19 +124,33 @@ jform.on('submit', function() {
 	return false;
 });
 
-
-var jaddattach = $('#addattach');
-var jattachlist = $('#attachlist');
-jaddattach.on('change', function(e) {
+$('#addattach').on('change', function(e) {
 	var files = xn.get_files_from_event(e);
 	if(!files) return;
 	xn.upload_file(files[0], xn.url('attach-create'), function(code, message) {
+		if(code != 0) return $.alert(message);
 		// 把文件 append 到附件列表
 		var url = message.url;
 		var filetype = message.filetype;
-		jattachlist.append('<li><a href="'+message.url+'" target="_blank"><i class="icon filetype '+filetype+'"></i> '+message.name+'</a></li>');
+		var aid = message.aid;
+		if(!$('#attachlist').length) {
+			$('#attachlist_parent').append('<ul id="attachlist"><ul>');
+		}
+		$('#attachlist').append('<li aid="'+aid+'"><a href="'+message.url+'" target="_blank"><i class="icon filetype '+filetype+'"></i> '+message.name+'</a> <a href="javascript:void(0);" class="delete m-l-1"><i class="icon-remove"></i> 删除</a></li>');
 	});
 });
+// 删除附件
+$('#attachlist_parent').on('click', 'a.delete', function() {
+	var jlink = $(this);
+	var jli = jlink.parents('li');
+	var aid = jli.attr('aid');
+	if(!window.confirm('确定删除？')) return false;
+	$.xpost(xn.url('attach-delete-'+aid), function(code, message) {
+		if(code != 0) return $.alert(message);
+		jlink.parent().remove();
+	});
+	return false;
+})
 
 jform.find('[name="fid"]').checked(<?php echo $fid;?>);
 $('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');

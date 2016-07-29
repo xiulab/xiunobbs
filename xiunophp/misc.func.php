@@ -158,8 +158,10 @@ function xn_substr($s, $start, $len) {
 // txt 转换到 html
 function xn_txt_to_html($s) {
 	$s = htmlspecialchars($s);
+	$s = str_replace(" ", '&nbsp; ', $s);
 	$s = str_replace("\t", ' &nbsp; &nbsp; &nbsp; &nbsp;', $s);
-	$s = str_replace("\r\n", '<br>', $s);
+	$s = str_replace("\r\n", "\n", $s);
+	$s = str_replace("\n", '<br>', $s);
 	return $s;
 }
 
@@ -1008,6 +1010,8 @@ function xn_debug_info() {
 			$s .= "</ul>\r\n";
 			$s .= '_REQUEST:<br>';
 			$s .= xn_txt_to_html(print_r($_REQUEST, 1));
+			$s .= '_SESSION:<br>';
+			$s .= xn_txt_to_html(print_r($_SESSION, 1));
 			$s .= '';
 		}
 		$s .= '</div>';

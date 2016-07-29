@@ -1,5 +1,161 @@
 <?php 
 
+class Session {
+	public $session = array();
+	public $invalid = FALSE;
+	public function open($save_path, $session_name) { 
+		//echo "sess_open($save_path,$session_name) \r\n";
+		return true;
+	}
+	
+	public function close() {
+		global $sid, $uid, $fid, $time, $g_session, $g_session_invalid;
+		//echo "sess_close() \r\n";
+		
+		if($g_session_invalid) return TRUE;
+		
+		if(!empty($_SERVER['APP_PATH'])) chdir($_SERVER['APP_PATH']);
+		
+		$update = array(
+			'uid'=>$uid,
+			'fid'=>$fid,
+			'url'=>$_SERVER['REQUEST_URI_NO_PATH'],
+			'last_date'=>$time,
+		);
+		$update = array_diff_value($update, $g_session);
+		
+		db_update('session', array('sid'=>$sid), $update);
+		
+		return true;
+	}
+	
+	// 如果 cookie 中没有 bbs_sid, php 会自动生成 sid，作为参数
+	public function read($sid) { 
+		global $g_session, $longip, $time;
+		//echo "sess_read() sid: $sid <br>\r\n";
+		if(empty($sid)) {
+			// 查找刚才是不是已经插入一条了？  如果相隔时间特别短，并且 data 为空，则删除。
+			// 测试是否支持 cookie，如果不支持 cookie，则不生成 sid
+			$sid = session_id();
+			sess_new($sid);
+			return '';
+		}
+		$arr = db_find_one('session', array('sid'=>$sid));
+		if(empty($arr)) {
+			sess_new($sid);
+			return '';
+		}
+		if($arr['bigdata'] == 1) {
+			$arr2 = db_find_one('session_data', array('sid'=>$sid));
+			$arr['data'] = $arr2['data'];
+		}
+		$g_session = $arr;
+		return $arr ? $arr['data'] : '';
+	}
+	
+	public function new_sess($sid) {
+		global $uid, $fid, $time, $longip, $conf, $g_session_invalid;
+		
+		$agent = _SERVER('HTTP_USER_AGENT');
+		
+		// 干掉同 ip 的 sid，仅仅在遭受攻击的时候
+		//db_delete('session', array('ip'=>$longip));
+		
+		$cookie_test = _COOKIE('cookie_test');
+		if($cookie_test) {
+			$cookie_test_decode = xn_decrypt($cookie_test, $conf['auth_key']);
+			$g_session_invalid = ($cookie_test_decode != md5($agent.$longip));
+			setcookie('cookie_test', '', $time - 86400, '');
+		} else {
+			$cookie_test = xn_encrypt(md5($agent.$longip), $conf['auth_key']);
+			setcookie('cookie_test', $cookie_test, $time + 86400, '');
+			$g_session_invalid = FALSE;
+			return;
+		}
+		
+		// 可能会暴涨
+		$url = _SERVER('REQUEST_URI_NO_PATH');
+		
+		$arr = array(
+			'sid'=>$sid,
+			'uid'=>$uid,
+			'fid'=>$fid,
+			'url'=>$url,
+			'last_date'=>$time,
+			'fid'=>$fid,
+			'data'=> '',
+			'ip'=> $longip,
+			'useragent'=> $agent,
+			'bigdata'=> 0,
+		);
+		db_insert('session', $arr);
+		
+	}
+	
+	public function write($sid, $data) {
+		global $g_session, $time, $uid, $fid, $longip, $g_session_invalid;
+		
+		if($g_session_invalid) return TRUE;
+		
+		if(!empty($_SERVER['APP_PATH'])) chdir($_SERVER['APP_PATH']);
+		
+		$url = _SERVER('REQUEST_URI_NO_PATH');
+		$agent = _SERVER('HTTP_USER_AGENT');
+		$arr = array(
+			'uid'=>$uid,
+			'fid'=>$fid,
+			'url'=>$url,
+			'last_date'=>$time,
+			'fid'=>$fid,
+			'data'=> $data,
+			'ip'=> $longip,
+			'useragent'=> $agent,
+			'bigdata'=> 0,
+		);
+		
+		// 判断数据是否超长
+		$data = addslashes($data);
+		$len = strlen($data);
+		if($len > 255 && $g_session['bigdata'] == 0) {
+			db_insert('session_data', array('sid'=>$sid));
+		}
+		if($len <= 255) {
+			$update = array_diff_value($arr, $g_session);
+			db_update('session', array('sid'=>$sid), $update);
+			if(!empty($g_session) && $g_session['bigdata'] == 1) {
+				db_delete('session_data', array('sid'=>$sid));
+			}
+		} else {
+			$arr['data'] = '';
+			$arr['bigdata'] = 1;
+			$update = array_diff_value($arr, $g_session);
+			$update AND db_update('session', array('sid'=>$sid), $update);
+			$update2 = array_diff_value(array('data'=>$data, 'last_date'=>$time), $g_session);
+			$update2 AND db_update('session_data', array('sid'=>$sid), $update2);
+		}
+		return TRUE;
+	}
+	
+	public function destroy($sid) { 
+		//echo "sess_destroy($sid) \r\n";
+		db_delete('session', array('sid'=>$sid));
+		db_delete('session_data', array('sid'=>$sid));
+		return TRUE; 
+	}
+	
+	public function gc($maxlifetime) {
+		//echo "sess_gc($maxlifetime) \r\n";
+		global $time;
+		$expiry = $time - $maxlifetime;
+		db_delete('session', array('last_date'=>array('<'=>$expiry)));
+		db_delete('session_data', array('last_date'=>array('<'=>$expiry)));
+		return TRUE; 
+	}
+	function __destruct() {
+		
+	}
+};
+
 $g_session = array();	
 $g_session_invalid = FALSE; // 0: 有效， 1：无效
 
@@ -116,8 +272,8 @@ function sess_write($sid, $data) {
 	);
 	
 	// 判断数据是否超长
-	$data_safe = addslashes($data);
-	$len = strlen($data_safe);
+	$data = addslashes($data);
+	$len = strlen($data);
 	if($len > 255 && $g_session['bigdata'] == 0) {
 		db_insert('session_data', array('sid'=>$sid));
 	}
