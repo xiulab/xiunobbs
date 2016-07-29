@@ -85,6 +85,7 @@ return array (
 	
 	'online_update_span' => 120,				// 在线更新的频度：单位秒，建议 120 秒(2分钟）
 	'online_hold_time' => 3600,				// 多长时间以内的活跃用户为在线
+	'session_delay_update' => 0,				// session 延迟更新，服务器压力巨大的时候，开启此项，默认为秒，一般设置为 300 秒
 	
 	'upload_image_width' => 927,				// 上传图片最大宽度 927 887 回复的帖子宽度减去 40 
 	

@@ -1,6 +1,6 @@
 <?php
 
-!defined('DEBUG') AND define('DEBUG', 0); 				// 发布的时候改为 0 
+!defined('DEBUG') AND define('DEBUG', 1); 				// 发布的时候改为 0 
 
 ob_start('ob_gzhandler');
 
@@ -19,8 +19,8 @@ db_connect() OR message(-1, $errstr);
 
 $sid = sess_start();
 
-//$_SESSION['a']['b'] = array('a'=>'\'|');
-//exit;
+//$_SESSION['a'] = str_repeat('a', 1000);
+
 // 语言包
 $lang = include('./lang/zh-cn.php');
 

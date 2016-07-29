@@ -3,6 +3,10 @@
 $g_session = array();	
 $g_session_invalid = FALSE; // 0: 有效， 1：无效
 
+// 可以指定独立的 session 服务器，在系统压力巨大的时候可以考虑优化
+//$g_sess_db = $db;
+
+
 // 如果是管理员, sid, 与 ip 绑定，一旦 IP 发生变化，则需要重新登录
 
 function sess_open($save_path, $session_name) { 
@@ -95,8 +99,9 @@ function sess_new($sid) {
 }
 
 function sess_write($sid, $data) {
-	global $g_session, $time, $uid, $fid, $longip, $g_session_invalid;
+	global $g_session, $time, $uid, $fid, $longip, $g_session_invalid, $conf;
 	
+	//echo "sess_write($sid, $data)";exit;
 	if($g_session_invalid) return TRUE;
 	
 	if(!empty($_SERVER['APP_PATH'])) chdir($_SERVER['APP_PATH']);
@@ -108,12 +113,19 @@ function sess_write($sid, $data) {
 		'fid'=>$fid,
 		'url'=>$url,
 		'last_date'=>$time,
-		'fid'=>$fid,
 		'data'=> $data,
 		'ip'=> $longip,
 		'useragent'=> $agent,
 		'bigdata'=> 0,
 	);
+	
+	// 开启 session 延迟更新，减轻压力，会导致数据显示有些延迟，单位为秒。
+	$session_delay_update_on = !empty($conf['session_delay_update']) && $time - $g_session['last_date'] < $conf['session_delay_update'];
+	if($session_delay_update_on) {
+		unset($arr['fid']);
+		unset($arr['url']);
+		unset($arr['last_date']);
+	}
 	
 	// 判断数据是否超长
 	$data_safe = addslashes($data);
@@ -132,7 +144,9 @@ function sess_write($sid, $data) {
 		$arr['bigdata'] = 1;
 		$update = array_diff_value($arr, $g_session);
 		$update AND db_update('session', array('sid'=>$sid), $update);
-		$update2 = array_diff_value(array('data'=>$data, 'last_date'=>$time), $g_session);
+		$arr2 = array('data'=>$data, 'last_date'=>$time);
+		if($session_delay_update_on) unset($arr2['last_date']);
+		$update2 = array_diff_value($arr2, $g_session);
 		$update2 AND db_update('session_data', array('sid'=>$sid), $update2);
 	}
 	return TRUE;
