@@ -4,12 +4,12 @@
 	// 公用一个模板
 	if($route == 'thread' && $action == 'create') {
 		$form_title = lang('thread_create');
-		$form_action = url("thread-create-'+jfid.val()");
+		$form_action = url("thread-create");
 		$form_subject = '';
 		$form_message = '';
 		$form_doctype = 1;
 		$isfirst = 1;
-		$location = url("forum-$fid");
+		$location = url("forum-'+jfid.checked()+'");
 	} elseif($route == 'post' && $action == 'update') {
 		$form_title = lang('post_update');
 		$form_action = url("post-update-$pid");
@@ -86,7 +86,7 @@
 <script>
 var jform = $('#form');
 var jsubmit = $('#submit');
-var jfid = jform.find('input[name="fid"]');
+var jfid = jform.find('select[name="fid"]');
 jform.on('submit', function() {
 	var postdata = jform.serialize();
 	jsubmit.button('loading');
