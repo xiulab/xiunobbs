@@ -1,0 +1,81 @@
+<?php include "./view/htm/header.inc.htm"; ?>
+
+<div class="row">
+	<div class="col-lg-6 col-lg-offset-3">
+		<div class="card card-block m-t-1">
+			<img class="avatar-lg center-block" src="<?php echo $_user['avatar_url'];?>">
+			<h4 class="text-center"><?php echo $_user['username'];?></h4>
+			<p class="text-center">[<?php echo $_user['groupname'];?>]</p>
+			<hr />
+			<div class="row">
+				<div class="col-xs-12  col-sm-6 m-b-1 p-l-2 p-r-2">
+					<dl class="row m-b-1">
+						<dt class="text-muted">用户名：</dt>
+						<dd class="text-right"><?php echo $_user['username'];?></dd>
+					</dl>
+					<dl class="row m-b-1">
+						<dt class="text-muted">Email：</dt>
+						<dd class="text-right"><?php echo $_user['email'];?></dd>
+					</dl>
+					<dl class="row m-b-1">
+						<dt class="text-muted">用户组：</dt>
+						<dd class="text-right"><?php echo $_user['groupname'];?></dd>
+					</dl>
+					<dl class="row m-b-1">
+						<dt class="text-muted">注册时间：</dt>
+						<dd class="text-right"><?php echo $_user['create_date_fmt'];?></dd>
+					</dl>
+					<dl class="row m-b-1">
+						<dt class="text-muted">最后登录：</dt>
+						<dd class="text-right"><?php echo $_user['login_date_fmt'];?></dd>
+					</dl>
+				</div>
+				<div class="col-xs-12  col-sm-6 m-b-1 p-l-2 p-r-2">
+					<dl class="row m-b-1">
+						<dt class="text-muted">主题：</dt>
+						<dd class="text-right"><?php echo $_user['threads'];?></dd>
+					</dl>
+					<dl class="row m-b-1">
+						<dt class="text-muted">回复：</dt>
+						<dd class="text-right"><?php echo $_user['posts'];?></dd>
+					</dl>
+					<dl class="row m-b-1">
+						<dt class="text-muted">精华：</dt>
+						<dd class="text-right">12</dd>
+					</dl>
+				</div>
+			</div>
+			<h4 class="card-title">他参与的主题 (<?php echo $_user['threads'];?>)</h4>
+ 			<table class="table table-hover threadlist">
+				<tbody>
+					<?php include './view/htm/thread_list.inc.htm';?>
+				</tbody>
+			</table>
+			<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>
+			
+		</div>
+		<a role="button" class="btn btn-secondary center-block" href="<?php echo url('my');?>"> <?php echo lang('back');?> </a>
+	</div>
+</div>
+
+<?php include "./view/htm/footer.inc.htm"; ?>
+
+<script>
+var javatar_upload = $('#avatar_upload');
+var jprogress = $('#avatar_progress');
+var jimg = $('#avatar_img');
+javatar_upload.on('change', function(e) {
+	var files = xn.get_files_from_event(e);
+	jprogress.val(0);
+	xn.upload_file(files[0], xn.url('my-avatar'), function(code, message) {
+		if(code == 0) {
+			jimg.attr('src', message.url+'?'+Math.random());
+		} else {
+			$.alert(message);
+		}
+	}, {width: 128, height: 128, action: 'clip', filetype: 'png', 'progress_callback': function(percent) {
+		jprogress.val(percent);
+	}});
+});
+
+</script>

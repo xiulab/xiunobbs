@@ -341,8 +341,17 @@ if($action == 'login') {
 	$_uid = param(1, 0);
 	$_user = user_read($_uid);
 	
+	empty($_user) AND message(-1, '用户不存在');
+	
 	$header['title'] = $_user['username'];
 	$header['mobile_title'] = $_user['username'];
+	
+	$page = param(2, 1);
+	$page = page($page, $_user['threads'], 10);
+	$pagesize = 10;
+	$pagination = pagination(url("user-$_uid-{page}"), $_user['threads'], $page, $pagesize);
+	
+	$threadlist = mythread_find_by_uid($_uid, $page, $pagesize);
 	
 	// hook user_profile_start.php
 	

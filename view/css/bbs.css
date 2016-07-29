@@ -206,7 +206,7 @@ dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
 .icon.filetype.font {background-image: url(../img/filetype/font.png) }
 
 #nav_mobile .nav-item {padding: 0.5rem}
-#nav_mobile .nav-item:hover {background: #444;}
+#nav_mobile .nav-item:hover {background: #444446;}
 
 /* 靠的太远 */
 /*.navbar-nav .nav-item + .nav-item.username { margin-left: 0.3rem; }*/

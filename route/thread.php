@@ -6,10 +6,6 @@ include './xiunophp/xn_html_safe.func.php';
 
 $action = param(1);
 
-if(empty($user)) {
-	header('Location: '.url('user-login'));
-	exit;
-}
 
 // hook thread_action_before.php
 
@@ -17,7 +13,9 @@ if(empty($user)) {
 if($action == 'create') {
 	
 	// hook thread_create_get_post.php
-	
+		
+	empty($user) AND http_location(url('user-login'));
+
 	$conf['ipaccess_on'] AND !ipaccess_check($longip, 'threads') AND message(-1, '您的 IP 今日发表主题数达到上限，请明天再来。');
 	
 	if($method == 'GET') {
@@ -38,7 +36,7 @@ if($action == 'create') {
 		
 		// hook thread_create_get_end.php
 		
-		include './view/htm/thread_create.htm';
+		include './view/htm/post.htm';
 		
 	} else {
 		

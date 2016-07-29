@@ -56,7 +56,10 @@
 					</tr>
 				</thead>
 				<tbody>
+				
 					<?php include 'view/htm/post_list.inc.htm'; ?>
+					
+					<?php if(!empty($user)) { ?>
 					<tr class="post">
 						<td class="avatar-parent">
 							<a href="<?php echo url("user-$thread[uid]");?>">
@@ -81,6 +84,7 @@
 							</form>
 						</td>
 					</tr>
+					<?php } ?>
 				</tbody>
 			</table>
 		</div>

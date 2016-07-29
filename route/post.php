@@ -7,6 +7,8 @@ include './xiunophp/xn_html_safe.func.php';
 
 $action = param(1);
 
+empty($user) AND http_location(url('user-login'));
+
 if($action == 'create') {
 	
 	$tid = param(2);
@@ -35,7 +37,7 @@ if($action == 'create') {
 		
 		check_standard_browser();
 		
-		include './view/htm/post_create.htm';
+		include './view/htm/post.htm';
 		
 	} else {
 		
@@ -80,6 +82,7 @@ if($action == 'create') {
 		$allowupdate = forum_access_mod($fid, $gid, 'allowupdate');
 		$allowdelete = forum_access_mod($fid, $gid, 'allowdelete');
 		
+		// 直接返回帖子的 html
 		ob_start();
 		include './view/htm/post_list.inc.htm';
 		$s = ob_get_clean();
@@ -124,7 +127,7 @@ if($action == 'create') {
 		}
 		
 		check_standard_browser();
-		include './view/htm/post_update.htm';
+		include './view/htm/post.htm';
 		
 	} elseif($method == 'POST') {
 		

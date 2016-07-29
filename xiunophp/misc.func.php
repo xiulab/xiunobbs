@@ -1040,6 +1040,11 @@ function http_403() {
 	exit;
 }
 
+function http_location($url) {
+	header('Location:'.$url);
+	exit;
+}
+
 /* 需要兼容，请自行打开开这段注释，默认不兼容
 
 // 兼容 3.0，如果没有使用过，可以砍掉

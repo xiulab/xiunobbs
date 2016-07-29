@@ -1,20 +1,48 @@
 <?php include "./view/htm/header.inc.htm"; ?>
 
+<?php
+	// 公用一个模板
+	if($route == 'thread' && $action == 'create') {
+		$form_title = lang('thread_create');
+		$form_action = url("thread-create-'+jfid.val()");
+		$form_subject = '';
+		$form_message = '';
+		$form_doctype = 1;
+		$isfirst = 1;
+		$location = url("forum-$fid");
+	} elseif($route == 'post' && $action == 'update') {
+		$form_title = lang('post_update');
+		$form_action = url("post-update-$pid");
+		$form_subject = '';
+		$form_message = $post['message'];
+		$form_doctype = $post['doctype'];
+		$isfirst = $post['isfirst'];
+		$location = url("thread-$tid");
+	} elseif($route == 'post' && $action == 'create') {
+		$form_title = lang('post_create');
+		$form_action = url("post-create-$tid");
+		$form_subject = '';
+		$form_message = '';
+		$form_doctype = 1;
+		$isfirst = 0;
+		$location = url("thread-$tid");
+	}
+?>
 
 <div class="row">
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="card">
 			<div class="card-block">
-				<h4 class="card-title"><?php echo lang('post_update');?></h4>
-				<form action="<?php echo url("post-update-$pid");?>" method="post" id="form">
-					<input type="hidden" name="doctype" value="<?php echo $post['doctype'];?>" />
+				<h4 class="card-title"><?php echo $form_title; ?></h4>
+				<form action="<?php echo $form_action;?>" method="post" id="form">
+					<input type="hidden" name="doctype" value="<?php echo $form_doctype;?>" />
 					
 					<?php if($isfirst) { ?>
 					
 					<div class="row">
 						<div class="col-lg-9">
 							<fieldset class="form-group">
-								<input type="text" class="form-control" placeholder="<?php echo lang('subject');?>" name="subject" value="<?php echo $thread['subject'];?>" id="subject">
+								<input type="text" class="form-control" placeholder="<?php echo lang('subject');?>" name="subject" value="<?php echo $form_subject;?>" id="subject">
 							</fieldset>
 						</div>
 						<div class="col-lg-3">
@@ -28,9 +56,11 @@
 							<!--{hook thread_create_subject_right.htm}-->
 						</div>
 					</div>
+					
 					<?php } ?>
+					
 					<fieldset class="form-group">
-						<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message" style="height: 300px;"><?php echo $post['message'];?></textarea>
+						<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message" style="height: 300px;"><?php echo $form_message;?></textarea>
 					</fieldset>
 					<div class="row">
 						<div class="col-lg-10">
@@ -44,7 +74,6 @@
 						</div>
 					</div>
 					
-					
 				</form>
 			</div>
 		</div>
@@ -54,18 +83,17 @@
 <?php include "./view/htm/footer.inc.htm"; ?>
 
 
-
 <script>
-var tid = <?php echo $tid;?>;
 var jform = $('#form');
 var jsubmit = $('#submit');
+var jfid = jform.find('input[name="fid"]');
 jform.on('submit', function() {
 	var postdata = jform.serialize();
 	jsubmit.button('loading');
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
 			$.alert(message);
-			jsubmit.button(message).delay(3000).location(xn.url('thread-'+tid));
+			jsubmit.button(message).delay(3000).location('<?php echo $location;?>');
 		} else if(code < 0) {
 			alert(message);
 			jsubmit.button('reset');
@@ -76,7 +104,6 @@ jform.on('submit', function() {
 	});
 	return false;
 });
-
 
 
 var jaddattach = $('#addattach');
@@ -92,9 +119,7 @@ jaddattach.on('change', function(e) {
 	});
 });
 
-// checked
 jform.find('[name="fid"]').checked(<?php echo $fid;?>);
-
 $('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');
 $('#nav_mobile li[fid="<?php echo $fid;?>"]').tab('show');
 
@@ -107,3 +132,20 @@ $('#nav_mobile li[fid="<?php echo $fid;?>"]').tab('show');
 <script type="text/javascript" src="plugin/xn_umeditor/umeditor-bbs.js<?php echo $static_version;?>"></script>
 <script type="text/javascript" src="plugin/xn_umeditor/lang/zh-cn/zh-cn.js<?php echo $static_version;?>"></script>
 
+<?php if($route == 'thread' && $action == 'create') { ?>
+
+<script>
+
+</script>
+
+<?php } elseif($route == 'post' && $action == 'update') { ?>
+
+<script>
+</script>
+
+<?php } elseif($route == 'post' && $action == 'create') { ?>
+
+<script>
+</script>
+
+<?php } ?>
