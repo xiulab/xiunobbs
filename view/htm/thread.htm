@@ -69,6 +69,7 @@
 						<td class="p-l-0">
 							<form action="<?php echo url("post-create-$tid-1");?>" method="post" id="form">	
 								<input type="hidden" name="doctype" value="1" />
+								<input type="hidden" name="return_html" value="1" />
 								<dl class="row small text-muted">
 									<dt class="username"><?php echo $user['username'];?></dt>
 									<dd class="text-right text-grey"><span class="floor"><?php echo ($thread['posts'] + 1);?></span>楼</dd>

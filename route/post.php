@@ -83,11 +83,16 @@ if($action == 'create') {
 		$allowdelete = forum_access_mod($fid, $gid, 'allowdelete');
 		
 		// 直接返回帖子的 html
-		ob_start();
-		include './view/htm/post_list.inc.htm';
-		$s = ob_get_clean();
-		$conf['ipaccess_on'] AND ipaccess_inc($longip, 'posts');
-		message(0, $s);
+		$return_html = param('return_html', 0);
+		if($return_html) {
+			ob_start();
+			include './view/htm/post_list.inc.htm';
+			$s = ob_get_clean();
+			$conf['ipaccess_on'] AND ipaccess_inc($longip, 'posts');
+			message(0, $s);
+		} else {
+			message(0, '回帖成功');
+		}
 	
 	}
 	

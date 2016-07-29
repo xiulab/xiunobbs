@@ -5,6 +5,7 @@
 	if($route == 'thread' && $action == 'create') {
 		$form_title = lang('thread_create');
 		$form_action = url("thread-create");
+		$form_submit_txt = lang('thread_create');
 		$form_subject = '';
 		$form_message = '';
 		$form_doctype = 1;
@@ -13,6 +14,7 @@
 	} elseif($route == 'post' && $action == 'update') {
 		$form_title = lang('post_update');
 		$form_action = url("post-update-$pid");
+		$form_submit_txt = lang('post_update');
 		$form_subject = '';
 		$form_message = $post['message'];
 		$form_doctype = $post['doctype'];
@@ -21,6 +23,7 @@
 	} elseif($route == 'post' && $action == 'create') {
 		$form_title = lang('post_create');
 		$form_action = url("post-create-$tid");
+		$form_submit_txt = lang('post_create');
 		$form_subject = '';
 		$form_message = '';
 		$form_doctype = 1;
@@ -69,7 +72,7 @@
 							<!--{hook thread_create_bottom_right.htm}-->
 						</div>
 						<div class="col-lg-2 text-right">
-							<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('post_update');?> </button>
+							<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo $form_submit_txt;?> </button>
 							<!--{hook thread_create_bottom_left.htm}-->
 						</div>
 					</div>
