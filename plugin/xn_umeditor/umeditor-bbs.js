@@ -20,6 +20,20 @@ $(function() {
 		$btn.find('input[type="file"]').on('change', function(e) {
 			var files = xn.get_files_from_event(e);
 			if(!files) return;
+			// 并发下会 服务端 session 写入会有问题，由客户端控制改为串行
+			$.each_sync(files, function(i, callback) {
+				var file = files[i];
+				xn.upload_file(file, 'plugin/xn_umeditor/upload.php', function(code, json) {
+					if(code == 0) {
+						var s = '<img src="'+json.url+'" width="'+json.width+'" height=\"'+json.height+'\" />';
+						me.execCommand('inserthtml', s);
+					} else {
+						$.alert(json);
+					}
+					callback();
+				});
+			});
+			/* 并发下会 服务端 session 写入会有问题，由客户端控制改为串行
 			$.each(files, function(i, file) {
 				xn.upload_file(file, 'plugin/xn_umeditor/upload.php', function(code, json) {
 					if(code == 0) {
@@ -30,6 +44,7 @@ $(function() {
 					}
 				});
 			});
+			*/
 		});
 	    
 		me.addListener('selectionchange', function () {

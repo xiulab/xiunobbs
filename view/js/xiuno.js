@@ -1199,7 +1199,37 @@ $.fn.attr_name_index = function(rowid) {
 	});
 }
 
-
+// $.each() 的串行版本，用法：
+/*
+	$.each_sync(items, function(i, callback) {
+		var item = items[i];
+		$.post(url, function() {
+			// ...
+			callback();
+		});
+	});
+*/
+$.each_sync = function(array, func, callback){
+	async.series((function(){
+		var func_arr = []
+		for(var i = 0; i< array.length; i++){
+			var f = function(i){
+				return function(callback){
+					func(i, callback);
+					/*
+					setTimeout(function() {
+						func(i, callback);
+					}, 2000);*/
+					
+				}
+			}
+			func_arr.push(f(i))
+		}
+		return func_arr;
+	})(), function(error, results) {
+		if(callback) callback(null, "complete");
+	});
+}
 /*
 $.change_input_name_rowid = function(jtr, rowid) {
 	jtr.find('input').each(function() {

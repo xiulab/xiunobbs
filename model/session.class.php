@@ -117,7 +117,8 @@ class Session {
 		$data = addslashes($data);
 		$len = strlen($data);
 		if($len > 255 && $this->session['bigdata'] == 0) {
-			db_insert('session_data', array('sid'=>$sid));
+			// 这里可能并发
+			db_replace('session_data', array('sid'=>$sid));
 		}
 		if($len <= 255) {
 			$update = array_diff_value($arr, $this->session);

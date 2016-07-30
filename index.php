@@ -12,10 +12,10 @@ if(DEBUG) {
 	include './xiunophp/xiunophp.min.php';
 }
 
-include './model.inc.php';
-
 // 测试数据库连接
 db_connect() OR message(-1, $errstr);
+
+include './model.inc.php';
 
 $sid = sess_start();
 

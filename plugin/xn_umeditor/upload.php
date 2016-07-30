@@ -28,7 +28,7 @@ file_put_contents($tmpfile, $data) OR message(-1, '写入文件失败');
 
 // 保存到 session，发帖成功以后，关联到帖子。
 empty($_SESSION['tmp_files']) AND $_SESSION['tmp_files'] = array();
-$n = count($_SESSION['tmp_files']);
+$n = count($_SESSION['tmp_files']); // 此处并发下会有问题
 $attach = array(
 	'url'=>$tmpurl, 
 	'path'=>$tmpfile, 
