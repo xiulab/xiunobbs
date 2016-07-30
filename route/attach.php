@@ -10,8 +10,6 @@ user_login_check($user);
 // 账户（密码、头像），主题
 if(empty($action) || $action == 'create') {
 	
-	
-	
 	$width = param('width', 0);
 	$height = param('height', 0);
 	$name = param('name');
@@ -36,7 +34,17 @@ if(empty($action) || $action == 'create') {
 	$filetype = attach_type($name, $filetypes);
 	empty($_SESSION['tmp_files']) AND $_SESSION['tmp_files'] = array();
 	$n = count($_SESSION['tmp_files']);
-	$attach = array('url'=>$tmpurl, 'path'=>$tmpfile, 'name'=>$name, 'filetype'=>$filetype, 'width'=>$width, 'height'=>$height, 'aid'=>'_'.$n);
+	$attach = array(
+		'url'=>$tmpurl, 
+		'path'=>$tmpfile, 
+		'orgfilename'=>$name, 
+		'filetype'=>$filetype, 
+		'filesize'=>filesize($tmpfile), 
+		'width'=>$width, 
+		'height'=>$height, 
+		'isimage'=>0, 
+		'aid'=>'_'.$n
+	);
 	$_SESSION['tmp_files'][$n] = $attach;
 	
 	unset($attach['path']);

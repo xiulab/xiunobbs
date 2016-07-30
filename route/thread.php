@@ -136,12 +136,8 @@ if($action == 'create') {
 	$pagination = pagination("thread-$tid-{page}.htm", $forum['threads'], $page, $pagesize);
 	$threadlist = thread_find(array('fid'=>$fid), array('tid'=>-1), $page = 1, $pagesize);
 	
-	// 升级需要查找附件
 	$attachlist = $imagelist = $filelist = array();
-	if($first['images'] || $first['files']) {
-		$attachlist = attach_find_by_pid($first['pid']);
-		list($imagelist, $filelist) = attach_list_not_in_message($attachlist, $first['message']);
-	}
+	$first['files'] AND list($attachlist, $imagelist, $filelist) = attach_find_by_pid($thread['firstpid']);
 	
 	thread_inc_views($tid); // 如果是大站，可以用单独的点击服务，减少 db 压力
 	

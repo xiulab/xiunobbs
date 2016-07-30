@@ -19,8 +19,6 @@ db_connect() OR message(-1, $errstr);
 
 $sid = sess_start();
 
-//$_SESSION['a'] = str_repeat('a', 1000);
-
 // 语言包
 $lang = include('./lang/zh-cn.php');
 

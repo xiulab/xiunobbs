@@ -78,7 +78,7 @@ function attach_delete($aid) {
 function attach_delete_by_pid($pid) {
 	// hook attach_delete_by_pid_start.php
 	global $conf;
-	$attachlist = attach_find_by_pid($pid);
+	list($attachlist, $imagelist, $filelist) = attach_find_by_pid($pid);
 	foreach($attachlist as $attach) {
 		$path = $conf['upload_path'].'attach/'.$attach['filename'];
 		file_exists($path) AND unlink($path);
@@ -96,32 +96,29 @@ function attach_find($cond = array(), $orderby = array(), $page = 1, $pagesize =
 	return $attachlist;
 }
 
+// 获取 $filelist $imagelist
 function attach_find_by_pid($pid) {
 	// hook attach_find_by_pid_start.php
+	$attachlist = $imagelist = $filelist = array();
 	$attachlist = attach__find(array('pid'=>$pid), array(), 1, 1000);
-	if($attachlist) foreach ($attachlist as &$attach) attach_format($attach);
+	if($attachlist) {
+		foreach ($attachlist as $attach) {
+			attach_format($attach);
+			$attach['isimage'] ? ($imagelist[] = $attach) : ($filelist[] = $attach);
+		}
+	}
 	// hook attach_find_by_pid_end.php
-	return $attachlist;
-}
-
-// 查找还没有关联的附件
-function attach_find_just_upload($uid) {
-	// hook attach_find_just_upload_start.php
-	
-	// 临时文件，保存到表，并且关联。
-	$tmp_files = _SESSION('tmp_files');
-	
-	// hook attach_find_just_upload_end.php
-	
-	return attach_find(array('pid'=>0, 'uid'=>$uid), array(), 1, 1000);
+	return array($attachlist, $imagelist, $filelist);
 }
 
 // ------------> 其他方法
 
 function attach_format(&$attach) {
+	global $conf;
 	// hook attach_format_start.php
 	if(empty($attach)) return;
 	$attach['create_date_fmt'] = date('Y-n-j', $attach['create_date']);
+	$attach['url'] = $conf['upload_url'].'attach/'.$attach['filename'];
 	// hook attach_format_end.php
 }
 
@@ -131,45 +128,6 @@ function attach_count($cond = array()) {
 	$n = db_count('attach', $cond);
 	// hook attach_count_end.php
 	return $n;
-}
-
-function attach_images_files($attachlist) {
-	// hook attach_images_files_start.php
-	$images = $files = 0;
-	foreach($attachlist as $attach) {
-		$attach['isimage'] ? $images++ : $files++;
-	}
-	// hook attach_images_files_end.php
-	return array($images, $files);	
-}
-
-// 不在帖子内容中的附件列表
-function attach_list_not_in_message($attachlist, $message) {
-	// hook attach_list_not_in_message_start.php
-	global $conf;
-	$imagelist = $filelist = array();
-	foreach($attachlist as $attach) {
-		$url = $conf['upload_url'].'attach/'.$attach['filename'];
-		if(strpos($message, $url) === FALSE) {
-			$attach['isimage'] ? ($imagelist[] = $attach) : ($filelist[] = $attach);
-		}
-	}
-	// hook attach_list_not_in_message_end.php
-	return array($imagelist, $filelist);
-}
-
-// 120 长度 12345678901_ 11 + .xxxx 4 20150723/ 9
-function attach_safe_name($name, $whitearr) {
-	// hook attach_safe_name_start.php
-	global $time;
-	$ext = file_ext($name);
-	$pre = file_pre($name);
-	$pre = xn_urlencode($pre);
-	$pre = substr($pre, 0, 89).'_'.$time; // 时间放到后面，好根据文件名前缀进行管理，比如 rm -rf 123_aaa*
-	$ext = xn_urlencode($ext);
-	!in_array($ext, $whitearr) AND $ext = '_'.$ext;
-	// hook attach_safe_name_end.php
-	return $pre.'.'.$ext;
 }
 
 function attach_type($name, $types) {
@@ -185,19 +143,92 @@ function attach_type($name, $types) {
 	return 'other';
 }
 
-// 扫描垃圾的附件
+// 扫描垃圾的附件，每日清理一次
 function attach_gc() {
 	// hook attach_gc_start.php
 	global $time, $conf;
-	$attachlist = db_find('attach', array('pid'=>0));
-	if(empty($attachlist)) return;
-	foreach($attachlist as $attach) {
-		// 如果是 1 天内的附件，则不处理，可能正在发帖
-		if($time - $attach['create_date'] < 86400) continue;
-		$filepath = $conf['upload_path'].$attach['filename'];
-		is_file($filepath) AND unlink($filepath);
+	$tmpfiles = glob($conf['upload_path'].'tmp/*.*');
+	foreach ($tmpfiles as $file) {
+		// 清理超过一天还没处理的临时文件
+		if($time - filemtime($file) > 86400) {
+			unlink($file);
+		}
 	}
 	// hook attach_gc_end.php
+}
+
+// 关联 session 中的临时文件，并不会重新统计 images, files
+function attach_assoc_post($pid) {
+	global $uid, $time, $conf;
+	$tmp_files = _SESSION('tmp_files');
+	if(empty($tmp_files)) return;
+	
+	$post = post__read($pid);
+	if(empty($post)) return;
+	
+	$tid = $post['tid'];
+	foreach($tmp_files as $key=>$file) {
+		
+		// 将文件移动到 upload/attach 目录
+		$filename = file_name($file['url']);
+		
+		$day = date('Ymd', $time);
+		$path = $conf['upload_path'].'attach/'.$day;
+		$url = $conf['upload_url'].'attach/'.$day;
+		!is_dir($path) AND mkdir($path, 0777, TRUE);
+		
+		$destfile = $path.'/'.$filename;
+		$desturl = $url.'/'.$filename;
+		if(!copy($file['path'], $destfile)) {
+			continue;
+			//message(-1, $file['path']." ".$destfile.(file_exists($file['path'])).file_exists($destfile));
+		}
+		if(filesize($destfile) != filesize($file['path'])) {
+			continue;
+		}
+		
+		$arr = array(
+			'tid'=>$tid,
+			'pid'=>$pid,
+			'uid'=>$uid,
+			'filesize'=>$file['filesize'],
+			'width'=>$file['width'],
+			'height'=>$file['height'],
+			'filename'=>"$day/$filename",
+			'orgfilename'=>$file['orgfilename'],
+			'filetype'=>$file['filetype'],
+			'create_date'=>$time,
+			'comment'=>'',
+			'downloads'=>0,
+			'isimage'=>$file['isimage']
+		);
+		
+		// 插入后，进行关联
+		$aid = attach_create($arr);
+		$post['message_new'] = str_replace($file['url'], $desturl, $post['message']);
+		
+		unset($_SESSION['tmp_files'][$key]);
+	}
+	$post['message_new'] != $post['message'] AND post__update($pid, array('message'=>$post['message_new']));
+	
+	// 处理不在 message 中的图片，删除掉没有插入的图片附件
+	list($attachlist, $imagelist, $filelist) = attach_find_by_pid($pid);
+	foreach($imagelist as $k=>$attach) {
+		$url = $conf['upload_url'].'attach/'.$attach['filename'];
+		if(strpos($post['message_new'], $url) === FALSE) {
+			unset($attachlist[$k]);
+			unset($imagelist[$k]);
+			attach_delete($attach['aid']);
+		}
+	}
+	
+	// 更新 images files
+	$images = count($imagelist);
+	$files = count($filelist);
+	$post['isfirst'] AND thread__update($tid, array('images'=>$images, 'files'=>$files));
+	post__update($pid, array('images'=>$images, 'files'=>$files));
+	
+	return TRUE;
 }
 
 

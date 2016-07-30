@@ -128,8 +128,7 @@ function sess_write($sid, $data) {
 	}
 	
 	// 判断数据是否超长
-	$data_safe = addslashes($data);
-	$len = strlen($data_safe);
+	$len = strlen($data);
 	if($len > 255 && $g_session['bigdata'] == 0) {
 		db_insert('session_data', array('sid'=>$sid));
 	}

@@ -11,7 +11,7 @@
 		$form_doctype = 1;
 		$isfirst = 1;
 		$location = url("forum-'+jfid.checked()+'");
-		$attachlist = array();
+		$filelist = array();
 	} elseif($route == 'post' && $action == 'update') {
 		$form_title = lang('post_update');
 		$form_action = url("post-update-$pid");
@@ -30,10 +30,10 @@
 		$form_doctype = 1;
 		$isfirst = 0;
 		$location = url("thread-$tid");
-		$attachlist = array();
+		$filelist = array();
 	}
 	
-	$attachlist += (array)_SESSION('tmp_files');
+	$filelist += (array)_SESSION('tmp_files');
 ?>
 
 <div class="row">
@@ -72,19 +72,23 @@
 					<div class="row">
 						<div class="col-lg-10" id="attachlist_parent">
 							<p class="small text-left"><label class="addattach" id="addattach"><i class="icon-folder-open-alt"></i> <span>添加附件</span><input type="file" /></label></p>
-							<?php if($attachlist) { ?>
-							<ul id="attachlist" class="small">
-								<?php foreach ($attachlist as $attach) { ?>
+							
+							
+							<?php if($filelist) { ?>
+							<ul id="attachlist" class="attachlist">
+								<?php foreach ($filelist as $attach) { ?>
 								<li aid="<?php echo $attach['aid'];?>">
 									<a href="<?php echo $attach['url'];?>" target="_blank">
 										<i class="icon filetype <?php echo $attach['filetype'];?>"></i> 
-										<?php echo $attach['name'];?>
+										<?php echo $attach['orgfilename'];?>
 									</a>
 									<a href="javascript:void(0)" class="delete m-l-1"><i class="icon-remove"></i> 删除</a>
 								</li>
 								<?php } ?>
 							</ul>
 							<?php } ?>
+							
+							
 							<!--{hook thread_create_bottom_right.htm}-->
 						</div>
 						<div class="col-lg-2 text-right">
@@ -136,7 +140,7 @@ $('#addattach').on('change', function(e) {
 		if(!$('#attachlist').length) {
 			$('#attachlist_parent').append('<ul id="attachlist"><ul>');
 		}
-		$('#attachlist').append('<li aid="'+aid+'"><a href="'+message.url+'" target="_blank"><i class="icon filetype '+filetype+'"></i> '+message.name+'</a> <a href="javascript:void(0);" class="delete m-l-1"><i class="icon-remove"></i> 删除</a></li>');
+		$('#attachlist').append('<li aid="'+aid+'"><a href="'+message.url+'" target="_blank"><i class="icon filetype '+filetype+'"></i> '+message.orgfilename+'</a> <a href="javascript:void(0);" class="delete m-l-1"><i class="icon-remove"></i> 删除</a></li>');
 	});
 });
 // 删除附件

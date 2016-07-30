@@ -82,15 +82,9 @@ function post_create($arr, $fid, $gid) {
 	thread_lastpid_cache_delete();
 	forum_list_cache_delete();
 	
-	// 更新附件
-	$attachlist = attach_find_just_upload($uid);
-	if($attachlist) {
-		foreach($attachlist as $attach) {
-			attach__update($attach['aid'], array('tid'=>$tid, 'pid'=>$pid));
-		}
-		list($images, $files) = attach_images_files($attachlist);
-		post__update($pid, array('images'=>$images, 'files'=>$files));
-	}
+	// 关联附件
+	$message = $arr['message'];
+	attach_assoc_post($pid);
 	
 	// hook post_create_end.php
 	return $pid;
@@ -120,27 +114,7 @@ function post_update($pid, $arr, $tid = 0) {
 	
 	post_list_cache_delete($tid);
 	
-	// 如果 message 发生了变化。
-	if(isset($arr['message']) AND $arr['message'] != $post['message']) {
-		// 更新附件数
-		$oldlist = attach_find_by_pid($pid);
-		$newlist = attach_find_just_upload($user['uid']);
-		$attachlist = array_merge($oldlist, $newlist);
-		foreach($attachlist as $k=>$attach) {
-			$url = $conf['upload_url'].'attach/'.$attach['filename'];
-			$file = $conf['upload_path'].'attach/'.$attach['filename'];
-			if(strpos($arr['message'], $url) === FALSE) {
-				attach__delete($attach['aid']);
-				is_file($file) AND unlink($file);
-				unset($attachlist[$k]);
-			} else {
-				attach__update($attach['aid'], array('tid'=>$tid, 'pid'=>$pid));
-			}
-		}
-		list($images, $files) = attach_images_files($attachlist);
-		post__update($pid, array('images'=>$images, 'files'=>$files));
-		thread__update($tid, array('images'=>$images, 'files'=>$files));
-	}
+	attach_assoc_post($pid);
 	
 	// hook post_update_end.php
 	return $r;
@@ -179,13 +153,13 @@ function post_delete($pid) {
 	$r = post__delete($pid);
 	if($r === FALSE) return FALSE;
 	
-	!$post['isfirst'] AND thread__update($tid, array('posts-'=>1));
-	!$post['isfirst'] AND $uid AND user__update($uid, array('posts-'=>1));
-	
-	!$post['isfirst'] AND runtime_set('posts-', 1);
-	
-	// 清理缓存
-	$post['isfirst'] AND post_list_cache_delete($tid);
+	if(!$post['isfirst']) {
+		thread__update($tid, array('posts-'=>1));
+		$uid AND user__update($uid, array('posts-'=>1));
+		runtime_set('posts-', 1);
+	} else {
+		post_list_cache_delete($tid);
+	}
 	
 	($post['images'] || $post['files']) AND attach_delete_by_pid($pid);
 	
@@ -263,7 +237,7 @@ function post_find_by_tid($tid, $pagesize = 0) {
 
 	$key = "postlist_$tid";
 	$postlist = cache_get($key);
-	if($postlist === NULL) {
+	if($postlist === NULL || DEBUG) {
 		$postlist = post__find(array('tid'=>$tid), array('pid'=>1), 1, $pagesize);
 		cache_set($key, $postlist);
 	}

@@ -22,7 +22,28 @@
 									<span class="floor"><?php echo $_post['floor'];?></span>楼
 								</dd>
 							</dl>
-							<div class="message m-t-xs"><?php echo $_post['message_fmt'];?></div>
+							<div class="message m-t-xs">
+							
+								<?php echo $_post['message_fmt'];?>
+								
+								
+	
+								<?php if($filelist) { ?>
+								<ul class="attachlist">
+									<?php foreach ($filelist as $attach) { ?>
+									<li aid="<?php echo $attach['aid'];?>">
+										<a href="<?php echo $attach['url'];?>" target="_blank">
+											<i class="icon filetype <?php echo $attach['filetype'];?>"></i> 
+											<?php echo $attach['orgfilename'];?>
+										</a>
+									</li>
+									<?php } ?>
+								</ul>
+								<?php } ?>
+								
+								
+								
+							</div>
 						</td>
 					</tr>
 					<?php } ?>

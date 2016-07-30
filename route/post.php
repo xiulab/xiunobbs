@@ -85,6 +85,7 @@ if($action == 'create') {
 		// 直接返回帖子的 html
 		$return_html = param('return_html', 0);
 		if($return_html) {
+			$filelist = array();
 			ob_start();
 			include './view/htm/post_list.inc.htm';
 			$s = ob_get_clean();
@@ -125,13 +126,10 @@ if($action == 'create') {
 		
 		// 将未插入帖子的附件加入到末尾。
 		$attachlist = $imagelist = $filelist = array();
-		if($post['images'] || $post['files']) {
-			$attachlist = attach_find_by_pid($post['pid']);
-			list($imagelist, $filelist) = attach_list_not_in_message($attachlist, $post['message']);
-			$post['message'] .= post_attach_list_add($imagelist, $filelist);
+		if($post['files']) {
+			list($attachlist, $imagelist, $filelist) = attach_find_by_pid($pid);
 		}
 		
-		check_standard_browser();
 		include './view/htm/post.htm';
 		
 	} elseif($method == 'POST') {
@@ -201,14 +199,7 @@ if($action == 'create') {
 	
 	message(0, lang('delete_success'));
 
-// 上传的临时文件，图片客户端缩略、裁切后传到服务端，服务端只保存
-} elseif($action == 'upload') {
-	// 文件保存到 tmp 目录，文件名保存到 session
-	// 发帖成功以后，替换文件内容中的 <img src="tmp/xxx.jpg" 为 <img src="upload/attach/$day/md5(id.key).jpg" />
-	// 删除文件，清除 session
-	
-	
-// 接受 base64 文件上传
+/*
 } elseif($action == 'upload') {
 	
 	// 允许的文件后缀名
@@ -288,7 +279,7 @@ if($action == 'create') {
 	if($ext == 'gif') {
 		list($width, $height, $type, $attr) = getimagesize($destfile);
 	}
-	message(0, array('url'=>$desturl, 'name'=>$name, 'width'=>$width, 'height'=>$height));
+	message(0, array('url'=>$desturl, 'name'=>$name, 'width'=>$width, 'height'=>$height));*/
 	
 } else {
 	

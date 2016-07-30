@@ -102,24 +102,8 @@ function thread_create($arr, &$pid) {
 	// 我参与的发帖
 	$uid AND mythread_create($uid, $tid);
 	
-	// 更新附件
-	$attachlist = attach_find_just_upload($uid);
-	foreach($attachlist as $k=>$attach) {
-		// 判断是否存在于内容中，不存在，则删除
-		$url = $conf['upload_url'].'attach/'.$attach['filename'];
-		$file = $conf['upload_path'].'attach/'.$attach['filename'];
-		if(strpos($message, $url) === FALSE) {
-			attach__delete($attach['aid']);
-			is_file($file) AND unlink($file);
-			unset($attachlist[$k]);
-		} else {
-			attach__update($attach['aid'], array('tid'=>$tid, 'pid'=>$pid));
-		}
-	}
-	$images = $files = 0;
-	list($images, $files) = attach_images_files($attachlist);
-	($images || $files) AND thread__update($tid, array('images'=>$images, 'files'=>$files));
-	($images || $files) AND post__update($pid, array('images'=>$images, 'files'=>$files));
+	// 关联附件
+	attach_assoc_post($pid);
 	
 	// 全站发帖数
 	runtime_set('threads+', 1);

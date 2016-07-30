@@ -36,6 +36,22 @@
 			<hr></hr>
 			<div class="message">
 				<?php echo $first['message_fmt'];?>
+				
+	
+				<?php if($filelist) { ?>
+				<ul class="attachlist">
+					<?php foreach ($filelist as $attach) { ?>
+					<li aid="<?php echo $attach['aid'];?>">
+						<a href="<?php echo $attach['url'];?>" target="_blank">
+							<i class="icon filetype <?php echo $attach['filetype'];?>"></i> 
+							<?php echo $attach['orgfilename'];?>
+						</a>
+					</li>
+					<?php } ?>
+				</ul>
+				<?php } ?>
+				
+				
 			</div>
 		</div>
 		
