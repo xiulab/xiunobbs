@@ -43,12 +43,13 @@
 				
 			</div>
 			<?php } else { ?>
-				<p>查看详情</p>
+				<p><a href="<?php echo url("thread-$tid");?>">查看主题内容</a></p>
 			<?php } ?>
 		</div>
 		
+		
 		<div class="card post p-a-sm">
-			<table class="table table-hover postlist">
+			<table class="table table-hover postlist m-b-0">
 				<thead>
 					<tr>
 						<th colspan="2" class="p-a-xs">
@@ -67,7 +68,7 @@
 				
 					<?php include 'view/htm/post_list.inc.htm'; ?>
 					
-					<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>
+					
 					
 					<?php if(!empty($user)) { ?>
 					<tr class="post">
@@ -85,12 +86,12 @@
 									<dd class="text-right text-grey"><span class="floor"><?php echo ($thread['posts'] + 1);?></span>楼</dd>
 								</dl>
 								<div class="message m-t-xs">
-									<fieldset class="form-group">
-										<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message" style="height: 100px;"></textarea>
+									<fieldset class="form-group m-b-0">
+										<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message"></textarea>
 									</fieldset>
 								</div>
-								<div class="text-muted  m-t-xs date">
-									<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('post_create');?> </button>
+								<div class="text-muted  m-t-sm">
+									<button type="submit" class="btn btn-sm btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('post_create');?> </button>
 								</div>
 							</form>
 						</td>
@@ -99,6 +100,10 @@
 				</tbody>
 			</table>
 		</div>
+		
+		<?php if($pagination) { ?>
+		<nav class="text-center"><ul class="pagination m-y-xs"><?php echo $pagination; ?></ul></nav>
+		<?php }?>
 		
 	</div>
 	<div class="col-lg-3">
@@ -222,4 +227,7 @@ jmessagelist.each(function() {
 	});
 });
 
+var jmessage = $('#message');
+jmessage.on('focus', function() {if(jmessage.t) { clearTimeout(jmessage.t); jmessage.t = null; } jmessage.css('height', '6rem'); });
+jmessage.on('blur', function() {jmessage.t = setTimeout(function() { jmessage.css('height', '2.5rem');}, 1000); });
 </script>

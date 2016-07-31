@@ -208,6 +208,8 @@ dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
 #nav_mobile .nav-item {padding: 0.5rem}
 #nav_mobile .nav-item:hover {background: #444446;}
 
+#message {height: 2.4rem; transition: height 0.2s;}
+
 /* 靠的太远 */
 /*.navbar-nav .nav-item + .nav-item.username { margin-left: 0.3rem; }*/
 

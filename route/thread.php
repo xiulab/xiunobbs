@@ -88,6 +88,7 @@ if($action == 'create') {
 	$tid = param(1, 0);
 	$page = param(2, 1);
 	$keyword = param(3);
+	$pagesize = $conf['pagesize'];
 	$pagesize = 2;
 	
 	// hook thread_info_start.php

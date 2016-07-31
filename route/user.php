@@ -187,7 +187,7 @@ if($action == 'login') {
 	$page = param(3, 1);
 	$pagesize = 10; //$conf['pagesize'];
 	$totalnum = $_user['threads'];
-	$pages = pages("user-thread-$_uid-{page}.htm", $totalnum, $page, $pagesize);
+	$pages = pages(url("user-thread-$_uid-{page}"), $totalnum, $page, $pagesize);
 	$threadlist = mythread_find_by_uid($_uid, $page, $pagesize);
 		
 	// hook user_thread_end.php
