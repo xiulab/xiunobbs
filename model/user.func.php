@@ -262,23 +262,6 @@ function user_safe_info($user) {
 	return $user;
 }
 
-// 检测是否在恶意注册用户，如果同一个IP连续注册数太多，认为在灌水
-function user_check_flood($longip) {
-	// hook user_check_flood_start.php
-	global $conf;
-	if(!$conf['check_flood_on']) return FALSE;
-	$userlist = user_find(array(), array('uid'=>-1), 1, 20);
-	if(empty($userlist)) return FALSE;
-	$n = 0;
-	foreach($userlist as $user) {
-		if($user['create_ip'] == $longip) {
-			$n++;
-			if($n > $conf['check_flood']['users']) return TRUE;
-		}
-	}
-	// hook user_check_flood_end.php
-	return FALSE;
-}
 
 // 用户
 function user_token_get() {

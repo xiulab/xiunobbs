@@ -24,14 +24,8 @@ if($action == 'create') {
 	
 	$r = forum_access_user($fid, $gid, 'allowpost');
 	if(!$r) {
-		if($gid == 0) {
-			$r = forum_access_user($fid, 101, 'allowpost');
-			$r AND user_login_check($user);
-		}
 		message(-1, '您（'.$user['groupname'].'）无权限在此版块发帖');
 	}
-	
-	$conf['ipaccess_on'] AND !ipaccess_check($longip, 'posts') AND message(-1, '您的 IP 今日回帖数达到上限，请明天再来。');
 	
 	if($method == 'GET') {
 		
@@ -47,12 +41,6 @@ if($action == 'create') {
 		$doctype = param('doctype', 0);
 		//$gid != 1 AND $doctype != 1 AND $message = xn_html_safe($message);
 		xn_strlen($message) > 2028000 AND message('message', '内容太长');
-		
-		//$gid != 1 AND $message = badword_filter($message, $badword);
-		//$message === FALSE AND message('message', '内容中包含敏感关键词: '.$badword);
-		
-		// 检测是否灌水
-		//post_check_flood($gid, $tid, $message) AND message('message', '系统检测到您可能在灌水');
 		
 		// 检测是否超过最大回复数
 		$thread['posts'] >= 1000 AND message(-1, '该主题已经达到最大回复数 1000，不能再回复，请另起主题。');
@@ -89,7 +77,6 @@ if($action == 'create') {
 			ob_start();
 			include './view/htm/post_list.inc.htm';
 			$s = ob_get_clean();
-			$conf['ipaccess_on'] AND ipaccess_inc($longip, 'posts');
 			message(0, $s);
 		} else {
 			message(0, '回帖成功');
@@ -124,7 +111,6 @@ if($action == 'create') {
 		// 如果为数据库减肥，则 message 可能会被设置为空。
 		$post['message'] = htmlspecialchars($post['message'] ? $post['message'] : $post['message_fmt']);
 		
-		// 将未插入帖子的附件加入到末尾。
 		$attachlist = $imagelist = $filelist = array();
 		if($post['files']) {
 			list($attachlist, $imagelist, $filelist) = attach_find_by_pid($pid);
@@ -199,88 +185,6 @@ if($action == 'create') {
 	
 	message(0, lang('delete_success'));
 
-/*
-} elseif($action == 'upload') {
-	
-	// 允许的文件后缀名
-	$types = include './conf/attach.conf.php';
-	$allowtypes = $types['all'];
-	
-	empty($uid) AND message(-1, '游客不允许上传文件');
-	empty($group['allowattach']) AND $gid != 1 AND message(-1, '您无权上传');
-	
-	$conf['ipaccess_on'] AND !ipaccess_check($longip, 'attachs') AND message(-1, '您的 IP 今日上传附件数达到上限，请明天再来。');
-	$conf['ipaccess_on'] AND !ipaccess_check($longip, 'attachsizes') AND message(-1, '您的 IP 今日上传附件尺寸达到上限，请明天再来。');
-	
-	$isimage = param(2, 0);
-	$tid = 0;
-	$fid = 0;
-	
-	$upfile = param('upfile', '', FALSE);
-	empty($upfile) AND message(-1, 'upfile 数据为空');
-	$json = xn_json_decode($upfile);
-	empty($json) AND message(-1, '数据有问题: json 为空');
-	
-	$name = $json['name'];
-	$width = $json['width'];
-	$height = $json['height'];
-	$data = base64_decode($json['data']);
-	$size = strlen($data);
-	$type = attach_type($name, $types);
-	
-	empty($data) AND message(-1, '数据有问题, data 为空');
-	
-	if($isimage && $conf['tietuku_on']) {
-		include './plugin/xn_tietuku/tietuku.func.php';
-		$tmpfile = tempnam($conf['tmp_path'], 'tmp_');
-		file_put_contents($tmpfile, $data);
-		$r = tietuku_upload_file($tmpfile);
-		$r === FALSE AND message($errno, $errstr);
-		unlink($tmpfile);
-		message(0, array('url'=>$r['linkurl'], 'name'=>$name, 'width'=>$r['width'], 'height'=>$r['height']));
-	}
-	
-	$day = date('Ymd', $time);
-	$path = $conf['upload_path'].'attach/'.$day;
-	$url = $conf['upload_url'].'attach/'.$day;
-	!is_dir($path) AND (mkdir($path, 0777, TRUE) OR message(-2, '目录创建失败'));
-	
-	$savename = $uid.'_'.attach_safe_name($name, $allowtypes);
-	
-	$destfile = $path.'/'.$savename;
-	$desturl = $url.'/'.$savename;
-	
-	attach_create(array(
-		'tid'=>$tid,
-		'pid'=>0,
-		'uid'=>$uid,
-		'filesize'=>$size,
-		'width'=>$width,
-		'height'=>$height,
-		'filename'=>$day.'/'.$savename,
-		'filetype'=>$type,
-		'orgfilename'=>$name,
-		'create_date'=>$time,
-		'comment'=>'',
-		'downloads'=>'0',
-		'isimage'=>$isimage
-	)) OR message(-1, '保存附件数据失败');
-	
-	file_put_contents($destfile, $data) OR message(-1, '写入文件失败');
-	
-	$ext = file_ext($destfile);
-	if($width > 0 && $ext != 'gif') {
-		image_thumb($destfile, $destfile, $width, $height);
-	}
-	
-	$conf['ipaccess_on'] AND ipaccess_inc($longip, 'attachs');
-	$conf['ipaccess_on'] AND ipaccess_inc($longip, 'attachsizes', $size);
-	
-	if($ext == 'gif') {
-		list($width, $height, $type, $attr) = getimagesize($destfile);
-	}
-	message(0, array('url'=>$desturl, 'name'=>$name, 'width'=>$width, 'height'=>$height));*/
-	
 } else {
 	
 	message(-1, '没有此功能');

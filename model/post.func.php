@@ -70,16 +70,11 @@ function post_create($arr, $fid, $gid) {
 		runtime_set('posts+', 1);
 		runtime_set('todayposts+', 1);
 		forum__update($fid, array('todayposts+'=>1));
-		
-		// 最新回复
-		thread_lastpid_create($tid, $pid);
-		thread_tids_cache_delete_by_order($fid, 'lastpid');
 	}
 	
 	post_list_cache_delete($tid);
 	
 	// 更新板块信息。
-	thread_lastpid_cache_delete();
 	forum_list_cache_delete();
 	
 	// 关联附件
@@ -111,8 +106,6 @@ function post_update($pid, $arr, $tid = 0) {
 	// hook post_create_post__create_before.php
 	
 	$r = post__update($pid, $arr);
-	
-	post_list_cache_delete($tid);
 	
 	attach_assoc_post($pid);
 	
@@ -163,9 +156,6 @@ function post_delete($pid) {
 	
 	($post['images'] || $post['files']) AND attach_delete_by_pid($pid);
 	
-	// 检查 lastpid
-	thread_check_lastpid($tid, $pid);
-	
 	// hook post_delete_end.php
 	return $r;
 }
@@ -181,42 +171,14 @@ function post_delete_by_tid($tid) {
 	return count($postlist);
 }
 
-// 这些 pid 都是同一个 tid 下的，它与 post_delete() 是同级关系，不能互相调用。
 /*
-function post_delete_by_pids($pids) {
-	// hook post_delete_by_pids_start.php
-	if(empty($pids)) return TRUE;
-	$sqladd = implode(',', $pids);
-	$n = count($pids);
-	$postlist = post_find_by_pids($pids);
-	$tidarr = $uidarr = array();
-	foreach($postlist as $post) {
-		if($post['isfirst']) continue;
-		!isset($tidarr[$post['tid']]) AND $tidarr[$post['tid']] = 0;
-		 $tidarr[$post['tid']]++;
-		!isset($uidarr[$post['uid']]) AND $uidarr[$post['uid']] = 0;
-		$uidarr[$post['uid']]++;
-	}
-	foreach($tidarr as $tid=>$n) {
-		thread_update($tid, array('posts-'=>$n));
-		post_list_cache_delete($tid);
-	}
-	foreach($uidarr as $uid=>$n) {
-		$uid AND user_update($uid, array('posts-'=>$n));
-		
-	}
-	// hook post_delete_by_pids_end.php
-	return db_exec("DELETE FROM post WHERE pid IN($sqladd)");
-}
-*/
-
 function post_find_by_pids($pids) {
 	// hook post_find_by_pids_start.php
 	if(empty($pids)) return array();
 	$postlist = db_find('post', array('pid'=>$pids), array(), 1, 1000, 'pid');
 	// hook post_find_by_pids_end.php
 	return $postlist;
-}
+}*/
 
 function post_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook post_find_start.php
@@ -230,6 +192,7 @@ function post_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 2
 	return $postlist;
 }
 
+// 此处有缓存，是否有必要？
 function post_find_by_tid($tid, $pagesize = 0) {
 	// hook post_find_by_tid_start.php
 	global $conf;
@@ -305,53 +268,6 @@ function post_highlight_keyword($str, $k) {
 	$r = str_ireplace($k, '<span class="red">'.$k.'</span>', $str);
 	// hook post_highlight_keyword_end.php
 	return $r;
-}
-
-
-// 检测是否在灌水，如果近期连续发表了5篇主题，或者相同标题的文章，则认为在灌水。
-function post_check_flood($gid, $tid, $message) {
-	// hook post_check_flood_start.php
-	global $sid, $uid, $conf;
-	if(!$conf['check_flood_on']) return FALSE;
-	if($gid > 0 AND $gid < 5) return FALSE;
-	
-	$posts = 0;
-	$postlist = post_find_by_tid($tid);
-	if(empty($postlist)) return FALSE;
-	$postlist = array_slice($postlist, -20, 20);
-	foreach ($postlist as $post) {
-		if($post['uid'] == $uid || $uid == 0 && $post['sid'] == $sid) {
-			$posts++;
-			if($post['message'] == $message) {
-				return TRUE;
-			}
-		}
-	}
-	if($posts > $conf['check_flood']['posts']) return TRUE;
-	// hook post_check_flood_end.php
-	return FALSE;
-}
-
-// 将不存在的附件加入到 message
-function post_attach_list_add($imagelist, $filelist) {
-	// hook post_attach_list_add_start.php
-	$s = '';
-	if($imagelist || $filelist) {
-		$s = '<br>';
-		$s .= '<p class="margin">附件列表：</p>';
-		$s .= '<p class="hr"></p>';
-		$s .= '<ul>';
-		foreach ($imagelist as $attach) {
-			$s .= '<li><a href="upload/attach/'.$attach['filename'].'" target="_blank"><img src="upload/attach/'.$attach['filename'].'" width="'.$attach['width'].'" height="'.$attach['height'].'" /></a></li>';
-		}
-		foreach ($filelist as $file) {
-			$s .= '<li><i class="icon filetype '.$attach['filetype'].' small"></i> <a href="upload/attach/'.$attach['filename'].'" target="_blank">'.$attach['orgfilename'].'</a></li>';
-		}
-		$s .= '</ul>';
-	}
-	$s = htmlspecialchars($s);
-	// hook post_attach_list_add_end.php
-	return $s;
 }
 
 // hook post_func_php_end.php

@@ -54,10 +54,6 @@ if($action == 'login') {
 
 } elseif($action == 'create') {
 
-	$conf['ipaccess_on'] AND $conf['user_create_email_on'] AND !ipaccess_check($longip, 'mails') AND message(-1, '您的 IP 今日发送邮件数达到上限，请明天再来。');
-	$conf['ipaccess_on'] AND !ipaccess_check($longip, 'users') AND message(-1, '您的 IP 今日注册用户数达到上限，请明天再来。');
-	user_check_flood($longip) AND message(-1, '您当前 IP 注册太频繁，请稍后再注册。');
-	
 	// hook user_create_get_post.php
 	
 	if($method == 'GET') {
@@ -127,9 +123,6 @@ if($action == 'login') {
 	
 	empty($conf['user_create_email_on']) AND message(-1, '未开启邮箱验证。');
 	
-	$conf['ipaccess_on'] AND $conf['user_create_email_on'] AND !ipaccess_check($longip, 'mails') AND message(-1, '您的 IP 今日发送邮件数达到上限，请明天再来。');
-	$conf['ipaccess_on'] AND !ipaccess_check_freq($longip) AND message(0, '发送邮件比较耗费资源，请您休息一会再来。');
-	
 	$smtplist = include './conf/smtp.conf.php';
 	$n = array_rand($smtplist);
 	$smtp = $smtplist[$n];
@@ -153,7 +146,6 @@ if($action == 'login') {
 	// hookuser_sendinitpw_sendmail_after.php
 	
 	if($r === TRUE) {
-		$conf['ipaccess_on'] AND ipaccess_inc($longip, 'mails');
 		message(0, lang('user_send_init_pw_sucessfully'));
 	} else {
 		message(1, $errstr);
@@ -258,8 +250,6 @@ if($action == 'login') {
 	// hook user_sendreset_start.php
 	
 	!$conf['user_find_pw_on'] AND message(-1, '当前未开启找回密码功能。');
-	$conf['ipaccess_on'] AND $conf['user_find_pw_on'] AND !ipaccess_check($longip, 'mails') AND message(-1, '您的 IP 今日发送邮件数达到上限，请明天再来。');
-	$conf['ipaccess_on'] AND !ipaccess_check_freq($longip) AND message(0, '发送邮件比较耗费资源，请您休息一会再来。');
 	
 	$smtplist = include './conf/smtp.conf.php';
 	$n = array_rand($smtplist);
@@ -284,7 +274,6 @@ if($action == 'login') {
 	if($r === TRUE) {
 		
 		// hook user_sendreset_send_mail_ok.php
-		$conf['ipaccess_on'] AND ipaccess_inc($longip, 'mails');
 		message(0, '发送成功。');
 	} else {
 		// hook user_sendreset_send_mail_fail.php

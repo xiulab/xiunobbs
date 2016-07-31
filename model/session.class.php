@@ -196,11 +196,4 @@ function sess_start() {
 	//echo "sess_start() sid: $sid <br>\r\n";
 }
 
-function online_count() {
-	return db_count('session');
-}
-
-function online_find_cache() {
-	return db_find('session');
-}
 ?>

@@ -135,10 +135,6 @@ function forum_list_cache() {
 	$forumlist = cache_get('forumlist');
 	if($forumlist === NULL) {
 		$forumlist = forum_find();
-		$newtids = forum_new_tids();
-		foreach($forumlist as &$forum) {
-			$forum['newtids'] = empty($newtids[$forum['fid']]) ? array() : $newtids[$forum['fid']];
-		}
 		cache_set('forumlist', $forumlist, 60); // 最新发帖
 	}
 	
@@ -155,35 +151,6 @@ function forum_list_cache_delete() {
 	cache_delete('forumlist');
 	$deleted = TRUE;
 	// hook forum_list_cache_delete_end.php
-}
-
-// 获取板块的最新 tid
-/*function forum_new_tids($fid) {
-	// hook forum_new_tids_start.php
-	global $conf, $time;
-	$maxtid = table_day_maxid('thread', $time - $conf['new_thread_days'] * 86400);
-	$arrlist = db_find("SELECT tid,last_date FROM `bbs_thread` WHERE fid='$fid' AND tid>'$maxtid'");
-	$r = array();
-	foreach($arrlist as $arr) $r[$arr['tid']] = intval($arr['last_date']);
-	// hook forum_new_tids_end.php
-	return $r;
-}
-*/
-
-// 获取最新回复的 tid，返回数据结构： $arrlist[$fid][$tid] = $last_date;
-function forum_new_tids($threadlist = array()) {
-	// hook forum_new_tids_start.php
-	global $conf, $time;
-	empty($threadlist) AND $threadlist = thread_lastpid_find_cache();
-	$r = array();
-	$difftime = 86400 * $conf['new_thread_days'];
-	foreach($threadlist as $arr) {
-		$last_date = intval(max($arr['last_date'], $arr['create_date']));
-		if($time - $last_date > $difftime) continue; // 跳过
-		$r[$arr['fid']][$arr['tid']] = $last_date;
-	}
-	// hook forum_new_tids_end.php
-	return $r;
 }
 
 // 对 $forumlist 权限过滤，查看权限没有，则隐藏

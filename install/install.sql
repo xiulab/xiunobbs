@@ -146,48 +146,9 @@ CREATE TABLE bbs_thread (
   lastuid int(11) unsigned NOT NULL default '0',	# 最近参与的 uid
   lastpid int(11) unsigned NOT NULL default '0',	# 最后回复的 pid
   PRIMARY KEY (tid),					# 主键
+  KEY (lastpid),					# 最后回复排序
   KEY (fid, tid),					# 发帖时间排序，正序。数据量大时可以考虑建立小表，对小表进行分区优化，只有数据量达到千万级以上时才需要。
   KEY (fid, lastpid)					# 顶贴时间排序，倒序
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-# 置顶主题/最新主题，小表，记录 10 个，最新
-DROP TABLE IF EXISTS bbs_thread_top;
-CREATE TABLE bbs_thread_top (
-  fid smallint(6) NOT NULL default '0',			# 查找板块置顶
-  tid int(11) unsigned NOT NULL default '0',		# tid
-  top int(11) unsigned NOT NULL default '0',		# top: 0 是普通最新贴，> 0 置顶贴。
-  PRIMARY KEY (tid),					#
-  KEY (top, tid),					# 最新贴：top=0 order by tid desc / 全局置顶： top=3
-  KEY (fid, top)					# 版块置顶的贴 fid=1 and top=1
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-# 全站：最新发表的主题，超过100条，每日计划任务清理
-DROP TABLE IF EXISTS bbs_thread_new;
-CREATE TABLE bbs_thread_new (
-  tid int(11) unsigned NOT NULL default '0',		# tid
-  PRIMARY KEY (tid)					#
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-# 全站：最新回复的主题，超过100条，每日计划任务清理
-DROP TABLE IF EXISTS bbs_thread_lastpid;
-CREATE TABLE bbs_thread_lastpid (
-  fid int(11) unsigned NOT NULL default '0',		# fid
-  tid int(11) unsigned NOT NULL default '0',		# tid
-  lastpid int(11) unsigned NOT NULL default '0',	# lastpid
-  PRIMARY KEY (tid),					#
-  UNIQUE KEY (lastpid)					#
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-
-# 置顶主题/最新主题，小表，记录 10 个
-DROP TABLE IF EXISTS bbs_thread_top;
-CREATE TABLE bbs_thread_top (
-  fid smallint(6) NOT NULL default '0',			# fid，用于删除
-  tid int(11) unsigned NOT NULL default '0',		# tid
-  top int(11) unsigned NOT NULL default '0',		# top: 0 是普通最新贴，> 0 置顶贴。
-  PRIMARY KEY (tid),					#
-  KEY (top, tid),					# 最新贴：top=0 order by tid desc / 全局置顶： top=3
-  KEY (fid, top)					# 版块置顶的贴 fid=1 and top=1
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 论坛帖子数据，一页显示，不分页。
@@ -283,39 +244,6 @@ CREATE TABLE bbs_modlog (
   PRIMARY KEY (logid),
   KEY (uid, logid),
   KEY (tid)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-DROP TABLE IF EXISTS bbs_banip;
-CREATE TABLE bbs_banip (
-  banid int(11) unsigned NOT NULL auto_increment,	# banid
-  ip0 smallint(6) NOT NULL default '0',		#
-  ip1 smallint(6) NOT NULL default '0',		#
-  ip2 smallint(6) NOT NULL default '0',		#
-  ip3 smallint(6) NOT NULL default '0',		#
-  uid int(11) unsigned NOT NULL default '0',		# 添加人
-  create_date int(11) unsigned NOT NULL default '0',	# 添加时间
-  expiry int(11) unsigned NOT NULL default '0',		# 过期时间
-  PRIMARY KEY (banid),
-  KEY (ip0, ip1, ip2, ip3)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-# IP 的限制，每个IP 每日只能干的事情，用来限制灌水。防止捣乱。
-DROP TABLE IF EXISTS bbs_ipaccess;
-CREATE TABLE bbs_ipaccess (
-  ip int(11) unsigned NOT NULL,			# ip 地址
-  mails int(11) NOT NULL default '0',		# 每日发送邮件数
-  users int(11) NOT NULL default '0',		# 注册用户个数
-  threads int(11) NOT NULL default '0',		# 发表主题数
-  posts int(11) NOT NULL default '0',		# 发表回帖数
-  attachs int(11) NOT NULL default '0',		# 发表附件数
-  attachsizes int(11) NOT NULL default '0',	# 附件尺寸
-  last_date int(11) NOT NULL default '0',	# 最后一次操作的时间，用来检测频度
-  actions int(11) NOT NULL default '0',		# 今日总共操作的次数
-  action1 int(11) NOT NULL default '0',		# 预留1，供插件使用
-  action2 int(11) NOT NULL default '0',		# 预留2，供插件使用
-  action3 int(11) NOT NULL default '0',		# 预留3，供插件使用
-  action4 int(11) NOT NULL default '0',		# 预留4，供插件使用
-  PRIMARY KEY (ip)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
         
 # 持久的 key value 数据存储, ttserver, mysql

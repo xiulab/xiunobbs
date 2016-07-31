@@ -122,14 +122,8 @@ return array (
 	),*/
 	
 	'user_find_pw_on' => 0,		// 是否开启密码找回，需要 SMTP 有效。
-	'banip_on' => 0,		// 是否启用禁止 ip
-	'ipaccess_on' => 0,		// 是否启用 ip 访问控制，开启后将会防止灌水，每天的上限
-	'ipaccess' => array('mails'=>0, 'users'=>0, 'threads'=> 0, 'posts'=> 0, 'attachs'=>0, 'attachsizes'=>0, 'action1'=>0, 'action2'=>0, 'action3'=>0, 'action4'=>0),
 	
 	// todo: 插件
-	'check_flood_on' => 0,		// 开启防止灌水
-	'check_flood' => array('users'=>10, 'posts'=>10, 'threads'=>5),	// 一段时间内连续操作的数量上限
-	'badword_on' => 0,		// 开启关键词过滤
 	'url_rewrite_on' => 0,
 	'user_create_email_on' => 0,		// 是否开启邮箱验证
 	'user_find_pw_on' => 0,		// 是否开启邮箱验证

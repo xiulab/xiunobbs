@@ -16,7 +16,7 @@ function runtime_init() {
 		$runtime['todayusers'] = 0;
 		$runtime['todayposts'] = 0;
 		$runtime['todaythreads'] = 0;
-		$runtime['onlines'] = max(1, online_count());
+		//$runtime['onlines'] = max(1, online_count());
 		
 		// runtime_append
 		$arr = kv_get('runtime_append');

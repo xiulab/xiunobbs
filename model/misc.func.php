@@ -1,29 +1,5 @@
 <?php
 
-function badword_implode($glue1, $glue2, $arr) {
-	// hook badword_implode_start.php
-	if(empty($arr)) return '';
-	$s = '';
-	foreach($arr as $k=>$v) {
-		$s .= ($s ? $glue2 : '').$k.($v ? $glue1.$v : '');
-	}
-	// hook badword_implode_end.php
-	return $s;
-}
-
-// 对 key-value 数组进行组合
-function badword_explode($sep1, $sep2, $s) {
-	// hook badword_explode_start.php
-	$arr = $arr2 = $arr3 = array();
-	$arr = explode($sep2, $s);
-	foreach($arr as $v) {
-		$arr2 = explode($sep1, $v);
-		$arr3[$arr2[0]] = (isset($arr2[1]) ? $arr2[1] : '');
-	}
-	// hook badword_explode_end.php
-	return $arr3;
-}
-
 // 谨慎的保存配置文件，先备份，再保存。
 // 这里要小心覆盖 $conf;
 function conf_save($file, $conf2, $relative_path = '../') {
@@ -79,32 +55,6 @@ function conf_save($file, $conf2, $relative_path = '../') {
 	return TRUE;
 }
 
-// 变量的方式
-function conf_set($k, $v, $save = TRUE) {
-	// hook conf_set_start.php
-	global $conf;
-	$conf[$k] = $v;
-	// hook conf_set_end.php
-	return $save ? conf_save() : TRUE;
-}
-
-// 正则的方式修改配置文件，容易被写入 web shell
-/*function conf_set($k, $v, $conffile = './conf/conf.php') {
-	// hook conf_set_start.php
-	$s = file_get_contents($conffile);
-	$sep = "\n";
-	$s = str_replace("\r\n", $sep, $s);
-	$arr = explode($sep, trim($s));
-	
-	foreach($arr as $line=>&$s) {
-		$s = preg_replace('#\''.preg_quote($k).'\'\s*=\>\s*\'.*?\',#ism', "'$k' => '$v',", $s);
-		$s = preg_replace('#\''.preg_quote($k).'\'\s*=\>\s*\d+\s*,#ism', "'$k' => $v,", $s);
-	}
-	
-	$s = implode($sep, $arr);
-	return file_put_contents($conffile, $s, LOCK_EX);
-}*/
-
 // 正则的方式修改配置文件，不害怕 web shell 写入
 function json_conf_set($k, $v, $conffile = './conf.json') {
 	$s = file_get_contents($conffile);
@@ -123,82 +73,6 @@ function json_conf_set($k, $v, $conffile = './conf.json') {
 	return file_put_contents($conffile, $s, LOCK_EX);
 }
 
-// 正则的方式修改多行
-/*
-function conf_mset($replacearr, $start = FALSE, $end = FALSE, $conffile = './conf/conf.php') {
-	// hook conf_mset_start.php
-	$s = file_get_contents($conffile);
-	$sep = "\n";
-	$s = str_replace("\r\n", $sep, $s);
-	$arr = explode($sep, trim($s));
-	
-	foreach($arr as $line=>&$s) {
-		if($start !== FALSE && !($line >= $start && $line <= $end)) continue;
-		foreach ($replacearr as $k=>$v) {
-			$s = preg_replace('#\''.preg_quote($k).'\'\s*=\>\s*\'.*?\',#ism', "'$k' => '$v',", $s);
-			$s = preg_replace('#\''.preg_quote($k).'\'\s*=\>\s*\d+\s*,#ism', "'$k' => $v,", $s);
-		}
-	}
-	
-	$s = implode($sep, $arr);
-	// hook conf_mset_end.php
-	return file_put_contents($conffile, $s);
-}
-*/
-
-/*
-$s = file_get_contents($conffile);
-$s = conf_replace($s, array('sitename'=>$sitename, 'runlevel'=>$runlevel));
-file_put_contents($conffile, $s);
-*/
-/*
-function conf_replace($s, $replacearr) {
-	// hook conf_replace_start.php
-	// 从16行-33行，正则替换
-	
-	$sep = "\n";
-	$s = str_replace("\r\n", $sep, $s);
-	$arr = explode($sep, trim($s));
-	
-	foreach($arr as &$s) {
-		foreach($replacearr as $k=>$v) {
-			$s = preg_replace('#\''.preg_quote($k).'\'\s*=\>\s*\'.*?\',#ism', "'$k' => '$v',", $s);
-			$s = preg_replace('#\''.preg_quote($k).'\'\s*=\>\s*\d+\s*,#ism', "'$k' => $v,", $s);
-		}
-	}
-	
-	$s = implode($sep, $arr);
-	// hook conf_replace_end.php
-	return $s;
-}
-*/
-
-/*
-function str_line_replace($s, $startline, $endline, $replacearr) {
-	// hook str_line_replace_start.php
-	// 从16行-33行，正则替换
-	empty($startline) AND $startline = 1;
-	$sep = "\n";
-	$s = str_replace("\r\n", $sep, $s);
-	$arr = explode($sep, trim($s));
-	$arr1 = array_slice($arr, 0, $startline - 1); // 此处: startline - 1 为长度
-	$endline > count($arr)  AND $endline = count($arr);
-	$arr2 = array_slice($arr, $startline - 1, $endline - $startline + 1); // 此处: startline - 1 为偏移量
-	$arr3 = array_slice($arr, $endline);
-	
-	foreach($arr2 as &$s) {
-		foreach($replacearr as $k=>$v) {
-			$s = preg_replace('#\''.preg_quote($k).'\'\s*=\>\s*\'.*?\',(\s+)#ism', "'$k' => '$v',\${1}", $s);
-			$s = preg_replace('#\''.preg_quote($k).'\'\s*=\>\s*\d+\s*,(\s+)#ism', "'$k' => $v,\${1}", $s);
-		}
-	}
-	$arr = $arr1 + $arr2 + $arr3;
-	$s = implode($sep, $arr);
-	// hook str_line_replace_end.php
-	return $s;
-}
-*/
-
 // 检测站点的运行级别
 function check_runlevel() {
 	// hook check_runlevel_start.php
@@ -213,29 +87,6 @@ function check_runlevel() {
 		//case 5: break;
 	}
 	// hook check_runlevel_end.php
-}
-
-function check_banip($ip) {
-	// hook check_banip_start.php
-	global $conf, $gid;
-	if(empty($conf['banip_on'])) return;
-	if($gid == 1) return;
-	$r = banip_read_by_ip($ip);
-	$r AND message(-1, '您的 IP 已经被禁止。');
-	// hook check_banip_end.php
-}
-
-function check_standard_browser() {
-	// hook check_standard_browser_start.php
-	global $browser;
-	if($browser['name'] == 'ie' && $browser['version'] < 10) {
-		header('Location: browser.htm');
-		exit;
-		//return FALSE;
-	} else {
-		//return TRUE;
-	}
-	// hook check_standard_browser_end.php
 }
 
 /*

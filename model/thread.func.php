@@ -69,7 +69,6 @@ function thread_create($arr, &$pid) {
 	$pid = post__create($post, $gid);
 	if($pid === FALSE) return FALSE;
 	
-	// empty($pid) AND message(1, '创建帖子失败');
 	// 创建主题
 	$thread = array (
 		'fid'=>$fid,
@@ -96,9 +95,6 @@ function thread_create($arr, &$pid) {
 	// 关联
 	post__update($pid, array('tid'=>$tid), $tid);
 
-	// 最新发帖
-	thread_new_create($tid);
-	
 	// 我参与的发帖
 	$uid AND mythread_create($uid, $tid);
 	
@@ -108,12 +104,6 @@ function thread_create($arr, &$pid) {
 	// 全站发帖数
 	runtime_set('threads+', 1);
 	runtime_set('todaythreads+', 1);
-	
-	// 清理缓存
-	thread_tids_cache_delete($fid);
-	thread_new_cache_delete();
-	thread_lastpid_create($tid, $pid);
-	thread_lastpid_cache_delete();
 	
 	// 更新板块信息。
 	forum_list_cache_delete();
@@ -129,7 +119,6 @@ function thread_update($tid, $arr) {
 	$thread = thread__read($tid);
 	
 	if(isset($arr['subject']) && $arr['subject'] != $thread['subject']) {
-		thread_new_cache_delete();
 		$thread['top'] > 0 AND thread_top_cache_delete();
 	}
 	
@@ -138,15 +127,11 @@ function thread_update($tid, $arr) {
 		forum__update($arr['fid'], array('threads+'=>1));
 		forum__update($thread['fid'], array('threads-'=>1));
 		thread_top_update_by_tid($tid, $arr['fid']);
-		thread_lastpid_cache_delete();
 	}
-	
-	!empty($thread['fid']) AND thread_tids_cache_delete($thread['fid']);
 	
 	if(!$arr) return TRUE;
 	
 	$r = thread__update($tid, $arr);
-	!empty($arr['fid']) AND thread_tids_cache_delete($arr['fid'], TRUE);
 	
 	// hook thread_update_end.php
 	return $r;
@@ -199,8 +184,6 @@ function thread_delete($tid) {
 	// 删除我的主题
 	$uid AND mythread_delete($uid, $tid);
 	
-	// 删除附件
-	
 	// 更新统计
 	forum__update($fid, array('threads-'=>1));
 	user__update($uid, array('threads-'=>1));
@@ -209,16 +192,7 @@ function thread_delete($tid) {
 	runtime_set('threads-', 1);
 	
 	// 清除相关缓存
-	thread_tids_cache_delete($fid);
 	forum_list_cache_delete();
-	
-	// 最新和置顶也清理
-	thread_new_delete($tid);
-	thread_top_delete($tid);
-	thread_lastpid_delete($tid);
-	thread_new_cache_delete();
-	thread_top_cache_delete();
-	thread_lastpid_cache_delete();
 	
 	// hook thread_delete_end.php
 	return $r;
@@ -233,39 +207,16 @@ function thread_find($cond = array(), $orderby = array(), $page = 1, $pagesize =
 }
 
 // $order: tid/lastpid
-// 按照: 发帖时间/最后回复时间/喜欢数 倒序
+// 按照: 发帖时间/最后回复时间 倒序
 function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'tid') {
 	// hook thread_find_by_fid_start.php
 	global $conf, $forumlist;
-	$key = "forum_tids_{$order}_$fid";
-	if($page <= $conf['cache_thread_list_pages']) {
-		$tids = cache_get($key);
-		if($tids === NULL) {
-			$tids = thread_find_tids($fid, $pagesize, $order);
-			cache_set($key, $tids);
-		}
-		$threadlist = thread_find_by_tids($tids, $page, $pagesize, $order); // 对数组分页
-	} else {
-		$desc = TRUE;
-		$limitpage = 50000; // 如果需要防止 CC 攻击，可以调整为 5000
-		if($page > 100) {
-			$forum = $forumlist[$fid];
-			$totalpage = ceil($forum['threads'] / $pagesize);
-			$halfpage = ceil($totalpage / 2);
-			if($halfpage > $limitpage && $page > $limitpage && $page < ($totalpage - $limitpage)) {
-				$page = $limitpage;
-			}
-			if($page > $halfpage) {
-				$page = max(1, $totalpage - $page);
-				$threadlist = thread_find(array('fid'=>$fid), array($order=>1), $page, $pagesize);
-				$threadlist = array_reverse($threadlist, TRUE);
-				$desc = FALSE;
-			}
-		}
-		if($desc) {
-			$threadlist = thread_find(array('fid'=>$fid), array($order=>-1), $page, $pagesize);
-		}
-	}
+	
+	$cond = array();
+	$fid AND $cond['fid'] = $fid;
+	$orderby = array($order=>-1);
+	$threadlist = thread_find($cond, $orderby, $page, $pagesize);
+	
 	// 查找置顶帖
 	if($order == $conf['order_default'] && $page == 1) {
 		//$toplist3 = thread_top_find(0);
@@ -292,49 +243,6 @@ function thread_find_by_keyword($keyword) {
 	return $threadlist;
 }
 
-// 前 10 页 tids
-function thread_find_tids($fid, $pagesize = 20, $order = 'tid') {
-	// hook thread_find_tids_start.php
-	global $conf;
-	$limit = $pagesize * $conf['cache_thread_list_pages'];
-	$tidlist = db_find('thread', array('fid'=>$fid), array($order=>-1), 1, $limit, 'tid');
-	$tids = arrlist_values($tidlist, 'tid');
-	// hook thread_find_tids_end.php
-	return $tids;
-}
-
-function thread_find_by_tids($tids, $page = 1, $pagesize = 20, $order = 'tid') {
-	// hook thread_find_by_tids_start.php
-	$start = ($page - 1) * $pagesize;
-	$tids = array_slice($tids, $start, $pagesize);
-	if(!$tids) return array();
-	$threadlist = db_find('thread', array('tid'=>$tids), array($order=>-1), 1, 100, 'tid');
-	if($threadlist) foreach($threadlist as &$thread) thread_format($thread);
-	// hook thread_find_by_tids_end.php
-	return $threadlist;
-}
-
-// $order: tid/lastpid
-function thread_tids_cache_delete_by_order($fid, $order = 'tid') {
-	// hook thread_tids_cache_delete_by_order_start.php
-	$key = "forum_tids_{$order}_$fid";
-	cache_delete($key);
-	// hook thread_tids_cache_delete_by_order_end.php
-}
-
-// 更新三种缓存，如果指定了 $tid ，则判断在缓存内才更新。
-function thread_tids_cache_delete($fid, $force = FALSE) {
-	// hook thread_tids_cache_delete_start.php
-	global $conf;
-	static $deleted = FALSE;
-	if($deleted && !$force) return;
-	$limit = $conf['cache_thread_list_pages'] * $conf['pagesize'];
-	foreach(array('tid', 'lastpid') as $v) {
-		thread_tids_cache_delete_by_order($fid, $v);
-	}
-	$deleted = TRUE;
-	// hook thread_tids_cache_delete_end.php
-}
 
 function thread_format(&$thread) {
 	// hook thread_format_start.php
@@ -405,27 +313,6 @@ function thread_get_level($n, $levelarr) {
 	return $k;
 }
 
-// 检测是否在灌水，如果近期连续发表了5篇主题，或者相同标题的文章，则认为在灌水。
-function thread_check_flood($gid, $fid, $subject) {
-	// hook thread_check_flood_start.php
-	global $sid, $uid, $conf;
-	if(!$conf['check_flood_on']) return FALSE;
-	if($gid > 0 AND $gid < 5) return FALSE;
-	$threads = 0;
-	$threadlist = thread_find_by_fid($fid, 1, 10, 'tid');
-	if(empty($threadlist)) return FALSE;
-	foreach ($threadlist as $thread) {
-		if($thread['uid'] == $uid || $uid == 0 && $thread['sid'] == $sid) {
-			$threads++;
-			if($thread['subject'] == $subject) {
-				return TRUE;
-			}
-		}
-	}
-	if($threads > $conf['check_flood']['threads']) return TRUE;
-	// hook thread_check_flood_end.php
-	return FALSE;
-}
 
 // 对 $threadlist 权限过滤
 function thread_list_access_filter(&$threadlist, $gid) {
@@ -442,22 +329,16 @@ function thread_list_access_filter(&$threadlist, $gid) {
 	// hook thread_list_access_filter_end.php
 }
 
-function thread_check_lastpid($tid, $lastpid) {
-	// hook thread_check_lastpid_start.php
-	// 查找最新的 pid
-	$thread = thread_read_cache($tid);
-	if(empty($thread)) return;
-	if($thread['lastpid'] == $lastpid) {
-		$arr = db_find_one('post', array('tid'=>$tid), array('pid'=>-1), 'pid');
-		if(empty($arr)) return;
-		$lastpid = $arr['pid'];
-		db_update('thread', array('tid'=>$tid), array('lastpid'=>$lastpid));
-		// 如果在最新主题当中，应该清理掉。
-		//thread_lastpid_truncate();
-	}
-	// hook thread_check_lastpid_end.php
+function thread_find_by_tids($tids, $page = 1, $pagesize = 20, $order = 'tid') {
+	// hook thread_find_by_tids_start.php
+	$start = ($page - 1) * $pagesize;
+	$tids = array_slice($tids, $start, $pagesize);
+	if(!$tids) return array();
+	$threadlist = db_find('thread', array('tid'=>$tids), array($order=>-1), 1, 100, 'tid');
+	if($threadlist) foreach($threadlist as &$thread) thread_format($thread);
+	// hook thread_find_by_tids_end.php
+	return $threadlist;
 }
-
 
 // hook thread_func_php_end.php
 

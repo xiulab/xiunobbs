@@ -13,8 +13,6 @@ function thread_top_change($tid, $top = 0) {
 		$fid = $thread['fid'];
 		$tid = $thread['tid'];
 		thread_top_cache_delete();
-		thread_tids_cache_delete($fid);
-		thread_new_cache_delete();
 		
 		$arr = array('fid'=>$fid, 'tid'=>$tid, 'top'=>$top);
 		$r = db_replace('thread_top', $arr);

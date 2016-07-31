@@ -42,25 +42,15 @@ function cron_run($force = 0) {
 			forum_list_cache_delete();
 			
 			
-			// 清理最新发帖，只保留 100 条。
-			thread_new_gc();
-			thread_lastpid_gc();
-			
 			// 清理在线
 			session_gc();
 			
 			// 清理临时附件
 			attach_gc();
 			
-			// 清空每日 IP 限制
-			ipaccess_truncate();
-			
 			list($y, $n, $d) = explode(' ', date('Y n j', $time)); 	// 0 点
 			$today = mktime(0, 0, 0, $n, $d, $y);			// -8 hours
 			runtime_set('cron_2_last_date', $today, TRUE);		// 加到1天后
-			
-			// 每日生成最新的 sitemap
-			thread_new_sitemap();
 			
 			// 往前推8个小时，尽量保证在前一天
 			table_day_cron($time - 8 * 3600);

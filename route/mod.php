@@ -153,7 +153,7 @@ if($action == 'top') {
 	
 	$r = user_delete($_uid);
 	$r === FALSE ? message(-1, '删除失败') : message(0, '删除成功');
-	
+/*
 } elseif($action == 'banip') {
 	
 	$method != 'POST' AND message(-1, 'Method error');
@@ -191,6 +191,7 @@ if($action == 'top') {
 		}
 	}
 	$r === FALSE ? message(-1, '操作失败') : message(0, '操作成功');
+*/
 }
 
 
