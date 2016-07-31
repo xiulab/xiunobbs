@@ -29,8 +29,6 @@ if($action == 'create') {
 	
 	if($method == 'GET') {
 		
-		check_standard_browser();
-		
 		include './view/htm/post.htm';
 		
 	} else {
@@ -179,7 +177,7 @@ if($action == 'create') {
 		thread_delete($tid);
 	} else {
 		post_delete($pid);
-		post_list_cache_delete($tid);
+		//post_list_cache_delete($tid);
 	}
 	
 	

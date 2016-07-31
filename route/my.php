@@ -16,40 +16,6 @@ if(empty($action)) {
 } elseif($action == 'profile') {
 	
 	include './view/htm/my_profile.htm';
-/*
-} elseif($action == 'profile') {
-		
-	if($method == 'GET') {
-
-		include './view/htm/my_profile.htm';
-	
-	} else {
-		
-		$username = param('username');
-		$email = param('email');
-		!is_username($username, $err) AND message(1, $err);
-		!is_email($email, $err) AND message(2, $err);
-		$update = array();
-		if($username != $user['username']) {
-			mb_strlen($username, 'UTF-8') > 32 AND message(1, '用户名 最长为 32 个字符。');
-			$u = user_read_by_username($username);
-			$u AND message(1, '用户名已经存在，更换其它名字试试。');
-			$update['username'] = $username;
-		}
-		if($email != $user['email']) {
-			mb_strlen($email, 'UTF-8') > 40 AND message(1, 'EMAIL 最长为 40 个字符。');
-			$u = user_read_by_email($email);
-			$u AND message(2, 'Email 已经存在，更换其它 Email 试试。');
-			$update['email'] = $email;
-		}
-		if($update) {
-			$r = user_update($uid, $update);
-			$r !== FALSE ? message(0, '修改成功') :  message(10, '修改失败');
-		} else {
-			message(0, '已保存');
-		}
-	}
-*/
 
 } elseif($action == 'password') {
 	

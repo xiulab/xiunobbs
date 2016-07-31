@@ -691,62 +691,6 @@ $.xpost = function(url, postdata, callback, progress_callback) {
 };
 
 /*
-	异步转同步的方式执行 ajax 请求
-	用法：
-	$.xget_sync(['1.htm', 'index.htm', '3.htm'], function(code, message, i){
-		console.log(i+', code:'+code);
-	}, function(code, message) {
-		console.log();
-	});
-*/
-/*
-$.xget_sync = function(urlarr, once_callback, complete_callback) {
-	var arr = [];
-	for(var i=0; i<urlarr.length; i++) {
-		+function(i) {
-			var url = urlarr[i];
-			arr.push(function(callback) {
-				$.xget(url, function(code, message) {
-					once_callback(code, message, i);
-					callback(null, {code:code, message:message});
-				});
-			});
-		}(i);
-	};
-	async.series(arr, function(err, result) {
-		if(err) {
-			complete_callback(-1, result);
-		} else {
-			complete_callback(0, result);
-		}
-	});
-}
-
-$.xpost_sync = function(urlarr, postdataarr, once_callback, complete_callback) {
-	var arr = [];
-	for(var i=0; i<urlarr.length; i++) {
-		var url = urlarr[i];
-		var postdata = postdataarr[i];
-		+function(i, url, postdata, once_callback) {
-			arr.push(function(callback) {
-				$.xpost(url, postdata, function(code, message) {
-					once_callback(code, message, i);
-					callback(null, {code:code, message:message});
-				});
-			});
-		}(i, url, postdata, once_callback);
-	}
-	async.series(arr, function(err, result) {
-		if(err) {
-			complete_callback(-1, result);
-		} else {
-			complete_callback(0, result);
-		}
-	});
-}
-*/
-
-/*
 	功能：
 		异步加载 js, 加载成功以后 callback
 	用法：

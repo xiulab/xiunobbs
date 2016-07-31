@@ -153,6 +153,14 @@
 					<?php } ?>
 					<hr class="m-y-0" />
 					
+					<!-- 个人资料 -->
+					<?php if($uid) { ?>
+					<li class="nav-item">
+						<a class="nav-link" href="<?php echo url('my');?>"><i class="icon-user"></i> <?php echo lang('user_profile');?></a>
+					</li>
+					<hr class="m-y-0" />
+					<?php } ?>
+					
 					<!-- 后台 -->
 					<?php if($gid == 1) { ?>
 					<li class="nav-item">

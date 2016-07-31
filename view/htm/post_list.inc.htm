@@ -26,22 +26,7 @@
 							
 								<?php echo $_post['message_fmt'];?>
 								
-								
-	
-								<?php if($filelist) { ?>
-								<ul class="attachlist">
-									<?php foreach ($filelist as $attach) { ?>
-									<li aid="<?php echo $attach['aid'];?>">
-										<a href="<?php echo $attach['url'];?>" target="_blank">
-											<i class="icon filetype <?php echo $attach['filetype'];?>"></i> 
-											<?php echo $attach['orgfilename'];?>
-										</a>
-									</li>
-									<?php } ?>
-								</ul>
-								<?php } ?>
-								
-								
+								<?php echo post_file_list_html($_post['filelist']);?>
 								
 							</div>
 						</td>

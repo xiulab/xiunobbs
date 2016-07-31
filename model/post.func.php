@@ -72,7 +72,7 @@ function post_create($arr, $fid, $gid) {
 		forum__update($fid, array('todayposts+'=>1));
 	}
 	
-	post_list_cache_delete($tid);
+	//post_list_cache_delete($tid);
 	
 	// 更新板块信息。
 	forum_list_cache_delete();
@@ -151,7 +151,7 @@ function post_delete($pid) {
 		$uid AND user__update($uid, array('posts-'=>1));
 		runtime_set('posts-', 1);
 	} else {
-		post_list_cache_delete($tid);
+		//post_list_cache_delete($tid);
 	}
 	
 	($post['images'] || $post['files']) AND attach_delete_by_pid($pid);
@@ -171,15 +171,6 @@ function post_delete_by_tid($tid) {
 	return count($postlist);
 }
 
-/*
-function post_find_by_pids($pids) {
-	// hook post_find_by_pids_start.php
-	if(empty($pids)) return array();
-	$postlist = db_find('post', array('pid'=>$pids), array(), 1, 1000, 'pid');
-	// hook post_find_by_pids_end.php
-	return $postlist;
-}*/
-
 function post_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook post_find_start.php
 	$postlist = post__find($cond, $orderby, $page, $pagesize);
@@ -193,19 +184,15 @@ function post_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 2
 }
 
 // 此处有缓存，是否有必要？
-function post_find_by_tid($tid, $pagesize = 0) {
+function post_find_by_tid($tid, $page = 1, $pagesize = 50) {
 	// hook post_find_by_tid_start.php
 	global $conf;
 	empty($pagesize) AND $pagesize = $conf['postlist_pagesize'];
 
-	$key = "postlist_$tid";
-	$postlist = cache_get($key);
-	if($postlist === NULL || DEBUG) {
-		$postlist = post__find(array('tid'=>$tid), array('pid'=>1), 1, $pagesize);
-		cache_set($key, $postlist);
-	}
+	$postlist = post__find(array('tid'=>$tid), array('pid'=>1), $page, $pagesize);
+	
 	if($postlist) {
-		$floor = 0;
+		$floor = ($page - 1)* $pagesize;
 		foreach($postlist as &$post) {
 			$post['floor'] = $floor++;
 			post_format($post);
@@ -214,14 +201,14 @@ function post_find_by_tid($tid, $pagesize = 0) {
 	// hook post_find_by_tid_end.php
 	return $postlist;
 }
-
+/*
 function post_list_cache_delete($tid) {
 	// hook post_list_cache_delete_start.php
 	global $conf;
 	$r = cache_delete("postlist_$tid");
 	// hook post_list_cache_delete_end.php
 	return $r;
-}
+}*/
 
 // ------------> 其他方法
 
@@ -243,6 +230,13 @@ function post_format(&$post) {
 	$post['allowdelete'] = ($uid == $post['uid']);
 	
 	$post['user_url'] = url("user-$post[uid]".($post['uid'] ? '' : "-$post[pid]"));
+	
+	if($post['files'] > 0) {
+		list($attachlist, $imagelist, $filelist) = attach_find_by_pid($post['pid']);
+		$post['filelist'] = $filelist;
+	} else {
+		$post['filelist'] = array();
+	}
 	
 	// 内容转换:更多格式用插件实现
 	
@@ -268,6 +262,23 @@ function post_highlight_keyword($str, $k) {
 	$r = str_ireplace($k, '<span class="red">'.$k.'</span>', $str);
 	// hook post_highlight_keyword_end.php
 	return $r;
+}
+
+// 公用的附件模板，采用函数，效率比 include 高。
+function post_file_list_html($filelist, $include_delete = FALSE) {
+	if(empty($filelist)) return '';
+	$s = '<ul class="attachlist">'."\r\n";
+	foreach ($filelist as $attach) {
+		$s .= '<li aid="'.$attach['aid'].'">'."\r\n";
+		$s .= '		<a href="'.$attach['url'].'" target="_blank">'."\r\n";
+		$s .= '			<i class="icon filetype '.$attach['filetype'].'"></i>'."\r\n";
+		$s .= '			'.$attach['orgfilename']."\r\n";
+		$s .= '		</a>'."\r\n";
+		$include_delete AND $s .= '		<a href="javascript:void(0)" class="delete m-l-1"><i class="icon-remove"></i> 删除</a>'."\r\n";
+		$s .= '</li>'."\r\n";
+	};
+	$s .= '</ul>'."\r\n";
+	return $s;
 }
 
 // hook post_func_php_end.php

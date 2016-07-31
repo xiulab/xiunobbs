@@ -43,6 +43,7 @@ return array(
 	'user_create'=>'用户注册',
 	'user_create_sucessfully'=>'用户注册成功',
 	'user_login'=>'用户登陆',
+	'user_profile'=>'个人资料',
 	
 	'subject'=>'主题',
 	'message'=>'内容',

@@ -289,7 +289,7 @@ function pagination($url, $totalnum, $page, $pagesize = 20) {
 	if($start > 1) $s .= '<li class="page-item"><a href="'.str_replace('{page}', 1, $url).'">1 '.($start > 2 ? '... ' : '').'</a></li>'."\r\n";
 	for($i=$start; $i<=$end; $i++) {
 		if($i == $page) {
-			$s .= '<li class="page-item"><a href="'.str_replace('{page}', $i, $url).'" class="page-link active">'.$i.'</a></li>'."\r\n";// active
+			$s .= '<li class="page-item active"><a href="'.str_replace('{page}', $i, $url).'" class="page-link">'.$i.'</a></li>'."\r\n";// active
 		} else {
 			$s .= '<li class="page-item"><a href="'.str_replace('{page}', $i, $url).'" class="page-link">'.$i.'</a></li>'."\r\n";
 		}

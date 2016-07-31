@@ -70,24 +70,10 @@
 						<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message" style="height: 300px;"><?php echo $form_message;?></textarea>
 					</fieldset>
 					<div class="row">
-						<div class="col-lg-10" id="attachlist_parent">
+						<div class="col-lg-10 attachlist_parent">
 							<p class="small text-left"><label class="addattach" id="addattach"><i class="icon-folder-open-alt"></i> <span>添加附件</span><input type="file"  multiple="multiple" /></label></p>
 							
-							
-							<?php if($filelist) { ?>
-							<ul id="attachlist" class="attachlist">
-								<?php foreach ($filelist as $attach) { ?>
-								<li aid="<?php echo $attach['aid'];?>">
-									<a href="<?php echo $attach['url'];?>" target="_blank">
-										<i class="icon filetype <?php echo $attach['filetype'];?>"></i> 
-										<?php echo $attach['orgfilename'];?>
-									</a>
-									<a href="javascript:void(0)" class="delete m-l-1"><i class="icon-remove"></i> 删除</a>
-								</li>
-								<?php } ?>
-							</ul>
-							<?php } ?>
-							
+							<?php echo post_file_list_html($filelist, TRUE);?>
 							
 							<!--{hook thread_create_bottom_right.htm}-->
 						</div>
@@ -116,7 +102,7 @@ jform.on('submit', function() {
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
 			$.alert(message);
-			jsubmit.button(message).delay(3000).location('<?php echo $location;?>');
+			jsubmit.button(message).delay(1000).location('<?php echo $location;?>');
 		} else if(code < 0) {
 			alert(message);
 			jsubmit.button('reset');
@@ -140,17 +126,18 @@ $('#addattach').on('change', function(e) {
 			var url = message.url;
 			var filetype = message.filetype;
 			var aid = message.aid;
-			if(!$('#attachlist').length) {
-				$('#attachlist_parent').append('<ul id="attachlist"><ul>');
+			
+			if(!$('.attachlist_parent').find('.attachlist').length) {
+				$('.attachlist_parent').append('<ul class="attachlist"><ul>');
 			}
-			$('#attachlist').append('<li aid="'+aid+'"><a href="'+message.url+'" target="_blank"><i class="icon filetype '+filetype+'"></i> '+message.orgfilename+'</a> <a href="javascript:void(0);" class="delete m-l-1"><i class="icon-remove"></i> 删除</a></li>');
+			$('.attachlist').append('<li aid="'+aid+'"><a href="'+message.url+'" target="_blank"><i class="icon filetype '+filetype+'"></i> '+message.orgfilename+'</a> <a href="javascript:void(0);" class="delete m-l-1"><i class="icon-remove"></i> 删除</a></li>');
 			
 			callback();
 		});
 	});
 });
 // 删除附件
-$('#attachlist_parent').on('click', 'a.delete', function() {
+$('.attachlist_parent').on('click', 'a.delete', function() {
 	var jlink = $(this);
 	var jli = jlink.parents('li');
 	var aid = jli.attr('aid');

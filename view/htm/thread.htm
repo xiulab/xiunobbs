@@ -15,7 +15,7 @@
 					</a>
 				</dt>
 				<dd>
-					<h3><?php echo $thread['subject'];?></h3>
+					<h3 class="break-all"><?php echo $thread['subject'];?></h3>
 					<dl class="row small">
 						<dt>
 							<span class="username text-muted"><?php echo $thread['username'];?></span>
@@ -37,20 +37,7 @@
 			<div class="message">
 				<?php echo $first['message_fmt'];?>
 				
-	
-				<?php if($filelist) { ?>
-				<ul class="attachlist">
-					<?php foreach ($filelist as $attach) { ?>
-					<li aid="<?php echo $attach['aid'];?>">
-						<a href="<?php echo $attach['url'];?>" target="_blank">
-							<i class="icon filetype <?php echo $attach['filetype'];?>"></i> 
-							<?php echo $attach['orgfilename'];?>
-						</a>
-					</li>
-					<?php } ?>
-				</ul>
-				<?php } ?>
-				
+				<?php echo post_file_list_html($filelist);?>
 				
 			</div>
 		</div>
