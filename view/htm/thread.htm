@@ -5,7 +5,7 @@
 		<ol class="breadcrumb m-b-sm hidden-lg-down">
 			<li><a href="./" aria-label="首页"><i class="icon-home"></i></a></li>
 			<li><a href="<?php echo url("forum-$fid");?>"><?php echo $forum['name'];?></a></li>
-			<li><a href="<?php echo url("thread-$tid");?>"><?php echo $thread['subject'];?></a></li>
+			<li><a href="<?php echo url("thread-$tid");?>" title="返回主题第一页"><?php echo $thread['subject'];?></a></li>
 		</ol>
 		<div class="card p-a-sm">
 			<dl class="row">
@@ -61,6 +61,8 @@
 				<tbody>
 				
 					<?php include 'view/htm/post_list.inc.htm'; ?>
+					
+					<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>
 					
 					<?php if(!empty($user)) { ?>
 					<tr class="post">

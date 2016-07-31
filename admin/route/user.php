@@ -21,7 +21,6 @@ if(empty($action) || $action == 'list') {
 	}
 
 	$n = user_count($cond);
-	$page = page($page, $n, $pagesize);
 	$userlist = user_find($cond, array('uid'=>-1), $page, $pagesize);
 	$pagination = pagination(url("user-list-$srchtype-".urlencode($keyword).'-{page}'), $n, $page, $pagesize);
 	$pager = pager(url("user-list-$srchtype-".urlencode($keyword).'-{page}'), $n, $page, $pagesize);

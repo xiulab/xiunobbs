@@ -86,8 +86,8 @@ if($action == 'create') {
 	
 	// thread-{tid}-{page}-{keyword}.htm
 	$tid = param(1, 0);
-	$page = param(1, 1);
-	$keyword = param(2);
+	$page = param(2, 1);
+	$keyword = param(3);
 	
 	// hook thread_info_start.php
 	$thread = thread_read($tid);
@@ -104,12 +104,11 @@ if($action == 'create') {
 	$first = $postlist[$thread['firstpid']];
 	unset($postlist[$thread['firstpid']]);
 	
-	$header['title'] = $thread['subject'].'-'.$forum['name'].'-'.$conf['sitename']; 		// 网站标题
-	$header['keywords'] = $header['title']; 							// 关键词
-	
+	$keywordurl = '';
 	if($keyword) {
 		$thread['subject'] = post_highlight_keyword($thread['subject'], $keyword);
 		//$first['message'] = post_highlight_keyword($first['subject']);
+		$keywordurl = "-$keyword";
 	}
 	$allowpost = forum_access_user($fid, $gid, 'allowpost') ? 1 : 0;
 	$allowupdate = forum_access_mod($fid, $gid, 'allowupdate') ? 1 : 0;
@@ -118,21 +117,18 @@ if($action == 'create') {
 	forum_access_user($fid, $gid, 'allowread') OR message(-1, '您所在的用户组无权访问该板块。');
 	
 	$pagesize = $conf['pagesize'];
-	$pagination = pagination("thread-$tid-{page}.htm", $forum['threads'], $page, $pagesize);
-	$threadlist = thread_find(array('fid'=>$fid), array('tid'=>-1), $page = 1, $pagesize);
+	$pagination = pagination("thread-$tid-{page}$keywordurl.htm", $thread['posts'], $page, $pagesize);
 	
 	$attachlist = $imagelist = $filelist = array();
 	$first['files'] AND list($attachlist, $imagelist, $filelist) = attach_find_by_pid($thread['firstpid']);
 	
 	thread_inc_views($tid); // 如果是大站，可以用单独的点击服务，减少 db 压力
 	
+	$header['title'] = $thread['subject'].'-'.$forum['name'].'-'.$conf['sitename']; 		// 网站标题
+	$header['mobile_title'] = '帖子详情';
+	$header['keywords'] = $header['title']; 
 	$header['navs'][] = "<a href=\"forum-$fid.htm\">$forum[name]</a>";
 	$header['navs'][] = "<a href=\"$thread[url]\">$thread[subject]</a>";
-	$header['mobile_title'] = '帖子详情';
-	
-	if(!$group['allowviewip']) {
-		unset($thread['userip']);
-	}
 	
 	// hook thread_info_end.php
 	include './view/htm/thread.htm';

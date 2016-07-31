@@ -359,11 +359,11 @@ function simple_pages($url, $totalnum, $page, $pagesize = 20) {
 }
 */
 
-function page($page, $n, $pagesize) {
+/*function page($page, $n, $pagesize) {
 	$total = ceil($n / $pagesize);
 	$total < 1 AND $total = 1;
 	return mid($page, 1, $total);
-}
+}*/
 
 function mid($n, $min, $max) {
 	if($n < $min) return $min;

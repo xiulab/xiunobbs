@@ -336,7 +336,6 @@ if($action == 'login') {
 	$header['mobile_title'] = $_user['username'];
 	
 	$page = param(2, 1);
-	$page = page($page, $_user['threads'], 10);
 	$pagesize = 10;
 	$pagination = pagination(url("user-$_uid-{page}"), $_user['threads'], $page, $pagesize);
 	

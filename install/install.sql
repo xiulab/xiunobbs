@@ -132,7 +132,7 @@ CREATE TABLE bbs_thread (
   tid int(11) unsigned NOT NULL auto_increment,		# 主题id
   top tinyint(1) NOT NULL default '0',			# 置顶级别: 0: 普通主题, 1-3 置顶的顺序
   uid int(11) unsigned NOT NULL default '0',		# 用户id
-  userip int(11) unsigned NOT NULL default '0',		# 发帖时用户ip ip2long()
+  userip int(11) unsigned NOT NULL default '0',		# 发帖时用户ip ip2long()，主要用来清理
   subject char(128) NOT NULL default '',		# 主题
   create_date int(11) unsigned NOT NULL default '0',	# 发帖时间
   last_date int(11) unsigned NOT NULL default '0',	# 最后回复时间
