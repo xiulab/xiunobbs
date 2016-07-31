@@ -72,9 +72,10 @@ $(function() {
 		
 		var me = this;
 		var xn_upload_handler = function(e) {
-			var items = e.type == 'paste' ? get_paste_image(e.originalEvent) : get_drop_image(e.originalEvent);
-			if(!items) return;
-			$.each(items, function(i, file) {
+			var files = e.type == 'paste' ? get_paste_image(e.originalEvent) : get_drop_image(e.originalEvent);
+			if(!files) return;
+			$.each_sync(files, function(i, callback) {
+				var file = files[i];
 				if(file.getAsFile) file = file.getAsFile();
 				if(!file || file.size == 0 || file.type.indexOf('image') == -1) return;
 				xn.upload_file(file, 'plugin/xn_umeditor/upload.php', function(code, json) {
@@ -84,6 +85,7 @@ $(function() {
 					} else {
 						console.log(json);
 					}
+					callback();
 				});
 			});
 		}
