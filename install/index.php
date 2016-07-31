@@ -1,6 +1,7 @@
 <?php
 
 define('DEBUG', 1);
+define('MESSAGE_HTM_PATH', './install/view/htm/message.htm');
 
 // 切换到上一级目录，操作很方便。
 chdir('../');

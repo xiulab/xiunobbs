@@ -112,9 +112,12 @@ function message($code, $message, $extra = array()) {
 	
 	if($ajax) {
 		echo xn_json_encode($arr);
-		runtime_save();
 	} else {
-		include "./view/htm/message.htm";
+		if(defined('MESSAGE_HTM_PATH')) {
+			include MESSAGE_HTM_PATH;
+		} else {
+			include "./view/htm/message.htm";
+		}
 	}
 	exit;
 }
