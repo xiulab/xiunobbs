@@ -33,13 +33,18 @@
 					</dl>
 				</dd>
 			</dl>
-			<hr></hr>
+			<hr />
+			<?php if($page == 1) { ?>
 			<div class="message">
+			
 				<?php echo $first['message_fmt'];?>
 				
 				<?php echo post_file_list_html($filelist);?>
 				
 			</div>
+			<?php } else { ?>
+				<p>查看详情</p>
+			<?php } ?>
 		</div>
 		
 		<div class="card post p-a-sm">

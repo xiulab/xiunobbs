@@ -187,7 +187,6 @@ function post_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 2
 function post_find_by_tid($tid, $page = 1, $pagesize = 50) {
 	// hook post_find_by_tid_start.php
 	global $conf;
-	empty($pagesize) AND $pagesize = $conf['postlist_pagesize'];
 
 	$postlist = post__find(array('tid'=>$tid), array('pid'=>1), $page, $pagesize);
 	
@@ -198,6 +197,7 @@ function post_find_by_tid($tid, $page = 1, $pagesize = 50) {
 			post_format($post);
 		}
 	}
+	
 	// hook post_find_by_tid_end.php
 	return $postlist;
 }

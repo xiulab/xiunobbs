@@ -88,6 +88,7 @@ if($action == 'create') {
 	$tid = param(1, 0);
 	$page = param(2, 1);
 	$keyword = param(3);
+	$pagesize = 2;
 	
 	// hook thread_info_start.php
 	$thread = thread_read($tid);
@@ -97,12 +98,19 @@ if($action == 'create') {
 	$forum = forum_read($fid);
 	empty($forum) AND message(3, '板块不存在'.$fid);
 	
-	$postlist = post_find_by_tid($tid);
+	$postlist = post_find_by_tid($tid, $page, $pagesize);
 	empty($postlist) AND message(4, '帖子不存在');
 	
-	empty($postlist[$thread['firstpid']]) AND message(-1, '数据有问题。');
-	$first = $postlist[$thread['firstpid']];
-	unset($postlist[$thread['firstpid']]);
+	if($page == 1) {
+		empty($postlist[$thread['firstpid']]) AND message(-1, '数据有问题。');
+		$first = $postlist[$thread['firstpid']];
+		unset($postlist[$thread['firstpid']]);
+		$attachlist = $imagelist = $filelist = array();
+		$first['files'] AND list($attachlist, $imagelist, $filelist) = attach_find_by_pid($thread['firstpid']);
+		thread_inc_views($tid); // 如果是大站，可以用单独的点击服务，减少 db 压力
+	} else {
+		$first = post_read($thread['firstpid']);
+	}
 	
 	$keywordurl = '';
 	if($keyword) {
@@ -116,13 +124,7 @@ if($action == 'create') {
 	
 	forum_access_user($fid, $gid, 'allowread') OR message(-1, '您所在的用户组无权访问该板块。');
 	
-	$pagesize = $conf['pagesize'];
-	$pagination = pagination("thread-$tid-{page}$keywordurl.htm", $thread['posts'], $page, $pagesize);
-	
-	$attachlist = $imagelist = $filelist = array();
-	$first['files'] AND list($attachlist, $imagelist, $filelist) = attach_find_by_pid($thread['firstpid']);
-	
-	thread_inc_views($tid); // 如果是大站，可以用单独的点击服务，减少 db 压力
+	$pagination = pagination(url("thread-$tid-{page}$keywordurl"), $thread['posts'], $page, $pagesize);
 	
 	$header['title'] = $thread['subject'].'-'.$forum['name'].'-'.$conf['sitename']; 		// 网站标题
 	$header['mobile_title'] = '帖子详情';
