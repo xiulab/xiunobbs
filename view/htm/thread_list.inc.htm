@@ -1,22 +1,25 @@
-					<?php foreach($threadlist as $thread) { ?>
-					<tr class="thread tap" href="<?php echo url("thread-$thread[tid]");?>">
+					<?php foreach($threadlist as $_thread) { ?>
+					<tr class="thread tap" href="<?php echo url("thread-$_thread[tid]");?>">
 						<td class="avatar-parent" aria-hidden="true">
-							<a href="<?php echo url("user-$thread[uid]");?>" aria-hidden="true">
-								<img class="avatar" src="<?php echo $thread['user_avatar_url'];?>">
+							<a href="<?php echo url("user-$_thread[uid]");?>" aria-hidden="true">
+								<img class="avatar" src="<?php echo $_thread['user_avatar_url'];?>">
 							</a>
 						</td>
 						<td class="p-l-0">
 							<div class="subject">
-								<a href="<?php echo url("thread-$thread[tid]");?>"><?php echo $thread['subject'];?></a>
+								<?php if($_thread['top'] > 0) { ?><i class="icon top top_<?php echo $_thread['top']; ?>"></i><?php } ?>
+								<a href="<?php echo url("thread-$_thread[tid]");?>"><?php echo $_thread['subject'];?></a>
+								<!--<?php if($_thread['images'] > 0) { ?><i class="icon small filetype image"></i><?php } ?>-->
+								<?php if($_thread['files'] > 0) { ?><i class="icon small filetype other"></i><?php } ?>
 							</div>
 							<dl class="row small">
 								<dt>
-									<a href="<?php echo url("user-$thread[uid]");?>" class="username text-muted m-r-xs"><?php echo $thread['username'];?></a>
-									<span class="date text-grey"><?php echo $thread['create_date_fmt'];?></span>
+									<a href="<?php echo url("user-$_thread[uid]");?>" class="username text-muted m-r-xs"><?php echo $_thread['username'];?></a>
+									<span class="date text-grey"><?php echo $_thread['create_date_fmt'];?></span>
 								</dt>
 								<dd class="text-right text-grey">
-									<span class="m-r-1"><i class="icon-eye-open"></i> <?php echo $thread['views'];?></span>
-									<span class="hidden-xs-down"><i class="icon-comment"></i> <?php echo $thread['posts'];?></span>
+									<span class="m-r-1"><i class="icon-eye-open"></i> <?php echo $_thread['views'];?></span>
+									<span class="hidden-xs-down"><i class="icon-comment"></i> <?php echo $_thread['posts'];?></span>
 								</dd>
 							</dl>
 						</td>

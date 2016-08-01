@@ -135,7 +135,7 @@ function forum_list_cache() {
 	$forumlist = cache_get('forumlist');
 	if($forumlist === NULL) {
 		$forumlist = forum_find();
-		cache_set('forumlist', $forumlist, 60); // 最新发帖
+		cache_set('forumlist', $forumlist, 60);
 	}
 	
 	// hook forum_list_cache_end.php

@@ -39,7 +39,7 @@ function thread__find($cond = array(), $orderby = array(), $page = 1, $pagesize 
 	if(empty($arrlist)) return array();
 	
 	$tidarr = arrlist_values($arrlist, 'tid');
-	$threadlist = db_find('thread', array('tid'=>$tidarr));
+	$threadlist = db_find('thread', array('tid'=>$tidarr), $orderby, $page, $pagesize);
 	
 	// hook thread__find_end.php
 	return $threadlist;

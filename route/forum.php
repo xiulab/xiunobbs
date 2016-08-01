@@ -21,7 +21,6 @@ $threadlist = thread_find_by_fid($fid, $page, $pagesize, $order);
 $header['title'] = $forum['seo_title'] ? $forum['seo_title'] : $forum['name'].'-'.$conf['sitename']; 		// 网站标题
 $header['mobile_title'] = $forum['name'];
 $header['keywords'] = $forum['seo_keywords']; 		// 关键词
-
 $header['navs'][] = "<a href=\"forum-$fid.htm\">$forum[name]</a>";
 
 include './view/htm/forum.htm';

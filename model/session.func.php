@@ -18,32 +18,6 @@ function sess_open($save_path, $session_name) {
 // 关闭句柄，清理资源，这里 $sid 已经为空，
 function sess_close() {
 	return true;
-	/*global $sid, $uid, $fid, $time, $g_session, $g_session_invalid, $conf;
-	echo "sess_close($sid) \r\n";exit;
-	if($g_session_invalid) return TRUE;
-	
-	if(!empty($_SERVER['APP_PATH'])) chdir($_SERVER['APP_PATH']);
-	
-	$update = array(
-		'uid'=>$uid,
-		'fid'=>$fid,
-		'url'=>$_SERVER['REQUEST_URI_NO_PATH'],
-		'last_date'=>$time,
-	);
-	
-	// 开启 session 延迟更新，减轻压力，会导致数据显示有些延迟，单位为秒。
-	$session_delay_update_on = !empty($conf['session_delay_update']) && $time - $g_session['last_date'] < $conf['session_delay_update'];
-	if($session_delay_update_on) {
-		unset($update['fid']);
-		unset($update['url']);
-		unset($update['last_date']);
-	}
-	
-	$update = array_diff_value($update, $g_session);
-	
-	db_update('session', array('sid'=>$sid), $update);
-	
-	return true;*/
 }
 
 // 如果 cookie 中没有 bbs_sid, php 会自动生成 sid，作为参数

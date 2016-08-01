@@ -7,7 +7,7 @@ function runtime_init() {
 	// hook runtime_init_start.php
 	global $conf;
 	$runtime = cache_get('runtime'); // 实时运行的数据，初始化！
-	if($runtime === NULL || !isset($runtime['users']) || !isset($runtime['onlines'])) {
+	if($runtime === NULL || !isset($runtime['users'])) {
 		$runtime = array();
 		$runtime['users'] = user_count();
 		$runtime['posts'] = post_count();
@@ -16,13 +16,13 @@ function runtime_init() {
 		$runtime['todayusers'] = 0;
 		$runtime['todayposts'] = 0;
 		$runtime['todaythreads'] = 0;
-		//$runtime['onlines'] = max(1, online_count());
+		$runtime['onlines'] = max(1, online_count());
 		
 		// runtime_append
 		$arr = kv_get('runtime_append');
 		is_array($arr) AND $runtime += $arr;
 		
-		cache_set('runtime', $runtime, TRUE);
+		cache_set('runtime', $runtime);
 		
 	}
 	// hook runtime_init_end.php

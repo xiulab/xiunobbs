@@ -378,8 +378,20 @@ function db_cond_to_sqladd($cond) {
 				$v = (is_int($v) || is_float($v)) ? $v : "'".addslashes($v)."'";
 				$s .= "$k=$v AND ";
 			} elseif(isset($v[0])) {
+				// OR 效率比 IN 高
+				$s .= '(';
+				//$v = array_reverse($v);
+				foreach ($v as $v1) {
+					$v1 = (is_int($v1) || is_float($v1)) ? $v1 : "'".addslashes($v1)."'";
+					$s .= "$k=$v1 OR ";
+				}
+				$s = substr($s, 0, -4);
+				$s .= ') AND ';
+				
+				/*
 				$ids = implode(',', $v);
 				$s .= "$k IN ($ids) AND ";
+				*/
 			} else {
 				foreach($v as $k1=>$v1) {
 					if($k1 == 'LIKE') {

@@ -2,10 +2,7 @@
 
 !defined('DEBUG') AND exit('Access Denied.');
 
-
-
 $action = param(1);
-
 
 // hook thread_action_before.php
 
@@ -25,8 +22,6 @@ if($action == 'create') {
 		$forumarr = xn_json_encode(arrlist_key_values($forumlist_allowthread, 'fid', 'name'));
 		if(empty($forumlist_allowthread)) {
 			message(-1, '您所在的用户组没有权限发主题');
-			// header("Location:user-login.htm");
-			exit;
 		}
 		
 		$header['title'] = '发帖';
