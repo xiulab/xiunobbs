@@ -273,9 +273,7 @@ function thread_format(&$thread) {
 	$thread['url'] = "thread-$thread[tid].htm";
 	$thread['user_url'] = "user-$thread[uid]".($thread['uid'] ? '' : "-$thread[firstpid]").".htm";
 	
-	$thread['posts_class'] = 'posts_'.thread_get_level($thread['posts'], $conf['posts_level']);
-	$thread['thread_class'] = '';// todo:
-	$thread['top_class'] = $thread['top'] ? 'thread_top_'.$thread['top'] : '';
+	$thread['top_class'] = $thread['top'] ? 'top_'.$thread['top'] : '';
 	
 	// hook thread_format_end.php
 }
