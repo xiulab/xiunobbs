@@ -1042,7 +1042,7 @@ $.fn.checked = function(v) {
 		return this;
 	// 获取，值用数组的方式返回
 	} else {
-		if(this.length <= 0) return [];
+		if(this.length == 0) return [];
 		var tagtype = xn.strtolower(this[0].tagName) == 'select' ? 'select' : xn.strtolower(this[0].type);
 		var r = (tagtype == 'checkbox' ? [] : '');
 		for(var i=0; i<this.length; i++) {

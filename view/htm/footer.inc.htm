@@ -24,6 +24,12 @@
 <script>var debug = DEBUG = <?php echo DEBUG; ?>;</script>
 <script src="view/js/async.js<?php echo $static_version;?>"></script>
 <script src="view/js/xiuno.js<?php echo $static_version;?>"></script>
+<script src="view/js/form.js<?php echo $static_version;?>"></script>
+<script>
+var forumlist = <?php echo xn_json_encode($forumlist_show);?>;
+var forumarr = <?php echo xn_json_encode($forumarr);?>;
+var fid = <?php echo $fid;?>;
+</script>
 <script src="view/js/bbs.js<?php echo $static_version;?>"></script>
 
 </div></body>

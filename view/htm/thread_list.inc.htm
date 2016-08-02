@@ -1,5 +1,10 @@
 					<?php foreach($threadlist as $_thread) { ?>
 					<tr class="thread tap <?php echo $_thread['top_class'];?>" href="<?php echo url("thread-$_thread[tid]");?>">
+						<?php if(forum_access_mod($_thread['fid'], $gid, 'allowtop')) { ?>
+						<td width="35">
+							<input type="checkbox" name="modtid" class="m-t-1" value="<?php echo $_thread['tid']; ?>" />
+						</td>
+						<?php } ?>
 						<td class="avatar-parent" aria-hidden="true">
 							<a href="<?php echo url("user-$_thread[uid]");?>" aria-hidden="true">
 								<img class="avatar" src="<?php echo $_thread['user_avatar_url'];?>">
@@ -19,9 +24,10 @@
 								</dt>
 								<dd class="text-right text-grey">
 									<span class="m-r-1"><i class="icon-eye-open"></i> <?php echo $_thread['views'];?></span>
-									<span class="hidden-xs-down"><i class="icon-comment"></i> <?php echo $_thread['posts'];?></span>
+									<span class="hidden-xs-down m-r-1"><i class="icon-comment"></i> <?php echo $_thread['posts'];?></span>
 								</dd>
 							</dl>
 						</td>
+						
 					</tr>
 					<?php } ?>

@@ -6,6 +6,8 @@ include './model/modlog.func.php';
 
 $action = param(1);
 
+($method != 'POST') AND message(-1, 'Method Error');
+
 if($action == 'top') {
 
 	$tids = param(2);
@@ -13,44 +15,31 @@ if($action == 'top') {
 	$tidarr = param_force($arr, array(0));
 	empty($tidarr) AND message(-1, '请选择主题');
 	
-	$header['title'] = '置顶';
+	$top = param('top');
 	
-	if($method == 'GET') {
-
-		// 选中第一个
-		$tid = $tidarr[0];
-		$thread = thread_read($tid);
-		
-		include './pc/view/mod_top.htm';
-
-	} else if($method == 'POST') {
-
-		$top = param('top');
-		
-		$threadlist = thread_find_by_tids($tidarr, 1, 20);
-		
-		// 设置置顶
-		foreach($threadlist as &$thread) {
-			$fid = $thread['fid'];
-			$tid = $thread['tid'];
-			if(forum_access_mod($fid, $gid, 'allowtop')) {
-				thread_top_change($tid, $top);
-				$arr = array(
-					'uid' => $uid,
-					'tid' => $thread['tid'],
-					'pid' => $thread['firstpid'],
-					'subject' => $thread['subject'],
-					'comment' => '',
-					'create_date' => $time,
-					'action' => 'top',
-				);
-				modlog_create($arr);
-				
-			}
+	$threadlist = thread_find_by_tids($tidarr, 1, 20);
+	
+	// 设置置顶
+	foreach($threadlist as &$thread) {
+		$fid = $thread['fid'];
+		$tid = $thread['tid'];
+		if(forum_access_mod($fid, $gid, 'allowtop')) {
+			thread_top_change($tid, $top);
+			$arr = array(
+				'uid' => $uid,
+				'tid' => $thread['tid'],
+				'pid' => $thread['firstpid'],
+				'subject' => $thread['subject'],
+				'comment' => '',
+				'create_date' => $time,
+				'action' => 'top',
+			);
+			modlog_create($arr);
+			
 		}
-		
-		message(0, '设置完成');
 	}
+	
+	message(0, '设置完成');
 	
 } elseif($action == 'delete') {
 
@@ -59,84 +48,61 @@ if($action == 'top') {
 	$tidarr = param_force($arr, array(0));
 	empty($tidarr) AND message(-1, '请选择主题');
 	
-	$header['title'] = '删除';
+	$threadlist = thread_find_by_tids($tidarr, 1, 1000);
 	
-	if($method == 'GET') {
-
-		include './pc/view/mod_delete.htm';
-
-	} else if($method == 'POST') {
-
-		$threadlist = thread_find_by_tids($tidarr, 1, 1000);
-		
-		// 设置置顶
-		foreach($threadlist as &$thread) {
-			$fid = $thread['fid'];
-			$tid = $thread['tid'];
-			if(forum_access_mod($fid, $gid, 'allowdelete')) {
-				thread_delete($tid);
-				$arr = array(
-					'uid' => $uid,
-					'tid' => $thread['tid'],
-					'pid' => $thread['firstpid'],
-					'subject' => $thread['subject'],
-					'comment' => '',
-					'create_date' => $time,
-					'action' => 'delete',
-				);
-				modlog_create($arr);
-			}
+	// 设置置顶
+	foreach($threadlist as &$thread) {
+		$fid = $thread['fid'];
+		$tid = $thread['tid'];
+		if(forum_access_mod($fid, $gid, 'allowdelete')) {
+			thread_delete($tid);
+			$arr = array(
+				'uid' => $uid,
+				'tid' => $thread['tid'],
+				'pid' => $thread['firstpid'],
+				'subject' => $thread['subject'],
+				'comment' => '',
+				'create_date' => $time,
+				'action' => 'delete',
+			);
+			modlog_create($arr);
 		}
-		
-		message(0, '删除完成');
 	}
+	
+	message(0, '删除完成');
 	
 } elseif($action == 'move') {
 
 	$tids = param(2);
+	$newfid = param(3);
 	$arr = explode('_', $tids);
 	$tidarr = param_force($arr, array(0));
 	empty($tidarr) AND message(-1, '请选择主题');
+
+	!forum_read($newfid) AND message(1, '板块不存在');
 	
-	$header['title'] = '移动';
+	$threadlist = thread_find_by_tids($tidarr, 1, 1000);
 	
-	if($method == 'GET') {
-
-		// 选中第一个
-		$tid = $tidarr[0];
-		$thread = thread_read($tid);
-		
-		include './pc/view/mod_move.htm';
-
-	} else if($method == 'POST') {
-
-		$newfid = param('newfid', 0);
-		
-		!forum_read($newfid) AND message(1, '板块不存在');
-		
-		$threadlist = thread_find_by_tids($tidarr, 1, 1000);
-		
-		// 设置置顶
-		foreach($threadlist as &$thread) {
-			$fid = $thread['fid'];
-			$tid = $thread['tid'];
-			if(forum_access_mod($fid, $gid, 'allowmove')) {
-				thread_update($tid, array('fid'=>$newfid));
-				$arr = array(
-					'uid' => $uid,
-					'tid' => $thread['tid'],
-					'pid' => $thread['firstpid'],
-					'subject' => $thread['subject'],
-					'comment' => '',
-					'create_date' => $time,
-					'action' => 'move',
-				);
-				modlog_create($arr);
-			}
+	// 设置置顶
+	foreach($threadlist as &$thread) {
+		$fid = $thread['fid'];
+		$tid = $thread['tid'];
+		if(forum_access_mod($fid, $gid, 'allowmove')) {
+			thread_update($tid, array('fid'=>$newfid));
+			$arr = array(
+				'uid' => $uid,
+				'tid' => $thread['tid'],
+				'pid' => $thread['firstpid'],
+				'subject' => $thread['subject'],
+				'comment' => '',
+				'create_date' => $time,
+				'action' => 'move',
+			);
+			modlog_create($arr);
 		}
-		
-		message(0, '移动完成');
 	}
+	
+	message(0, '移动完成');
 	
 } elseif($action == 'deleteuser') {
 	

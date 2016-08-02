@@ -36,6 +36,7 @@ $group = isset($grouplist[$gid]) ? $grouplist[$gid] : $grouplist[0];
 $fid = 0;
 $forumlist = forum_list_cache();
 $forumlist_show = forum_list_access_filter($forumlist, $gid);	// 有权限查看的板块
+$forumarr = arrlist_key_values($forumlist_show, 'fid', 'name');
 
 // 头部 header.inc.htm 
 $header = array(
