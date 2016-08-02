@@ -1,0 +1,12 @@
+
+						<li class="nav-item">
+							<!-- PC 导航：更多版块，下拉菜单 -->
+							<div class="dropdown">
+								<a class="nav-link nav-more dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"></a>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+									<?php foreach($forumlist_show as $_forum) { ?>
+									<button class="dropdown-item" type="button" aria-label="" ><?php echo $_forum['name'];?></button>
+									<?php } ?>
+								</div>
+							</div>
+						</li>
