@@ -16,7 +16,7 @@ $conf['log_path'][0] == '.' AND $conf['log_path'] = '../'.$conf['log_path'];
 $conf['tmp_path'][0] == '.' AND $conf['tmp_path'] = '../'.$conf['tmp_path'];
 $conf['upload_path'][0] == '.' AND $conf['upload_path'] = '../'.$conf['upload_path'];
 
-$lang += include '../lang/zh-cn-admin.php';
+$lang += include "../lang/$conf[lang]/bbs_admin.php";
 include "./admin.func.php";
 $menu = include './menu.conf.php';
 

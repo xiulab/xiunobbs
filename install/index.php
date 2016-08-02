@@ -7,6 +7,8 @@ define('MESSAGE_HTM_PATH', './install/view/htm/message.htm');
 chdir('../');
 
 $conf = (@include './conf/conf.default.php');
+$lang = include "./lang/$conf[lang]/bbs.php";
+$lang = include "./lang/$conf[lang]/bbs_install.php";
 
 include './xiunophp/xiunophp.php';
 include './model.inc.php';
@@ -22,8 +24,30 @@ is_file('./conf/conf.php') AND empty($action) AND !DEBUG AND message(0, jump('�
 
 // 第一步，阅读
 if(empty($action)) {
-	include "./install/view/htm/index.htm";
+	
+	if($method == 'GET') {
+		$input = array();
+		$input['lang'] = form_select('lang', array('zh-cn'=>'简体中文', 'zh-tw'=>'繁体中文', 'en-us'=>'English'), $conf['lang']);
+		
+		// 修改 conf.php
+		include "./install/view/htm/index.htm";
+	} else {
+		$_lang = param('lang');
+		$conf['lang'] = $_lang;
+		$r = conf_save('./conf/conf.php', $conf);
+		$r === FALSE AND message(-1, jump('请设置 conf/conf.php 文件为可写！', ''));
+		http_location('index.php?action=license');
+	}
+	
+} elseif($action == 'license') {
+	
+	
+	// 设置到 cookie
+	
+	include "./install/view/htm/license.htm";
+	
 } elseif($action == 'env') {
+	
 	if($method == 'GET') {
 		$succeed = 1;
 		$env = $write = array();
@@ -32,6 +56,7 @@ if(empty($action)) {
 	} else {
 	
 	}
+	
 } elseif($action == 'db') {
 	
 	if($method == 'GET') {

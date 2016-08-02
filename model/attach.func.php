@@ -171,7 +171,6 @@ function attach_assoc_post($pid) {
 	if($tmp_files) {
 		foreach($tmp_files as $key=>$file) {
 			
-			error_log(print_r($file, 1), 3, './log/xxx.txt');
 			// 将文件移动到 upload/attach 目录
 			$filename = file_name($file['url']);
 			

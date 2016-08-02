@@ -16,6 +16,7 @@ if($action == 'base') {
 		$input = array();
 		$input['sitename'] = form_text('sitename', $conf['sitename']);
 		$input['runlevel'] = form_radio('runlevel', array(0=>'站点关闭', 1=>'管理员可读写', 2=>'会员可读', 3=>'会员可读写', 4=>'所有人只读', 5=>'所有人可读写'), $conf['runlevel']);
+		$input['lang'] = form_select('lang', array('zh-cn'=>'简体中文', 'zh-tw'=>'繁体中文', 'en-us'=>'美式英语'), $conf['lang']);
 		
 		$setting = kv_get('setting');	// 首页数据
 		empty($setting) AND $setting = array('sitebrief'=>'');
@@ -31,12 +32,14 @@ if($action == 'base') {
 		$sitebrief = param('sitebrief', '', FALSE);
 		$sitename = param('sitename', '', FALSE);
 		$runlevel = param('runlevel', 0);
+		$_lang = param('lang');
 		
 		$setting = array('sitebrief'=>$sitebrief);
 		kv_set('setting', $setting);
 		
 		$conf['sitename'] = $sitename;
 		$conf['runlevel'] = $runlevel;
+		$conf['lang'] = $_lang;
 		
 		conf_save('../conf/conf.php', $conf) OR message(-1, '写入配置文件失败');
 	

@@ -20,7 +20,7 @@ include './model.inc.php';
 $sid = sess_start();
 
 // 语言包
-$lang = include('./lang/zh-cn.php');
+$lang = include("./lang/$conf[lang]/bbs.php");
 
 // 支持 Token 接口（token 与 session 双重登陆机制，方便 REST 接口设计，也方便 $_SESSION 使用）
 $uid = user_token_get();
