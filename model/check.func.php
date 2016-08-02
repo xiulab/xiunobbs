@@ -16,10 +16,10 @@ function is_email($email, &$err) {
 	// hook is_email_start.php
 	$len = mb_strlen($email, 'UTF-8');
 	if(strlen($len) > 32) {
-		$err = 'Email 太长:'.$len;
+		$err = '邮箱太长:'.$len;
 		return FALSE;
 	} elseif(!preg_match('/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/i', $email)) {
-		$err = 'Email 格式不正确';
+		$err = '邮箱格式不正确';
 		return FALSE;
 	}
 	// hook is_email_end.php
@@ -41,6 +41,21 @@ function is_username($username, &$err = '') {
 		return FALSE;
 	}
 	// hook is_username_end.php
+	return TRUE;
+}
+
+function is_password($password, &$err = '') {
+	$len = strlen($password);
+	if($len == 0) {
+		$err = '密码为空';
+		return FALSE;
+	} elseif($len != 32) {
+		$err = '加密后长度有问题:'.$len;
+		return FALSE;
+	} elseif($password == 'd41d8cd98f00b204e9800998ecf8427e') {
+		$err = '密码为空';
+		return FALSE;
+	}
 	return TRUE;
 }
 

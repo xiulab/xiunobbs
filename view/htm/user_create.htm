@@ -34,10 +34,13 @@
 						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." <?php if($conf['user_create_email_on']) { ?>disabled<?php } ?>><?php echo lang('next_step');?></button>
 					</p>
 					<dl class="row">
-						<dt></dt>
+						<dt>
+							<!--{hook user_create_form_footer_left.htm}-->
+						</dt>
 						<dd class="text-right">
-							<a href="<?php echo url('user-login');?>" class="text-muted m-r-1"><small><?php echo lang('user_login');?></small></a>
-							<a href="<?php echo url('user-findpw');?>" class="text-muted"><small><?php echo lang('forgot_pw');?></small></a>
+							<a href="<?php echo url('user-login');?>" class="text-muted"><small><?php echo lang('user_login');?></small></a>
+							<!--{hook user_create_form_footer_right.htm}-->
+							<a href="<?php echo url('user-resetpw');?>" class="text-muted m-l-1"><small><?php echo lang('forgot_pw');?></small></a>
 						</dd>
 					</div>
 				</form>

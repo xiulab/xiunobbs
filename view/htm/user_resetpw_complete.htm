@@ -1,0 +1,65 @@
+<?php include "./view/htm/header.inc.htm"; ?>
+
+<div class="row">
+	<div class="col-lg-6 col-lg-offset-3">
+		<div class="card">
+			<!--{hook user_create_card_title.htm}-->
+			<div class="card-block">
+				<h4 class="card-title"><?php echo lang('user_resetpw');?></h4>
+				<form action="<?php echo url('user-resetpw_complete');?>" method="post" id="form">
+					<p class="input-group">
+						<span class="input-group-addon"><i class="icon icon-envelope"></i></span>
+						<input type="text" class="form-control" placeholder="<?php echo lang('email');?>" name="email" id="email" value="<?php echo $email;?>" disabled>
+					</p>
+					<p class="input-group">
+						<span class="input-group-addon"><i class="icon icon-lock"></i></span>
+						<input type="password" class="form-control" placeholder="<?php echo lang('password_new');?>" id="password" name="password">
+					</p>
+					<p class="input-group">
+						<span class="input-group-addon"><i class="icon icon-lock"></i></span>
+						<input type="password" class="form-control" placeholder="<?php echo lang('password_new_repeat');?>" id="password2">
+					</p>
+					<p>
+						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." <?php if($conf['user_create_email_on']) { ?>disabled<?php } ?>><?php echo lang('next_step');?></button>
+					</p>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php include "./view/htm/footer.inc.htm"; ?>
+<script src="view/js/md5.js"></script>
+
+<script>
+var jform = $('#form');
+var jsubmit = $('#submit');
+var jpassword = $('#password');
+var jpassword2 = $('#password2');
+jform.on('submit', function() {
+	jform.reset();
+	jsubmit.button('loading');
+	
+	if(jpassword.val() != jpassword2.val()) {
+		jpassword2.focus();
+		return $.alert('两次密码输入不一致');
+	}
+	
+	var postdata = jform.serializeObject();
+	postdata.password = $.md5(postdata.password);
+	$.xpost(jform.attr('action'), postdata, function(code, message) {
+		if(code == 0) {
+			$.alert(message);
+			jsubmit.button(message).delay(1000).location(xn.url('user-login'));
+		} else if(code < 0) {
+			$.alert(message);
+			jsubmit.button('reset');
+		} else {
+			jform.find('[name="'+code+'"]').alert(message).focus();
+			jsubmit.button('reset');
+		}
+	});
+	return false;
+});
+
+</script>

@@ -8,11 +8,11 @@
 				<h4 class="card-title"><?php echo lang('user_login');?></h4>
 				<form action="<?php echo url('user-login');?>" method="post" id="form">
 					<p class="input-group">
-						<span class="input-group-addon" id="basic-addon1"><i class="icon icon-user"></i></span>
+						<span class="input-group-addon"><i class="icon icon-user"></i></span>
 						<input type="text" class="form-control" placeholder="<?php echo lang('email');?>" id="email" name="email">
 					</p>
 					<p class="input-group">
-						<span class="input-group-addon" id="basic-addon1"><i class="icon icon-lock"></i></span>
+						<span class="input-group-addon"><i class="icon icon-lock"></i></span>
 						<input type="password" class="form-control" placeholder="<?php echo lang('password');?>" id="password" name="password">
 					</p>
 					<p class="text-xs-right">
@@ -20,10 +20,12 @@
 					</p>
 					<dl class="row">
 						<dt>
+							<!--{hook user_login_form_footer_left.htm}-->
 						</dt>
 						<dd class="text-right">
-							<a href="<?php echo url('user-create');?>" class="text-muted m-r-1"><small><?php echo lang('user_create');?></small></a>
-							<a href="<?php echo url('user-findpw');?>" class="text-muted"><small><?php echo lang('forgot_pw');?></small></a>
+							<a href="<?php echo url('user-create');?>" class="text-muted"><small><?php echo lang('user_create');?></small></a>
+							<!--{hook user_login_form_footer_right.htm}-->
+							<a href="<?php echo url('user-resetpw');?>" class="text-muted m-l-1"><small><?php echo lang('forgot_pw');?></small></a>
 						</dd>
 					</dl>
 				</form>

@@ -3369,6 +3369,10 @@ function xn_send_mail($smtp, $username, $email, $subject, $message, $charset = '
 	}
 	$charset = 'GBK';
 	*/
+	if(DEBUG) {
+		sleep(1);
+		return TRUE;
+	}
 	$mail             = new PHPMailer();
 	//$mail->PluginDir = FRAMEWORK_PATH.'lib/';
 	$mail->IsSMTP(); // telling the class to use SMTP
