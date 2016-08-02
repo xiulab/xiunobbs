@@ -42,6 +42,7 @@ var jsubmit = $('#submit');
 var jemail = $('#email');
 var jpassword = $('#password');
 jform.on('submit', function() {
+	jform.reset();
 	var postdata = jform.serializeObject();
 	postdata.password = $.md5(postdata.password);
 	jsubmit.button('loading');

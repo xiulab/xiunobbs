@@ -1143,6 +1143,13 @@ $.fn.attr_name_index = function(rowid) {
 	});
 }
 
+// 重置 form 状态
+$.fn.reset = function() {
+	var jform = $(this);
+	jform.find('input[type="submit"]').button('reset');
+	jform.find('input').tooltip('dispose');
+}
+
 // $.each() 的串行版本，用法：
 /*
 	$.each_sync(items, function(i, callback) {

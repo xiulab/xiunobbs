@@ -97,6 +97,7 @@ var jform = $('#form');
 var jsubmit = $('#submit');
 var jfid = jform.find('select[name="fid"]');
 jform.on('submit', function() {
+	jform.reset();
 	var postdata = jform.serialize();
 	jsubmit.button('loading');
 	$.xpost(jform.attr('action'), postdata, function(code, message) {

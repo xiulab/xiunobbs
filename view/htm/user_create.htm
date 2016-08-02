@@ -49,6 +49,7 @@ var jform = $('#form');
 var jsubmit = $('#submit');
 var jsendsubmit = $('#sendinitpw');
 jsendsubmit.on('click', function() {
+	jform.reset();
 	var postdata = jform.serialize();
 	jsendsubmit.button('loading');
 	$.xpost(jsendsubmit.attr('action'), postdata, function(code, message) {
