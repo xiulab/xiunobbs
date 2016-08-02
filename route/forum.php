@@ -5,8 +5,8 @@
 // 模板初始化依赖
 $fid = param(1, 0);
 $page = param(2, 1);
-$order = param(3);
-!in_array($order, array('tid', 'lastpid')) AND $order = $conf['order_default']; // 默认按照顶贴时间排序
+$order = param(3, $conf['order_default']);	// 默认不允许用户修改排序顺序，插件可以做，该参数给插件预留
+$order != 'tid' AND $order = 'lastpid';		// 默认按照顶贴时间排序
 
 $forum = forum_read($fid);
 empty($forum) AND message(3, '板块不存在'.$fid);

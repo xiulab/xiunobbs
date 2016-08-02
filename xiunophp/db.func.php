@@ -182,6 +182,7 @@ function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesi
 	$d = $db ? $db : $d;
 	if(!$d) return FALSE;
 	
+	$page = max(1, $page);
 	$cond = db_cond_to_sqladd($cond);
 	$orderby = db_orderby_to_sqladd($orderby);
 	$offset = ($page - 1) * $pagesize;

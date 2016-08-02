@@ -1,4 +1,4 @@
-<?php if(forum_access_mod($_thread['fid'], $gid, 'allowtop')) { ?>
+<?php if($gid > 0 && $gid < 5) { ?>
 <div class="text-center">
 	<div class="btn-group mod-button" role="group" aria-label="">
 		<button type="button" class="btn btn-secondary delete">删除</button>

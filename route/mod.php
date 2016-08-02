@@ -17,7 +17,7 @@ if($action == 'top') {
 	
 	$top = param('top');
 	
-	$threadlist = thread_find_by_tids($tidarr, 1, 20);
+	$threadlist = thread_find_by_tids($tidarr);
 	
 	// 设置置顶
 	foreach($threadlist as &$thread) {
@@ -48,7 +48,7 @@ if($action == 'top') {
 	$tidarr = param_force($arr, array(0));
 	empty($tidarr) AND message(-1, '请选择主题');
 	
-	$threadlist = thread_find_by_tids($tidarr, 1, 1000);
+	$threadlist = thread_find_by_tids($tidarr);
 	
 	// 设置置顶
 	foreach($threadlist as &$thread) {
@@ -81,7 +81,7 @@ if($action == 'top') {
 
 	!forum_read($newfid) AND message(1, '板块不存在');
 	
-	$threadlist = thread_find_by_tids($tidarr, 1, 1000);
+	$threadlist = thread_find_by_tids($tidarr);
 	
 	// 设置置顶
 	foreach($threadlist as &$thread) {

@@ -39,7 +39,7 @@ function thread__find($cond = array(), $orderby = array(), $page = 1, $pagesize 
 	if(empty($arrlist)) return array();
 	
 	$tidarr = arrlist_values($arrlist, 'tid');
-	$threadlist = db_find('thread', array('tid'=>$tidarr), $orderby, $page, $pagesize);
+	$threadlist = db_find('thread', array('tid'=>$tidarr), $orderby, 1, $pagesize);
 	
 	// hook thread__find_end.php
 	return $threadlist;
@@ -327,12 +327,12 @@ function thread_list_access_filter(&$threadlist, $gid) {
 	// hook thread_list_access_filter_end.php
 }
 
-function thread_find_by_tids($tids, $page = 1, $pagesize = 20, $order = 'tid') {
+function thread_find_by_tids($tids, $order = array('tid'=>-1)) {
 	// hook thread_find_by_tids_start.php
-	$start = ($page - 1) * $pagesize;
-	$tids = array_slice($tids, $start, $pagesize);
+	//$start = ($page - 1) * $pagesize;
+	//$tids = array_slice($tids, $start, $pagesize);
 	if(!$tids) return array();
-	$threadlist = db_find('thread', array('tid'=>$tids), array($order=>-1), 1, 100, 'tid');
+	$threadlist = db_find('thread', array('tid'=>$tids), $order, 1, 1000, 'tid');
 	if($threadlist) foreach($threadlist as &$thread) thread_format($thread);
 	// hook thread_find_by_tids_end.php
 	return $threadlist;

@@ -7,10 +7,11 @@
 !defined('DEBUG') AND exit('Access Denied.');
 
 $page = param(1, 1);
-$order = param(2, $conf['order_default']);
-$order != 'tid' AND $order = 'lastpid';
-$pagesize = 20;
-$fid = 0;
+$order = param(2, $conf['order_default']);	// 默认不允许用户修改排序顺序，插件可以做，该参数给插件预留
+$order != 'tid' AND $order = 'lastpid';		// 默认按照顶贴时间排序
+$pagesize = $conf['pagesize'];
+
+$pagination = pagination(url("index-{page}"), $runtime['threads'], $page, $pagesize);
 
 // 主题列表
 $toplist = thread_top_find_cache();

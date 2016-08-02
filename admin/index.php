@@ -9,7 +9,7 @@ include './index.php';
 /*
 	切换回来，主要为了方便 admin 目录改名，有利于安全
 	处理相对路径比较麻烦一点，一般直接工作在根目录，
-	像 install/index.php plugin/xn_ad/index.php 那样属于一般写法，不用处理 $conf['tmp_path'] 等路径相对问题。
+	像 install/index.php plugin/xn_umeditor/upload.php 那样属于一般写法，不用处理 $conf['tmp_path'] 等路径相对问题。
 */
 chdir(dirname(__FILE__));
 $conf['log_path'][0] == '.' AND $conf['log_path'] = '../'.$conf['log_path'];

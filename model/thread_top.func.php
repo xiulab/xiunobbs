@@ -37,7 +37,7 @@ function thread_top_find($fid = 0) {
 		$threadlist = db_find('thread_top', array('fid'=>$fid, 'top'=>1), array('tid'=>-1), 1, 100, 'tid');
 	}
 	$tids = arrlist_values($threadlist, 'tid');
-	$threadlist = thread_find_by_tids($tids, 1, 100);
+	$threadlist = thread_find_by_tids($tids);
 	// hook thread_top_find_end.php
 	return $threadlist;
 }
