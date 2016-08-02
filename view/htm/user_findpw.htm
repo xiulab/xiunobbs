@@ -1,40 +1,30 @@
 <?php include "./view/htm/header.inc.htm"; ?>
 
 <div class="row">
-	<div class="col-lg-5 col-lg-offset-3">
+	<div class="col-lg-6 col-lg-offset-3">
 		<div class="card">
-			<!--{hook user_findpw_card_title.htm}-->
-			<img class="card-img-top" data-src="holder.js/100%x180" alt="100%x180" style="height: 80px; width: 100%; display: block;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMzE4IiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDMxOCAxODAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MTgwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTU1ZTcxNTI0NTcgdGV4dCB7IGZpbGw6cmdiYSgyNTUsMjU1LDI1NSwuNzUpO2ZvbnQtd2VpZ2h0Om5vcm1hbDtmb250LWZhbWlseTpIZWx2ZXRpY2EsIG1vbm9zcGFjZTtmb250LXNpemU6MTZwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTU1ZTcxNTI0NTciPjxyZWN0IHdpZHRoPSIzMTgiIGhlaWdodD0iMTgwIiBmaWxsPSIjNzc3Ii8+PGc+PHRleHQgeD0iMTE4LjA4NTkzNzUiIHk9Ijk3LjIiPjMxOHgxODA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" data-holder-rendered="true">
+			<!--{hook user_create_card_title.htm}-->
 			<div class="card-block">
-				<h4 class="card"><?php echo lang('user_create');?></h4>
+				<h4 class="card-title"><?php echo lang('user_findpw');?></h4>
 				<form action="<?php echo url('user-findpw');?>" method="post" id="form">
 					<p class="input-group">
-						<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+						<span class="input-group-addon"><i class="icon icon-envelope"></i></span>
 						<input type="text" class="form-control" placeholder="<?php echo lang('email');?>" name="email" id="email">
 					</p>
-					<div class="row">
-						<div class="col-xs-8">
+					<dl class="row">
+						<dt style="width: 68%">
 							<p class="input-group">
-								<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-								<input type="password" class="form-control" placeholder="<?php echo lang('init_pw');?>" name="password" id="password">
+								<span class="input-group-addon"><i class="icon icon-key"></i></span>
+								<input type="password" class="form-control" placeholder="<?php echo lang('init_pw');?>" name="verifycode" id="verifycode">
 							</p>
-						</div>
-						<div class="col-xs-4">
-							<button type="submit" class="btn btn-primary btn-sm btn-block" id="sendinitpw" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-sendinitpw');?>"><?php echo lang('get_init_pw');?></button>
-						</div>
-					</div>
-					<p class="text-xs-right">
-						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." disabled><?php echo lang('register');?></button>
+						</dt>
+						<dd class="text-right vtop">
+							<button type="submit" class="btn btn-primary btn-sm m-l-1" id="send" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-findpw_sendcode');?>"><?php echo lang('send_code');?></button>
+						</dd>
+					</dl>
+					<p>
+						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." <?php if($conf['user_create_email_on']) { ?>disabled<?php } ?>><?php echo lang('next_step');?></button>
 					</p>
-					<div class="clearfix">
-						<div class="pull-xs-left">
-							
-						</div>
-						<div class="pull-xs-right">
-							<a href="<?php echo url('user-login');?>" class="text-muted"><small><?php echo lang('login');?></small></a>
-							<a href="<?php echo url('user-findpw');?>" class="text-muted"><small><?php echo lang('forgot_pw');?></small></a>
-						</div>
-					</div>
 				</form>
 			</div>
 		</div>
@@ -46,60 +36,50 @@
 <script>
 var jform = $('#form');
 var jsubmit = $('#submit');
-var jemail = $('#email');
-var jpassword = $('#password');
-var jsendinitpw = $('#sendinitpw');
-jsendinitpw.on('click', function() {
+var jsend = $('#send');
+jsend.on('click', function() {
+	jform.reset();
+	jsend.button('loading');
 	var postdata = jform.serialize();
-	jsendinitpw.button('loading');
-	$.xpost(jsendinitpw.attr('action'), postdata, function(code, message) {
+	$.xpost(jsend.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
-			alert('<?php echo lang('user_send_init_pw_sucessfully');?>');
-			jpassword.focus();
+			alert(message);
+			$('#password').focus();
 			var t = 60; // 倒计时
-			jsendinitpw.button('<?php echo lang('user_send_sucessfully');?> 60 ');
+			jsend.button('<?php echo lang('user_send_sucessfully');?> 60 ');
 			jsubmit.button('reset');
 			// 倒计时，重新发送
 			var handler = setInterval(function() {
-				jsendinitpw.button('<?php echo lang('user_send_sucessfully');?> '+(--t)+' ');
+				jsend.button('<?php echo lang('user_send_sucessfully');?> '+(--t)+' ');
 				if(t == 0) {
 					clearInterval(handler);
-					jsendinitpw.button('reset');
+					jsend.button('reset');
 				}
 			}, 1000);
-		} else if(code == 'email') {
-			jemail.alert(message).focus();
-			jsendinitpw.button('reset');
-		} else if(code == 'password') {
-			jpassword.alert(message).focus();
-			jsendinitpw.button('reset');
-		} else {
+		} else if(code < 0) {
 			alert(message);
-			jsendinitpw.button('reset');
+			jsend.button('reset');
+		} else {
+			jform.find('[name="'+code+'"]').alert(message).focus();
+			jsend.button('reset');
 		}
 	});
 	return false;
 });
 
 jform.on('submit', function() {
-	var postdata = jform.serialize();
+	jform.reset();
 	jsubmit.button('loading');
+	var postdata = jform.serialize();
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
-			jsubmit.button('<?php echo lang('user_login_successfully');?>');
-			// 服务端已经设置了 cookie
-			setTimeout(function() {window.location='./';}, 1000);
-		} else if(code == 'email') {
-			jemail.alert(message).focus();
-			jsubmit.button('reset');
-		} else if(code == 'password') {
-			jpassword.alert(message).focus();
-			jsubmit.button('reset');
-		} else if(code == 'sendinitpw') {
-			jsendinitpw.alert(message).focus();
+			$.alert(message);
+			jsubmit.button(message).delay(3000).location('./');
+		} else if(code < 0) {
+			$.alert(message);
 			jsubmit.button('reset');
 		} else {
-			alert(message);
+			jform.find('[name="'+code+'"]').alert(message).focus();
 			jsubmit.button('reset');
 		}
 	});

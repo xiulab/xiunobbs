@@ -217,6 +217,7 @@ if($action == 'login') {
 		
 		include './view/htm/user_findpw.htm';
 
+	// 发送验证码
 	} else if($method == 'POST') {
 		
 		// hook user_findpw_post_start.php
@@ -251,13 +252,15 @@ if($action == 'login') {
 		message(0, '检测通过，进入下一步');
 	}
 	
-// 找回密码第2步
+// 找回密码: 发送验证码
 // 发送激活邮件/手机短信
-} elseif($action == 'sendreset') {
+} elseif($action == 'findpw_sendcode') {
 	
 	// hook user_sendreset_start.php
 	
 	!$conf['user_find_pw_on'] AND message(-1, '当前未开启找回密码功能。');
+	
+	$method == 'POST' AND message(-1, 'Method Error');
 	
 	$smtplist = include './conf/smtp.conf.php';
 	$n = array_rand($smtplist);

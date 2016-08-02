@@ -24,6 +24,7 @@ return array(
 	'save'=>'保存',
 	'close'=>'关闭',
 	'next_step'=>'下一步',
+	'send_code'=>'发送验证码',
 	
 	'update_failed'=>'编辑失败',
 	'delete_failed'=>'删除失败',
@@ -45,6 +46,7 @@ return array(
 	'user_create_sucessfully'=>'用户注册成功',
 	'user_login'=>'用户登陆',
 	'user_profile'=>'个人资料',
+	'user_findpw'=>'找回密码',
 	
 	'subject'=>'主题',
 	'message'=>'内容',
