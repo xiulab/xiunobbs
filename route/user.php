@@ -72,8 +72,10 @@ if($action == 'login') {
 		// hook user_create_post_start.php
 		
 		$email = param('email');
+		$username = param('username');
 		$password = param('password');
 		empty($email) AND message('email', '请填写邮箱');
+		empty($username) AND message('username', '请填写用户名');
 		empty($password) || $password == 'd41d8cd98f00b204e9800998ecf8427e' AND message('password', '请填写密码');
 		
 		if($conf['user_create_email_on']) {
@@ -81,15 +83,20 @@ if($action == 'login') {
 			$password != _SESSION('create_pw') AND message('password', '初始密码不正确');
 		}
 		
-		$user = user_read_by_email($email);
-		$user AND message('email', 'EMAIL 已经注册。');
+		!is_email($email, $err) AND message('email', $err);
+		$_user = user_read_by_email($email);
+		$_user AND message('email', 'EMAIL 已经注册');
+		
+		!is_username($username, $err) AND message('username', $err);
+		$_user = user_read_by_username($username);
+		$_user AND message('email', '用户名已经存在');
 		
 		// email 注册
 		$salt = xn_rand(16);
 		$pwd = md5(md5($password).$salt);
 		$gid = 101;
 		$user = array (
-			'username' => $email,
+			'username' => $username,
 			'email' => $email,
 			'password' => $pwd,
 			'salt' => $salt,
@@ -120,7 +127,7 @@ if($action == 'login') {
 } elseif($action == 'sendinitpw') {
 	
 	// hook user_sendinitpw_start.php
-	
+	 
 	empty($conf['user_create_email_on']) AND message(-1, '未开启邮箱验证。');
 	
 	$smtplist = include './conf/smtp.conf.php';
@@ -150,6 +157,7 @@ if($action == 'login') {
 	} else {
 		message(1, $errstr);
 	}
+	
 // 退出
 } elseif($action == 'logout') {
 	

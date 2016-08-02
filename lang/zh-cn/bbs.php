@@ -23,6 +23,7 @@ return array(
 	'confirm'=>'确定',
 	'save'=>'保存',
 	'close'=>'关闭',
+	'next_step'=>'下一步',
 	
 	'update_failed'=>'编辑失败',
 	'delete_failed'=>'删除失败',

@@ -1,5 +1,11 @@
 <?php 
 
+/*
+	php 默认的 session 采用文件存储，并且使用 flock() 文件锁避免并发访问不出问题（实际上还是无法业务层的并发读后再写入）
+	自定义的 session 采用数据表来存储，同样无法解决业务层并发请求问题。
+	xiuno.js $.each_sync() 串行化并发请求，可以避免客户端并发访问导致的 session 写入问题。
+*/
+
 $sid = '';
 $g_session = array();	
 $g_session_invalid = FALSE; // 0: 有效， 1：无效
@@ -7,8 +13,7 @@ $g_session_invalid = FALSE; // 0: 有效， 1：无效
 // 可以指定独立的 session 服务器，在系统压力巨大的时候可以考虑优化
 //$g_sess_db = $db;
 
-
-// 如果是管理员, sid, 与 ip 绑定，一旦 IP 发生变化，则需要重新登录
+// 如果是管理员, sid, 与 ip 绑定，一旦 IP 发生变化，则需要重新登录。管理员采用 token (绑定IP) 双重验证，避免 sid 被中间窃取。
 
 function sess_open($save_path, $session_name) { 
 	//echo "sess_open($save_path,$session_name) \r\n";
@@ -104,7 +109,7 @@ function sess_write($sid, $data) {
 		'bigdata'=> 0,
 	);
 	
-	// 开启 session 延迟更新，减轻压力，会导致数据显示有些延迟，单位为秒。
+	// 开启 session 延迟更新，减轻压力，会导致不重要的数据(useragent,url)显示有些延迟，单位为秒。
 	$session_delay_update_on = !empty($conf['session_delay_update']) && $time - $g_session['last_date'] < $conf['session_delay_update'];
 	if($session_delay_update_on) {
 		unset($arr['fid']);

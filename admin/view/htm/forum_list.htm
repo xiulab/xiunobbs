@@ -62,6 +62,7 @@ var jsubmit = $("#submit");
 jform.base64_encode_file(); // 对文件进行 base64 编码，处理文件上传，很方便
 
 jform.on('submit', function(){
+	jform.reset();
 	var postdata = jform.serialize();
 	jsubmit.button('loading');
 	$.xpost(jform.attr('action'), postdata, function(code, message) {

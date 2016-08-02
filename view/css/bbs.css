@@ -150,7 +150,7 @@ body {background: #f4f4f4; }
 dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
 .avatar-xs { width: 1.3rem; height: 1.3rem; border-radius: 1.3rem;}
 .avatar-sm { width: 1.6rem; height: 1.6rem; border-radius: 1.6rem;}
-.avatar { width: 3rem; height: 3rem;  border-radius: 3rem;}
+.avatar { width: 2.8rem; height: 2.8rem;  border-radius: 2.8rem;}
 .avatar-lg { width: 6rem; height: 6rem; border-radius: 6rem;}
 
 /* bootstrap 4 默认间距太大，缩小一些 */
@@ -170,6 +170,8 @@ dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
 @media (max-width: 768px) {
 	.card-block {padding: 0.5rem;}
 	.table .avatar-parent {padding-left: 0; padding-right: 0.1rem;}
+	.avatar { width: 2.0rem; height: 2.0rem;  border-radius: 2.0rem;}
+	dl.row > dt.avatar-parent, .avatar-parent { width: 2.5rem;}
 }
 @media (min-width: 992px) {
 	div.card.p-a-sm {padding: 0.8rem !important;}

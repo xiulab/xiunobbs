@@ -107,11 +107,8 @@ jconfirm.on('click', function(){
 		var uid = jtr.attr('uid');
 		if(uid == 1) return alert('不允许删除管理员用户，如果确实要删除，请先调整用户组!');
 		$.xpost(xn.url('user-delete'), {uid:uid}, function(code, message) {
-			if(code == 0) {
-				jtr.remove();
-			} else {
-				alert(message);
-			}
+			if(code != 0) return $.alert(message);
+			jtr.remove();
 		});
 	});
 });

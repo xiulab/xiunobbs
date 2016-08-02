@@ -100,8 +100,9 @@
 var jform = $("#form");
 var jsubmit = $("#submit");
 jform.on('submit', function(){
-	var postdata = jform.serialize();
+	jform.reset();
 	jsubmit.button('loading');
+	var postdata = jform.serialize();
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
 			$.alert(message);

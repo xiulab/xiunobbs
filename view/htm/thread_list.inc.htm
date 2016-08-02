@@ -2,7 +2,7 @@
 					<tr class="thread tap <?php echo $_thread['top_class'];?>" href="<?php echo url("thread-$_thread[tid]");?>">
 						<?php if(forum_access_mod($_thread['fid'], $gid, 'allowtop')) { ?>
 						<td width="35">
-							<input type="checkbox" name="modtid" class="m-t-1" value="<?php echo $_thread['tid']; ?>" />
+							<input type="checkbox" name="modtid" class="m-t-sm" value="<?php echo $_thread['tid']; ?>" />
 						</td>
 						<?php } ?>
 						<td class="avatar-parent" aria-hidden="true">
