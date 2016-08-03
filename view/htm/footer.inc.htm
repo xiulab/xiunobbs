@@ -10,8 +10,14 @@
 
 <div class="text-muted" id="footer">
 	<div class="container" style="overflow: hidden;">
-		<div>Processed time: <?php echo microtime(1) - $starttime;?></div>
-		<div>SQL Queries: <?php echo count($db->sqls);?></div>
+		<dl class="row m-t-1">
+			<dt>
+				Powered by <b>Xiuno BBS <span><?php echo $conf['version'];?></span></b>
+			</dt>
+			<dd class="text-right">
+				Time: <b><?php echo substr(microtime(1) - $starttime, 0, 5);?></b>, SQL: <b><?php echo count($db->sqls);?></b>
+			</dd>
+		</dl>
 	</div>
 </div>
 

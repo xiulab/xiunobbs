@@ -6,6 +6,10 @@ include './xiunophp/xn_zip.func.php';
 
 $action = param(1);
 
+// 初始化插件变量
+plugin_init();
+
+
 // 本地插件
 if(empty($action) || $action == 'local_list') {
 
@@ -17,15 +21,19 @@ if(empty($action) || $action == 'local_list') {
 	include "./admin/view/plugin_local_list.htm";
 
 } elseif($action == 'official_list') {
-	
+
 	$pagesize = 10;
 	$page = param(2, 1);
-	
+	$cateid = param(3, 0);
+	$cond = $cateid ? array('cateid'=>$cateid) : array();
+			
+	// 插件分类
+	$pugin_cates = array(0=>'所有插件', 1=>'风格模板', 2=>'小型插件', 3=>'大型插件', 4=>'接口整合', 99=>'未分类');
+
 	// 线上插件
-	$pluginlist = plugin_official_list(array(), array(), $page, $pagesize);
+	$pluginlist = plugin_official_list($cond, array(), $page, $pagesize);
 	$total = plugin_official_total();
-	$pages = pages('admin/plugin-official_list-{page}.htm', $total, $page, $pagesize);
-	include "./admin/view/plugin_official_list.htm";
+	$pages = pagination(url('plugin-official_list-{page}'), $total, $page, $pagesize);
 	
 } elseif($action == 'read') {
 	

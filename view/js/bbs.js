@@ -6,19 +6,18 @@ $('form').keyup(function(e) {
 	}
 });
 
-// 点击响应整行
+// 点击响应整行：方便手机浏览
 $('.tap').on('click', function() {
 	var href = $(this).attr('href');
 	window.location = href;
 });
-
+// 点击响应整行：导航栏下拉菜单
 $('ul.nav > li').on('click', function() {
 	var jthis = $(this);
 	var href = jthis.children('a').attr('href');
 	if(href) window.location = href;
 });
-
-// 响应整行，但是不响应 checkbox 的点击
+// 点击响应整行：，但是不响应 checkbox 的点击
 $('.thread input[type="checkbox"]').parents('td').on('click', function(e) {
 	e.stopPropagation();
 })

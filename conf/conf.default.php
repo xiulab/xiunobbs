@@ -43,7 +43,7 @@ return array (
 	'cache'=> array(
 		'enable' => TRUE,
 		
-		'type'=> 'mysql', // apc/xcache/yac/redis/memcached/mysql/saekv
+		'type'=> 'mysql', // apc/xcache/redis/memcached/mysql
 		'memcached'=> array (
 			'host'=>'localhost',
 			'port'=>'11211',
@@ -94,18 +94,15 @@ return array (
 	'order_default' => 'lastpid',				// 默认排序
 	'update_views_on' => 1,					// 是否更新点击次数，比较消耗资源，大站请关闭此项。
 	
-	// 分级显示，次数越多越显眼，顺序从大到小！
-	'posts_level' => array(10, 50, 100, 500),
-  	
 	'version' => '4.0',		//
 	'cdn_on' => 1,						// 是否启用 CDN，将改变IP的获取方式
 	
-	'url_rewrite_on' => 0,
-	'user_create_email_on' => 0,		// 是否开启邮箱验证
-	'user_resetpw_on' => 0,		// 是否开启密码找回，需要 SMTP 有效。
+	'url_rewrite_on' => 0,					// 是否开启 URL-Rewrite, 0: /?user-login.htm 1: /user-login.htm 2: /?/user/login/ 3: /user/login
+	'user_create_email_on' => 0,				// 是否开启邮箱验证
+	'user_resetpw_on' => 0,					// 是否开启密码找回，需要 SMTP 有效。
 	 
-	'version' => '3.0',		// 版本
-	'installed' => 0,		// 安装时间
+	'version' => '3.0',					// 版本
+	'installed' => 0,					// 安装时间
 );
 
 ?>
