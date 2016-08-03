@@ -1,3 +1,10 @@
+// 表单快捷键提交 CTRL+ENTER
+$('form').keyup(function(e) {
+	if((e.ctrlKey && (e.which == 13 || e.which == 10)) || (e.altKey && e.which == 83)) {
+		$('form').trigger('submit');
+		return false;
+	}
+});
 
 // 点击响应整行
 $('.tap').on('click', function() {

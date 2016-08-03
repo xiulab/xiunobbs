@@ -3,7 +3,7 @@
  // 本地插件
 $plugin_srcfiles = array();
 $plugin_paths = array();
-$plugins = array(); // 跟官方插件合并？
+$plugins = array(); // 跟官方插件合并
 
 // 官方插件列表
 $official_plugins = array();

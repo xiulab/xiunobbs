@@ -60,17 +60,17 @@ if($action == 'base') {
 		empty($smtplist) AND $smtplist = array($default);
 	
 		$input_user_create_email_on = form_radio_yes_no('user_create_email_on', $conf['user_create_email_on']);
-		$input_user_find_pw_on = form_radio_yes_no('user_find_pw_on', $conf['user_find_pw_on']);
+		$input_user_resetpw_on = form_radio_yes_no('user_resetpw_on', $conf['user_resetpw_on']);
 		
 		include "./view/htm/setting_smtp.htm";
 	
 	} else {
 		
 		$user_create_email_on = param('user_create_email_on', 0);
-		$user_find_pw_on = param('user_find_pw_on', 0);
+		$user_resetpw_on = param('user_resetpw_on', 0);
 		
 		$conf['user_create_email_on'] = $user_create_email_on;
-		$conf['user_find_pw_on'] = $user_find_pw_on;
+		$conf['user_resetpw_on'] = $user_resetpw_on;
 		
 		conf_save('../conf/conf.php', $conf) OR message(-1, '保存到配置文件 conf/conf.php 失败，请检查文件的可写权限。');
 		

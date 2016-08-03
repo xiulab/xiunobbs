@@ -103,7 +103,9 @@ if($action == 'create') {
 		$first = $postlist[$thread['firstpid']];
 		unset($postlist[$thread['firstpid']]);
 		$attachlist = $imagelist = $filelist = array();
-		$first['files'] AND list($attachlist, $imagelist, $filelist) = attach_find_by_pid($thread['firstpid']);
+		
+		//$first['files'] AND list($attachlist, $imagelist, $filelist) = attach_find_by_pid($thread['firstpid']);
+		//$first['files'] AND list($attachlist, $imagelist, $filelist) = attach_find_by_pid($thread['firstpid']);
 		thread_inc_views($tid); // 如果是大站，可以用单独的点击服务，减少 db 压力
 	} else {
 		$first = post_read($thread['firstpid']);
