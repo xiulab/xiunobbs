@@ -40,7 +40,10 @@ switch ($route) {
 	case 'group': 		include './route/group.php'; 		break;
 	case 'user':		include './route/user.php'; 		break;
 	case 'plugin':		include './route/plugin.php'; 		break;
-	default: http_404();
+	default: 
+		// 为了支持插件
+		(!is_word($route) || !is_file("./route/$route.php")) && http_404();
+		include "./route/$route.php";
 }
 
 ?>

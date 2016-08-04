@@ -4,7 +4,7 @@
 
 // 检查是否为单词
 function is_word($s) {
-	$r = preg_match('#^\w+{0,32}$#', $s);
+	$r = preg_match('#^\\w{1,32}$#', $s, $m);
 	return $r;
 }
 

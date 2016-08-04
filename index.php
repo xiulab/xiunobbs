@@ -74,11 +74,9 @@ if(!defined('SKIP_ROUTE')) {
 		case 'test': 	include './route/test.php'; 	break;
 		case 'browser': include './route/browser.php'; 	break;
 		default: 
-			if(is_word($route) && is_file("./route/$route.php")) {
-				include "./route/$route.php";
-			} else {
-				http_404();
-			}
+			// 为了支持插件
+			(!is_word($route) || !is_file("./route/$route.php")) && http_404();
+			include "./route/$route.php";
 	}
 }
 
