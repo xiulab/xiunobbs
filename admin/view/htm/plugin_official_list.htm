@@ -1,0 +1,80 @@
+<?php include './admin/view/header.inc.htm';?>
+
+<div class="panel">
+	<div class="header">插件列表</div>
+	<div class="body">
+		<table class="tlist">
+			<?php foreach($pluginlist as $dir=>$plugin) { ?>
+			<tr valign="top" dir="<?php echo $dir; ?>">
+				<td width="54"><a href="admin/plugin-read-<?php echo $dir; ?>.htm" target="_blank"><img src="<?php echo $plugin['icon_url']; ?>" width="54" height="54" /></a></td>
+				<td width="200">
+					<a href="admin/plugin-read-<?php echo $dir; ?>.htm"><b><?php echo $plugin['name']; ?> </b></a>v<?php echo $plugin['version']; ?>
+					<br /><span class="small"><?php echo $dir; ?></span>
+				</td>
+				<td>
+					<p class="grey"><?php echo $plugin['brief']; ?></p>
+				</td>
+				<td width="400" align="right">
+					<button class="small blue plugin_download_button <?php echo ($plugin['downloaded'] ? 'disabled' : ''); ?>" <?php echo ($plugin['downloaded'] ? ' style="display: none"' : ''); ?>>下载</button>
+					
+					<?php if(!empty($plugin['setting_url'])) { ?>
+					<button class="small grey plugin_setting_button <?php echo (!$plugin['installed'] ? 'disabled' : ''); ?>" onclick="window.location='<?php echo $plugin['setting_url']; ?>'"<?php echo (!$plugin['downloaded'] ? ' style="display: none"' : ''); ?>>设置</button> 　　　
+					<?php } ?>
+					<button class="small blue plugin_install_button <?php echo ($plugin['installed'] || !$plugin['downloaded'] ? 'disabled' : ''); ?>" <?php echo (!$plugin['downloaded'] ? ' style="display: none"' : ''); ?>>安装</button> 　
+					<button class="small red plugin_unstall_button <?php echo (!$plugin['installed'] || !$plugin['downloaded'] ? 'disabled' : ''); ?>" <?php echo (!$plugin['downloaded'] ? ' style="display: none"' : ''); ?>>卸载</button>
+				</td>
+			</tr>
+			<?php } ?>
+		</table>
+	</div>
+</div>
+<p class="page"><?php echo $pages; ?></p>
+
+<?php include './admin/view/footer.inc.htm';?>
+
+<script>
+$('button.plugin_install_button').on('click', function() {
+	var jtr = $(this).closest('tr');
+	var dir = jtr.attr('dir');
+	$.xget('plugin/'+dir+'/install.php', function(code, message) {
+		if(code == 0) {
+			jtr.find('button.plugin_install_button').button('disabled');
+			jtr.find('button.plugin_unstall_button').button('reset');
+			jtr.find('button.plugin_setting_button').button('reset');
+			$.alert('安装成功');
+		} else {
+			$.alert(message);
+		}
+	});
+});
+$('button.plugin_unstall_button').on('click', function() {
+	var jtr = $(this).closest('tr');
+	var dir = jtr.attr('dir');
+	$.xget('plugin/'+dir+'/unstall.php', function(code, message) {
+		if(code == 0) {
+			jtr.find('button.plugin_install_button').button('reset');
+			jtr.find('button.plugin_unstall_button').button('disabled');
+			jtr.find('button.plugin_setting_button').button('disabled');
+			$.alert('卸载成功');
+		} else {
+			$.alert(message);
+		}
+	});
+});
+$('button.plugin_download_button').on('click', function() {
+	var jtr = $(this).closest('tr');
+	var dir = jtr.attr('dir');
+	$.xget('admin/plugin-download-'+dir+'.htm', function(code, message) {
+		if(code == 0) {
+			jtr.find('button.plugin_download_button').hide().button('disabled');
+			jtr.find('button.plugin_install_button').show().button('reset');
+			jtr.find('button.plugin_unstall_button').show().button('disabled');
+			jtr.find('button.plugin_setting_button').show().button('disabled');
+			$.alert('下载成功');
+		} else {
+			$.alert(message);
+		}
+	});
+});
+
+</script>

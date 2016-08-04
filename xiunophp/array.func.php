@@ -120,7 +120,7 @@ function array_assoc_slice($arrlist, $start, $length = 0) {
 	$keys = array_keys($arrlist);
 	$keys2 = array_slice($keys, $start, $length);
 	$retlist = array();
-	foreach ($keys2 as $key) {
+	foreach($keys2 as $key) {
 		$retlist[$key] = $arrlist[$key];
 	}
 

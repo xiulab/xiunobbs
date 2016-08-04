@@ -8,7 +8,7 @@
         "hooks_rank": {
         	"body_start.htm": 0,
         	"body_end.htm": 0
-        }
+        },
         "dependencies": {
         	
         }

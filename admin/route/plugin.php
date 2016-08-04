@@ -2,13 +2,12 @@
 
 !defined('DEBUG') AND exit('Access Denied.');
 
-include './xiunophp/xn_zip.func.php';
+include '../xiunophp/xn_zip.func.php';
 
 $action = param(1);
 
 // 初始化插件变量
 plugin_init();
-
 
 // 本地插件
 if(empty($action) || $action == 'local_list') {
@@ -17,8 +16,9 @@ if(empty($action) || $action == 'local_list') {
 	$header['mobile_title'] = '插件管理';
 	
 	// 本地插件
-	$pluginlist = plugin_local_list();
-	include "./admin/view/plugin_local_list.htm";
+	$pluginlist = $plugins;
+	
+	include "./view/htm/plugin_local_list.htm";
 
 } elseif($action == 'official_list') {
 

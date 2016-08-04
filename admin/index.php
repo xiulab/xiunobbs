@@ -1,5 +1,7 @@
 <?php
 
+$_SERVER['REQUEST_URI'] = '/?plugin.htm';
+
 // 切换到上级目录
 //define('BASE_HREF', '../');
 define('SKIP_ROUTE', TRUE);
@@ -22,10 +24,10 @@ $menu = include './menu.conf.php';
 
 // 只允许管理员登陆后台
 // 对于越权访问，可以默认为黑客企图，不用友好提示。
-$gid != 1 AND http_403();
+!DEBUG AND $gid != 1 AND http_403();
 
 // 管理员令牌检查
-admin_token_check();
+!DEBUG AND admin_token_check();
 
 $route = param(0, 'index');
 
@@ -37,6 +39,7 @@ switch ($route) {
 	case 'friendlink': 	include './route/friendlink.php'; 	break;
 	case 'group': 		include './route/group.php'; 		break;
 	case 'user':		include './route/user.php'; 		break;
+	case 'plugin':		include './route/plugin.php'; 		break;
 	default: http_404();
 }
 

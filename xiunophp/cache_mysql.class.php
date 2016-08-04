@@ -1,6 +1,15 @@
 <?php
 
-// mysql 的实现封装耦合性有点高，要求有 bbs_cache 表存在。参看 install/install.sql 中的结构。
+/*
+# 持久的 key value 数据存储
+DROP TABLE IF EXISTS bbs_kv;
+CREATE TABLE bbs_kv (
+  k char(32) NOT NULL default '',
+  v mediumtext NOT NULL,
+  expiry int(11) unsigned NOT NULL default '0',		# 过期时间
+  PRIMARY KEY(k)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+*/
 class cache_mysql {
 	
 	public $conf = array();
@@ -36,6 +45,7 @@ class cache_mysql {
         public function get($k) {
                 $time = time();
                 $arr = db_find_one($this->table, array('k'=>$k), array(), array(), $this->db);
+                // 如果表不存在，则建立表 pre_cache
                 if(!$arr) return NULL;
                 if($arr['expiry'] && $time > $arr['expiry']) {
                 	db_delete($this->table, array('k'=>$k), $this->db);

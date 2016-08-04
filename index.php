@@ -73,7 +73,12 @@ if(!defined('SKIP_ROUTE')) {
 		case 'mod': 	include './route/mod.php'; 	break;
 		case 'test': 	include './route/test.php'; 	break;
 		case 'browser': include './route/browser.php'; 	break;
-		default: http_404();
+		default: 
+			if(is_word($route) && is_file("./route/$route.php")) {
+				include "./route/$route.php";
+			} else {
+				http_404();
+			}
 	}
 }
 

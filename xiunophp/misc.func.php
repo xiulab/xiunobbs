@@ -891,9 +891,9 @@ function t($name = '') {
 
 // 获取 http://xxx.com/path/
 function http_url_path() {
-	$port = $_SERVER['SERVER_PORT'];
+	$port = _SERVER('SERVER_PORT');
 	//$portadd = ($port == 80 ? '' : ':'.$port);
-	$host = $_SERVER['HTTP_HOST'];  // host 里包含 port
+	$host = _SERVER('HTTP_HOST');  // host 里包含 port
 	$path = substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/'));
 	$http = (($port == 443) || (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off')) ? 'https' : 'http';
 	return  "$http://$host$path/";
@@ -995,7 +995,7 @@ function xn_shutdown_handle() {
 function xn_debug_info() {
 	global $db, $starttime;
 	$s = '';
-	if(DEBUG) {
+	if(DEBUG > 1) {
 		$s .= '<div class="small break-all">';
 		$s .= '<p>Processed Time:'.(microtime(1) - $starttime).'</p>';
 		if(IN_CMD) {

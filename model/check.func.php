@@ -2,6 +2,12 @@
 
 // hook check_func_php_start.php
 
+// 检查是否为单词
+function is_word($s) {
+	$r = preg_match('#^\w+{0,32}$#', $s);
+	return $r;
+}
+
 function is_mobile($mobile, &$err) {
 	// hook is_mobile_start.php
 	if(!preg_match('#^\d{11}$#', $mobile)) {
