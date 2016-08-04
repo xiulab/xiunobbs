@@ -3,6 +3,7 @@
 /*
 	Xiuno BBS 4.0 插件实例
 	广告插件设置程序
+	admin/plugin-setting-xn_ad.htm
 */
 
 // 切换到上级目录
@@ -13,9 +14,6 @@ include './index.php';
 
 $setting = kv_get('xn_ad_setting');
 
-message(-1, 'err');
-
-exit;
 if($method == 'GET') {
 	
 	$input = array();

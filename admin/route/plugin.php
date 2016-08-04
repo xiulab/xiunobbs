@@ -79,21 +79,17 @@ if($action == 'local') {
 	plugin_download_unzip($dir);
 	
 	// 检查解压是否成功
-	if(!is_dir("../plugin/$dir")) {
-		message(-1, "插件可能下载失败，目录不存在: plugin/$dir");
-	} else {
-		message(0, jump('插件下载成功:'.$destpath.", ，请点击进行安装", url("plugin-read-$dir"), 2));
-	}
+	message(0, jump('插件下载成功:'.$destpath.", ，请点击进行安装", url("plugin-read-$dir"), 2));
 	
 } elseif($action == 'install') {
 	
 	$dir = param(2);
 	
 	// 检查目录可写
-	plugin_dir_check_is_writable();
+	plugin_check_dir_is_writable();
 	
 	// 插件依赖检查
-	plugin_check_dependency();
+	plugin_check_dependency($dir, 'install');
 	
 	// 安装插件
 	plugin_install($dir);
@@ -105,10 +101,10 @@ if($action == 'local') {
 	$dir = param(2);
 	
 	// 检查目录可写
-	plugin_dir_check_is_writable();
+	plugin_check_dir_is_writable();
 	
 	// 插件依赖检查
-	plugin_check_dependency();
+	plugin_check_dependency($dir, 'unstall');
 	
 	// 卸载插件
 	plugin_unstall($dir);
@@ -120,10 +116,10 @@ if($action == 'local') {
 	$dir = param(2);
 	
 	// 检查目录可写
-	plugin_dir_check_is_writable();
+	plugin_check_dir_is_writable();
 	
 	// 插件依赖检查
-	plugin_check_dependency();
+	plugin_check_dependency($dir, 'install');
 	
 	// 启用插件
 	plugin_enable($dir);
@@ -135,10 +131,10 @@ if($action == 'local') {
 	$dir = param(2);
 	
 	// 检查目录可写
-	plugin_dir_check_is_writable();
+	plugin_check_dir_is_writable();
 	
 	// 插件依赖检查
-	plugin_check_dependency();
+	plugin_check_dependency($dir, 'unstall');
 	
 	// 禁用插件
 	plugin_disable($dir);
@@ -150,7 +146,7 @@ if($action == 'local') {
 	$dir = param(2);
 	
 	// 检查目录可写
-	plugin_dir_check_is_writable();
+	plugin_check_dir_is_writable();
 	
 	// 插件依赖检查
 	plugin_check_dependency();
@@ -175,14 +171,24 @@ function plugin_check_dir_is_writable() {
 			$dirarr[] = $dir;
 		}
 	}
-	message(-1, '在安装插件目录期间，请设置： '.implode(', ', $dirarr).' 和文件为可写。');
+	!empty($dirarr) AND message(-1, '在安装插件目录期间，请设置： '.implode(', ', $dirarr).' 和文件为可写。');
 }
 
-function plugin_check_dependency($dir) {
-	$arr = plugin_dependency_arr_to_links($dir);
-	if(!empty($arr)) {
-		$s = plugin_dependency_arr_to_links($arr);
-		message(-1, $s);
+function plugin_check_dependency($dir, $action = 'install') {
+	global $plugins;
+	$name = $plugins[$dir]['name'];
+	if($action == 'install') {
+		$arr = plugin_dependencies($dir);
+		if(!empty($arr)) {
+			$s = plugin_dependency_arr_to_links($arr);
+			message(-1, "($name)依赖以下插件：".$s."，请先安装依赖的插件。");
+		}
+	} else {
+		$arr = plugin_by_dependencies($dir);
+		if(!empty($arr)) {
+			$s = plugin_dependency_arr_to_links($arr);
+			message(-1, "以下插件依赖($name)：".$s."，不能删除($name)。");
+		}
 	}
 }
 
@@ -204,22 +210,26 @@ function plugin_download_unzip($dir) {
 	global $conf;
 	$app_url = http_url_path();
 	$siteid =  md5($app_url.$conf['auth_key']);
-	$app_url = urlencode($app_url);
-	$url = "http://plugin.xiuno.com/plugin-down-dir-$dir-siteid-$siteid-ajax-1.htm?app_url=$app_url";
+	$app_url = xn_urlencode($app_url);
+	$url = "http://plugin.xiuno.com/plugin-download-$dir-$siteid-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
 
 	// 服务端开始下载
-	$s = http_get($url, 60);
-	if(empty($s) || substr($s, 0, 2) != 'PK') {
-		$arr = xn_json_decode($s);
-		empty($arr['message']) && $arr['message'] = '';
-		message(-1, '服务端返回数据错误：'.$arr['message']);
-	}
-	$tmppath = $conf['tmp_path'];
-	$zipfile = $tmppath.$dir.'.zip';
+	set_time_limit(0); // 设置超时
+	$s = http_get($url, 120);
+	empty($s) AND message(-1, '服务器返回数据为空'); 
+	substr($s, 0, 2) != 'PK' AND message(-1, '服务器返回数据有错');
+	$arr = xn_json_decode($s);
+	empty($arr['message']) AND message(-1, '服务端返回数据错误：'.$s);
+	$arr['code'] != 0 AND message(-1, '服务端返回数据错误：'.$arr['message']);
+	
+	$zipfile = $conf['tmp_path'].'plugin_'.$dir.'.zip';
 	$destpath = "../plugin/$dir/";
 	file_put_contents($zipfile, $s);
-	xn_unzip($zipfile, $destpath);
+	$arr = xn_unzip($zipfile, $destpath);
+	empty($files) AND message(-1, '压缩包数据有误');
 	unlink($zipfile);
+	
+	!is_dir("../plugin/$dir") AND message(-1, "插件可能下载失败，目录不存在: plugin/$dir");
 }
 
 

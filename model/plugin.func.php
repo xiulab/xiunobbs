@@ -74,6 +74,24 @@ function plugin_dependencies($dir) {
 	return $arr;
 }
 
+/*
+	返回被依赖的插件数组：
+	array(
+		'xn_ad'=>'1.0',
+		'xn_umeditor'=>'1.0',
+	);
+*/
+function plugin_by_dependencies($dir) {
+	global $plugins;
+	$arr = array();
+	foreach($plugins as $_dir=>$plugin) {
+		if(in_array($dir, $plugin['dependencies'])) {
+			$arr[$_dir] = $version;
+		}
+	}
+	return $arr;
+}
+
 function plugin_enable($dir) {
 	global $plugins;
 	$plugins[$dir]['enable'] = 1;

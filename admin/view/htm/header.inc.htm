@@ -5,8 +5,10 @@
 	<?php $user = G('user');?>
 	<?php $menu = G('menu');?>
 	<?php $forumlist_show = G('forumlist_show');?>
-	<?php $static_version = DEBUG ? '?v1.0' : '';?>
-	
+	<?php $route = G('route');?>
+	<?php $conf = G('conf');?>
+	<?php $static_version = $conf['static_version'];?>
+
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="author" content="XiunoBBS 4.0" />
