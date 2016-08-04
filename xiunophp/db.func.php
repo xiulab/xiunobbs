@@ -182,13 +182,15 @@ function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesi
 	$d = $db ? $db : $d;
 	if(!$d) return FALSE;
 	
+	return $d->find($table, $cond, $orderby, $page, $pagesize, $key, $col);
+	/*
 	$page = max(1, $page);
 	$cond = db_cond_to_sqladd($cond);
 	$orderby = db_orderby_to_sqladd($orderby);
 	$offset = ($page - 1) * $pagesize;
 	$cols = $col ? implode(',', $col) : '*';
 	return db_sql_find("SELECT $cols FROM {$d->tablepre}$table $cond$orderby LIMIT $offset,$pagesize", $key, $d);
-	
+	*/
 	/* 兼容性写法: 需要兼容，请自行打开开这段注释，默认不兼容
 	if(is_array($table)) {
 		
@@ -238,10 +240,13 @@ function db_find_one($table, $cond = array(), $orderby = array(), $col = array()
 	$d = $db ? $db : $d;
 	if(!$d) return FALSE;
 	
+	return $d->find_one($table, $cond, $orderby, $col);
+	
+	/*
 	$cond = db_cond_to_sqladd($cond);
 	$orderby = db_orderby_to_sqladd($orderby);
 	$cols = $col ? implode(',', $col) : '*';
-	return db_sql_find_one("SELECT $cols FROM {$d->tablepre}$table $cond$orderby LIMIT 1", $d);
+	return db_sql_find_one("SELECT $cols FROM {$d->tablepre}$table $cond$orderby LIMIT 1", $d);*/
 	
 	/* 兼容性写法: 需要兼容，请自行打开开这段注释，默认不兼容
 	if(is_array($table)) {

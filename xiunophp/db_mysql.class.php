@@ -54,14 +54,7 @@ class db_mysql {
 		return $link;
 	}
 	
-	public function find_one($sql) {
-		$query = $this->query($sql);
-		if(!$query) return $query;
-		// 如果结果为空，返回 FALSE
-		return mysql_fetch_assoc($query);
-	}
-	
-	public function find($sql, $key = NULL) {
+	public function sql_find($sql, $key = NULL) {
 		$query = $this->query($sql);
 		if(!$query) return $query;
 		$arrlist = array();
@@ -69,6 +62,30 @@ class db_mysql {
 			$key ? $arrlist[$arr[$key]] = $arr : $arrlist[] = $arr; // 顺序没有问题，尽管是数字，仍然是有序的，看来内部实现是链表，与 js 数组不同。
 		}
 		return $arrlist;
+	}
+	
+	public function sql_find_one($sql) {
+		$query = $this->query($sql);
+		if(!$query) return $query;
+		// 如果结果为空，返回 FALSE
+		return mysql_fetch_assoc($query);
+	}
+	
+	public function find($table, $cond = array(), $orderby = array(), $page = 1, $pagesize = 10, $key = '', $col = array()) {
+		$page = max(1, $page);
+		$cond = db_cond_to_sqladd($cond);
+		$orderby = db_orderby_to_sqladd($orderby);
+		$offset = ($page - 1) * $pagesize;
+		$cols = $col ? implode(',', $col) : '*';
+		return $this->sql_find("SELECT $cols FROM {$this->tablepre}$table $cond$orderby LIMIT $offset,$pagesize", $key);
+		
+	}
+		
+	public function find_one($table, $cond = array(), $orderby = array(), $col = array()) {
+		$cond = db_cond_to_sqladd($cond);
+		$orderby = db_orderby_to_sqladd($orderby);
+		$cols = $col ? implode(',', $col) : '*';
+		return $this->sql_find_one("SELECT $cols FROM {$this->tablepre}$table $cond$orderby LIMIT 1");
 	}
 	
 	public function query($sql, $link = NULL) {
@@ -109,14 +126,14 @@ class db_mysql {
 	public function count($table, $cond = array()) {
 		$cond = db_cond_to_sqladd($cond);
 		$sql = "SELECT COUNT(*) AS num FROM `$table` $cond";
-		$arr = $this->find_one($sql);
+		$arr = $this->sql_find_one($sql);
 		return !empty($arr) ? intval($arr['num']) : $arr;
 	}
 	
 	public function maxid($table, $field, $cond = array()) {
 		$sqladd = db_cond_to_sqladd($cond);
 		$sql = "SELECT MAX($field) AS maxid FROM `$table` $sqladd";
-		$arr = $this->find_one($sql);
+		$arr = $this->sql_find_one($sql);
 		return !empty($arr) ? intval($arr['maxid']) : $arr;
 	}
 	
@@ -187,7 +204,7 @@ class db_mysql {
 	//}
 	
 	public function version() {
-		$r = $this->find_one("SELECT VERSION() AS v");
+		$r = $this->sql_find_one("SELECT VERSION() AS v");
 		return $r['v'];
 	}
 	

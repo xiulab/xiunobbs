@@ -61,20 +61,37 @@ class db_pdo_sqlite {
 		
 	}
 
-	public function find_one($sql) {
+	public function sql_find_one($sql) {
 		$query = $this->query($sql);
 		if(!$query) return $query;
 		$query->setFetchMode(PDO::FETCH_ASSOC);
 		return $query->fetch();
 	}
 	
-	public function find($sql, $key = NULL) {
+	public function sql_find($sql, $key = NULL) {
 		$query = $this->query($sql);
 		if(!$query) return $query;
 		$query->setFetchMode(PDO::FETCH_ASSOC);
 		$arrlist = $query->fetchAll();
 		$key AND arrlist_change_key($arrlist, $key);
 		return $arrlist;
+	}
+	
+	public function find($table, $cond = array(), $orderby = array(), $page = 1, $pagesize = 10, $key = '', $col = array()) {
+		$page = max(1, $page);
+		$cond = db_cond_to_sqladd($cond);
+		$orderby = db_orderby_to_sqladd($orderby);
+		$offset = ($page - 1) * $pagesize;
+		$cols = $col ? implode(',', $col) : '*';
+		return $this->sql_find("SELECT $cols FROM {$this->tablepre}$table $cond$orderby LIMIT $offset,$pagesize", $key);
+		
+	}
+		
+	public function find_one($table, $cond = array(), $orderby = array(), $col = array()) {
+		$cond = db_cond_to_sqladd($cond);
+		$orderby = db_orderby_to_sqladd($orderby);
+		$cols = $col ? implode(',', $col) : '*';
+		return $this->sql_find_one("SELECT $cols FROM {$this->tablepre}$table $cond$orderby LIMIT 1");
 	}
 	
 	public function query($sql) {
@@ -108,14 +125,14 @@ class db_pdo_sqlite {
 	public function count($table, $cond = array()) {
 		$cond = db_cond_to_sqladd($cond);
 		$sql = "SELECT COUNT(*) AS num FROM `$table` $cond";
-		$arr = $this->find_one($sql);
+		$arr = $this->sql_find_one($sql);
 		return !empty($arr) ? intval($arr['num']) : $arr;
 	}
 	
 	public function maxid($table, $field, $cond = array()) {
 		$sqladd = db_cond_to_sqladd($cond);
 		$sql = "SELECT MAX($field) AS maxid FROM `$table` $sqladd";
-		$arr = $this->find_one($sql);
+		$arr = $this->sql_find_one($sql);
 		return !empty($arr) ? intval($arr['maxid']) : $arr;
 	}
 	
@@ -183,7 +200,7 @@ class db_pdo_sqlite {
 	*/
 	
 	public function version() {
-		$r = $this->find_one("SELECT VERSION() AS v");
+		$r = $this->sql_find_one("SELECT VERSION() AS v");
 		return $r['v'];
 	}
 	
