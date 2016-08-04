@@ -59,7 +59,6 @@ $setting = kv_get('setting');
 if(!defined('SKIP_ROUTE')) {
 	$route = param(0, 'index');
 	
-	// todo: HHVM 不支持动态 include $filename
 	// 按照使用的频次排序，增加命中率，提高效率
 	switch ($route) {
 		case 'index': 	include './route/index.php'; 	break;
@@ -74,7 +73,7 @@ if(!defined('SKIP_ROUTE')) {
 		case 'test': 	include './route/test.php'; 	break;
 		case 'browser': include './route/browser.php'; 	break;
 		default: 
-			// 为了支持插件
+			// 为了支持插件，此处不利于编译优化
 			(!is_word($route) || !is_file("./route/$route.php")) && http_404();
 			include "./route/$route.php";
 	}

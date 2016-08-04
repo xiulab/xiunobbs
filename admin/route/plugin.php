@@ -10,7 +10,9 @@ $action = param(1);
 plugin_init();
 
 // 本地插件
-if(empty($action) || $action == 'local_list') {
+empty($action) AND $action = 'local';
+
+if($action == 'local') {
 
 	$header['title']    = '插件管理';
 	$header['mobile_title'] = '插件管理';
@@ -18,22 +20,31 @@ if(empty($action) || $action == 'local_list') {
 	// 本地插件
 	$pluginlist = $plugins;
 	
-	include "./view/htm/plugin_local_list.htm";
+	$pagination = '';
+	$pugin_cate_html = '';
+	
+	include "./view/htm/plugin_list.htm";
 
-} elseif($action == 'official_list') {
+// 分类，分页
+} elseif($action == 'official') {
 
+	$cateid = param(2, 0);
+	$page = param(3, 1);
 	$pagesize = 10;
-	$page = param(2, 1);
-	$cateid = param(3, 0);
 	$cond = $cateid ? array('cateid'=>$cateid) : array();
 			
 	// 插件分类
 	$pugin_cates = array(0=>'所有插件', 1=>'风格模板', 2=>'小型插件', 3=>'大型插件', 4=>'接口整合', 99=>'未分类');
 
+	$pugin_cate_html = plugin_cate_active($pugin_cates, $cateid, $page);
+	
 	// 线上插件
-	$pluginlist = plugin_official_list($cond, array(), $page, $pagesize);
-	$total = plugin_official_total();
-	$pages = pagination(url('plugin-official_list-{page}'), $total, $page, $pagesize);
+	$total = plugin_official_total($cond);
+	$pluginlist = plugin_official_list($cond, array('pluginid'=>-1), $page, $pagesize);
+	$pagination = pagination(url('plugin-official-$cateid-{page}'), $total, $page, $pagesize);
+	
+
+	include "./view/htm/plugin_list.htm";
 	
 } elseif($action == 'read') {
 	
@@ -41,7 +52,9 @@ if(empty($action) || $action == 'local_list') {
 	$plugin = plugin_read($dir);
 	empty($plugin) AND message(-1, '插件不存在');
 	
-	include "./admin/view/plugin_read.htm";
+	$tab = $plugin['plugind'] ? 'official' : 'local';
+	
+	include "./view/plugin_read.htm";
 	
 // 下载官方插件。
 } elseif($action == 'download') {
@@ -74,17 +87,37 @@ if(empty($action) || $action == 'local_list') {
 		message(-1, '服务端返回数据错误：'.$arr['message']);
 	}
 	$zipfile = $tmppath.$dir.'.zip';
-	$destpath = "./plugin/$dir/";
+	$destpath = "../plugin/$dir/";
 	file_put_contents($zipfile, $s);
 	xn_unzip($zipfile, $destpath);
 	unlink($zipfile);
 	
-	if(!is_dir("./plugin/$dir")) {
+	if(!is_dir("../plugin/$dir")) {
 		message(-1, "插件可能下载失败，目录不存在: plugin/$dir");
 	} else {
 		message(0, '插件下载解压成功:'.$destpath);
 	}
 	
+} elseif($action == 'enable') {
+	
+} elseif($action == 'disable') {
+	
+} elseif($action == 'upgrade') {
+	
+} elseif($action == 'install') {
+	
+} elseif($action == 'unstall') {
+	
+}
+
+// bootstrap style
+function plugin_cate_active($plugin_cate, $cateid, $page) {
+	$s = '';
+	foreach ($plugin_cate as $_cateid=>$_catename) {
+		$url = url("plugin-official-$_cateid-$page");
+		$s .= '<a role="button" class="btn btn btn-secondary'.($cateid == $_cateid ? ' active' : '').'" href="'.$url.'">'.$_catename.'</a>';
+	}
+	return $s;
 }
 
 ?>

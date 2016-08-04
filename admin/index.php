@@ -1,6 +1,6 @@
 <?php
 
-$_SERVER['REQUEST_URI'] = '/?plugin.htm';
+//$_SERVER['REQUEST_URI'] = '/?plugin.htm';
 
 // 切换到上级目录
 //define('BASE_HREF', '../');

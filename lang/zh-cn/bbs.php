@@ -68,6 +68,7 @@ return array(
 	
 	'post_update'=>'编辑帖子',
 	
+	// 后台
 	'admin_login'=>'管理员登陆',
 	
 	'user_admin'=>'用户',
@@ -85,6 +86,8 @@ return array(
 	'admin_user_list'=>'用户列表',
 	'admin_user_group'=>'用户组',
 	'admin_user_create'=>'创建用户',
+	'admin_plugin_local_list'=>'本地插件',
+	'admin_plugin_official_list'=>'官方插件',
 	
 	'edit_user'=>'编辑用户',
 	'create_user'=>'创建用户',

@@ -32,19 +32,16 @@ function plugin_init() {
 		$plugins[$dir] = is_file($conffile) ? xn_json_decode(file_get_contents($conffile)) : array();
 		
 		// 额外的信息
-		$plugins[$dir]['dir'] = $dir;
-		$plugins[$dir]['icon_url'] = "../plugin/$dir/icon.png";
-		$plugins[$dir]['have_setting'] = is_file("../plugin/$dir/setting.php");
-		
 		$plugins[$dir]['hooks'] = array();
 		$hookpaths = glob("../plugin/$dir/hook/*.*"); // path
 		foreach($hookpaths as $hookpath) {
 			$hookname = file_name($hookpath);
 			$plugins[$dir]['hooks'][$hookname] = $hookpath;
 		}
-		plugin_format($plugins[$dir]);
+		
+		// 合并本地，线上
+		$plugins[$dir] = plugin_read($dir);
 	}
-	
 	
 	/*
 	// 检查文件目录和文件是否可写
@@ -263,24 +260,26 @@ function plugin_overwrite_unstall($dir) {
 
 // -------------------> 官方插件列表缓存到本地。
 
+// 条件满足的总数
 function plugin_official_total($cond = array()) {
 	$offlist = plugin_official_list_cache();
+	$offlist = arrlist_cond_orderby($offlist, $cond, array(), 1, 1000);
 	return count($offlist);
 }
 
 // 远程插件列表，从官方服务器获取插件列表，全部缓存到本地，定期更新
-function plugin_official_list($cond = array(), $orderby = array('stars'=>-1), $page = 1, $pagesize = 20) {
+function plugin_official_list($cond = array(), $orderby = array('pluginid'=>-1), $page = 1, $pagesize = 20) {
 	// 服务端插件信息，缓存起来
 	$offlist = plugin_official_list_cache();
 	$offlist = arrlist_cond_orderby($offlist, $cond, $orderby, $page, $pagesize);
-	foreach($offlist as &$plugin) plugin_official_format($plugin);
+	foreach($offlist as &$plugin) $plugin = plugin_read($plugin['dir']);
 	return $offlist;
 }
 
 function plugin_official_list_cache() {
 	$s = cache_get('plugin_official_list');
-	if($s === NULL || DEBUG) {
-		$url = "http://plugin.xiuno.com/plugin-list-version-4.htm"; // 获取所有的插件，匹配到3.0以上的。
+	if($s === NULL) {
+		$url = "http://plugin.xiuno.com/plugin-list-version-3.htm"; // 获取所有的插件，匹配到3.0以上的。
 		$s = http_get($url, 30, 3);
 		if(empty($s)) {
 			return xn_error(-1, '从官方获取插件数据失败。');
@@ -299,55 +298,64 @@ function plugin_official_list_cache() {
 function plugin_official_read($dir) {
 	$offlist = plugin_official_list_cache();
 	$plugin = isset($offlist[$dir]) ? $offlist[$dir] : array();
-	plugin_official_format($plugin);
 	return $plugin;
-}
-
-// 安装，卸载，禁用，下载，更新
-function plugin_official_format(&$plugin) {
-	global $plugins;
-	if(empty($plugin)) return;
-	
-	plugin_format($plugin);
-	
-	// 加上官方插件的信息
-	!isset($plugin['pluginid']) && $plugin['pluginid'] = 0;
-	!isset($plugin['cateid']) && $plugin['cateid'] = 0;
-	!isset($plugin['lastupdate']) && $plugin['lastupdate'] = 0;
-	!isset($plugin['stars']) && $plugin['stars'] = 0;
-	!isset($plugin['user_stars']) && $plugin['user_stars'] = 0;
-	!isset($plugin['installs']) && $plugin['installs'] = 0;
-	!isset($plugin['sells']) && $plugin['sells'] = 0;
-	!isset($plugin['file_md5']) && $plugin['file_md5'] = '';
-	!isset($plugin['filename']) && $plugin['filename'] = '';
-	!isset($plugin['is_cert']) && $plugin['is_cert'] = 0;
-	!isset($plugin['is_show']) && $plugin['is_show'] = 0;
-	
-	!isset($plugin['icon_url']) AND $plugin['icon_url'] = "http://plugin.xiuno.com/upload/plugin/$plugin[pluginid]/icon.png";
-	$plugin['downloaded'] = isset($plugins[$dir]);
-	$plugin['stars_fmt'] = str_repeat('<span class="icon star"></span>', $plugin['stars']);
-	$plugin['user_stars_fmt'] = str_repeat('<span class="icon star"></span>', $plugin['user_stars']);
-	$plugin['is_official'] = 1;
-	!isset($plugin['icon_url']) AND $plugin['setting_url'] = '';
 }
 
 // -------------------> 本地插件列表缓存到本地。
 // 安装，卸载，禁用，更新
-function plugin_format(&$plugin) {
-	// local info
-	!isset($plugin['dir']) && $plugin['dir'] = '';
-	!isset($plugin['name']) && $plugin['name'] = '';
-	!isset($plugin['brief']) && $plugin['brief'] = '';
-	!isset($plugin['version']) && $plugin['version'] = '1.0';
-	!isset($plugin['bbs_version']) && $plugin['bbs_version'] = '4.0';
-	!isset($plugin['installed']) && $plugin['installed'] = 0;
-	!isset($plugin['enable']) && $plugin['enable'] = 0;
-	!isset($plugin['hooks']) && $plugin['hooks'] = array();
-	!isset($plugin['hooks_rank']) && $plugin['hooks_rank'] = array();
-	!isset($plugin['dependencies']) && $plugin['dependencies'] = array();
-	!isset($plugin['icon_url']) && $plugin['icon_url'] = '';
-	!isset($plugin['have_setting']) && $plugin['have_setting'] = 0;
-	!isset($plugin['setting_url']) && $plugin['setting_url'] = 0;
+function plugin_read($dir) {
+	global $plugins;
+	
+	$local = array_value($plugins, $dir, array());
+	$official = plugin_official_read($dir);
+	
+	if(empty($local) && empty($official)) return array();
+	
+	// 本地插件信息
+	//!isset($plugin['dir']) && $plugin['dir'] = '';
+	!isset($local['name']) && $local['name'] = '';
+	!isset($local['brief']) && $local['brief'] = '';
+	!isset($local['version']) && $local['version'] = '1.0';
+	!isset($local['bbs_version']) && $local['bbs_version'] = '4.0';
+	!isset($local['installed']) && $local['installed'] = 0;
+	!isset($local['enable']) && $local['enable'] = 0;
+	!isset($local['hooks']) && $local['hooks'] = array();
+	!isset($local['hooks_rank']) && $local['hooks_rank'] = array();
+	!isset($local['dependencies']) && $local['dependencies'] = array();
+	!isset($local['icon_url']) && $local['icon_url'] = '';
+	!isset($local['have_setting']) && $local['have_setting'] = 0;
+	!isset($local['setting_url']) && $local['setting_url'] = 0;
+	
+	// 加上官方插件的信息
+	!isset($official['pluginid']) && $official['pluginid'] = 0;
+	!isset($official['name']) && $official['name'] = '';
+	!isset($official['brief']) && $official['brief'] = '';
+	!isset($official['$official']) && $official['version'] = '1.0';
+	!isset($official['bbs_version']) && $official['bbs_version'] = '4.0';
+	!isset($official['version']) && $official['version'] = 0;
+	!isset($official['cateid']) && $official['cateid'] = 0;
+	!isset($official['lastupdate']) && $official['lastupdate'] = 0;
+	!isset($official['stars']) && $official['stars'] = 0;
+	!isset($official['user_stars']) && $official['user_stars'] = 0;
+	!isset($official['installs']) && $official['installs'] = 0;
+	!isset($official['sells']) && $official['sells'] = 0;
+	!isset($official['file_md5']) && $official['file_md5'] = '';
+	!isset($official['filename']) && $official['filename'] = '';
+	!isset($official['is_cert']) && $official['is_cert'] = 0;
+	!isset($official['is_show']) && $official['is_show'] = 0;
+	
+	$plugin = $local + $official;
+	
+	// 额外的判断
+	$plugin['icon_url'] = $plugin['pluginid'] ? "http://plugin.xiuno.com/upload/plugin/$plugin[pluginid]/icon.png" : "../plugin/$dir/icon.png";
+	$plugin['icon_url'] = $plugin['pluginid'] ? "http://plugin.xiuno.com/upload/plugin/$plugin[pluginid]/icon.png" : "../plugin/$dir/icon.png";
+	$plugin['setting_url'] = $plugin['installed'] && is_file("../plugin/$dir/setting.php") ? "plugin-setting-$dir.htm" : "";
+	$plugin['downloaded'] = isset($plugins[$dir]);
+	$plugin['stars_fmt'] = $plugin['pluginid'] ? str_repeat('<span class="icon star"></span>', $plugin['stars']) : '';
+	$plugin['user_stars_fmt'] = $plugin['pluginid'] ? str_repeat('<span class="icon star"></span>', $plugin['user_stars']) : '';
+	$plugin['have_upgrade'] = $plugin['pluginid'] && version_compare($official['version'], $local['version']) > 0 ? TRUE : FALSE;
+	
+	return $plugin;
 }
 
 
