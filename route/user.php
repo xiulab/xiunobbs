@@ -171,7 +171,7 @@ if($action == 'login') {
 	
 	// hook user_logout_end.php
 	
-	message(0, lang('logout_success'));
+	message(0, jump(lang('logout_success'), http_referer(), 1));
 	//message(0, jump('退出成功', './', 1));
 
 // 获取当前用户的信息，可以提供给接口

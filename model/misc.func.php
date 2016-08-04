@@ -56,18 +56,18 @@ function conf_save($file, $conf2, $relative_path = '../') {
 }
 
 // 正则的方式修改配置文件，不害怕 web shell 写入
-function json_conf_set($k, $v, $conffile = './conf.json') {
+function json_conf_set($arr, $conffile = './conf.json') {
 	$s = file_get_contents($conffile);
 	$sep = "\n";
 	$s = str_replace("\r\n", $sep, $s);
 	$arr = explode($sep, trim($s));
-	
-	$k2 = preg_quote($k);
-	foreach($arr as $line=>&$s) {
-		$s = preg_replace('#"'.$k2.'"\s*:\s*".*?"#ism', "\"$k\" : \"$v\"", $s);
-		$s = preg_replace('#"'.$k2.'"\s*:\s*\d+\s*#ism', "\"$k\" : $v", $s);
+	foreach ($arr as $k=>$v) {
+		$k2 = preg_quote($k);
+		foreach($arr as $line=>&$s) {
+			$s = preg_replace('#"'.$k2.'"\s*:\s*".*?"#ism', "\"$k\" : \"$v\"", $s);
+			$s = preg_replace('#"'.$k2.'"\s*:\s*\d+\s*#ism', "\"$k\" : $v", $s);
+		}
 	}
-	
 	$s = implode($sep, $arr);
 	// hook conf_set_end.php
 	return file_put_contents($conffile, $s, LOCK_EX);
@@ -120,6 +120,23 @@ function message($code, $message, $extra = array()) {
 		}
 	}
 	exit;
+}
+
+// 获取 referer
+function http_referer() {
+	$len = strlen(http_url_path());
+	$referer = param('referer');
+	empty($referer) AND $referer = _SERVER('HTTP_REFERER');
+	$referer = substr($referer, $len);
+	if(strpos($referer, url('user-login')) !== FALSE || strpos($referer, url('user-logout')) !== FALSE || strpos($referer, url('user-create')) !== FALSE) {
+		$referer = './';
+	}
+	// 安全过滤，只支持站内跳转，不允许跳到外部，否则可能会被 XSS
+	// $referer = str_replace('\'', '', $referer);
+	if(!preg_match('#^\\??[\w\-/]+\.htm$#', $referer)) {
+		$referer = './';
+	}
+	return $referer;
 }
 
 ?>

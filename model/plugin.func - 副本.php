@@ -76,26 +76,23 @@ function plugin_dependencies($dir) {
 
 function plugin_enable($dir) {
 	global $plugins;
+	
 	$plugins[$dir]['enable'] = 1;
 	
-	plugin_overwrite_do($dir, 'install');
-	plugin_hook_do($dir, 'install');
+	plugin_install($dir);
 	
 	json_conf_set(array('enable'=>1), "../plugin/$dir/conf.json");
-	return TRUE;
 }
 
 function plugin_disable($dir) {
 	global $plugins;
+	
 	$plugins[$dir]['enable'] = 0;
 	
-	plugin_overwrite_do($dir, 'install');
-	plugin_hook_do($dir, 'install');
+	plugin_unstall($dir);
 	
-	json_conf_set(array('enable'=>0), "../plugin/$dir/conf.json");
-	return TRUE;
+	json_conf_set(array('enable'=>1), "../plugin/$dir/conf.json");
 }
-
 
 /*
 	插件安装：
@@ -103,43 +100,14 @@ function plugin_disable($dir) {
 		插件名可以为源文件名：view/header.htm
 */
 function plugin_install($dir) {
-	$plugins[$dir]['installed'] = 1;
-	$plugins[$dir]['enable'] = 1;
-	
-	// 1. 直接覆盖的方式
-	plugin_overwrite_do($dir, 'install');
-	
-	// 2. 钩子的方式
-	plugin_hook_do($dir, 'install');
-	
-	// 写入配置文件
-	json_conf_set(array('installed'=>1, 'enable'=>1), "../plugin/$dir/conf.json");
-	
-	return TRUE;
-}
-
-// copy from plugin_install 修改
-function plugin_unstall($dir) {
-	$plugins[$dir]['installed'] = 1;
-	$plugins[$dir]['enable'] = 1;
-	
-	// 1. 直接覆盖的方式
-	plugin_overwrite_do($dir, 'unstall');
-	
-	// 2. 钩子的方式
-	plugin_hook_do($dir, 'unstall');
-	
-	// 写入配置文件
-	json_conf_set(array('installed'=>1, 'enable'=>1), "../plugin/$dir/conf.json");
-	
-	return TRUE;
-}
-
-
-// 处理安装
-function plugin_hook_do($dir, $action = 'install') {
 	global $plugin_srcfiles, $plugin_paths, $plugins;
+	// 1. 直接覆盖的方式
+	plugin_overwrite_unstall($dir);
+	
+	// 2. 标准的插件钩子
 	$hooks = $plugins[$dir]['hooks'];
+	$plugins[$dir]['installed'] = 0;
+	
 	foreach($hooks as $hookname=>$hookpath) {
 		$srcfile = plugin_find_hookname_from_srcfile($hookname);
 		if(!$srcfile) continue;
@@ -168,6 +136,51 @@ function plugin_hook_do($dir, $action = 'install') {
 			}
 		}
 	}
+	// 写入配置文件
+	json_conf_set(array('installed'=>0, 'enable'=>0), "../plugin/$dir/conf.json");
+	return TRUE;
+}
+
+// copy from plugin_install 修改
+function plugin_unstall($dir) {
+	global $plugin_srcfiles, $plugin_paths, $plugins;
+	// 1. 直接覆盖的方式
+	plugin_overwrite_unstall($dir);
+	
+	// 2. 标准的插件钩子
+	$hooks = $plugins[$dir]['hooks'];
+	$plugins[$dir]['installed'] = 0;
+	
+	foreach($hooks as $hookname=>$hookpath) {
+		$srcfile = plugin_find_hookname_from_srcfile($hookname);
+		if(!$srcfile) continue;
+		
+		$hookscontent = plugin_hooks_merge_by_rank($hookname);
+		
+		// 查找源文件，将合并的内容放进去。
+		$backfile = plugin_backup_filename($srcfile);
+		
+		if($hookscontent) {
+			!is_file($backfile) AND is_file($srcfile) AND copy($srcfile, $backfile);
+			$basefile = is_file($backfile) ? $backfile : $srcfile;
+			
+			$s = file_get_contents($basefile);
+			$s = preg_replace("#\t*//\shook\s$hookname\s*\r\n#is", $hookscontent, $s);
+			$s = str_replace("<!--{hook $hookname}-->", $hookscontent, $s);
+			
+			file_put_contents($srcfile, $s);
+			
+		// 如果为空，则表示没有插件安装到此处，还原备份文件，删除备份文件
+		} else {
+			if(is_file($backfile)) {
+				copy($backfile, $srcfile);
+				clearstatcache();
+				(filesize($srcfile) == filesize($backfile)) AND unlink($backfile);
+			}
+		}
+	}
+	// 写入配置文件
+	json_conf_set(array('installed'=>0, 'enable'=>0), "../plugin/$dir/conf.json");
 	return TRUE;
 }
 
@@ -215,49 +228,56 @@ function plugin_backup_filename($path) {
 	return $s;
 }
 
-function plugin_overwrite_do($dir, $action = 'install') {
+// 先下载，购买，付费，再安装
+function plugin_online_install($dir) {
+
+}
+
+function plugin_overwrite_install($dir) {
 	$files = glob_recursive("../plugin/$dir/overwrite/*");
 	//$files = glob("./plugin/$dir/overwrite/*");
 	foreach($files as $file) {
 		$workfile = str_replace("../plugin/$dir/overwrite/", './', $file);
 		if(is_dir($file)) {
-			!is_dir($workfile) AND mkdir($workfile, 0777, TRUE);
+			// todo: 删除目录
+			// !is_dir($workfile) AND mkdir($workfile, 0777, TRUE);
 		} elseif(is_file($file)) {
 			$dirname = dirname($workfile);
 			$filename = file_name($workfile);
 			$backfile = "$dirname/backup_$filename";
-			if($action == 'install') {
-				if(is_file($workfile) && !is_file($backfile)) {
-					copy($workfile, $backfile);
-				}
-				copy($file, $workfile);
-			} elseif($action == 'unstall') {
-				if(is_file($backfile)) {
-					copy($backfile, $workfile);
-					unlink($backfile);
-				}
-				unlink($workfile);
+			if(is_file($backfile)) {
+				copy($backfile, $workfile);
+				unlink($backfile);
 			}
+			unlink($workfile);
 		}
 	}
 }
 
-function plugin_overwrite_install($dir) {
-	plugin_overwrite_do($dir, 'install');
-	return TRUE;
-}
-
 function plugin_overwrite_unstall($dir) {
-	plugin_overwrite_do($dir, 'unstall');
-	return TRUE;
+	$files = glob_recursive("../plugin/$dir/overwrite/*");
+	//$files = glob("./plugin/$dir/overwrite/*");
+	foreach($files as $file) {
+		$workfile = str_replace("../plugin/$dir/overwrite/", './', $file);
+		if(is_dir($file)) {
+			// todo: 删除目录
+			// !is_dir($workfile) AND mkdir($workfile, 0777, TRUE);
+		} elseif(is_file($file)) {
+			$dirname = dirname($workfile);
+			$filename = file_name($workfile);
+			$backfile = "$dirname/backup_$filename";
+			if(is_file($backfile)) {
+				copy($backfile, $workfile);
+				unlink($backfile);
+			}
+			unlink($workfile);
+		}
+	}
 }
 
 
 
-// 先下载，购买，付费，再安装
-function plugin_online_install($dir) {
 
-}
 
 
 
