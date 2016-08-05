@@ -83,6 +83,7 @@ function plugin_dependencies($dir) {
 */
 function plugin_by_dependencies($dir) {
 	global $plugins;
+	
 	$arr = array();
 	foreach($plugins as $_dir=>$plugin) {
 		if(in_array($dir, $plugin['dependencies'])) {
@@ -94,23 +95,27 @@ function plugin_by_dependencies($dir) {
 
 function plugin_enable($dir) {
 	global $plugins;
+	
 	$plugins[$dir]['enable'] = 1;
 	
 	plugin_overwrite_do($dir, 'install');
 	plugin_hook_do($dir, 'install');
 	
-	json_conf_set(array('enable'=>1), "../plugin/$dir/conf.json");
+	//json_conf_set(array('enable'=>1), "../plugin/$dir/conf.json");
+	file_replace_var("../plugin/$dir/conf.json", array('enable'=>1));
 	return TRUE;
 }
 
 function plugin_disable($dir) {
 	global $plugins;
+	
 	$plugins[$dir]['enable'] = 0;
 	
 	plugin_overwrite_do($dir, 'install');
 	plugin_hook_do($dir, 'install');
 	
-	json_conf_set(array('enable'=>0), "../plugin/$dir/conf.json");
+	//json_conf_set(array('enable'=>0), "../plugin/$dir/conf.json");
+	file_replace_var("../plugin/$dir/conf.json", array('enable'=>0));
 	return TRUE;
 }
 
@@ -121,6 +126,8 @@ function plugin_disable($dir) {
 		插件名可以为源文件名：view/header.htm
 */
 function plugin_install($dir) {
+	global $plugins;
+	
 	$plugins[$dir]['installed'] = 1;
 	$plugins[$dir]['enable'] = 1;
 	
@@ -131,15 +138,19 @@ function plugin_install($dir) {
 	plugin_hook_do($dir, 'install');
 	
 	// 写入配置文件
-	json_conf_set(array('installed'=>1, 'enable'=>1), "../plugin/$dir/conf.json");
+	//json_conf_set(array('installed'=>1, 'enable'=>1), "../plugin/$dir/conf.json");
+	
+	file_replace_var("../plugin/$dir/conf.json", array('installed'=>1, 'enable'=>1));
 	
 	return TRUE;
 }
 
 // copy from plugin_install 修改
 function plugin_unstall($dir) {
-	$plugins[$dir]['installed'] = 1;
-	$plugins[$dir]['enable'] = 1;
+	global $plugins;
+	
+	$plugins[$dir]['installed'] = 0;
+	$plugins[$dir]['enable'] = 0;
 	
 	// 1. 直接覆盖的方式
 	plugin_overwrite_do($dir, 'unstall');
@@ -148,42 +159,83 @@ function plugin_unstall($dir) {
 	plugin_hook_do($dir, 'unstall');
 	
 	// 写入配置文件
-	json_conf_set(array('installed'=>1, 'enable'=>1), "../plugin/$dir/conf.json");
+	// json_conf_set(array('installed'=>0, 'enable'=>0), "../plugin/$dir/conf.json");
+	
+	file_replace_var("../plugin/$dir/conf.json", array('installed'=>0, 'enable'=>0));
 	
 	return TRUE;
 }
 
+function plugin_overwrite_do($dir, $action = 'install') {
+	$files = glob_recursive("../plugin/$dir/overwrite/*");
+	//$files = glob("./plugin/$dir/overwrite/*");
+	foreach($files as $file) {
+		$workfile = str_replace("../plugin/$dir/overwrite/", '../', $file);
+		if(is_dir($file)) {
+			!is_dir($workfile) AND mkdir($workfile, 0777, TRUE);
+		} elseif(is_file($file)) {
+			
+			//$dirname = dirname($workfile);
+			//$filename = file_name($workfile);
+			//$backfile = "$dirname/backup_$filename";
+			
+			$backfile = file_backname($workfile);
+			if($action == 'install') {
+				$r = file_backup($workfile);
+				if($r === FALSE) continue;
+				/*
+				if(is_file($workfile) && !is_file($backfile)) {
+					copy($workfile, $backfile);
+				}
+				*/
+				copy($file, $workfile);
+			} elseif($action == 'unstall') {
+				file_backup_restore($workfile);
+				/*
+				if(is_file($backfile)) {
+					copy($backfile, $workfile);
+					unlink($backfile);
+				}*/
+				//unlink($workfile);
+			}
+		}
+	}
+}
 
-// 处理安装
 function plugin_hook_do($dir, $action = 'install') {
 	global $plugin_srcfiles, $plugin_paths, $plugins;
 	$hooks = $plugins[$dir]['hooks'];
 	foreach($hooks as $hookname=>$hookpath) {
-		$srcfile = plugin_find_hookname_from_srcfile($hookname);
+		$srcfile = plugin_find_srcfile_by_hookname($hookname);
 		if(!$srcfile) continue;
 		
 		$hookscontent = plugin_hooks_merge_by_rank($hookname);
 		
 		// 查找源文件，将合并的内容放进去。
-		$backfile = plugin_backup_filename($srcfile);
+		$backfile = file_backname($srcfile);
 		
 		if($hookscontent) {
-			!is_file($backfile) AND is_file($srcfile) AND copy($srcfile, $backfile);
-			$basefile = is_file($backfile) ? $backfile : $srcfile;
+			//!is_file($backfile) AND is_file($srcfile) AND copy($srcfile, $backfile);
+			$r = file_backup($srcfile);
+			if($r === FALSE) continue;
 			
-			$s = file_get_contents($basefile);
+			//$basefile = is_file($backfile) ? $backfile : $srcfile; // 如果
+			
+			$s = file_get_contents($srcfile); // 直接对源文件进行操作，因为有备份可以恢复
 			$s = preg_replace("#\t*//\shook\s$hookname\s*\r\n#is", $hookscontent, $s);
 			$s = str_replace("<!--{hook $hookname}-->", $hookscontent, $s);
 			
-			file_put_contents($srcfile, $s);
+			file_put_contents_try($srcfile, $s);
 			
 		// 如果为空，则表示没有插件安装到此处，还原备份文件，删除备份文件
 		} else {
-			if(is_file($backfile)) {
+			file_backup_restore($backfile);
+			
+			/*if(is_file($backfile)) {
 				copy($backfile, $srcfile);
 				clearstatcache();
 				(filesize($srcfile) == filesize($backfile)) AND unlink($backfile);
-			}
+			}*/
 		}
 	}
 	return TRUE;
@@ -211,12 +263,13 @@ function plugin_hooks_merge_by_rank($hookname) {
 	return $s;
 }
 
-function plugin_find_hookname_from_srcfile($hookname) {
+function plugin_find_srcfile_by_hookname($hookname) {
 	global $plugin_srcfiles, $plugin_paths, $plugins;
 	foreach($plugin_srcfiles as $file) {
-		$backfile = plugin_backup_filename($file);
-		$basefile = is_file($backfile) ? $backfile : $file;
-		$s = file_get_contents($basefile);
+		//$backfile = file_backname($file);
+		//$basefile = is_file($backfile) ? $backfile : $file;
+		$s = file_get_contents($file);
+		if(!$s) return FALSE;
 		if(strpos($s, "// hook $hookname") !== FALSE) {
 			return $file;
 		} elseif(strpos($s, "<!--{hook $hookname}-->") !== FALSE) {
@@ -224,40 +277,6 @@ function plugin_find_hookname_from_srcfile($hookname) {
 		}
 	}
 	return FALSE;
-}
-
-function plugin_backup_filename($path) {
-	$dirname = dirname($path);
-	$filename = file_name($path);
-	$s = "$dirname/backup_$filename";
-	return $s;
-}
-
-function plugin_overwrite_do($dir, $action = 'install') {
-	$files = glob_recursive("../plugin/$dir/overwrite/*");
-	//$files = glob("./plugin/$dir/overwrite/*");
-	foreach($files as $file) {
-		$workfile = str_replace("../plugin/$dir/overwrite/", './', $file);
-		if(is_dir($file)) {
-			!is_dir($workfile) AND mkdir($workfile, 0777, TRUE);
-		} elseif(is_file($file)) {
-			$dirname = dirname($workfile);
-			$filename = file_name($workfile);
-			$backfile = "$dirname/backup_$filename";
-			if($action == 'install') {
-				if(is_file($workfile) && !is_file($backfile)) {
-					copy($workfile, $backfile);
-				}
-				copy($file, $workfile);
-			} elseif($action == 'unstall') {
-				if(is_file($backfile)) {
-					copy($backfile, $workfile);
-					unlink($backfile);
-				}
-				unlink($workfile);
-			}
-		}
-	}
 }
 
 function plugin_overwrite_install($dir) {

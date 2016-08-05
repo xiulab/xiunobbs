@@ -2,26 +2,17 @@
 
 // 谨慎的保存配置文件，先备份，再保存。
 // 这里要小心覆盖 $conf;
-function conf_save($file, $conf2, $relative_path = '../') {
+/*
+function conf_save($replace, $file) {
 	
+	//file_replace_var(
 	// hook conf_save_start.php
+	$conf = include $file;
+	$conf = array_merge($conf, $replace);
 	
+	file_put_contents_try($file, $s);
 	global $time;
 	$dir = dirname($file);
-	
-	// 特殊处理几个相对路径，因为要做切换。
-	if($relative_path) {
-		$len = strlen($relative_path);
-		if(substr($conf2['tmp_path'], 0, $len) == $relative_path) {
-			$conf2['tmp_path'] = substr($conf2['tmp_path'], $len);
-		}
-		if(substr($conf2['log_path'], 0, $len) == $relative_path) {
-			$conf2['log_path'] = substr($conf2['log_path'], $len);
-		}
-		if(substr($conf2['upload_path'], 0, $len) == $relative_path) {
-			$conf2['upload_path'] = substr($conf2['upload_path'], $len);
-		}
-	}
 	
 	$backfile = $dir.'/conf-'.date('Y-n-j', $time).'.php';
 	
@@ -43,7 +34,7 @@ function conf_save($file, $conf2, $relative_path = '../') {
 	}
 	
 	// 大致校验是否写入成功，如果写入失败，还原
-	$s = file_get_content_try($file);
+	$s = file_get_contents_try($file);
 	if(substr(trim($s), -2) != '?>') {
 		copy($backfile, $file); // 还原
 		return FALSE;
@@ -53,25 +44,18 @@ function conf_save($file, $conf2, $relative_path = '../') {
 	
 	// hook conf_save_end.php
 	return TRUE;
-}
+}*/
 
 // 正则的方式修改配置文件，不害怕 web shell 写入
-function json_conf_set($arr, $conffile = './conf.json') {
+// json_encode($json, JSON_PRETTY_PRINT);
+/*function json_conf_set($replace, $conffile = './conf.json') {
 	$s = file_get_contents($conffile);
-	$sep = "\n";
-	$s = str_replace("\r\n", $sep, $s);
-	$arr = explode($sep, trim($s));
-	foreach ($arr as $k=>$v) {
-		$k2 = preg_quote($k);
-		foreach($arr as $line=>&$s) {
-			$s = preg_replace('#"'.$k2.'"\s*:\s*".*?"#ism', "\"$k\" : \"$v\"", $s);
-			$s = preg_replace('#"'.$k2.'"\s*:\s*\d+\s*#ism', "\"$k\" : $v", $s);
-		}
-	}
-	$s = implode($sep, $arr);
-	// hook conf_set_end.php
+	$arr = xn_json_decode($s);
+	$arr = array_merge($arr, $replace);
+	$s = xn_json_encode($arr, TRUE);
 	return file_put_contents($conffile, $s, LOCK_EX);
-}
+	// hook conf_set_end.php
+}*/
 
 // 检测站点的运行级别
 function check_runlevel() {

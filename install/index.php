@@ -34,7 +34,8 @@ if(empty($action)) {
 	} else {
 		$_lang = param('lang');
 		$conf['lang'] = $_lang;
-		$r = conf_save('./conf/conf.php', $conf);
+		//$r = conf_save('./conf/conf.php', $conf);
+		$r = file_replace_var('./conf/conf.php', array('lang'=>$_lang));
 		$r === FALSE AND message(-1, jump('请设置 conf/conf.php 文件为可写！', ''));
 		http_location('index.php?action=license');
 	}
@@ -87,6 +88,8 @@ if(empty($action)) {
 		empty($adminpass) AND message('adminpass', '管理员密码不能为空！');
 		empty($adminemail) AND message('adminemail', '管理员密码不能为空！');
 		
+		
+		
 		// 设置超时尽量短一些
 		set_time_limit(60);
 		ini_set('mysql.connect_timeout',  5);
@@ -111,21 +114,21 @@ if(empty($action)) {
 		
 		install_sql_file('./install/install.sql');
 		
-		// 生成 auth_key
-		$conf['auth_key'] = xn_rand(64);
-		
-		// 设置为已经安装
-		$conf['installed'] = 1;
-		
 		// 初始化
-		touch('./conf/conf.php');
+		copy('./conf/conf.default.php', './conf/conf.php');
 		
 		//$conf2['log_path'] = './log/';
 		//$conf2['tmp_path'] = './tmp/';
 		//$conf2['upload_path'] = './upload/';
 
 		// 写入配置文件
-		conf_save('./conf/conf.php', $conf);
+		//conf_save('./conf/conf.php', $conf);
+		
+		$replace = array();
+		$replace['db'] = $conf['db'];
+		$replace['auth_key'] = xn_rand(64);
+		$replace['installed'] = 1;
+		file_replace_var('./conf/conf.php', $replace);
 		
 		message(0, '恭喜，安装成功');
 	}

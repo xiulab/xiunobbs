@@ -181,6 +181,53 @@ function xn_urldecode($s) {
 	return $s;
 }
 
+function xn_json_encode($data, $pretty = FALSE, $level = 0) {
+	if(version_compare(PHP_VERSION, '5.4.0') >= 0) {
+		return json_encode($data, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+	}
+	
+	$tab = $pretty ? str_repeat("\t", $level) : '';
+	$tab2 = $pretty ? str_repeat("\t", $level + 1) : '';
+	$br = $pretty ? "\r\n" : '';
+	switch($type = gettype($data)) {
+		case 'NULL':
+			return 'null';
+		case 'boolean':
+			return ($data ? 'true' : 'false');
+		case 'integer':
+		case 'double':
+		case 'float':
+			return $data;
+		case 'string':
+			return '"'.str_replace(array('\\', '"'), array('\\\\', '\\"'), $data).'"';
+		case 'object':
+			$data = get_object_vars($data);
+		case 'array':
+			$output_index_count = 0;
+			$output_indexed = array();
+			$output_associative = array();
+			foreach($data as $key => $value) {
+				$output_indexed[] = xn_json_encode($value, $pretty, $level + 1);
+				$output_associative[] = $tab2.xn_json_encode($key, $pretty, $level + 1) . ':' . xn_json_encode($value, $pretty, $level + 1);
+				if ($output_index_count !== NULL && $output_index_count++ !== $key) {
+					$output_index_count = NULL;
+				}
+			}
+			if($output_index_count !== NULL) {
+				return '[' . implode(",$br", $output_indexed) . ']';
+			} else {
+				return "{{$br}" . implode(",$br", $output_associative) . "{$br}{$tab}}";
+			}
+		default:
+			return ''; // Not supported
+	}
+}
+
+function xn_json_decode($json) {
+	return json_decode($json, 1);
+}
+
+/*
 function xn_json_encode($arg) {
 	$r = '';
 	switch (gettype($arg)) {
@@ -242,10 +289,8 @@ function is_number_array($arr) {
 		if(!is_numeric($k) || $k != $i++) return FALSE; // 如果从0 开始，并且连续，则为数字数组
 	}
 	return TRUE;
-}
-function xn_json_decode($json) {
-	return json_decode($json, 1);
-}
+}*/
+
 
 /*
 // 此函数太耗费资源已经废弃。
@@ -819,7 +864,65 @@ function http_multi_get($urls) {
 	return $data;
 }
 
-function file_get_content_try($file, $times = 3) {
+
+// 将变量写入到文件，根据后缀判断文件格式，先备份，再写入，写入失败，还原备份
+function file_replace_var($filepath, $replace = array(), $pretty = FALSE) {
+	$ext = file_ext($filepath);
+	if($ext == 'php') {
+		$arr = include $filepath;
+		$arr = array_merge($arr, $replace);
+		$s = "<?php\r\nreturn ".var_export($arr, true).";\r\n?>";
+		// 备份文件
+		file_backup($filepath);
+		$r = file_put_contents_try($filepath, $s);
+		$r != strlen($s) ? file_backup_restore($filepath) : file_backup_unlink($filepath);
+		return $r;
+	} elseif($ext == 'js' || $ext == 'json') {
+		$s = file_get_contents_try($filepath);
+		$arr = xn_json_decode($s);
+		if(empty($arr)) return FALSE;
+		$arr = array_merge($arr, $replace);
+		$s = xn_json_encode($arr, $pretty);
+		file_backup($filepath);
+		$r = file_put_contents_try($filepath, $s);
+		$r != strlen($s) ? file_backup_restore($filepath) : file_backup_unlink($filepath);
+		return $r;
+	}
+}
+
+function file_backname($filepath) {
+	$dirname = dirname($filepath);
+	$filename = file_name($filepath);
+	$s = "$dirname/backup_$filename";
+	return $s;
+}
+
+// 备份文件
+function file_backup($filepath) {
+	$backfile = file_backname($filepath);
+	if(is_file($backfile)) return TRUE; // 备份已经存在
+	$r = copy($filepath, $backfile);
+	clearstatcache();
+	return $r && filesize($backfile) == filesize($filepath);
+}
+
+// 还原备份
+function file_backup_restore($filepath) {
+	$backfile = file_backname($filepath);
+	$r = is_file($backfile) ? copy($backfile, $filepath) : FALSE;
+	clearstatcache();
+	$r && filesize($backfile) == filesize($filepath) && unlink($backfile);
+	return $r;
+}
+
+// 删除备份
+function file_backup_unlink($filepath) {
+	$backfile = file_backname($filepath);
+	$r = unlink($backfile);
+	return $r;
+}
+
+function file_get_contents_try($file, $times = 3) {
 	while($times-- > 0) {
 		$fp = fopen($file, 'rb');
 		if($fp) {
@@ -835,7 +938,7 @@ function file_get_content_try($file, $times = 3) {
 	return FALSE;
 }
 
-function file_put_content_try($file, $s, $times = 3) {
+function file_put_contents_try($file, $s, $times = 3) {
 	while($times-- > 0) {
 		$fp = fopen($file, 'wb');
 		if($fp AND flock($fp, LOCK_EX)){

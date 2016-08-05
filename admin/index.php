@@ -1,6 +1,6 @@
 <?php
 
-//$_SERVER['REQUEST_URI'] = '/?plugin.htm';
+//$_SERVER['REQUEST_URI'] = '/?plugin-unstall-xn_ad.htm';
 
 // 切换到上级目录
 //define('BASE_HREF', '../');
@@ -11,7 +11,7 @@ include './index.php';
 /*
 	切换回来，主要为了方便 admin 目录改名，有利于安全
 	处理相对路径比较麻烦一点，一般直接工作在根目录，
-	像 install/index.php plugin/xn_umeditor/upload.php 那样属于一般写法，不用处理 $conf['tmp_path'] 等路径相对问题。
+	像 install/index.php 属于一般写法，不用处理 $conf['tmp_path'] 等路径相对问题。
 */
 chdir(dirname(__FILE__));
 $conf['log_path'][0] == '.' AND $conf['log_path'] = '../'.$conf['log_path'];
@@ -24,10 +24,10 @@ $menu = include './menu.conf.php';
 
 // 只允许管理员登陆后台
 // 对于越权访问，可以默认为黑客企图，不用友好提示。
-!DEBUG AND $gid != 1 AND http_403();
+DEBUG < 2 AND $gid != 1 AND http_403();
 
 // 管理员令牌检查
-!DEBUG AND admin_token_check();
+DEBUG < 2 AND admin_token_check();
 
 $route = param(0, 'index');
 

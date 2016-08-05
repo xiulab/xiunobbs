@@ -109,6 +109,9 @@ if($action == 'local') {
 	// 卸载插件
 	plugin_unstall($dir);
 	
+	// 删除插件
+	//!DEBUG && rmdir_recusive("../plugin/$dir");
+	
 	message(0, jump('卸载成功', http_referer(), 1));
 	
 } elseif($action == 'enable') {

@@ -37,11 +37,13 @@ if($action == 'base') {
 		$setting = array('sitebrief'=>$sitebrief);
 		kv_set('setting', $setting);
 		
-		$conf['sitename'] = $sitename;
-		$conf['runlevel'] = $runlevel;
-		$conf['lang'] = $_lang;
+		$replace = array();
+		$replace['sitename'] = $sitename;
+		$replace['runlevel'] = $runlevel;
+		$replace['lang'] = $_lang;
 		
-		conf_save('../conf/conf.php', $conf) OR message(-1, '写入配置文件失败');
+		//conf_save('../conf/conf.php', $conf) OR message(-1, '写入配置文件失败');
+		file_replace_var('../conf/conf.php', $replace);
 	
 		message(0, '修改成功');
 	}
@@ -69,10 +71,12 @@ if($action == 'base') {
 		$user_create_email_on = param('user_create_email_on', 0);
 		$user_resetpw_on = param('user_resetpw_on', 0);
 		
-		$conf['user_create_email_on'] = $user_create_email_on;
-		$conf['user_resetpw_on'] = $user_resetpw_on;
+		$replace = array();
+		$replace['user_create_email_on'] = $user_create_email_on;
+		$replace['user_resetpw_on'] = $user_resetpw_on;
+		file_replace_var('../conf/conf.php', $replace);
 		
-		conf_save('../conf/conf.php', $conf) OR message(-1, '保存到配置文件 conf/conf.php 失败，请检查文件的可写权限。');
+		//conf_save('../conf/conf.php', $conf) OR message(-1, '保存到配置文件 conf/conf.php 失败，请检查文件的可写权限。');
 		
 		$email = param('email', array(''));
 		$host = param('host', array(0));
@@ -90,7 +94,7 @@ if($action == 'base') {
 				'pass'=>$pass[$k],
 			);
 		}
-		$r = file_put_content_try('../conf/smtp.conf.php', "<?php\r\nreturn ".var_export($smtplist,true).";\r\n?>");
+		$r = file_put_contents_try('../conf/smtp.conf.php', "<?php\r\nreturn ".var_export($smtplist,true).";\r\n?>");
 		!$r AND message(-1, '保存数据到配置文件 conf/smtp.conf.php 失败，请检查文件的可写权限。');
 		
 		message(0, '保存成功');

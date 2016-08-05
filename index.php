@@ -1,6 +1,6 @@
 <?php
 
-!defined('DEBUG') AND define('DEBUG', 1); 				// 发布的时候改为 0 
+!defined('DEBUG') AND define('DEBUG', 2); 				// 发布的时候改为 0 
 
 ob_start('ob_gzhandler');
 
