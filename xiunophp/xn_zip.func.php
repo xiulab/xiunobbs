@@ -519,7 +519,8 @@ function xn_mkdir_by_filename($filename) {
 }
 
 function xn_unzip($zipfile, $destpath) {
-	$tmppath = ini_get('upload_tmp_dir').'/';
+	global $conf;
+	$tmppath = empty($conf['tmp_path']) ? ini_get('upload_tmp_dir').'/' : $conf['tmp_path'];
 	$destpath = str_replace('\\', '/', $destpath);
 	substr($destpath, -1, 1) != '/' && $destpath .= '/';
 	$archive = new php_zip();
@@ -529,17 +530,20 @@ function xn_unzip($zipfile, $destpath) {
 	$archive->unzip($zipfile, $tmppath);
 	foreach($archive->files as $file) {
 		// 判断目录是否存在,
+		if(strpos($file, '..')) continue; // 安全过滤
 		xn_mkdir_by_filename($destpath.$file);
 		copy($tmppath.$file, $destpath.$file);
 		unlink($tmppath.$file);
 	}
-	//misc::rmdir($tmppath);
+	clearstatcache();
+	rmdir_recusive($tmppath);
 	return $archive->files;
 }
 
 // 不支持对 storage 打包
 function xn_zip($destzip, $srcpath) {
-	$tmppath = ini_get('upload_tmp_dir').'/';
+	global $conf;
+	$tmppath = empty($conf['tmp_path']) ? ini_get('upload_tmp_dir').'/' : $conf['tmp_path'];
 	$tmppath == '/' AND $tmppath = './';
 	$srcpath = str_replace('\\', '/', $srcpath);
 	substr($srcpath, -1, 1) != '/' && $srcpath .= '/';
@@ -548,6 +552,7 @@ function xn_zip($destzip, $srcpath) {
 	$archive->zip($srcpath, $tmpzip);
 	copy($tmpzip, $destzip);
 	unlink($tmpzip);
+	clearstatcache();
 	return $archive->files;
 }
 

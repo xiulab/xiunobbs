@@ -14,7 +14,7 @@ $name = param('name');
 $data = param('data', '', FALSE);
 
 empty($data) AND message(-1, '数据为空');
-$data = base64_decode_image_data($data);
+$data = base64_decode_file_data($data);
 $size = strlen($data);
 $size > 2048000 AND message(-1, '文件尺寸太大，不能超过 2M，当前大小：'.$size);
 

@@ -1123,8 +1123,8 @@ function xn_debug_info() {
 }
 
 // 解码客户端提交的 base64 数据
-function base64_decode_image_data($data) {
-	if(substr($data, 0, 10) == 'data:image') {
+function base64_decode_file_data($data) {
+	if(substr($data, 0, 5) == 'data:') {
 		$data = substr($data, strpos($data, ',') + 1);	// 去掉 data:image/png;base64,
 	}
 	$data = base64_decode($data);

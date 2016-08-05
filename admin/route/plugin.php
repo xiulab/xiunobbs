@@ -43,7 +43,7 @@ if($action == 'local') {
 	// 线上插件
 	$total = plugin_official_total($cond);
 	$pluginlist = plugin_official_list($cond, array('pluginid'=>-1), $page, $pagesize);
-	$pagination = pagination(url('plugin-official-$cateid-{page}'), $total, $page, $pagesize);
+	$pagination = pagination(url("plugin-official-$cateid-{page}"), $total, $page, $pagesize);
 	
 	$header['title']    = '官方插件';
 	$header['mobile_title'] = '官方插件';
