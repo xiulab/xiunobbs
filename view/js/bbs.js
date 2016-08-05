@@ -63,3 +63,13 @@ $('.mod-button button.top').on('click', function() {
 		});
 	}, {'body': '<p>置顶范围：'+radios+'</p>'});
 })
+
+// 确定框
+$('a.confirm').on('click', function() {
+	var jthis = $(this);
+	var text = jthis.data('confirm-text');
+	$.confirm(text, function() {
+		window.location = jthis.attr('href');
+	})
+	return false;
+});

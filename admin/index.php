@@ -1,6 +1,6 @@
 <?php
 
-//$_SERVER['REQUEST_URI'] = '/?plugin-unstall-xn_ad.htm';
+//$_SERVER['REQUEST_URI'] = '/?plugin-unstall-xn_nav_more.htm';
 
 // 切换到上级目录
 //define('BASE_HREF', '../');

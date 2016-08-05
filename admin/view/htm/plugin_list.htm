@@ -29,22 +29,30 @@
 						<td>
 							<p class="grey"><?php echo $plugin['brief']; ?></p>
 						</td>
-						<td width="100" align="right">
+						<td width="250" align="right">
 						
 							<?php if(!$plugin['downloaded']) { ?>
 							<a role="button" class="btn btn-primary download" href="<?php echo url("plugin-download-$dir"); ?>">下载</a>
 							<?php } ?>
 							
 							<?php if($plugin['setting_url']) { ?>
-							<a role="button" class="btn btn-primary setting" href="<?php echo url("plugin-setting-$dir"); ?>">设置</a>
+							<a role="button" class="btn btn-secondary setting" href="<?php echo url("plugin-setting-$dir"); ?>">设置</a>
 							<?php } ?>
 							
 							<?php if(!$plugin['installed']) { ?>
 							<a role="button" class="btn btn-primary install" href="<?php echo url("plugin-install-$dir"); ?>">安装</a>
 							<?php } ?>
 							
+							<?php if($plugin['installed'] && $plugin['enable']) { ?>
+							<a role="button" class="btn btn-primary disable" href="<?php echo url("plugin-disable-$dir"); ?>">禁用</a>
+							<?php } ?>
+							
+							<?php if($plugin['installed'] && !$plugin['enable']) { ?>
+							<a role="button" class="btn btn-primary enable" href="<?php echo url("plugin-enable-$dir"); ?>">启用</a>
+							<?php } ?>
+							
 							<?php if($plugin['installed']) { ?>
-							<a role="button" class="btn btn-primary unstall" href="<?php echo url("plugin-unstall-$dir"); ?>">卸载</a>
+							<a role="button" class="btn btn-danger unstall confirm" data-confirm-text="卸载会清理该插件相关数据，确定卸载 ( <?php echo $plugin['name'];?> ) 吗？" href="<?php echo url("plugin-unstall-$dir"); ?>">卸载</a>
 							<?php } ?>
 							
 							<?php if($plugin['have_upgrade']) { ?>

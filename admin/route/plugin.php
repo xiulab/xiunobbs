@@ -23,6 +23,8 @@ if($action == 'local') {
 	$header['title']    = '本地插件';
 	$header['mobile_title'] = '本地插件';
 	
+	//print_r($plugins);exit;
+	
 	include "./view/htm/plugin_list.htm";
 
 // 分类，分页
@@ -51,6 +53,8 @@ if($action == 'local') {
 } elseif($action == 'read') {
 	
 	$dir = param(2);
+	plugin_check_exists($dir);
+	
 	$plugin = plugin_read($dir);
 	empty($plugin) AND message(-1, '插件不存在');
 	
@@ -65,7 +69,7 @@ if($action == 'local') {
 } elseif($action == 'download') {
 	
 	$dir = param(2);
-	!preg_match('#^\w+$#', $dir) AND message(-1, 'dir 不合法。');
+	plugin_check_exists($dir);
 	
 	$official = plugin_official_read($dir);
 	empty($official) AND message(-1, '插件不存在');
@@ -84,6 +88,8 @@ if($action == 'local') {
 } elseif($action == 'install') {
 	
 	$dir = param(2);
+	plugin_check_exists($dir);
+	$name = $plugins[$dir]['name'];
 	
 	// 检查目录可写
 	plugin_check_dir_is_writable();
@@ -94,11 +100,18 @@ if($action == 'local') {
 	// 安装插件
 	plugin_install($dir);
 	
-	message(0, jump('安装成功', http_referer(), 1));
+	$installfile = "../plugin/$dir/install.php";
+	if(is_file($installfile)) {
+		include $installfile;
+	}
+	
+	message(0, jump("安装插件 ( $name ) 成功", http_referer(), 1));
 	
 } elseif($action == 'unstall') {
 	
 	$dir = param(2);
+	plugin_check_exists($dir);
+	$name = $plugins[$dir]['name'];
 	
 	// 检查目录可写
 	plugin_check_dir_is_writable();
@@ -109,14 +122,21 @@ if($action == 'local') {
 	// 卸载插件
 	plugin_unstall($dir);
 	
+	$unstallfile = "../plugin/$dir/unstall.php";
+	if(is_file($unstallfile)) {
+		include $unstallfile;
+	}
+	
 	// 删除插件
 	//!DEBUG && rmdir_recusive("../plugin/$dir");
 	
-	message(0, jump('卸载成功', http_referer(), 1));
+	message(0, jump("卸载插件 ( $name ) 成功，要彻底删除插件，请手工删除 (plugin/$dir) 目录", http_referer(), 5));
 	
 } elseif($action == 'enable') {
 	
 	$dir = param(2);
+	plugin_check_exists($dir);
+	$name = $plugins[$dir]['name'];
 	
 	// 检查目录可写
 	plugin_check_dir_is_writable();
@@ -127,11 +147,13 @@ if($action == 'local') {
 	// 启用插件
 	plugin_enable($dir);
 	
-	message(0, jump('卸载成功', http_referer(), 1));
+	message(0, jump("启用插件 ( $name ) 成功", http_referer(), 1));
 	
 } elseif($action == 'disable') {
 	
 	$dir = param(2);
+	plugin_check_exists($dir);
+	$name = $plugins[$dir]['name'];
 	
 	// 检查目录可写
 	plugin_check_dir_is_writable();
@@ -142,11 +164,13 @@ if($action == 'local') {
 	// 禁用插件
 	plugin_disable($dir);
 	
-	message(0, jump('卸载成功', http_referer(), 1));
+	message(0, jump("禁用插件 ( $name ) 成功", http_referer(), 1));
 	
 } elseif($action == 'upgrade') {
 	
 	$dir = param(2);
+	plugin_check_exists($dir);
+	$name = $plugins[$dir]['name'];
 	
 	// 检查目录可写
 	plugin_check_dir_is_writable();
@@ -157,8 +181,15 @@ if($action == 'local') {
 	// 安装插件
 	plugin_install($dir);
 	
-	message(0, jump('卸载成功', http_referer(), 1));
+	message(0, jump("升级插件 ( $name ) 成功", http_referer(), 1));
 	
+} elseif($action == 'setting') {
+	
+	$dir = param(2);
+	plugin_check_exists($dir);
+	$name = $plugins[$dir]['name'];
+	
+	include "../plugin/$dir/setting.php";
 }
 
 
@@ -235,6 +266,11 @@ function plugin_download_unzip($dir) {
 	!is_dir("../plugin/$dir") AND message(-1, "插件可能下载失败，目录不存在: plugin/$dir");
 }
 
+function plugin_check_exists($dir) {
+	global $plugins;
+	!is_word($dir) AND message(-1, '插件名不合法。');
+	!isset($plugins[$dir]) AND message(-1, "插件 ( $dir ) 不存在");
+}
 
 
 // bootstrap style

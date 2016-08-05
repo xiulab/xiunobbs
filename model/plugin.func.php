@@ -29,7 +29,10 @@ function plugin_init() {
 	foreach($plugin_paths as $path) {
 		$dir = file_name($path);
 		$conffile = $path."/conf.json";
-		$plugins[$dir] = is_file($conffile) ? xn_json_decode(file_get_contents($conffile)) : array();
+		if(!is_file($conffile)) continue;
+		$arr = xn_json_decode(file_get_contents($conffile));
+		if(empty($arr)) continue;
+		$plugins[$dir] = $arr;
 		
 		// 额外的信息
 		$plugins[$dir]['hooks'] = array();
@@ -105,8 +108,8 @@ function plugin_disable($dir) {
 	
 	$plugins[$dir]['enable'] = 0;
 	
-	plugin_overwrite($dir, 'install');
-	plugin_hook($dir, 'install');
+	plugin_overwrite($dir, 'unstall');
+	plugin_hook($dir, 'unstall');
 	
 	file_replace_var("../plugin/$dir/conf.json", array('enable'=>0));
 	return TRUE;
@@ -187,18 +190,18 @@ function plugin_hook($dir, $action = 'install') {
 		// 查找源文件，将合并的内容放进去。
 		$backfile = file_backname($srcfile);
 		
-		if($hookscontent) {
+		if($hookscontent && $action == 'install') {
 			$r = file_backup($srcfile);
 			if($r === FALSE) continue;
 			$s = file_get_contents($srcfile); // 直接对源文件进行操作，因为有备份可以恢复
-			$s = preg_replace("#\t*//\shook\s$hookname\s*\r\n#is", $hookscontent, $s);
-			$s = str_replace("<!--{hook $hookname}-->", $hookscontent, $s);
+			$s = preg_replace("#(\t*//\shook\s$hookname\s*\r\n)#is", "\\1".$hookscontent, $s);
+			$s = str_replace("<!--{hook $hookname}-->", "<!--{hook $hookname}-->".$hookscontent, $s);
 			
 			file_put_contents_try($srcfile, $s);
 			
 		// 如果为空，则表示没有插件安装到此处，还原备份文件，删除备份文件
 		} else {
-			file_backup_restore($backfile);
+			file_backup_restore($srcfile);
 		}
 	}
 	return TRUE;
