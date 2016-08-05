@@ -41,7 +41,7 @@ switch ($route) {
 	case 'user':		include './route/user.php'; 		break;
 	case 'plugin':		include './route/plugin.php'; 		break;
 	default: 
-		// 为了支持插件
+		// 为了支持插件，此处不利于编译优化
 		(!is_word($route) || !is_file("./route/$route.php")) && http_404();
 		include "./route/$route.php";
 }

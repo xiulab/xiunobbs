@@ -2,7 +2,10 @@
 
 include '../xiunophp/xiunophp.php';
 
-$r = file_replace_var('./conf.php', array('version'=>'bb\\\''));
-$r = file_replace_var('./conf.json', array('version'=>'bb\\\''), TRUE);
+$arr = array(1=>array('fid'=>1));
+$s = xn_json_encode($arr);
+echo $s;
 
-echo $r;
+$arr = xn_json_decode($s);
+
+print_r($arr);

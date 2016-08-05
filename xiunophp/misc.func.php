@@ -208,7 +208,7 @@ function xn_json_encode($data, $pretty = FALSE, $level = 0) {
 			$output_associative = array();
 			foreach($data as $key => $value) {
 				$output_indexed[] = xn_json_encode($value, $pretty, $level + 1);
-				$output_associative[] = $tab2.xn_json_encode($key, $pretty, $level + 1) . ':' . xn_json_encode($value, $pretty, $level + 1);
+				$output_associative[] = $tab2.'"'.$key.'":' . xn_json_encode($value, $pretty, $level + 1);
 				if ($output_index_count !== NULL && $output_index_count++ !== $key) {
 					$output_index_count = NULL;
 				}

@@ -43,12 +43,7 @@ function plugin_init() {
 		$plugins[$dir] = plugin_read($dir);
 	}
 	
-	/*
-	// 检查文件目录和文件是否可写
-	if(plugin_dir_is_writable()) {
-		
-	}
-	*/
+	$official_plugins = plugin_official_list_cache();
 }
 
 // 插件依赖检测，返回依赖的插件列表，如果返回为空则表示不依赖
@@ -98,10 +93,9 @@ function plugin_enable($dir) {
 	
 	$plugins[$dir]['enable'] = 1;
 	
-	plugin_overwrite_do($dir, 'install');
-	plugin_hook_do($dir, 'install');
+	plugin_overwrite($dir, 'install');
+	plugin_hook($dir, 'install');
 	
-	//json_conf_set(array('enable'=>1), "../plugin/$dir/conf.json");
 	file_replace_var("../plugin/$dir/conf.json", array('enable'=>1));
 	return TRUE;
 }
@@ -111,10 +105,9 @@ function plugin_disable($dir) {
 	
 	$plugins[$dir]['enable'] = 0;
 	
-	plugin_overwrite_do($dir, 'install');
-	plugin_hook_do($dir, 'install');
+	plugin_overwrite($dir, 'install');
+	plugin_hook($dir, 'install');
 	
-	//json_conf_set(array('enable'=>0), "../plugin/$dir/conf.json");
 	file_replace_var("../plugin/$dir/conf.json", array('enable'=>0));
 	return TRUE;
 }
@@ -132,14 +125,12 @@ function plugin_install($dir) {
 	$plugins[$dir]['enable'] = 1;
 	
 	// 1. 直接覆盖的方式
-	plugin_overwrite_do($dir, 'install');
+	plugin_overwrite($dir, 'install');
 	
 	// 2. 钩子的方式
-	plugin_hook_do($dir, 'install');
+	plugin_hook($dir, 'install');
 	
 	// 写入配置文件
-	//json_conf_set(array('installed'=>1, 'enable'=>1), "../plugin/$dir/conf.json");
-	
 	file_replace_var("../plugin/$dir/conf.json", array('installed'=>1, 'enable'=>1));
 	
 	return TRUE;
@@ -153,20 +144,18 @@ function plugin_unstall($dir) {
 	$plugins[$dir]['enable'] = 0;
 	
 	// 1. 直接覆盖的方式
-	plugin_overwrite_do($dir, 'unstall');
+	plugin_overwrite($dir, 'unstall');
 	
 	// 2. 钩子的方式
-	plugin_hook_do($dir, 'unstall');
+	plugin_hook($dir, 'unstall');
 	
 	// 写入配置文件
-	// json_conf_set(array('installed'=>0, 'enable'=>0), "../plugin/$dir/conf.json");
-	
 	file_replace_var("../plugin/$dir/conf.json", array('installed'=>0, 'enable'=>0));
 	
 	return TRUE;
 }
 
-function plugin_overwrite_do($dir, $action = 'install') {
+function plugin_overwrite($dir, $action = 'install') {
 	$files = glob_recursive("../plugin/$dir/overwrite/*");
 	//$files = glob("./plugin/$dir/overwrite/*");
 	foreach($files as $file) {
@@ -174,35 +163,19 @@ function plugin_overwrite_do($dir, $action = 'install') {
 		if(is_dir($file)) {
 			!is_dir($workfile) AND mkdir($workfile, 0777, TRUE);
 		} elseif(is_file($file)) {
-			
-			//$dirname = dirname($workfile);
-			//$filename = file_name($workfile);
-			//$backfile = "$dirname/backup_$filename";
-			
 			$backfile = file_backname($workfile);
 			if($action == 'install') {
 				$r = file_backup($workfile);
 				if($r === FALSE) continue;
-				/*
-				if(is_file($workfile) && !is_file($backfile)) {
-					copy($workfile, $backfile);
-				}
-				*/
 				copy($file, $workfile);
 			} elseif($action == 'unstall') {
 				file_backup_restore($workfile);
-				/*
-				if(is_file($backfile)) {
-					copy($backfile, $workfile);
-					unlink($backfile);
-				}*/
-				//unlink($workfile);
 			}
 		}
 	}
 }
 
-function plugin_hook_do($dir, $action = 'install') {
+function plugin_hook($dir, $action = 'install') {
 	global $plugin_srcfiles, $plugin_paths, $plugins;
 	$hooks = $plugins[$dir]['hooks'];
 	foreach($hooks as $hookname=>$hookpath) {
@@ -215,12 +188,8 @@ function plugin_hook_do($dir, $action = 'install') {
 		$backfile = file_backname($srcfile);
 		
 		if($hookscontent) {
-			//!is_file($backfile) AND is_file($srcfile) AND copy($srcfile, $backfile);
 			$r = file_backup($srcfile);
 			if($r === FALSE) continue;
-			
-			//$basefile = is_file($backfile) ? $backfile : $srcfile; // 如果
-			
 			$s = file_get_contents($srcfile); // 直接对源文件进行操作，因为有备份可以恢复
 			$s = preg_replace("#\t*//\shook\s$hookname\s*\r\n#is", $hookscontent, $s);
 			$s = str_replace("<!--{hook $hookname}-->", $hookscontent, $s);
@@ -230,12 +199,6 @@ function plugin_hook_do($dir, $action = 'install') {
 		// 如果为空，则表示没有插件安装到此处，还原备份文件，删除备份文件
 		} else {
 			file_backup_restore($backfile);
-			
-			/*if(is_file($backfile)) {
-				copy($backfile, $srcfile);
-				clearstatcache();
-				(filesize($srcfile) == filesize($backfile)) AND unlink($backfile);
-			}*/
 		}
 	}
 	return TRUE;
@@ -266,8 +229,6 @@ function plugin_hooks_merge_by_rank($hookname) {
 function plugin_find_srcfile_by_hookname($hookname) {
 	global $plugin_srcfiles, $plugin_paths, $plugins;
 	foreach($plugin_srcfiles as $file) {
-		//$backfile = file_backname($file);
-		//$basefile = is_file($backfile) ? $backfile : $file;
 		$s = file_get_contents($file);
 		if(!$s) return FALSE;
 		if(strpos($s, "// hook $hookname") !== FALSE) {
@@ -280,12 +241,12 @@ function plugin_find_srcfile_by_hookname($hookname) {
 }
 
 function plugin_overwrite_install($dir) {
-	plugin_overwrite_do($dir, 'install');
+	plugin_overwrite($dir, 'install');
 	return TRUE;
 }
 
 function plugin_overwrite_unstall($dir) {
-	plugin_overwrite_do($dir, 'unstall');
+	plugin_overwrite($dir, 'unstall');
 	return TRUE;
 }
 
@@ -302,15 +263,17 @@ function plugin_online_install($dir) {
 
 // 条件满足的总数
 function plugin_official_total($cond = array()) {
-	$offlist = plugin_official_list_cache();
+	global $official_plugins;
+	$offlist = $official_plugins;
 	$offlist = arrlist_cond_orderby($offlist, $cond, array(), 1, 1000);
 	return count($offlist);
 }
 
 // 远程插件列表，从官方服务器获取插件列表，全部缓存到本地，定期更新
 function plugin_official_list($cond = array(), $orderby = array('pluginid'=>-1), $page = 1, $pagesize = 20) {
+	global $official_plugins;
 	// 服务端插件信息，缓存起来
-	$offlist = plugin_official_list_cache();
+	$offlist = $official_plugins;
 	$offlist = arrlist_cond_orderby($offlist, $cond, $orderby, $page, $pagesize);
 	foreach($offlist as &$plugin) $plugin = plugin_read($plugin['dir']);
 	return $offlist;
@@ -336,7 +299,8 @@ function plugin_official_list_cache() {
 }
 
 function plugin_official_read($dir) {
-	$offlist = plugin_official_list_cache();
+	global $official_plugins;
+	$offlist = $official_plugins;
 	$plugin = isset($offlist[$dir]) ? $offlist[$dir] : array();
 	return $plugin;
 }
@@ -397,8 +361,3 @@ function plugin_read($dir) {
 	
 	return $plugin;
 }
-
-
-//plugin_install('xn_ad');
-//plugin_unstall('xn_ad');
-//exit
