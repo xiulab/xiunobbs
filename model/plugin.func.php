@@ -285,7 +285,7 @@ function plugin_official_list($cond = array(), $orderby = array('pluginid'=>-1),
 function plugin_official_list_cache() {
 	$s = cache_get('plugin_official_list');
 	if($s === NULL) {
-		$url = "http://plugin.xiuno.com/plugin-list-version-3.htm"; // 获取所有的插件，匹配到3.0以上的。
+		$url = "http://plugin.xiuno.com/plugin-all-4.htm"; // 获取所有的插件，匹配到3.0以上的。
 		$s = http_get($url, 30, 3);
 		if(empty($s)) {
 			return xn_error(-1, '从官方获取插件数据失败。');
