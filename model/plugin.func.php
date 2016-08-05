@@ -337,9 +337,8 @@ function plugin_read($dir) {
 	!isset($official['pluginid']) && $official['pluginid'] = 0;
 	!isset($official['name']) && $official['name'] = '';
 	!isset($official['brief']) && $official['brief'] = '';
-	!isset($official['$official']) && $official['version'] = '1.0';
 	!isset($official['bbs_version']) && $official['bbs_version'] = '4.0';
-	!isset($official['version']) && $official['version'] = 0;
+	!isset($official['version']) && $official['version'] = '1.0';
 	!isset($official['cateid']) && $official['cateid'] = 0;
 	!isset($official['lastupdate']) && $official['lastupdate'] = 0;
 	!isset($official['stars']) && $official['stars'] = 0;

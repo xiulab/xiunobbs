@@ -1,115 +1,96 @@
-<?php include './admin/view/header.inc.htm';?>
+<?php include './view/htm/header.inc.htm';?>
 
 <div class="row">
-	<div class="col-lg-12"><br>
-		
+	<div class="col-lg-12">
 		<div class="btn-group m-b-1" role="group">
 			<?php echo admin_tab_active($menu['plugin']['tab'], $tab);?>
 		</div>
-		
 		<div class="card">
-			
-			<table class="form">
-				<tr>
-					<td>插件图标：</td>
-					<td><img src="<?php echo $plugin['icon_url']; ?>" width="54" height="54" /></td>
-				</tr>
-				<tr>
-					<td>插件名：</td>
-					<td><?php echo $plugin['name']; ?> v<?php echo $plugin['version']; ?></td>
-				</tr>
-				<tr>
-					<td>要求 BBS 最低版本：</td>
-					<td>v<?php echo $plugin['bbs_version']; ?></td>
-				</tr>
-				<tr>
-					<td>目录：</td>
-					<td><?php echo $dir; ?></td>
-				</tr>
-			<?php if(!empty($plugin['username'])) { ?>
-				<tr>
-					<td>作者：</td>
-					<td><?php echo $plugin['username']; ?></td>
-				</tr>
-			<?php } ?>
-			<?php if(!empty($plugin['email'])) { ?>
-				<tr>
-					<td>Email：</td>
-					<td><?php echo $plugin['email']; ?></td>
-				</tr>
-			<?php } ?>
-				<tr>
-					<td>介绍：</td>
-					<td><?php echo $plugin['brief']; ?></td>
-				</tr>
-			<?php if($plugin['is_official']) { ?>
-				<tr>
-					<td>价格：</td>
-					<td><?php echo $plugin['price']; ?></td>
-				</tr>
-				<tr>
-					<td>用户评级：</td>
-					<td><?php echo $plugin['stars_fmt']; ?></td>
-				</tr>
-				<tr>
-					<td>官方评级：</td>
-					<td><?php echo $plugin['user_stars_fmt']; ?></td>
-				</tr>
-				<tr>
-					<td>安装次数：</td>
-					<td><?php echo $plugin['installs']; ?></td>
-				</tr>
-				<tr>
-					<td>销售次数：</td>
-					<td><?php echo $plugin['sells']; ?></td>
-				</tr>
-				<tr>
-					<td>通过官方认证：</td>
-					<td><?php if($plugin['is_cert']) { ?><span class="green bold">通过</span><?php } else { ?><span class="red bold">未通过</span><?php } ?></td>
-				</tr>
-			<?php } ?>	
-			<tr>
-				<td></td>
-				<td>
-					<button class="small blue" id="plugin_install_button">安装</button> 　
-					<button class="small red" id="plugin_unstall_button">卸载</button>
-				</td>
-			</tr>
-			</table>
+			<div class="row">
+				<dl class="row m-a-1">
+					<dt style="width: 70px;">
+						<img src="<?php echo $plugin['icon_url']; ?>" width="54" height="54" />
+					</dt>
+					<dd class="vtop">
+						<h4><?php echo $plugin['name']; ?> v<?php echo $plugin['version']; ?></h4>
+						<p><?php echo $plugin['brief']; ?></p>
+					</dd>
+				</dl>
+			</div>
+			<hr />
+			<div class="row">
+				<div class="col-md-4 p-l-2 p-r-2">
+					<dl class="row m-b-1">
+						<dt class="text-muted">插件目录名：</dt>
+						<dd class="text-right"><?php echo $dir; ?>m</dd>
+					</dl>
+					<dl class="row m-b-1">
+						<dt class="text-muted">要求 BBS 最低版本：</dt>
+						<dd class="text-right"><?php echo $plugin['bbs_version']; ?></dd>
+					</dl>
+				</div>
+				<?php if($plugin['pluginid']) { ?>
+				<div class="col-md-4 p-l-2 p-r-2">
+					<dl class="row m-b-1">
+						<dt class="text-muted">价格：</dt>
+						<dd class="text-right"><?php echo $plugin['price']; ?></dd>
+					</dl>
+					<dl class="row m-b-1">
+						<dt class="text-muted">安装次数：</dt>
+						<dd class="text-right"><?php echo $plugin['installs']; ?></dd>
+					</dl>
+					<dl class="row m-b-1">
+						<dt class="text-muted">官方评级：</dt>
+						<dd class="text-right"><?php echo $plugin['user_stars_fmt']; ?></dd>
+					</dl>
+					<dl class="row m-b-1">
+						<dt class="text-muted">销售次数：</dt>
+						<dd class="text-right"><?php echo $plugin['sells']; ?></dd>
+					</dl>
+					<dl class="row m-b-1">
+						<dt class="text-muted">通过官方认证：</dt>
+						<dd class="text-right"><?php echo $plugin['is_cert']; ?></dd>
+					</dl>
+				</div>
+				<?php  } ?>
+			</div>
 		</div>
+		<p class="text-center">
+			<?php if(!$plugin['downloaded']) { ?>
+			<a role="button" class="btn btn-primary download" href="<?php echo url("plugin-download-$dir"); ?>">下载</a>
+			<?php } ?>
+			
+			<?php if($plugin['setting_url']) { ?>
+			<a role="button" class="btn btn-secondary setting" href="<?php echo url("plugin-setting-$dir"); ?>">设置</a>
+			<?php } ?>
+			
+			<?php if(!$plugin['installed']) { ?>
+			<a role="button" class="btn btn-primary install" href="<?php echo url("plugin-install-$dir"); ?>">安装</a>
+			<?php } ?>
+			
+			<?php if($plugin['installed'] && $plugin['enable']) { ?>
+			<a role="button" class="btn btn-primary disable" href="<?php echo url("plugin-disable-$dir"); ?>">禁用</a>
+			<?php } ?>
+			
+			<?php if($plugin['installed'] && !$plugin['enable']) { ?>
+			<a role="button" class="btn btn-primary enable" href="<?php echo url("plugin-enable-$dir"); ?>">启用</a>
+			<?php } ?>
+			
+			<?php if($plugin['installed']) { ?>
+			<a role="button" class="btn btn-danger unstall confirm" data-confirm-text="卸载会清理该插件相关数据，确定卸载 ( <?php echo $plugin['name'];?> ) 吗？" href="<?php echo url("plugin-unstall-$dir"); ?>">卸载</a>
+			<?php } ?>
+			
+			<?php if($plugin['have_upgrade']) { ?>
+			<a role="button" class="btn btn-primary upgrade" href="<?php echo url("plugin-upgrade-$dir"); ?>">更新</a>
+			<?php } ?>
+			
+			<a role="button" class="btn btn-secondary" href="javascript:history.back();">返回</a>
+		</p>
 	</div>
 </div>
 
-<?php include './admin/view/footer.inc.htm';?>
+<?php include './view/htm/footer.inc.htm';?>
 
 <script>
-var dir = '<?php echo $dir; ?>';
-$('#plugin_install_button').on('click', function() {
-	$.xget('plugin/'+dir+'/install.php', function(code, message) {
-		if(code == 0) {
-			$('#plugin_install_button').button('disabled');
-			$('#plugin_unstall_button').button('reset');
-			$.alert('安装成功');
-		} else {
-			$.alert(message);
-		}
-	});
-});
-$('#plugin_unstall_button').on('click', function() {
-	$.xget('plugin/'+dir+'/unstall.php', function(code, message) {
-		if(code == 0) {
-			$.alert('卸载成功');
-			$('#plugin_install_button').button('reset');
-			$('#plugin_unstall_button').button('disabled');
-		} else {
-			$.alert(message);
-		}
-	});
-});
-<?php if($plugin['installed']) { ?>
-$('#plugin_install_button').button('disabled');
-<?php } else { ?>
-$('#plugin_unstall_button').button('disabled');
-<?php } ?>
-
+$('#nav_pc li.plugin, #nav_mobile li.plugin').tab('show');
 </script>

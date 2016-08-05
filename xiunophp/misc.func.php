@@ -1152,6 +1152,33 @@ function http_location($url) {
 	exit;
 }
 
+// 获取 referer
+function http_referer() {
+	$len = strlen(http_url_path());
+	$referer = param('referer');
+	empty($referer) AND $referer = _SERVER('HTTP_REFERER');
+	$referer = substr($referer, $len);
+	if(strpos($referer, url('user-login')) !== FALSE || strpos($referer, url('user-logout')) !== FALSE || strpos($referer, url('user-create')) !== FALSE) {
+		$referer = './';
+	}
+	// 安全过滤，只支持站内跳转，不允许跳到外部，否则可能会被 XSS
+	// $referer = str_replace('\'', '', $referer);
+	if(!preg_match('#^\\??[\w\-/]+\.htm$#', $referer)) {
+		$referer = './';
+	}
+	return $referer;
+}
+
+// 将参数添加到 URL
+function xn_url_add_arg($url, $k, $v) {
+	$pos = strpos($url, '.htm');
+	if($pos === FALSE) {
+		return strpos($url, '?') === FALSE ? $url."&$k=$v" :  $url."?$k=$v";
+	} else {
+		return substr($url, 0, $pos).'-'.$v.substr($url, $pos);
+	}
+}
+
 /* 需要兼容，请自行打开开这段注释，默认不兼容
 
 // 兼容 3.0，如果没有使用过，可以砍掉

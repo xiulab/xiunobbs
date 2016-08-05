@@ -49,21 +49,4 @@ function message($code, $message, $extra = array()) {
 	exit;
 }
 
-// 获取 referer
-function http_referer() {
-	$len = strlen(http_url_path());
-	$referer = param('referer');
-	empty($referer) AND $referer = _SERVER('HTTP_REFERER');
-	$referer = substr($referer, $len);
-	if(strpos($referer, url('user-login')) !== FALSE || strpos($referer, url('user-logout')) !== FALSE || strpos($referer, url('user-create')) !== FALSE) {
-		$referer = './';
-	}
-	// 安全过滤，只支持站内跳转，不允许跳到外部，否则可能会被 XSS
-	// $referer = str_replace('\'', '', $referer);
-	if(!preg_match('#^\\??[\w\-/]+\.htm$#', $referer)) {
-		$referer = './';
-	}
-	return $referer;
-}
-
 ?>

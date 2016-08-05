@@ -20,7 +20,11 @@
 				<table class="table" style="min-width: 800px">
 					<?php foreach($pluginlist as $dir=>$plugin) { ?>
 					<tr valign="top" dir="<?php echo $dir; ?>">
-						<td width="60"><a href="<?php echo url("plugin-read-$dir");?>" target="_blank"><img src="<?php echo $plugin['icon_url']; ?>" width="54" height="54" /></a></td>
+						<td width="60">
+							<a href="<?php echo url("plugin-read-$dir");?>" target="_blank">
+								<img src="<?php echo $plugin['icon_url']; ?>" width="54" height="54" />
+							</a>
+						</td>
 						<td width="300">
 							<a href="<?php echo url("plugin-read-$dir");?>"><b><?php echo $plugin['name']; ?> </b></a>
 							v<?php echo $plugin['version']; ?>
@@ -75,6 +79,5 @@
 <?php include './view/htm/footer.inc.htm';?>
 
 <script>
-$('#nav_pc li.plugin').tab('show');
-$('#nav_mobile li.plugin').tab('show');
+$('#nav_pc li.plugin, #nav_mobile li.plugin').tab('show');
 </script>

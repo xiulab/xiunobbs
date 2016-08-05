@@ -1,11 +1,21 @@
 <?php
 
-function xn_encrypt($txt, $key = 'abcd9667676effff') {
+// 安全的加密 key，过期时间 100 秒。
+function xn_safe_key() {
+	global $conf, $longip, $time, $useragent;
+	!isset($conf['auth_key']) AND $conf['auth_key'] = _SERVER('SERVER_SIGNATURE')._SERVER('PATH'); // 不容易被才出来的值作为默认 KEY
+	$key = md5($conf['auth_key'].$longip.$useragent.substr($time, 0, -2));
+	return $key;
+}
+
+function xn_encrypt($txt, $key = '') {
+	empty($key) AND $key = xn_safe_key();
 	return xn_urlencode(base64_encode(xxtea_encrypt($txt, $key)));
 }
 
 
-function xn_decrypt($txt, $key = 'abcd9667676effff') {
+function xn_decrypt($txt, $key = '') {
+	empty($key) AND $key = xn_safe_key();
 	return xxtea_decrypt(base64_decode(xn_urldecode($txt)), $key);
 }
 

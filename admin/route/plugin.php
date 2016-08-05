@@ -56,14 +56,13 @@ if($action == 'local') {
 	plugin_check_exists($dir);
 	
 	$plugin = plugin_read($dir);
-	empty($plugin) AND message(-1, '插件不存在');
 	
-	$tab = $plugin['plugind'] ? 'official' : 'local';
+	$tab = $plugin['pluginid'] ? 'official' : 'local';
 	
 	$header['title']    = '插件详情-'.$plugin['name'];
 	$header['mobile_title'] = '插件详情-'.$plugin['name'];
 	
-	include "./view/plugin_read.htm";
+	include "./view/htm/plugin_read.htm";
 	
 // 下载官方插件。
 } elseif($action == 'download') {
@@ -171,6 +170,10 @@ if($action == 'local') {
 	$dir = param(2);
 	plugin_check_exists($dir);
 	$name = $plugins[$dir]['name'];
+	
+	// 判断插件版本
+	$plugin = plugin_read($dir);
+	!$plugin['have_upgrade'] AND message(-1, '已经是最新版本，无需更新。');
 	
 	// 检查目录可写
 	plugin_check_dir_is_writable();

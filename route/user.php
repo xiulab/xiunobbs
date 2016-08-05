@@ -339,6 +339,46 @@ if($action == 'login') {
 		
 	}
 
+// 简单的同步登陆实现：
+/* 
+	将用户信息通过 token 传递给其他系统，
+	两边系统将 auth_key 设置为一致，用 xn_encrypt() xn_decrypt() 加密解密。
+*/
+} elseif($action == 'synlogin') {
+
+	// 检查过来的 token
+	$token = param(2);
+	$return_url = param(3);
+	$s = xn_decrypt($token);
+	!$s AND message(-1, '未授权的访问');
+	list($_time, $_longip) = explode('_', $s);
+	$_longip != $longip AND message(-1, '授权获取失败，请重新发起请求。');
+	
+	
+	empty($_SESSION['return_url']) AND $_SESSION['return_url'] = $return_url;
+	if(!$uid) {
+		http_location(url('user-login'));
+	} else {
+		$return_url = _SESSION('return_url');
+		
+		empty($return_url) AND message(-1, '请重新发起同步登陆请求');
+		unset($_SESSION['return_url']);
+		
+		$arr = array(
+			'uid'=>$user['uid'],
+			'username'=>$user['username'],
+			'avatar_url'=>$user['avatar_url'],
+			'email'=>$user['email'],
+			'mobile'=>$user['mobile'],
+		);
+		$s = xn_json_encode($arr);
+		$s = xn_encrypt($s, $key);
+		// 将 token 附加到 URL，跳转回去。
+		$return_url = xn_urldecode($return_url);
+		$url = xn_url_add_arg($return_url, 'token', $s);
+		http_location($url);
+	}
+	
 // hook user_action_add.php
 	
 } else {
