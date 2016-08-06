@@ -15,11 +15,11 @@
 			<table class="table table-hover threadlist">
 				<thead>
 					<tr>
-						<th colspan="2" class="p-a-0">
+						<th colspan="2" class="p-a-0 p-b-sm">
 							<dl class="row">
 								<dt class="text-nowrap">
 									<?php if($gid > 0 && $gid < 5) { ?>
-									<input type="checkbox" data-target='input[name="modtid"]' class="checkall m-t-sm" value="" />
+									<input type="checkbox" data-target='input[name="modtid"]' class="checkall m-t-sm m-r-sm" value="" />
 									<?php } ?>
 									<b>最新帖子</b>
 									<!--{hook forum_title_left.htm}-->
@@ -64,12 +64,7 @@
 						<h5 class="text-center"><?php echo $forum['todaythreads'];?></h5>
 					</div>
 				</div>
-				<div class="card">
-					<div class="card-block">
-						<div class="text-center text-muted small">排名</div>
-						<h5 class="text-center">2</h5>
-					</div>
-				</div>
+				<!--{hook forum_todaythreads_after.htm}-->
 			</div>
 		</div>
 		<!--{hook forum_mod_before.htm}-->

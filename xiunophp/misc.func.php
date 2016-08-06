@@ -1060,6 +1060,24 @@ function rmdir_recusive($dir, $keepdir = 0) {
 	return TRUE;
 }
 
+// 递归拷贝目录
+function copy_recusive($src, $dst) {
+	substr($src, -1) == '/' AND $src = substr($src, 0, -1);
+	substr($dst, -1) == '/' AND $dst = substr($dst, 0, -1);
+	$dir = opendir($src);
+	!is_dir($dst) AND mkdir($dst);
+	while(FALSE !== ($file = readdir($dir))) {
+		if(($file != '.') && ($file != '..')) {
+			if(is_dir($src . '/' . $file)) {
+				copy_recusive($src.'/'.$file,$dst.'/'.$file);
+			}  else {
+				copy($src.'/'.$file,$dst.'/'.$file);
+			}
+		}
+	}
+	closedir($dir); 
+}
+
 // 随机字符
 function xn_rand($n = 16) {
 	$str = '0123456789abcdefghijklmnopqrstuvwxyz';
