@@ -12,10 +12,17 @@
 						</td>
 						<td class="p-l-0">
 							<div class="subject">
-								<?php if($_thread['top'] > 0) { ?><i class="icon top top_<?php echo $_thread['top']; ?>"></i><?php } ?>
+							
+								<?php if($_thread['top'] > 0) { ?>
+									<i class="icon-top-<?php echo $_thread['top']; ?>"></i></i>
+								<?php } ?>
+								
 								<a href="<?php echo url("thread-$_thread[tid]");?>"><?php echo $_thread['subject'];?></a>
+								
 								<!--<?php if($_thread['images'] > 0) { ?><i class="icon small filetype image"></i><?php } ?>-->
+								
 								<?php if($_thread['files'] > 0) { ?><i class="icon small filetype other"></i><?php } ?>
+								
 							</div>
 							<dl class="row small">
 								<dt>

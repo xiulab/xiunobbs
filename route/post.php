@@ -75,6 +75,7 @@ if($action == 'create') {
 			ob_start();
 			include './view/htm/post_list.inc.htm';
 			$s = ob_get_clean();
+						
 			message(0, $s);
 		} else {
 			message(0, '回帖成功');

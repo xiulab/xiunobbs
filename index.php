@@ -1,6 +1,7 @@
 <?php
 
-!defined('DEBUG') AND define('DEBUG', 0); 				// 发布的时候改为 0 
+
+!defined('DEBUG') AND define('DEBUG', 2); 				// 发布的时候改为 0 
 
 ob_start('ob_gzhandler');
 
@@ -12,6 +13,10 @@ if(DEBUG) {
 	include './xiunophp/xiunophp.min.php';
 }
 
+
+/*$arr = array('code'=>1, 'message'=> array("a\r\nb"));
+echo json_encode($arr);
+exit;*/
 // 测试数据库连接
 db_connect() OR message(-1, $errstr);
 

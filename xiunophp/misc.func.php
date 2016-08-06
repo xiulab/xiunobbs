@@ -200,7 +200,11 @@ function xn_json_encode($data, $pretty = FALSE, $level = 0) {
 		case 'float':
 			return $data;
 		case 'string':
-			return '"'.str_replace(array('\\', '"'), array('\\\\', '\\"'), $data).'"';
+			$data = '"'.str_replace(array('\\', '"'), array('\\\\', '\\"'), $data).'"';
+			$data = str_replace("\r", '\\r', $data);
+			$data = str_replace("\n", '\\n', $data);
+			$data = str_replace("\t", '\\t', $data);
+			return $data;
 		case 'object':
 			$data = get_object_vars($data);
 		case 'array':
@@ -847,12 +851,12 @@ function http_multi_get($urls) {
 		//curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
 		curl_multi_add_handle($multi_handle, $conn[$i]);
 	}
-	do{
+	do {
 		$mrc = curl_multi_exec($multi_handle, $active);
 	} while ($mrc == CURLM_CALL_MULTI_PERFORM);
 	while($active and $mrc == CURLM_OK) {
 		if(curl_multi_select($multi_handle) != - 1) {
-			do{
+			do {
 				$mrc = curl_multi_exec($multi_handle, $active);
 			} while ($mrc == CURLM_CALL_MULTI_PERFORM);
 		}

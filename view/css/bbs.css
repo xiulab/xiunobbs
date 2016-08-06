@@ -90,10 +90,10 @@ dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
 .icon.filetype.torrent {background-image: url(../img/filetype/torrent.png) }
 .icon.filetype.font {background-image: url(../img/filetype/font.png) }
 
-.icon.top:before { content: "\f091"; font-size: 16px;}
-.icon.top_1 { color: #FF8800; }
-.icon.top_2 { color: #FF8800; }
-.icon.top_3 { color: #DA24A7; }
+[class^="icon-top-"]:before { content: "\f024"; }
+.icon-top-1 { color: #FF8800; }
+.icon-top-2 { color: #FF8800; }
+.icon-top-3 { color: #DA24A7; }
 
 #nav_mobile .nav-item {padding: 0.5rem}
 #nav_mobile .nav-item:hover {background: #444446;}

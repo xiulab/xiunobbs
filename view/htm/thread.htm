@@ -20,6 +20,7 @@
 						<dt>
 							<span class="username text-muted"><?php echo $thread['username'];?></span>
 							<span class="date text-grey m-l-1"><?php echo $thread['create_date_fmt'];?></span>
+							<span class="text-grey m-l-1"><i class="icon-eye-open"></i> <?php echo $thread['views'];?></span>
 						</dt>
 						<dd class="text-right">
 							<?php if($allowupdate || $first['allowupdate']) { ?>
@@ -55,7 +56,7 @@
 						<th colspan="2" class="p-a-xs">
 							<dl class="row">
 								<dt>
-									<b>最新回复</b>(<span class="posts"><?php echo $thread['posts'];?></span>)
+									<b>最新回复</b> (<span class="posts"><?php echo $thread['posts'];?></span>)
 								</dt>
 								<dd>
 									<!--{hook thread_post_list_title_right.htm}-->
@@ -106,7 +107,7 @@
 		<?php }?>
 		
 	</div>
-	<div class="col-lg-3">
+	<div class="col-lg-3 hidden-md-down">
 		<a role="button" class="btn btn-primary btn-block btn-sm m-b-sm hidden-md-down" data-loading-text="<?php echo lang('submiting');?>..." href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
 		<div class="card hidden-lg-down">
 			<a href="<?php echo url("user-$thread[uid]");?>">

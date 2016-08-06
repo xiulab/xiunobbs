@@ -54,10 +54,12 @@ $('.mod-button button.move').on('click', function() {
 $('.mod-button button.top').on('click', function() {
 	var modtid = $('input[name="modtid"]').checked();
 	if(modtid.length == 0) return $.alert('请选择主题');
-	var radios = xn.form_radio('fid', {"0": "取消置顶", "1": "版块置顶", "3": "全站置顶"});
+	var radios = xn.form_radio('top', {"0": "取消置顶", "1": "版块置顶", "3": "全站置顶"});
 	$.confirm('置顶主题', function() {
 		var tids = xn.implode('_', modtid);
-		$.xpost(xn.url('mod-top-'+tids), function(code, message) {
+		var top = $('input[name="top"]').checked();
+		var postdata = {top: top};
+		$.xpost(xn.url('mod-top-'+tids), postdata, function(code, message) {
 			if(code != 0) return $.alert(message);
 			$.alert(message).delay(1000).location('');
 		});
@@ -72,4 +74,12 @@ $('a.confirm').on('click', function() {
 		window.location = jthis.attr('href');
 	})
 	return false;
+});
+
+// 选中所有
+$('input.checkall').on('click', function() {
+	var jthis = $(this);
+	var target = jthis.data('target');
+	jtarget = $(target);
+	jtarget.prop('checked', this.checked);
 });

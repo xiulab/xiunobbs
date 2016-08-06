@@ -15,12 +15,9 @@ if($action == 'base') {
 		
 		$input = array();
 		$input['sitename'] = form_text('sitename', $conf['sitename']);
+		$input['sitebrief'] = form_textarea('sitebrief', $conf['sitebrief'], '100%', 100);
 		$input['runlevel'] = form_radio('runlevel', array(0=>'站点关闭', 1=>'管理员可读写', 2=>'会员可读', 3=>'会员可读写', 4=>'所有人只读', 5=>'所有人可读写'), $conf['runlevel']);
 		$input['lang'] = form_select('lang', array('zh-cn'=>'简体中文', 'zh-tw'=>'繁体中文', 'en-us'=>'美式英语'), $conf['lang']);
-		
-		$setting = kv_get('setting');	// 首页数据
-		empty($setting) AND $setting = array('sitebrief'=>'');
-		$sitebrief = $setting['sitebrief']; // 站点介绍
 		
 		$header['title'] = '站点设置';
 		$header['mobile_title'] = '站点设置';
@@ -34,11 +31,9 @@ if($action == 'base') {
 		$runlevel = param('runlevel', 0);
 		$_lang = param('lang');
 		
-		$setting = array('sitebrief'=>$sitebrief);
-		kv_set('setting', $setting);
-		
 		$replace = array();
 		$replace['sitename'] = $sitename;
+		$replace['sitebrief'] = $sitebrief;
 		$replace['runlevel'] = $runlevel;
 		$replace['lang'] = $_lang;
 		
