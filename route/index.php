@@ -6,6 +6,8 @@
 
 !defined('DEBUG') AND exit('Access Denied.');
 
+// hook index_start.php
+
 $page = param(1, 1);
 $order = param(2, $conf['order_default']);	// 默认不允许用户修改排序顺序，插件可以做，该参数给插件预留
 $order != 'tid' AND $order = 'lastpid';		// 默认按照顶贴时间排序
@@ -26,6 +28,8 @@ thread_list_access_filter($threadlist, $gid);
 $header['title'] = $conf['sitename']; 		// 网站标题
 $header['keywords'] = ''; 			// 关键词
 $header['description'] = ''; 			// 描述
+
+// hook index_end.php
 
 include './view/htm/index.htm';
 

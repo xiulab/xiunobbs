@@ -88,6 +88,7 @@ if($action == 'create') {
 	//$page == 1 AND $pagesize++;
 	
 	// hook thread_info_start.php
+	
 	$thread = thread_read($tid);
 	empty($thread) AND message(-1, '主题不存在');;
 	

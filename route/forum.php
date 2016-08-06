@@ -1,7 +1,9 @@
 <?php
 
 !defined('DEBUG') AND exit('Access Denied.');
-	
+
+// hook forum_start.php
+
 // 模板初始化依赖
 $fid = param(1, 0);
 $page = param(2, 1);
@@ -22,6 +24,8 @@ $header['title'] = $forum['seo_title'] ? $forum['seo_title'] : $forum['name'].'-
 $header['mobile_title'] = $forum['name'];
 $header['keywords'] = $forum['seo_keywords']; 		// 关键词
 $header['navs'][] = "<a href=\"forum-$fid.htm\">$forum[name]</a>";
+
+// hook forum_end.php
 
 include './view/htm/forum.htm';
 
