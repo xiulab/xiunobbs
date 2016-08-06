@@ -101,7 +101,7 @@ function plugin_enable($dir) {
 	plugin_overwrite($dir, 'install');
 	plugin_hook($dir, 'install');
 	
-	file_replace_var("../plugin/$dir/conf.json", array('enable'=>1));
+	file_replace_var("../plugin/$dir/conf.json", array('enable'=>1), TRUE);
 	return TRUE;
 }
 
@@ -113,7 +113,7 @@ function plugin_disable($dir) {
 	plugin_overwrite($dir, 'unstall');
 	plugin_hook($dir, 'unstall');
 	
-	file_replace_var("../plugin/$dir/conf.json", array('enable'=>0));
+	file_replace_var("../plugin/$dir/conf.json", array('enable'=>0), TRUE);
 	return TRUE;
 }
 
@@ -136,7 +136,7 @@ function plugin_install($dir) {
 	plugin_hook($dir, 'install');
 	
 	// 写入配置文件
-	file_replace_var("../plugin/$dir/conf.json", array('installed'=>1, 'enable'=>1));
+	file_replace_var("../plugin/$dir/conf.json", array('installed'=>1, 'enable'=>1), TRUE);
 	
 	return TRUE;
 }
@@ -155,7 +155,7 @@ function plugin_unstall($dir) {
 	plugin_hook($dir, 'unstall');
 	
 	// 写入配置文件
-	file_replace_var("../plugin/$dir/conf.json", array('installed'=>0, 'enable'=>0));
+	file_replace_var("../plugin/$dir/conf.json", array('installed'=>0, 'enable'=>0), TRUE);
 	
 	return TRUE;
 }
