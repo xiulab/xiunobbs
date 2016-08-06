@@ -1,5 +1,12 @@
 /********************************* 对 bootstrasp 进行增强 *************************************/
-/* fix .row .row 间距问题 by axiuno@gmail.com */
+/* fix .row .row 间距问题 by axiuno@gmail.com  */
+
+/* fix 手机导航栏下拉菜单滚动 */
+#mobile_collapsing_bavbar {
+    overflow-y: scroll;
+    height: auto;
+    max-height: 400px;
+}
 
 .row .row {margin-left: 0; margin-right: 0;}
 .row .row > [class^="col-"] {padding-left: 0; padding-right: 1rem; margin-left: 0; margin-right: 0;}

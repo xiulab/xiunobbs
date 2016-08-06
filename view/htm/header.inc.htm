@@ -5,10 +5,10 @@
 	<?php $user = G('user');?>
 	<?php $uid = G('uid');?>
 	<?php $gid = G('gid');?>
-	 <?php $fid = G('fid');?>
-	 <?php $tid = G('tid');?>
-	 <?php $pid = G('pid');?>
-	 <?php $route = G('route');?>
+	<?php $fid = G('fid');?>
+	<?php $tid = G('tid');?>
+	<?php $pid = G('pid');?>
+	<?php $route = G('route');?>
 	<?php $forumlist_show = G('forumlist_show');?>
 	<?php $conf = G('conf');?>
 	<?php $static_version = $conf['static_version'];?>
@@ -107,7 +107,7 @@
 		<div class="container hidden-lg-up navbar-nav">
 			<div class="row">
 				<!-- 左侧：折叠图标 -->
-				<div class="col-xs-4">
+				<div class="col-xs-1">
 					<?php if($route != 'thread') { ?>
 					 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile_collapsing_bavbar">☰</button>
 					 <?php } else { ?>
@@ -116,7 +116,7 @@
 				</div>
 				
 				<!-- 中间：标题 -->
-				<div class="col-xs-4 text-center">
+				<div class="col-xs-10 text-center text-nowrap">
 					<?php if($route == 'index') { ?>
 					<a class="nav-link p-y-0" href="."><img src="view/img/logo.png" class="logo-sm center-block"></a>
 					<?php } else { ?>
@@ -125,7 +125,7 @@
 				</div>
 				
 				<!-- 右侧：登陆 -->
-				<div class="col-xs-4">
+				<div class="col-xs-1">
 					<div class="pull-right">
 						<div class="nav-item small">
 							<?php if(empty($uid)) { ?>
