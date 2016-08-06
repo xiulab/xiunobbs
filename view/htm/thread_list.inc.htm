@@ -1,16 +1,16 @@
 					<?php foreach($threadlist as $_thread) { ?>
 					<tr class="thread tap <?php echo $_thread['top_class'];?>" href="<?php echo url("thread-$_thread[tid]");?>">
 						<?php if(forum_access_mod($_thread['fid'], $gid, 'allowtop')) { ?>
-						<td width="35">
+						<td class="td-checkbox">
 							<input type="checkbox" name="modtid" class="m-t-sm" value="<?php echo $_thread['tid']; ?>" />
 						</td>
 						<?php } ?>
-						<td class="avatar-parent" aria-hidden="true">
+						<td class="td-avatar" aria-hidden="true">
 							<a href="<?php echo url("user-$_thread[uid]");?>" aria-hidden="true">
 								<img class="avatar" src="<?php echo $_thread['user_avatar_url'];?>">
 							</a>
 						</td>
-						<td class="p-l-0">
+						<td class="td-subject p-l-0">
 							<div class="subject">
 							
 								<?php if($_thread['top'] > 0) { ?>

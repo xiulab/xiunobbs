@@ -30,7 +30,7 @@ body {background: #f4f4f4; }
 	margin-bottom: 0.2rem;
 }
 .thread .subject a { color: #373a3c;}
-dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
+dl.row > dt.td-avatar, .td-avatar { width: 3.5rem;}
 .avatar-xs { width: 1.3rem; height: 1.3rem; border-radius: 1.3rem;}
 .avatar-sm { width: 1.6rem; height: 1.6rem; border-radius: 1.6rem;}
 .avatar { width: 2.8rem; height: 2.8rem;  border-radius: 2.8rem;}
@@ -49,20 +49,22 @@ dl.row > dt.avatar-parent, .avatar-parent { width: 3.5rem;}
 .logo-xs {width: 1.3rem; height: 1.3rem; }
 .logo-sm {width: 2.2rem; height: 2.2rem; margin-top: 2px;}
 
+.table td {padding-top: 0.6rem; padding-bottom: 0.6rem;}
+.table td.td-checkbox {width: 0.5rem; padding: 0.2rem;}
+.icon-2x { font-size: 1.5em; }
 
 @media (max-width: 768px) {
 	.card-block {padding: 0.5rem;}
-	.table .avatar-parent {padding-left: 0; padding-right: 0.1rem;}
+	.table td.td-checkbox {width: 0.5rem; padding: 0.2rem;}
+	.table td.td-avatar {width: 2rem; padding: 0.2rem; padding-right: 0.4rem;}
 	.avatar { width: 2.0rem; height: 2.0rem;  border-radius: 2.0rem;}
-	dl.row > dt.avatar-parent, .avatar-parent { width: 2.5rem;}
 }
 @media (min-width: 992px) {
 	div.card.p-a-sm {padding: 0.8rem !important;}
 }
 
-.table td {padding-top: 0.6rem; padding-bottom: 0.6rem;}
 
-.icon-2x { font-size: 1.5em; }
+
 
 
 /*  bbs */
