@@ -1,12 +1,19 @@
+		<?php
+			$_threadlist = mythread_find_by_uid($thread['uid'], 1, 10);
+		?>
 		<div class="card">
 			<div class="card-block">
 				<h6 class="text-bold">作者最近主题：</h6>
 				<hr class="m-y-sm" />
 				<ul class="text-middle">
-					<li>版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容 - 2 天前</li>
-					<li>版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容 - 2 天前</li>
-					<li>版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容 - 2 天前</li>
-					<li>版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容 - 2 天前</li>
+					<?php foreach($_threadlist as $_thread) { ?>
+					<li>
+						<a href="<?php echo url("thread-$_thread[tid]");?>">
+							<?php echo $thread['subject'];?>
+						</a>
+						<small class="text-grey m-l-1">- <?php echo $thread['create_date_fmt'];?></small>
+					</li>
+					<?php } ?>
 				</ul>
 			</div>
 		</div>
