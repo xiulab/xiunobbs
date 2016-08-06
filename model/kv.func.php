@@ -1,5 +1,7 @@
 <?php
 
+// 如果环境支持，可以直接改为 redis get() set() 持久存储相关 API，提高速度。
+
 function kv_get($k) {
 	$arr = db_find_one('kv', array('k'=>$k));
 	return $arr ? xn_json_decode($arr['v']) : NULL;
