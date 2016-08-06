@@ -12,9 +12,9 @@ function admin_token_check() {
 			setcookie('bbs_admin_token', '', 0, '', '', '', TRUE);
 			message(-1, '令牌错误');
 		}
-		list($_ip, $_time, $_useragent_md5) = explode("\t", $s);
+		list($_ip, $_time) = explode("\t", $s);
 		// 后台超过 3600 自动退出。
-		if($_ip != $longip || $_useragent_md5 != $useragent_md5 || $time - $_time > 3600) {
+		if($_ip != $longip || $time - $_time > 3600) {
 			setcookie('bbs_admin_token', '', 0, '', '', '', TRUE);
 			message(-1, '管理登陆令牌失效，请重新登录');
 		}
@@ -28,8 +28,7 @@ function admin_token_check() {
 function admin_token_set() {
 	global $longip, $time, $useragent, $conf;
 	$admin_token = param('bbs_admin_token');
-	$useragent_md5 = md5($useragent);
-	$s = "$longip	$time	$useragent_md5";
+	$s = "$longip	$time";
 	$admin_token = xn_encrypt($s);
 	setcookie('bbs_admin_token', $admin_token, $time + 3600, '',  '', 0, TRUE);
 }
