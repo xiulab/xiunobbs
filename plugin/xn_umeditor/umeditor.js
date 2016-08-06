@@ -6576,7 +6576,8 @@ UM.plugins['paste'] = function () {
         //bk.start.innerHTML = '&nbsp;';
         bk.start.style.display = '';
 
-        pastebin.style.cssText = "position:absolute;width:1px;height:1px;overflow:hidden;left:-1000px;white-space:nowrap;top:" +
+        // axiuno: white-space:nowrap; 去掉，粘贴文本会不换行。
+        pastebin.style.cssText = "position:absolute;width:1px;height:1px;overflow:hidden;left:-1000px;top:" +
         //要在现在光标平行的位置加入，否则会出现跳动的问题
         $(bk.start).position().top  + 'px';
 
