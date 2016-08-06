@@ -1,5 +1,7 @@
 <?php include "./view/htm/header.inc.htm"; ?>
 
+<!--{hook index_start.htm}-->
+
 <div class="row">
 	<div class="col-lg-9">
 		<div class="card p-a-sm">
@@ -8,34 +10,41 @@
 					<tr>
 						<th colspan="2" class="p-a-0">
 							<dl class="row">
-								<dt>
+								<dt class="text-nowrap">
 									<?php if($gid > 0 && $gid < 5) { ?>
 									<input type="checkbox" data-target='input[name="modtid"]' class="checkall m-t-sm" value="" />
 									<?php } ?>
 									<b>最新帖子</b>
+									<!--{hook index_title_lleft.htm}-->
 								</dt>
 								<dd>
-									<!--{hook index_new_thread_title_right.htm}-->
+									<!--{hook index_title_right.htm}-->
 								</dd>
 							</dl>
 						</th>
 					</tr>
 				</thead>
 				<tbody>
+					<!--{hook index_threadlist_before.htm}-->
 					<?php include './view/htm/thread_list.inc.htm';?>
+					<!--{hook index_threadlist_after.htm}-->
 				</tbody>
 			</table>
 		</div>
 		<?php include './view/htm/thread_list_mod.inc.htm';?>
+		<!--{hook index_page_before.htm}-->
 		<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>
+		<!--{hook index_page_end.htm}-->
 	</div>
 	<div class="col-lg-3 hidden-md-down">
 		<a role="button" class="btn btn-primary btn-block btn-sm m-b-sm hidden-md-down" data-loading-text="<?php echo lang('submiting');?>..." href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
+		<!---{hook index_site_brief_start}-->
 		<div class="card">
+			<!---{hook index_site_brief_start}-->
 			<h4 class="text-center m-t-1"><?php echo $conf['sitename'];?></h4>
 			<p class="m-x-1 text-middle"><?php echo $conf['sitebrief'];?></p>
 			<div class="card-group card-group-nest">
-				<!---{hook index_site_brief_start}-->
+				
 				<div class="card">
 					<div class="card-block">
 						<div class="text-center text-muted text-nowrap small">主题数</div>
@@ -62,15 +71,17 @@
 				</div>
 			</div>
 			<!---{hook index_site_brief_end}-->
-			<!--
-			<img class="card-img-bottom" data-src="holder.js/100%x180" alt="100%x180" style="width: 100%; display: block;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMzE4IiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDMxOCAxODAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MTgwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTU1ZTcxNTI0NTcgdGV4dCB7IGZpbGw6cmdiYSgyNTUsMjU1LDI1NSwuNzUpO2ZvbnQtd2VpZ2h0Om5vcm1hbDtmb250LWZhbWlseTpIZWx2ZXRpY2EsIG1vbm9zcGFjZTtmb250LXNpemU6MTZwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTU1ZTcxNTI0NTciPjxyZWN0IHdpZHRoPSIzMTgiIGhlaWdodD0iMTgwIiBmaWxsPSIjNzc3Ii8+PGc+PHRleHQgeD0iMTE4LjA4NTkzNzUiIHk9Ijk3LjIiPjMxOHgxODA8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" data-holder-rendered="true">
-			-->
 		</div>
+		<!---{hook index_site_brief_after}-->
 	</div>
 </div>
+
+<!--{hook index_end.htm}-->
 
 <?php include "./view/htm/footer.inc.htm"; ?>
 
 <script>
 $('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');
 </script>
+
+<!--{hook index_js.htm}-->

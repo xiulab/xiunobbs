@@ -14,6 +14,8 @@
 	<?php $static_version = $conf['static_version'];?>
 	<?php echo defined('BASE_HREF') ? '<base href="'.BASE_HREF.'" />' : '' ;?>
 	
+	<!--{hook header_mete_before.htm}-->
+	
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="author" content="XiunoBBS 4.0" />
@@ -29,12 +31,19 @@
 	<link rel="stylesheet" href="view/css/font-awesome.css<?php echo $static_version;?>">
 	<link rel="stylesheet" href="view/css/tether.css<?php echo $static_version;?>">
 	<link rel="stylesheet" href="view/css/bbs.css<?php echo $static_version;?>">
-	<style>
-		
-	</style>
+	
+	<!--{hook header_css_after.htm}-->
+	
 </head>
 
-<body><div id="wrapper">
+<body>
+
+<!--{hook header_body_start.htm}-->
+
+<div id="wrapper">
+	
+	<!--{hook header_wrapper_after.htm}-->
+	
 	<nav class="navbar navbar-dark bg-inverse navbar-full navbar-fixed-top" id="header">
 	
 		<!-- PC 导航 -->
@@ -43,6 +52,9 @@
 				<!-- 左侧：版块区域 -->
 				<div class="col-md-8">
 					<ul class="nav navbar-nav" id="nav_pc">
+					
+						<!--{hook header_nav_pc_start.htm}-->
+						
 						<!-- LOGO -->
 						<li class="nav-item"><img src="view/img/logo.png" class="logo-sm"></li>
 						
@@ -64,6 +76,8 @@
 				<div class="col-md-4">
 					<ul class="nav navbar-nav pull-right small">
 					
+						<!--{hook header_nav_pc_user_start.htm}-->
+						
 						<!-- 游客 -->
 						<?php if(empty($uid)) { ?>
 						
@@ -82,6 +96,8 @@
 						<li class="nav-item"><a class="nav-link" href="<?php echo url('user-logout');?>"><?php echo lang('logout');?></a></li>
 						
 						<?php } ?>
+						
+						<!--{hook header_nav_pc_user_end.htm}-->
 					</ul>
 				</div>
 			</div>
@@ -139,12 +155,16 @@
 					</li>
 					<hr class="m-y-0" />
 					
+					<!--{hook header_nav_mobile_forum_before.htm}-->
+					
 					<?php foreach($forumlist_show as $_forum) { ?>
 					<li class="nav-item" fid="<?php echo $_forum['fid'];?>">
 						<a class="nav-link m-l-2" href="<?php echo url("forum-$_forum[fid]");?>"><i class="icon-circle-blank"></i> <?php echo $_forum['name'];?></a>
 					</li>
 					<?php } ?>
 					<hr class="m-y-0" />
+					
+					<!--{hook header_nav_mobile_forum_after.htm}-->
 					
 					<!-- 个人资料 -->
 					<?php if($uid) { ?>
@@ -162,6 +182,7 @@
 					<hr class="m-y-0" />
 					<?php } ?>
 					
+					<!--{hook header_nav_mobile_logout_before.htm}-->
 					
 					<!-- 退出 -->
 					<?php if($uid) { ?>
@@ -169,6 +190,8 @@
 						<a class="nav-link" href="<?php echo url('user-logout');?>"><i class="icon-off"></i> <?php echo lang('logout');?></a>
 					</li>
 					<?php } ?>
+					
+					<!--{hook header_nav_mobile_logout_after.htm}-->
 				</ul>
 			</div>
 		</div>

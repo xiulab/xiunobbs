@@ -1,55 +1,67 @@
 <?php include "./view/htm/header.inc.htm"; ?>
 
+<!--{hook forum_start.htm}-->
+
 <div class="row">
 	<div class="col-lg-9">
+		<!--{hook forum_breadcrumb_before.htm}-->
 		<ol class="breadcrumb m-b-sm hidden-lg-down">
 			<li><a href="./"><i class="icon-home"></i></a></li>
 			<li><a href="<?php echo url("forum-$fid");?>"><?php echo $forum['name'];?></a></li>
+			<!--{hook forum_breadcrumb.htm}-->
 		</ol>
+		<!--{hook forum_breadcrumb_after.htm}-->
 		<div class="card p-a-sm">
 			<table class="table table-hover threadlist">
 				<thead>
 					<tr>
 						<th colspan="2" class="p-a-0">
 							<dl class="row">
-								<dt>
+								<dt class="text-nowrap">
 									<?php if($gid > 0 && $gid < 5) { ?>
 									<input type="checkbox" data-target='input[name="modtid"]' class="checkall m-t-sm" value="" />
 									<?php } ?>
 									<b>最新帖子</b>
+									<!--{hook forum_title_left.htm}-->
 								</dt>
 								<dd>
-									<!--{hook forum_new_thread_title_right.htm}-->
+									<!--{hook forum_title_right.htm}-->
 								</dd>
 							</dl>
 						</th>
 					</tr>
 				</thead>
 				<tbody>
+					<!--{hook forum_threadlist_before.htm}-->
 					<?php include './view/htm/thread_list.inc.htm';?>
+					<!--{hook forum_threadlist_after.htm}-->
 				</tbody>
 			</table>
 		</div>
 		<?php include './view/htm/thread_list_mod.inc.htm';?>
+		<!--{hook forum_page_before.htm}-->
 		<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>
+		<!--{hook forum_page_after.htm}-->
 	</div>
 	<div class="col-lg-3 hidden-md-down">
 		<a role="button" class="btn btn-primary btn-block btn-sm m-b-sm hidden-md-down" data-loading-text="<?php echo lang('submiting');?>..." href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
 		<div class="card">
 			<img class="center-block m-t-1" data-src="holder.js/100%x180" alt="100%x180" src="<?php echo $forum['icon_url'];?>" width="100" height="100">
 			<h4 class="text-center"><?php echo $forum['name'];?></h4>
+			<!--{hook forum_brief_before.htm}-->
 			<p class="m-x-1 text-middle"><?php echo $forum['brief'];?></p>
+			<!--{hook forum_brief_before.htm}-->
 			<div class="card-group card-group-nest">
 				<div class="card">
 					<div class="card-block">
 						<div class="text-center text-muted small">今日</div>
-						<h5 class="text-center">123</h5>
+						<h5 class="text-center"><?php echo $forum['todayposts'];?></h5>
 					</div>
 				</div>
 				<div class="card">
 					<div class="card-block">
 						<div class="text-center text-muted small">主题</div>
-						<h5 class="text-center">234</h5>
+						<h5 class="text-center"><?php echo $forum['todaythreads'];?></h5>
 					</div>
 				</div>
 				<div class="card">
@@ -60,8 +72,10 @@
 				</div>
 			</div>
 		</div>
+		<!--{hook forum_mod_before.htm}-->
 		<div class="card">
 			<div class="card-block">
+			
 				<?php if($forum['announcement']) { ?>
 				<h6 class="text-bold">版块公告：</h6>
 				<hr class="m-y-sm" />
@@ -69,38 +83,33 @@
 					<?php echo $forum['announcement'];?>
 				</p>
 				<?php  } ?>
+				
+				<?php if($forum['modlist']) { ?>
 				<h6 class="text-bold">论坛版主：</h6>
 				<hr class="m-y-sm" />
 				<div class="row">
+					<?php foreach ($forum['modlist'] as $mod) { ?>
 					<div class="col-xs-3 m-b-1 text-center">
 						<a href="#"><img src="view/img/avatar.png" alt="..." width="32" height="32" class="img-circle"></a><br>
-						<a href="#" class="small text-muted text-nowrap">名名称名称</a>
+						<a href="<?php echo url("user-$mod[uid]");?>" class="small text-muted text-nowrap"><?php echo $mod['username'];?></a>
 					</div>
-					<div class="col-xs-3 m-b-1 text-center">
-						<a href="#"><img src="view/img/avatar.png" alt="..." width="32" height="32" class="img-circle"></a><br>
-						<a href="#" class="small text-muted">名称</a>
-					</div>
-					<div class="col-xs-3 m-b-1 text-center">
-						<a href="#"><img src="view/img/avatar.png" alt="..." width="32" height="32" class="img-circle"></a><br>
-						<a href="#" class="small text-muted">名称</a>
-					</div>
-					<div class="col-xs-3 m-b-1 text-center">
-						<a href="#"><img src="view/img/avatar.png" alt="..." width="32" height="32" class="img-circle"></a><br>
-						<a href="#" class="small text-muted">名称</a>
-					</div>
-					<div class="col-xs-3 m-b-1 text-center">
-						<a href="#"><img src="view/img/avatar.png" alt="..." width="32" height="32" class="img-circle"></a><br>
-						<a href="#" class="small text-muted">名称</a>
-					</div>
+					<?php } ?>
 				</div>
+				<?php  } ?>
+				
 			</div>
 		</div>
+		<!--{hook forum_mod_after.htm}-->
 	</div>
 </div>
 
+
+<!--{hook forum_end.htm}-->
 
 <?php include "./view/htm/footer.inc.htm"; ?>
 
 <script>
 $('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');
 </script>
+
+<!--{hook forum_js.htm}-->

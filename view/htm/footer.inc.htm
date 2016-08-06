@@ -1,3 +1,5 @@
+<!--{hook footer_start.htm}-->
+
 <?php $db = G('db');?>
 <?php $starttime = G('starttime');?>
 <?php $forumlist = G('forumlist');?>
@@ -5,28 +7,37 @@
 <?php $fid = G('fid');?>
 <?php $conf = G('conf');?>
 <?php $static_version = $conf['static_version'];?>
-	
+
 <?php  echo xn_debug_info(); ?>
 
 </div>
+
+<!--{hook footer_footer_before.htm}-->
 
 <div class="text-muted" id="footer">
 	<div class="container" style="overflow: hidden;">
 		<dl class="row m-t-1">
 			<dt>
+				<!--{hook footer_footer_left_start.htm}-->
 				Powered by <b>Xiuno BBS <span><?php echo $conf['version'];?></span></b>
+				<!--{hook footer_footer_left_end.htm}-->
 			</dt>
 			<dd class="text-right">
+				<!--{hook footer_footer_right_start.htm}-->
 				Time: <b><?php echo substr(microtime(1) - $starttime, 0, 5);?></b>, SQL: <b><?php echo count($db->sqls);?></b>
+				<!--{hook footer_footer_right_end.htm}-->
 			</dd>
 		</dl>
 	</div>
 </div>
 
+<!--{hook footer_footer_after.htm}-->
+
 <!--[if lt IE 9]>
 <script>window.location = 'view/htm/browser.html';</script>
 <![endif]-->
 
+<!--{hook footer_js_before.htm}-->
 <script src="lang/<?php echo $conf['lang'];?>/bbs.js<?php echo $static_version;?>"></script>
 <script src="view/js/jquery-1.11.1.js<?php echo $static_version;?>"></script>
 <script src="view/js/tether.js<?php echo $static_version;?>"></script>
@@ -42,11 +53,8 @@ var forumarr = <?php echo xn_json_encode($forumarr);?>;
 var fid = <?php echo $fid;?>;
 </script>
 <script src="view/js/bbs.js<?php echo $static_version;?>"></script>
+<!--{hook footer_js_after.htm}-->
 
-<script>
-/*var s = '{"code":1,"message":["a\\r\\nb"]}';
-alert(s);
-alert(xn.json_decode(s));*/
-</script>
 </div></body>
 </html>
+<!--{hook footer_end.htm}-->

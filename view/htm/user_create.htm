@@ -1,53 +1,64 @@
 <?php include "./view/htm/header.inc.htm"; ?>
 
+<!--{hook user_create_start.htm}-->
+
 <div class="row">
 	<div class="col-lg-6 col-lg-offset-3">
-		<div class="card">
-			<!--{hook user_create_card_title.htm}-->
-			<div class="card-block">
-				<h4 class="card-title"><?php echo lang('user_create');?></h4>
-				<form action="<?php echo url('user-create');?>" method="post" id="form">
-					<p class="input-group">
-						<span class="input-group-addon"><i class="icon icon-envelope"></i></span>
-						<input type="text" class="form-control" placeholder="<?php echo lang('email');?>" name="email" id="email">
-					</p>
-					<p class="input-group">
-						<span class="input-group-addon"><i class="icon icon-user"></i></span>
-						<input type="text" class="form-control" placeholder="<?php echo lang('username');?>" name="username" id="username">
-					</p>
-					<dl class="row">
-						<dt style="width: 68%">
-							<p class="input-group">
-								<span class="input-group-addon"><i class="icon icon-lock"></i></span>
-								<input type="password" class="form-control" placeholder="<?php echo lang('init_pw');?>" name="password" id="password">
-							</p>
-						</dt>
-						<dd class="text-right vtop">
-							<?php if($conf['user_create_email_on']) { ?>
-							<button type="submit" class="btn btn-primary btn-sm m-l-1" id="sendinitpw" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-sendinitpw');?>"><?php echo lang('get_init_pw');?></button>
-							<?php } else { ?>
-							<small class="hidden-sm-down">无需 Email 验证</small>
-							<?php } ?>
-						</dd>
-					</dl>
-					<p>
-						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." <?php if($conf['user_create_email_on']) { ?>disabled<?php } ?>><?php echo lang('next_step');?></button>
-					</p>
-					<dl class="row">
-						<dt>
-							<!--{hook user_create_form_footer_left.htm}-->
-						</dt>
-						<dd class="text-right">
-							<a href="<?php echo url('user-login');?>" class="text-muted"><small><?php echo lang('user_login');?></small></a>
-							<!--{hook user_create_form_footer_right.htm}-->
-							<a href="<?php echo url('user-resetpw');?>" class="text-muted m-l-1"><small><?php echo lang('forgot_pw');?></small></a>
-						</dd>
-					</div>
-				</form>
-			</div>
+		<!--{hook user_create_card_before.htm}-->
+		<div class="card card-block">
+			<h4 class="card-title">
+				<?php echo lang('user_create');?>
+				<!--{hook user_create_title_after.htm}-->
+			</h4>
+			<form action="<?php echo url('user-create');?>" method="post" id="form">
+				<p class="input-group">
+					<span class="input-group-addon"><i class="icon icon-envelope"></i></span>
+					<input type="text" class="form-control" placeholder="<?php echo lang('email');?>" name="email" id="email">
+				</p>
+				<!--{hook user_create_email_after.htm}-->
+				<p class="input-group">
+					<span class="input-group-addon"><i class="icon icon-user"></i></span>
+					<input type="text" class="form-control" placeholder="<?php echo lang('username');?>" name="username" id="username">
+				</p>
+				<!--{hook user_create_username_after.htm}-->
+				<dl class="row">
+					<dt style="width: 68%">
+						<p class="input-group">
+							<span class="input-group-addon"><i class="icon icon-lock"></i></span>
+							<input type="password" class="form-control" placeholder="<?php echo lang('init_pw');?>" name="password" id="password">
+						</p>
+					</dt>
+					<dd class="text-right vtop">
+						<?php if($conf['user_create_email_on']) { ?>
+						<button type="submit" class="btn btn-primary btn-sm m-l-1" id="sendinitpw" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-sendinitpw');?>"><?php echo lang('get_init_pw');?></button>
+						<?php } else { ?>
+						<small class="hidden-sm-down">无需 Email 验证</small>
+						<?php } ?>
+					</dd>
+				</dl>
+				<!--{hook user_create_password_after.htm}-->
+				<p>
+					<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." <?php if($conf['user_create_email_on']) { ?>disabled<?php } ?>><?php echo lang('next_step');?></button>
+				</p>
+				<!--{hook user_create_submit_after.htm}-->
+				<dl class="row">
+					<dt>
+						<!--{hook user_create_form_footer_left.htm}-->
+					</dt>
+					<dd class="text-right">
+						<!--{hook user_create_form_footer_right_start.htm}-->
+						<a href="<?php echo url('user-login');?>" class="text-muted"><small><?php echo lang('user_login');?></small></a>
+						<a href="<?php echo url('user-resetpw');?>" class="text-muted m-l-1"><small><?php echo lang('forgot_pw');?></small></a>
+						<!--{hook user_create_form_footer_right_end.htm}-->
+					</dd>
+				</div>
+			</form>
 		</div>
+		<!--{hook user_create_card_after.htm}-->
 	</div>
 </div>
+
+<!--{hook user_create_end.htm}-->
 
 <?php include "./view/htm/footer.inc.htm"; ?>
 
@@ -105,3 +116,5 @@ jform.on('submit', function() {
 });
 
 </script>
+
+<!--{hook user_create_js.htm}-->

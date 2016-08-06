@@ -1,5 +1,7 @@
 <?php include "./view/htm/header.inc.htm"; ?>
 
+<!--{hook my_profile_start.htm}-->
+
 <div class="row">
 	<div class="col-lg-6 col-lg-offset-3">
 		<div class="card card-block m-t-1">
@@ -20,31 +22,34 @@
 					</dl>
 					<dl class="row m-b-1">
 						<dt class="text-muted">注册时间：</dt>
-						<dd class="text-right">2015-1-12</dd>
+						<dd class="text-right"><?php echo $user['create_date_fmt'];?></dd>
 					</dl>
 					<dl class="row m-b-1">
 						<dt class="text-muted">最后登录：</dt>
-						<dd class="text-right">2015-1-12</dd>
+						<dd class="text-right"><?php echo $user['login_date_fmt'];?></dd>
 					</dl>
+					<!--{hook my_profile_login_date_after.htm}-->
 				</div>
 				<div class="col-xs-12  col-sm-6 m-b-1 p-l-2 p-r-2">
 					<dl class="row m-b-1">
 						<dt class="text-muted">主题：</dt>
-						<dd class="text-right">123</dd>
+						<dd class="text-right"><?php echo $user['threads'];?></dd>
 					</dl>
 					<dl class="row m-b-1">
 						<dt class="text-muted">回复：</dt>
-						<dd class="text-right">2345</dd>
+						<dd class="text-right"><?php echo $user['posts'];?></dd>
 					</dl>
-					<dl class="row m-b-1">
-						<dt class="text-muted">精华：</dt>
-						<dd class="text-right">12</dd>
-					</dl>
+					<!--{hook my_profile_posts_after.htm}-->
 				</div>
 			</div>
+			<!--{hook my_profile_row_after.htm}-->
 		</div>
+		<!--{hook my_profile_card_after.htm}-->
 		<a role="button" class="btn btn-secondary center-block" href="<?php echo url('my');?>"> <?php echo lang('back');?> </a>
+		<!--{hook my_profile_back_after.htm}-->
 	</div>
 </div>
+
+<!--{hook my_profile_end.htm}-->
 
 <?php include "./view/htm/footer.inc.htm"; ?>

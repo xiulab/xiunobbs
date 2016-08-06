@@ -1,12 +1,17 @@
 <?php include "./view/htm/header.inc.htm"; ?>
 
+<!--{hook thread_start.htm}-->
+
 <div class="row">
 	<div class="col-lg-9">
+		<!--{hook thread_breadcrumb_before.htm}-->
 		<ol class="breadcrumb m-b-sm hidden-lg-down">
 			<li><a href="./" aria-label="首页"><i class="icon-home"></i></a></li>
 			<li><a href="<?php echo url("forum-$fid");?>"><?php echo $forum['name'];?></a></li>
 			<li><a href="<?php echo url("thread-$tid");?>" title="返回主题第一页"><?php echo $thread['subject'];?></a></li>
+			<!--{hook thread_breadcrumb.htm}-->
 		</ol>
+		<!--{hook thread_breadcrumb_after.htm}-->
 		<div class="card p-a-sm">
 			<dl class="row">
 				<dt class="vtop p-r-1 avatar-parent">
@@ -15,14 +20,19 @@
 					</a>
 				</dt>
 				<dd>
+					<!--{hook thread_subject_before.htm}-->
 					<h3 class="break-all"><?php echo $thread['subject'];?></h3>
+					<!--{hook thread_subject_after.htm}-->
 					<dl class="row small">
 						<dt>
+							<!--{hook thread_username_before.htm}-->
 							<span class="username text-muted"><?php echo $thread['username'];?></span>
 							<span class="date text-grey m-l-1"><?php echo $thread['create_date_fmt'];?></span>
 							<span class="text-grey m-l-1"><i class="icon-eye-open"></i> <?php echo $thread['views'];?></span>
+							<!--{hook thread_views_after.htm}-->
 						</dt>
 						<dd class="text-right">
+							<!--{hook thread_update_before.htm}-->
 							<?php if($allowupdate || $first['allowupdate']) { ?>
 							<a href="<?php echo url("post-update-$thread[firstpid]");?>" class="text-grey m-r-1 post_update"><i class="icon-edit"></i> <?php echo lang('edit');?></a>
 							<?php } ?>
@@ -30,6 +40,7 @@
 							<?php if($allowdelete || $first['allowdelete']) { ?>
 							<a href="<?php echo url("post-delete-$thread[firstpid]");?>" class="text-grey post_delete"><i class="icon-remove"></i> <?php echo lang('delete');?></a>
 							<?php } ?>
+							<!--{hook thread_delete_after.htm}-->
 						</dd>
 					</dl>
 				</dd>
@@ -38,17 +49,24 @@
 			<?php if($page == 1) { ?>
 			<div class="message">
 			
+				<!--{hook thread_message_before.htm}-->
 				<?php echo $first['message_fmt'];?>
+				<!--{hook thread_message_after.htm}-->
 				
 				<?php echo post_file_list_html($first['filelist']);?>
+				<!--{hook thread_filelist_after.htm}-->
 				
 			</div>
 			<?php } else { ?>
+			
+				<!--{hook thread_message_more_before.htm}-->
 				<p><a href="<?php echo url("thread-$tid");?>">查看主题内容</a></p>
+				<!--{hook thread_message_more_after.htm}-->
+				
 			<?php } ?>
 		</div>
 		
-		
+		<!--{hook thread_postlist_before.htm}-->
 		<div class="card post p-a-sm">
 			<table class="table table-hover postlist m-b-0">
 				<thead>
@@ -101,13 +119,18 @@
 				</tbody>
 			</table>
 		</div>
+		<!--{hook thread_postlist_after.htm}-->
 		
 		<?php if($pagination) { ?>
 		<nav class="text-center"><ul class="pagination m-y-xs"><?php echo $pagination; ?></ul></nav>
 		<?php }?>
 		
+		<!--{hook thread_page_after.htm}-->
+		
 	</div>
 	<div class="col-lg-3 hidden-md-down">
+	
+		<!--{hook thread_user_before.htm}-->
 		<a role="button" class="btn btn-primary btn-block btn-sm m-b-sm hidden-md-down" data-loading-text="<?php echo lang('submiting');?>..." href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
 		<div class="card hidden-lg-down">
 			<a href="<?php echo url("user-$thread[uid]");?>">
@@ -135,20 +158,12 @@
 				</div>
 			</div>
 		</div>
-		<div class="card">
-			<div class="card-block">
-				<h6 class="text-bold">作者最近主题：</h6>
-				<hr class="m-y-sm" />
-				<ul class="text-middle">
-					<li>版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容 - 2 天前</li>
-					<li>版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容 - 2 天前</li>
-					<li>版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容 - 2 天前</li>
-					<li>版块公告内容版块公告内容版块公告内容版块公告内容版块公告内容 - 2 天前</li>
-				</ul>
-			</div>
-		</div>
+		<!--{hook thread_user_after.htm}-->
+		
 	</div>
 </div>
+
+<!--{hook thread_end.htm}-->
 
 <?php include "./view/htm/footer.inc.htm"; ?>
 
@@ -235,3 +250,5 @@ jmessage.on('focus', function() {if(jmessage.t) { clearTimeout(jmessage.t); jmes
 jmessage.on('blur', function() {jmessage.t = setTimeout(function() { jmessage.css('height', '2.5rem');}, 1000); });
 
 </script>
+
+<!--{hook thread_js.htm}-->
