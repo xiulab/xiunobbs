@@ -73,6 +73,7 @@
 			</div>
 		</div>
 		<!--{hook forum_mod_before.htm}-->
+		<?php if($forum['announcement'] || $forum['modlist']) { ?>
 		<div class="card">
 			<div class="card-block">
 			
@@ -99,6 +100,7 @@
 				
 			</div>
 		</div>
+		<?php  } ?>
 		<!--{hook forum_mod_after.htm}-->
 	</div>
 </div>

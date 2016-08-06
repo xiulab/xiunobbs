@@ -26,7 +26,9 @@
 					<dl class="row small">
 						<dt>
 							<!--{hook thread_username_before.htm}-->
-							<span class="username text-muted"><?php echo $thread['username'];?></span>
+							<span class="username text-muted">
+								<a href="<?php echo url("user-$thread[uid]");?>"><?php echo $thread['username'];?></a>
+							</span>
 							<span class="date text-grey m-l-1"><?php echo $thread['create_date_fmt'];?></span>
 							<span class="text-grey m-l-1"><i class="icon-eye-open"></i> <?php echo $thread['views'];?></span>
 							<!--{hook thread_views_after.htm}-->
