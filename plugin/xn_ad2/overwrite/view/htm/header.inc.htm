@@ -1,0 +1,183 @@
+xn_ad header!!!!!!!!!!!!!!!!!!!!!!!
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<?php $header = G('header');?>
+	<?php $user = G('user');?>
+	<?php $uid = G('uid');?>
+	<?php $gid = G('gid');?>
+	 <?php $fid = G('fid');?>
+	 <?php $tid = G('tid');?>
+	 <?php $pid = G('pid');?>
+	 <?php $route = G('route');?>
+	<?php $forumlist_show = G('forumlist_show');?>
+	<?php $conf = G('conf');?>
+	<?php $static_version = $conf['static_version'];?>
+	<?php echo defined('BASE_HREF') ? '<base href="'.BASE_HREF.'" />' : '' ;?>
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="XiunoBBS 4.0" />
+	<meta name="keywords" content="<?php echo $header['keywords'];?>" />
+	<meta name="description" content="<?php echo $header['description'];?>" />
+	<title><?php echo $header['keywords'];?></title>
+	
+	<link rel="shortcut icon" href="view/img/favicon.ico" />
+	<link rel="icon" sizes="32x32" href="view/img/favicon.ico">
+	<link rel="Bookmark" href="view/img/favicon.ico" />
+	<link rel="stylesheet" href="view/css/bootstrap.css<?php echo $static_version;?>">
+	<link rel="stylesheet" href="view/css/bootstrap-xiuno.css<?php echo $static_version;?>">
+	<link rel="stylesheet" href="view/css/font-awesome.css<?php echo $static_version;?>">
+	<link rel="stylesheet" href="view/css/tether.css<?php echo $static_version;?>">
+	<link rel="stylesheet" href="view/css/bbs.css<?php echo $static_version;?>">
+	<style>
+		
+	</style>
+</head>
+
+<body><div id="wrapper">
+	<nav class="navbar navbar-dark bg-inverse navbar-full navbar-fixed-top" id="header">
+	
+		<!-- PC 导航 -->
+		<div class="container collapse navbar-toggleable-md">
+			<div class="row">
+				<!-- 左侧：版块区域 -->
+				<div class="col-md-8">
+					<ul class="nav navbar-nav" id="nav_pc">
+						<!-- LOGO -->
+						<li class="nav-item"><img src="view/img/logo.png" class="logo-sm"></li>
+						
+						<!-- 前台首页 -->
+						<li class="nav-item home" fid="0"><a class="nav-link" href="."><?php echo lang('index_page');?></a></li>
+						
+						<!-- 版块 -->
+						<?php foreach($forumlist_show as $_forum) { ?>
+						<li class="nav-item" fid="<?php echo $_forum['fid'];?>">
+							<a class="nav-link" href="<?php echo url("forum-$_forum[fid]");?>"><?php echo $_forum['name'];?></a>
+						</li>
+						<?php } ?>
+						
+						<!--{hook header_nav_pc_end.htm}-->
+						
+					</ul>
+				</div>
+				<!-- 右侧：用户区域-->
+				<div class="col-md-4">
+					<ul class="nav navbar-nav pull-right small">
+					
+						<!-- 游客 -->
+						<?php if(empty($uid)) { ?>
+						
+						<li class="nav-item"><a class="nav-link" href="<?php echo url('user-login');?>"><?php echo lang('login');?></a></li>
+						<li class="nav-item"><a class="nav-link" href="<?php echo url('user-create');?>"><?php echo lang('register');?></a></li>
+						
+						<!-- 登陆用户 -->
+						<?php } else { ?>
+						
+						<li class="nav-item"><a class="nav-link" href="<?php echo url('my');?>"><img class="avatar-xs" src="<?php echo $user['avatar_url'];?>"></a></li>
+						<li class="nav-item username m-l-xs"><a class="nav-link" href="<?php echo url('my');?>"><?php echo $user['username'];?></a></li>
+						<!-- 管理员 -->
+						<?php if($gid == 1) { ?>
+						<li class="nav-item"><a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_page');?></a></li>
+						<?php } ?>
+						<li class="nav-item"><a class="nav-link" href="<?php echo url('user-logout');?>"><?php echo lang('logout');?></a></li>
+						
+						<?php } ?>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 手机导航 -->
+		<div class="container hidden-lg-up navbar-nav">
+			<div class="row">
+				<!-- 左侧：折叠图标 -->
+				<div class="col-xs-4">
+					<?php if($route != 'thread') { ?>
+					 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile_collapsing_bavbar">☰</button>
+					 <?php } else { ?>
+					 <a class="nav-link icon-chevron-left icon-2x" href="<?php echo url("forum-$fid");?>"></a>
+					 <?php } ?>
+				</div>
+				
+				<!-- 中间：标题 -->
+				<div class="col-xs-4 text-center">
+					<?php if($route == 'index') { ?>
+					<a class="nav-link p-y-0" href="."><img src="view/img/logo.png" class="logo-sm center-block"></a>
+					<?php } else { ?>
+					<span class="nav-link"><?php echo $header['mobile_title'];?></span>
+					<?php } ?>
+				</div>
+				
+				<!-- 右侧：登陆 -->
+				<div class="col-xs-4">
+					<div class="pull-right">
+						<div class="nav-item small">
+							<?php if(empty($uid)) { ?>
+							<a class="nav-link  m-t-xs m-r-xs" href="<?php echo url('user-login');?>"><?php echo lang('login');?></a>
+							<?php } else { ?>
+							
+							<?php if($route != 'thread') { ?>
+							<a class="nav-link icon-edit icon-2x m-t-xs" href="<?php echo url("thread-create-$fid");?>"></a>
+							<!--<a class="nav-link" href="<?php echo url('my');?>"><?php echo $user['username'];?></a>-->
+							<?php } else { ?>
+							<a class="nav-link icon-reply icon-2x m-t-xs" href="<?php echo url("post-create-$tid");?>"></a>
+							<?php } ?>
+							
+							<?php } ?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 手机导航：下拉菜单 -->
+		<div class="collapse" id="mobile_collapsing_bavbar">
+			<div class="bg-inverse p-a-1">
+				<ul class="nav" id="nav_mobile">
+					<hr class="m-y-0" />
+					<li class="nav-item">
+						<a class="nav-link" href="./"><i class="icon-home"></i> <?php echo lang('index_page');?></a>
+					</li>
+					<hr class="m-y-0" />
+					
+					<?php foreach($forumlist_show as $_forum) { ?>
+					<li class="nav-item" fid="<?php echo $_forum['fid'];?>">
+						<a class="nav-link m-l-2" href="<?php echo url("forum-$_forum[fid]");?>"><i class="icon-circle-blank"></i> <?php echo $_forum['name'];?></a>
+					</li>
+					<?php } ?>
+					<hr class="m-y-0" />
+					
+					<!-- 个人资料 -->
+					<?php if($uid) { ?>
+					<li class="nav-item">
+						<a class="nav-link" href="<?php echo url('my');?>"><i class="icon-user"></i> <?php echo lang('user_profile');?></a>
+					</li>
+					<hr class="m-y-0" />
+					<?php } ?>
+					
+					<!-- 后台 -->
+					<?php if($gid == 1) { ?>
+					<li class="nav-item">
+						<a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_page');?></a>
+					</li>
+					<hr class="m-y-0" />
+					<?php } ?>
+					
+					
+					<!-- 退出 -->
+					<?php if($uid) { ?>
+					<li class="nav-item">
+						<a class="nav-link" href="<?php echo url('user-logout');?>"><i class="icon-off"></i> <?php echo lang('logout');?></a>
+					</li>
+					<?php } ?>
+				</ul>
+			</div>
+		</div>
+		
+	</nav>
+	
+	
+	<div id="body" class="container">
+	
+	<!--{hook body_start.htm}-->

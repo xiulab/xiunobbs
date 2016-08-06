@@ -48,6 +48,8 @@ if($action == 'local') {
 	$header['title']    = '官方插件';
 	$header['mobile_title'] = '官方插件';
 	
+//	print_r($pluginlist);exit;
+	
 	include "./view/htm/plugin_list.htm";
 	
 } elseif($action == 'read') {
@@ -68,7 +70,9 @@ if($action == 'local') {
 } elseif($action == 'download') {
 	
 	$dir = param(2);
-	plugin_check_exists($dir);
+	plugin_check_exists($dir, FALSE);
+	
+	//print_r($official_plugins);exit;
 	
 	$official = plugin_official_read($dir);
 	empty($official) AND message(-1, '插件不存在');
@@ -82,7 +86,7 @@ if($action == 'local') {
 	plugin_download_unzip($dir);
 	
 	// 检查解压是否成功
-	message(0, jump('插件下载成功:'.$destpath.", ，请点击进行安装", url("plugin-read-$dir"), 2));
+	message(0, jump('插件下载成功:'.$dir.", ，请点击进行安装", url("plugin-read-$dir"), 2));
 	
 } elseif($action == 'install') {
 	
@@ -248,31 +252,40 @@ function plugin_download_unzip($dir) {
 	$app_url = http_url_path();
 	$siteid =  md5($app_url.$conf['auth_key']);
 	$app_url = xn_urlencode($app_url);
-	$url = "http://plugin.xiuno.com/plugin-download-$dir-$siteid-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
+	$url = PLUGIN_OFFICIAL_URL."plugin-download-$dir-$siteid-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
 
 	// 服务端开始下载
 	set_time_limit(0); // 设置超时
 	$s = http_get($url, 120);
 	empty($s) AND message(-1, '服务器返回数据为空'); 
-	substr($s, 0, 2) != 'PK' AND message(-1, '服务器返回数据有错');
-	$arr = xn_json_decode($s);
-	empty($arr['message']) AND message(-1, '服务端返回数据错误：'.$s);
-	$arr['code'] != 0 AND message(-1, '服务端返回数据错误：'.$arr['message']);
+	substr($s, 0, 2) != 'PK' AND message(-1, '服务器返回数据有错:'.$s);
+	//$arr = xn_json_decode($s);
+	//empty($arr['message']) AND message(-1, '服务端返回数据错误：'.$s);
+	//$arr['code'] != 0 AND message(-1, '服务端返回数据错误：'.$arr['message']);
 	
 	$zipfile = $conf['tmp_path'].'plugin_'.$dir.'.zip';
 	$destpath = "../plugin/$dir/";
 	file_put_contents($zipfile, $s);
-	$arr = xn_unzip($zipfile, $destpath);
+	$files = xn_unzip($zipfile, $destpath);
 	empty($files) AND message(-1, '压缩包数据有误');
 	unlink($zipfile);
+	// 检查配置文件
+	$conffile = "../plugin/$dir/conf.json";
+	!is_file($conffile) AND message(-1, 'conf.json 不存在');
+	$arr = xn_json_decode(file_get_contents($conffile));
+	empty($arr['name']) AND message(-1, 'conf.json 格式可能不正确');
 	
 	!is_dir("../plugin/$dir") AND message(-1, "插件可能下载失败，目录不存在: plugin/$dir");
 }
 
-function plugin_check_exists($dir) {
-	global $plugins;
+function plugin_check_exists($dir, $local = TRUE) {
+	global $plugins, $official_plugins;
 	!is_word($dir) AND message(-1, '插件名不合法。');
-	!isset($plugins[$dir]) AND message(-1, "插件 ( $dir ) 不存在");
+	if($local) {
+		!isset($plugins[$dir]) AND message(-1, "插件 ( $dir ) 不存在");
+	} else {
+		!isset($official_plugins[$dir]) AND message(-1, "插件 ( $dir ) 不存在");
+	}
 }
 
 

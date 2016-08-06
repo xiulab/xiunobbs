@@ -8,9 +8,10 @@ $plugins = array(); // 跟官方插件合并
 // 官方插件列表
 $official_plugins = array();
 
+define('PLUGIN_OFFICIAL_URL', DEBUG ? 'http://plugin.x.com/' : 'http://plugin.xiuno.com/');
 // 在安装、卸载插件的时候，需要先初始化
 function plugin_init() {
-	global $plugin_srcfiles, $plugin_paths, $plugins;
+	global $plugin_srcfiles, $plugin_paths, $plugins, $official_plugins;
 	$plugin_srcfiles = array_merge(
 		glob('../model/*.php'), 
 		glob('../route/*.php'), 
@@ -47,6 +48,7 @@ function plugin_init() {
 	}
 	
 	$official_plugins = plugin_official_list_cache();
+	empty($official_plugins) AND $official_plugins = array();
 }
 
 // 插件依赖检测，返回依赖的插件列表，如果返回为空则表示不依赖
@@ -278,24 +280,22 @@ function plugin_official_list($cond = array(), $orderby = array('pluginid'=>-1),
 	// 服务端插件信息，缓存起来
 	$offlist = $official_plugins;
 	$offlist = arrlist_cond_orderby($offlist, $cond, $orderby, $page, $pagesize);
-	foreach($offlist as &$plugin) $plugin = plugin_read($plugin['dir']);
+	foreach($offlist as &$plugin) $plugin = plugin_read($plugin['dir'], FALSE);
 	return $offlist;
 }
 
 function plugin_official_list_cache() {
 	$s = cache_get('plugin_official_list');
-	if($s === NULL) {
-		$url = "http://plugin.xiuno.com/plugin-all-4.htm"; // 获取所有的插件，匹配到3.0以上的。
+	if($s === NULL || DEBUG) {
+		$url = PLUGIN_OFFICIAL_URL."plugin-all-4.htm"; // 获取所有的插件，匹配到3.0以上的。
 		$s = http_get($url, 30, 3);
-		if(empty($s)) {
-			return xn_error(-1, '从官方获取插件数据失败。');
-		}
-		$r = xn_json_decode($s);
-		if(!empty($r['servererror']) || (!empty($r['code']) && $r['code'] != 0)) {
-			return xn_error(-1, '从官方获取插件数据格式不对。');
-		}
 		
-		$s = !empty($r['message']) ? $r['message'] : $r;
+		// 检查返回值是否正确
+		if(empty($s)) return xn_error(-1, '从官方获取插件数据失败。');
+		$r = xn_json_decode($s);
+		if(empty($r)) return xn_error(-1, '从官方获取插件数据格式不对。');
+		
+		$s = $r;
 		cache_set('plugin_official_list', $s, 3600); // 缓存时间 1 小时。
 	}
 	return $s;
@@ -310,7 +310,7 @@ function plugin_official_read($dir) {
 
 // -------------------> 本地插件列表缓存到本地。
 // 安装，卸载，禁用，更新
-function plugin_read($dir) {
+function plugin_read($dir, $local_first = TRUE) {
 	global $plugins;
 	
 	$local = array_value($plugins, $dir, array());
@@ -350,10 +350,13 @@ function plugin_read($dir) {
 	!isset($official['is_cert']) && $official['is_cert'] = 0;
 	!isset($official['is_show']) && $official['is_show'] = 0;
 	
-	$plugin = $local + $official;
-	
+	if($local_first) {
+		$plugin = $local + $official;
+	} else {
+		$plugin = $official + $local;
+	}
 	// 额外的判断
-	$plugin['icon_url'] = $plugin['pluginid'] ? "http://plugin.xiuno.com/upload/plugin/$plugin[pluginid]/icon.png" : "../plugin/$dir/icon.png";
+	$plugin['icon_url'] = $plugin['pluginid'] ? PLUGIN_OFFICIAL_URL."upload/plugin/$plugin[pluginid]/icon.png" : "../plugin/$dir/icon.png";
 	$plugin['setting_url'] = $plugin['installed'] && is_file("../plugin/$dir/setting.php") ? "plugin-setting-$dir.htm" : "";
 	$plugin['downloaded'] = isset($plugins[$dir]);
 	$plugin['stars_fmt'] = $plugin['pluginid'] ? str_repeat('<span class="icon star"></span>', $plugin['stars']) : '';

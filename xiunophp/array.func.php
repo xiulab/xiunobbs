@@ -88,6 +88,8 @@ function arrlist_multisort(&$arrlist, $col, $asc = TRUE) {
 // 对数组进行查找，排序，筛选，只支持一种条件排序
 function arrlist_cond_orderby($arrlist, $cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	$resultarr = array();
+	if(empty($arrlist)) return $arrlist;
+	
 	// 根据条件，筛选结果
 	if($cond) {
 		foreach($arrlist as $key=>$val) {
