@@ -28,6 +28,7 @@ function admin_token_check() {
 function admin_token_set() {
 	global $longip, $time, $useragent, $conf;
 	$admin_token = param('bbs_admin_token');
+	$useragent_md5 = md5($useragent);
 	$s = "$longip	$time	$useragent_md5";
 	$admin_token = xn_encrypt($s);
 	setcookie('bbs_admin_token', $admin_token, $time + 3600, '',  '', 0, TRUE);
