@@ -69,6 +69,8 @@ if(empty($action)) {
 		
 		file_put_contents($path.$filename, $data) OR message(-1, '写入文件失败');
 		
+		user_update($uid, array('avatar'=>$time));
+		
 		message(0, array('url'=>$url));
 		
 	}

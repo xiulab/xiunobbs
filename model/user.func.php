@@ -193,7 +193,7 @@ function user_guest() {
 // 前台登录验证
 function user_login_check($user) {
 	// hook user_login_check_start.php
-	$user['uid'] == 0 AND message(-1, jump('请登录', 'user-login.htm'));
+	(empty($user) || $user['uid'] == 0) AND message(-1, jump('请登录', 'user-login.htm'));
 	$dbuser = user_read($user['uid']);
 	$dbuser['password'] != $user['password'] AND message(-1, jump('密码已经修改，请重新登录', 'user-login.htm'));
 	// hook user_login_check_end.php

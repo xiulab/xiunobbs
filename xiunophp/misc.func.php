@@ -143,6 +143,7 @@ function jump($message, $url = '', $delay = 3) {
 	global $ajax;
 	if($ajax) return $message;
 	if(!$url) return $message;
+	$url == 'back' AND $url = 'javascript:history.back()';
 	$htmladd = '<script>setTimeout(function() {window.location=\''.$url.'\'}, '.($delay * 1000).');</script>';
 	return '<a href="'.$url.'">'.$message.'</a>'.$htmladd;
 }

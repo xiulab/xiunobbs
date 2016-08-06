@@ -366,6 +366,7 @@ if($action == 'login') {
 		
 		$arr = array(
 			'uid'=>$user['uid'],
+			'gid'=>$user['gid'],
 			'username'=>$user['username'],
 			'avatar_url'=>$user['avatar_url'],
 			'email'=>$user['email'],

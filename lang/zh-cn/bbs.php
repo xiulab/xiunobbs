@@ -12,6 +12,7 @@ return array(
 	'login'=>'登陆',
 	'logout'=>'退出',
 	'forgot_pw'=>'忘记密码',
+	'submit'=>'提交',
 	'submiting'=>'正在提交',
 	'create'=>'创建',
 	'update'=>'更新',
