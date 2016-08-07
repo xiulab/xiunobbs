@@ -7,6 +7,10 @@ return array(
 	'unknown'=>'未知',
 	'enable'=>'启用',
 	'disable'=>'禁用',
+	'download'=>'下载',
+	'install'=>'安装',
+	'unstall'=>'卸载',
+	'update'=>'更新',
 	'checkall'=>'全选',
 	'back'=>'返回',
 	'return'=>'返回',
@@ -75,6 +79,11 @@ return array(
 	'edit_user'=>'编辑用户',
 	'create_user'=>'创建用户',
 	'user_group'=>'用户组',
+	'create_ip'=>'用户组',
+	'keyword'=>'关键词',
+	'uid'=>'用户 ID',
+	'search'=>'搜索',
+	'operation'=>'操作',
 	'please_input_email'=>'请填写邮箱',
 	'please_input_username'=>'请填写用户名',
 	'please_input_password'=>'请填写密码',
@@ -187,8 +196,6 @@ return array(
 	'lang_zh_cn'=>'简体中文',
 	'lang_zh_tw'=>'繁体中文',
 	'lang_en_us'=>'美式英语',
-	
-	
 	
 );
 

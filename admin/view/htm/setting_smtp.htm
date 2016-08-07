@@ -13,29 +13,29 @@
 						<table class="table"  style="min-width: 800px">
 							<thead>
 								<tr align="center">
-									<th>用户组名</th>
-									<th>主机</th>
-									<th width="100" class="text-center">端口</th>
-									<th class="text-center">账号</th>
-									<th class="text-center">密码</th>
-									<th class="text-center">删除</th>
+									<th><?php echo lang('group_name');?></th>
+									<th><?php echo lang('admin_setting_smtp');?></th>
+									<th width="100" class="text-center"><?php echo lang('port');?></th>
+									<th class="text-center"><?php echo lang('account');?></th>
+									<th class="text-center"><?php echo lang('password');?></th>
+									<th class="text-center"><?php echo lang('delete');?></th>
 								</tr>
 							<thead>
 							<tbody>
 								<?php foreach($smtplist as $rowid=>$smtp) { ?>
 								<tr align="center" rowid="<?php echo $rowid; ?>">
-									<td><input type="text" class="form-control" name="email[]" value="<?php echo $smtp['email']; ?>" placeholder="Email" /></td>
-									<td><input type="text" class="form-control" name="host[]" value="<?php echo $smtp['host']; ?>"  placeholder="主机" /></td>
-									<td><input type="text" class="form-control" name="port[]" value="<?php echo $smtp['port']; ?>" placeholder="端口"/></td>
-									<td><input type="text" class="form-control" name="user[]" value="<?php echo $smtp['user']; ?>" placeholder="用户名"  /></td>
-									<td><input type="text" class="form-control" name="pass[]" value="<?php echo $smtp['pass']; ?>" placeholder="密码"  /></td>
-									<td><a class="btn row_delete" role="btn">删除</a></td>
+									<td><input type="text" class="form-control" name="email[]" value="<?php echo $smtp['email']; ?>" placeholder="<?php echo lang('email');?>" /></td>
+									<td><input type="text" class="form-control" name="host[]" value="<?php echo $smtp['host']; ?>"  placeholder="<?php echo lang('host');?>" /></td>
+									<td><input type="text" class="form-control" name="port[]" value="<?php echo $smtp['port']; ?>" placeholder="<?php echo lang('port');?>"/></td>
+									<td><input type="text" class="form-control" name="user[]" value="<?php echo $smtp['user']; ?>" placeholder="<?php echo lang('username');?>"  /></td>
+									<td><input type="text" class="form-control" name="pass[]" value="<?php echo $smtp['pass']; ?>" placeholder="<?php echo lang('password');?>"  /></td>
+									<td><a class="btn row_delete" role="btn"><?php echo lang('delete');?></a></td>
 								</tr>
 								<?php } ?>
 							</tbody>
 						</table>
 					</div>
-					<p><a role="button" class="btn row_add">[+]增加一行</a></p>
+					<p><a role="button" class="btn row_add">[+]<?php echo lang('add_new_line');?></a></p>
 					<p class="text-center">
 						<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..." style="width: 10rem;"><?php echo lang('confirm');?></button>
 					</p>
@@ -68,7 +68,7 @@ jform.on('submit', function(){
 	return false;
 });
 
-// 删除
+// 删除 delete
 var jarrlist = $('.arrlist');
 var jdelete = $('a.row_delete');
 jarrlist.on('click', 'a.row_delete', function() {
@@ -78,7 +78,8 @@ jarrlist.on('click', 'a.row_delete', function() {
 	jtr.remove();
 	return false;
 });
-// 增加
+
+// 增加 add
 var jadd = $('a.row_add');
 jadd.on('click', function() {
 	var jclone = jarrlist.find('tr').last().clone();

@@ -11,19 +11,19 @@
 <div class="row">
 	<div class="col-md-2 m-b-sm">
 		<select id="srchtype" value="<?php echo $srchtype; ?>" class="form-control">
-			<option value="">搜索类型</option>
-			<option value="uid">用户 ID：</option>
-			<option value="username" selected>用户名：</option>
-			<option value="email">Email：</option>
-			<option value="gid">用户组：</option>
-			<option value="create_ip">注册IP：</option>
+			<option value=""><?php echo lang('search_type');?></option>
+			<option value="uid"><?php echo lang('search_type');?>：</option>
+			<option value="username" selected><?php echo lang('username');?>：</option>
+			<option value="email"><?php echo lang('email');?>：</option>
+			<option value="gid"><?php echo lang('user_group');?>：</option>
+			<option value="create_ip"><?php echo lang('create_ip');?>：</option>
 		</select>
 	</div>
 	<div class="col-md-3 m-b-sm">
-		<input type="text" id="keyword" placeholder="关键词" value="<?php echo $keyword; ?>"  class="form-control" />
+		<input type="text" id="keyword" placeholder="<?php echo lang('search_type');?>" value="<?php echo $keyword; ?>"  class="form-control" />
 	</div>
 	<div class="col-md-2 m-b-sm">
-		<button id="search" class="form-control btn btn-primary">搜索</button>
+		<button id="search" class="form-control btn btn-primary"><?php echo lang('search');?></button>
 	</div>
 </div>
 
@@ -34,15 +34,15 @@
 				<table class="table" style="min-width: 800px">
 					<thead>
 						<tr>
-							<th width="60" class="text-center">删除</th>
+							<th width="60" class="text-center"><?php echo lang('delete');?>删除</th>
 							<th width="50">ID：</th>
 							<!--<th>手机号</th>-->
-							<th width="150">Email</th>
-							<th width="150">用户名</th>
-							<th width="100">用户组</th>
-							<th width="100">创建日期</th>
-							<th width="100">注册IP</th>
-							<th width="60">操作</th>
+							<th width="150"><?php echo lang('email');?></th>
+							<th width="150"><?php echo lang('username');?></th>
+							<th width="100"><?php echo lang('user_group');?></th>
+							<th width="100"><?php echo lang('create_data');?></th>
+							<th width="100"><?php echo lang('create_ip');?></th>
+							<th width="60"><?php echo lang('operation');?></th>
 						</tr>
 					</thead>
 					<tbody id="userlist">
@@ -56,14 +56,14 @@
 						<td><?php echo $_user['groupname']; ?></td>
 						<td><?php echo $_user['create_date_fmt']; ?></td>
 						<td><?php echo $_user['create_ip_fmt']; ?></td>
-						<td><a href="<?php echo url("user-update-$_user[uid]"); ?>">编辑</a></td>
+						<td><a href="<?php echo url("user-update-$_user[uid]"); ?>"><?php echo lang('edit');?></a></td>
 					</tr>
 				<?php } ?>
 					</tbody>
 				</table>
 			</div>
 			<hr class="m-t-0" />
-			<p><button class="btn btn-sm m-l-1" id="confirm">删除</button></p>
+			<p><button class="btn btn-sm m-l-1" id="confirm"><?php echo lang('delete');?></button></p>
 		</div>
 		<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>
 	</div>
@@ -100,12 +100,12 @@ jkeyword.on('keydown', function(e) {
 // 删除选中的用户
 jconfirm.on('click', function(){
 	var jchecked = juserlist.find('input[name="delete"]').filter(function(){ return this.checked; });
-	if(jchecked.length < 1) return alert("请勾选您要删除的用户");
-	if(!window.confirm("确定删除用户？")) return false;
+	if(jchecked.length < 1) return alert("<?php echo lang('please_check_delete_user');?>");
+	if(!window.confirm("<?php echo lang('user_delete_confirm');?>")) return false;
 	jchecked.each(function() {
 		jtr = $(this).parents('tr');
 		var uid = jtr.attr('uid');
-		if(uid == 1) return alert('不允许删除管理员用户，如果确实要删除，请先调整用户组!');
+		if(uid == 1) return alert('<?php echo lang('user_admin_cant_be_deleted');?>');
 		$.xpost(xn.url('user-delete'), {uid:uid}, function(code, message) {
 			if(code != 0) return $.alert(message);
 			jtr.remove();

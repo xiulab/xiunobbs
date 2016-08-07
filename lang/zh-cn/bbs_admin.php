@@ -64,15 +64,17 @@ return array(
 	'server_ip'=>'服务端 IP',
 	'dev_team_info'=>'开发团队信息',
 	
-	'onlines'=>'在线人数',
-	'onlines'=>'在线人数',
-	'onlines'=>'在线人数',
-	'onlines'=>'在线人数',
-	'onlines'=>'在线人数',
-	'onlines'=>'在线人数',
-	'onlines'=>'在线人数',
-	'onlines'=>'在线人数',
-	'onlines'=>'在线人数',
+	'for_safe_input_password_again'=>'为了您的安全，请再次输入账户密码',
+	
+	// 设置
+	'sitename'=>'站点名称',
+	'sitebrief'=>'站点介绍',
+	'sitebrief_tips'=>'注：支持 HTML 标签，换行请使用 &lt;br&gt;',
+	'runlevel'=>'站点访问限制',
+	'lang'=>'语言',
+	'host'=>'主机',
+	'port'=>'端口',
+	'account'=>'账号',
 	'onlines'=>'在线人数',
 	'onlines'=>'在线人数',
 	'onlines'=>'在线人数',
@@ -111,16 +113,22 @@ return array(
 	'allow_upload'=>'上传',
 	'allow_download'=>'下载',
 	
+	
+	// 用户
+	
+	'please_check_delete_user'=>'请勾选您要删除的用户',
+	'user_delete_confirm'=>'确定删除用户？',
+	'user_admin_cant_be_deleted'=>'不允许删除管理员用户，如果确实要删除，请先调整用户组!',
+	'search_type'=>'搜索类型',
+	
 	// 用户组
 	'group_list'=>'用户组列表',
 	'group_edit'=>'用户组编辑',
 	'group_id'=>'用户组列表',
-	'group_name'=>'用户组列表',
+	'group_name'=>'用户组名',
 	'group_credits_from'=>'起始积分',
 	'group_credits_to'=>'结束积分',
-	'group_id'=>'用户组列表',
-	'group_id'=>'用户组列表',
-	'group_edit_tips'=>'请谨慎编辑用户组，一旦确定后不要轻易变动，否则可能会导致用户关联错误，一般在正式运营时就不要再变动。',
+	'group_id'=>'用户组ID',	'group_edit_tips'=>'请谨慎编辑用户组，一旦确定后不要轻易变动，否则可能会导致用户关联错误，一般在正式运营时就不要再变动。',
 	'admin_privilege'=>'管理权限',
 	'top'=>'置顶',
 	'ban_user'=>'禁止用户',
@@ -128,6 +136,13 @@ return array(
 	'view_user_info'=>'查看用户信息',
 	
 	// 插件
+	'plugin_dir'=>'插件目录名',
+	'plugin_bbs_version'=>'要求 BBS 最低版本',
+	'price'=>'价格',
+	'installs'=>'安装次数',
+	'plugin_user_stars_fmt'=>'官方评级',
+	'plugin_sells'=>'销售次数',
+	'plugin_is_cert'=>'通过官方认证',
 	'local_plugin'=>'本地插件',
 	'official_plugin'=>'官方插件',
 	'pugin_cate_0'=>'所有插件',
@@ -155,6 +170,7 @@ return array(
 	'format_maybe_error'=>'格式可能不正确',
 	'plugin_maybe_download_failed'=>'插件可能下载失败，目录不存在:',
 	'plugin_name_error'=>'插件名不合法',
+	'plugin_unstall_confirm_tips'=>'卸载会清理该插件相关数据，确定卸载 ( {name} ) 吗？',
 	
 	
 	
