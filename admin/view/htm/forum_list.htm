@@ -5,34 +5,34 @@
 		<div class="card">
 			<div class="card-block">
 				<form action="<?php echo url('forum-list');?>" method="post" id="form">
-					<h4 class="card-title"><?php echo url('forum_list');?></h4>
+					<h4 class="card-title"><?php echo lang('forum_list');?></h4>
 					<div class="table-responsive arrlist">
 						<table class="table" style="min-width: 800px">
 							<thead>
 								<tr align="center">
-									<th width="80"><?php echo url('forum_id');?></th>
-									<th width="60" align="left"><?php echo url('forum_icon');?></th>
+									<th width="80"><?php echo lang('forum_id');?></th>
+									<th width="60" align="left"><?php echo lang('forum_icon');?></th>
 									<th width="130"></th>
-									<th><?php echo url('forum_name');?></th>
-									<th width="100"><?php echo url('forum_rank');?></th>
-									<th width="100" class="text-center"><?php echo url('forum_edit');?></th>
-									<th width="100" class="text-center"><?php echo url('forum_delete');?></th>
+									<th><?php echo lang('forum_name');?></th>
+									<th width="100"><?php echo lang('forum_rank');?></th>
+									<th width="100" class="text-center"><?php echo lang('forum_edit');?></th>
+									<th width="100" class="text-center"><?php echo lang('forum_delete');?></th>
 								</tr>
 							<thead>
 							<tbody>
 								<?php foreach($forumlist as $_fid=>$_forum) { ?>
 								<tr align="center" rowid="<?php echo $_fid; ?>">
-									<td class="50"><input type="text" class="form-control" name="fid[<?php echo $_fid;?>]" value="<?php echo $_forum['fid']; ?>"  placeholder="<?php echo url('forum_id');?>" /></td>
+									<td class="50"><input type="text" class="form-control" name="fid[<?php echo $_fid;?>]" value="<?php echo $_forum['fid']; ?>"  placeholder="<?php echo lang('forum_id');?>" /></td>
 									<td align="left">
 										<img src="../<?php echo $_forum['icon_url']; ?>" class="forum" width="48" id="img_<?php echo $_fid;?>" />
 									</td>
 									<td>
-										<input type="file" multiple="multiple" accept=".jpg,.jpeg,.png,.gif,.bmp" class="form-control" name="icon[<?php echo $_fid;?>]" value="" data-assoc="img_<?php echo $_fid;?>" placeholder="<?php echo url('forum_icon');?>" />
+										<input type="file" multiple="multiple" accept=".jpg,.jpeg,.png,.gif,.bmp" class="form-control" name="icon[<?php echo $_fid;?>]" value="" data-assoc="img_<?php echo $_fid;?>" placeholder="<?php echo lang('forum_icon');?>" />
 									</td>
-									<td><input type="text" class="form-control" name="name[<?php echo $_fid;?>]" value="<?php echo $_forum['name']; ?>" placeholder="<?php echo url('forum_name');?>" /></td>
-									<td><input type="text" class="form-control" name="rank[<?php echo $_fid;?>]" value="<?php echo $_forum['rank']; ?>" placeholder="<?php echo url('forum_rank');?>" /></td>
-									<td><a class="btn row_edit" role="btn"><?php echo url('forum_edit');?></a></td>
-									<td><a class="btn row_delete" role="btn"><?php echo url('forum_delete');?></a></td>
+									<td><input type="text" class="form-control" name="name[<?php echo $_fid;?>]" value="<?php echo $_forum['name']; ?>" placeholder="<?php echo lang('forum_name');?>" /></td>
+									<td><input type="text" class="form-control" name="rank[<?php echo $_fid;?>]" value="<?php echo $_forum['rank']; ?>" placeholder="<?php echo lang('forum_rank');?>" /></td>
+									<td><a class="btn row_edit" role="btn"><?php echo lang('forum_edit');?></a></td>
+									<td><a class="btn row_delete" role="btn"><?php echo lang('forum_delete');?></a></td>
 								</tr>
 								<?php } ?>
 							</tbody>
