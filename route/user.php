@@ -18,7 +18,7 @@ if($action == 'login') {
 		
 		$referer = user_http_referer();
 	
-		$header['title'] = '用户登录';
+		$header['title'] = lang('user_login');
 		
 		// hook user_login_get_end.php
 		
@@ -28,21 +28,22 @@ if($action == 'login') {
 
 		// hook user_login_post_start.php
 		
-		$email = param('email');			// 邮箱或者手机号
+		$email = param('email');			// 邮箱或者手机号 / email or mobile
 		$password = param('password');
-		empty($email) AND message('email', '请填写 Email');
+		empty($email) AND message('email', lang('email_is_empty'));
 		if(is_email($email, $err)) {
 			$user = user_read_by_email($email);
-			empty($user) AND message('email', 'Email 不存在');
+			empty($user) AND message('email', lang('email_not_exists'));
 		} else {
 			$user = user_read_by_username($email);
-			empty($user) AND message('email', '用户名不存在');
+			empty($user) AND message('email', lang('username_not_exists'));
 		}
 
 		!is_password($password, $err) AND message('password', $err);
-		md5($password.$user['salt']) != $user['password'] AND message('password', '密码错误');
+		md5($password.$user['salt']) != $user['password'] AND message('password', lang('password_incorrect'));
 
 		// 更新登录时间和次数
+		// update login times
 		user_update($user['uid'], array('login_ip'=>$longip, 'login_date' =>$time , 'logins+'=>1));
 
 		$uid = $user['uid'];
@@ -62,7 +63,7 @@ if($action == 'login') {
 		// hook user_create_get_start.php
 		
 		$referer = user_http_referer();
-		$header['title'] = '创建用户';
+		$header['title'] = lang('create_user');
 		
 		// hook user_create_get_end.php
 		
@@ -75,27 +76,26 @@ if($action == 'login') {
 		$email = param('email');
 		$username = param('username');
 		$password = param('password');
-		empty($email) AND message('email', '请填写邮箱');
-		empty($username) AND message('username', '请填写用户名');
-		empty($password) AND message('password', '请填写密码');
+		empty($email) AND message('email', lang('please_input_email'));
+		empty($username) AND message('username', lang('please_input_username'));
+		empty($password) AND message('password', lang('please_input_password'));
 		
 		
 		if($conf['user_create_email_on']) {
-			$email != _SESSION('create_email') AND message('sendinitpw', '请先点击获取初始密码');
-			$password != _SESSION('create_pw') AND message('password', '初始密码不正确');
+			$email != _SESSION('create_email') AND message('sendinitpw', lang('click_to_get_init_pw'));
+			$password != _SESSION('create_pw') AND message('password', lang('init_pw_incorrect'));
 		}
 		
 		!is_email($email, $err) AND message('email', $err);
 		$_user = user_read_by_email($email);
-		$_user AND message('email', 'EMAIL 已经注册');
+		$_user AND message('email', lang('email_is_in_use'));
 		
 		!is_username($username, $err) AND message('username', $err);
 		$_user = user_read_by_username($username);
-		$_user AND message('email', '用户名已经存在');
+		$_user AND message('email', lang('username_is_in_use'));
 		
 		!is_password($password, $err) AND message('password', $err);
 		
-		// email 注册
 		$salt = xn_rand(16);
 		$pwd = md5(md5($password).$salt);
 		$gid = 101;
@@ -104,7 +104,7 @@ if($action == 'login') {
 			'email' => $email,
 			'password' => $pwd,
 			'salt' => $salt,
-			'gid' => $gid,	// 普通注册用户用户组
+			'gid' => $gid,
 			'create_ip' => $longip,
 			'create_date' => $time,
 			'logins' => 1,
@@ -112,7 +112,7 @@ if($action == 'login') {
 			'login_ip' => $longip,
 		);
 		$uid = user_create($user);
-		$uid === FALSE AND message('email', '用户注册失败');
+		$uid === FALSE AND message('email', lang('user_create_failed'));
 		$user = user_read($uid);
 	
 		// 更新 session
@@ -127,12 +127,11 @@ if($action == 'login') {
 		message(0, lang('user_create_sucessfully'), $extra);
 	}
 
-// 获取初始密码
 } elseif($action == 'sendinitpw') {
 	
 	// hook user_sendinitpw_start.php
 	 
-	empty($conf['user_create_email_on']) AND message(-1, '未开启邮箱验证。');
+	empty($conf['user_create_email_on']) AND message(-1, lang('email_verify_not_on'));
 	
 	$smtplist = include './conf/smtp.conf.php';
 	$n = array_rand($smtplist);
@@ -141,15 +140,14 @@ if($action == 'login') {
 	$email = param('email');
 	!is_email($email, $err) AND message('email', $err);
 	$r = user_read_by_email($email);
-	$r AND message('email', 'Email 已经被注册。');
+	$r AND message('email', lang('email_is_in_use'));
 	
-	// 八位随机密码
 	$rand = rand(10000000, 99999999);
 	
 	$_SESSION['create_email'] = $email;
 	$_SESSION['create_pw'] = $rand;
 	
-	$subject = "您的注册初始密码为：$rand ，为了您的账户安全，请及时修改密码 - 【$conf[sitename]】";
+	$subject = lang('email_create_init_pw_template', array('rand'=>$rand, 'sitename'=>$conf['sitename']));
 	$message = $subject;
 	
 	// hookuser_sendinitpw_sendmail_before.php
@@ -162,7 +160,6 @@ if($action == 'login') {
 		message(1, $errstr);
 	}
 	
-// 退出
 } elseif($action == 'logout') {
 	
 	// hook user_logout_start.php
@@ -174,20 +171,6 @@ if($action == 'login') {
 	message(0, jump(lang('logout_success'), http_referer(), 1));
 	//message(0, jump('退出成功', './', 1));
 
-// 获取当前用户的信息，可以提供给接口
-} elseif($action == 'read') {
-	
-	// hook user_read_start.php
-	
-	$user = user_read($uid);
-	
-	empty($user) AND $user = user_guest();
-	user_ajax_info($user);
-	
-	// hook user_read_end.php
-	
-	message(0, $user);
-
 // 用户发表的主题
 } elseif($action == 'thread') {
 
@@ -197,7 +180,7 @@ if($action == 'login') {
 	$_user = user_read($_uid);
 	
 	$page = param(3, 1);
-	$pagesize = 10; //$conf['pagesize'];
+	$pagesize = 10;
 	$totalnum = $_user['threads'];
 	$pages = pages(url("user-thread-$_uid-{page}"), $totalnum, $page, $pagesize);
 	$threadlist = mythread_find_by_uid($_uid, $page, $pagesize);
@@ -206,7 +189,7 @@ if($action == 'login') {
 	
 	include './view/htm/user_thread.htm';
 	
-// 找回密码第1步
+// 重设密码第 1 步 | reset password first step
 } elseif($action == 'resetpw') {
 	
 	// hook user_resetpw_get_post.php
@@ -215,7 +198,7 @@ if($action == 'login') {
 
 		// hook user_resetpw_get_start.php
 		
-		$header['title'] = '找回密码';
+		$header['title'] = lang('reset_pw');
 		
 		// hook user_resetpw_get_end.php
 		
@@ -226,71 +209,70 @@ if($action == 'login') {
 		// hook user_resetpw_post_start.php
 		
 		$email = param('email');
-		empty($email) AND message('email', '请填写邮箱');
+		empty($email) AND message('email', lang('please_input_email'));
 		!is_email($email, $err) AND message('email', $err);
 		$user = user_read_by_email($email);
-		!$user AND message('email', '邮箱未被注册'); // 此处可能被利用，扫描试探，用来撞裤
+		!$user AND message('email', lang('email_is_not_in_use'));
 		
 		$verify_code = param('verify_code');
-		empty($verify_code) AND message('verify_code', '请输入校验码');
+		empty($verify_code) AND message('verify_code', lang('please_input_verify_code'));
 		
 		$resetpw_email = _SESSION('resetpw_email');
 		$resetpw_verify_code = _SESSION('resetpw_verify_code');
-		(!$resetpw_email || !$resetpw_verify_code) AND message('verify_code', '请点击获取验证码');
+		(!$resetpw_email || !$resetpw_verify_code) AND message('verify_code', lang('click_to_get_verify_code'));
 		
-		// 每小时只能尝试 5 次
 		$resetpw_verify_times = intval(_SESSION('resetpw_verify_times'));
 		$resetpw_verify_lastdate = intval(_SESSION('resetpw_verify_lastdate'));
-		if($resetpw_verify_times > 10 && $time - $resetpw_verify_lastdate < 3600) {
-			message('verify_code', '请稍后重试，每个小时只能尝试 10 次。');
+		$times = 10;
+		if($resetpw_verify_times > $times && $time - $resetpw_verify_lastdate < 3600) {
+			message('verify_code', lang('verify_code_try_too_frequently', $times));
 		}
 		if($resetpw_verify_code != $verify_code) {
 			$resetpw_verify_times++;
 			$_SESSION['resetpw_verify_times'] = $resetpw_verify_times;
 			$resetpw_verify_lastdate && $time - $resetpw_verify_lastdate > 3600 && $_SESSION['resetpw_verify_lastdate'] = $time;
-			message('verify_code', '验证码不正确');
+			message('verify_code', lang('verify_code_incorrect'));
 		} else {
 			$_SESSION['resetpw_verify_ok'] = 1;
 		}
 		
 		// hook user_resetpw_post_end.php
 		
-		message(0, '检测通过，进入下一步');
+		message(0, lang('check_ok_to_next_step'));
 	}
-	
-// 找回密码: 发送验证码
+
+// 重设密码第 2 步 | reset password step 2
 } elseif($action == 'resetpw_sendcode') {
 	
 	// hook user_sendreset_start.php
 	
-	// 校验数据
-	!$conf['user_resetpw_on'] AND message(-1, '当前未开启找回密码功能。');
+	!$conf['user_resetpw_on'] AND message(-1, lang('reset_pw_not_on'));
 	$method != 'POST' AND message(-1, lang('method_error'));
 	$email = param('email');
-	empty($email) AND message('email', '邮箱不能为空');
+	empty($email) AND message('email', lang('email_is_empty'));
 	!is_email($email, $err) AND message('email', $err);
 	$r = user_read_by_email($email);
-	!$r AND message('email', '邮箱未被注册。');
+	!$r AND message('email', lang('email_is_not_in_use'));
 	
-	// 发送邮件
+	// 发送邮件 | send mail
 	$smtplist = include './conf/smtp.conf.php';
 	$n = array_rand($smtplist);
 	$smtp = $smtplist[$n];
 	$rand = rand(100000, 999999);
 	$_SESSION['resetpw_email'] = $email;
 	$_SESSION['resetpw_verify_code'] = $rand;
-	$subject = "重设密码验证码：$rand - 【$conf[sitename]】";
+	$subject = lang('reset_pw_email_template', array('rand'=>$rand, 'sitename'=>$conf['sitename']));
 	$message = $subject;
 	// hook user_sendreset_send_mail_before.php
 	$r = xn_send_mail($smtp, $conf['sitename'], $email, $subject, $message);
 	// hook user_sendreset_send_mail_after.php
 	if($r === TRUE) {
-		message(0, '发送成功。');
+		message(0, lang('send_successfully'));
 	} else {
 		message(-1, $errstr);
 	}
 	
-// 找回密码第3步
+// 重设密码第 3 步 | reset password step 3
 } elseif($action == 'resetpw_complete') {
 	
 	// hook user_resetpw_get_post.php
@@ -298,17 +280,17 @@ if($action == 'login') {
 	// 校验数据
 	$email = _SESSION('resetpw_email');
 	$resetpw_verify_ok = _SESSION('resetpw_verify_ok');
-	(empty($email) || empty($resetpw_verify_ok)) AND message(-1, '数据为空，请返回上一步重新填写。');
+	(empty($email) || empty($resetpw_verify_ok)) AND message(-1, lang('data_empty_to_last_step'));
 	
 	$_user = user_read_by_email($email);
-	empty($_user) AND message(-1, '邮箱不存在');
+	empty($_user) AND message(-1, lang('email_not_exists'));
 	$_uid = $_user['uid'];
 	
 	if($method == 'GET') {
 
 		// hook user_resetpw_get_start.php
 		
-		$header['title'] = '重置密码';
+		$header['title'] = lang('reset_pw');
 		
 		// hook user_resetpw_get_end.php
 		
@@ -319,7 +301,7 @@ if($action == 'login') {
 		// hook user_resetpw_post_start.php
 		
 		$password = param('password');
-		empty($password) AND message('password', '请填写密码');
+		empty($password) AND message('password', lang('please_input_password'));
 		
 		$salt = $_user['salt'];
 		$password = md5($password.$salt);
@@ -335,24 +317,24 @@ if($action == 'login') {
 		
 		// hook user_resetpw_post_end.php
 		
-		message(0, '修改成功');
+		message(0, lang('modify_successfully'));
 		
 	}
 
-// 简单的同步登陆实现：
+// 简单的同步登陆实现：| sync login implement simply
 /* 
-	将用户信息通过 token 传递给其他系统，
-	两边系统将 auth_key 设置为一致，用 xn_encrypt() xn_decrypt() 加密解密。
+	将用户信息通过 token 传递给其他系统 | send user information to other system by token
+	两边系统将 auth_key 设置为一致，用 xn_encrypt() xn_decrypt() 加密解密。all subsystem set auth_key to correct by xn_encrypt() xn_decrypt()
 */
 } elseif($action == 'synlogin') {
 
-	// 检查过来的 token
+	// 检查过来的 token | check token
 	$token = param(2);
 	$return_url = param(3);
 	$s = xn_decrypt($token);
-	!$s AND message(-1, '未授权的访问');
+	!$s AND message(-1, lang('unauthorized_access'));
 	list($_time, $_longip) = explode('_', $s);
-	$_longip != $longip AND message(-1, '授权获取失败，请重新发起请求。');
+	$_longip != $longip AND message(-1, lang('authorized_get_failed'));
 	
 	
 	empty($_SESSION['return_url']) AND $_SESSION['return_url'] = $return_url;
@@ -361,7 +343,7 @@ if($action == 'login') {
 	} else {
 		$return_url = _SESSION('return_url');
 		
-		empty($return_url) AND message(-1, '请重新发起同步登陆请求');
+		empty($return_url) AND message(-1, lang('request_synlogin_again'));
 		unset($_SESSION['return_url']);
 		
 		$arr = array(
@@ -374,7 +356,8 @@ if($action == 'login') {
 		);
 		$s = xn_json_encode($arr);
 		$s = xn_encrypt($s, $key);
-		// 将 token 附加到 URL，跳转回去。
+		
+		// 将 token 附加到 URL，跳转回去 | add token into URL, jump back
 		$return_url = xn_urldecode($return_url);
 		$url = xn_url_add_arg($return_url, 'token', $s);
 		http_location($url);
@@ -389,7 +372,7 @@ if($action == 'login') {
 	$_uid = param(1, 0);
 	$_user = user_read($_uid);
 	
-	empty($_user) AND message(-1, '用户不存在');
+	empty($_user) AND message(-1, lang('user_not_exists'));
 	
 	$header['title'] = $_user['username'];
 	$header['mobile_title'] = $_user['username'];
@@ -409,9 +392,9 @@ if($action == 'login') {
 // 获取用户来路
 function user_http_referer() {
 	// hook user_http_referer_start.php
-	$referer = param('referer'); // 优先从参数获取
+	$referer = param('referer'); // 优先从参数获取 | GET is priority
 	empty($referer) AND $referer = array_value($_SERVER, 'HTTP_REFERER', '');
-	$referer = str_replace(array('\"', '"', '<', '>', ' ', '*', "\t", "\r", "\n"), '', $referer); // 干掉特殊字符
+	$referer = str_replace(array('\"', '"', '<', '>', ' ', '*', "\t", "\r", "\n"), '', $referer); // 干掉特殊字符 strip special chars
 	if(!preg_match('#^(http|https)://[\w\-=/\.]+/[\w\-=.%\#?]*$#is', $referer) || strpos($referer, 'user-login.htm') !== FALSE || strpos($referer, 'user-logout.htm') !== FALSE || strpos($referer, 'user-create.htm') !== FALSE || strpos($referer, 'user-setpw.htm') !== FALSE) {
 		$referer = './';
 	}
@@ -419,29 +402,18 @@ function user_http_referer() {
 	return $referer;
 }
 
-// 干掉敏感信息
-function user_ajax_info(&$user) {
-	// hook user_ajax_info_start.php
-	if(isset($user['password'])) {
-		user_safe_info($user);
-	}
-	
-	// hook user_ajax_info_end.php
-	
-}
-
 function user_auth_check($token) {
 	// hook user_auth_check_start.php
 	global $time;
 	$auth = param(2);
 	$s = decrypt($auth);
-	empty($s) AND message(-1, '解密失败');
+	empty($s) AND message(-1, lang('decrypt_failed'));
 	$arr = explode('-', $s);
-	count($arr) != 3 AND message(-1, '数据解密失败');
+	count($arr) != 3 AND message(-1, lang('encrypt_failed'));
 	list($_ip, $_time, $_uid) = $arr;
 	$_user = user_read($_uid);
-	empty($_user) AND message(-1, '用户不存在');
-	$time - $_time > 3600 AND message(-1, '链接已经过期');
+	empty($_user) AND message(-1, lang('user_not_exists'));
+	$time - $_time > 3600 AND message(-1, lang('link_has_expired'));
 	// hook user_auth_check_end.php
 	return $_user;
 }

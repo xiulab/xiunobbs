@@ -41,7 +41,7 @@
 		<!--{hook index_site_brief_start.htm}-->
 		<div class="card">
 			<!--{hook index_site_brief_start.htm}-->
-			<h5 class="text-center m-t-1 text-bold"><?php echo $conf['sitename'];?></h5>
+			<h4 class="text-center m-t-1"><?php echo $conf['sitename'];?></h4>
 			<p class="m-x-1 text-middle"><?php echo $conf['sitebrief'];?></p>
 			<div class="card-group card-group-nest">
 				
@@ -73,23 +73,6 @@
 			<!--{hook index_site_brief_end.htm}-->
 		</div>
 		<!--{hook index_site_brief_after.htm}-->
-		<?php
-			$linklist = db_find('friendlink', array(), array('rank'=>-1), 1, 1000, 'linkid');
-		?>
-		<div class="card card-block">
-			<h6 class="text-bold">友情链接：</h6>
-			<hr class="m-y-sm" />
-			<ul class="small">
-				<?php foreach ($linklist as $link) { ?>
-				<li class="m-b-xs">
-					<a href="<?php echo $link['url'];?>" target="_blank">
-						<?php echo $link['name'];?>
-					</a>
-				</li>
-				<?php } ?>
-			</ul>
-		</div>
-		
 	</div>
 </div>
 

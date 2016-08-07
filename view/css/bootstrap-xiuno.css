@@ -30,7 +30,7 @@
 /*.row .row > :last-child {padding-right: 0;}*/
 
 
-h5, h6 {font-weight: 800;}
+/*h5, h6 {font-weight: 800;}*/
 
 /* card 嵌套 card-group 的时候，去掉多余的边框 */
 .card-group-nest .card:first-child {border-left:0px; border-bottom: 0px; border-top-left-radius: 0}
@@ -89,6 +89,7 @@ h5, h6 {font-weight: 800;}
 .text-bold { font-weight: bold !important; }
 .text-grey { color: #bbb  !important; }
 .text-middle { font-size: 95% !important; }
+.text-small { font-size: 85% !important; }
 .table-fixed { table-layout:fixed !important; }
 .break-all {word-break: break-all;}
 .hidden {display: none;}

@@ -7,7 +7,6 @@ $action = param(1);
 $user = user_read($uid);
 user_login_check($user);
 
-// 账户（密码、头像），主题
 if(empty($action) || $action == 'create') {
 	
 	$width = param('width', 0);
@@ -15,22 +14,23 @@ if(empty($action) || $action == 'create') {
 	$name = param('name');
 	$data = param('data', '', FALSE);
 	
-	empty($data) AND message(-1, '数据为空');
+	empty($data) AND message(-1, lang('data_is_empty'));
 	$data = base64_decode_file_data($data);
 	$size = strlen($data);
-	$size > 2048000 AND message(-1, '文件尺寸太大，不能超过 2M，当前大小：'.$size);
+	$size > 2048000 AND message(-1, lang('filesize_too_large', array('maxsize'=>'2M', 'size'=>$size)));
 	
 	$ext = file_ext($name, 7);
 	$filetypes = include './conf/attach.conf.php';
 	!in_array($ext, $filetypes['all']) AND $ext = '_'.$ext;
 	
-	$tmpanme = $uid.'_'.xn_rand(15).'.'.$ext; // 凑够 32 个字节，对齐。
+	$tmpanme = $uid.'_'.xn_rand(15).'.'.$ext;
 	$tmpfile = $conf['upload_path'].'tmp/'.$tmpanme;
 	$tmpurl = $conf['upload_url'].'tmp/'.$tmpanme;
 	
-	file_put_contents($tmpfile, $data) OR message(-1, '写入文件失败');
+	file_put_contents($tmpfile, $data) OR message(-1, lang('write_to_file_failed'));
 	
 	// 保存到 session，发帖成功以后，关联到帖子。
+	// save attach information to session, associate to post after create thread.
 	$filetype = attach_type($name, $filetypes);
 	empty($_SESSION['tmp_files']) AND $_SESSION['tmp_files'] = array();
 	$n = count($_SESSION['tmp_files']);
@@ -50,25 +50,24 @@ if(empty($action) || $action == 'create') {
 	unset($attach['path']);
 	message(0, $attach);
 
-// 删除附件
 } elseif($action == 'delete') {
 	
 	$aid = param(2);
 	if(substr($aid, 0, 1) == '_') {
 		$key = intval(substr($aid, 1));
 		$tmp_files = _SESSION('tmp_files');
-		!isset($tmp_files[$key]) AND message(-1,"$key 不存在");
+		!isset($tmp_files[$key]) AND message(-1, lang('item_not_exists', array('item'=>$key)));
 		$attach = $tmp_files[$key];
-		!is_file($attach['path']) AND message(-1, '文件不存在');
+		!is_file($attach['path']) AND message(-1, lang('file_not_exists'));
 		unlink($attach['path']);
 		unset($_SESSION['tmp_files'][$key]);
 	} else {
 		$aid = intval($aid);
 		$r = attach_delete($aid);
-		$r ===  FALSE AND message(-1, '删除错误');
+		$r ===  FALSE AND message(-1, lang('delete_failed'));
 	}
 	
-	message(0, '删除成功');
+	message(0, 'delete_successfully');
 	
 }
 

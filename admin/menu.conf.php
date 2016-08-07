@@ -17,13 +17,14 @@ return array(
 		'tab'=> array (
 		)
 	),
+	/*
 	'post' => array(
 		'url'=>url('post-list'), 
 		'text'=>lang('post_admin'), 
 		'icon'=>'icon-comment',
 		'tab'=> array (
 		)
-	),
+	),*/
 	'user' => array(
 		'url'=>url('user-list'), 
 		'text'=>lang('user_admin'), 
@@ -34,13 +35,13 @@ return array(
 			'create'=>array('url'=>url('user-create'), 'text'=>lang('admin_user_create')),
 		)
 	),
-	'other' => array(
+	/*'other' => array(
 		'url'=>url('post'), 
 		'text'=>lang('other_admin'), 
 		'icon'=>'icon-circle-blank',
 		'tab'=> array (
 		)
-	),
+	),*/
 	'plugin' => array(
 		'url'=>url('plugin'), 
 		'text'=>lang('plugin_admin'), 

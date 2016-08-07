@@ -1,6 +1,5 @@
 <?php
 
-// 创建新帖
 !defined('DEBUG') AND exit('Access Denied.');
 
 include './xiunophp/xn_html_safe.func.php';
@@ -15,16 +14,16 @@ if($action == 'create') {
 	$quick = param(3);
 		
 	$thread = thread_read($tid);
-	empty($thread) AND message(-1, '主题不存在:'.$tid);
+	empty($thread) AND message(-1, lang('thread_not_exists'));
 	
 	$fid = $thread['fid'];
 	
 	$forum = forum_read($fid);
-	empty($forum) AND message(-1, '板块不存在:'.$fid);
+	empty($forum) AND message(-1, lang('forum_not_exists'));
 	
 	$r = forum_access_user($fid, $gid, 'allowpost');
 	if(!$r) {
-		message(-1, '您（'.$user['groupname'].'）无权限在此版块发帖');
+		message(-1, lang('user_group_insufficient_privilege'));
 	}
 	
 	if($method == 'GET') {
@@ -34,17 +33,13 @@ if($action == 'create') {
 	} else {
 		
 		$message = param('message', '', FALSE);
-		empty($message) AND message('message', '内容不能为空'.$fid);
+		empty($message) AND message('message', lang('please_input_message'));
 		
 		$doctype = param('doctype', 0);
-		//$gid != 1 AND $doctype != 1 AND $message = xn_html_safe($message);
-		xn_strlen($message) > 2028000 AND message('message', '内容太长');
+		xn_strlen($message) > 2028000 AND message('message', lang('message_too_long'));
 		
-		// 检测是否超过最大回复数
-		$thread['posts'] >= 1000 AND message(-1, '该主题已经达到最大回复数 1000，不能再回复，请另起主题。');
 		$thread['top'] > 0 AND thread_top_cache_delete();
 		
-		# 论坛帖子数据，一页显示，不分页。
 		$post = array(
 			'tid'=>$tid,
 			'uid'=>$uid,
@@ -55,9 +50,8 @@ if($action == 'create') {
 			'message'=>$message,
 		);
 		$pid = post_create($post, $fid, $gid);
-		empty($pid) AND message(-1, '创建帖子失败');
+		empty($pid) AND message(-1, lang('create_post_failed'));
 		
-		// 最新发帖
 		// thread_top_create($fid, $tid);
 
 		$post = post_read($pid);
@@ -69,6 +63,7 @@ if($action == 'create') {
 		$allowdelete = forum_access_mod($fid, $gid, 'allowdelete');
 		
 		// 直接返回帖子的 html
+		// return the html string to browser.
 		$return_html = param('return_html', 0);
 		if($return_html) {
 			$filelist = array();
@@ -78,7 +73,7 @@ if($action == 'create') {
 						
 			message(0, $s);
 		} else {
-			message(0, '回帖成功');
+			message(0, lang('create_post_sucessfully'));
 		}
 	
 	}
@@ -87,27 +82,28 @@ if($action == 'create') {
 
 	$pid = param(2);
 	$post = post_read($pid);
-	empty($post) AND message(-1, '帖子不存在:'.$pid);
+	empty($post) AND message(-1, lang('post_not_exists:'));
 	
 	$tid = $post['tid'];
 	$thread = thread_read($tid);
-	empty($thread) AND message(-1, '主题不存在:'.$tid);
+	empty($thread) AND message(-1, lang('thread_not_exists:'));
 	
 	$fid = $thread['fid'];
 	$forum = forum_read($fid);
-	empty($forum) AND message(-1, '板块不存在:'.$fid);
+	empty($forum) AND message(-1, lang('forum_not_exists:'));
 	
 	$isfirst = $post['isfirst'];
 	
-	!forum_access_user($fid, $gid, 'allowpost') AND message(-1, '您（'.$user['groupname'].'）无权限在此版块回帖');
+	!forum_access_user($fid, $gid, 'allowpost') AND message(-1, lang('user_group_insufficient_privilege'));
 	$allowupdate = forum_access_mod($fid, $gid, 'allowupdate');
-	!$allowupdate AND !$post['allowupdate'] AND message(-1, '无权编辑该贴');
+	!$allowupdate AND !$post['allowupdate'] AND message(-1, lang('have_no_privilege_to_update'));
 	
 	if($method == 'GET') {
 		
 		$forumlist_allowthread = forum_list_access_filter($forumlist, $gid, 'allowthread');
 		$forumarr = xn_json_encode(arrlist_key_values($forumlist_allowthread, 'fid', 'name'));
 		// 如果为数据库减肥，则 message 可能会被设置为空。
+		// if lost weight for the database, set the message field empty.
 		$post['message'] = htmlspecialchars($post['message'] ? $post['message'] : $post['message_fmt']);
 		
 		$attachlist = $imagelist = $filelist = array();
@@ -123,28 +119,28 @@ if($action == 'create') {
 		$message = param('message', '', FALSE);
 		$doctype = param('doctype', 0);
 		
-		empty($message) AND message('message', '内容不能为空');
-		mb_strlen($message, 'UTF-8') > 2048000 AND message('message', '内容太长');
+		empty($message) AND message('message', lang('please_input_message'));
+		mb_strlen($message, 'UTF-8') > 2048000 AND message('message', lang('message_too_long'));
 		
 		$arr = array();
 		if($isfirst) {
 			$newfid = param('fid');
 			$forum = forum_read($newfid);
-			empty($forum) AND message('fid', '板块不存在:'.$newfid);
+			empty($forum) AND message('fid', lang('forum_not_exists:'));
 			
 			if($fid != $newfid) {
-				!forum_access_user($fid, $gid, 'allowthread') AND message(-1, '您（'.$user['groupname'].'）无权限在此版块回帖');
-				$post['uid'] != $uid AND !forum_access_mod($fid, $gid, 'allowupdate') AND message(-1, '您（'.$user['groupname'].'）无权限在此版块编辑帖子');
+				!forum_access_user($fid, $gid, 'allowthread') AND message(-1, lang('user_group_insufficient_privilege'));
+				$post['uid'] != $uid AND !forum_access_mod($fid, $gid, 'allowupdate') AND message(-1, lang('user_group_insufficient_privilege'));
 				$arr['fid'] = $newfid;
 			}
 			if($subject != $thread['subject']) {
-				mb_strlen($subject, 'UTF-8') > 80 AND message('subject', '标题最长80个字符');
+				mb_strlen($subject, 'UTF-8') > 80 AND message('subject', lang('subject_max_length', array('max'=>80)));
 				$arr['subject'] = $subject;
 			}
-			$arr AND thread_update($tid, $arr) === FALSE AND message(-1, '更新主题失败');
+			$arr AND thread_update($tid, $arr) === FALSE AND message(-1, lang('update_thread_failed'));
 		}
 		$r = post_update($pid, array('doctype'=>$doctype, 'message'=>$message));
-		$r === FALSE AND message(-1, '更新帖子失败');
+		$r === FALSE AND message(-1, lang('update_post_failed'));
 		
 		message(0, lang('update_success'));
 		//message(0, array('pid'=>$pid, 'subject'=>$subject, 'message'=>$message));
@@ -154,27 +150,26 @@ if($action == 'create') {
 
 	$pid = param(2, 0);
 	
-	if($method != 'POST') message(-1, '方法不对');
+	if($method != 'POST') message(-1, lang('method_error'));
 	
 	$post = post_read($pid);
-	empty($post) AND message(-1, '帖子不存在:'.$pid);
+	empty($post) AND message(-1, lang('post_not_exists'));
 	
 	$tid = $post['tid'];
 	$thread = thread_read($tid);
-	empty($thread) AND message(-1, '主题不存在:'.$tid);
+	empty($thread) AND message(-1, lang('thread_not_exists'));
 	
 	$fid = $thread['fid'];
 	$forum = forum_read($fid);
-	empty($forum) AND message(-1, '板块不存在:'.$fid);
+	empty($forum) AND message(-1, lang('forum_not_exists'));
 	
 	$isfirst = $post['isfirst'];
 	
-	!forum_access_user($fid, $gid, 'allowpost') AND message(-1, '您（'.$user['groupname'].'）无权限在此版块回帖');
+	!forum_access_user($fid, $gid, 'allowpost') AND message(-1, lang('user_group_insufficient_privilege'));
 	$allowdelete = forum_access_mod($fid, $gid, 'allowdelete');
-	!$allowdelete AND !$post['allowdelete'] AND message(-1, '无权删除该帖');
+	!$allowdelete AND !$post['allowdelete'] AND message(-1, lang('insufficient_delete_privilege'));
 	
 	if($isfirst) {
-		// 清除所有的回复。喜欢。还有相关资源
 		thread_delete($tid);
 	} else {
 		post_delete($pid);
@@ -182,12 +177,8 @@ if($action == 'create') {
 	}
 	
 	
-	message(0, lang('delete_success'));
+	message(0, lang('delete_successfully'));
 
-} else {
-	
-	message(-1, '没有此功能');
-	
 }
 
 ?>

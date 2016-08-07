@@ -4,6 +4,8 @@
 /* bbs 全局定义 */
 html, body {height:100%; font-family:"Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", "微软雅黑", "华文细黑", STHeiti, sans-serif}
 body {background: #f4f4f4; }
+a {color: #373a3c;}
+a:hover {color: #0000ff;}
 #wrapper { min-height:100%; position:relative; }
 #body { padding-bottom: 6rem; padding-top: 3.8rem;}
 #footer {
@@ -29,7 +31,6 @@ body {background: #f4f4f4; }
 	word-break: break-all;
 	margin-bottom: 0.2rem;
 }
-.thread .subject a { color: #373a3c;}
 dl.row > dt.td-avatar, .td-avatar { width: 3.5rem;}
 .avatar-xs { width: 1.3rem; height: 1.3rem; border-radius: 1.3rem;}
 .avatar-sm { width: 1.6rem; height: 1.6rem; border-radius: 1.6rem;}

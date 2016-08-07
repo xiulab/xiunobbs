@@ -4,16 +4,15 @@
 
 // hook forum_start.php
 
-// 模板初始化依赖
 $fid = param(1, 0);
 $page = param(2, 1);
-$order = param(3, $conf['order_default']);	// 默认不允许用户修改排序顺序，插件可以做，该参数给插件预留
-$order != 'tid' AND $order = 'lastpid';		// 默认按照顶贴时间排序
+$order = param(3, $conf['order_default']);	// thread orderby
+$order != 'tid' AND $order = 'lastpid';		// default order by reply time
 
 $forum = forum_read($fid);
-empty($forum) AND message(3, '板块不存在'.$fid);
+empty($forum) AND message(3, lang('forum_not_exists'));
 
-forum_access_user($fid, $gid, 'allowread') OR message(-1, '您所在的用户组无权访问该板块。');
+forum_access_user($fid, $gid, 'allowread') OR message(-1, lang('insufficient_visit_forum_privilege'));
 
 $pagesize = $conf['pagesize'];
 $pagination = pagination(url("forum-$fid-{page}-$order"), $forum['threads'], $page, $pagesize);
