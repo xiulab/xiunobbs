@@ -1,14 +1,11 @@
 <?php
 
 /*
-	Xiuno BBS 4.0 插件实例
-	广告插件设置程序
+	Xiuno BBS 4.0 插件实例：广告插件设置
 	admin/plugin-setting-xn_ad.htm
 */
 
 !defined('DEBUG') AND exit('Access Denied.');
-
-// 切换到上级目录
 
 $setting = kv_get('xn_ad_setting');
 
