@@ -20,7 +20,7 @@ check_browser($browser);
 $action = param('action');
 
 // 安装初始化检测,放这里
-is_file('./conf/conf.php') AND empty($action) AND !DEBUG AND message(0, jump('程序已经安装过了，如需重新安装，请删除 conf/conf.php ！', '../'));
+is_file('./conf/conf.php') AND empty($action) AND !DEBUG AND message(0, jump(lang('installed_tips'), '../'));
 
 // 第一步，阅读
 if(empty($action)) {
@@ -36,7 +36,7 @@ if(empty($action)) {
 		$conf['lang'] = $_lang;
 		//$r = conf_save('./conf/conf.php', $conf);
 		$r = file_replace_var('./conf/conf.default.php', array('lang'=>$_lang));
-		$r === FALSE AND message(-1, jump('请设置 conf/conf.php 文件为可写！', ''));
+		$r === FALSE AND message(-1, jump(lang('please_set_conf_file_writable'), ''));
 		http_location('index.php?action=license');
 	}
 	
@@ -65,7 +65,7 @@ if(empty($action)) {
 		$succeed = 1;
 		$mysql_support = function_exists('mysql_connect');
 		$pdo_mysql_support = extension_loaded('pdo_mysql');
-		(!$mysql_support && !$pdo_mysql_support) AND message(0, '当前 PHP 环境不支持 mysql 和 pdo_mysql，无法继续安装。');
+		(!$mysql_support && !$pdo_mysql_support) AND message(0, lang('evn_not_support_php_mysql'));
 
 		include "./install/view/htm/db.htm";
 		
@@ -82,11 +82,11 @@ if(empty($action)) {
 		$adminuser = param('adminuser');
 		$adminpass = param('adminpass');
 		
-		empty($host) AND message('host', '数据库主机不能为空。');
-		empty($name) AND message('name', '数据库名不能为空。');
-		empty($user) AND message('user', '用户名不能为空。');
-		empty($adminpass) AND message('adminpass', '管理员密码不能为空！');
-		empty($adminemail) AND message('adminemail', '管理员密码不能为空！');
+		empty($host) AND message('host', lang('dbhost_is_empty'));
+		empty($name) AND message('name', lang('dbname_is_empty'));
+		empty($user) AND message('user', lang('dbuser_is_empty'));
+		empty($adminpass) AND message('adminpass', lang('adminuser_is_empty'));
+		empty($adminemail) AND message('adminemail', lang('adminpass_is_empty'));
 		
 		
 		
@@ -135,7 +135,7 @@ if(empty($action)) {
 		$replace['installed'] = 1;
 		file_replace_var('./conf/conf.php', $replace);
 		
-		message(0, '恭喜，安装成功');
+		message(0, lang('conguralation_installed'));
 	}
 }
 
