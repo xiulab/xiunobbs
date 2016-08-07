@@ -36,6 +36,7 @@ return array(
 	'update_successfully'=>'编辑成功',
 	'delete_successfully'=>'删除成功',
 	'create_successfully'=>'创建成功',
+	'save_successfully'=>'保存成功',
 	
 	'login_success'=>'登陆成功',
 	'logout_success'=>'退出成功',
@@ -157,24 +158,6 @@ return array(
 	'index_page'=>'首页',
 	'admin_page'=>'后台管理',
 	'admin_login'=>'管理员登陆',
-	
-	'user_admin'=>'用户',
-	'forum_admin'=>'版块',
-	'post_admin'=>'帖子',
-	'plugin_admin'=>'插件',
-	'other_admin'=>'其他',
-	
-	'admin_index_page'=>'后台',
-	'front_index_page'=>'前台',
-	'admin_site_setting'=>'站点设置',
-	'admin_setting_base'=>'基本设置',
-	'admin_setting_smtp'=>'SMTP设置',
-	
-	'admin_user_list'=>'用户列表',
-	'admin_user_group'=>'用户组',
-	'admin_user_create'=>'创建用户',
-	'admin_plugin_local_list'=>'本地插件',
-	'admin_plugin_official_list'=>'官方插件',
 	
 	// 检测相关
 	'mobile_format_mismatch'=>'手机格式不正确',

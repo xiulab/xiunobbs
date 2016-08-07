@@ -12,7 +12,7 @@ return array(
 	),
 	'forum' => array(
 		'url'=>url('forum-list'), 
-		'text'=>lang('forum_admin'), 
+		'text'=>lang('forum'), 
 		'icon'=>'icon-comment',
 		'tab'=> array (
 		)
@@ -27,7 +27,7 @@ return array(
 	),*/
 	'user' => array(
 		'url'=>url('user-list'), 
-		'text'=>lang('user_admin'), 
+		'text'=>lang('user'), 
 		'icon'=>'icon-user',
 		'tab'=> array (
 			'list'=>array('url'=>url('user-list'), 'text'=>lang('admin_user_list')),
@@ -44,7 +44,7 @@ return array(
 	),*/
 	'plugin' => array(
 		'url'=>url('plugin'), 
-		'text'=>lang('plugin_admin'), 
+		'text'=>lang('plugin'), 
 		'icon'=>'icon-cogs',
 		'tab'=> array (
 			'local'=>array('url'=>url('plugin-local'), 'text'=>lang('admin_plugin_local_list')),

@@ -11,8 +11,8 @@ if(empty($action) || $action == 'list') {
 	
 	if($method == 'GET') {
 		
-		$header['title']    = '版块管理';
-		$header['mobile_title'] = '版块管理';
+		$header['title']        = lang('forum_admin');
+		$header['mobile_title'] = lang('forum_admin');
 	
 		$maxfid = forum_maxid();
 		
@@ -63,19 +63,19 @@ if(empty($action) || $action == 'list') {
 		
 		forum_list_cache_delete();
 		
-		message(0, '保存成功');
+		message(0, lang('save_successfully'));
 	}
 
 } elseif($action == 'update') {
 	
 	$_fid = param(2, 0);
 	$_forum = forum_read($_fid);
-	empty($_forum) AND message(-1, '版块不存在');
+	empty($_forum) AND message(-1, lang('forum_not_exists'));
 	
 	if($method == 'GET') {
 		
-		$header['title']    = '版块管理';
-		$header['mobile_title'] = '版块编辑';
+		$header['title']        = lang('forum_edit');
+		$header['mobile_title'] = lang('forum_edit');
 	
 		$accesslist = forum_access_find_by_fid($_fid);
 		if(empty($accesslist)) {
@@ -142,7 +142,7 @@ if(empty($action) || $action == 'list') {
 		
 		forum_list_cache_delete();
 		
-		message(0, '编辑成功');	
+		message(0, lang('edit_sucessfully'));	
 	}
 
 } elseif($action == 'getname') {
@@ -155,8 +155,8 @@ if(empty($action) || $action == 'list') {
 		$_uid = intval($_uid);
 		if(empty($_uid)) continue;
 		$_user = user_read($_uid);
-		if(empty($_user)) { $err .= "$_uid 不存在; "; continue; }
-		if($_user['gid'] > 4) { $err .= "$_uid 不是斑竹; ";  continue; }
+		if(empty($_user)) { $err .= lang('item_not_exists', array('item'=>$_uid)); continue; }
+		if($_user['gid'] > 4) { $err .= lang('item_not_moderator', array('item'=>$_uid));  continue; }
 		$names[] = $_user['username'];
 	}
 	$s = implode(',', $names);

@@ -10,8 +10,8 @@ if(empty($action) || $action == 'list') {
 	
 	if($method == 'GET') {
 		
-		$header['title']    = '用户组管理';
-		$header['mobile_title'] = '用户组管理';
+		$header['title']        = lang('group_admin');
+		$header['mobile_title'] = lang('group_admin');
 		
 		$maxgid = group_maxid();
 		
@@ -50,19 +50,19 @@ if(empty($action) || $action == 'list') {
 		
 		group_list_cache_delete();
 		
-		message(0, '保存成功');
+		message(0, lang('save_successfully'));
 	}
 
 } elseif($action == 'update') {
 	
 	$_gid = param(2, 0);
 	$_group = group_read($_gid);
-	empty($_group) AND message(-1, '用户组不存在');
+	empty($_group) AND message(-1, lang('group_not_exists'));
 	
 	if($method == 'GET') {
 		
-		$header['title']    = '用户组管理';
-		$header['mobile_title'] = '用户组管理';
+		$header['title']        = lang('group_admin');
+		$header['mobile_title'] = lang('group_admin');
 		
 		$input = array();
 		$input['name'] = form_text('name', $_group['name']);
@@ -124,7 +124,7 @@ if(empty($action) || $action == 'list') {
 			);
 		}
 		group_update($_gid, $arr);
-		message(0, '编辑成功');	
+		message(0, lang('edit_sucessfully'));	
 	}
 	
 } else {
