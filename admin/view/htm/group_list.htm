@@ -8,34 +8,34 @@
 		<div class="card">
 			<div class="card-block">
 				<form action="<?php echo url('group-list');?>" method="post" id="form">
-					<h5 class="card-title">用户组列表</h5>
+					<h5 class="card-title"><?php echo lang('group_list');?></h5>
 					<div class="table-responsive arrlist">
 						<table class="table" style="min-width: 800px">
 							<thead>
 								<tr>
-									<th width="100"  class="text-center">用户组ID</th>
-									<th>用户组名称</th>
-									<th class="text-center">起始积分</th>
-									<th class="text-center">结束积分</th>
-									<th class="text-center">编辑</th>
-									<th class="text-center">删除</th>
+									<th width="100"  class="text-center"><?php echo lang('group_id');?></th>
+									<th><?php echo lang('group_name');?></th>
+									<th class="text-center"><?php echo lang('group_credits_from');?></th>
+									<th class="text-center"><?php echo lang('group_credits_to');?></th>
+									<th class="text-center"><?php echo lang('edit');?></th>
+									<th class="text-center"><?php echo lang('delete');?></th>
 								</tr>
 							<thead>
 							<tbody>
 								<?php foreach($grouplist as $_gid=>$_group) { ?>
 								<tr align="center" rowid="<?php echo $_gid; ?>">
-									<td class="50"><input type="text" class="form-control" name="_gid[<?php echo $_gid;?>]" value="<?php echo $_group['gid']; ?>"  placeholder="用户组ID" /></td>
-									<td><input type="text" class="form-control" name="name[<?php echo $_gid;?>]" value="<?php echo $_group['name']; ?>" placeholder="用户组名称" /></td>
-									<td><input type="text" class="form-control" name="creditsfrom[<?php echo $_gid;?>]" value="<?php echo $_group['creditsfrom']; ?>" placeholder="开始积分"/></td>
-									<td><input type="text" class="form-control" name="creditsto[<?php echo $_gid;?>]" value="<?php echo $_group['creditsto']; ?>" placeholder="结束积分"  /></td>
-									<td><a class="btn row_edit" role="btn">编辑</a></td>
-									<td><?php if(!in_array($_gid, $system_group)) { ?><a class="btn row_delete" role="btn">删除</a><?php } ?></td>
+									<td class="50"><input type="text" class="form-control" name="_gid[<?php echo $_gid;?>]" value="<?php echo $_group['gid']; ?>"  placeholder="<?php echo lang('group_id');?>" /></td>
+									<td><input type="text" class="form-control" name="name[<?php echo $_gid;?>]" value="<?php echo $_group['name']; ?>" placeholder="<?php echo lang('group_name');?>" /></td>
+									<td><input type="text" class="form-control" name="creditsfrom[<?php echo $_gid;?>]" value="<?php echo $_group['creditsfrom']; ?>" placeholder="<?php echo lang('group_credits_from');?>"/></td>
+									<td><input type="text" class="form-control" name="creditsto[<?php echo $_gid;?>]" value="<?php echo $_group['creditsto']; ?>" placeholder="<?php echo lang('group_credits_to');?>"  /></td>
+									<td><a class="btn row_edit" role="btn"><?php echo lang('edit');?></a></td>
+									<td><?php if(!in_array($_gid, $system_group)) { ?><a class="btn row_delete" role="btn"><?php echo lang('delete');?></a><?php } ?></td>
 								</tr>
 								<?php } ?>
 							</tbody>
 						</table>
 					</div>
-					<p><a role="button" class="btn row_add">[+]增加一行</a></p>
+					<p><a role="button" class="btn row_add">[+]<?php echo lang('add_new_line');?></a></p>
 					<p class="text-center">
 						<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..." style="width: 10rem;"><?php echo lang('confirm');?></button>
 					</p>
@@ -49,7 +49,7 @@
 
 <script>
 
-if(!debug) $.alert('请谨慎编辑用户组，一旦确定后不要轻易变动，否则可能会导致用户关联错误，一般在正式运营时就不要再变动。', 4);
+if(!debug) $.alert('<?php echo lang('group_edit_tips');?>', 4);
 
 var maxgid = <?php echo $maxgid;?>;
 

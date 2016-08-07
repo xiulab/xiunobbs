@@ -2,65 +2,57 @@
 
 <div class="row">
 	<div class="col-lg-10 col-lg-offset-1">
-		<h3>后台首页</h3>
+		<h3><?php echo lang('admin_index');?></h3>
 		<hr />
 		<div class="card card-block m-t-1">
-			<h5>站点统计信息</h5>
+			<h5><?php echo lang('site_stat_info');?></h5>
 			<hr />
 			<div class="row">
 				<div class="col-md-4 p-l-2 p-r-2">
 					<dl class="row m-b-1">
-						<dt class="text-muted">主题数：</dt>
+						<dt class="text-muted"><?php echo lang('threads');?>：</dt>
 						<dd class="text-right"><?php echo $stat['threads']; ?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">帖子数：</dt>
+						<dt class="text-muted"><?php echo lang('posts');?>：</dt>
 						<dd class="text-right"><?php echo $stat['posts']; ?>m</dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">用户数：</dt>
+						<dt class="text-muted"><?php echo lang('users');?>：</dt>
 						<dd class="text-right"><?php echo $stat['users']; ?></dd>
 					</dl>
 					
 				</div>
 				<div class="col-md-4 m-b-1 p-l-2 p-r-2">
 					<dl class="row m-b-1">
-						<dt class="text-muted">附件总数：</dt>
+						<dt class="text-muted"><?php echo lang('attachs');?>：</dt>
 						<dd class="text-right"><?php echo $stat['attachs']; ?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">附件大小：</dt>
+						<dt class="text-muted"><?php echo lang('attach_size');?>：</dt>
 						<dd class="text-right">2015-1-12</dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">磁盘剩余空间：</dt>
+						<dt class="text-muted"><?php echo lang('disk_free_space');?>：</dt>
 						<dd class="text-right"><?php echo $stat['disk_free_space']; ?></dd>
 					</dl>
 				</div>
 				<div class="col-md-4 m-b-1 p-l-2 p-r-2">
 					<dl class="row m-b-1">
-						<dt class="text-muted">在线人数：</dt>
+						<dt class="text-muted"><?php echo lang('onlines');?>：</dt>
 						<dd class="text-right">123</dd>
-					</dl>
-					<dl class="row m-b-1">
-						<dt class="text-muted">站点上线时间：</dt>
-						<dd class="text-right">2345</dd>
-					</dl>
-					<dl class="row m-b-1">
-						<dt class="text-muted">精华：</dt>
-						<dd class="text-right">12</dd>
 					</dl>
 				</div>
 			</div>
 		</div>
 		
 		<div class="card card-block m-t-1">
-			<h5>服务器信息 <a href="<?php echo url('index-phpinfo');?>"><small>[查看 PHPINFO]</small></a></h5>
+			<h5><?php echo lang('server_info');?> <a href="<?php echo url('index-phpinfo');?>"><small>[PHPINFO]</small></a></h5>
 			<hr />
 			<div class="row">
 				<div class="col-md-4 m-b-1 p-l-2 p-r-2">
 					<dl class="row m-b-1">
-						<dt class="text-muted">操作系统：</dt>
+						<dt class="text-muted"><?php echo lang('os');?>：</dt>
 						<dd class="text-right"><?php echo PHP_OS; ?></dd>
 					</dl>
 					<dl class="row m-b-1">
@@ -72,44 +64,44 @@
 						<dd class="text-right"><?php echo PHP_VERSION;?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">数据库：</dt>
+						<dt class="text-muted"><?php echo lang('database');?>：</dt>
 						<dd class="text-right"><?php echo $conf['db']['type']; ?><br><small> (<?php echo $info['dbversion']; ?>)</small></dd>
 					</dl>
 				</div>
 				<div class="col-md-4 m-b-1 p-l-2 p-r-2">
 					<dl class="row m-b-1">
-						<dt class="text-muted">最大 POST 数据大小：</dt>
+						<dt class="text-muted"><?php echo lang('post_max_size');?>：</dt>
 						<dd class="text-right"><?php echo $info['post_max_size']; ?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">最大文件上传大小：</dt>
+						<dt class="text-muted"><?php echo lang('upload_max_filesize');?>：</dt>
 						<dd class="text-right"><?php echo $info['upload_max_filesize']; ?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">允许开启远程 URL：</dt>
+						<dt class="text-muted"><?php echo lang('allow_url_fopen');?>：</dt>
 						<dd class="text-right"><?php echo $info['allow_url_fopen']; ?> </dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">安全模式（safe_mode）：</dt>
+						<dt class="text-muted"><?php echo lang('safe_mode');?>：</dt>
 						<dd class="text-right"><?php echo $info['safe_mode']; ?></dd>
 					</dl>
 				</div>
 				<div class="col-md-4 m-b-1 p-l-2 p-r-2">
 					<dl class="row m-b-1">
-						<dt class="text-muted">最长执行时间：</dt>
+						<dt class="text-muted"><?php echo lang('max_execution_time');?>：</dt>
 						<dd class="text-right"><?php echo $info['max_execution_time']; ?>秒</dd>
 					</dl>
 					
 					<dl class="row m-b-1">
-						<dt class="text-muted">内存上限：</dt>
+						<dt class="text-muted"><?php echo lang('memory_limit');?>：</dt>
 						<dd class="text-right"><?php echo $info['memory_limit']; ?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">客户端 IP：</dt>
+						<dt class="text-muted"><?php echo lang('client_ip');?>：</dt>
 						<dd class="text-right"><?php echo $ip; ?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">服务端 IP：</dt>
+						<dt class="text-muted"><?php echo lang('server_ip');?>：</dt>
 						<dd class="text-right"><?php echo _SERVER('SERVER_ADDR'); ?></dd>
 					</dl>
 				</div>
@@ -118,7 +110,7 @@
 		
 		
 		<div class="card card-block m-t-1">
-			<h5>开发团队信息</h5>
+			<h5><?php echo lang('dev_team_info');?>开发团队信息</h5>
 			<hr />
 			<p>Dev Leader: axiuno@gmail.com</p>
 			<p>Official Site: <a href="http://www.xiuno.com" target="_blank">http://www.xiuno.com/</a></p>
