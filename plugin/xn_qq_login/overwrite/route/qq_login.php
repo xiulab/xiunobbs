@@ -6,12 +6,13 @@ include './model/qq_login.func.php';
 
 $action = param(1);
 
+$return_url = http_url_path().'qq_login-return.htm';
+
 if(empty($action)) {
 	
-	$return_url = http_url_path().'qq_login-return.htm';
 	$link = qq_login_link($return_url);
 	
-	http_location("Location: $link");
+	http_location($link);
 
 } elseif($action == 'return') {
 	
