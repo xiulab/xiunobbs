@@ -6,7 +6,7 @@ include './model/qq_login.func.php';
 
 $action = param(1);
 
-$return_url = http_url_path().'qq_login-return.htm';
+$return_url = http_url_path().url('qq_login-return');
 
 if(empty($action)) {
 	
@@ -39,7 +39,7 @@ if(empty($action)) {
 	
 	$uid = $user['uid'];
 	
-	message(0, '登陆成功');
+	message(0, jump('登陆成功', http_referer(), 2));
 }
 
 
