@@ -35,7 +35,7 @@ if(empty($action)) {
 		$_lang = param('lang');
 		$conf['lang'] = $_lang;
 		//$r = conf_save('./conf/conf.php', $conf);
-		$r = file_replace_var('./conf/conf.php', array('lang'=>$_lang));
+		$r = file_replace_var('./conf/conf.default.php', array('lang'=>$_lang));
 		$r === FALSE AND message(-1, jump('请设置 conf/conf.php 文件为可写！', ''));
 		http_location('index.php?action=license');
 	}
