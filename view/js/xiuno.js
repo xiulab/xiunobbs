@@ -836,8 +836,8 @@ xn.image_resize = function(file_base64_data, callback, options) {
 	var filetype = options.filetype || 'jpeg';
 	var qulity = options.qulity || 0.7; // 图片质量, 1 为无损
 	
-	if(thumb_width < 1) return callback(-1, '缩略图宽度不能小于 1');
-	if(xn.substr(file_base64_data, 0, 10) != 'data:image') return callback(-1, '传入的 base64 数据有问题');
+	if(thumb_width < 1) return callback(-1, '缩略图宽度不能小于 1 / thumb image width length is less 1 pix');
+	if(xn.substr(file_base64_data, 0, 10) != 'data:image') return callback(-1, '传入的 base64 数据有问题 / deformed base64 data');
 	// && xn.substr(file_base64_data, 0, 14) != 'data:image/gif' gif 不支持
 		
 	var img = new Image();

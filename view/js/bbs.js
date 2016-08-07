@@ -1,4 +1,4 @@
-// 表单快捷键提交 CTRL+ENTER
+// 表单快捷键提交 CTRL+ENTER   / form quick submit
 $('form').keyup(function(e) {
 	if((e.ctrlKey && (e.which == 13 || e.which == 10)) || (e.altKey && e.which == 83)) {
 		$('form').trigger('submit');
@@ -6,27 +6,27 @@ $('form').keyup(function(e) {
 	}
 });
 
-// 点击响应整行：方便手机浏览
+// 点击响应整行：方便手机浏览  / check response line
 $('.tap').on('click', function() {
 	var href = $(this).attr('href');
 	window.location = href;
 });
-// 点击响应整行：导航栏下拉菜单
+// 点击响应整行：导航栏下拉菜单   / check response line
 $('ul.nav > li').on('click', function() {
 	var jthis = $(this);
 	var href = jthis.children('a').attr('href');
 	if(href) window.location = href;
 });
-// 点击响应整行：，但是不响应 checkbox 的点击
+// 点击响应整行：，但是不响应 checkbox 的点击  / check response line, without checkbox
 $('.thread input[type="checkbox"]').parents('td').on('click', function(e) {
 	e.stopPropagation();
 })
 
-// 版主管理：删除
+// 版主管理：删除 / moderator : delete
 $('.mod-button button.delete').on('click', function() {
 	var modtid = $('input[name="modtid"]').checked();
-	if(modtid.length == 0) return $.alert('请选择主题');
-	$.confirm('确定删除选中的('+modtid.length+')篇主题吗？', function() {
+	if(modtid.length == 0) return $.alert(lang.please_choose_thread);
+	$.confirm(lang.confirm_delete_thread + ':' + modtid.length, function() {
 		var tids = xn.implode('_', modtid);
 		$.xpost(xn.url('mod-delete-'+tids), function(code, message) {
 			if(code != 0) return $.alert(message);
@@ -35,27 +35,27 @@ $('.mod-button button.delete').on('click', function() {
 	});
 })
 
-// 版主管理：移动
+// 版主管理：移动 / moderator : move
 $('.mod-button button.move').on('click', function() {
 	var modtid = $('input[name="modtid"]').checked();
-	if(modtid.length == 0) return $.alert('请选择主题');
+	if(modtid.length == 0) return $.alert(lang.please_choose_thread);
 	var select = xn.form_select('fid', forumarr, fid);
-	$.confirm('移动版块', function() {
+	$.confirm(lang.move_forum, function() {
 		var tids = xn.implode('_', modtid);
 		var newfid = $('select[name="fid"]').val();
 		$.xpost(xn.url('mod-move-'+tids+'-'+newfid), function(code, message) {
 			if(code != 0) return $.alert(message);
 			$.alert(message).delay(1000).location('');
 		});
-	}, {'body': '<p>选择移动的版块：'+select+'</p>'});
+	}, {'body': '<p>'+lang.choose_move_forum+'：'+select+'</p>'});
 })
 
 // 版主管理：置顶
 $('.mod-button button.top').on('click', function() {
 	var modtid = $('input[name="modtid"]').checked();
-	if(modtid.length == 0) return $.alert('请选择主题');
-	var radios = xn.form_radio('top', {"0": "取消置顶", "1": "版块置顶", "3": "全站置顶"});
-	$.confirm('置顶主题', function() {
+	if(modtid.length == 0) return $.alert(lang.please_choose_thread);
+	var radios = xn.form_radio('top', {"0": lang.top_0, "1": lang.top_1, "3": lang.top_3});
+	$.confirm(lang.top_thread, function() {
 		var tids = xn.implode('_', modtid);
 		var top = $('input[name="top"]').checked();
 		var postdata = {top: top};
@@ -63,10 +63,10 @@ $('.mod-button button.top').on('click', function() {
 			if(code != 0) return $.alert(message);
 			$.alert(message).delay(1000).location('');
 		});
-	}, {'body': '<p>置顶范围：'+radios+'</p>'});
+	}, {'body': '<p>'+lang.top_range+'：'+radios+'</p>'});
 })
 
-// 确定框
+// 确定框 / confirm
 $('a.confirm').on('click', function() {
 	var jthis = $(this);
 	var text = jthis.data('confirm-text');
@@ -76,7 +76,7 @@ $('a.confirm').on('click', function() {
 	return false;
 });
 
-// 选中所有
+// 选中所有 / check all
 $('input.checkall').on('click', function() {
 	var jthis = $(this);
 	var target = jthis.data('target');
