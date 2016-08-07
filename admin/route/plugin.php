@@ -20,8 +20,8 @@ if($action == 'local') {
 	$pagination = '';
 	$pugin_cate_html = '';
 	
-	$header['title']    = '本地插件';
-	$header['mobile_title'] = '本地插件';
+	$header['title']    = lang('local_plugin');
+	$header['mobile_title'] = lang('local_plugin');
 	
 	//print_r($plugins);exit;
 	
@@ -36,7 +36,7 @@ if($action == 'local') {
 	$cond = $cateid ? array('cateid'=>$cateid) : array();
 			
 	// 插件分类
-	$pugin_cates = array(0=>'所有插件', 1=>'风格模板', 2=>'小型插件', 3=>'大型插件', 4=>'接口整合', 99=>'未分类');
+	$pugin_cates = array(0=>lang('pugin_cate_0'), 1=>lang('pugin_cate_1'), 2=>lang('pugin_cate_2'), 3=>lang('pugin_cate_3'), 4=>lang('pugin_cate_4'), 99=>lang('pugin_cate_99'));
 
 	$pugin_cate_html = plugin_cate_active($pugin_cates, $cateid, $page);
 	
@@ -45,8 +45,8 @@ if($action == 'local') {
 	$pluginlist = plugin_official_list($cond, array('pluginid'=>-1), $page, $pagesize);
 	$pagination = pagination(url("plugin-official-$cateid-{page}"), $total, $page, $pagesize);
 	
-	$header['title']    = '官方插件';
-	$header['mobile_title'] = '官方插件';
+	$header['title']    = lang('official_plugin');
+	$header['mobile_title'] = lang('official_plugin');
 	
 //	print_r($pluginlist);exit;
 	
@@ -61,8 +61,8 @@ if($action == 'local') {
 	
 	$tab = $plugin['pluginid'] ? 'official' : 'local';
 	
-	$header['title']    = '插件详情-'.$plugin['name'];
-	$header['mobile_title'] = '插件详情-'.$plugin['name'];
+	$header['title']    = lang('plugin_detail').'-'.$plugin['name'];
+	$header['mobile_title'] = $plugin['name'];
 	
 	include "./view/htm/plugin_read.htm";
 	
@@ -75,18 +75,18 @@ if($action == 'local') {
 	//print_r($official_plugins);exit;
 	
 	$official = plugin_official_read($dir);
-	empty($official) AND message(-1, '插件不存在');
+	empty($official) AND message(-1, lang('plugin_not_exists'));
 	
 	// 检查版本
 	if(version_compare($conf['version'], $official['bbs_version']) == -1) {
-		message(-1, "此插件依赖的 Xiuno BBS 最低版本为 $official[bbs_version] ，您当前的版本：".$conf['version']);
+		message(-1, lang('plugin_versio_not_match', array('bbs_version'=>$official['bbs_version'], 'version'=>$conf['version'])));
 	}
 	
 	// 下载，解压
 	plugin_download_unzip($dir);
 	
 	// 检查解压是否成功
-	message(0, jump('插件下载成功:'.$dir.", ，请点击进行安装", url("plugin-read-$dir"), 2));
+	message(0, jump(lang('plugin_download_sucessfully', array('dir'=>$dir)), url("plugin-read-$dir"), 2));
 	
 } elseif($action == 'install') {
 	
@@ -108,7 +108,8 @@ if($action == 'local') {
 		include $installfile;
 	}
 	
-	message(0, jump("安装插件 ( $name ) 成功", http_referer(), 1));
+	$msg = lang('plugin_install_sucessfully', array('name'=>$name));
+	message(0, jump($msg, http_referer(), 1));
 	
 } elseif($action == 'unstall') {
 	
@@ -133,7 +134,8 @@ if($action == 'local') {
 	// 删除插件
 	//!DEBUG && rmdir_recusive("../plugin/$dir");
 	
-	message(0, jump("卸载插件 ( $name ) 成功，要彻底删除插件，请手工删除 (plugin/$dir) 目录", http_referer(), 5));
+	$msg = lang('plugin_unstall_sucessfully', array('name'=>$name, 'dir'=>"plugin/$dir"));
+	message(0, jump($msg, http_referer(), 5));
 	
 } elseif($action == 'enable') {
 	
@@ -150,7 +152,8 @@ if($action == 'local') {
 	// 启用插件
 	plugin_enable($dir);
 	
-	message(0, jump("启用插件 ( $name ) 成功", http_referer(), 1));
+	$msg = lang('plugin_enable_sucessfully', array('name'=>$name));
+	message(0, jump($msg, http_referer(), 1));
 	
 } elseif($action == 'disable') {
 	
@@ -167,7 +170,8 @@ if($action == 'local') {
 	// 禁用插件
 	plugin_disable($dir);
 	
-	message(0, jump("禁用插件 ( $name ) 成功", http_referer(), 1));
+	$msg = lang('plugin_disable_sucessfully', array('name'=>$name));
+	message(0, jump($msg, http_referer(), 1));
 	
 } elseif($action == 'upgrade') {
 	
@@ -177,7 +181,7 @@ if($action == 'local') {
 	
 	// 判断插件版本
 	$plugin = plugin_read($dir);
-	!$plugin['have_upgrade'] AND message(-1, '已经是最新版本，无需更新。');
+	!$plugin['have_upgrade'] AND message(-1, lang('plugin_not_need_update'));
 	
 	// 检查目录可写
 	plugin_check_dir_is_writable();
@@ -188,7 +192,8 @@ if($action == 'local') {
 	// 安装插件
 	plugin_install($dir);
 	
-	message(0, jump("升级插件 ( $name ) 成功", http_referer(), 1));
+	$msg = lang('plugin_upgrade_sucessfully', array('name'=>$name));
+	message(0, jump($msg, http_referer(), 1));
 	
 } elseif($action == 'setting') {
 	
@@ -212,7 +217,8 @@ function plugin_check_dir_is_writable() {
 			$dirarr[] = $dir;
 		}
 	}
-	!empty($dirarr) AND message(-1, '在安装插件目录期间，请设置： '.implode(', ', $dirarr).' 和文件为可写。');
+	$msg = lang('plugin_set_relatied_dir_writable', array('dir'=>implode(', ', $dirarr)));
+	!empty($dirarr) AND message(-1, $msg);
 }
 
 function plugin_check_dependency($dir, $action = 'install') {
@@ -222,13 +228,15 @@ function plugin_check_dependency($dir, $action = 'install') {
 		$arr = plugin_dependencies($dir);
 		if(!empty($arr)) {
 			$s = plugin_dependency_arr_to_links($arr);
-			message(-1, "($name)依赖以下插件：".$s."，请先安装依赖的插件。");
+			$msg = lang('plugin_dependency_following', array('name'=>$name, 's'=>$s));
+			message(-1, $msg);
 		}
 	} else {
 		$arr = plugin_by_dependencies($dir);
 		if(!empty($arr)) {
 			$s = plugin_dependency_arr_to_links($arr);
-			message(-1, "以下插件依赖($name)：".$s."，不能删除($name)。");
+			$msg = lang('plugin_being_dependent_cant_delete', array('name'=>$name, 's'=>$s));
+			message(-1, $msg);
 		}
 	}
 }
@@ -257,8 +265,8 @@ function plugin_download_unzip($dir) {
 	// 服务端开始下载
 	set_time_limit(0); // 设置超时
 	$s = http_get($url, 120);
-	empty($s) AND message(-1, '服务器返回数据为空'); 
-	substr($s, 0, 2) != 'PK' AND message(-1, '服务器返回数据有错:'.$s);
+	empty($s) AND message(-1, lang('server_response_empty')); 
+	substr($s, 0, 2) != 'PK' AND message(-1, lang('server_response_error').':'.$s);
 	//$arr = xn_json_decode($s);
 	//empty($arr['message']) AND message(-1, '服务端返回数据错误：'.$s);
 	//$arr['code'] != 0 AND message(-1, '服务端返回数据错误：'.$arr['message']);
@@ -267,24 +275,24 @@ function plugin_download_unzip($dir) {
 	$destpath = "../plugin/$dir/";
 	file_put_contents($zipfile, $s);
 	$files = xn_unzip($zipfile, $destpath);
-	empty($files) AND message(-1, '压缩包数据有误');
+	empty($files) AND message(-1, lang('zip_data_error'));
 	unlink($zipfile);
 	// 检查配置文件
 	$conffile = "../plugin/$dir/conf.json";
-	!is_file($conffile) AND message(-1, 'conf.json 不存在');
+	!is_file($conffile) AND message(-1, 'conf.json '.lang('not_exists'));
 	$arr = xn_json_decode(file_get_contents($conffile));
-	empty($arr['name']) AND message(-1, 'conf.json 格式可能不正确');
+	empty($arr['name']) AND message(-1, 'conf.json '.lang('format_maybe_error'));
 	
-	!is_dir("../plugin/$dir") AND message(-1, "插件可能下载失败，目录不存在: plugin/$dir");
+	!is_dir("../plugin/$dir") AND message(-1, lang('plugin_maybe_download_failed')." plugin/$dir");
 }
 
 function plugin_check_exists($dir, $local = TRUE) {
 	global $plugins, $official_plugins;
-	!is_word($dir) AND message(-1, '插件名不合法。');
+	!is_word($dir) AND message(-1, lang('plugin_name_error'));
 	if($local) {
-		!isset($plugins[$dir]) AND message(-1, "插件 ( $dir ) 不存在");
+		!isset($plugins[$dir]) AND message(-1, lang('plugin_not_exists'));
 	} else {
-		!isset($official_plugins[$dir]) AND message(-1, "插件 ( $dir ) 不存在");
+		!isset($official_plugins[$dir]) AND message(-1, lang('plugin_not_exists'));
 	}
 }
 

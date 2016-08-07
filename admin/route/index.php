@@ -8,7 +8,7 @@ if($action == 'login') {
 
 	if($method == 'GET') {
 
-		$header['title'] = '管理登陆';
+		$header['title'] = lang('admin_login');
 		
 		include "./view/htm/index_login.htm";
 
@@ -18,7 +18,7 @@ if($action == 'login') {
 
 		if(md5($password.$user['salt']) != $user['password']) {
 			xn_log('password error. uid:'.$user['uid'].' - ******'.substr($password, -6), 'admin_login_error');
-			message('password', '密码错误');
+			message('password', lang('password_incorrect'));
 		}
 
 		admin_token_set();
@@ -26,7 +26,7 @@ if($action == 'login') {
 		// 记录日志
 		xn_log('login successed. uid:'.$user['uid'], 'admin_login');
 
-		message(0, jump(lang('login_success'), '.'));
+		message(0, jump(lang('login_successfully'), '.'));
 
 	}
 
@@ -34,7 +34,7 @@ if($action == 'login') {
 
 	admin_token_clean();
 
-	message(0, jump('退出成功', './'));
+	message(0, jump(lang('logout_successfully'), './'));
 
 } elseif ($action == 'phpinfo') {
 	
@@ -43,13 +43,13 @@ if($action == 'login') {
 	
 } else {
 
-	$header['title'] = '后台管理';
+	$header['title'] = lang('admin_page');
 	
 	$info = array();
 	$info['disable_functions'] = ini_get('disable_functions');
-	$info['allow_url_fopen'] = ini_get('allow_url_fopen') ? '是' : '否';
-	$info['safe_mode'] = ini_get('safe_mode') ? '是' : '否';
-	empty($info['disable_functions']) && $info['disable_functions'] = '无';
+	$info['allow_url_fopen'] = ini_get('allow_url_fopen') ? lang('yes') : lang('no');
+	$info['safe_mode'] = ini_get('safe_mode') ? lang('yes') : lang('no');
+	empty($info['disable_functions']) && $info['disable_functions'] = lang('none');
 	$info['upload_max_filesize'] = ini_get('upload_max_filesize');
 	$info['post_max_size'] = ini_get('post_max_size');
 	$info['memory_limit'] = ini_get('memory_limit');
@@ -65,20 +65,9 @@ if($action == 'login') {
 	$stat['posts'] = post_count();
 	$stat['users'] = user_count();
 	$stat['attachs'] = attach_count();
-	$stat['disk_free_space'] = function_exists('disk_free_space') ? humansize(disk_free_space('./')) : '未知';
+	$stat['disk_free_space'] = function_exists('disk_free_space') ? humansize(disk_free_space('./')) : lang('unknown');
 	
 	$lastversion = get_last_version($stat);
-	
-	// 潜在错误检测，目录可写检测，避免搬家导致的问题。
-	$check = array();
-	$upload_tmp_dir = ini_get('upload_tmp_dir');
-	if(!empty($upload_tmp_dir)) {
-		$check['upload_path_check'] = is_writable($upload_tmp_dir) ? "<span class\"red\">$upload_tmp_dir 不可写</span>，上传功能会受到影响。" : "<span class=\"green\">$upload_tmp_dir 可写</span>";
-	} else {
-		$check['upload_path_check'] = "<span class=\"red\">php.ini 中未设置 upload_tmp_dir，可能会导致上传失败 </span>";
-	}
-	
-	$check['php_ini'] = ini_get('upload_tmp_dir');
 	
 	include './view/htm/index.htm';
 

@@ -6,8 +6,8 @@ $action = param(1);
 
 if(empty($action) || $action == 'list') {
 
-	$header['title'] = '用户管理';
-	$header['mobile_title'] = '用户管理';
+	$header['title'] = lang('user_admin');
+	$header['mobile_title'] = lang('user_admin');
 		
 	$pagesize = 20;
 	$srchtype = param(2);
@@ -35,8 +35,8 @@ if(empty($action) || $action == 'list') {
 
 	if($method == 'GET') {
 
-		$header['title'] = '创建用户';
-		$header['mobile_title'] = '创建用户';
+		$header['title'] = lang('admin_user_create');
+		$header['mobile_title'] = lang('admin_user_create');
 		
 		$input['email'] = form_text('email', '');
 		$input['username'] = form_text('username','');
@@ -53,15 +53,15 @@ if(empty($action) || $action == 'list') {
 		$password = param('password');
 		$_gid = param('_gid');
 		
-		empty($email) AND message('email', '请输入邮箱');
+		empty($email) AND message('email', lang('please_input_email'));
 		$email AND !is_email($email, $err) AND message('email', $err);
 		$username AND !is_username($username, $err) AND message('username', $err);
 
 		$user = user_read_by_email($email);
-		$user AND message('email', '用户 EMAIL 已经存在');
+		$user AND message('email', lang('email_is_in_use'));
 
 		$user = user_read_by_username($username);
-		$user AND message('username', '用户已经存在');
+		$user AND message('username', lang('user_already_exists'));
 
 		$salt = xn_rand(16);
 		$r = user_create(array(
@@ -73,9 +73,9 @@ if(empty($action) || $action == 'list') {
 			'create_ip'=>ip2long(ip()),
 			'create_date'=>$time
 		));
-		$r === FALSE AND message(-1, '创建失败');
+		$r === FALSE AND message(-1, lang('create_failed'));
 		
-		message(0, '创建成功');
+		message(0, lang('create_successfully'));
 
 	}
 
@@ -85,8 +85,8 @@ if(empty($action) || $action == 'list') {
 	
 	if($method == 'GET') {
 
-		$header['title'] = '编辑用户';
-		$header['mobile_title'] = '编辑用户';
+		$header['title'] = lang('user_edit');
+		$header['mobile_title'] = lang('user_edit');
 		
 		$user = user_read($_uid);
 		
@@ -106,16 +106,16 @@ if(empty($action) || $action == 'list') {
 		$_gid = param('_gid');
 		
 		$old = user_read($_uid);
-		empty($old) AND message('username', '指定的 UID 不存在');
+		empty($old) AND message('username', lang('uid_not_exists'));
 		
 		$email AND !is_email($email, $err) AND message(2, $err);
 		if($email AND $old['email'] != $email) {
 			$user = user_read_by_email($email);
-			$user AND $user['uid'] != $_uid AND message('email', '用户 EMAIL 已经存在');
+			$user AND $user['uid'] != $_uid AND message('email', lang('email_already_exists'));
 		}
 		if($username AND $old['username'] != $username) {
 			$user = user_read_by_username($username);
-			$user AND $user['uid'] != $_uid AND message('username', '用户已经存在');
+			$user AND $user['uid'] != $_uid AND message('username', lang('user_already_exists'));
 		}
 		
 		$arr = array();
@@ -131,12 +131,12 @@ if(empty($action) || $action == 'list') {
 		
 		// 仅仅更新发生变化的部分
 		$update = array_diff_value($arr, $old);
-		empty($update) AND message(-1, '没有数据变动');
+		empty($update) AND message(-1, lang('data_not_changed'));
 
 		$r = user_update($_uid, $update);
-		$r === FALSE AND message(-1, '更新失败');
+		$r === FALSE AND message(-1, lang('update_failed'));
 		
-		message(0, '更新成功');
+		message(0, lang('update_successfully'));
 	}
 
 } elseif($action == 'delete') {
@@ -146,14 +146,14 @@ if(empty($action) || $action == 'list') {
 	$_uid = param('uid', 0);
 	
 	$_user = user_read($_uid);
-	empty($_user) AND message(-1, '用户不存在');
-	($_user['gid'] == 1) AND message(-1, '不能直接删除管理员，请先编辑为普通用户组。');
+	empty($_user) AND message(-1, lang('user_not_exists'));
+	($_user['gid'] == 1) AND message(-1, 'admin_cant_be_deleted');
 
 	$r = user_delete($_uid);
-	$r === FALSE AND message(-1, '删除失败');
+	$r === FALSE AND message(-1, lang('delete_failed'));
 	
 	
-	message(0, '删除成功');
+	message(0, lang('delete_successfully'));
 	
 } else {
 	

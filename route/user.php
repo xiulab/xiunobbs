@@ -168,7 +168,7 @@ if($action == 'login') {
 	
 	// hook user_logout_end.php
 	
-	message(0, jump(lang('logout_success'), http_referer(), 1));
+	message(0, jump(lang('logout_successfully'), http_referer(), 1));
 	//message(0, jump('退出成功', './', 1));
 
 // 用户发表的主题

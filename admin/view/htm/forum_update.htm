@@ -5,53 +5,53 @@
 		<div class="card">
 			<div class="card-block">
 				<form action="<?php echo url("forum-update-$_fid");?>" method="post" id="form">
-					<h4 class="card-title">版块编辑 - <?php echo $_forum['name'];?></h4>
+					<h4 class="card-title"><?php echo lang('forum_edit');?> - <?php echo $_forum['name'];?></h4>
 					<div class="form-group row">
-						<label class="col-sm-2 form-control-label">版块名称：</label>
+						<label class="col-sm-2 form-control-label"><?php echo lang('forum_name');?>：</label>
 						<div class="col-sm-10">
 							<?php echo $input['name'];?>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 form-control-label">排序：</label>
+						<label class="col-sm-2 form-control-label"><?php echo lang('forum_rank');?>：</label>
 						<div class="col-sm-3">
 							<?php echo $input['rank'];?>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 form-control-label">版块介绍：</label>
+						<label class="col-sm-2 form-control-label"><?php echo lang('forum_brief');?>：</label>
 						<div class="col-sm-10">
 							<?php echo $input['brief'];?>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 form-control-label">版块公告：</label>
+						<label class="col-sm-2 form-control-label"><?php echo lang('forum_announcement');?>：</label>
 						<div class="col-sm-10">
 							<?php echo $input['announcement'];?>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 form-control-label">版主：</label>
+						<label class="col-sm-2 form-control-label"><?php echo lang('moderator');?>：</label>
 						<div class="col-sm-10">
 							<?php echo $input['moduids'];?>
-							<p class="small text-muted m-t-sm" id="modnames">最多允许10个，逗号隔开，如：123,456,789</p>
+							<p class="small text-muted m-t-sm" id="modnames"><?php echo lang('forum_moduid_format_tips');?></p>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 form-control-label">用户权限：</label>
+						<label class="col-sm-2 form-control-label">><?php echo lang('user_privilege');?>：</label>
 						<div class="col-sm-10">
-							<p><label><?php echo $input['accesson'];?> 启用</label></p>
+							<p><label><?php echo $input['accesson'];?> <?php echo lang('enable');?></label></p>
 							<div class="table-responsive <?php echo $_forum['accesson'] ? '' : 'collapse';?>" id="accesslist_div">
 								<table class="table" id="accesslist" style="min-width: 700px;">
 									<thead>
 										<tr align="center">
-											<td width="80">全选</td>
-											<td align="left">用户组</td>
-											<td width="100">允许看帖</td>
-											<td width="100">发主题</td>
-											<td width="100">回贴</td>
-											<td width="100">上传</td>
-											<td width="100">下载</td>
+											<td width="80"><?php echo lang('checkall');?></td>
+											<td align="left"><?php echo lang('user_group');?></td>
+											<td width="100"><?php echo lang('allow_view');?></td>
+											<td width="100"><?php echo lang('allow_thread');?></td>
+											<td width="100"><?php echo lang('allow_post');?></td>
+											<td width="100"><?php echo lang('allow_upload');?></td>
+											<td width="100"><?php echo lang('allow_download');?></td>
 										</tr>
 									<thead>
 									<tbody>

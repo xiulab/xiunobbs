@@ -1,6 +1,13 @@
 <?php
 
 return array(
+	'yes'=>'是',
+	'no'=>'否',
+	'none'=>'无',
+	'unknown'=>'未知',
+	'enable'=>'启用',
+	'disable'=>'禁用',
+	'checkall'=>'全选',
 	'back'=>'返回',
 	'return'=>'返回',
 	'username'=>'用户名',
@@ -28,18 +35,19 @@ return array(
 	'send_verify_code'=>'发送验证码',
 	'verify_code'=>'验证码',
 	'method_error'=>'方法错误',
+	'not_exists'=>'不存在',
 	
-	'update_failed'=>'编辑失败',
+	'update_failed'=>'更新失败',
 	'delete_failed'=>'删除失败',
 	'create_failed'=>'创建失败',
 	
-	'update_successfully'=>'编辑成功',
+	'update_successfully'=>'更新成功',
 	'delete_successfully'=>'删除成功',
 	'create_successfully'=>'创建成功',
 	'save_successfully'=>'保存成功',
 	
-	'login_success'=>'登陆成功',
-	'logout_success'=>'退出成功',
+	'login_successfully'=>'登陆成功',
+	'logout_successfully'=>'退出成功',
 	
 	
 	
@@ -168,6 +176,17 @@ return array(
 	'username_format_mismatch'=>'用户名格式不正确',
 	'password_is_empty'=>'密码为空',
 	'password_length_incorrect'=>'加密后长度有问题',
+	
+	
+	'runlevel_0'=>'站点关闭',
+	'runlevel_1'=>'管理员可读写',
+	'runlevel_2'=>'会员可读',
+	'runlevel_3'=>'会员可读写',
+	'runlevel_4'=>'所有人只读',
+	'runlevel_5'=>'所有人可读写',
+	'lang_zh_cn'=>'简体中文',
+	'lang_zh_tw'=>'繁体中文',
+	'lang_en_us'=>'美式英语',
 	
 	
 	

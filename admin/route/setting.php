@@ -16,11 +16,11 @@ if($action == 'base') {
 		$input = array();
 		$input['sitename'] = form_text('sitename', $conf['sitename']);
 		$input['sitebrief'] = form_textarea('sitebrief', $conf['sitebrief'], '100%', 100);
-		$input['runlevel'] = form_radio('runlevel', array(0=>'站点关闭', 1=>'管理员可读写', 2=>'会员可读', 3=>'会员可读写', 4=>'所有人只读', 5=>'所有人可读写'), $conf['runlevel']);
-		$input['lang'] = form_select('lang', array('zh-cn'=>'简体中文', 'zh-tw'=>'繁体中文', 'en-us'=>'美式英语'), $conf['lang']);
+		$input['runlevel'] = form_radio('runlevel', array(0=>lang('runlevel_0'), 1=>lang('runlevel_1'), 2=>lang('runlevel_2'), 3=>lang('runlevel_3'), 4=>lang('runlevel_4'), 5=>lang('runlevel_5')), $conf['runlevel']);
+		$input['lang'] = form_select('lang', array('zh-cn'=>lang('lang_zh_cn'), 'zh-tw'=>lang('lang_zh_tw'), 'en-us'=>lang('lang_en_us')), $conf['lang']);
 		
-		$header['title'] = '站点设置';
-		$header['mobile_title'] = '站点设置';
+		$header['title'] = lang('admin_site_setting');
+		$header['mobile_title'] =lang('admin_site_setting');
 		
 		include './view/htm/setting_base.htm';
 		
@@ -40,15 +40,15 @@ if($action == 'base') {
 		//conf_save('../conf/conf.php', $conf) OR message(-1, '写入配置文件失败');
 		file_replace_var('../conf/conf.php', $replace);
 	
-		message(0, '修改成功');
+		message(0, lang('modify_successfully'));
 	}
 
 } elseif($action == 'smtp') {
 
 	if($method == 'GET') {
 		
-		$header['title'] = 'SMTP 设置';
-		$header['mobile_title'] = 'SMTP 设置';
+		$header['title'] = lang('admin_setting_smtp');
+		$header['mobile_title'] = lang('admin_setting_smtp');
 	
 		$smtplist = smtp_find();
 		$maxid = smtp_maxid();
@@ -90,9 +90,9 @@ if($action == 'base') {
 			);
 		}
 		$r = file_put_contents_try('../conf/smtp.conf.php', "<?php\r\nreturn ".var_export($smtplist,true).";\r\n?>");
-		!$r AND message(-1, '保存数据到配置文件 conf/smtp.conf.php 失败，请检查文件的可写权限。');
+		!$r AND message(-1, lang('conf/smtp.conf.php', array('file'=>'conf/smtp.conf.php')));
 		
-		message(0, '保存成功');
+		message(0, lang('save_successfully'));
 	}
 } else {
 	http_404();

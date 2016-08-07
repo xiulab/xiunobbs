@@ -6,11 +6,11 @@
 
 function form_radio_yes_no($name, $checked = 0) {
 	$checked = intval($checked);
-	return form_radio($name, array(1=>'是', 0=>'否'), $checked);
+	return form_radio($name, array(1=>lang('yes'), 0=>lang('no')), $checked);
 }
 
 function form_radio($name, $arr, $checked = 0) {
-	empty($arr) && $arr = array('否', '是');
+	empty($arr) && $arr = array(lang('no'), lang('yes'));
 	$s = '';
 
 	foreach((array)$arr as $k=>$v) {
