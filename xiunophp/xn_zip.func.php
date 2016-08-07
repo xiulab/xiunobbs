@@ -496,7 +496,7 @@ class php_zip {
 	}
 }
 
-function xn_mkdir($path) {
+function xn_mkdir_recusive($path) {
 	// 查找最后一个 /
 	if(empty($path) || strpos($path, '/') === FALSE || $path == '/') return;
 	if(!is_dir($path)) {
@@ -515,7 +515,7 @@ function xn_mkdir($path) {
 
 function xn_mkdir_by_filename($filename) {
 	$path = substr($filename, 0, strrpos($filename, '/'));
-	xn_mkdir($path);
+	xn_mkdir_recusive($path);
 }
 
 function xn_unzip($zipfile, $destpath) {
