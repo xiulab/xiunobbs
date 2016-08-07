@@ -5,7 +5,7 @@
 $action = param(1);
 
 $user = user_read($uid);
-user_login_check($user);
+user_login_check();
 
 if(empty($action) || $action == 'create') {
 	

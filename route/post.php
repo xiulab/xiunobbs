@@ -6,7 +6,7 @@ include './xiunophp/xn_html_safe.func.php';
 
 $action = param(1);
 
-empty($user) AND http_location(url('user-login'));
+user_login_check();
 
 if($action == 'create') {
 	
@@ -142,7 +142,7 @@ if($action == 'create') {
 		$r = post_update($pid, array('doctype'=>$doctype, 'message'=>$message));
 		$r === FALSE AND message(-1, lang('update_post_failed'));
 		
-		message(0, lang('update_success'));
+		message(0, lang('update_successfully'));
 		//message(0, array('pid'=>$pid, 'subject'=>$subject, 'message'=>$message));
 	}
 	

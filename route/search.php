@@ -4,13 +4,11 @@
 
 include './xiunophp/xn_html_safe.func.php';
 
-// 模板初始化依赖
 $keyword = param('keyword');
 !$keyword AND $keyword = xn_urldecode(param(1));
 
 $threadlist = thread_find_by_keyword($keyword);
 
-// 去除无权限的主题
 thread_list_access_filter($threadlist, $gid);
 
 if(empty($threadlist) || empty($threadlist[0])) {
@@ -33,8 +31,8 @@ if(empty($threadlist) || empty($threadlist[0])) {
 	$allowdelete = forum_access_mod($fid, $gid, 'allowdelete');
 }
 
-$header['title'] = $keyword.'-'.$conf['sitename']; 		// 网站标题
-$header['keywords'] = $keyword; 		// 关键词
+$header['title'] = $keyword.'-'.$conf['sitename'];
+$header['keywords'] = $keyword;
 
 $order = 'tid';
 

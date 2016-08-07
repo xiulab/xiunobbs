@@ -33,9 +33,9 @@ return array(
 	'delete_failed'=>'删除失败',
 	'create_failed'=>'创建失败',
 	
-	'update_success'=>'编辑成功',
+	'update_successfully'=>'编辑成功',
 	'delete_successfully'=>'删除成功',
-	'create_success'=>'创建成功',
+	'create_successfully'=>'创建成功',
 	
 	'login_success'=>'登陆成功',
 	'logout_success'=>'退出成功',
@@ -94,6 +94,7 @@ return array(
 	'decrypt_failed'=>'解密失败',
 	'encrypt_failed'=>'数据解密失败',
 	'link_has_expired'=>'链接已经过期',
+	'please_login'=>'请登录',
 	
 	// 个人中心
 	'my_home' => '个人中心',
@@ -137,11 +138,18 @@ return array(
 	'update_post_failed' => '更新帖子失败',
 	'insufficient_delete_privilege' => '无权删除该帖',
 	'insufficient_visit_forum_privilege' => '您所在的用户组无权访问该板块',
+	'insufficient_delete_user_privilege' => '您无权删除用户',
 	'item_not_exists' => '{item} not exists',
-	
-	
-	// 附件
 	'file_not_exists' => 'file not exists',
+	
+	
+	// 版主管理
+	'please_choose_thread' => '请选择主题',
+	'set_completely' => '设置完成',
+	'delete_completely' => '删除完成',
+	'move_completely' => '移动完成',
+	'user_not_exists_or_deleted' => '用户不存在或者已经被删除',
+	'cant_delete_admin_group' => '不允许删除管理组，请先调整用户用户组',
 	
 	
 	
@@ -168,6 +176,15 @@ return array(
 	'admin_plugin_local_list'=>'本地插件',
 	'admin_plugin_official_list'=>'官方插件',
 	
+	// 检测相关
+	'mobile_format_mismatch'=>'手机格式不正确',
+	'email_too_long'=>'邮箱太长: {length}',
+	'email_format_mismatch'=>'邮箱格式不正确',
+	'username_too_long'=>'用户名太长: {length}',
+	'username_cant_include_cn_space'=>'用户名中不能包含空格',
+	'username_format_mismatch'=>'用户名格式不正确',
+	'password_is_empty'=>'密码为空',
+	'password_length_incorrect'=>'加密后长度有问题',
 	
 	
 	

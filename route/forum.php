@@ -6,8 +6,8 @@
 
 $fid = param(1, 0);
 $page = param(2, 1);
-$order = param(3, $conf['order_default']);	// thread orderby
-$order != 'tid' AND $order = 'lastpid';		// default order by reply time
+$order = param(3, $conf['order_default']);
+$order != 'tid' AND $order = 'lastpid';
 
 $forum = forum_read($fid);
 empty($forum) AND message(3, lang('forum_not_exists'));
@@ -19,9 +19,9 @@ $pagination = pagination(url("forum-$fid-{page}-$order"), $forum['threads'], $pa
 
 $threadlist = thread_find_by_fid($fid, $page, $pagesize, $order);
 
-$header['title'] = $forum['seo_title'] ? $forum['seo_title'] : $forum['name'].'-'.$conf['sitename']; 		// 网站标题
+$header['title'] = $forum['seo_title'] ? $forum['seo_title'] : $forum['name'].'-'.$conf['sitename'];
 $header['mobile_title'] = $forum['name'];
-$header['keywords'] = $forum['seo_keywords']; 		// 关键词
+$header['keywords'] = $forum['seo_keywords'];
 $header['navs'][] = "<a href=\"forum-$fid.htm\">$forum[name]</a>";
 
 // hook forum_end.php

@@ -218,9 +218,10 @@ function post_format(&$post) {
 	if(empty($post)) return;
 	$post['create_date_fmt'] = humandate($post['create_date']);
 	
-	$user = $post['uid'] ? user_read_cache($post['uid']) : user_guest();
-	$post['username'] = $user['username'];
-	$post['user_avatar_url'] = $user['avatar_url'];
+	$user = user_read_cache($post['uid']);
+	
+	$post['username'] = array_value($user, 'username');
+	$post['user_avatar_url'] = array_value($user, 'avatar_url');
 	$post['user'] = $user;
 	!isset($post['floor']) AND  $post['floor'] = '';
 	
@@ -274,7 +275,7 @@ function post_file_list_html($filelist, $include_delete = FALSE) {
 		$s .= '			<i class="icon filetype '.$attach['filetype'].'"></i>'."\r\n";
 		$s .= '			'.$attach['orgfilename']."\r\n";
 		$s .= '		</a>'."\r\n";
-		$include_delete AND $s .= '		<a href="javascript:void(0)" class="delete m-l-1"><i class="icon-remove"></i> 删除</a>'."\r\n";
+		$include_delete AND $s .= '		<a href="javascript:void(0)" class="delete m-l-1"><i class="icon-remove"></i> '.lang('delete').'</a>'."\r\n";
 		$s .= '</li>'."\r\n";
 	};
 	$s .= '</ul>'."\r\n";

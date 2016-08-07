@@ -11,7 +11,7 @@ if($action == 'create') {
 	
 	// hook thread_create_get_post.php
 		
-	empty($user) AND http_location(url('user-login'));
+	user_login_check();
 
 	if($method == 'GET') {
 		

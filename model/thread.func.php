@@ -252,7 +252,6 @@ function thread_format(&$thread) {
 	$thread['last_date_fmt'] = humandate($thread['last_date']);
 	
 	$user = user_read_cache($thread['uid']);
-	empty($user) AND $user = user_guest();
 	$thread['username'] = $user['username'];
 	$thread['user_avatar_url'] = $user['avatar_url'];
 	$thread['user'] = $user;

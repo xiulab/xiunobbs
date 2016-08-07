@@ -76,14 +76,14 @@ function user_read_cache($uid) {
 	if($conf['cache']['type'] != 'mysql') {
 		$r = cache_get("user-$uid");
 		if($r === NULL) {
-			$cache[$uid] = user_read($uid);
-			cache_set("user-$uid", $cache[$uid]);
-		} else {
-			$cache[$uid] = $r;
+			$r = user_read($uid);
+			cache_set("user-$uid", $r);
 		}
 	} else {
-		$cache[$uid] = user_read($uid);
+		$r = user_read($uid);
 	}
+	
+	$cache[$uid] = $r ? $r : array();
 	
 	// hook user_read_cache_end.php
 	return $cache[$uid];
@@ -167,36 +167,16 @@ function user_format(&$user) {
 	// hook user_format_end.php
 }
 
-function user_guest() {
-	// hook user_guest_start.php
-	global $conf;
-	static $guest = NULL;
-	if($guest) return $guest; // 返回引用，节省内存。
-	$guest = array (
-		'uid' => 0,
-		'gid' => 0,
-		'groupname' => '游客组',
-		'username' => '游客',
-		'avatar_url' => 'view/img/avatar.png',
-		'create_ip_fmt' => '',
-		'create_date_fmt' => '',
-		'login_date_fmt' => '',
-		'email' => '',
-		
-		'threads' => 0,
-		'posts' => 0,
-	);
-	// hook user_guest_end.php
-	return $guest; // 防止内存拷贝
-}
-
 // 前台登录验证
-function user_login_check($user) {
+function user_login_check() {
+	global $user;
+	
 	// hook user_login_check_start.php
-	(empty($user) || $user['uid'] == 0) AND message(-1, jump('请登录', 'user-login.htm'));
-	$dbuser = user_read($user['uid']);
-	$dbuser['password'] != $user['password'] AND message(-1, jump('密码已经修改，请重新登录', 'user-login.htm'));
+	
+	empty($user) AND http_location(url('user-login'));
+	
 	// hook user_login_check_end.php
+	
 	return $user;
 }
 
