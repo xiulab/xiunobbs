@@ -83,3 +83,15 @@ $('input.checkall').on('click', function() {
 	jtarget = $(target);
 	jtarget.prop('checked', this.checked);
 });
+/*
+jmobile_collapsing_bavbar = $('#mobile_collapsing_bavbar');
+jmobile_collapsing_bavbar.on('touchstart', function(e) {
+	//var h = $(window).height() - 120;
+	var h = 350;
+	jmobile_collapsing_bavbar.css('overflow-y', 'auto').css('max-height', h+'px');
+	e.stopPropagation();
+});
+jmobile_collapsing_bavbar.on('touchmove', function(e) {
+	//e.stopPropagation();
+	//e.stopImmediatePropagation();
+});*/

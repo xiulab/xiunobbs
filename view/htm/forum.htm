@@ -69,31 +69,27 @@
 		</div>
 		<!--{hook forum_mod_before.htm}-->
 		<?php if($forum['announcement'] || $forum['modlist']) { ?>
-		<div class="card">
-			<div class="card-block">
+		<div class="card card-block">
+			<?php if($forum['announcement']) { ?>
+			<h6 class="text-bold">版块公告：</h6>
+			<hr class="m-y-sm" />
+			<p class="text-middle">
+				<?php echo $forum['announcement'];?>
+			</p>
+			<?php  } ?>
 			
-				<?php if($forum['announcement']) { ?>
-				<h6 class="text-bold">版块公告：</h6>
-				<hr class="m-y-sm" />
-				<p class="text-middle">
-					<?php echo $forum['announcement'];?>
-				</p>
-				<?php  } ?>
-				
-				<?php if($forum['modlist']) { ?>
-				<h6 class="text-bold">论坛版主：</h6>
-				<hr class="m-y-sm" />
-				<div class="row">
-					<?php foreach ($forum['modlist'] as $mod) { ?>
-					<div class="col-xs-3 m-b-1 text-center">
-						<a href="#"><img src="view/img/avatar.png" alt="..." width="32" height="32" class="img-circle"></a><br>
-						<a href="<?php echo url("user-$mod[uid]");?>" class="small text-muted text-nowrap"><?php echo $mod['username'];?></a>
-					</div>
-					<?php } ?>
+			<?php if($forum['modlist']) { ?>
+			<h6 class="text-bold">论坛版主：</h6>
+			<hr class="m-y-sm" />
+			<div class="row">
+				<?php foreach ($forum['modlist'] as $mod) { ?>
+				<div class="col-xs-3 m-b-1 text-center">
+					<a href="#"><img src="view/img/avatar.png" alt="..." width="32" height="32" class="img-circle"></a><br>
+					<a href="<?php echo url("user-$mod[uid]");?>" class="small text-muted text-nowrap"><?php echo $mod['username'];?></a>
 				</div>
-				<?php  } ?>
-				
+				<?php } ?>
 			</div>
+			<?php  } ?>
 		</div>
 		<?php  } ?>
 		<!--{hook forum_mod_after.htm}-->

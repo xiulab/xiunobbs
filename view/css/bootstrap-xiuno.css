@@ -2,10 +2,12 @@
 /* fix .row .row 间距问题 by axiuno@gmail.com  */
 
 /* fix 手机导航栏下拉菜单滚动 */
+
+
 #mobile_collapsing_bavbar {
     overflow-y: scroll;
     height: auto;
-    max-height: 400px;
+    max-height: 350px;
 }
 
 .row .row {margin-left: 0; margin-right: 0;}

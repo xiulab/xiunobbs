@@ -1,0 +1,18 @@
+
+		<?php
+			$linklist = db_find('friendlink', array(), array('rank'=>-1), 1, 1000, 'linkid');
+		?>
+		<div class="card card-block">
+			<h6 class="text-bold">友情链接：</h6>
+			<hr class="m-y-sm" />
+			<ul>
+				<?php foreach ($linklist as $link) { ?>
+				<li>
+					<a href="<?php echo $link['url'];?>" target="_blank">
+						<?php echo $link['name'];?>
+					</a>
+				</li>
+				<?php } ?>
+			</ul>
+		</div>
+		
