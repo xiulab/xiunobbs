@@ -114,8 +114,7 @@ function qq_login_create_user($username, $avatar_url_2, $openid) {
 	// 自动产生一个用户名
 	$r = user_read_by_username($username);
 	if($r) {
-		// 特殊字符过滤
-		$username = xn_substr($username.'_'.$time, 0, 31);
+		$username = $username.'_'.$time;
 		$r = user_read_by_username($username);
 		if($r) return xn_error(-1, '用户名被占用。');
 	}
