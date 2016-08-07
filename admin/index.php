@@ -13,7 +13,10 @@ include './index.php';
 	处理相对路径比较麻烦一点，一般直接工作在根目录，
 	像 install/index.php 属于一般写法，不用处理 $conf['tmp_path'] 等路径相对问题。
 */
-chdir(dirname(__FILE__));
+$currdir = dirname(__FILE__);
+chdir($currdir);
+$_SERVER['APP_PATH'] = $currdir;
+
 $conf['log_path'][0] == '.' AND $conf['log_path'] = '../'.$conf['log_path'];
 $conf['tmp_path'][0] == '.' AND $conf['tmp_path'] = '../'.$conf['tmp_path'];
 $conf['upload_path'][0] == '.' AND $conf['upload_path'] = '../'.$conf['upload_path'];

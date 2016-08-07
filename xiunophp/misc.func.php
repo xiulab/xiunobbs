@@ -35,6 +35,8 @@ function error_handle($errno, $errstr, $errfile, $errline) {
 		foreach($arr as $v) {
 			$args = '';
 			if(is_array($v['args'])) foreach ($v['args'] as $v2) $args .= ($args ? ' , ' : '').(is_array($v2) ? 'array('.count($v2).')' : (is_object($v2) ? 'object' : $v2));
+			!isset($v['file']) AND $v['file'] = '';
+			!isset($v['line']) AND $v['line'] = '';
 			echo $br."File: $v[file], Line: $v[line], $v[function]($args) ";
 		}
 		echo $br;
@@ -1062,6 +1064,11 @@ function rmdir_recusive($dir, $keepdir = 0) {
 
 function xn_copy($src, $dest) {
 	$r = is_file($src) ? copy($src, $dest) : FALSE;
+	return $r;
+}
+
+function xn_mkdir($dir, $mod = NULL, $recusive = NULL) {
+	$r = !is_dir($dir) ? mkdir($src, $mod, $recusive) : FALSE;
 	return $r;
 }
 
