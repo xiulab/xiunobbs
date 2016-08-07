@@ -24,10 +24,16 @@ $menu = include './menu.conf.php';
 
 // 只允许管理员登陆后台
 // 对于越权访问，可以默认为黑客企图，不用友好提示。
-DEBUG < 2 AND $gid != 1 AND http_403();
-
-// 管理员令牌检查
-DEBUG < 2 AND admin_token_check();
+if(DEBUG < 2) {
+	// 管理组检查
+	if($gid != 1) {
+		setcookie('bbs_sid', '', $time - 86400);
+		http_403();
+	}
+	
+	// 管理员令牌检查
+	admin_token_check();
+}
 
 $route = param(0, 'index');
 
