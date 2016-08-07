@@ -1058,7 +1058,7 @@ function rmdir_recusive($dir, $keepdir = 0) {
 			rmdir_recusive($file);
 		}
 	}
-	if(!$keepdir) rmdir($dir);
+	if(!$keepdir) xn_rmdir($dir);
 	return TRUE;
 }
 
@@ -1069,6 +1069,11 @@ function xn_copy($src, $dest) {
 
 function xn_mkdir($dir, $mod = NULL, $recusive = NULL) {
 	$r = !is_dir($dir) ? mkdir($src, $mod, $recusive) : FALSE;
+	return $r;
+}
+
+function xn_rmdir($dir) {
+	$r = is_dir($dir) ? rmdir($src) : FALSE;
 	return $r;
 }
 
