@@ -36,7 +36,7 @@ if(empty($action)) {
 		$user = qq_login_create_user($qquser['nickname'], $qquser['figureurl_qq_2'], $openid);
 	}
 	
-	$r = user_token_set($user['uid'], $user['gid'], $user['password'], $user['avatar'], $user['username'], 'bbs');
+	$uid = $user['uid'];
 	
 	message(0, '登陆成功');
 }

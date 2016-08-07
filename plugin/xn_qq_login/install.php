@@ -8,7 +8,7 @@
 !defined('DEBUG') AND exit('Forbidden');
 
 $tablepre = $db->tablepre;
-$sql = "CREATE TABLE {$tablepre}user_open_plat (
+$sql = "CREATE TABLE IF NOT EXISTS {$tablepre}user_open_plat (
 	uid int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户编号',
 	platid tinyint(1) NOT NULL DEFAULT '0' COMMENT '平台编号',
 	openid char(40) NOT NULL DEFAULT '' COMMENT '第三方唯一标识',
@@ -18,6 +18,7 @@ $sql = "CREATE TABLE {$tablepre}user_open_plat (
 ";
 
 $r = db_exec($sql);
+$r === FALSE AND message(-1, '创建表结构失败'); // 中断，安装失败。
 
 // 初始化
 $kv = kv_get('qq_login');
@@ -26,5 +27,5 @@ if(!$kv) {
 	kv_set('qq_login', $kv);
 }
 	
-$r === FALSE AND message(-1, '创建友情链接表结构失败');
+
 ?>

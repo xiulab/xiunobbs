@@ -11,6 +11,6 @@ $tablepre = $db->tablepre;
 $sql = "DROP TABLE IF EXISTS {$tablepre}user_open_plat;";
 
 $r = db_exec($sql);
-$r === FALSE AND message(-1, '卸载友情链接表失败');
+$r === FALSE AND message(-1, '卸载表失败');
 
 ?>
