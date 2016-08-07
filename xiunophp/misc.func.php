@@ -906,7 +906,7 @@ function file_backname($filepath) {
 function file_backup($filepath) {
 	$backfile = file_backname($filepath);
 	if(is_file($backfile)) return TRUE; // 备份已经存在
-	$r = copy($filepath, $backfile);
+	$r = xn_copy($filepath, $backfile);
 	clearstatcache();
 	return $r && filesize($backfile) == filesize($filepath);
 }
@@ -914,16 +914,16 @@ function file_backup($filepath) {
 // 还原备份
 function file_backup_restore($filepath) {
 	$backfile = file_backname($filepath);
-	$r = is_file($backfile) ? copy($backfile, $filepath) : FALSE;
+	$r = xn_copy($backfile, $filepath);
 	clearstatcache();
-	$r && filesize($backfile) == filesize($filepath) && unlink($backfile);
+	$r && filesize($backfile) == filesize($filepath) && xn_unlink($backfile);
 	return $r;
 }
 
 // 删除备份
 function file_backup_unlink($filepath) {
 	$backfile = file_backname($filepath);
-	$r = unlink($backfile);
+	$r = xn_unlink($backfile);
 	return $r;
 }
 
@@ -969,7 +969,7 @@ function in_string($s, $str) {
 
 function move_upload_file($srcfile, $destfile) {
 	//$r = move_uploaded_file($srcfile, $destfile);
-	$r = copy($srcfile, $destfile);
+	$r = xn_copy($srcfile, $destfile);
 	return $r;
 }
 
@@ -1051,13 +1051,23 @@ function rmdir_recusive($dir, $keepdir = 0) {
 	foreach($files as $file) {
 		if($file == '.' || $file == '..') continue;
 		if(!is_dir($file)) {
-			unlink($file);
+			xn_unlink($file);
 		} else {
 			rmdir_recusive($file);
 		}
 	}
 	if(!$keepdir) rmdir($dir);
 	return TRUE;
+}
+
+function xn_copy($src, $dest) {
+	$r = is_file($src) ? copy($src, $dest) : FALSE;
+	return $r;
+}
+
+function xn_unlink($file) {
+	$r = is_file($file) ? unlink($file) : FALSE;
+	return $r;
 }
 
 // 递归拷贝目录
@@ -1071,7 +1081,7 @@ function copy_recusive($src, $dst) {
 			if(is_dir($src . '/' . $file)) {
 				copy_recusive($src.'/'.$file,$dst.'/'.$file);
 			}  else {
-				copy($src.'/'.$file,$dst.'/'.$file);
+				xn_copy($src.'/'.$file, $dst.'/'.$file);
 			}
 		}
 	}
@@ -1107,7 +1117,7 @@ function xn_is_writable($file) {
 			$r = touch($tmpfile);
 			if(!$r) return FALSE;
 			if(!is_file($tmpfile)) return FALSE;
-			unlink($tmpfile);
+			xn_unlink($tmpfile);
 			return TRUE;
 		} else {
 			return FALSE;

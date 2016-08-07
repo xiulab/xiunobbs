@@ -172,7 +172,7 @@ function plugin_overwrite($dir, $action = 'install') {
 			if($action == 'install') {
 				$r = file_backup($workfile);
 				if($r === FALSE) continue;
-				copy($file, $workfile);
+				xn_copy($file, $workfile);
 			} elseif($action == 'unstall') {
 				file_backup_restore($workfile);
 			}
