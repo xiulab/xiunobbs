@@ -302,7 +302,7 @@ function plugin_official_list($cond = array(), $orderby = array('pluginid'=>-1),
 
 function plugin_official_list_cache() {
 	$s = cache_get('plugin_official_list');
-	if($s === NULL || DEBUG) {
+	if($s === NULL) {
 		$url = PLUGIN_OFFICIAL_URL."plugin-all-4.htm"; // 获取所有的插件，匹配到3.0以上的。
 		$s = http_get($url, 30, 3);
 		
