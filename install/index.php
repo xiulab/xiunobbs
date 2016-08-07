@@ -124,6 +124,11 @@ if(empty($action)) {
 		// 写入配置文件
 		//conf_save('./conf/conf.php', $conf);
 		
+		// 管理员密码
+		$salt = xn_rand(16);
+		$password = md5(md5($adminpass).$salt);
+		db_update('user', array('uid'=>1), array('username'=>$adminuser, 'password'=>$password, 'salt'=>$salt));
+		
 		$replace = array();
 		$replace['db'] = $conf['db'];
 		$replace['auth_key'] = xn_rand(64);
