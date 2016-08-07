@@ -170,11 +170,26 @@ function plugin_overwrite($dir, $action = 'install') {
 		} elseif(is_file($file)) {
 			$backfile = file_backname($workfile);
 			if($action == 'install') {
-				$r = file_backup($workfile);
-				if($r === FALSE) continue;
-				xn_copy($file, $workfile);
+				// 覆盖
+				if(is_file($workfile)) {
+					$r = file_backup($workfile);
+					if($r === FALSE) continue;
+					xn_copy($file, $workfile);
+				// 新增的文件，做个标志
+				} else {
+					touch($backfile); // 空文件作为标志
+					xn_copy($file, $workfile);
+				}
 			} elseif($action == 'unstall') {
-				file_backup_restore($workfile);
+				// 判断标志:，
+				// 删除新增的文件，空备份文件表示原文件为新增
+				if(!file_get_contents($backfile)) {
+					xn_unlink($backfile);
+					xn_unlink($workfile);
+				// 还原备份文件
+				} else {
+					file_backup_restore($workfile);
+				}
 			}
 		}
 	}
@@ -234,6 +249,7 @@ function plugin_hooks_merge_by_rank($hookname) {
 function plugin_find_srcfile_by_hookname($hookname) {
 	global $plugin_srcfiles, $plugin_paths, $plugins;
 	foreach($plugin_srcfiles as $file) {
+		if(!is_file($file)) continue; // 可能在卸载的过程中，文件已经不存在了，但仍然在列表中。
 		$s = file_get_contents($file);
 		if(!$s) return FALSE;
 		if(strpos($s, "// hook $hookname") !== FALSE) {
