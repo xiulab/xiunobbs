@@ -5,38 +5,38 @@
 <div class="row">
 	<div class="col-lg-6 col-lg-offset-3">
 		<div class="card card-block m-t-1">
-			<h4 class="card-title">我的资料</h4>
+			<h4 class="card-title"><?php echo lang('my_profile');;?></h4>
 			<div class="row">
 				<div class="col-xs-12  col-sm-6 m-b-1 p-l-2 p-r-2">
 					<dl class="row m-b-1">
-						<dt class="text-muted">用户名：</dt>
-						<dd class="text-right">张三</dd>
+						<dt class="text-muted"><?php echo lang('username');;?>：</dt>
+						<dd class="text-right"><?php echo $user['username'];?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">Email：</dt>
-						<dd class="text-right">xxxx@xxxxx.com</dd>
+						<dt class="text-muted"><?php echo lang('email');;?>：</dt>
+						<dd class="text-right"><?php echo $user['email'];?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">用户组：</dt>
+						<dt class="text-muted"><?php echo lang('user_group');;?>：</dt>
 						<dd class="text-right"><?php echo $user['groupname'];?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">注册时间：</dt>
+						<dt class="text-muted"><?php echo lang('create_date');;?>：</dt>
 						<dd class="text-right"><?php echo $user['create_date_fmt'];?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">最后登录：</dt>
+						<dt class="text-muted"><?php echo lang('last_login_date');;?>：</dt>
 						<dd class="text-right"><?php echo $user['login_date_fmt'];?></dd>
 					</dl>
 					<!--{hook my_profile_login_date_after.htm}-->
 				</div>
 				<div class="col-xs-12  col-sm-6 m-b-1 p-l-2 p-r-2">
 					<dl class="row m-b-1">
-						<dt class="text-muted">主题：</dt>
+						<dt class="text-muted"><?php echo lang('thread');;?>：</dt>
 						<dd class="text-right"><?php echo $user['threads'];?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">回复：</dt>
+						<dt class="text-muted"><?php echo lang('reply');;?>：</dt>
 						<dd class="text-right"><?php echo $user['posts'];?></dd>
 					</dl>
 					<!--{hook my_profile_posts_after.htm}-->

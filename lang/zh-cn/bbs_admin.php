@@ -45,13 +45,7 @@ return array(
 	// 首页
 	'admin_index'=>'后台首页',
 	'site_stat_info'=>'站点统计信息',
-	'threads'=>'主题数',
-	'posts'=>'帖子数',
-	'users'=>'用户数',
-	'attachs'=>'附件总数',
-	'attach_size'=>'附件大小',
 	'disk_free_space'=>'磁盘剩余空间',
-	'onlines'=>'在线人数',
 	'server_info'=>'服务器信息',
 	'os'=>'操作系统',
 	'post_max_size'=>'最大 POST 数据大小',

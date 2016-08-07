@@ -10,42 +10,38 @@
 			<div class="row">
 				<div class="col-xs-12  col-sm-6 m-b-1 p-l-2 p-r-2">
 					<dl class="row m-b-1">
-						<dt class="text-muted">用户名：</dt>
+						<dt class="text-muted"><?php echo lang('username');?>：</dt>
 						<dd class="text-right"><?php echo $_user['username'];?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">Email：</dt>
+						<dt class="text-muted"><?php echo lang('email');?>：</dt>
 						<dd class="text-right"><?php echo $_user['email'];?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">用户组：</dt>
+						<dt class="text-muted"><?php echo lang('user_group');?>：</dt>
 						<dd class="text-right"><?php echo $_user['groupname'];?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">注册时间：</dt>
+						<dt class="text-muted"><?php echo lang('create_date');?>：</dt>
 						<dd class="text-right"><?php echo $_user['create_date_fmt'];?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">最后登录：</dt>
+						<dt class="text-muted"><?php echo lang('last_login_date');?>：</dt>
 						<dd class="text-right"><?php echo $_user['login_date_fmt'];?></dd>
 					</dl>
 				</div>
 				<div class="col-xs-12  col-sm-6 m-b-1 p-l-2 p-r-2">
 					<dl class="row m-b-1">
-						<dt class="text-muted">主题：</dt>
+						<dt class="text-muted"><?php echo lang('thread');?>：</dt>
 						<dd class="text-right"><?php echo $_user['threads'];?></dd>
 					</dl>
 					<dl class="row m-b-1">
-						<dt class="text-muted">回复：</dt>
+						<dt class="text-muted"><?php echo lang('post');?>：</dt>
 						<dd class="text-right"><?php echo $_user['posts'];?></dd>
-					</dl>
-					<dl class="row m-b-1">
-						<dt class="text-muted">精华：</dt>
-						<dd class="text-right">12</dd>
 					</dl>
 				</div>
 			</div>
-			<h4 class="card-title">他参与的主题 (<?php echo $_user['threads'];?>)</h4>
+			<h4 class="card-title"><?php echo lang('user_joined_thread');?> (<?php echo $_user['threads'];?>)</h4>
  			<table class="table table-hover threadlist">
 				<tbody>
 					<?php include './view/htm/thread_list.inc.htm';?>

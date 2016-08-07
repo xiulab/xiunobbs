@@ -40,6 +40,14 @@ return array(
 	'verify_code'=>'验证码',
 	'method_error'=>'方法错误',
 	'not_exists'=>'不存在',
+	'threads'=>'主题数',
+	'posts'=>'帖子数',
+	'users'=>'用户数',
+	'attachs'=>'附件总数',
+	'attach_size'=>'附件大小',
+	'online'=>'在线',
+	'onlines'=>'在线人数',
+	
 	
 	'update_failed'=>'更新失败',
 	'delete_failed'=>'删除失败',
@@ -113,9 +121,24 @@ return array(
 	'encrypt_failed'=>'数据解密失败',
 	'link_has_expired'=>'链接已经过期',
 	'please_login'=>'请登录',
+	'send_init_pw_tips'=>'请登录',
+	'user_joined_thread'=>'他参与的主题',
 	
 	// 个人中心
 	'my_home' => '个人中心',
+	'my_profile' => '个人资料',
+	'modify_password' => '修改密码',
+	'modify_avatar' => '修改头像',
+	'my_post' => '我的发帖',
+	'last_login_date' => '最后登录时间',
+	'my_join_thread' => '我参与的主题',
+	'my_profile' => '个人资料',
+	'my_profile' => '个人资料',
+	'my_profile' => '个人资料',
+	'my_profile' => '个人资料',
+	'my_profile' => '个人资料',
+	'my_profile' => '个人资料',
+	'my_profile' => '个人资料',
 	'old_password_incorrect' => '旧密码不正确',
 	'password_modify_failed' => '密码修改失败',
 	'password_modify_successfully' => '密码修改成功',
@@ -127,6 +150,8 @@ return array(
 	
 	
 	// 帖子
+	'thread'=>'主题',
+	'reply'=>'回复',
 	'subject'=>'主题',
 	'message'=>'内容',
 	'thread_create'=>'发表主题',
@@ -157,8 +182,18 @@ return array(
 	'insufficient_delete_privilege' => '无权删除该帖',
 	'insufficient_visit_forum_privilege' => '您所在的用户组无权访问该板块',
 	'insufficient_delete_user_privilege' => '您无权删除用户',
-	'item_not_exists' => '{item} not exists',
-	'file_not_exists' => 'file not exists',
+	'item_not_exists' => '{item} 不存在',
+	'file_not_exists' => '文件不存在',
+	'new_thread' => '最新主题',
+	'new_post' => '最新回复',
+	'today_threads' => '今日主题',
+	'today_posts' => '今日贴子',
+	'forum_anouncement' => '版块公告',
+	'forum_moderator' => '论坛版主',
+	'add_attach' => '添加附件',
+	'floor' => '楼',
+	'create_rank' => '注册排名',
+	'view_thread_message' => '查看主题内容',
 	
 	
 	// 版主管理

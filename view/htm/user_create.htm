@@ -32,7 +32,7 @@
 						<?php if($conf['user_create_email_on']) { ?>
 						<button type="submit" class="btn btn-primary btn-sm m-l-1" id="sendinitpw" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-sendinitpw');?>"><?php echo lang('get_init_pw');?></button>
 						<?php } else { ?>
-						<small class="hidden-sm-down">无需 Email 验证</small>
+						<small class="hidden-sm-down"><?php echo lang('send_init_pw_tips');?></small>
 						<?php } ?>
 					</dd>
 				</dl>

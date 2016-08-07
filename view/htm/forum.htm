@@ -21,7 +21,7 @@
 									<?php if($gid > 0 && $gid < 5) { ?>
 									<input type="checkbox" data-target='input[name="modtid"]' class="checkall m-t-sm m-r-sm" value="" />
 									<?php } ?>
-									<b>最新帖子</b>
+									<b><?php echo lang('new_thread');?></b>
 									<!--{hook forum_title_left.htm}-->
 								</dt>
 								<dd>
@@ -54,13 +54,13 @@
 			<div class="card-group card-group-nest">
 				<div class="card">
 					<div class="card-block">
-						<div class="text-center text-muted small">今日帖子</div>
+						<div class="text-center text-muted small"><?php echo lang('today_posts');?></div>
 						<h5 class="text-center"><?php echo $forum['todayposts'];?></h5>
 					</div>
 				</div>
 				<div class="card">
 					<div class="card-block">
-						<div class="text-center text-muted small">今日主题</div>
+						<div class="text-center text-muted small"><?php echo lang('today_threads');?></div>
 						<h5 class="text-center"><?php echo $forum['todaythreads'];?></h5>
 					</div>
 				</div>
@@ -71,7 +71,7 @@
 		<?php if($forum['announcement'] || $forum['modlist']) { ?>
 		<div class="card card-block">
 			<?php if($forum['announcement']) { ?>
-			<h6 class="text-bold">版块公告：</h6>
+			<h6 class="text-bold"><?php echo lang('forum_anouncement');?>：</h6>
 			<hr class="m-y-sm" />
 			<p class="text-middle">
 				<?php echo $forum['announcement'];?>
@@ -79,7 +79,7 @@
 			<?php  } ?>
 			
 			<?php if($forum['modlist']) { ?>
-			<h6 class="text-bold">论坛版主：</h6>
+			<h6 class="text-bold"><?php echo lang('forum_moderator');?>：</h6>
 			<hr class="m-y-sm" />
 			<div class="row">
 				<?php foreach ($forum['modlist'] as $mod) { ?>

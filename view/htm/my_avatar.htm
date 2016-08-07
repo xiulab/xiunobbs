@@ -3,7 +3,7 @@
 <div class="row">
 	<div class="col-lg-6 col-lg-offset-3">
 		<div class="card card-block m-t-1">
-			<h4 class="card-title">修改头像</h4>
+			<h4 class="card-title"><?php echo lang('modify_avatar');?></h4>
 			<div style="width: 60%; margin: auto;">
 				<p class="text-center">
 					<img id="avatar_img" class="avatar-lg" src="<?php echo $user['avatar_url'];?>">
@@ -15,7 +15,7 @@
 						<span class="file-custom"></span>
 					</label>
 					-->
-					<input type="file" id="avatar_upload" accept=".jpg,.jpeg,.png,.gif,.bmp"  class="upload" style="width: 200px; opacity: 0.7" value="更换头像"/>
+					<input type="file" id="avatar_upload" accept=".jpg,.jpeg,.png,.gif,.bmp"  class="upload" style="width: 200px; opacity: 0.7" value="<?php echo lang('modify_avatar');?>"/>
 				</p>
 				<progress class="progress progress-success" value="0" max="100" id="avatar_progress">0%</progress>
 			</div>

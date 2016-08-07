@@ -14,7 +14,7 @@
 									<?php if($gid > 0 && $gid < 5) { ?>
 									<input type="checkbox" data-target='input[name="modtid"]' class="checkall m-t-sm  m-r-sm" value="" />
 									<?php } ?>
-									<b>最新帖子</b>
+									<b><?php echo lang('new_thread');?></b>
 									<!--{hook index_title_lleft.htm}-->
 								</dt>
 								<dd>
@@ -41,31 +41,31 @@
 		<!--{hook index_site_brief_start.htm}-->
 		<div class="card">
 			<!--{hook index_site_brief_start.htm}-->
-			<h5 class="text-center m-t-1 text-bold"><?php echo $conf['sitename'];?></h5>
+			<h4 class="text-center m-t-1"><?php echo $conf['sitename'];?></h4>
 			<p class="m-x-1 text-middle"><?php echo $conf['sitebrief'];?></p>
 			<div class="card-group card-group-nest">
 				
 				<div class="card">
 					<div class="card-block">
-						<div class="text-center text-muted text-nowrap small">主题数</div>
+						<div class="text-center text-muted text-nowrap small"><?php echo lang('threads');?></div>
 						<div class="text-center text-middle text-bold"><?php echo $runtime['threads'];?></div>
 					</div>
 				</div>
 				<div class="card">
 					<div class="card-block">
-						<div class="text-center text-muted text-nowrap small">回复数</div>
+						<div class="text-center text-muted text-nowrap small"><?php echo lang('posts');?></div>
 						<div class="text-center text-middle text-bold"><?php echo $runtime['posts'];?></div>
 					</div>
 				</div>
 				<div class="card">
 					<div class="card-block  center-block">
-						<div class="text-center text-muted text-nowrap small">用户数</div>
+						<div class="text-center text-muted text-nowrap small"><?php echo lang('users');?></div>
 						<div class="text-center text-middle text-bold"><?php echo $runtime['users'];?></div>
 					</div>
 				</div>
 				<div class="card">
 					<div class="card-block center-block">
-						<div class="text-center text-mutedtext-nowrap small ">在线</div>
+						<div class="text-center text-mutedtext-nowrap small "><?php echo lang('online');?></div>
 						<div class="text-center text-middle text-bold"><?php echo $runtime['onlines'];?></div>
 					</div>
 				</div>
@@ -73,23 +73,6 @@
 			<!--{hook index_site_brief_end.htm}-->
 		</div>
 		<!--{hook index_site_brief_after.htm}-->
-		<?php
-			$linklist = db_find('friendlink', array(), array('rank'=>-1), 1, 1000, 'linkid');
-		?>
-		<div class="card card-block">
-			<h6 class="text-bold">友情链接：</h6>
-			<hr class="m-y-sm" />
-			<ul class="small">
-				<?php foreach ($linklist as $link) { ?>
-				<li class="m-b-xs">
-					<a href="<?php echo $link['url'];?>" target="_blank">
-						<?php echo $link['name'];?>
-					</a>
-				</li>
-				<?php } ?>
-			</ul>
-		</div>
-		
 	</div>
 </div>
 
