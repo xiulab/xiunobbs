@@ -111,8 +111,19 @@
 										<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message"></textarea>
 									</fieldset>
 								</div>
-								<div class="text-muted  m-t-sm">
-									<button type="submit" class="btn btn-sm btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('post_create');?> </button>
+								<div class="text-muted  m-t-sm small">
+									<dl class="row">
+										<dt>
+											<!--{hook thread_quick_reply_left_start.htm}-->
+											<button type="submit" class="btn btn-sm btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('post_create');?> </button>
+											<!--{hook thread_quick_reply_left_end.htm}-->
+										</dt>
+										<dd class="text-right vtop">
+											<!--{hook thread_quick_reply_right_start.htm}-->
+											<a class="icon-reply" href="<?php echo url("post-create-$tid");?>"></a>
+											<!--{hook thread_quick_reply_right_end.htm}-->
+										</dd>
+									</dl>
 								</div>
 							</form>
 						</td>

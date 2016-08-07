@@ -3,6 +3,7 @@
 #nav_pc { font-size: 0.95rem;}
 #nav_mobile a {color: #aab;}
 #nav_mobile a:hover {color: #fff;}
+
 /* bbs 全局定义 */
 html, body {height:100%; font-family:"Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", "微软雅黑", "华文细黑", STHeiti, sans-serif}
 body {background: #f4f4f4; }
