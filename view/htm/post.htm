@@ -16,7 +16,7 @@
 		$form_title = lang('post_update');
 		$form_action = url("post-update-$pid");
 		$form_submit_txt = lang('post_update');
-		$form_subject = '';
+		$form_subject = $thread['subject'];
 		$form_message = $post['message'];
 		$form_doctype = $post['doctype'];
 		$isfirst = $post['isfirst'];
