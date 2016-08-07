@@ -510,7 +510,7 @@ function ip() {
 // 日志记录
 function xn_log($s, $file = 'error') {
 	global $time, $ip, $conf;
-	$uid = intval(G('uid'));
+	$uid = intval(G('uid')); // xiunophp 未定义 $uid
 	$day = date('Ymd', $time);
 	$mtime = date('Y-m-d H:i:s'); // 默认值为 time()
 	$url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';

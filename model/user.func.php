@@ -231,8 +231,8 @@ function user_find_by_uids($uids) {
 	if(empty($uids)) return array();
 	$arr = explode(',', $uids);
 	$r = array();
-	foreach($arr as $uid) {
-		$user = user_read_cache($uid);
+	foreach($arr as $_uid) {
+		$user = user_read_cache($_uid);
 		if(empty($user)) continue;
 		$r[$user['uid']] = $user;
 	}
