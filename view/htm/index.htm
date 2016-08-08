@@ -2,9 +2,13 @@
 
 <!--{hook index_start.htm}-->
 
+<!-- only show to blind -->
+<a role="button" class="btn btn-primary btn-block btn-sm m-b-sm hidden-md-down sr-only sr-focusable" data-loading-text="<?php echo lang('submiting');?>..." href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
+
 <div class="row">
 	<div class="col-lg-9">
 		<div class="card p-a-sm">
+		
 			<table class="table table-hover threadlist">
 				<thead>
 					<tr>
