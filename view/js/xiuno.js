@@ -995,7 +995,7 @@ xn.nodeHasParent = function(node, topNode) {
 
 // 表单提交碰到错误的时候，依赖此处，否则错误会直接跳过，不利于发现错误
 window.onerror = function(msg, url, line) {
-	if(!debug) return;
+	if(!window.debug) return;
 	alert("error: "+msg+"\r\n line: "+line+"\r\n url: "+url);
 	// 阻止所有的 form 提交动作
 	return false;

@@ -210,7 +210,7 @@ CREATE TABLE bbs_session (
   fid tinyint(3) unsigned NOT NULL default '0',		# 所在的版块
   url char(32) NOT NULL default '',			# 当前访问 url
   ip int(11) unsigned NOT NULL default '0',		# 用户ip
-  useragent char(32) NOT NULL default '',		# 用户浏览器信息
+  useragent char(128) NOT NULL default '',		# 用户浏览器信息
   data char(255) NOT NULL default '',			# session 数据，超大数据存入大表。
   bigdata tinyint(1) NOT NULL default '0',		# 是否有大数据。
   last_date int(11) unsigned NOT NULL default '0',	# 上次活动时间
