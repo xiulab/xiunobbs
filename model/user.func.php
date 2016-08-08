@@ -73,6 +73,9 @@ function user_read_cache($uid) {
 	static $cache = array(); // 用静态变量只能在当前 request 生命周期缓存，要跨进程，可以再加一层缓存： memcached/xcache/apc/
 	if(isset($cache[$uid])) return $cache[$uid];
 	
+	// 游客
+	if($uid == 0) return user_guest();
+	
 	if($conf['cache']['type'] != 'mysql') {
 		$r = cache_get("user-$uid");
 		if($r === NULL) {
@@ -83,7 +86,7 @@ function user_read_cache($uid) {
 		$r = user_read($uid);
 	}
 	
-	$cache[$uid] = $r ? $r : array();
+	$cache[$uid] = $r ? $r : user_guest();
 	
 	// hook user_read_cache_end.php
 	return $cache[$uid];
@@ -165,6 +168,28 @@ function user_format(&$user) {
 	$user['avatar_url'] = $user['avatar'] ? $conf['upload_url']."avatar/$dir/$user[uid].png?".$user['avatar'] : 'view/img/avatar.png';
 	$user['online_status'] = 1;
 	// hook user_format_end.php
+}
+
+
+function user_guest() {
+	global $conf;
+	static $guest = NULL;
+	if($guest) return $guest; // 返回引用，节省内存。
+	$guest = array (
+		'uid' => 0,
+		'gid' => 0,
+		'groupname' => lang('guest_group'),
+		'username' => lang('guest'),
+		'avatar_url' => 'view/img/avatar.png',
+		'create_ip_fmt' => '',
+		'create_date_fmt' => '',
+		'login_date_fmt' => '',
+		'email' => '',
+		
+		'threads' => 0,
+		'posts' => 0,
+	);
+	return $guest; // 防止内存拷贝
 }
 
 // 前台登录验证

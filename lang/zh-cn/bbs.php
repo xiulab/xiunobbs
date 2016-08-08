@@ -50,6 +50,8 @@ return array(
 	'onlines'=>'在线人数',
 	'move'=>'移动',
 	'top'=>'置顶',
+	'guest'=>'游客',
+	'guest_group'=>'游客组',
 	
 	
 	'update_failed'=>'更新失败',
