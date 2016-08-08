@@ -8,7 +8,7 @@ $plugins = array(); // 跟官方插件合并
 // 官方插件列表
 $official_plugins = array();
 
-define('PLUGIN_OFFICIAL_URL', DEBUG ? 'http://plugin.x.com/' : 'http://plugin.xiuno.com/');
+define('PLUGIN_OFFICIAL_URL', 'http://plugin.xiuno.com/');
 // 在安装、卸载插件的时候，需要先初始化
 function plugin_init() {
 	global $plugin_srcfiles, $plugin_paths, $plugins, $official_plugins;
