@@ -16,12 +16,16 @@ function admin_token_check() {
 			message(-1, lang('admin_token_error'));
 		}
 		list($_ip, $_time) = explode("\t", $s);
+		
 		// 后台超过 3600 自动退出。
+		// Background / more than 3600 automatic withdrawal.
 		if($_ip != $longip || $time - $_time > 3600) {
 			setcookie('bbs_admin_token', '', 0, '', '', '', TRUE);
 			message(-1, lang('admin_token_expiry'));
 		}
+		
 		// 超过半小时，重新发新令牌，防止过期
+		// More than half an hour, re issued a new token, prevent expired
 		if($time - $_time > 1800) {
 			admin_token_set();
 		}

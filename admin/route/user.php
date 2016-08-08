@@ -129,7 +129,7 @@ if(empty($action) || $action == 'list') {
 			$arr['salt'] = $salt;
 		}
 		
-		// 仅仅更新发生变化的部分
+		// 仅仅更新发生变化的部分 / only update changed field
 		$update = array_diff_value($arr, $old);
 		empty($update) AND message(-1, lang('data_not_changed'));
 

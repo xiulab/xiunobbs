@@ -20,7 +20,7 @@ $toplist = thread_top_find_cache();
 $threadlist = thread_find_by_fid($fid, $page, $pagesize, $order);
 //$conf['order_default'] == $order AND $threadlist = $toplist + $threadlist;
 
-// filter no privilege thread
+// 过滤没有权限访问的主题 / filter no permission thread
 thread_list_access_filter($threadlist, $gid);
 
 // SEO

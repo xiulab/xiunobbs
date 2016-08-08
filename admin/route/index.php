@@ -23,7 +23,6 @@ if($action == 'login') {
 
 		admin_token_set();
 
-		// 记录日志
 		xn_log('login successed. uid:'.$user['uid'], 'admin_login');
 
 		message(0, jump(lang('login_successfully'), '.'));

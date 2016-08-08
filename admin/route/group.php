@@ -33,15 +33,15 @@ if(empty($action) || $action == 'list') {
 				'creditsto'=>$creditstoarr[$k],
 			);
 			if(!isset($grouplist[$k])) {
-				// 添加
+				// 添加 / add
 				group_create($arr);
 			} else {
-				// 编辑
+				// 编辑 / edit
 				group_update($k, $arr);
 			}
 		}
 		
-		// 删除
+		// 删除 / delete
 		$deletearr = array_diff_key($grouplist, $gidarr);
 		foreach($deletearr as $k=>$v) {
 			if(in_array($k, $system_group)) continue;

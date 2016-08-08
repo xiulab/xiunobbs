@@ -57,7 +57,6 @@ if($action == 'top') {
 	
 	$threadlist = thread_find_by_tids($tidarr);
 	
-	// 设置置顶
 	foreach($threadlist as &$thread) {
 		$fid = $thread['fid'];
 		$tid = $thread['tid'];

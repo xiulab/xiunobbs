@@ -33,7 +33,7 @@ if(empty($action)) {
 		$password_old = param('password_old');
 		$password_new = param('password_new');
 		$password_new_repeat = param('password_new_repeat');
-		$password_new_repeat != $password_new AND message(-1, '两次输入的密码不一致');
+		$password_new_repeat != $password_new AND message(-1, lang('repeat_password_incorrect'));
 		md5($password_old.$user['salt']) != $user['password'] AND message('password_old', lang('old_password_incorrect'));
 		$password_new = md5($password_new.$user['salt']);
 		$r = user_update($uid, array('password'=>$password_new));

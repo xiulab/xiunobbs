@@ -127,8 +127,6 @@ if($action == 'create') {
 	$header['title'] = $thread['subject'].'-'.$forum['name'].'-'.$conf['sitename']; 
 	$header['mobile_title'] = lang('thread_detail');
 	$header['keywords'] = $header['title']; 
-	$header['navs'][] = "<a href=\"forum-$fid.htm\">$forum[name]</a>";
-	$header['navs'][] = "<a href=\"$thread[url]\">$thread[subject]</a>";
 	
 	// hook thread_info_end.php
 	include './view/htm/thread.htm';

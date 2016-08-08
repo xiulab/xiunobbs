@@ -37,7 +37,6 @@ if($action == 'base') {
 		$replace['runlevel'] = $runlevel;
 		$replace['lang'] = $_lang;
 		
-		//conf_save('../conf/conf.php', $conf) OR message(-1, '写入配置文件失败');
 		file_replace_var('../conf/conf.php', $replace);
 	
 		message(0, lang('modify_successfully'));
@@ -69,9 +68,9 @@ if($action == 'base') {
 		$replace = array();
 		$replace['user_create_email_on'] = $user_create_email_on;
 		$replace['user_resetpw_on'] = $user_resetpw_on;
-		file_replace_var('../conf/conf.php', $replace);
 		
-		//conf_save('../conf/conf.php', $conf) OR message(-1, '保存到配置文件 conf/conf.php 失败，请检查文件的可写权限。');
+		// save to conf/conf.php
+		file_replace_var('../conf/conf.php', $replace);
 		
 		$email = param('email', array(''));
 		$host = param('host', array(0));

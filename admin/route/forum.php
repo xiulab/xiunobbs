@@ -4,7 +4,7 @@
 
 $action = param(1);
 
-// 不允许删除的版块
+// 不允许删除的版块 / system keeped forum
 $system_forum = array(1);
 
 if(empty($action) || $action == 'list') {
@@ -34,13 +34,13 @@ if(empty($action) || $action == 'list') {
 				'rank'=>$rankarr[$k]
 			);
 			if(!isset($forumlist[$k])) {
-				// 添加
+				// 添加 / add
 				forum_create($arr);
 			} else {
 				
 				forum_update($k, $arr);
 			}
-			// icon 处理
+			// icon
 			if(!empty($iconarr[$k])) {
 				
 				$s = $iconarr[$k];
@@ -54,7 +54,7 @@ if(empty($action) || $action == 'list') {
 			}
 		}
 		
-		// 删除
+		// 删除 / delete
 		$deletearr = array_diff_key($forumlist, $fidarr);
 		foreach($deletearr as $k=>$v) {
 			if(in_array($k, $system_forum)) continue;
@@ -80,11 +80,11 @@ if(empty($action) || $action == 'list') {
 		$accesslist = forum_access_find_by_fid($_fid);
 		if(empty($accesslist)) {
 			foreach($grouplist as $group) {
-				$accesslist[$group['gid']] = $group; // 字段名相同，直接覆盖。
+				$accesslist[$group['gid']] = $group; // 字段名相同，直接覆盖。 / same field, directly overwrite
 			}
 		} else {
 			foreach($accesslist as &$access) {
-				$access['name'] = $grouplist[$access['gid']]['name']; // 字段名相同，直接覆盖。
+				$access['name'] = $grouplist[$access['gid']]['name']; // 字段名相同，直接覆盖。 / same field, directly overwrite
 			}
 		}
 		

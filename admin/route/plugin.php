@@ -6,15 +6,14 @@ include '../xiunophp/xn_zip.func.php';
 
 $action = param(1);
 
-// 初始化插件变量
+// 初始化插件变量 / init plugin var
 plugin_init();
 
-// 本地插件
 empty($action) AND $action = 'local';
 
 if($action == 'local') {
 	
-	// 本地插件
+	// 本地插件 local plugin list
 	$pluginlist = $plugins;
 	
 	$pagination = '';
@@ -27,7 +26,6 @@ if($action == 'local') {
 	
 	include "./view/htm/plugin_list.htm";
 
-// 分类，分页
 } elseif($action == 'official') {
 
 	$cateid = param(2, 0);
@@ -35,12 +33,12 @@ if($action == 'local') {
 	$pagesize = 10;
 	$cond = $cateid ? array('cateid'=>$cateid) : array();
 			
-	// 插件分类
+	// plugin category
 	$pugin_cates = array(0=>lang('pugin_cate_0'), 1=>lang('pugin_cate_1'), 2=>lang('pugin_cate_2'), 3=>lang('pugin_cate_3'), 4=>lang('pugin_cate_4'), 99=>lang('pugin_cate_99'));
 
 	$pugin_cate_html = plugin_cate_active($pugin_cates, $cateid, $page);
 	
-	// 线上插件
+	// official plugin
 	$total = plugin_official_total($cond);
 	$pluginlist = plugin_official_list($cond, array('pluginid'=>-1), $page, $pagesize);
 	$pagination = pagination(url("plugin-official-$cateid-{page}"), $total, $page, $pagesize);
@@ -66,7 +64,7 @@ if($action == 'local') {
 	
 	include "./view/htm/plugin_read.htm";
 	
-// 下载官方插件。
+// 下载官方插件。 / download official plugin
 } elseif($action == 'download') {
 	
 	$dir = param(2);
@@ -77,15 +75,15 @@ if($action == 'local') {
 	$official = plugin_official_read($dir);
 	empty($official) AND message(-1, lang('plugin_not_exists'));
 	
-	// 检查版本
+	// 检查版本  / check version match
 	if(version_compare($conf['version'], $official['bbs_version']) == -1) {
 		message(-1, lang('plugin_versio_not_match', array('bbs_version'=>$official['bbs_version'], 'version'=>$conf['version'])));
 	}
 	
-	// 下载，解压
+	// 下载，解压 / download and zip
 	plugin_download_unzip($dir);
 	
-	// 检查解压是否成功
+	// 检查解压是否成功 / check the zip if sucess
 	message(0, jump(lang('plugin_download_sucessfully', array('dir'=>$dir)), url("plugin-read-$dir"), 2));
 	
 } elseif($action == 'install') {
@@ -94,13 +92,13 @@ if($action == 'local') {
 	plugin_check_exists($dir);
 	$name = $plugins[$dir]['name'];
 	
-	// 检查目录可写
+	// 检查目录可写 / check directory writable
 	plugin_check_dir_is_writable();
 	
-	// 插件依赖检查
+	// 插件依赖检查 / check plugin dependency
 	plugin_check_dependency($dir, 'install');
 	
-	// 安装插件
+	// 安装插件 / install plugin
 	plugin_install($dir);
 	
 	$installfile = "../plugin/$dir/install.php";
