@@ -8,7 +8,7 @@ chdir('../');
 
 $conf = (@include './conf/conf.default.php');
 $lang = include "./lang/$conf[lang]/bbs.php";
-$lang = include "./lang/$conf[lang]/bbs_install.php";
+$lang += include "./lang/$conf[lang]/bbs_install.php";
 
 include './xiunophp/xiunophp.php';
 include './model.inc.php';

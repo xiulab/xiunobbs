@@ -35,6 +35,7 @@ return array(
 	'confirm'=>'确定',
 	'save'=>'保存',
 	'close'=>'关闭',
+	'last_step'=>'上一步',
 	'next_step'=>'下一步',
 	'send_verify_code'=>'发送验证码',
 	'verify_code'=>'验证码',
@@ -47,6 +48,8 @@ return array(
 	'attach_size'=>'附件大小',
 	'online'=>'在线',
 	'onlines'=>'在线人数',
+	'move'=>'移动',
+	'top'=>'置顶',
 	
 	
 	'update_failed'=>'更新失败',

@@ -75,7 +75,7 @@ $longip < 0 AND $longip = sprintf("%u", $longip); // fix 32 位 OS 下溢出的�
 $useragent = _SERVER('HTTP_USER_AGENT');
 
 // 语言包变量
-$lang = array();
+!isset($lang) AND $lang = array();
 
 // $_SERVER['REQUEST_METHOD'] === 'PUT' ? @parse_str(file_get_contents('php://input', false , null, -1 , $_SERVER['CONTENT_LENGTH']), $_PUT) : $_PUT = array(); // 不需要支持 PUT
 $ajax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower(trim($_SERVER['HTTP_X_REQUESTED_WITH'])) == 'xmlhttprequest';

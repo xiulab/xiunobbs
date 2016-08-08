@@ -6,12 +6,13 @@
 	<meta name="author" content="XiunoBBS 4.0" />
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />
-	<title>Xiuno BBS 4.0 安装向导</title>
+	<title><?php echo lang('install_title');?></title>
 	
 	<link rel="shortcut icon" href="../view/img/favicon.ico" />
 	<link rel="icon" sizes="32x32" href="../view/img/favicon.ico">
 	<link rel="Bookmark" href="../view/img/favicon.ico" />
 	<link rel="stylesheet" href="../view/css/bootstrap.css">
+	<link rel="stylesheet" href="../view/css/bootstrap-xiuno.css">
 	<link rel="stylesheet" href="../view/css/font-awesome.css">
 	<link rel="stylesheet" href="../view/css/tether.css">
 	<link rel="stylesheet" href="../view/css/bbs.css">
@@ -32,7 +33,7 @@
 								<img src="../view/img/logo.png" class="logo-sm">
 							</li>
 							<li class="nav-item">
-								<h4 class="m-t-xs">Xiuno BBS <small class="text-danger">v4.0</small> 安装向导</h4>
+								<h4 class="m-t-xs">Xiuno BBS <small class="text-danger">v<?php echo $conf['version'];?></small> <?php echo lang('install_guide');?></h4>
 							</li>
 						</ul>
 					</div>

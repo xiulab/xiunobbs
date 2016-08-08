@@ -1,18 +1,13 @@
 <?php
 
-chdir('./');
+chdir('../');
 
-define('DEBUG', 0);
+define('SKIP_ROUTE', TRUE);
 
-$conf = (@include './conf/conf.php');
-
-include './xiunophp/xiunophp.php';
-include './model.inc.php';
-
-runtime_init();
+include './index.php';
 
 for($i=1; $i<1000; $i++) {
-	$subject = '欢迎使用 Xiuno BBS 3.0 新一代论坛系统。'.$i;
+	$subject = '欢迎使用 Xiuno BBS 4.0 新一代论坛系统。'.$i;
 	$message = '祝您使用愉快！';
 	$thread = array(
 		'fid'=>1,
@@ -36,8 +31,6 @@ for($i=1; $i<1000; $i++) {
 	}
 	if($i % 100 == 0) echo '.';
 }
-
-cron_run(1);
 
 echo '生成数据完毕';
 

@@ -6,53 +6,53 @@
 <div class="row m-t-1">
 	<div class="col-lg-8 col-lg-offset-2">
 		<div class="card card-block">
-			<h3 class="card-title">二、数据库设置</h3>
+			<h3 class="card-title"><?php echo lang('step_2_title');?></h3>
 			<div class="form-group row">
-				<label class="col-sm-3 form-control-label">数据库类型：</label>
+				<label class="col-sm-3 form-control-label"><?php echo lang('db_type');?>：</label>
 				<div class="col-sm-9">
 					<label><input type="radio" name="type" value="mysql" <?php echo ($mysql_support ? ' checked' : ' disabled'); ?> /> mysql</label>
 					<label><input type="radio" name="type" value="pdo_mysql" <?php echo ($pdo_mysql_support ? ' checked' : ' disabled'); ?> /> pdo_mysql</label>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-sm-3 form-control-label">数据库服务器：</label>
+				<label class="col-sm-3 form-control-label"><?php echo lang('db_host');?>：</label>
 				<div class="col-sm-9">
 					<input type="text" name="host" class="form-control" value="127.0.0.1">
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-sm-3 form-control-label">数据库名：</label>
+				<label class="col-sm-3 form-control-label"><?php echo lang('db_name');?>：</label>
 				<div class="col-sm-9">
 					<input type="text" name="name" class="form-control" value="xiuno4">
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-sm-3 form-control-label">数据库用户名：</label>
+				<label class="col-sm-3 form-control-label"><?php echo lang('db_user');?>：</label>
 				<div class="col-sm-9">
 					<input type="text" name="user" class="form-control" value="root">
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-sm-3 form-control-label">数据库密码：</label>
+				<label class="col-sm-3 form-control-label"><?php echo lang('db_pass');?>：</label>
 				<div class="col-sm-9">
 					<input type="text" name="password" class="form-control" value="root">
 				</div>
 			</div>
-			<h4>三、管理员信息</h4>
+			<h4><?php echo lang('step_3_title');?></h4>
 			<div class="form-group row">
-				<label class="col-sm-3 form-control-label">管理员邮箱：</label>
+				<label class="col-sm-3 form-control-label"><?php echo lang('admin_email');?>：</label>
 				<div class="col-sm-9">
 					<input type="text" name="adminemail" class="form-control" value="admin@admin.com">
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-sm-3 form-control-label">管理员账户：</label>
+				<label class="col-sm-3 form-control-label"><?php echo lang('admin_username');?>：</label>
 				<div class="col-sm-9">
 					<input type="text" name="adminuser" class="form-control" value="admin">
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-sm-3 form-control-label">管理员密码：</label>
+				<label class="col-sm-3 form-control-label"><?php echo lang('admin_pw');?>：</label>
 				<div class="col-sm-9">
 					<input type="text" name="adminpass" class="form-control" value="">
 				</div>
@@ -60,9 +60,9 @@
 			
 		</div>
 
-		<div class="text-center">
-			<button type="button" class="btn btn-secondary" onclick="history.back();">上一步</button>
-			<button type="submit" class="btn btn-primary" id="submit" <?php echo !$succeed ? 'disabled' : '';?> data-loading-text="正在安装，大概需要一分钟左右...">下一步</button>
+		<div class="text-center m-b-1">
+			<button type="button" class="btn btn-secondary" onclick="history.back();"><?php echo lang('last_step');?></button>
+			<button type="submit" class="btn btn-primary" id="submit" <?php echo !$succeed ? 'disabled' : '';?> data-loading-text="<?php echo lang('installing_about_moment');?>..."><?php echo lang('next_step');?></button>
 		</div>
 	</div>
 </div>

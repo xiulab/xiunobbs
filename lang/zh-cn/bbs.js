@@ -15,5 +15,5 @@ var lang = {
 	'top_3':'全站置顶',
 	'top_thread':'置顶主题',
 	'top_range':'置顶范围',
-	'confirm_delete_thread':'确定删除选中的('+modtid.length+')篇主题吗？',
+	'confirm_delete_thread':'确定删除选中的篇主题吗？',
 };
