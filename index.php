@@ -5,7 +5,7 @@
  */
 
 // 0: Production mode; 1: Developer mode; 2: Detail mode;
-!defined('DEBUG') AND define('DEBUG', 0);		 
+!defined('DEBUG') AND define('DEBUG', 1);		 
 
 ob_start('ob_gzhandler');
 
