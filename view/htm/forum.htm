@@ -2,8 +2,8 @@
 
 <!--{hook forum_start.htm}-->
 
-<!-- only show to blind -->
-<a role="button" class="btn btn-primary btn-block btn-sm m-b-sm hidden-md-down sr-only sr-focusable" data-loading-text="<?php echo lang('submiting');?>..." href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
+<!-- only for screenreader  -->
+<a role="button" class="sr-only sr-focusable" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
 
 <div class="row">
 	<div class="col-lg-9">
@@ -47,7 +47,7 @@
 		<!--{hook forum_page_after.htm}-->
 	</div>
 	<div class="col-lg-3 hidden-md-down">
-		<a role="button" class="btn btn-primary btn-block btn-sm m-b-sm hidden-md-down" data-loading-text="<?php echo lang('submiting');?>..." href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
+		<a role="button" class="btn btn-primary btn-block btn-sm m-b-sm hidden-md-down" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
 		<div class="card">
 			<img class="center-block m-t-1" data-src="holder.js/100%x180" alt="100%x180" src="<?php echo $forum['icon_url'];?>" width="100" height="100">
 			<h4 class="text-center"><?php echo $forum['name'];?></h4>
