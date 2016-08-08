@@ -434,7 +434,7 @@ xn.param = function(key) {
 // 模拟服务端 url() 函数
 
 xn.url = function(u, url_rewrite) {
-	var on = url_rewrite_on || url_rewrite;
+	var on = window.url_rewrite_on || url_rewrite;
 	if(xn.strpos(u, '/') != -1) {
 		var path = xn.substr(u, 0, xn.strrpos(u, '/') + 1);
 		var query = xn.substr(u, xn.strrpos(u, '/') + 1);
@@ -443,7 +443,7 @@ xn.url = function(u, url_rewrite) {
 		var query = u;
 	}
 	var r = '';
-	if(on == 0) {
+	if(!on) {
 		r = path + '?' + query + '.htm';
 	} else if(on == 1) {
 		r = path + query + ".htm";

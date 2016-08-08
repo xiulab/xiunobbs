@@ -91,6 +91,7 @@ jsearch.on('click', function(){
 	srchtype = srchtype ? srchtype : 'uid';
 	var keyword = $("#keyword").val();
 	var url = xn.url('user-list-'+srchtype+'-'+xn.urlencode(keyword)+'-1');
+	alert(url);
 	window.location = url;
 });
 jkeyword.on('keydown', function(e) {
