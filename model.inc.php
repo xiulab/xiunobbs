@@ -47,7 +47,6 @@ if(DEBUG) {
 		$s .= php_strip_whitespace('./model/check.func.php');
 		$s .= php_strip_whitespace('./model/mythread.func.php');
 		$s .= php_strip_whitespace('./model/runtime.func.php');
-		$s .= php_strip_whitespace('./model/online.func.php');
 		$s .= php_strip_whitespace('./model/table_day.func.php');
 		$s .= php_strip_whitespace('./model/cron.func.php');
 		$s .= php_strip_whitespace('./model/misc.func.php');

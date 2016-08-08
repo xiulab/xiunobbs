@@ -86,7 +86,6 @@ INSERT INTO `bbs_group` SET gid='103', name="三级用户组", creditsfrom='200'
 INSERT INTO `bbs_group` SET gid='104', name="四级用户组", creditsfrom='1000', creditsto='10000', allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
 INSERT INTO `bbs_group` SET gid='105', name="五级用户组", creditsfrom='10000', creditsto='10000000', allowread='1', allowthread='1', allowpost='1', allowattach='1', allowdown='1', allowtop='0', allowupdate='0', allowdelete='0', allowmove='0', allowbanuser='0', allowdeleteuser='0', allowviewip='0';
 
-
 # 板块表，一级, runtime 中存放 forumlist 格式化以后的数据。
 DROP TABLE IF EXISTS bbs_forum;
 CREATE TABLE bbs_forum (				

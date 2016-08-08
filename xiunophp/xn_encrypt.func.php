@@ -3,7 +3,7 @@
 // 安全的加密 key，过期时间 100 秒。
 function xn_safe_key() {
 	global $conf, $longip, $time, $useragent;
-	!isset($conf['auth_key']) AND $conf['auth_key'] = _SERVER('SERVER_SIGNATURE')._SERVER('PATH'); // 不容易被才出来的值作为默认 KEY
+	!isset($conf['auth_key']) AND $conf['auth_key'] = md5($useragent.$longip);
 	$key = md5($conf['auth_key'].$longip.$useragent.substr($time, 0, -2));
 	return $key;
 }
