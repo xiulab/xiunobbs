@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
 	<?php $header = G('header');?>
@@ -61,7 +60,7 @@
 							<a class="nav-link" href="<?php echo url('my');?>"><img class="avatar-xs" src="../<?php echo isset($user['avatar_url']) ? $user['avatar_url'] : '';?>"></a>
 						</li>
 						<li class="nav-item username  m-l-xs">
-							<a class="nav-link" href="<?php echo url('my');?>"><?php echo isset($user['username']) ? $user['username'] : '';?></a>
+							<a class="nav-link" href="../<?php echo url('my');?>"><?php echo isset($user['username']) ? $user['username'] : '';?></a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="../"><i class="icon-home"></i> <?php echo lang('front_index_page');?></a>

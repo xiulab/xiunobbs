@@ -52,12 +52,13 @@ return array(
 	'top'=>'Top',
 	'guest'=>'Guest',
 	'guest_group'=>'Guest Group',
+	'create_date'=>'Create Date',
 	
-	'month_ago'=>'Months Ago',
-	'day_ago'=>'Days Ago',
-	'hour_ago'=>'Months Ago',
-	'minute_ago'=>'Minutes Ago',
-	'second_ago'=>'Seconds Ago',
+	'month_ago'=>' Months+',
+	'day_ago'=>' Days+',
+	'hour_ago'=>' Hours+',
+	'minute_ago'=>' Minutes+',
+	'second_ago'=>' Seconds+',
 	
 	
 	'update_failed'=>'Update Failed',

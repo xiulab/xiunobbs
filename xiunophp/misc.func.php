@@ -426,7 +426,7 @@ function mid($n, $min, $max) {
 function humandate($timestamp, $lan = array()) {
 	global $time, $lang;
 	$seconds = $time - $timestamp;
-	$lan = empty($lang) ? $lan : $lan;
+	$lan = empty($lang) ? $lan : $lang;
 	empty($lan) AND $lan = array(
 		'month_ago'=>'月前',
 		'day_ago'=>'天前',
