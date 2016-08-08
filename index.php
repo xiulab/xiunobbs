@@ -1,7 +1,11 @@
 <?php
 
+/*
+ * Copyright (C) xiuno.com
+ */
 
-!defined('DEBUG') AND define('DEBUG', 2); 				// 发布的时候改为 0 
+// 0: Production mode; 1: Developer mode; 2: Detail mode;
+!defined('DEBUG') AND define('DEBUG', 2);		 
 
 ob_start('ob_gzhandler');
 
@@ -13,12 +17,8 @@ if(DEBUG) {
 	include './xiunophp/xiunophp.min.php';
 }
 
-
-/*$arr = array('code'=>1, 'message'=> array("a\r\nb"));
-echo json_encode($arr);
-exit;*/
 // 测试数据库连接
-db_connect() OR message(-1, $errstr);
+db_connect() OR exit($errstr);
 
 include './model.inc.php';
 

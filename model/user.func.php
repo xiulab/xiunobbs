@@ -174,6 +174,8 @@ function user_format(&$user) {
 function user_guest() {
 	global $conf;
 	static $guest = NULL;
+	// hook user_guest_start.php
+	
 	if($guest) return $guest; // 返回引用，节省内存。
 	$guest = array (
 		'uid' => 0,
@@ -189,6 +191,8 @@ function user_guest() {
 		'threads' => 0,
 		'posts' => 0,
 	);
+	
+	// hook user_guest_end.php
 	return $guest; // 防止内存拷贝
 }
 
@@ -205,26 +209,26 @@ function user_login_check() {
 	return $user;
 }
 
-// 根据喜欢数来调整用户组
+// 根据积分来调整用户组
 function user_update_group($uid) {
-	// hook user_update_group_start.php
 	global $conf, $grouplist;
 	$user = user_read_cache($uid);
 	if($user['gid'] < 100) return FALSE;
 	
-	// 遍历 agrees 范围，调整用户组
-	// todo:
-	/*
+	// hook user_update_group_start.php
+	
+	// 遍历 credits 范围，调整用户组
 	foreach($grouplist as $group) {
 		if($group['gid'] < 100) continue;
-		$n = $user['threads'] + $user['posts'];
-		if($n > $group['agreesfrom'] && $n < $group['agreesto']) {
+		$n = $user['posts'] + $user['threads']; // 根据发帖数
+		// user_update_group_policy_start.php
+		if($n > $group['creditsfrom'] && $n < $group['creditsto']) {
 			$user['gid'] = $group['gid'];
 			user_update($uid, array('gid'=>$group['gid']));
 			return TRUE;
 		}
 	}
-	*/
+	
 	// hook user_update_group_end.php
 	return FALSE;
 }

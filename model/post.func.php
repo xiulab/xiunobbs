@@ -81,6 +81,9 @@ function post_create($arr, $fid, $gid) {
 	$message = $arr['message'];
 	attach_assoc_post($pid);
 	
+	// 更新用户的用户组
+	user_update_group($uid);
+	
 	// hook post_create_end.php
 	return $pid;
 }

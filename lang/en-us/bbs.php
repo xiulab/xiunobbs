@@ -159,6 +159,7 @@ return array(
 	'my_post' => 'My Post',
 	'last_login_date' => 'Last Login Date',
 	'my_join_thread' => 'My join thread',
+	'repeat_password_incorrect' => 'Repeat new password is not consistent',
 	'old_password_incorrect' => 'Old password incorrect',
 	'password_modify_failed' => 'Password modification failed',
 	'password_modify_successfully' => 'Password modification success',
@@ -171,6 +172,7 @@ return array(
 	
 	// 帖子
 	'thread'=>'Thread',
+	'post'=>'Post',
 	'reply'=>'Reply',
 	'subject'=>'Subject',
 	'message'=>'Message',
@@ -224,9 +226,6 @@ return array(
 	'user_not_exists_or_deleted' => 'User doest not exists or be deleted',
 	'cant_delete_admin_group' => 'Can not delete admin group, please adjust user group first',
 	
-	
-	
-	// 后台
 	'index_page'=>'Index',
 	'admin_page'=>'Management',
 	'admin_login'=>'Admin Login',

@@ -73,7 +73,6 @@ return array(
 	'logout_successfully'=>'退出成功',
 	
 	
-	
 	// 用戶相關
 	'group_0'=>'遊客組',
 	'group_1'=>'管理員組',
@@ -158,6 +157,7 @@ return array(
 	'my_post' => '我的發帖',
 	'last_login_date' => '最後登錄時間',
 	'my_join_thread' => '我參與的主題',
+	'repeat_password_incorrect' => '兩次輸入的密碼不壹致',
 	'old_password_incorrect' => '舊密碼不正確',
 	'password_modify_failed' => '密碼修改失敗',
 	'password_modify_successfully' => '密碼修改成功',
@@ -170,6 +170,7 @@ return array(
 	
 	// 帖子
 	'thread'=>'主題',
+	'post'=>'回復',
 	'reply'=>'回復',
 	'subject'=>'主題',
 	'message'=>'內容',
@@ -223,9 +224,6 @@ return array(
 	'user_not_exists_or_deleted' => '用戶不存在或者已經被刪除',
 	'cant_delete_admin_group' => '不允許刪除管理組，請先調整用戶用戶組',
 	
-	
-	
-	// 後臺
 	'index_page'=>'首頁',
 	'admin_page'=>'後臺管理',
 	'admin_login'=>'管理員登陸',

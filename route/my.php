@@ -32,10 +32,12 @@ if(empty($action)) {
 		
 		$password_old = param('password_old');
 		$password_new = param('password_new');
+		$password_new_repeat = param('password_new_repeat');
+		$password_new_repeat != $password_new AND message(-1, '两次输入的密码不一致');
 		md5($password_old.$user['salt']) != $user['password'] AND message('password_old', lang('old_password_incorrect'));
 		$password_new = md5($password_new.$user['salt']);
 		$r = user_update($uid, array('password'=>$password_new));
-		$r !== FALSE AND message(-1, lang('password_modify_failed'));
+		$r === FALSE AND message(-1, lang('password_modify_failed'));
 		
 		// hook my_password_post_end.php
 		message(0, lang('password_modify_successfully'));

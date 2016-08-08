@@ -158,6 +158,7 @@ return array(
 	'my_post' => '我的发帖',
 	'last_login_date' => '最后登录时间',
 	'my_join_thread' => '我参与的主题',
+	'repeat_password_incorrect' => '两次输入的密码不一致',
 	'old_password_incorrect' => '旧密码不正确',
 	'password_modify_failed' => '密码修改失败',
 	'password_modify_successfully' => '密码修改成功',
@@ -170,6 +171,7 @@ return array(
 	
 	// 帖子
 	'thread'=>'主题',
+	'post'=>'回复',
 	'reply'=>'回复',
 	'subject'=>'主题',
 	'message'=>'内容',
@@ -223,9 +225,6 @@ return array(
 	'user_not_exists_or_deleted' => '用户不存在或者已经被删除',
 	'cant_delete_admin_group' => '不允许删除管理组，请先调整用户用户组',
 	
-	
-	
-	// 后台
 	'index_page'=>'首页',
 	'admin_page'=>'后台管理',
 	'admin_login'=>'管理员登陆',
