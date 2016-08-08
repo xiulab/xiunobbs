@@ -336,7 +336,6 @@ if($action == 'login') {
 	list($_time, $_useragent) = explode("\t", $s);
 	$useragent != $_useragent AND message(-1, lang('authorized_get_failed'));
 	
-	
 	empty($_SESSION['return_url']) AND $_SESSION['return_url'] = $return_url;
 	if(!$uid) {
 		http_location(url('user-login'));
