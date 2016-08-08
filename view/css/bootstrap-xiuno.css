@@ -117,9 +117,9 @@ nav.bg-inverse .dropdown-item:hover {
 /* checkbox 太灰 */
 .c-checkbox .c-indicator, .c-radio .c-indicator {border: 1px solid #bbb;}
 
-/*.collapse.in .bg-inverse{*/
-nav.navbar .collapse{
-    overflow-y: scroll;
-    height: auto; 
-    max-height: 360px;
+/* fix the fuck bootstrap 4 navbar drop menu cannot touch scroll */
+nav.navbar .collapse, nav.navbar .collapse div.bg-inverse {
+    overflow-y: auto;
+    height: auto;
+    max-height: 350px;
 }
