@@ -333,8 +333,8 @@ if($action == 'login') {
 	$return_url = param(3);
 	$s = xn_decrypt($token);
 	!$s AND message(-1, lang('unauthorized_access'));
-	list($_time, $_longip) = explode('_', $s);
-	$_longip != $longip AND message(-1, lang('authorized_get_failed'));
+	list($_time, $_useragent) = explode("\t", $s);
+	$useragent != $_useragent AND message(-1, lang('authorized_get_failed'));
 	
 	
 	empty($_SESSION['return_url']) AND $_SESSION['return_url'] = $return_url;
