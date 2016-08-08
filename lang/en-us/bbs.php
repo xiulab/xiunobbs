@@ -212,7 +212,7 @@ return array(
 	'today_posts' => 'Today Posts',
 	'forum_anouncement' => 'Forum Announcement',
 	'forum_moderator' => 'Forum Moderator',
-	'add_attach' => 'Add Forum',
+	'add_attach' => 'Add Attach',
 	'floor' => 'Floor',
 	'create_rank' => 'Create Rank',
 	'view_thread_message' => 'View Content',

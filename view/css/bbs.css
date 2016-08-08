@@ -72,7 +72,7 @@ dl.row > dt.td-avatar, .td-avatar { width: 3.5rem;}
 
 
 /*  bbs */
-.addattach { cursor: pointer; width: 5rem; height: 1.5rem; display: block; position: relative;}
+.addattach { cursor: pointer; height: 1.5rem; display: block; position: relative;}
 .addattach:hover { font-weight: 800; }
 .addattach input[type="file"]{ width: 5rem; height: 1.5rem; position: absoulte; left: 0; top: 0; opacity: 0;}
 

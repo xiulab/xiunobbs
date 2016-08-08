@@ -135,7 +135,7 @@ function lang($key, $arr = array()) {
 	$s = $lang[$key];
 	if(!empty($arr)) {
 		foreach($arr as $k=>$v) {
-			$s = str_replace('$'.$k, $v, $s);
+			$s = str_replace('{'.$k.'}', $v, $s);
 		}
 	}
 	return $s;

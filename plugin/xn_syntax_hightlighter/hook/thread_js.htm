@@ -1,0 +1,9 @@
+<script>
+// 语法高亮
+if($('div.message pre').length > 0) {
+	$.require_css('plugin/xn_syntax_hightlighter/syntax_hightlighter/syntax.css');
+	$.require('plugin/xn_syntax_hightlighter/syntax_hightlighter/syntax.js', function() {
+		SyntaxHighlighter.all();
+	});
+}
+</script>
