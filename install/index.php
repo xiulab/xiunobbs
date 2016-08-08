@@ -135,6 +135,22 @@ if(empty($action)) {
 		$replace['installed'] = 1;
 		file_replace_var('./conf/conf.php', $replace);
 		
+		// 处理语言包
+		group_update(0, array('name'=>lang('group_0')));
+		group_update(1, array('name'=>lang('group_1')));
+		group_update(2, array('name'=>lang('group_2')));
+		group_update(4, array('name'=>lang('group_4')));
+		group_update(5, array('name'=>lang('group_5')));
+		group_update(6, array('name'=>lang('group_6')));
+		group_update(7, array('name'=>lang('group_7')));
+		group_update(101, array('name'=>lang('group_101')));
+		group_update(102, array('name'=>lang('group_102')));
+		group_update(103, array('name'=>lang('group_103')));
+		group_update(104, array('name'=>lang('group_104')));
+		group_update(105, array('name'=>lang('group_105')));
+		
+		forum_update(1, array('name'=>lang('default_forum_name'), 'brief'=>lang('default_forum_brief')));
+				
 		message(0, lang('conguralation_installed'));
 	}
 }

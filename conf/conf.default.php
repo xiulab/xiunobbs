@@ -64,7 +64,7 @@ return array (
   'upload_path' => './upload/',
   'sitename' => 'Xiuno BBS',
   'timezone' => 'Asia/Shanghai',
-  'lang' => 'zh-cn',
+  'lang' => 'en-us',
   'runlevel' => 5,
   'runlevel_reason' => '站点正在维护中，请稍后访问。',
   'cookie_domain' => '',
