@@ -1,5 +1,10 @@
 tmp/*
 conf/conf.php
 tool/*
+upload/attach/*
+upload/avatar/*
+upload/forum/*
+upload/tmp/*
+log/*
 umeditor-dev
 route/browser.php
