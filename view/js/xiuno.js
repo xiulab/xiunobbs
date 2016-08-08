@@ -316,6 +316,14 @@ xn.is_element = function(obj) {
     return !!(obj && obj.nodeType === 1);
 };
 
+xn.lang = function(key, arr) {
+	var r = lang[key] ? lang[key] : "lang["+key+"]";
+	if(arr) {
+		$.each(arr, function(k, v) { r = xn.str_replace("{"+k+"}", v, r);});	
+	}
+	return r;
+}
+
 /* 
 	js 版本的翻页函数
 */

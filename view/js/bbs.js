@@ -26,7 +26,7 @@ $('.thread input[type="checkbox"]').parents('td').on('click', function(e) {
 $('.mod-button button.delete').on('click', function() {
 	var modtid = $('input[name="modtid"]').checked();
 	if(modtid.length == 0) return $.alert(lang.please_choose_thread);
-	$.confirm(lang.confirm_delete_thread + ':' + modtid.length, function() {
+	$.confirm(xn.lang('confirm_delete_thread', {n:modtid.length}), function() {
 		var tids = xn.implode('_', modtid);
 		$.xpost(xn.url('mod-delete-'+tids), function(code, message) {
 			if(code != 0) return $.alert(message);
