@@ -433,8 +433,8 @@ xn.param = function(key) {
 
 // 模拟服务端 url() 函数
 
-xn.url = function(u, url_rewrite_on) {
-	if(!url_rewrite_on) url_rewrite_on = 0;
+xn.url = function(u, url_rewrite) {
+	var on = url_rewrite_on || url_rewrite;
 	if(xn.strpos(u, '/') != -1) {
 		var path = xn.substr(u, 0, xn.strrpos(u, '/') + 1);
 		var query = xn.substr(u, xn.strrpos(u, '/') + 1);
@@ -443,13 +443,13 @@ xn.url = function(u, url_rewrite_on) {
 		var query = u;
 	}
 	var r = '';
-	if(url_rewrite_on == 0) {
+	if(on == 0) {
 		r = path + '?' + query + '.htm';
-	} else if(url_rewrite_on == 1) {
+	} else if(on == 1) {
 		r = path + query + ".htm";
-	} else if(url_rewrite_on == 2) {
+	} else if(on == 2) {
 		r = path + '?' + xn.str_replace('-', '/', query);
-	} else if(url_rewrite_on == 3) {
+	} else if(on == 3) {
 		r = path + xn.str_replace('-', '/', query);
 	}
 	return r;

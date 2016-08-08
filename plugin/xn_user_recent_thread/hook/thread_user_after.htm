@@ -9,9 +9,8 @@
 					<?php foreach($_threadlist as $_thread) { ?>
 					<li>
 						<a href="<?php echo url("thread-$_thread[tid]");?>">
-							<?php echo $thread['subject'];?>
+							<?php echo $_thread['subject'];?>
 						</a>
-						<small class="text-grey m-l-1">- <?php echo $thread['create_date_fmt'];?></small>
 					</li>
 					<?php } ?>
 				</ul>

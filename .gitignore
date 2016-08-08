@@ -1,7 +1,5 @@
-upload/*
 tmp/*
 conf/conf.php
 tool/*
-log/*
 umeditor-dev
 route/browser.php
