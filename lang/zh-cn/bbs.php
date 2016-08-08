@@ -53,6 +53,11 @@ return array(
 	'guest'=>'游客',
 	'guest_group'=>'游客组',
 	
+	'month_ago'=>'月前',
+	'day_ago'=>'天前',
+	'hour_ago'=>'小时前',
+	'minute_ago'=>'分种前',
+	'second_ago'=>'秒前',
 	
 	'update_failed'=>'更新失败',
 	'delete_failed'=>'删除失败',

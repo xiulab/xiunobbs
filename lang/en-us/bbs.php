@@ -53,6 +53,12 @@ return array(
 	'guest'=>'Guest',
 	'guest_group'=>'Guest Group',
 	
+	'month_ago'=>'Months Ago',
+	'day_ago'=>'Days Ago',
+	'hour_ago'=>'Months Ago',
+	'minute_ago'=>'Minutes Ago',
+	'second_ago'=>'Seconds Ago',
+	
 	
 	'update_failed'=>'Update Failed',
 	'delete_failed'=>'Delete Failed',

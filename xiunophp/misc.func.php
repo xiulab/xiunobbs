@@ -423,21 +423,29 @@ function mid($n, $min, $max) {
 	return $n;
 }
 
-function humandate($timestamp) {
-	global $time;
+function humandate($timestamp, $lan = array()) {
+	global $time, $lang;
 	$seconds = $time - $timestamp;
+	$lan = empty($lang) ? $lan : $lan;
+	empty($lan) AND $lan = array(
+		'month_ago'=>'月前',
+		'day_ago'=>'天前',
+		'hour_ago'=>'月前',
+		'minute_ago'=>'月前',
+		'second_ago'=>'月前',
+	);
 	if($seconds > 31536000) {
 		return date('Y-n-j', $timestamp);
 	} elseif($seconds > 2592000) {
-		return floor($seconds / 2592000).'月前';
+		return floor($seconds / 2592000).$lan['month_ago'];
 	} elseif($seconds > 86400) {
-		return floor($seconds / 86400).'天前';
+		return floor($seconds / 86400).$lan['day_ago'];
 	} elseif($seconds > 3600) {
-		return floor($seconds / 3600).'小时前';
+		return floor($seconds / 3600).$lan['hour_ago'];
 	} elseif($seconds > 60) {
-		return floor($seconds / 60).'分钟前';
+		return floor($seconds / 60).$lan['minute_ago'];
 	} else {
-		return $seconds.'秒前';
+		return $seconds.$lan['second_ago'];
 	}
 }
 
