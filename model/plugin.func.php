@@ -8,7 +8,7 @@ $plugins = array(); // 跟官方插件合并
 // 官方插件列表
 $official_plugins = array();
 
-define('PLUGIN_OFFICIAL_URL', 'http://plugin.xiuno.com/');
+define('PLUGIN_OFFICIAL_URL', DEBUG == 3 ? 'http://plugin.x.com/' : 'http://plugin.xiuno.com/');
 // 在安装、卸载插件的时候，需要先初始化
 function plugin_init() {
 	global $plugin_srcfiles, $plugin_paths, $plugins, $official_plugins;
@@ -26,6 +26,10 @@ function plugin_init() {
 			unset($plugin_srcfiles[$k]);
 		}
 	}
+	
+	$official_plugins = plugin_official_list_cache();
+	empty($official_plugins) AND $official_plugins = array();
+	
 	$plugin_paths = glob('../plugin/*', GLOB_ONLYDIR);
 	foreach($plugin_paths as $path) {
 		$dir = file_name($path);
@@ -46,9 +50,6 @@ function plugin_init() {
 		// 合并本地，线上
 		$plugins[$dir] = plugin_read($dir);
 	}
-	
-	$official_plugins = plugin_official_list_cache();
-	empty($official_plugins) AND $official_plugins = array();
 }
 
 // 插件依赖检测，返回依赖的插件列表，如果返回为空则表示不依赖
@@ -377,8 +378,7 @@ function plugin_read($dir, $local_first = TRUE) {
 	$plugin['downloaded'] = isset($plugins[$dir]);
 	$plugin['stars_fmt'] = $plugin['pluginid'] ? str_repeat('<span class="icon star"></span>', $plugin['stars']) : '';
 	$plugin['user_stars_fmt'] = $plugin['pluginid'] ? str_repeat('<span class="icon star"></span>', $plugin['user_stars']) : '';
-	$plugin['have_upgrade'] = $plugin['pluginid'] && version_compare($official['version'], $local['version']) > 0 ? TRUE : FALSE;
+	$plugin['have_upgrade'] = $plugin['installed'] && version_compare($official['version'], $local['version']) > 0 ? TRUE : FALSE;
 	$plugin['official_version'] = $official['version']; // 官方版本
-	
 	return $plugin;
 }

@@ -22,8 +22,6 @@ if($action == 'local') {
 	$header['title']    = lang('local_plugin');
 	$header['mobile_title'] = lang('local_plugin');
 	
-	//print_r($plugins);exit;
-	
 	include "./view/htm/plugin_list.htm";
 
 } elseif($action == 'official') {
@@ -45,8 +43,6 @@ if($action == 'local') {
 	
 	$header['title']    = lang('official_plugin');
 	$header['mobile_title'] = lang('official_plugin');
-	
-//	print_r($pluginlist);exit;
 	
 	include "./view/htm/plugin_list.htm";
 	
@@ -84,7 +80,7 @@ if($action == 'local') {
 	plugin_download_unzip($dir);
 	
 	// 检查解压是否成功 / check the zip if sucess
-	message(0, jump(lang('plugin_download_sucessfully', array('dir'=>$dir)), url("plugin-read-$dir"), 2));
+	message(0, jump(lang('plugin_download_sucessfully', array('dir'=>$dir)), url("plugin-read-$dir"), 3));
 	
 } elseif($action == 'install') {
 	
@@ -107,7 +103,7 @@ if($action == 'local') {
 	}
 	
 	$msg = lang('plugin_install_sucessfully', array('name'=>$name));
-	message(0, jump($msg, http_referer(), 1));
+	message(0, jump($msg, http_referer(), 3));
 	
 } elseif($action == 'unstall') {
 	
@@ -169,7 +165,7 @@ if($action == 'local') {
 	plugin_disable($dir);
 	
 	$msg = lang('plugin_disable_sucessfully', array('name'=>$name));
-	message(0, jump($msg, http_referer(), 1));
+	message(0, jump($msg, http_referer(), 3));
 	
 } elseif($action == 'upgrade') {
 	
@@ -185,13 +181,30 @@ if($action == 'local') {
 	plugin_check_dir_is_writable();
 	
 	// 插件依赖检查
-	plugin_check_dependency();
+	plugin_check_dependency($dir, 'install');
+	
+	
+	
+	// copy from $action == "download"
+	$official = plugin_official_read($dir);
+	empty($official) AND message(-1, lang('plugin_not_exists'));
+	
+	// 检查版本  / check version match
+	if(version_compare($conf['version'], $official['bbs_version']) == -1) {
+		message(-1, lang('plugin_versio_not_match', array('bbs_version'=>$official['bbs_version'], 'version'=>$conf['version'])));
+	}
+	
+	// 下载，解压 / download and zip
+	plugin_download_unzip($dir);
+	// copy end
+	
+	
 	
 	// 安装插件
 	plugin_install($dir);
 	
 	$msg = lang('plugin_upgrade_sucessfully', array('name'=>$name));
-	message(0, jump($msg, http_referer(), 1));
+	message(0, jump($msg, http_referer(), 3));
 	
 } elseif($action == 'setting') {
 	

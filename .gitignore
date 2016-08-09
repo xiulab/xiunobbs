@@ -8,3 +8,4 @@ upload/tmp/*
 log/*
 umeditor-dev
 route/browser.php
+index.php

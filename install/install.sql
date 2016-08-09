@@ -150,6 +150,17 @@ CREATE TABLE bbs_thread (
   KEY (fid, lastpid)					# 顶贴时间排序，倒序
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+# 置顶主题/最新主题，小表，记录 10 个，最新
+DROP TABLE IF EXISTS bbs_thread_top;
+CREATE TABLE bbs_thread_top (
+  fid smallint(6) NOT NULL default '0',			# 查找板块置顶
+  tid int(11) unsigned NOT NULL default '0',		# tid
+  top int(11) unsigned NOT NULL default '0',		# top: 0 是普通最新贴，> 0 置顶贴。
+  PRIMARY KEY (tid),					#
+  KEY (top, tid),					# 最新贴：top=0 order by tid desc / 全局置顶： top=3
+  KEY (fid, top)					# 版块置顶的贴 fid=1 and top=1
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 # 论坛帖子数据，一页显示，不分页。
 DROP TABLE IF EXISTS bbs_post;
 CREATE TABLE bbs_post (
