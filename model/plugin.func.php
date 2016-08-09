@@ -212,7 +212,8 @@ function plugin_hook($dir, $action = 'install') {
 			$r = file_backup($srcfile);
 			if($r === FALSE) continue;
 			$s = file_get_contents($srcfile); // 直接对源文件进行操作，因为有备份可以恢复
-			$s = preg_replace("#(\t*//\shook\s$hookname\s*\r\n)#is", "\\1".$hookscontent, $s);
+			//$s = preg_replace("#(\t*//\shook\s$hookname\s*\r\n)#is", "\\1".$hookscontent, $s);
+			$s = str_replace("// hook $hookname", "// hook $hookname\r\n".$hookscontent, $s);
 			$s = str_replace("<!--{hook $hookname}-->", "<!--{hook $hookname}-->".$hookscontent, $s);
 			
 			file_put_contents_try($srcfile, $s);
