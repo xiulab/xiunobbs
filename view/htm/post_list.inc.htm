@@ -15,11 +15,11 @@
 								</dt>
 								<dd class="text-right text-grey ">
 									<?php if($allowupdate || $_post['allowupdate']) { ?>
-									<a href="<?php echo url("post-update-$_post[pid]");?>" class="text-grey post_update m-r-1"><i class="icon-edit"></i> <?php echo lang('edit');?></a>
+									<a href="<?php echo url("post-update-$_post[pid]");?>" class="text-grey post_update m-r-1"><i class="icon-edit" aria-hidden="true"></i> <?php echo lang('edit');?></a>
 									<?php } ?>
 								
 									<?php if($allowdelete || $_post['allowdelete']) { ?>
-									<a href="<?php echo url("post-delete-$_post[pid]");?>" class="text-grey post_delete m-r-1"><i class="icon-remove"></i> <?php echo lang('delete');?></a>
+									<a href="<?php echo url("post-delete-$_post[pid]");?>" class="text-grey post_delete m-r-1"><i class="icon-remove" aria-hidden="true"></i> <?php echo lang('delete');?></a>
 									<?php } ?>
 									<span class="floor"><?php echo $_post['floor'];?></span> <?php echo lang('floor');?>
 								</dd>

@@ -12,12 +12,12 @@
 			</h4>
 			<form action="<?php echo url('user-login');?>" method="post" id="form">
 				<p class="input-group">
-					<span class="input-group-addon"><i class="icon icon-user"></i></span>
+					<span class="input-group-addon"><i class="icon icon-user" aria-hidden="true"></i></span>
 					<input type="text" class="form-control" placeholder="<?php echo lang('email');?>" id="email" name="email">
 				</p>
 				<!--{hook user_login_email_after.htm}-->
 				<p class="input-group">
-					<span class="input-group-addon"><i class="icon icon-lock"></i></span>
+					<span class="input-group-addon"><i class="icon icon-lock" aria-hidden="true"></i></span>
 					<input type="password" class="form-control" placeholder="<?php echo lang('password');?>" id="password" name="password">
 				</p>
 				<!--{hook user_login_password_after.htm}-->

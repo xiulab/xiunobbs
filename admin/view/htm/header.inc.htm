@@ -54,7 +54,7 @@
 							<img src="../view/img/logo.png" class="logo-sm">
 						</li>
 						<li class="nav-item home">
-							<a class="nav-link" href="./"><i class="icon-home"></i> <?php echo lang('admin_index_page');?></a>
+							<a class="nav-link" href="./"><i class="icon-home" aria-hidden="true"></i> <?php echo lang('admin_index_page');?></a>
 						</li>
 						<?php foreach ($menu as $k=>$v) { ?>
 						<li class="nav-item <?php echo $k;?>">
@@ -80,7 +80,7 @@
 							<a class="nav-link" href="../<?php echo url('my');?>"><?php echo isset($user['username']) ? $user['username'] : '';?></a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="../"><i class="icon-home"></i> <?php echo lang('front_index_page');?></a>
+							<a class="nav-link" href="../"><i class="icon-home" aria-hidden="true"></i> <?php echo lang('front_index_page');?></a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="<?php echo url('index-logout');?>"><?php echo lang('logout');?></a>
@@ -128,7 +128,7 @@
 				<ul class="nav" id="nav_mobile">
 					<hr class="m-y-0" />
 					<li class="nav-item home">
-						<a class="nav-link" href="./"><i class="icon-home"></i> <?php echo lang('admin_page');?></a>
+						<a class="nav-link" href="./"><i class="icon-home" aria-hidden="true"></i> <?php echo lang('admin_page');?></a>
 					</li>
 					<hr class="m-y-0" />
 					
@@ -141,7 +141,7 @@
 					<hr class="m-y-0" />
 					<?php  } ?>
 					<li class="nav-item home">
-						<a class="nav-link" href="../"><i class="icon-home"></i> <?php echo lang('return');?><?php echo lang('front_index_page');?></a>
+						<a class="nav-link" href="../"><i class="icon-home" aria-hidden="true"></i> <?php echo lang('return');?><?php echo lang('front_index_page');?></a>
 					</li>
 					
 					<!--{hook admin_header_nav_mobile_return_after.htm}-->
