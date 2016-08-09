@@ -95,3 +95,8 @@ jmobile_collapsing_bavbar.on('touchmove', function(e) {
 	//e.stopPropagation();
 	//e.stopImmediatePropagation();
 });*/
+
+$('#nav_back_icon').on('click', function() {
+	$('#nav_back_icon').delay(1000).location('./');
+	return false;
+});
