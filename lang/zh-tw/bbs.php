@@ -20,7 +20,7 @@ return array(
 	'init_pw'=>'初始密碼',
 	'get_init_pw'=>'獲取初始密碼',
 	'sending'=>'正在發送',
-	'login'=>'登陸',
+	'login'=>'登錄',
 	'logout'=>'退出',
 	'forgot_pw'=>'忘記密碼',
 	'submit'=>'提交',
@@ -69,7 +69,7 @@ return array(
 	'create_successfully'=>'創建成功',
 	'save_successfully'=>'保存成功',
 	
-	'login_successfully'=>'登陸成功',
+	'login_successfully'=>'登錄成功',
 	'logout_successfully'=>'退出成功',
 	
 	
@@ -94,12 +94,12 @@ return array(
 	'password_new_repeat'=>'重復新密碼',
 	'update_password'=>'修改密碼',
 	
-	'user_login_successfully'=>'登陸成功',
+	'user_login_successfully'=>'登錄成功',
 	'user_send_init_pw_sucessfully'=>'初始密碼已經發送往您的郵箱，請查收',
 	'user_send_sucessfully'=>'發送成功',
 	'user_create'=>'用戶註冊',
 	'user_create_sucessfully'=>'用戶註冊成功',
-	'user_login'=>'用戶登陸',
+	'user_login'=>'用戶登錄',
 	'user_profile'=>'個人資料',
 	'user_resetpw'=>'重設密碼',
 	'password_new'=>'新密碼',
@@ -141,7 +141,7 @@ return array(
 	'modify_successfully'=>'修改成功',
 	'unauthorized_access'=>'未授權的訪問',
 	'authorized_get_failed'=>'授權獲取失敗，請重新發起請求',
-	'request_synlogin_again'=>'請重新發起同步登陸請求',
+	'request_synlogin_again'=>'請重新發起同步登錄請求',
 	'decrypt_failed'=>'解密失敗',
 	'encrypt_failed'=>'數據解密失敗',
 	'link_has_expired'=>'鏈接已經過期',
@@ -226,7 +226,7 @@ return array(
 	
 	'index_page'=>'首頁',
 	'admin_page'=>'後臺管理',
-	'admin_login'=>'管理員登陸',
+	'admin_login'=>'管理員登錄',
 	
 	// 檢測相關
 	'mobile_format_mismatch'=>'手機格式不正確',

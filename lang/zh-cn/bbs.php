@@ -20,7 +20,7 @@ return array(
 	'init_pw'=>'初始密码',
 	'get_init_pw'=>'获取初始密码',
 	'sending'=>'正在发送',
-	'login'=>'登陆',
+	'login'=>'登录',
 	'logout'=>'退出',
 	'forgot_pw'=>'忘记密码',
 	'submit'=>'提交',
@@ -69,7 +69,7 @@ return array(
 	'create_successfully'=>'创建成功',
 	'save_successfully'=>'保存成功',
 	
-	'login_successfully'=>'登陆成功',
+	'login_successfully'=>'登录成功',
 	'logout_successfully'=>'退出成功',
 	
 	
@@ -95,12 +95,12 @@ return array(
 	'password_new_repeat'=>'重复新密码',
 	'update_password'=>'修改密码',
 	
-	'user_login_successfully'=>'登陆成功',
+	'user_login_successfully'=>'登录成功',
 	'user_send_init_pw_sucessfully'=>'初始密码已经发送往您的邮箱，请查收',
 	'user_send_sucessfully'=>'发送成功',
 	'user_create'=>'用户注册',
 	'user_create_sucessfully'=>'用户注册成功',
-	'user_login'=>'用户登陆',
+	'user_login'=>'用户登录',
 	'user_profile'=>'个人资料',
 	'user_resetpw'=>'重设密码',
 	'password_new'=>'新密码',
@@ -142,7 +142,7 @@ return array(
 	'modify_successfully'=>'修改成功',
 	'unauthorized_access'=>'未授权的访问',
 	'authorized_get_failed'=>'授权获取失败，请重新发起请求',
-	'request_synlogin_again'=>'请重新发起同步登陆请求',
+	'request_synlogin_again'=>'请重新发起同步登录请求',
 	'decrypt_failed'=>'解密失败',
 	'encrypt_failed'=>'数据解密失败',
 	'link_has_expired'=>'链接已经过期',
@@ -227,7 +227,7 @@ return array(
 	
 	'index_page'=>'首页',
 	'admin_page'=>'后台管理',
-	'admin_login'=>'管理员登陆',
+	'admin_login'=>'管理员登录',
 	
 	// 检测相关
 	'mobile_format_mismatch'=>'手机格式不正确',

@@ -26,7 +26,7 @@ return array(
 	'admin_plugin_official_list'=>'官方插件',
 	
 	'admin_token_error'=>'管理令牌錯誤',
-	'admin_token_expiry'=>'管理登陸令牌失效，請重新登錄',
+	'admin_token_expiry'=>'管理登錄令牌失效，請重新登錄',
 	'forum_edit'=>'版塊編輯',
 	'user_edit'=>'用戶編輯',
 	'edit_sucessfully'=>'編輯成功',
@@ -34,7 +34,7 @@ return array(
 	'item_not_moderator'=>'{item} 不是版主',
 	'group_not_exists'=>'用戶組不存在',
 	
-	'admin_login'=>'管理登陸',
+	'admin_login'=>'管理登錄',
 	'save_conf_failed'=>'保存數據到配置文件 {file} 失敗，請檢查文件的可寫權限',
 	'user_already_exists'=>'用戶已經存在',
 	'email_already_exists'=>'郵箱已經存在',
