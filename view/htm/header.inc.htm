@@ -118,9 +118,9 @@
 				<!-- 中间：标题 -->
 				<div class="col-xs-10 text-center text-nowrap">
 					<?php if($route == 'index') { ?>
-					<a class="nav-link p-y-0" href="."><img src="view/img/logo.png" class="logo-sm center-block"></a>
+					<a class="nav-link p-y-0" href="./" title="<?php echo lang('home_page');?>"><img src="view/img/logo.png" class="logo-sm center-block"></a>
 					<?php } else { ?>
-					<span class="nav-link"><?php echo $header['mobile_title'];?></span>
+					<a class="nav-link p-y-0" href="./" title="<?php echo lang('home_page');?>"><span class="nav-link"><?php echo $header['mobile_title'];?></span></a>
 					<?php } ?>
 				</div>
 				

@@ -127,7 +127,8 @@ if(empty($action)) {
 		// 管理员密码
 		$salt = xn_rand(16);
 		$password = md5(md5($adminpass).$salt);
-		db_update('user', array('uid'=>1), array('username'=>$adminuser, 'password'=>$password, 'salt'=>$salt));
+		$update = array('username'=>$adminuser, 'email'=>$adminemail, 'password'=>$password, 'salt'=>$salt, 'create_date'=>$time, 'create_ip'=>$longip);
+		db_update('user', array('uid'=>1), $update);
 		
 		$replace = array();
 		$replace['db'] = $conf['db'];
