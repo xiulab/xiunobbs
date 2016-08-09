@@ -1076,12 +1076,12 @@ function xn_copy($src, $dest) {
 }
 
 function xn_mkdir($dir, $mod = NULL, $recusive = NULL) {
-	$r = !is_dir($dir) ? mkdir($src, $mod, $recusive) : FALSE;
+	$r = !is_dir($dir) ? mkdir($dir, $mod, $recusive) : FALSE;
 	return $r;
 }
 
 function xn_rmdir($dir) {
-	$r = is_dir($dir) ? rmdir($src) : FALSE;
+	$r = is_dir($dir) ? rmdir($dir) : FALSE;
 	return $r;
 }
 
