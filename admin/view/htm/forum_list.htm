@@ -52,7 +52,7 @@
 
 <script>
 
-if(!debug) $.alert(lang('forum_edit_tip'), 4);
+if(!debug) $.alert('<?php echo lang('forum_edit_tip');?>'), 4);
 
 var maxfid = <?php echo $maxfid;?>;
 
