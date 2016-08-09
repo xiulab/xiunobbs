@@ -681,7 +681,9 @@ function browser_lang() {
 
 /**
  * URL format: http://www.domain.com/demo/?user-login.htm?a=b&c=d
+ * URL format: http://www.domain.com/demo/?user-login.htm&a=b&c=d
  * URL format: http://www.domain.com/demo/user-login.htm?a=b&c=d
+ * URL format: http://www.domain.com/demo/user-login.htm&a=b&c=d
  * array(
  *     0 => user,
  *     1 => login
@@ -705,13 +707,29 @@ function xn_init_query_string() {
 	$pos = strrpos($q, '/');
 	$pos === FALSE && $pos = -1;
 	$q = substr($q, $pos + 1); // 截取最后一个 / 后面的内容
-	if(substr($q, -4) == '.htm') $q = substr($q, 0, -4);
-	$r = $q ? (array)explode('-', $q) : array();
+	// 查找第一个 ? & 进行分割
+	$sep = strpos($q, '?') === FALSE ? strpos($q, '&') : FALSE;
+	if($sep !== FALSE) {
+		// 对后半部分截取，并且分析
+		$front = substr($q, 0, $sep);
+		$behind = substr($q, $sep + 1);
+	} else {
+		$front = $q;
+		$behind = '';
+	}
+	if(substr($front, -4) == '.htm') $front = substr($front, 0, -4);
+	$r = $front ? (array)explode('-', $front) : array();
+	// 将后半部分合并
+	if($behind) {
+		parse_str($behind, $arr1);
+		//$_SERVER['_GET'] = $arr1;
+		$r += $arr1;
+	}
 
 	// 将 xxx.htm?a=b&c=d 后面的正常的 _GET 放到 $_SERVER['_GET']
 	if(!empty($arr['query'])) {
 		parse_str($arr['query'], $arr2);
-		$_SERVER['_GET'] = $arr2;
+		//$_SERVER['_GET'] = $arr2;
 		$r += $arr2;
 	}
 	
