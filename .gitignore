@@ -9,3 +9,4 @@ log/*
 umeditor-dev
 route/browser.php
 index.php
+plugin/xn_footer_js

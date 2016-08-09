@@ -1,6 +1,7 @@
 <?php
 
 //$_SERVER['REQUEST_URI'] = '/?plugin-unstall-xn_nav_more.htm';
+//$_SERVER['REQUEST_URI'] = '/?plugin-install-xn_user_recent_thread.htm';
 
 // 切换到上级目录 / chdir to up one directory
 //define('BASE_HREF', '../');

@@ -52,6 +52,10 @@ return array (
       'port' => '6379',
       'cachepre' => 'bbs_',
     ),
+    'xcache' => 
+    array (
+      'cachepre' => 'bbs_',
+    ),
     'mysql' => 
     array (
       'cachepre' => 'bbs_',
@@ -63,10 +67,11 @@ return array (
   'upload_url' => 'upload/',
   'upload_path' => './upload/',
   'sitename' => 'Xiuno BBS',
+  'sitebrief' => 'Site Brief',
   'timezone' => 'Asia/Shanghai',
-  'lang' => 'zh-cn',
+  'lang' => 'en-us',
   'runlevel' => 5,
-  'runlevel_reason' => '站点正在维护中，请稍后访问。',
+  'runlevel_reason' => 'The site is under maintenance, please visit later.',
   'cookie_domain' => '',
   'cookie_path' => '',
   'auth_key' => 'efdkjfjiiiwurjdmclsldow753jsdj438',
@@ -77,10 +82,10 @@ return array (
   'online_hold_time' => 3600,
   'session_delay_update' => 0,
   'upload_image_width' => 927,
-  'new_thread_days' => 3,
   'order_default' => 'lastpid',
   'update_views_on' => 1,
-  'version' => '3.0',
+  'version' => '4.0',
+  'static_version' => '?1.0',
   'cdn_on' => 1,
   'url_rewrite_on' => 0,
   'user_create_email_on' => 0,

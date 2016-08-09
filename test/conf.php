@@ -77,7 +77,6 @@ return array (
   'online_hold_time' => 3600,
   'session_delay_update' => 0,
   'upload_image_width' => 927,
-  'new_thread_days' => 3,
   'order_default' => 'lastpid',
   'update_views_on' => 1,
   'version' => 'bb\\\'',
