@@ -46,6 +46,8 @@ if($action == 'login') {
 		// update login times
 		user_update($user['uid'], array('login_ip'=>$longip, 'login_date' =>$time , 'logins+'=>1));
 
+		// 全局变量 $uid 会在结束后，在函数 register_shutdown_function() 中存入 session (文件: model/session.func.php)
+		// global variable $uid will save to session in register_shutdown_function() (file: model/session.func.php)
 		$uid = $user['uid'];
 		
 		// hook user_login_post_end.php
