@@ -66,6 +66,7 @@ return array(
 	'sitebrief_tips'=>'tops：Support HTML tag, new line use &lt;br&gt;',
 	'runlevel'=>'Site access restrictions',
 	'lang'=>'Language',
+	'database'=>'Database',
 	'host'=>'Host',
 	'port'=>'Port',
 	'account'=>'Account',
