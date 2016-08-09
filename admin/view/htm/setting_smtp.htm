@@ -1,5 +1,7 @@
 <?php include './view/htm/header.inc.htm'; ?>
 
+<!--{hook admin_setting_smtp_start.htm}-->
+
 <div class="row">
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="btn-group m-b-1" role="group">
@@ -44,6 +46,8 @@
 		</div>
 	</div>
 </div>
+
+<!--{hook admin_setting_smtp_end.htm}-->
 
 <?php include './view/htm/footer.inc.htm'; ?>
 
@@ -91,3 +95,5 @@ jadd.on('click', function() {
 $('#nav_pc li.setting, #nav_mobile li.setting').tab('show');
 
 </script>
+
+<!--{hook admin_setting_smtp_js.htm}-->

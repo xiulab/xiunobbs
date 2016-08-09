@@ -1,5 +1,7 @@
 <?php include './view/htm/header.inc.htm'; ?>
 
+<!--{hook admin_setting_base_start.htm}-->
+
 <div class="row">
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="btn-group m-b-1" role="group">
@@ -9,12 +11,18 @@
 			<div class="card-block">
 				<h4 class="card-title"><?php echo lang('admin_setting_base');?></h4>
 				<form action="<?php echo url('setting-base');?>" method="post" id="form">
+				
+					<!--{hook admin_setting_sitename_before.htm}-->
+					
 					<div class="form-group row">
 						<label class="col-sm-2 form-control-label"><?php echo lang('sitename');?>：</label>
 						<div class="col-sm-10">
 							<?php echo $input['sitename'];?>
 						</div>
 					</div>
+					
+					<!--{hook admin_setting_sitename_after.htm}-->
+					
 					<div class="form-group row">
 						<label class="col-sm-2 form-control-label"><?php echo lang('sitebrief');?>：</label>
 						<div class="col-sm-10">
@@ -22,18 +30,27 @@
 							<p class="m-t-sm text-grey small"><?php echo lang('sitebrief_tips');?> </p>
 						</div>
 					</div>
+					
+					<!--{hook admin_setting_sitebrief_after.htm}-->
+					
 					<div class="form-group row">
 						<label class="col-sm-2 form-control-label"><?php echo lang('runlevel');?>：</label>
 						<div class="col-sm-10">
 							<?php echo $input['runlevel'];?>
 						</div>
 					</div>
+					
+					<!--{hook admin_setting_runlevel_after.htm}-->
+					
 					<div class="form-group row">
 						<label class="col-sm-2 form-control-label"><?php echo lang('lang');?>：</label>
 						<div class="col-sm-10">
 							<?php echo $input['lang'];?>
 						</div>
 					</div>
+										
+					<!--{hook admin_setting_base_lang_after.htm}-->
+
 					<div class="form-group row">
 						<label for="inputPassword3" class="col-sm-2 form-control-label"></label>
 						<div class="col-sm-10">
@@ -45,7 +62,9 @@
 		</div>
 	</div>
 </div>
-		
+
+<!--{hook admin_setting_base_end.htm}-->
+	
 <?php include './view/htm/footer.inc.htm'; ?>
 
 <script>
@@ -73,3 +92,5 @@ jform.on('submit', function() {
 $('#nav_pc li.setting, #nav_mobile li.setting').tab('show');
 
 </script>
+
+<!--{hook admin_setting_base_js.htm}-->

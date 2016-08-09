@@ -1,5 +1,7 @@
 <?php include './view/htm/header.inc.htm'; ?>
 
+<!--{hook admin_forum_update_start.htm}-->
+
 <div class="row">
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="card">
@@ -85,6 +87,7 @@
 	</div>
 </div>
 
+<!--{hook admin_forum_update_end.htm}-->
 
 <?php include './view/htm/footer.inc.htm'; ?>
 
@@ -147,3 +150,5 @@ jmoduids.on('keyup blur', function(e) {
 
 $('#nav_pc li.forum, #nav_mobile li.forum').tab('show');
 </script>
+
+<!--{hook admin_forum_update_js.htm}-->

@@ -1,12 +1,16 @@
 <?php $header['title'] = lang('message_title'); ?>
 <?php include "./view/htm/header.inc.htm"; ?>
 
+<!--{hook admin_message_start.htm}-->
+
 <div class="row">
 	<div class="col-lg-8 col-lg-offset-2">
 		<div class="card card-block m-t-1">
 			<h4 class="card-title text-xs-center">
 				<i class="icon-<?php echo $code == 0 ? 'ok' : 'warning-sign'; ?>"></i> 
 				<?php echo $message;?>
+				
+				<!--{hook admin_message_message_after.htm}-->
 			</h4>
 			<!--
 			<p class="text-xs-center"><a href="#">Card link</a></p>
@@ -14,5 +18,7 @@
 		</div>
 	</div>
 </div>
+
+<!--{hook admin_message_end.htm}-->
 
 <?php include "./view/htm/footer.inc.htm"; ?>

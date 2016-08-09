@@ -1,5 +1,7 @@
 <?php include "./view/htm/header.inc.htm"; ?>
 
+<!--{hook admin_index_login_start.htm}-->
+
 <div class="row m-t-1">
 	<div class="col-lg-5 col-lg-offset-3">
 		<div class="card">
@@ -20,6 +22,8 @@
 		</div>
 	</div>
 </div>
+
+<!--{hook admin_index_login_end.htm}-->
 
 <?php include "./view/htm/footer.inc.htm"; ?>
 <script src="../view/js/md5.js"></script>
@@ -52,3 +56,5 @@ jform.on('submit', function() {
 });
 
 </script>
+
+<!--{hook admin_index_login_js.htm}-->

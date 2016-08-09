@@ -1,7 +1,12 @@
 <?php include './view/htm/header.inc.htm'; ?>
 
+<!--{hook admin_index_start.htm}-->
+
 <div class="row">
 	<div class="col-lg-10 col-lg-offset-1">
+				
+		<!--{hook admin_index_site_stat_before.htm}-->
+
 		<h3><?php echo lang('admin_index');?></h3>
 		<hr />
 		<div class="card card-block m-t-1">
@@ -45,6 +50,8 @@
 				</div>
 			</div>
 		</div>
+		
+		<!--{hook admin_index_server_info_before.htm}-->
 		
 		<div class="card card-block m-t-1">
 			<h5><?php echo lang('server_info');?> <a href="<?php echo url('index-phpinfo');?>"><small>[PHPINFO]</small></a></h5>
@@ -108,6 +115,7 @@
 			</div>
 		</div>
 		
+		<!--{hook admin_index_team_before.htm}-->
 		
 		<div class="card card-block m-t-1">
 			<h5><?php echo lang('dev_team_info');?></h5>
@@ -116,18 +124,17 @@
 			<p>Official Site: <a href="http://www.xiuno.com" target="_blank">http://www.xiuno.com/</a></p>
 			<p>Dev Team: </p>
 			<blockquote class="m-l-3">
-				<a href="http://artery.cn/" target="_blank">Artery</a>　
-				<a href="http://www.zd.hk/" target="_blank">杨永全</a>
+				<a href="http://bbs.xiuno.com/" target="_blank">axiuno</a>
+				<a href="http://bbs.xiuno.com/" target="_blank">右键森林</a>
+				<a href="http://bbs.xiuno.com/" target="_blank">吴兆焕</a>
 				<a href="http://bbs.xiuno.com/" target="_blank">倚楼观天象</a>
-				<a href="http://bbs.xiuno.com/user-123.htm" target="_blank">右键森林@xiuno</a>
+				<a href="http://www.zd.hk/" target="_blank">杨永全</a>
+				<a href="http://bbs.xiuno.com/" target="_blank">雷晨</a>
 			</blockquote>
 			<p>Thanks For: </p>
 			<blockquote class="m-l-3">
 				<a href="http://artery.cn/" target="_blank">Artery</a>　
-				<a href="http://www.zd.hk/" target="_blank">杨永全</a>
 				<a href="http://www.wooyun.org/" target="_blank">剑心@wooyun</a>
-				<a href="http://kc.4181.cn/" target="_blank">吴兆焕@twcms</a>
-				<a href="http://bbs.xiuno.com/" target="_blank">倚楼观天象</a>
 				<a href="http://bbs.xiuno.com/" target="_blank">小龙@xiuno</a>
 				<a href="http://bbs.xiuno.com/" target="_blank">吴健@xiuno</a>
 				<a href="http://bbs.xiuno.com/" target="_blank">鲁广@xiuno</a>
@@ -135,9 +142,13 @@
 			</blockquote>
 		</div>
 		
+		<!--{hook admin_index_team_after.htm}-->
+		
 		<a role="button" class="btn btn-primary center-block hidden-md-up" href="<?php echo url('my');?>"> <?php echo lang('back');?> </a>
 	</div>
 </div>
+
+<!--{hook admin_index_end.htm}-->
 
 <?php include './view/htm/footer.inc.htm'; ?>
 
@@ -147,3 +158,6 @@ $('#nav_pc li.home, #nav_mobile li.home').tab('show');
 
 </script>
 <?php echo $lastversion; ?>
+
+
+<!--{hook admin_index_js.htm}-->

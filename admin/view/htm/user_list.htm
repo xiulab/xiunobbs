@@ -1,5 +1,7 @@
 <?php include './view/htm/header.inc.htm'; ?>
 
+<!--{hook admin_user_list_start.htm}-->
+
 <div class="row">
 	<div class="col-xs-12">
 		<div class="btn-group m-b-1" role="group">
@@ -69,6 +71,8 @@
 	</div>
 </div>
 
+<!--{hook admin_user_list_end.htm}-->
+
 <?php include './view/htm/footer.inc.htm'; ?>
 
 <script>
@@ -118,3 +122,5 @@ jconfirm.on('click', function(){
 $('#nav_pc li.user, #nav_mobile li.user').tab('show');
 
 </script>
+
+<!--{hook admin_user_list_js.htm}-->

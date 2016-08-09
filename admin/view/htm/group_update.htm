@@ -1,5 +1,7 @@
 <?php include './view/htm/header.inc.htm'; ?>
 
+<!--{hook admin_group_update_start.htm}-->
+
 <div class="row">
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="btn-group m-b-1" role="group">
@@ -92,6 +94,7 @@
 	</div>
 </div>
 
+<!--{hook admin_group_update_end.htm}-->
 
 <?php include './view/htm/footer.inc.htm'; ?>
 
@@ -119,3 +122,5 @@ jform.on('submit', function(){
 $('#nav_pc li.user, #nav_mobile li.user').tab('show');
 
 </script>
+
+<!--{hook admin_group_update_js.htm}-->
