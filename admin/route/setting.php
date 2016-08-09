@@ -7,11 +7,15 @@ $action = param(1);
 include '../model/smtp.func.php';
 smtp_init('../conf/smtp.conf.php');
 
-// hook admin_setting_action_before.php
+// hook admin_setting_start.php
 
 if($action == 'base') {
 	
+	// hook admin_setting_base_get_post.php
+	
 	if($method == 'GET') {
+		
+		// hook admin_setting_base_get_start.php
 		
 		$input = array();
 		$input['sitename'] = form_text('sitename', $conf['sitename']);
@@ -22,6 +26,8 @@ if($action == 'base') {
 		$header['title'] = lang('admin_site_setting');
 		$header['mobile_title'] =lang('admin_site_setting');
 		
+		// hook admin_setting_base_get_end.php
+		
 		include './view/htm/setting_base.htm';
 		
 	} else {
@@ -31,6 +37,8 @@ if($action == 'base') {
 		$runlevel = param('runlevel', 0);
 		$_lang = param('lang');
 		
+		// hook admin_setting_base_post_start.php
+		
 		$replace = array();
 		$replace['sitename'] = $sitename;
 		$replace['sitebrief'] = $sitebrief;
@@ -39,12 +47,18 @@ if($action == 'base') {
 		
 		file_replace_var('../conf/conf.php', $replace);
 	
+		// hook admin_setting_base_post_end.php
+		
 		message(0, lang('modify_successfully'));
 	}
 
 } elseif($action == 'smtp') {
 
+	// hook admin_setting_smtp_get_post.php
+	
 	if($method == 'GET') {
+		
+		// hook admin_setting_smtp_get_start.php
 		
 		$header['title'] = lang('admin_setting_smtp');
 		$header['mobile_title'] = lang('admin_setting_smtp');
@@ -58,9 +72,13 @@ if($action == 'base') {
 		$input_user_create_email_on = form_radio_yes_no('user_create_email_on', $conf['user_create_email_on']);
 		$input_user_resetpw_on = form_radio_yes_no('user_resetpw_on', $conf['user_resetpw_on']);
 		
+		// hook admin_setting_smtp_get_end.php
+		
 		include "./view/htm/setting_smtp.htm";
 	
 	} else {
+		
+		// hook admin_setting_smtp_post_start.php
 		
 		$user_create_email_on = param('user_create_email_on', 0);
 		$user_resetpw_on = param('user_resetpw_on', 0);
@@ -91,12 +109,12 @@ if($action == 'base') {
 		$r = file_put_contents_try('../conf/smtp.conf.php', "<?php\r\nreturn ".var_export($smtplist,true).";\r\n?>");
 		!$r AND message(-1, lang('conf/smtp.conf.php', array('file'=>'conf/smtp.conf.php')));
 		
+		// hook admin_setting_smtp_post_end.php
+		
 		message(0, lang('save_successfully'));
 	}
-} else {
-	http_404();
 }
 
-// hook admin_setting_action_after.php
+// hook admin_setting_end.php
 
 ?>

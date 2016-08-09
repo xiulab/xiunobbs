@@ -7,7 +7,7 @@ $action = param(1);
 $user = user_read($uid);
 user_login_check();
 
-// hook my_action_before.php
+// hook my_start.php
 
 if(empty($action)) {
 	
@@ -95,5 +95,7 @@ if(empty($action)) {
 		
 	}
 }
+
+// hook my_end.php
 
 ?>

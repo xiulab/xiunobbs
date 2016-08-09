@@ -4,7 +4,7 @@
 
 $action = param(1);
 
-// hook thread_action_before.php
+// hook thread_start.php
 
 // 发表主题帖 | create new thread
 if($action == 'create') {
@@ -133,5 +133,6 @@ if($action == 'create') {
 	
 }
 
+// hook thread_start.php
 
 ?>

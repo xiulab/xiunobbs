@@ -7,15 +7,22 @@ $action = param(1);
 // 不允许删除的版块 / system keeped forum
 $system_forum = array(1);
 
+// hook admin_forum_start.php
+
 if(empty($action) || $action == 'list') {
 	
+	// hook admin_forum_list_get_post.php
+	
 	if($method == 'GET') {
+		
+		// hook admin_forum_list_get_start.php
 		
 		$header['title']        = lang('forum_admin');
 		$header['mobile_title'] = lang('forum_admin');
 	
 		$maxfid = forum_maxid();
 		
+		// hook admin_forum_list_get_end.php
 		
 		include "./view/htm/forum_list.htm";
 	
@@ -25,6 +32,8 @@ if(empty($action) || $action == 'list') {
 		$namearr = param('name', array(''));
 		$rankarr = param('rank', array(0));
 		$iconarr = param('icon', array(''));
+		
+		// hook admin_forum_list_post_start.php
 		
 		$arrlist = array();
 		foreach ($fidarr as $k=>$v) {
@@ -63,6 +72,8 @@ if(empty($action) || $action == 'list') {
 		
 		forum_list_cache_delete();
 		
+		// hook admin_forum_list_post_end.php
+		
 		message(0, lang('save_successfully'));
 	}
 
@@ -72,11 +83,15 @@ if(empty($action) || $action == 'list') {
 	$_forum = forum_read($_fid);
 	empty($_forum) AND message(-1, lang('forum_not_exists'));
 	
+	// hook admin_forum_update_get_post.php
+	
 	if($method == 'GET') {
 		
 		$header['title']        = lang('forum_edit');
 		$header['mobile_title'] = lang('forum_edit');
 	
+		// hook admin_forum_update_get_start.php
+		
 		$accesslist = forum_access_find_by_fid($_fid);
 		if(empty($accesslist)) {
 			foreach($grouplist as $group) {
@@ -98,6 +113,8 @@ if(empty($action) || $action == 'list') {
 		$input['accesson'] = form_checkbox('accesson', $_forum['accesson']);
 		$input['moduids'] = form_text('moduids', $_forum['moduids']);
 		
+		// hook admin_forum_update_get_end.php
+		
 		include "./view/htm/forum_update.htm";
 	
 	} elseif($method == 'POST') {	
@@ -109,6 +126,8 @@ if(empty($action) || $action == 'list') {
 		$moduids = param('moduids');
 		$accesson = param('accesson', 0);
 		$moduids = forum_filter_moduid($moduids);
+		
+		// hook admin_forum_update_post_start.php
 		
 		$arr = array (
 			'name' => $name,
@@ -142,6 +161,8 @@ if(empty($action) || $action == 'list') {
 		
 		forum_list_cache_delete();
 		
+		// hook admin_forum_update_post_end.php
+		
 		message(0, lang('edit_sucessfully'));	
 	}
 
@@ -151,6 +172,9 @@ if(empty($action) || $action == 'list') {
 	$arr = explode(',', $uids);
 	$names = array();
 	$err = '';
+	
+	// hook admin_forum_getname_start.php
+	
 	foreach($arr as $_uid) {
 		$_uid = intval($_uid);
 		if(empty($_uid)) continue;
@@ -160,12 +184,14 @@ if(empty($action) || $action == 'list') {
 		$names[] = $_user['username'];
 	}
 	$s = implode(',', $names);
-	$err ? message(1, $err) : message(0, $s);
+	$err AND message(-1, $err);
+	
+	// hook admin_forum_getname_end.php
+	
+	message(0, $s);
 		
-} else {
-	
-	http_404();
-	
 }
+
+// hook admin_forum_start.php
 
 ?>

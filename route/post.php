@@ -8,6 +8,8 @@ $action = param(1);
 
 user_login_check();
 
+// hook post_start.php
+
 if($action == 'create') {
 	
 	$tid = param(2);
@@ -26,11 +28,17 @@ if($action == 'create') {
 		message(-1, lang('user_group_insufficient_privilege'));
 	}
 	
+	// hook post_get_post.php
+	
 	if($method == 'GET') {
+		
+		// hook post_get_start.php
 		
 		include './view/htm/post.htm';
 		
 	} else {
+		
+		// hook post_post_start.php
 		
 		$message = param('message', '', FALSE);
 		empty($message) AND message('message', lang('please_input_message'));
@@ -61,6 +69,8 @@ if($action == 'create') {
 		$allowpost = forum_access_user($fid, $gid, 'allowpost');
 		$allowupdate = forum_access_mod($fid, $gid, 'allowupdate');
 		$allowdelete = forum_access_mod($fid, $gid, 'allowdelete');
+		
+		// hook post_post_end.php
 		
 		// 直接返回帖子的 html
 		// return the html string to browser.
@@ -98,7 +108,11 @@ if($action == 'create') {
 	$allowupdate = forum_access_mod($fid, $gid, 'allowupdate');
 	!$allowupdate AND !$post['allowupdate'] AND message(-1, lang('have_no_privilege_to_update'));
 	
+	// hook post_update_get_post.php
+	
 	if($method == 'GET') {
+		
+		// hook post_update_get_start.php
 		
 		$forumlist_allowthread = forum_list_access_filter($forumlist, $gid, 'allowthread');
 		$forumarr = xn_json_encode(arrlist_key_values($forumlist_allowthread, 'fid', 'name'));
@@ -112,6 +126,8 @@ if($action == 'create') {
 			list($attachlist, $imagelist, $filelist) = attach_find_by_pid($pid);
 		}
 		
+		// hook post_update_get_end.php
+		
 		include './view/htm/post.htm';
 		
 	} elseif($method == 'POST') {
@@ -119,6 +135,8 @@ if($action == 'create') {
 		$subject = htmlspecialchars(param('subject', '', FALSE));
 		$message = param('message', '', FALSE);
 		$doctype = param('doctype', 0);
+		
+		// hook post_update_post_start.php
 		
 		empty($message) AND message('message', lang('please_input_message'));
 		mb_strlen($message, 'UTF-8') > 2048000 AND message('message', lang('message_too_long'));
@@ -143,6 +161,8 @@ if($action == 'create') {
 		$r = post_update($pid, array('doctype'=>$doctype, 'message'=>$message));
 		$r === FALSE AND message(-1, lang('update_post_failed'));
 		
+		// hook post_update_post_end.php
+		
 		message(0, lang('update_successfully'));
 		//message(0, array('pid'=>$pid, 'subject'=>$subject, 'message'=>$message));
 	}
@@ -150,6 +170,8 @@ if($action == 'create') {
 } elseif($action == 'delete') {
 
 	$pid = param(2, 0);
+	
+	// hook post_delete_start.php
 	
 	if($method != 'POST') message(-1, lang('method_error'));
 	
@@ -177,9 +199,12 @@ if($action == 'create') {
 		//post_list_cache_delete($tid);
 	}
 	
+	// hook post_delete_end.php
 	
 	message(0, lang('delete_successfully'));
 
 }
+
+// hook post_end.php
 
 ?>

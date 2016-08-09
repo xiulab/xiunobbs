@@ -364,8 +364,6 @@ if($action == 'login') {
 		http_location($url);
 	}
 	
-// hook user_action_add.php
-	
 } else {
 	
 	// hook user_profile_start.php
@@ -389,6 +387,8 @@ if($action == 'login') {
 	include './view/htm/user_profile.htm';
 	
 }
+
+// hook user_end.php
 
 // 获取用户来路
 function user_http_referer() {

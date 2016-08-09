@@ -8,7 +8,7 @@ $action = param(1);
 
 ($method != 'POST') AND message(-1, 'Method Error');
 
-// mod_action_start.php
+// mod_start.php
 
 if($action == 'top') {
 
@@ -138,5 +138,6 @@ if($action == 'top') {
 	message(0, lang('delete_successfully'));
 }
 
+// mod_end.php
 
 ?>

@@ -4,6 +4,8 @@
 
 $action = param(1);
 
+// hook admin_user_start.php
+
 if(empty($action) || $action == 'list') {
 
 	$header['title'] = lang('user_admin');
@@ -14,6 +16,8 @@ if(empty($action) || $action == 'list') {
 	$keyword  = trim(urldecode(param(3)));
 	$page     = param(4, 1);
 
+	// hook admin_user_list_start.php
+	
 	$cond = array();
 	if($keyword) {
 		!in_array($srchtype, array('uid', 'username', 'email', 'gid', 'create_ip')) AND $srchtype = 'uid';
@@ -29,12 +33,18 @@ if(empty($action) || $action == 'list') {
 		$_user['group'] = array_value($grouplist, $_user['gid'], '');
 	}
 
+	// hook admin_user_list_end.php
+	
 	include "./view/htm/user_list.htm";
 
 } elseif($action == 'create') {
 
+	// hook admin_user_create_get_post.php
+	
 	if($method == 'GET') {
 
+		// hook admin_user_create_get_start.php
+		
 		$header['title'] = lang('admin_user_create');
 		$header['mobile_title'] = lang('admin_user_create');
 		
@@ -44,6 +54,8 @@ if(empty($action) || $action == 'list') {
 		$grouparr = arrlist_key_values($grouplist, 'gid', 'name');
 		$input['_gid'] = form_select('_gid', $grouparr, 0);
 		
+		// hook admin_user_create_get_end.php
+		
 		include "./view/htm/user_create.htm";
 
 	} elseif ($method == 'POST') {
@@ -52,6 +64,8 @@ if(empty($action) || $action == 'list') {
 		$username = param('username');
 		$password = param('password');
 		$_gid = param('_gid');
+		
+		// hook admin_user_create_post_start.php
 		
 		empty($email) AND message('email', lang('please_input_email'));
 		$email AND !is_email($email, $err) AND message('email', $err);
@@ -75,6 +89,8 @@ if(empty($action) || $action == 'list') {
 		));
 		$r === FALSE AND message(-1, lang('create_failed'));
 		
+		// hook admin_user_create_post_end.php
+		
 		message(0, lang('create_successfully'));
 
 	}
@@ -83,8 +99,12 @@ if(empty($action) || $action == 'list') {
 
 	$_uid = param(2, 0);
 	
+	// hook admin_user_update_get_post.php
+	
 	if($method == 'GET') {
 
+		// hook admin_user_update_get_start.php
+		
 		$header['title'] = lang('user_edit');
 		$header['mobile_title'] = lang('user_edit');
 		
@@ -96,6 +116,8 @@ if(empty($action) || $action == 'list') {
 		$grouparr = arrlist_key_values($grouplist, 'gid', 'name');
 		$input['_gid'] = form_select('_gid', $grouparr, $user['gid']);
 
+		// hook admin_user_update_get_end.php
+		
 		include "./view/htm/user_update.htm";
 
 	} elseif($method == 'POST') {
@@ -104,6 +126,8 @@ if(empty($action) || $action == 'list') {
 		$username = param('username');
 		$password = param('password');
 		$_gid = param('_gid');
+		
+		// hook admin_user_update_post_start.php
 		
 		$old = user_read($_uid);
 		empty($old) AND message('username', lang('uid_not_exists'));
@@ -136,6 +160,8 @@ if(empty($action) || $action == 'list') {
 		$r = user_update($_uid, $update);
 		$r === FALSE AND message(-1, lang('update_failed'));
 		
+		// hook admin_user_update_post_end.php
+		
 		message(0, lang('update_successfully'));
 	}
 
@@ -145,6 +171,8 @@ if(empty($action) || $action == 'list') {
 
 	$_uid = param('uid', 0);
 	
+	// hook admin_user_delete_start.php
+	
 	$_user = user_read($_uid);
 	empty($_user) AND message(-1, lang('user_not_exists'));
 	($_user['gid'] == 1) AND message(-1, 'admin_cant_be_deleted');
@@ -152,12 +180,12 @@ if(empty($action) || $action == 'list') {
 	$r = user_delete($_uid);
 	$r === FALSE AND message(-1, lang('delete_failed'));
 	
+	// hook admin_user_delete_end.php
 	
 	message(0, lang('delete_successfully'));
 	
-} else {
-	
-	http_404();
-	
 }
+
+// hook admin_user_start.php
+
 ?>

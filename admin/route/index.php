@@ -4,16 +4,24 @@
 
 $action = param(1);
 
+// hook admin_index_start.php
+
 if($action == 'login') {
 
+	// hook admin_index_login_get_post.php
+	
 	if($method == 'GET') {
 
+		// hook admin_index_login_get_start.php
+		
 		$header['title'] = lang('admin_login');
 		
 		include "./view/htm/index_login.htm";
 
 	} else if($method == 'POST') {
 
+		// hook admin_index_login_post_start.php
+		
 		$password = param('password');
 
 		if(md5($password.$user['salt']) != $user['password']) {
@@ -25,14 +33,18 @@ if($action == 'login') {
 
 		xn_log('login successed. uid:'.$user['uid'], 'admin_login');
 
+		// hook admin_index_login_post_end.php
+		
 		message(0, jump(lang('login_successfully'), '.'));
 
 	}
 
 } elseif ($action == 'logout') {
 
+	// hook admin_index_logout_start.php
+	
 	admin_token_clean();
-
+	
 	message(0, jump(lang('logout_successfully'), './'));
 
 } elseif ($action == 'phpinfo') {
@@ -42,6 +54,8 @@ if($action == 'login') {
 	
 } else {
 
+	// hook admin_index_empty_start.php
+	
 	$header['title'] = lang('admin_page');
 	
 	$info = array();
@@ -68,9 +82,13 @@ if($action == 'login') {
 	
 	$lastversion = get_last_version($stat);
 	
+	// hook admin_index_empty_end.php
+	
 	include './view/htm/index.htm';
 
 }
+
+// hook admin_index_end.php
 
 function get_last_version($stat) {
 	global $conf, $time;

@@ -6,14 +6,22 @@ $action = param(1);
 
 $system_group = array(0, 1, 2, 3, 4, 5, 6, 7, 101);
 
+// hook admin_group_start.php
+
 if(empty($action) || $action == 'list') {
 	
+	// hook admin_group_list_get_post.php
+	
 	if($method == 'GET') {
+		
+		// hook admin_group_list_get_start.php
 		
 		$header['title']        = lang('group_admin');
 		$header['mobile_title'] = lang('group_admin');
 		
 		$maxgid = group_maxid();
+		
+		// hook admin_group_list_get_end.php
 		
 		include "./view/htm/group_list.htm";
 	
@@ -23,8 +31,10 @@ if(empty($action) || $action == 'list') {
 		$namearr = param('name', array(''));
 		$creditsfromarr = param('creditsfrom', array(0));
 		$creditstoarr = param('creditsto', array(0));
-		
 		$arrlist = array();
+		
+		// hook admin_group_list_post_start.php
+		
 		foreach ($gidarr as $k=>$v) {
 			$arr = array(
 				'gid'=>$k,
@@ -50,6 +60,8 @@ if(empty($action) || $action == 'list') {
 		
 		group_list_cache_delete();
 		
+		// hook admin_group_list_post_end.php
+		
 		message(0, lang('save_successfully'));
 	}
 
@@ -59,7 +71,11 @@ if(empty($action) || $action == 'list') {
 	$_group = group_read($_gid);
 	empty($_group) AND message(-1, lang('group_not_exists'));
 	
+	// hook admin_group_update_get_post.php
+	
 	if($method == 'GET') {
+		
+		// hook admin_group_update_get_start.php
 		
 		$header['title']        = lang('group_admin');
 		$header['mobile_title'] = lang('group_admin');
@@ -81,6 +97,8 @@ if(empty($action) || $action == 'list') {
 		$input['allowdeleteuser'] = form_checkbox('allowdeleteuser', $_group['allowdeleteuser']);
 		$input['allowviewip'] = form_checkbox('allowviewip', $_group['allowviewip']);
 		
+		// hook admin_group_update_get_end.php
+		
 		include "./view/htm/group_update.htm";
 	
 	} elseif($method == 'POST') {	
@@ -93,6 +111,9 @@ if(empty($action) || $action == 'list') {
 		$allowpost = param('allowpost', 0);
 		$allowattach = param('allowattach', 0);
 		$allowdown = param('allowdown', 0);
+		
+		// hook admin_group_update_post_start.php
+		
 		$arr = array (
 			'name'       => $name,
 			'creditsfrom' => $creditsfrom,
@@ -124,13 +145,14 @@ if(empty($action) || $action == 'list') {
 			);
 		}
 		group_update($_gid, $arr);
+		
+		// hook admin_group_update_post_end.php
+		
 		message(0, lang('edit_sucessfully'));	
 	}
 	
-} else {
-	
-	http_404();
-	
 }
+
+// hook admin_group_start.php
 
 ?>

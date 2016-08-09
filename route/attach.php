@@ -7,12 +7,16 @@ $action = param(1);
 $user = user_read($uid);
 user_login_check();
 
+// hook attach_start.php
+
 if(empty($action) || $action == 'create') {
 	
 	$width = param('width', 0);
 	$height = param('height', 0);
 	$name = param('name');
 	$data = param('data', '', FALSE);
+	
+	// hook attach_create_start.php
 	
 	empty($data) AND message(-1, lang('data_is_empty'));
 	$data = base64_decode_file_data($data);
@@ -48,11 +52,17 @@ if(empty($action) || $action == 'create') {
 	$_SESSION['tmp_files'][$n] = $attach;
 	
 	unset($attach['path']);
+	
+	// hook attach_create_end.php
+	
 	message(0, $attach);
 
 } elseif($action == 'delete') {
 	
 	$aid = param(2);
+	
+	// hook attach_delete_start.php
+	
 	if(substr($aid, 0, 1) == '_') {
 		$key = intval(substr($aid, 1));
 		$tmp_files = _SESSION('tmp_files');
@@ -67,8 +77,12 @@ if(empty($action) || $action == 'create') {
 		$r ===  FALSE AND message(-1, lang('delete_failed'));
 	}
 	
+	// hook attach_delete_delete.php
+	
 	message(0, 'delete_successfully');
 	
 }
+
+// hook attach_end.php
 
 ?>
