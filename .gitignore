@@ -1,6 +1,5 @@
 tmp/*
 conf/conf.php
-tool/*
 upload/attach/*
 upload/avatar/*
 upload/forum/*
