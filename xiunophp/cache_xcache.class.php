@@ -10,7 +10,7 @@ class cache_xcache {
                         return xn_error(1, 'Xcache 扩展没有加载，请检查您的 PHP 版本');
                 }
                 $this->conf = $conf;
-                 $this->cachepre = $conf['cachepre'];
+		$this->cachepre = isset($conf['cachepre']) ? $conf['cachepre'] : 'pre_';
         }
         public function connect() {
         }
