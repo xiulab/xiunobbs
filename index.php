@@ -62,8 +62,11 @@ check_runlevel();
 // 全站的设置数据，站点名称，描述，关键词
 // $setting = kv_get('setting');
 
+$route = param(0, 'index');
+
+// hook index_route_before.php
+
 if(!defined('SKIP_ROUTE')) {
-	$route = param(0, 'index');
 	
 	// 按照使用的频次排序，增加命中率，提高效率
 	// According to the frequency of the use of sorting, increase the hit rate, improve efficiency

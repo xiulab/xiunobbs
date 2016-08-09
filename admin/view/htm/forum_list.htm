@@ -1,5 +1,7 @@
 <?php include './view/htm/header.inc.htm'; ?>
 
+<!--{hook admin_forum_list_start.htm}-->
+
 <div class="row">
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="card">
@@ -48,11 +50,14 @@
 	</div>
 </div>
 
+
+<!--{hook admin_forum_list_end.htm}-->
+
 <?php include './view/htm/footer.inc.htm'; ?>
 
 <script>
 
-if(!debug) $.alert('<?php echo lang('forum_edit_tip');?>'), 4);
+if(!debug) $.alert('<?php echo lang('forum_edit_tip');?>');
 
 var maxfid = <?php echo $maxfid;?>;
 
@@ -129,3 +134,5 @@ jadd.on('click', function() {
 $('#nav_pc li.forum, #nav_mobile li.forum').tab('show');
 
 </script>
+
+<!--{hook admin_forum_list_js.htm}-->

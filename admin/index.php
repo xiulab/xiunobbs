@@ -30,6 +30,8 @@ $lang += include "../lang/$conf[lang]/bbs_admin.php";
 include "./admin.func.php";
 $menu = include './menu.conf.php';
 
+// hook admin_index_menu_after.php
+
 // 只允许管理员登陆后台
 // Only allow administrators to log in the background
 

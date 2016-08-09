@@ -1,3 +1,5 @@
+<!--{hook admin_footer_start.htm}-->
+
 <?php $db = G('db');?>
 <?php $starttime = G('starttime');?>
 <?php $forumlist = G('forumlist');?>
@@ -9,6 +11,8 @@
 <?php echo xn_debug_info();?>
 
 </div>
+
+<!--{hook admin_footer_footer_before.htm}-->
 
 <div class="text-muted" id="footer">
 	<div class="container" style="overflow: hidden;">
@@ -27,9 +31,13 @@
 	</div>
 </div>
 
+<!--{hook admin_footer_footer_after.htm}-->
+
 <!--[if lt IE 9]>
 <script>window.location = '<?php echo url('browser');?>';</script>
 <![endif]-->
+
+<!--{hook admin_footer_js_before.htm}-->
 
 <script src="../lang/<?php echo $conf['lang'];?>/bbs.js<?php echo $static_version;?>"></script>
 <script src="../view/js/jquery-1.11.1.js<?php echo $static_version;?>"></script>
@@ -48,5 +56,9 @@ var fid = <?php echo $fid;?>;
 </script>
 <script src="../view/js/bbs.js<?php echo $static_version;?>"></script>
 
+<!--{hook admin_footer_js_after.htm}-->
+
 </div></body>
 </html>
+
+<!--{hook admin_footer_end.htm}-->
