@@ -108,7 +108,7 @@
 			<div class="row">
 				<!-- 左侧：折叠图标 -->
 				<div class="col-xs-1">
-					<?php if($route != 'index') { ?>
+					<?php if($route == 'index') { ?>
 					 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile_collapsing_bavbar">☰</button>
 					 <?php } else { ?>
 					 <a class="nav-link icon-chevron-left icon-2x" href="javascript:history.back()" aria-label="<?php echo lang('history_back');?>"></a>
@@ -145,7 +145,7 @@
 				</div>
 			</div>
 		</div>
-		<!-- 手机导航：下拉菜单 -->
+		<!-- 手机导航：下拉菜单 mobile navigation drop menu -->
 		<div class="collapse" id="mobile_collapsing_bavbar">
 			<div class="bg-inverse p-a-1">
 				<ul class="nav" id="nav_mobile">
@@ -166,7 +166,7 @@
 					
 					<!--{hook header_nav_mobile_forum_after.htm}-->
 					
-					<!-- 个人资料 -->
+					<!-- 个人资料 / profile -->
 					<?php if($uid) { ?>
 					<li class="nav-item">
 						<a class="nav-link" href="<?php echo url('my');?>"><i class="icon-user"></i> <?php echo lang('user_profile');?></a>
@@ -174,7 +174,7 @@
 					<hr class="m-y-0" />
 					<?php } ?>
 					
-					<!-- 后台 -->
+					<!-- 后台 / background -->
 					<?php if($gid == 1) { ?>
 					<li class="nav-item">
 						<a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_page');?></a>
@@ -184,7 +184,7 @@
 					
 					<!--{hook header_nav_mobile_logout_before.htm}-->
 					
-					<!-- 退出 -->
+					<!-- 退出 / logout-->
 					<?php if($uid) { ?>
 					<li class="nav-item">
 						<a class="nav-link" href="<?php echo url('user-logout');?>"><i class="icon-off"></i> <?php echo lang('logout');?></a>
