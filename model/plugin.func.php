@@ -16,8 +16,8 @@ function plugin_init() {
 		glob('../model/*.php'), 
 		glob('../route/*.php'), 
 		glob('../view/htm/*.*'), 
-		glob('../admin/route/*.php'), 
-		glob('../admin/view/htm/*.*'),
+		glob('./admin/route/*.php'), 
+		glob('./admin/view/htm/*.*'),
 		array('../index.php', './index.php')
 	);
 	foreach($plugin_srcfiles as $k=>$file) {
