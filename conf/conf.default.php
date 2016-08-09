@@ -52,6 +52,10 @@ return array (
       'port' => '6379',
       'cachepre' => 'bbs_',
     ),
+    'xcache' => 
+    array (
+      'cachepre' => 'bbs_',
+    ),
     'mysql' => 
     array (
       'cachepre' => 'bbs_',
