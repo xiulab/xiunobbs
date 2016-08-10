@@ -1,10 +1,10 @@
 <?php
 
-// hook runtime_func_php_start.php
+// hook model_runtime_start.php
 
 $g_runtime_save = 0;
 function runtime_init() {
-	// hook runtime_init_start.php
+	// hook model_runtime_init_start.php
 	global $conf;
 	$runtime = cache_get('runtime'); // 实时运行的数据，初始化！
 	if($runtime === NULL || !isset($runtime['users'])) {
@@ -25,19 +25,19 @@ function runtime_init() {
 		cache_set('runtime', $runtime);
 		
 	}
-	// hook runtime_init_end.php
+	// hook model_runtime_init_end.php
 	return $runtime;
 }
 
 function runtime_get($k) {
-	// hook runtime_get_start.php
+	// hook model_runtime_get_start.php
 	global $runtime;
-	// hook runtime_get_end.php
+	// hook model_runtime_get_end.php
 	return array_value($runtime, $k, FALSE);
 }
 
 function runtime_set($k, $v, $save = FALSE) {
-	// hook runtime_set_start.php
+	// hook model_runtime_set_start.php
 	global $conf, $runtime, $g_runtime_save;
 	$op = substr($k, -1);
 	if($op == '+' || $op == '-') {
@@ -57,21 +57,21 @@ function runtime_set($k, $v, $save = FALSE) {
 		$g_runtime_save = 1;
 		return TRUE;
 	}
-	// hook runtime_set_end.php
+	// hook model_runtime_set_end.php
 }
 
 // 追加 runtime，用来初始化
 function runtime_append($k, $v) {
-	// hook runtime_append_start.php
+	// hook model_runtime_append_start.php
 	$arr = kv_get('runtime_append');
 	empty($arr) AND $arr = array();
 	$arr[$k] = $v;
 	kv_set('runtime_append', $arr);
-	// hook runtime_append_end.php
+	// hook model_runtime_append_end.php
 }
 
 function runtime_save() {
-	// hook runtime_save_start.php
+	// hook model_runtime_save_start.php
 	global $runtime, $g_runtime_save;
 	
 	if(!empty($_SERVER['APP_PATH'])) chdir($_SERVER['APP_PATH']);
@@ -79,18 +79,18 @@ function runtime_save() {
 	if(!$g_runtime_save) return;
 	$r = cache_set('runtime', $runtime);
 	
-	// hook runtime_save_end.php
+	// hook model_runtime_save_end.php
 }
 
 function runtime_truncate() {
-	// hook runtime_truncate_start.php
+	// hook model_runtime_truncate_start.php
 	global $conf;
 	cache_delete('runtime');
-	// hook runtime_truncate_end.php
+	// hook model_runtime_truncate_end.php
 }
 
 register_shutdown_function('runtime_save');
 
-// hook runtime_func_php_end.php
+// hook model_runtime_end.php
 
 ?>

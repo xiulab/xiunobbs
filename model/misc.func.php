@@ -1,8 +1,10 @@
 <?php
 
+// hook model_misc_start.php
+
 // 检测站点的运行级别
 function check_runlevel() {
-	// hook check_runlevel_start.php
+	// hook model_check_runlevel_start.php
 	global $conf, $method, $gid;
 	$is_user_action = (param(0) == 'user');
 	switch ($conf['runlevel']) {
@@ -13,7 +15,7 @@ function check_runlevel() {
 		case 4: $method != 'GET' AND message(-1, '当前站点设置状态：所有用户只读'); break;
 		//case 5: break;
 	}
-	// hook check_runlevel_end.php
+	// hook model_check_runlevel_end.php
 }
 
 /*
@@ -48,5 +50,7 @@ function message($code, $message, $extra = array()) {
 	}
 	exit;
 }
+
+// hook model_misc_end.php
 
 ?>

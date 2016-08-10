@@ -1,10 +1,12 @@
 <?php
 
+// hook model_table_day_start.php
+
 // -------------> 用来统计表每天的最大ID，有利于加速！
 function table_day_read($table, $year, $month, $day) {
-	// hook table_day_read_start.php
+	// hook model_table_day_read_start.php
 	$arr = db_find_one('table_day', array('year'=>$year, 'month'=>$month, 'day'=>$day, 'table'=>$table));
-	// hook table_day_read_end.php
+	// hook model_table_day_read_end.php
 	return $arr;
 }
 
@@ -15,7 +17,7 @@ function table_day_read($table, $year, $month, $day) {
 
 */
 function table_day_maxid($table, $date) {
-	// hook table_day_maxid_start.php
+	// hook model_table_day_maxid_start.php
 
 	// 不能小于 2014-9-24，不能大于等于当前时间
 	$mintime = 1411516800; // strtotime('2014-9-24');
@@ -24,7 +26,7 @@ function table_day_maxid($table, $date) {
 
 	list($year, $month, $day) = explode('-', date('Y-n-j', $date));
 	$arr = table_day_read($table, $year, $month, $day);
-	// hook table_day_maxid_end.php
+	// hook model_table_day_maxid_end.php
 	return $arr ? intval($arr['maxid']) : 0;
 }
 
@@ -33,7 +35,7 @@ function table_day_maxid($table, $date) {
 	统计常用表的最大ID，用来削减日期类的索引，和加速查询。
 */
 function table_day_cron($crontime = 0) {
-	// hook table_day_cron_start.php
+	// hook model_table_day_cron_start.php
 	global $time;
 	$crontime = $crontime ? $crontime : $time;
 	list($y, $m, $d) = explode('-', date('Y-n-j', $crontime)); // 往前推8个小时，确保在前一天。
@@ -57,12 +59,12 @@ function table_day_cron($crontime = 0) {
 		);
 		db_replace('table_day', $arr);
 	}
-	// hook table_day_cron_end.php
+	// hook model_table_day_cron_end.php
 }
 
 // 重新生成数据
 function table_day_rebuild() {
-	// hook table_day_rebuild_start.php
+	// hook model_table_day_rebuild_start.php
 	global $time;
 	$user = user__read(1);
 	$crontime = $user['create_date'];
@@ -70,8 +72,9 @@ function table_day_rebuild() {
 		table_day_cron($crontime);
 		$crontime = $crontime + 86400;
 	}
-	// hook table_day_rebuild_end.php
+	// hook model_table_day_rebuild_end.php
 }
 
+// hook model_table_day_end.php
 
 ?>

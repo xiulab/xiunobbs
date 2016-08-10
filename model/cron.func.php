@@ -1,10 +1,10 @@
 <?php
 
-// hook cron_func_php_start.php
+// hook model_cron_start.php
 
 // 计划任务
 function cron_run($force = 0) {
-	// hook cron_run_start.php
+	// hook model_cron_run_start.php
 	global $conf, $time, $forumlist, $runtime;
 	$cron_1_last_date = runtime_get('cron_1_last_date');
 	$cron_2_last_date = runtime_get('cron_2_last_date');
@@ -21,7 +21,7 @@ function cron_run($force = 0) {
 			
 			runtime_set('cron_1_last_date', $time);
 			
-			// hook cron_5_minutes_end.php
+			// hook model_cron_5_minutes_end.php
 			
 			cache_delete('cron_lock_1');
 		}
@@ -59,17 +59,17 @@ function cron_run($force = 0) {
 			// 往前推8个小时，尽量保证在前一天
 			table_day_cron($time - 8 * 3600);
 			
-			// hook cron_daily_end.php
+			// hook model_cron_daily_end.php
 			
 			cache_delete('cron_lock_2');
 		}
 		
 	}
-	// hook cron_run_end.php
+	// hook model_cron_run_end.php
 }
 
 
 
-// hook cron_func_php_end.php
+// hook model_cron_end.php
 
 ?>

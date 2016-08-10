@@ -1,41 +1,41 @@
 <?php
 
-// hook user_func_php_start.php
+// hook model_user_start.php
 
 // ------------> 最原生的 CURD，无关联其他数据。
 
 function user__create($arr) {
-	// hook user__create_start.php
+	// hook model_user__create_start.php
 	$r = db_insert('user', $arr);
-	// hook user__create_end.php
+	// hook model_user__create_end.php
 	return $r;
 }
 
 function user__update($uid, $update) {
-	// hook user__update_start.php
+	// hook model_user__update_start.php
 	$r = db_update('user', array('uid'=>$uid), $update);
-	// hook user__update_end.php
+	// hook model_user__update_end.php
 	return $r;
 }
 
 function user__read($uid) {
-	// hook user__read_start.php
+	// hook model_user__read_start.php
 	$user = db_find_one('user', array('uid'=>$uid));
-	// hook user__read_end.php
+	// hook model_user__read_end.php
 	return $user;
 }
 
 function user__delete($uid) {
-	// hook user__delete_start.php
+	// hook model_user__delete_start.php
 	$r = db_delete('user', array('uid'=>$uid));
-	// hook user__delete_end.php
+	// hook model_user__delete_end.php
 	return $r;
 }
 
 // ------------> 关联 CURD，主要是强相关的数据，比如缓存。弱相关的大量数据需要另外处理。
 
 function user_create($arr) {
-	// hook user_create_start.php
+	// hook model_user_create_start.php
 	global $conf;
 	$r = user__create($arr);
 	
@@ -43,32 +43,32 @@ function user_create($arr) {
 	runtime_set('users+', 1);
 	runtime_set('todayusers+', 1);
 	
-	// hook user_create_end.php
+	// hook model_user_create_end.php
 	return $r;
 }
 
 function user_update($uid, $arr) {
-	// hook user_update_start.php
+	// hook model_user_update_start.php
 	global $conf;
 	$r = user__update($uid, $arr);
 	$conf['cache']['type'] != 'mysql' AND cache_delete("user-$uid");
-	// hook user_update_end.php
+	// hook model_user_update_end.php
 	return $r;
 }
 
 function user_read($uid) {
-	// hook user_read_start.php
+	// hook model_user_read_start.php
 	if(empty($uid)) return array();
 	$uid = intval($uid);
 	$user = user__read($uid);
 	user_format($user);
-	// hook user_read_end.php
+	// hook model_user_read_end.php
 	return $user;
 }
 
 // 从缓存中读取，避免重复从数据库取数据，主要用来前端显示，可能有延迟。重要业务逻辑不要调用此函数，数据可能不准确，因为并没有清理缓存，针对 request 生命周期有效。
 function user_read_cache($uid) {
-	// hook user_read_cache_start.php
+	// hook model_user_read_cache_start.php
 	global $conf;
 	static $cache = array(); // 用静态变量只能在当前 request 生命周期缓存，要跨进程，可以再加一层缓存： memcached/xcache/apc/
 	if(isset($cache[$uid])) return $cache[$uid];
@@ -88,12 +88,12 @@ function user_read_cache($uid) {
 	
 	$cache[$uid] = $r ? $r : user_guest();
 	
-	// hook user_read_cache_end.php
+	// hook model_user_read_cache_end.php
 	return $cache[$uid];
 }
 
 function user_delete($uid) {
-	// hook user_delete_start.php
+	// hook model_user_delete_start.php
 	global $conf;
 	// 清理用户资源
 	$threadlist = mythread_find_by_uid($uid, 1, 1000);
@@ -108,52 +108,52 @@ function user_delete($uid) {
 	// 全站统计
 	runtime_set('users-', 1);
 	
-	// hook user_delete_end.php
+	// hook model_user_delete_end.php
 	return $r;
 }
 
 function user_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
-	// hook user_find_start.php
+	// hook model_user_find_start.php
 	$userlist = db_find('user', $cond, $orderby, $page, $pagesize);
 	if($userlist) foreach ($userlist as &$user) user_format($user);
-	// hook user_find_end.php
+	// hook model_user_find_end.php
 	return $userlist;
 }
 
 // ------------> 其他方法
 
 function user_read_by_email($email) {
-	// hook user_read_by_email_start.php
+	// hook model_user_read_by_email_start.php
 	$user = db_find_one('user', array('email'=>$email));
 	user_format($user);
-	// hook user_read_by_email_end.php
+	// hook model_user_read_by_email_end.php
 	return $user;
 }
 
 function user_read_by_username($username) {
-	// hook user_read_by_username_start.php
+	// hook model_user_read_by_username_start.php
 	$user = db_find_one('user', array('username'=>$username));
 	user_format($user);
-	// hook user_read_by_username_end.php
+	// hook model_user_read_by_username_end.php
 	return $user;
 }
 
 function user_count($cond = array()) {
-	// hook user_count_start.php
+	// hook model_user_count_start.php
 	$n = db_count('user', $cond);
-	// hook user_count_end.php
+	// hook model_user_count_end.php
 	return $n;
 }
 
 function user_maxid($cond = array()) {
-	// hook user_maxid_start.php
+	// hook model_user_maxid_start.php
 	$n = db_maxid('user', 'uid');
-	// hook user_maxid_end.php
+	// hook model_user_maxid_end.php
 	return $n;
 }
 
 function user_format(&$user) {
-	// hook user_format_start.php
+	// hook model_user_format_start.php
 	global $conf, $grouplist;
 	if(empty($user)) return;
 
@@ -167,14 +167,14 @@ function user_format(&$user) {
 	$dir = substr(sprintf("%09d", $user['uid']), 0, 3);
 	$user['avatar_url'] = $user['avatar'] ? $conf['upload_url']."avatar/$dir/$user[uid].png?".$user['avatar'] : 'view/img/avatar.png';
 	$user['online_status'] = 1;
-	// hook user_format_end.php
+	// hook model_user_format_end.php
 }
 
 
 function user_guest() {
 	global $conf;
 	static $guest = NULL;
-	// hook user_guest_start.php
+	// hook model_user_guest_start.php
 	
 	if($guest) return $guest; // 返回引用，节省内存。
 	$guest = array (
@@ -192,7 +192,7 @@ function user_guest() {
 		'posts' => 0,
 	);
 	
-	// hook user_guest_end.php
+	// hook model_user_guest_end.php
 	return $guest; // 防止内存拷贝
 }
 
@@ -200,11 +200,11 @@ function user_guest() {
 function user_login_check() {
 	global $user;
 	
-	// hook user_login_check_start.php
+	// hook model_user_login_check_start.php
 	
 	empty($user) AND http_location(url('user-login'));
 	
-	// hook user_login_check_end.php
+	// hook model_user_login_check_end.php
 	
 	return $user;
 }
@@ -215,7 +215,7 @@ function user_update_group($uid) {
 	$user = user_read_cache($uid);
 	if($user['gid'] < 100) return FALSE;
 	
-	// hook user_update_group_start.php
+	// hook model_user_update_group_start.php
 	
 	// 遍历 credits 范围，调整用户组
 	foreach($grouplist as $group) {
@@ -229,13 +229,13 @@ function user_update_group($uid) {
 		}
 	}
 	
-	// hook user_update_group_end.php
+	// hook model_user_update_group_end.php
 	return FALSE;
 }
 
 // uids: 1,2,3,4 -> array()
 function user_find_by_uids($uids) {
-	// hook user_find_by_uids_start.php
+	// hook model_user_find_by_uids_start.php
 	$uids = trim($uids);
 	if(empty($uids)) return array();
 	$arr = explode(',', $uids);
@@ -245,13 +245,13 @@ function user_find_by_uids($uids) {
 		if(empty($user)) continue;
 		$r[$user['uid']] = $user;
 	}
-	// hook user_find_by_uids_end.php
+	// hook model_user_find_by_uids_end.php
 	return $r;
 }
 
 // 获取用户安全信息
 function user_safe_info($user) {
-	// hook user_safe_info_start.php
+	// hook model_user_safe_info_start.php
 	unset($user['password']);
 	unset($user['email']);
 	unset($user['salt']);
@@ -267,7 +267,7 @@ function user_safe_info($user) {
 	unset($user['login_ip_fmt']);
 	unset($user['login_date_fmt']);
 	unset($user['logins']);
-	// hook user_safe_info_end.php
+	// hook model_user_safe_info_end.php
 	return $user;
 }
 
@@ -304,6 +304,7 @@ function user_token_gen($uid) {
 	$token = xn_encrypt("$ip	$time	$uid", $tokenkey);
 	return $token;
 }
-// hook user_func_php_end.php
+
+// hook model_user_end.php
 
 ?>

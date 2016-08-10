@@ -66,7 +66,7 @@ $(function() {
 				var file = files[i];
 				if(file.getAsFile) file = file.getAsFile();
 				if(!file || file.size == 0 || file.type.indexOf('image') == -1) return;
-				xn.upload_file(file, 'plugin/xn_umeditor/upload.php', {is_image: 1}, function(code, json) {
+				xn.upload_file(file, xn.url('attach-create'), {is_image: 1}, function(code, json) {
 					if(code == 0) {
 						var s = '<img src="'+json.url+'" width="'+json.width+'" height=\"'+json.height+'\" />';
 						me.execCommand('inserthtml', s);
