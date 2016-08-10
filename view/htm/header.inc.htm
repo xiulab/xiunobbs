@@ -1,17 +1,18 @@
+<?php $conf = G('conf');?>
+<?php $header = G('header');?>
+<?php $user = G('user');?>
+<?php $uid = G('uid');?>
+<?php $gid = G('gid');?>
+<?php $fid = G('fid');?>
+<?php $tid = G('tid');?>
+<?php $pid = G('pid');?>
+<?php $route = G('route');?>
+<?php $forumlist_show = G('forumlist_show');?>
+<?php $static_version = $conf['static_version'];?>
 <!DOCTYPE html>
 <html lang="<?php echo $conf['lang'];?>">
 <head>
-	<?php $header = G('header');?>
-	<?php $user = G('user');?>
-	<?php $uid = G('uid');?>
-	<?php $gid = G('gid');?>
-	<?php $fid = G('fid');?>
-	<?php $tid = G('tid');?>
-	<?php $pid = G('pid');?>
-	<?php $route = G('route');?>
-	<?php $forumlist_show = G('forumlist_show');?>
-	<?php $conf = G('conf');?>
-	<?php $static_version = $conf['static_version'];?>
+	
 	<?php echo defined('BASE_HREF') ? '<base href="'.BASE_HREF.'" />' : '' ;?>
 	
 	<!--{hook header_mete_before.htm}-->

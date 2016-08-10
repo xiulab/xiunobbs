@@ -45,10 +45,6 @@ function cron_run($force = 0) {
 			}
 			forum_list_cache_delete();
 			
-			
-			// 清理在线
-			session_gc();
-			
 			// 清理临时附件
 			attach_gc();
 			
