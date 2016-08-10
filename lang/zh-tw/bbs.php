@@ -148,6 +148,8 @@ return array(
 	'please_login'=>'請登錄',
 	'send_init_pw_tips'=>'無需驗證',
 	'user_joined_thread'=>'他參與的主題',
+	'delete_user'=>'刪除用戶',
+	'confirm_delete_user'=>'確定刪除用戶？',
 	
 	// 個人中心
 	'my_home' => '個人中心',

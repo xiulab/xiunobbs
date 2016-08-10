@@ -49,7 +49,14 @@
 			</table>
 		</div>
 		<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>
-		<a role="button" class="btn btn-secondary center-block" href="<?php echo url('my');?>"> <?php echo lang('back');?> </a>
+		　　
+		<?php if(!empty($group['allowdeleteuser'])) { ?>
+		<a role="button" class="btn btn-danger confirm btn-block" data-confirm-text="<?php echo lang('confirm_delete_user');?>" data-method="post" href="<?php echo url("mod-deleteuser-$_user[uid]");?>"><?php echo lang('delete_user');?></a>
+		<?php } ?>
+		
+		<a role="button" class="btn btn-secondary center-block m-t-1" href="<?php echo url('my');?>"> <?php echo lang('back');?> </a>
+		
+		
 	</div>
 </div>
 

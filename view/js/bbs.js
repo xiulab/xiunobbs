@@ -71,7 +71,15 @@ $('a.confirm').on('click', function() {
 	var jthis = $(this);
 	var text = jthis.data('confirm-text');
 	$.confirm(text, function() {
-		window.location = jthis.attr('href');
+		var method = jthis.data('method');
+		var href = jthis.attr('href');
+		if(method == 'post') {
+			$.xpost(href, function(code, message) {
+				window.location.reload();
+			});
+		} else {
+			window.location = jthis.attr('href');
+		}
 	})
 	return false;
 });

@@ -149,6 +149,8 @@ return array(
 	'please_login'=>'请登录',
 	'send_init_pw_tips'=>'无需验证',
 	'user_joined_thread'=>'他参与的主题',
+	'delete_user'=>'删除用户',
+	'confirm_delete_user'=>'确定删除用户？',
 	
 	// 个人中心
 	'my_home' => '个人中心',

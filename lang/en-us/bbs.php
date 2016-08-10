@@ -75,7 +75,7 @@ return array(
 	
 	
 	
-	// 用户相关
+	// user
 	'group_0'=>'User Group',
 	'group_1'=>'Admin Group',
 	'group_2'=>'Super Moderator Group',
@@ -150,8 +150,10 @@ return array(
 	'please_login'=>'Please log in',
 	'send_init_pw_tips'=>'No need to verify',
 	'user_joined_thread'=>'Join Thread',
+	'delete_user'=>'Delete User',
+	'confirm_delete_user'=>'Sure to delete user ?',
 	
-	// 个人中心
+	// my profile
 	'my_home' => 'My Home',
 	'my_profile' => 'My Profile',
 	'modify_password' => 'Modify Password',
@@ -218,7 +220,7 @@ return array(
 	'view_thread_message' => 'View Content',
 	
 	
-	// 版主管理
+	// moderator
 	'please_choose_thread' => 'Please choose thread',
 	'set_completely' => 'Set completely',
 	'delete_completely' => 'Delete completely',
@@ -230,7 +232,7 @@ return array(
 	'admin_page'=>'Management',
 	'admin_login'=>'Admin Login',
 	
-	// 检测相关
+	// check
 	'mobile_format_mismatch'=>'Mobile format illegal',
 	'email_too_long'=>'Email length too long: {length}',
 	'email_format_mismatch'=>'Email format illegal',

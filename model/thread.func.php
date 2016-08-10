@@ -266,7 +266,7 @@ function thread_format(&$thread) {
 		$thread['lastusername'] = '';
 	} else {
 		$lastuser = $thread['lastuid'] ? user_read_cache($thread['lastuid']) : array();
-		$thread['lastusername'] = $thread['lastuid'] ? $lastuser['username'] : '游客';
+		$thread['lastusername'] = $thread['lastuid'] ? $lastuser['username'] : lang('guest');
 	}
 	
 	$thread['url'] = "thread-$thread[tid].htm";
