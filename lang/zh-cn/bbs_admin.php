@@ -154,7 +154,7 @@ return array(
 	'plugin_unstall_confirm_tips'=>'卸载会清理该插件相关数据，确定卸载 ( {name} ) 吗？',
 	
 	
-	
+	// hook lang_zh_cn_bbs_admin.php
 	
 );
 

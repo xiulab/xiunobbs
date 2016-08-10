@@ -919,8 +919,9 @@ xn.image_resize = function(file_base64_data, callback, options) {
 	用法：
 	var file = e.target.files[0]; // 文件控件 onchange 后触发的 event;
 	var upload_url = 'xxx.php'; // 服务端地址
-	var options = {width: 2048, height: 4096, action: 'thumb', filetype: 'jpg', function(percent) { console.log('progress:'+ percent); }}; // 如果是图片，会根据此项设定进行缩略和剪切 thumb|clip
-	xn.upload_file(file, upload_url, function(code, json) {
+	var postdata = {width: 2048, height: 4096, action: 'thumb', filetype: 'jpg'};
+	var progress = function(percent) { console.log('progress:'+ percent); }}; // 如果是图片，会根据此项设定进行缩略和剪切 thumb|clip
+	xn.upload_file(file, upload_url, postdata, function(code, json) {
 		// 成功
 		if(code == 0) {
 			console.log(json.url);
@@ -929,14 +930,12 @@ xn.image_resize = function(file_base64_data, callback, options) {
 		} else {
 			alert(json);
 		}
-	}, options);
+	}, progress);
 */
-xn.upload_file = function(file, upload_url, callback, options) {
-	options = options || {};
-	options.width = options.width || 1024;
-	options.height = options.height || 2048;
-	options.progress_callback = options.progress_callback || null;
-	
+xn.upload_file = function(file, upload_url, postdata, callback, progress_callback) {
+	postdata = postdata || {};
+	postdata.width = postdata.width || 1024;
+	postdata.height = postdata.height || 2048;
 	var reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = function() {
@@ -945,7 +944,7 @@ xn.upload_file = function(file, upload_url, callback, options) {
         			if(code != 0) return _callback(code, message);
         			if(_callback) _callback(0, message);
         		}, function(percent) {
-        			if(options.progress_callback) options.progress_callback(percent);
+        			if(progress_callback) progress_callback(percent);
         		});
         	}
         	// 图片进行缩放，然后上传
@@ -953,16 +952,20 @@ xn.upload_file = function(file, upload_url, callback, options) {
 	        	var filename = file.name ? file.name : (file.type == 'image/png' ? 'capture.png' : 'capture.jpg');
 	        	xn.image_resize(this.result, function(code, message) {
 	        		if(code != 0) return alert(message);
-	        		options.width = message.width;
-	        		options.height = message.height;
 	        		// message.width, message.height 是缩略后的宽度和高度
-	        		var postdata = {name: filename, data: message.data, width:options.width, height:options.height};
+	        		postdata.name = filename;
+	        		postdata.data = message.data;
+	        		postdata.width = message.width;
+	        		postdata.height = message.height;
 	        		ajax_upload(upload_url, postdata, callback);
-	        	}, options);
+	        	}, postdata);
 	        // 文件直接上传， 不缩略
         	} else {
         		var filename = file.name ? file.name : '';
-        		var postdata = {name: file.name, data: this.result, width: 0, height: 0};
+        		postdata.name = filename;
+        		postdata.data = this.result;
+        		postdata.width = 0;
+        		postdata.height = 0;
         		ajax_upload(upload_url, postdata, callback);
         	}
         }

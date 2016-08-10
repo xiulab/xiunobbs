@@ -10,6 +10,7 @@ if($method != 'POST') exit('Not Allow');
 
 $width = param('width', 0);
 $height = param('height', 0);
+$is_image = param('is_image', 0);
 $name = param('name');
 $data = param('data', '', FALSE);
 
@@ -37,7 +38,7 @@ $attach = array(
 	'filesize'=>filesize($tmpfile), 
 	'width'=>$width, 
 	'height'=>$height, 
-	'isimage'=>1, 
+	'isimage'=>$is_image, 
 	'aid'=>'_'.$n
 );
 $_SESSION['tmp_files'][$n] = $attach;

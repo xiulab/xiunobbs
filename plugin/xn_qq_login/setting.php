@@ -1,8 +1,8 @@
 <?php
 
 /*
-	Xiuno BBS 4.0 插件实例：广告插件设置
-	admin/plugin-setting-xn_ad.htm
+	Xiuno BBS 4.0 插件实例：QQ 登陆插件设置
+	admin/plugin-setting-xn_qq_login.htm
 */
 
 !defined('DEBUG') AND exit('Access Denied.');

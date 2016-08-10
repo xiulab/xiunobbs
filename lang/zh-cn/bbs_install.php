@@ -47,6 +47,8 @@ Xiuno BBS 4.0 采用 MIT 协议发布，您可以自由修改、派生版本、�
 	'agree_license_to_continue' => '同意协议继续安装',
 	'install_title' => 'Xiuno BBS 4.0 安装向导',
 	'install_guide' => '安装向导',
+	
+	// hook lang_zh_cn_bbs_install.php
 
 );
 

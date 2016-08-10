@@ -16,4 +16,6 @@ var lang = {
 	'top_thread':'置頂主題',
 	'top_range':'置頂範圍',
 	'confirm_delete_thread':'確定刪除選中的 ({n}) 篇主題嗎？',
+	
+	// hook lang_zh_cn_bbs_js.htm
 };

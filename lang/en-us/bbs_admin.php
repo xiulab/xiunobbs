@@ -154,7 +154,7 @@ return array(
 	'plugin_unstall_confirm_tips'=>'Uninstall will clean up the plugin data, determine the uninstall ( {name} ) it?',
 	
 	
-	
+	// hook lang_en_us_bbs_admin.php
 	
 );
 

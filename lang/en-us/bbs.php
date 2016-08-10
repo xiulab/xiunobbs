@@ -251,6 +251,8 @@ return array(
 	'lang_zh_tw'=>'繁体中文',
 	'lang_en_us'=>'English',
 	
+	// hook lang_en_us_bbs.php
+	
 );
 
 ?>

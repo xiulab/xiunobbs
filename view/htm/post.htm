@@ -121,7 +121,7 @@ $('#addattach').on('change', function(e) {
 	// 并发下会 服务端 session 写入会有问题，由客户端控制改为串行
 	$.each_sync(files, function(i, callback) {
 		var file = files[i];
-		xn.upload_file(files[0], xn.url('attach-create'), function(code, message) {
+		xn.upload_file(files[0], xn.url('attach-create'), {is_image: 0}, function(code, message) {
 			if(code != 0) return $.alert(message);
 			// 把文件 append 到附件列表
 			var url = message.url;

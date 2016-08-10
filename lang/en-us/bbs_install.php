@@ -46,6 +46,7 @@ BBS Xiuno 4 using the MIT agreement, you can freely modify, derived version, com
 	'install_title' => 'Xiuno BBS 4.0 Installation wizard',
 	'install_guide' => 'Installation Wizard',
 
+	// hook lang_en_us_bbs_install.php
 );
 
 ?>

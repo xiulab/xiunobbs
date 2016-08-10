@@ -250,6 +250,8 @@ return array(
 	'lang_zh_tw'=>'繁体中文',
 	'lang_en_us'=>'美式英语',
 	
+	// hook lang_zh_cn_bbs.php
+	
 );
 
 ?>

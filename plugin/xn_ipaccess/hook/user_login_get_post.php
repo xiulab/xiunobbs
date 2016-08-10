@@ -1,0 +1,1 @@
+	!ipaccess_check($longip, 'logins') AND message(-1, '您的 IP 今日登陆次数达到上限。');

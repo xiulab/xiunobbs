@@ -152,9 +152,9 @@ if($action == 'login') {
 	$subject = lang('email_create_init_pw_template', array('rand'=>$rand, 'sitename'=>$conf['sitename']));
 	$message = $subject;
 	
-	// hookuser_sendinitpw_sendmail_before.php
+	// hook user_sendinitpw_sendmail_before.php
 	$r = xn_send_mail($smtp, $conf['sitename'], $email, $subject, $message);
-	// hookuser_sendinitpw_sendmail_after.php
+	// hook user_sendinitpw_sendmail_after.php
 	
 	if($r === TRUE) {
 		message(0, lang('user_send_init_pw_sucessfully'));

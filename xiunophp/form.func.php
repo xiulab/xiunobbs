@@ -44,7 +44,7 @@ function form_options($arr, $checked = 0) {
 	return $s;
 }
 
-function form_text($name, $value, $width = FALSE) {
+function form_text($name, $value, $width = FALSE, $holdplacer = '') {
 	$style = '';
 	if($width !== FALSE) {
 		is_numeric($width) AND $width .= 'px';

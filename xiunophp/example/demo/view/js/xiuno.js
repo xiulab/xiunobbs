@@ -316,6 +316,14 @@ xn.is_element = function(obj) {
     return !!(obj && obj.nodeType === 1);
 };
 
+xn.lang = function(key, arr) {
+	var r = lang[key] ? lang[key] : "lang["+key+"]";
+	if(arr) {
+		$.each(arr, function(k, v) { r = xn.str_replace("{"+k+"}", v, r);});	
+	}
+	return r;
+}
+
 /* 
 	js 版本的翻页函数
 */
@@ -425,8 +433,8 @@ xn.param = function(key) {
 
 // 模拟服务端 url() 函数
 
-xn.url = function(u, url_rewrite_on) {
-	if(!url_rewrite_on) url_rewrite_on = 0;
+xn.url = function(u, url_rewrite) {
+	var on = window.url_rewrite_on || url_rewrite;
 	if(xn.strpos(u, '/') != -1) {
 		var path = xn.substr(u, 0, xn.strrpos(u, '/') + 1);
 		var query = xn.substr(u, xn.strrpos(u, '/') + 1);
@@ -435,13 +443,13 @@ xn.url = function(u, url_rewrite_on) {
 		var query = u;
 	}
 	var r = '';
-	if(url_rewrite_on == 0) {
+	if(!on) {
 		r = path + '?' + query + '.htm';
-	} else if(url_rewrite_on == 1) {
+	} else if(on == 1) {
 		r = path + query + ".htm";
-	} else if(url_rewrite_on == 2) {
+	} else if(on == 2) {
 		r = path + '?' + xn.str_replace('-', '/', query);
-	} else if(url_rewrite_on == 3) {
+	} else if(on == 3) {
 		r = path + xn.str_replace('-', '/', query);
 	}
 	return r;
@@ -836,8 +844,8 @@ xn.image_resize = function(file_base64_data, callback, options) {
 	var filetype = options.filetype || 'jpeg';
 	var qulity = options.qulity || 0.7; // 图片质量, 1 为无损
 	
-	if(thumb_width < 1) return callback(-1, '缩略图宽度不能小于 1');
-	if(xn.substr(file_base64_data, 0, 10) != 'data:image') return callback(-1, '传入的 base64 数据有问题');
+	if(thumb_width < 1) return callback(-1, '缩略图宽度不能小于 1 / thumb image width length is less 1 pix');
+	if(xn.substr(file_base64_data, 0, 10) != 'data:image') return callback(-1, '传入的 base64 数据有问题 / deformed base64 data');
 	// && xn.substr(file_base64_data, 0, 14) != 'data:image/gif' gif 不支持
 		
 	var img = new Image();
@@ -911,8 +919,9 @@ xn.image_resize = function(file_base64_data, callback, options) {
 	用法：
 	var file = e.target.files[0]; // 文件控件 onchange 后触发的 event;
 	var upload_url = 'xxx.php'; // 服务端地址
-	var options = {width: 2048, height: 4096, action: 'thumb', filetype: 'jpg', function(percent) { console.log('progress:'+ percent); }}; // 如果是图片，会根据此项设定进行缩略和剪切 thumb|clip
-	xn.upload_file(file, upload_url, function(code, json) {
+	var postdata = {width: 2048, height: 4096, action: 'thumb', filetype: 'jpg'};
+	var progress = function(percent) { console.log('progress:'+ percent); }}; // 如果是图片，会根据此项设定进行缩略和剪切 thumb|clip
+	xn.upload_file(file, upload_url, postdata, function(code, json) {
 		// 成功
 		if(code == 0) {
 			console.log(json.url);
@@ -921,14 +930,12 @@ xn.image_resize = function(file_base64_data, callback, options) {
 		} else {
 			alert(json);
 		}
-	}, options);
+	}, progress);
 */
-xn.upload_file = function(file, upload_url, callback, options) {
-	options = options || {};
-	options.width = options.width || 1024;
-	options.height = options.height || 2048;
-	options.progress_callback = options.progress_callback || null;
-	
+xn.upload_file = function(file, upload_url, postdata, callback, progress_callback) {
+	postdata = postdata || {};
+	postdata.width = postdata.width || 1024;
+	postdata.height = postdata.height || 2048;
 	var reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = function() {
@@ -937,7 +944,7 @@ xn.upload_file = function(file, upload_url, callback, options) {
         			if(code != 0) return _callback(code, message);
         			if(_callback) _callback(0, message);
         		}, function(percent) {
-        			if(options.progress_callback) options.progress_callback(percent);
+        			if(progress_callback) progress_callback(percent);
         		});
         	}
         	// 图片进行缩放，然后上传
@@ -945,16 +952,20 @@ xn.upload_file = function(file, upload_url, callback, options) {
 	        	var filename = file.name ? file.name : (file.type == 'image/png' ? 'capture.png' : 'capture.jpg');
 	        	xn.image_resize(this.result, function(code, message) {
 	        		if(code != 0) return alert(message);
-	        		options.width = message.width;
-	        		options.height = message.height;
 	        		// message.width, message.height 是缩略后的宽度和高度
-	        		var postdata = {name: filename, data: message.data, width:options.width, height:options.height};
+	        		postdata.name = filename;
+	        		postdata.data = message.data;
+	        		postdata.width = message.width;
+	        		postdata.height = message.height;
 	        		ajax_upload(upload_url, postdata, callback);
-	        	}, options);
+	        	}, postdata);
 	        // 文件直接上传， 不缩略
         	} else {
         		var filename = file.name ? file.name : '';
-        		var postdata = {name: file.name, data: this.result, width: 0, height: 0};
+        		postdata.name = filename;
+        		postdata.data = this.result;
+        		postdata.width = 0;
+        		postdata.height = 0;
         		ajax_upload(upload_url, postdata, callback);
         	}
         }
@@ -987,7 +998,7 @@ xn.nodeHasParent = function(node, topNode) {
 
 // 表单提交碰到错误的时候，依赖此处，否则错误会直接跳过，不利于发现错误
 window.onerror = function(msg, url, line) {
-	if(!debug) return;
+	if(!window.debug) return;
 	alert("error: "+msg+"\r\n line: "+line+"\r\n url: "+url);
 	// 阻止所有的 form 提交动作
 	return false;

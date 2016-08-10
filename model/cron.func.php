@@ -11,6 +11,7 @@ function cron_run($force = 0) {
 	
 	$t = $time - $cron_1_last_date;
 	
+	// 每隔 5 分钟执行一次的计划任务
 	if($t > 300 || $force) {
 		$lock = cache_get('cron_lock_1');
 		if($lock === NULL) {
@@ -20,10 +21,13 @@ function cron_run($force = 0) {
 			
 			runtime_set('cron_1_last_date', $time);
 			
+			// hook cron_5_minutes_end.php
+			
 			cache_delete('cron_lock_1');
 		}
 	}
 	
+	// 每日 0 点执行一次的计划任务
 	$t = $time - $cron_2_last_date;
 	if($t > 86400 || $force) {
 		
@@ -54,6 +58,8 @@ function cron_run($force = 0) {
 			
 			// 往前推8个小时，尽量保证在前一天
 			table_day_cron($time - 8 * 3600);
+			
+			// hook cron_daily_end.php
 			
 			cache_delete('cron_lock_2');
 		}

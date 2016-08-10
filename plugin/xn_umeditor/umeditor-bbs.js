@@ -23,7 +23,7 @@ $(function() {
 			// 并发下会 服务端 session 写入会有问题，由客户端控制改为串行
 			$.each_sync(files, function(i, callback) {
 				var file = files[i];
-				xn.upload_file(file, 'plugin/xn_umeditor/upload.php', function(code, json) {
+				xn.upload_file(file, xn.url('attach-create'), {is_image: 1}, function(code, json) {
 					if(code == 0) {
 						var s = '<img src="'+json.url+'" width="'+json.width+'" height=\"'+json.height+'\" />';
 						me.execCommand('inserthtml', s);
@@ -33,18 +33,6 @@ $(function() {
 					callback();
 				});
 			});
-			/* 并发下会 服务端 session 写入会有问题，由客户端控制改为串行
-			$.each(files, function(i, file) {
-				xn.upload_file(file, 'plugin/xn_umeditor/upload.php', function(code, json) {
-					if(code == 0) {
-						var s = '<img src="'+json.url+'" width="'+json.width+'" height=\"'+json.height+'\" />';
-						me.execCommand('inserthtml', s);
-					} else {
-						$.alert(json);
-					}
-				});
-			});
-			*/
 		});
 	    
 		me.addListener('selectionchange', function () {
@@ -78,7 +66,7 @@ $(function() {
 				var file = files[i];
 				if(file.getAsFile) file = file.getAsFile();
 				if(!file || file.size == 0 || file.type.indexOf('image') == -1) return;
-				xn.upload_file(file, 'plugin/xn_umeditor/upload.php', function(code, json) {
+				xn.upload_file(file, 'plugin/xn_umeditor/upload.php', {is_image: 1}, function(code, json) {
 					if(code == 0) {
 						var s = '<img src="'+json.url+'" width="'+json.width+'" height=\"'+json.height+'\" />';
 						me.execCommand('inserthtml', s);

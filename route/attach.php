@@ -13,6 +13,7 @@ if(empty($action) || $action == 'create') {
 	
 	$width = param('width', 0);
 	$height = param('height', 0);
+	$is_image = param('is_image', 0);
 	$name = param('name');
 	$data = param('data', '', FALSE);
 	
@@ -38,15 +39,16 @@ if(empty($action) || $action == 'create') {
 	$filetype = attach_type($name, $filetypes);
 	empty($_SESSION['tmp_files']) AND $_SESSION['tmp_files'] = array();
 	$n = count($_SESSION['tmp_files']);
+	$filesize = filesize($tmpfile);
 	$attach = array(
 		'url'=>$tmpurl, 
 		'path'=>$tmpfile, 
 		'orgfilename'=>$name, 
 		'filetype'=>$filetype, 
-		'filesize'=>filesize($tmpfile), 
+		'filesize'=>$filesize, 
 		'width'=>$width, 
 		'height'=>$height, 
-		'isimage'=>0, 
+		'isimage'=>$is_image, 
 		'aid'=>'_'.$n
 	);
 	$_SESSION['tmp_files'][$n] = $attach;

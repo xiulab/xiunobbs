@@ -18,7 +18,10 @@ function plugin_init() {
 		glob('../view/htm/*.*'), 
 		glob('./route/*.php'), 
 		glob('./view/htm/*.*'),
-		array('../index.php', './index.php')
+		glob('./lang/en-us/*.*'),
+		glob('./lang/zh-cn/*.*'),
+		glob('./lang/zh-tw/*.*'),
+		array('../index.php', '../model.inc.php', './index.php')
 	);
 	foreach($plugin_srcfiles as $k=>$file) {
 		$filename = file_name($file);

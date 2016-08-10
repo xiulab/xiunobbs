@@ -1,6 +1,9 @@
 <?php
 
+// hook model_inc_start.php
+
 // 可以合并成一个文件，加快速度
+// merge to one file.
 if(DEBUG) {
 	
 	$__getcwd = getcwd();
@@ -23,6 +26,7 @@ if(DEBUG) {
 	include './model/misc.func.php';	// 杂项
 	include './model/plugin.func.php';	// 
 	include './model/session.func.php';	// 
+	// hook model_inc_include.php
 	
 	chdir($__getcwd);
 	unset($__getcwd);
@@ -52,6 +56,8 @@ if(DEBUG) {
 		$s .= php_strip_whitespace('./model/misc.func.php');
 		$s .= php_strip_whitespace('./model/plugin.func.php');
 		$s .= xn_php_strip_whitespace('./model/session.func.php');
+		// hook model_inc_merge.php
+		
 		$r = file_put_contents($model_min_file, $s);
 		unset($s);
 	}
@@ -61,6 +67,7 @@ if(DEBUG) {
 	unset($__getcwd);
 }
 
+// hook model_inc_end.php
 
 function xn_php_strip_whitespace($file) {
 	$s = php_strip_whitespace($file);

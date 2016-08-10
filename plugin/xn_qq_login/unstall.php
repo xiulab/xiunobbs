@@ -1,8 +1,8 @@
 <?php
 
 /*
-	Xiuno BBS 4.0 插件实例：友情链接插件卸载
-	admin/plugin-unstall-xn_friendlink.htm
+	Xiuno BBS 4.0 插件实例：QQ 登陆插件卸载
+	admin/plugin-unstall-xn_qq_login.htm
 */
 
 !defined('DEBUG') AND exit('Forbidden');

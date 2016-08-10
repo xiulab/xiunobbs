@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Xiuno BBS 4.0 插件实例：友情链接插件安装
+	Xiuno BBS 4.0 插件实例：QQ 登陆安装
 	admin/plugin-install-xn_friendlink.htm
 */
 
@@ -14,8 +14,8 @@ $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}user_open_plat (
 	openid char(40) NOT NULL DEFAULT '' COMMENT '第三方唯一标识',
 	PRIMARY KEY (uid),
 	KEY openid_platid (platid,openid)
-) ENGINE=MyISAM AUTO_INCREMENT=8805 DEFAULT CHARSET=utf8
-";
+) ENGINE=MyISAM AUTO_INCREMENT=8805 DEFAULT CHARSET=utf8";
+
 $r = db_exec($sql);
 $r === FALSE AND message(-1, '创建表结构失败'); // 中断，安装失败。
 
