@@ -1,6 +1,6 @@
 <?php
 
-// hook model_attach_func_php_start.php
+// hook model_attach_start.php
 
 // ------------> 最原生的 CURD，无关联其他数据。
 
@@ -238,6 +238,6 @@ function attach_assoc_post($pid) {
 }
 
 
-// hook model_attach_func_php_end.php
+// hook model_attach_end.php
 
 ?>
