@@ -217,6 +217,7 @@ return array(
 	'floor' => '楼',
 	'create_rank' => '注册排名',
 	'view_thread_message' => '查看主题内容',
+	'last_reply' => '最后回复',
 	
 	
 	// 版主管理

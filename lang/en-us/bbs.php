@@ -218,7 +218,7 @@ return array(
 	'floor' => 'Floor',
 	'create_rank' => 'Create Rank',
 	'view_thread_message' => 'View Content',
-	
+	'last_reply' => 'Last Reply',
 	
 	// moderator
 	'please_choose_thread' => 'Please choose thread',

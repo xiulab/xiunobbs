@@ -216,7 +216,7 @@ return array(
 	'floor' => '樓',
 	'create_rank' => '註冊排名',
 	'view_thread_message' => '查看主題內容',
-	
+	'last_reply' => '最後回復',
 	
 	// 版主管理
 	'please_choose_thread' => '請選擇主題',
