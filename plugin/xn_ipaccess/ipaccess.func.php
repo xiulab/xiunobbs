@@ -82,11 +82,11 @@ function ipaccess_check_seriate_threads() {
 	return TRUE;
 }
 
-function ipaccess_check_seriate_posts() {
+function ipaccess_check_seriate_posts($tid) {
 	global $uid, $gid, $conf;
 	
 	$ipaccess = kv_get('ipaccess');
-	if(!$ipaccess['seriate_threads']) return TRUE;
+	if(!$ipaccess['seriate_posts']) return TRUE;
 	if($gid > 0 AND $gid < 5) return TRUE;
 	
 	$posts = 0;
