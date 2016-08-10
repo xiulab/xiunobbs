@@ -462,7 +462,7 @@ xn.url = function(u, url_rewrite) {
 
 $.location = function(url, seconds) {
 	if(seconds === undefined) seconds = 1;
-	setTimeout(function() {window.location='./';}, seconds * (debug ? 1000000 : 1000));
+	setTimeout(function() {window.location='./';}, seconds * (debug ? 2000 : 1000));
 }
 
 // 二级数组排序

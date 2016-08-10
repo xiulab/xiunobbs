@@ -16,6 +16,7 @@ var lang = {
 	'top_thread':'Top thread',
 	'top_range':'Top range',
 	'confirm_delete_thread':'Sure to delete the selected {n} topics',
+	'confirm_delete':'Sure to delete ?',
 	
 	// hook lang_en_us_bbs_js.htm
 	

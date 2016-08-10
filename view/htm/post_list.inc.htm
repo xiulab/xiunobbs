@@ -19,7 +19,7 @@
 									<?php } ?>
 								
 									<?php if($allowdelete || $_post['allowdelete']) { ?>
-									<a href="<?php echo url("post-delete-$_post[pid]");?>" class="text-grey post_delete m-r-1"><i class="icon-remove" aria-hidden="true"></i> <?php echo lang('delete');?></a>
+									<a data-href="<?php echo url("post-delete-$_post[pid]");?>" href="javascript:void(0);" class="text-grey post_delete m-r-1"><i class="icon-remove" aria-hidden="true"></i> <?php echo lang('delete');?></a>
 									<?php } ?>
 									<span class="floor"><?php echo $_post['floor'];?></span> <?php echo lang('floor');?>
 								</dd>

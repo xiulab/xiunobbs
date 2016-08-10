@@ -16,6 +16,7 @@ var lang = {
 	'top_thread':'置顶主题',
 	'top_range':'置顶范围',
 	'confirm_delete_thread':'确定删除选中的 ({n}) 篇主题吗？',
+	'confirm_delete':'确定删除吗？',
 	
 	// hook lang_zh_cn_bbs_js.htm
 };

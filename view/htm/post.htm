@@ -142,7 +142,7 @@ $('.attachlist_parent').on('click', 'a.delete', function() {
 	var jlink = $(this);
 	var jli = jlink.parents('li');
 	var aid = jli.attr('aid');
-	if(!window.confirm('确定删除？')) return false;
+	if(!window.confirm(lang.confirm_delete)) return false;
 	$.xpost(xn.url('attach-delete-'+aid), function(code, message) {
 		if(code != 0) return $.alert(message);
 		jlink.parent().remove();

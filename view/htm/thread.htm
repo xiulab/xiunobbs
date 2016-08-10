@@ -43,7 +43,7 @@
 							<?php } ?>
 							
 							<?php if($allowdelete || $first['allowdelete']) { ?>
-							<a href="<?php echo url("post-delete-$thread[firstpid]");?>" class="text-grey post_delete"><i class="icon-remove" aria-hidden="true"></i> <?php echo lang('delete');?></a>
+							<a data-href="<?php echo url("post-delete-$thread[firstpid]");?>" href="javascript:void(0);" class="text-grey post_delete" isfirst="1"><i class="icon-remove" aria-hidden="true"></i> <?php echo lang('delete');?></a>
 							<?php } ?>
 							<!--{hook thread_delete_after.htm}-->
 						</dd>
@@ -221,12 +221,13 @@ jform.on('submit', function() {
 var jpost_delete = $('.post_delete');
 jpost_delete.on('click', function() {
 	var jthis = $(this);
-	var href = jthis.attr('href');
+	var href = jthis.data('href');
 	var isfirst = jthis.attr('isfirst');
-	if(window.confirm('确定删除？')) {
+	if(window.confirm(lang.confirm_delete)) {
 		$.xpost(href, function(code, message) {
+			var isfirst = jthis.attr('isfirst');
 			if(code == 0) {
-				if(isfirst) {
+				if(isfirst == '1') {
 					$.location('<?php echo url("forum-$fid");?>');
 				} else {
 					// 删掉楼层
@@ -243,8 +244,6 @@ jpost_delete.on('click', function() {
 	return false;
 });
 
-$('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');
-$('#nav_mobile li[fid="<?php echo $fid;?>"]').tab('show');
 
 // 转换为百分比，缩放图片
 var jmessagelist = $('div.message');
@@ -264,6 +263,9 @@ jmessagelist.each(function() {
 var jmessage = $('#message');
 jmessage.on('focus', function() {if(jmessage.t) { clearTimeout(jmessage.t); jmessage.t = null; } jmessage.css('height', '6rem'); });
 jmessage.on('blur', function() {jmessage.t = setTimeout(function() { jmessage.css('height', '2.5rem');}, 1000); });
+
+$('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');
+$('#nav_mobile li[fid="<?php echo $fid;?>"]').tab('show');
 
 </script>
 
