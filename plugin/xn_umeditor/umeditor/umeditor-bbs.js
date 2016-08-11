@@ -91,5 +91,13 @@ $(function() {
 		jtoolbar.children().not('.edui-btn-xnimg').addClass('hidden-md-down');
 		//jtoolbar.son('.edui-btn-name-fontfamily,.edui-btn-name-fontsize,.edui-splitbutton-forecolor,.edui-splitbutton-backcolor,.edui-btn-link,.edui-btn-unlink,.edui-btn-fullscreen').addClass('hidden-md-down');
 	});
+	
+	
+	
+	// add tab index of toolbar icon for screen reader start
+	//$(".edui-toolbar").attr({"role": "toolbar", "tabindex": "-1", "aria-label": "工具栏" });
+	//$(".edui-btn").attr({"role": "button","tabindex": "-1", "aria-label": function() { return $(this).attr("data-original-title"); }}).on("keydown", function(e) { if(e.which == 13 || e.which == 32) { $(this).trigger("click"); }});
+	//$(".edui-body-container").attr({"role": "textbox","aria-label": "内容"});
+	// end
 
 });

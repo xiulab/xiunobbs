@@ -104,7 +104,7 @@ jmobile_collapsing_bavbar.on('touchmove', function(e) {
 	//e.stopImmediatePropagation();
 });*/
 
-$('#nav_back_icon').on('click', function() {
-	$('#nav_back_icon').delay(1000).location('./');
-	return false;
+$('.xn-back').on('click', function() {
+	$('.xn-back').delay(1000).location('./');
+	//return false;
 });
