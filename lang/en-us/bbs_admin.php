@@ -153,6 +153,7 @@ return array(
 	'plugin_maybe_download_failed'=>'Plugin maybe download failed, directory does not exists.',
 	'plugin_name_error'=>'Plugin name error',
 	'plugin_unstall_confirm_tips'=>'Uninstall will clean up the plugin data, determine the uninstall ( {name} ) it?',
+	'plugin_task_locked'=>'Another plugin task is being executed, the current task is locked.',
 	
 	
 	// hook lang_en_us_bbs_admin.php

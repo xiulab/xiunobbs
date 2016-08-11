@@ -5,6 +5,6 @@
 	"bbs_version":"4.0",
 	"installed":0,
 	"enable":0,
-	"hooks_rank":{},
+	"hooks_rank":[],
 	"dependencies":[]
 }

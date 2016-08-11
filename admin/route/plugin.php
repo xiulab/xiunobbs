@@ -63,6 +63,8 @@ if($action == 'local') {
 // 下载官方插件。 / download official plugin
 } elseif($action == 'download') {
 	
+	plugin_lock_start();
+	
 	$dir = param(2);
 	plugin_check_exists($dir, FALSE);
 	
@@ -79,10 +81,14 @@ if($action == 'local') {
 	// 下载，解压 / download and zip
 	plugin_download_unzip($dir);
 	
+	plugin_lock_end();
+	
 	// 检查解压是否成功 / check the zip if sucess
 	message(0, jump(lang('plugin_download_sucessfully', array('dir'=>$dir)), url("plugin-read-$dir"), 3));
 	
 } elseif($action == 'install') {
+	
+	plugin_lock_start();
 	
 	$dir = param(2);
 	plugin_check_exists($dir);
@@ -102,10 +108,14 @@ if($action == 'local') {
 		include $installfile;
 	}
 	
+	plugin_lock_end();
+	
 	$msg = lang('plugin_install_sucessfully', array('name'=>$name));
 	message(0, jump($msg, http_referer(), 3));
 	
 } elseif($action == 'unstall') {
+	
+	plugin_lock_start();
 	
 	$dir = param(2);
 	plugin_check_exists($dir);
@@ -128,10 +138,14 @@ if($action == 'local') {
 	// 删除插件
 	//!DEBUG && rmdir_recusive("../plugin/$dir");
 	
+	plugin_lock_end();
+	
 	$msg = lang('plugin_unstall_sucessfully', array('name'=>$name, 'dir'=>"plugin/$dir"));
 	message(0, jump($msg, http_referer(), 5));
 	
 } elseif($action == 'enable') {
+	
+	plugin_lock_start();
 	
 	$dir = param(2);
 	plugin_check_exists($dir);
@@ -146,10 +160,14 @@ if($action == 'local') {
 	// 启用插件
 	plugin_enable($dir);
 	
+	plugin_lock_end();
+	
 	$msg = lang('plugin_enable_sucessfully', array('name'=>$name));
 	message(0, jump($msg, http_referer(), 1));
 	
 } elseif($action == 'disable') {
+	
+	plugin_lock_start();
 	
 	$dir = param(2);
 	plugin_check_exists($dir);
@@ -164,10 +182,14 @@ if($action == 'local') {
 	// 禁用插件
 	plugin_disable($dir);
 	
+	plugin_lock_end();
+	
 	$msg = lang('plugin_disable_sucessfully', array('name'=>$name));
 	message(0, jump($msg, http_referer(), 3));
 	
 } elseif($action == 'upgrade') {
+	
+	plugin_lock_start();
 	
 	$dir = param(2);
 	plugin_check_exists($dir);
@@ -202,6 +224,8 @@ if($action == 'local') {
 	
 	// 安装插件
 	plugin_install($dir);
+	
+	plugin_lock_end();
 	
 	$msg = lang('plugin_upgrade_sucessfully', array('name'=>$name));
 	message(0, jump($msg, http_referer(), 3));
@@ -316,6 +340,16 @@ function plugin_cate_active($plugin_cate, $cateid, $page) {
 		$s .= '<a role="button" class="btn btn btn-secondary'.($cateid == $_cateid ? ' active' : '').'" href="'.$url.'">'.$_catename.'</a>';
 	}
 	return $s;
+}
+
+function plugin_lock_start() {
+	global $route, $action;
+	!xn_lock_start($route.'_'.$action) AND message(-1, lang('plugin_task_locked'));
+}
+
+function plugin_lock_end() {
+	global $route, $action;
+	xn_lock_end($route.'_'.$action);
 }
 
 

@@ -153,6 +153,7 @@ return array(
 	'plugin_maybe_download_failed'=>'插件可能下载失败，目录不存在:',
 	'plugin_name_error'=>'插件名不合法',
 	'plugin_unstall_confirm_tips'=>'卸载会清理该插件相关数据，确定卸载 ( {name} ) 吗？',
+	'plugin_task_locked'=>'另外一个插件任务正在执行，当前任务被锁住。',
 	
 	
 	// hook lang_zh_cn_bbs_admin.php

@@ -51,6 +51,31 @@ function message($code, $message, $extra = array()) {
 	exit;
 }
 
+// 上锁
+function xn_lock_start($lockname = '', $life = 10) {
+	global $conf, $time;
+	$lockfile = $conf['tmp_path'].'lock_'.$lockname.'.lock';
+	if(is_file($lockfile)) {
+		// 大于 $life 秒，删除锁
+		if($time - filemtime($lockfile) > $life) {
+			xn_unlink($lockfile);
+		} else {
+			// 锁存在，上锁失败。
+			return FALSE;
+		}
+	}
+	
+	$r = file_put_contents($lockfile, $time, LOCK_EX);
+	return $r;
+}
+
+// 删除锁
+function xn_lock_end($lockname = '') {
+	global $conf, $time;
+	$lockfile = $conf['tmp_path'].'lock_'.$lockname.'.lock';
+	xn_unlink($lockfile);
+}
+
 // hook model_misc_end.php
 
 ?>
