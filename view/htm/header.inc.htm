@@ -96,7 +96,7 @@
 						<!-- 登陆用户 -->
 						<?php } else { ?>
 						
-						<li class="nav-item"><a class="nav-link" href="<?php echo url('my');?>"><img class="avatar-xs" src="<?php echo $user['avatar_url'];?>"></a></li>
+						<li class="nav-item" aria-hidden="true"><a class="nav-link" href="<?php echo url('my');?>" aria-hidden="true" tabindex="-1"><img class="avatar-xs" src="<?php echo $user['avatar_url'];?>"></a></li>
 						<li class="nav-item username m-l-xs"><a class="nav-link" href="<?php echo url('my');?>"><?php echo $user['username'];?></a></li>
 						<!-- 管理员 -->
 						<?php if($gid == 1) { ?>
@@ -120,12 +120,17 @@
 					<?php if($route == 'index' || $route == 'forum') { ?>
 					 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile_collapsing_bavbar">☰</button>
 					 <?php } else { ?>
+<<<<<<< HEAD
 					 <a class="nav-link icon-chevron-left icon-2x xn-back" href="javascript:history.back();" aria-label="<?php echo lang('history_back');?>"></a>
+=======
+					 <a class="nav-link icon-chevron-left icon-2x" href="javascript:history.back();" aria-label="<?php echo lang('back');?>" id="nav_back_icon"></a>
+>>>>>>> 0cec1e1cbe4d307b7922b3caf2fcc6f8680aa9a3
 					 <?php } ?>
 				</div>
 				
 				<!-- 中间：标题 -->
 				<div class="col-xs-10 text-center text-nowrap">
+<<<<<<< HEAD
 					<a class="nav-link p-y-0" href="<?php echo $header['mobile_link'];?>">
 						<?php if($header['mobile_title']) { ?>
 						<span class="nav-link"><?php echo $header['mobile_title'];?></span>
@@ -133,6 +138,13 @@
 						<img src="view/img/logo.png" class="logo-sm center-block">
 						<?php } ?>
 					</a>
+=======
+					<?php if($route == 'index') { ?>
+					<a class="nav-link p-y-0" href="./" title="<?php echo lang('index_page');?>"><img src="view/img/logo.png" class="logo-sm center-block"></a>
+					<?php } else { ?>
+					<a class="nav-link p-y-0" href="./" title="<?php echo lang('index_page');?>"><span class="nav-link"><?php echo $header['mobile_title'];?></span></a>
+					<?php } ?>
+>>>>>>> 0cec1e1cbe4d307b7922b3caf2fcc6f8680aa9a3
 				</div>
 				
 				<!-- 右侧：登陆 -->
@@ -140,13 +152,18 @@
 					<div class="pull-right">
 						<div class="nav-item small">
 							<?php if(empty($uid)) { ?>
-							<a class="nav-link  m-t-xs m-r-xs" href="<?php echo url('user-login');?>" aria-labe="<?php echo lang('login');?>"> <i class="icon-user  icon-2x" aria-hidden="true"></i></a>
+							<a class="nav-link  m-t-xs m-r-xs" href="<?php echo url('user-login');?>" aria-label="<?php echo lang('login');?>"> <i class="icon-user  icon-2x" aria-hidden="true"></i></a>
 							<?php } else { ?>
 							
 							<?php if($route != 'thread') { ?>
+<<<<<<< HEAD
 							<a class="nav-link icon-edit icon-2x m-t-xs" href="<?php echo url("thread-create-$fid");?>" aria-labe="<?php echo lang('thread_create');?>"></a>
+=======
+							<a class="nav-link icon-edit icon-2x m-t-xs" href="<?php echo url("thread-create-$fid");?>" aria-label="<?php echo lang('thread_create_new');?>"></a>
+							<!--<a class="nav-link" href="<?php echo url('my');?>"><?php echo $user['username'];?></a>-->
+>>>>>>> 0cec1e1cbe4d307b7922b3caf2fcc6f8680aa9a3
 							<?php } else { ?>
-							<a class="nav-link icon-reply icon-2x m-t-xs" href="<?php echo url("post-create-$tid");?>"></a>
+							<a class="nav-link icon-reply icon-2x m-t-xs" href="<?php echo url("post-create-$tid");?>" aria-label="<?php echo lang('post_create_new');?>"></a>
 							<?php } ?>
 							
 							<?php } ?>
@@ -159,11 +176,11 @@
 		<div class="collapse" id="mobile_collapsing_bavbar">
 			<div class="bg-inverse p-a-1">
 				<ul class="nav" id="nav_mobile">
-					<hr class="m-y-0" />
+					<hr class="m-y-0" aria-hidden="true" />
 					<li class="nav-item">
 						<a class="nav-link" href="./"><i class="icon-home" aria-hidden="true"></i> <?php echo lang('index_page');?></a>
 					</li>
-					<hr class="m-y-0" />
+					<hr class="m-y-0" aria-hidden="true" />
 					
 					<!--{hook header_nav_mobile_forum_before.htm}-->
 					
@@ -172,7 +189,7 @@
 						<a class="nav-link m-l-2" href="<?php echo url("forum-$_forum[fid]");?>"><i class="icon-circle-blank" aria-hidden="true"></i> <?php echo $_forum['name'];?></a>
 					</li>
 					<?php } ?>
-					<hr class="m-y-0" />
+					<hr class="m-y-0" aria-hidden="true" />
 					
 					<!--{hook header_nav_mobile_forum_after.htm}-->
 					
@@ -181,7 +198,7 @@
 					<li class="nav-item">
 						<a class="nav-link" href="<?php echo url('my');?>"><i class="icon-user" aria-hidden="true"></i> <?php echo lang('user_profile');?></a>
 					</li>
-					<hr class="m-y-0" />
+					<hr class="m-y-0" aria-hidden="true" />
 					<?php } ?>
 					
 					<!-- 后台 / background -->
@@ -189,7 +206,7 @@
 					<li class="nav-item">
 						<a class="nav-link" href="admin/"><i class="icon-home" aria-hidden="true"></i> <?php echo lang('admin_page');?></a>
 					</li>
-					<hr class="m-y-0" />
+					<hr class="m-y-0" aria-hidden="true" />
 					<?php } ?>
 					
 					<!--{hook header_nav_mobile_logout_before.htm}-->

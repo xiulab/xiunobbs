@@ -18,7 +18,7 @@
 		<div class="card p-a-sm">
 			<dl class="row">
 				<dt class="vtop p-r-1 td-avatar">
-					<a href="<?php echo url("user-$thread[uid]");?>">
+					<a href="<?php echo url("user-$thread[uid]");?>" aria-hidden="true" tabindex="-1">
 						<img class="avatar" src="<?php echo $thread['user_avatar_url'];?>">
 					</a>
 				</dt>
@@ -50,7 +50,7 @@
 					</dl>
 				</dd>
 			</dl>
-			<hr />
+			<hr aria-hidden="true" />
 			<?php if($page == 1) { ?>
 			<div class="message break-all">
 			
@@ -96,8 +96,8 @@
 					
 					<?php if(!empty($user)) { ?>
 					<tr class="post">
-						<td class="td-avatar">
-							<a href="<?php echo url("user-$thread[uid]");?>">
+						<td class="td-avatar" aria-hidden="true">
+							<a href="<?php echo url("user-$thread[uid]");?>" aria-hidden="true" tabindex="-1">
 								<img class="avatar" src="<?php echo $user['avatar_url'];?>">
 							</a>
 						</td>

@@ -3,7 +3,7 @@
 					<tr class="thread tap <?php echo $_thread['top_class'];?>" href="<?php echo url("thread-$_thread[tid]");?>">
 						<?php if(forum_access_mod($_thread['fid'], $gid, 'allowtop')) { ?>
 						<td class="td-checkbox">
-							<input type="checkbox" name="modtid" class="m-t-sm" value="<?php echo $_thread['tid']; ?>" />
+							<input type="checkbox" name="modtid" class="m-t-sm" value="<?php echo $_thread['tid']; ?>" aria-label="<?php echo $_thread['subject'];?>" />
 						</td>
 						<?php } ?>
 						<td class="td-avatar" aria-hidden="true">
@@ -44,7 +44,7 @@
 									
 									<?php if($_thread['lastuid']) { ?>
 									<span class="hidden-md-down">
-										<span class="text-grey m-x-sm"> • </span>
+										<span class="text-grey m-x-sm" aria-hidden="true"> • </span>
 										<span class="text-grey small"><?php echo lang('last_reply');?>：</span>
 										<a href="<?php echo url("user-$_thread[lastuid]");?>" class="username text-muted m-r-xs"><?php echo $_thread['lastusername'];?></a>
 									</span>
@@ -54,10 +54,15 @@
 									 
 								</dt>
 								<dd class="text-right text-grey">
+<<<<<<< HEAD
 									<!--{hook thread_list_inc_view_before.htm}-->
 									<span class="m-r-1"><i class="icon-eye-open"></i> <?php echo $_thread['views'];?></span>
 									<span class="hidden-xs-down m-r-1"><i class="icon-comment"></i> <?php echo $_thread['posts'];?></span>
 									<!--{hook thread_list_inc_posts_after.htm}-->
+=======
+									<span class="m-r-1"><i class="icon-eye-open" aria-hidden="true"></i> <?php echo $_thread['views'];?></span>
+									<span class="hidden-xs-down m-r-1"><i class="icon-comment" aria-hidden="true"></i> <?php echo $_thread['posts'];?></span>
+>>>>>>> 0cec1e1cbe4d307b7922b3caf2fcc6f8680aa9a3
 								</dd>
 							</dl>
 						</td>
