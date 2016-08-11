@@ -8,6 +8,7 @@ return array(
 	'other'=>'Other',
 	
 	'user_admin'=>'User Admin',
+	'group_admin'=>'Group Admin',
 	'forum_admin'=>'Forum Admin',
 	'post_admin'=>'Post Admin',
 	'plugin_admin'=>'Plugin Admin',

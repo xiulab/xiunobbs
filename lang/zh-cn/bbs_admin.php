@@ -8,6 +8,7 @@ return array(
 	'other'=>'其他',
 	
 	'user_admin'=>'用户管理',
+	'group_admin'=>'用户组管理',
 	'forum_admin'=>'版块管理',
 	'post_admin'=>'帖子管理',
 	'plugin_admin'=>'插件管理',
