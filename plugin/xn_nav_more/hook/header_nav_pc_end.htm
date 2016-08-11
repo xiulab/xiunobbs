@@ -7,7 +7,7 @@
 								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
 									
 									<?php foreach($forumlist_more as $_forum) { ?>
-									<button class="dropdown-item" type="button" aria-label="" ><?php echo $_forum['name'];?></button>
+									<a  role="button" href="<?php echo url("forum-$_forum[fid]");?>" class="dropdown-item" type="button" aria-label="" ><?php echo $_forum['name'];?></a>
 									<?php } ?>
 								</div>
 							</div>

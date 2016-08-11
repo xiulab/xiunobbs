@@ -64,19 +64,12 @@
 						<!-- 前台首页 -->
 						<li class="nav-item home" fid="0"><a class="nav-link" href="."><?php echo lang('index_page');?></a></li>
 						
-						<!--{hook header_nav_home_link_after.htm}-->			
-						<?php $nav_link_limit = setting_get('nav_link_limit'); ?>
-	
+						<!--{hook header_nav_home_link_after.htm}-->
 						
 						<!-- 版块 -->
 						<?php foreach($forumlist_show as $_forum) { ?>
 						
-						<!--{hook header_nav_forumlist_loop_start.htm}-->			
-						<?php 
-							empty($header_loop_num) AND $header_loop_num = 0;
-							if(++$header_loop_num > $nav_link_limit) break;
-						?>
-			
+						<!--{hook header_nav_forumlist_loop_start.htm}-->
 						<li class="nav-item" fid="<?php echo $_forum['fid'];?>">
 							<a class="nav-link" href="<?php echo url("forum-$_forum[fid]");?>"><?php echo $_forum['name'];?></a>
 						</li>
@@ -84,21 +77,7 @@
 						
 						<?php } ?>
 						
-						<!--{hook header_nav_pc_end.htm}-->						<?php $forumlist_more = array_slice($forumlist_show, $nav_link_limit); ?>
-						<?php if($forumlist_more) { ?>
-						<li class="nav-item">
-							<!-- PC 导航：更多版块，下拉菜单 -->
-							<div class="dropdown">
-								<a class="nav-link nav-more dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"></a>
-								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-									
-									<?php foreach($forumlist_more as $_forum) { ?>
-									<a  role="button" href="<?php echo url("forum-$_forum[fid]");?>" class="dropdown-item" type="button" aria-label="" ><?php echo $_forum['name'];?></a>
-									<?php } ?>
-								</div>
-							</div>
-						</li>
-						<?php } ?>
+						<!--{hook header_nav_pc_end.htm}-->
 						
 					</ul>
 				</div>
