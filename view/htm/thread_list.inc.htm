@@ -22,6 +22,9 @@
 								<?php } ?>
 								
 								<!--{hook thread_list_inc_subject_before.htm}-->
+								<?php if(!$fid) { ?>
+								<span class="text-grey text-small hidden-md-down">【<?php echo $_thread['forumname'];?>】</span>
+								<?php } ?>
 								
 								<a href="<?php echo url("thread-$_thread[tid]");?>"><?php echo $_thread['subject'];?></a>
 								

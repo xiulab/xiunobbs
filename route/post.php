@@ -34,6 +34,10 @@ if($action == 'create') {
 		
 		// hook post_get_start.php
 		
+		$header['title'] = lang('post_create');
+		$header['mobile_title'] = lang('post_create');
+		$header['mobile_link'] = url("thread-$tid");
+		
 		include './view/htm/post.htm';
 		
 	} else {

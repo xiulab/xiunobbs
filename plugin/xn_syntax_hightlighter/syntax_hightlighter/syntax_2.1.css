@@ -35,7 +35,7 @@
   line-height: 1.1em !important;
   margin: 0 !important;
   outline: 0 !important;
-  overflow: hidden !important;
+  overflow: visible !important;
   padding: 0 !important;
   position: static !important;
   right: auto !important;
@@ -44,7 +44,7 @@
   vertical-align: baseline !important;
   width: auto !important;
   box-sizing: content-box !important;
-  font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
+  font-family: "Courier New", Courier, monospace !important;
   font-weight: normal !important;
   font-style: normal !important;
   font-size: 12px !important;
@@ -56,7 +56,8 @@
   width: 100% !important;
   margin: 1em 0 1em 0 !important;
   position: relative !important;
-  overflow: auto !important;
+  overflow: auto;
+  overflow-y: hidden;
   font-size: 1em !important;
 }
 .syntaxhighlighter.source {
@@ -67,9 +68,6 @@
 }
 .syntaxhighlighter .italic {
   font-style: italic !important;
-}
-.td.code > div.line {
-  white-space: pre-wrap !important;
 }
 .syntaxhighlighter table {
   width: 100% !important;
@@ -95,11 +93,12 @@
   background: white !important;
   padding-left: 1em !important;
   overflow: hidden !important;
-  white-space: pre-wrap !important;
+  white-space: pre !important;
 }
 .syntaxhighlighter table td.gutter .line {
   text-align: right !important;
   padding: 0 0.5em 0 1em !important;
+  white-space:nowrap;
 }
 .syntaxhighlighter table td.code .line {
   padding: 0 1em !important;
@@ -225,33 +224,53 @@
   color: black !important;
 }
 
+
+
+
+
+/**
+ * SyntaxHighlighter
+ * http://alexgorbatchev.com/SyntaxHighlighter
+ *
+ * SyntaxHighlighter is donationware. If you are using it, please donate.
+ * http://alexgorbatchev.com/SyntaxHighlighter/donate.html
+ *
+ * @version
+ * 3.0.83 (July 02 2010)
+ * 
+ * @copyright
+ * Copyright (C) 2004-2010 Alex Gorbatchev.
+ *
+ * @license
+ * Dual licensed under the MIT and GPL licenses.
+ */
 .syntaxhighlighter {
-  background-color: #1b2426 !important;
+  background-color: white !important;
 }
 .syntaxhighlighter .line.alt1 {
-  background-color: #1b2426 !important;
+  background-color: white !important;
 }
 .syntaxhighlighter .line.alt2 {
-  background-color: #1b2426 !important;
+  background-color: white !important;
 }
 .syntaxhighlighter .line.highlighted.alt1, .syntaxhighlighter .line.highlighted.alt2 {
-  background-color: #323e41 !important;
+  background-color: #c3defe !important;
 }
 .syntaxhighlighter .line.highlighted.number {
-  color: #b9bdb6 !important;
+  color: white !important;
 }
 .syntaxhighlighter table caption {
-  color: #b9bdb6 !important;
+  color: black !important;
 }
 .syntaxhighlighter .gutter {
-  color: #afafaf !important;
+  color: #787878 !important;
 }
 .syntaxhighlighter .gutter .line {
-  border-right: 3px solid #435a5f !important;
+  border-right: 3px solid #d4d0c8 !important;
 }
 .syntaxhighlighter .gutter .line.highlighted {
-  background-color: #435a5f !important;
-  color: #1b2426 !important;
+  background-color: #d4d0c8 !important;
+  color: white !important;
 }
 .syntaxhighlighter.printing .line .content {
   border: none !important;
@@ -260,73 +279,85 @@
   overflow: visible !important;
 }
 .syntaxhighlighter.collapsed .toolbar {
-  color: #5ba1cf !important;
-  background: black !important;
-  border: 1px solid #435a5f !important;
+  color: #3f5fbf !important;
+  background: white !important;
+  border: 1px solid #d4d0c8 !important;
 }
 .syntaxhighlighter.collapsed .toolbar a {
-  color: #5ba1cf !important;
+  color: #3f5fbf !important;
 }
 .syntaxhighlighter.collapsed .toolbar a:hover {
-  color: #5ce638 !important;
+  color: #aa7700 !important;
 }
 .syntaxhighlighter .toolbar {
-  color: white !important;
-  background: #435a5f !important;
+  color: #a0a0a0 !important;
+  background: #d4d0c8 !important;
   border: none !important;
 }
 .syntaxhighlighter .toolbar a {
-  color: white !important;
+  color: #a0a0a0 !important;
 }
 .syntaxhighlighter .toolbar a:hover {
-  color: #e0e8ff !important;
+  color: red !important;
 }
 .syntaxhighlighter .plain, .syntaxhighlighter .plain a {
-  color: #b9bdb6 !important;
+  color: black !important;
 }
 .syntaxhighlighter .comments, .syntaxhighlighter .comments a {
-  color: #878a85 !important;
+  color: #3f5fbf !important;
 }
 .syntaxhighlighter .string, .syntaxhighlighter .string a {
-  color: #5ce638 !important;
+  color: #2a00ff !important;
 }
 .syntaxhighlighter .keyword {
-  color: #5ba1cf !important;
+  color: #7f0055 !important;
 }
 .syntaxhighlighter .preprocessor {
-  color: #435a5f !important;
+  color: #646464 !important;
 }
 .syntaxhighlighter .variable {
-  color: #ffaa3e !important;
+  color: #aa7700 !important;
 }
 .syntaxhighlighter .value {
   color: #009900 !important;
 }
 .syntaxhighlighter .functions {
-  color: #ffaa3e !important;
+  color: #ff1493 !important;
 }
 .syntaxhighlighter .constants {
-  color: #e0e8ff !important;
+  color: #0066cc !important;
 }
 .syntaxhighlighter .script {
   font-weight: bold !important;
-  color: #5ba1cf !important;
+  color: #7f0055 !important;
   background-color: none !important;
 }
 .syntaxhighlighter .color1, .syntaxhighlighter .color1 a {
-  color: #e0e8ff !important;
+  color: gray !important;
 }
 .syntaxhighlighter .color2, .syntaxhighlighter .color2 a {
-  color: white !important;
+  color: #ff1493 !important;
 }
 .syntaxhighlighter .color3, .syntaxhighlighter .color3 a {
-  color: #ffaa3e !important;
+  color: red !important;
 }
 
 .syntaxhighlighter .keyword {
   font-weight: bold !important;
 }
-
-div.syntaxhighlighter > div.toolbar {display: none;}
-td.gutter > div.line {white-space: pre}
-.syntaxhighlighter {margin: 4px 0px !important}
+.syntaxhighlighter .xml .keyword {
+  color: #3f7f7f !important;
+  font-weight: normal !important;
+}
+.syntaxhighlighter .xml .color1, .syntaxhighlighter .xml .color1 a {
+  color: #7f007f !important;
+}
+.syntaxhighlighter .xml .string {
+  font-style: italic !important;
+  color: #2a00ff !important;
+}
+div.syntaxhighlighter div.toolbar {display: none !important; }
+div.syntaxhighlighter {border: 1px solid #AAAAAA; margin-top: 4px !important;}
+.syntaxhighlighter .line.alt1 {background: #E9E9E9 !important;}
+.syntaxhighlighter .line.alt2 {background: #E9E9E9 !important;}
+.syntaxhighlighter table td.code {background: #E9E9E9 !important;}

@@ -18,6 +18,8 @@ if($action == 'create') {
 		// hook thread_create_get_start.php
 		
 		$fid = param(2, 0);
+		$forum = $fid ? forum_read($fid) : array();
+		
 		$forumlist_allowthread = forum_list_access_filter($forumlist, $gid, 'allowthread');
 		$forumarr = xn_json_encode(arrlist_key_values($forumlist_allowthread, 'fid', 'name'));
 		if(empty($forumlist_allowthread)) {
@@ -25,6 +27,8 @@ if($action == 'create') {
 		}
 		
 		$header['title'] = lang('create_thread');
+		$header['mobile_title'] = $fid ? $forum['name'] : '';
+		$header['mobile_linke'] = url("forum-$fid");
 		
 		// hook thread_create_get_end.php
 		
@@ -125,7 +129,9 @@ if($action == 'create') {
 	$pagination = pagination(url("thread-$tid-{page}$keywordurl"), $thread['posts'], $page, $pagesize);
 	
 	$header['title'] = $thread['subject'].'-'.$forum['name'].'-'.$conf['sitename']; 
-	$header['mobile_title'] = lang('thread_detail');
+	//$header['mobile_title'] = lang('thread_detail');
+	$header['mobile_title'] = $forum['name'];;
+	$header['mobile_link'] = url("forum-$fid");
 	$header['keywords'] = $header['title']; 
 	
 	// hook thread_info_end.php

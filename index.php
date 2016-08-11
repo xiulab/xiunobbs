@@ -47,7 +47,8 @@ $forumarr = arrlist_key_values($forumlist_show, 'fid', 'name');
 // 头部 header.inc.htm 
 $header = array(
 	'title'=>$conf['sitename'],
-	'mobile_title'=>$conf['sitename'],
+	'mobile_title'=>'',
+	'mobile_link'=>'',
 	'keywords'=>'', // 搜索引擎自行分析 keywords, 自己指定没用 / Search engine automatic analysis of key words, their own designation is not used
 	'description'=>$conf['sitebrief'],
 	'navs'=>array(),

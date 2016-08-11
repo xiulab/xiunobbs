@@ -109,7 +109,7 @@
 			<div class="row">
 				<!-- 左侧：折叠图标 -->
 				<div class="col-xs-1">
-					<?php if($route == 'index') { ?>
+					<?php if($route == 'index' || $route == 'forum') { ?>
 					 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile_collapsing_bavbar">☰</button>
 					 <?php } else { ?>
 					 <a class="nav-link icon-chevron-left icon-2x" href="javascript:history.back();" aria-label="<?php echo lang('history_back');?>" id="nav_back_icon"></a>
@@ -118,11 +118,13 @@
 				
 				<!-- 中间：标题 -->
 				<div class="col-xs-10 text-center text-nowrap">
-					<?php if($route == 'index') { ?>
-					<a class="nav-link p-y-0" href="./" title="<?php echo lang('home_page');?>"><img src="view/img/logo.png" class="logo-sm center-block"></a>
-					<?php } else { ?>
-					<a class="nav-link p-y-0" href="./" title="<?php echo lang('home_page');?>"><span class="nav-link"><?php echo $header['mobile_title'];?></span></a>
-					<?php } ?>
+					<a class="nav-link p-y-0" href="<?php echo $header['mobile_link'];?>">
+						<?php if($header['mobile_title']) { ?>
+						<span class="nav-link"><?php echo $header['mobile_title'];?></span>
+						<?php } else { ?>
+						<img src="view/img/logo.png" class="logo-sm center-block">
+						<?php } ?>
+					</a>
 				</div>
 				
 				<!-- 右侧：登陆 -->
@@ -135,7 +137,6 @@
 							
 							<?php if($route != 'thread') { ?>
 							<a class="nav-link icon-edit icon-2x m-t-xs" href="<?php echo url("thread-create-$fid");?>" aria-labe="<?php echo lang('thread_create');?>"></a>
-							<!--<a class="nav-link" href="<?php echo url('my');?>"><?php echo $user['username'];?></a>-->
 							<?php } else { ?>
 							<a class="nav-link icon-reply icon-2x m-t-xs" href="<?php echo url("post-create-$tid");?>"></a>
 							<?php } ?>

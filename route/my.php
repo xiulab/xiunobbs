@@ -9,6 +9,9 @@ user_login_check();
 
 // hook my_start.php
 
+$header['mobile_title'] = $user['username'];
+$header['mobile_linke'] = url("my");
+
 if(empty($action)) {
 	
 	$header['title'] = lang('my_home');
