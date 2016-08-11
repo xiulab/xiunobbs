@@ -99,7 +99,7 @@ if($action == 'login') {
 		!is_password($password, $err) AND message('password', $err);
 		
 		$salt = xn_rand(16);
-		$pwd = md5(md5($password).$salt);
+		$pwd = md5($password.$salt);
 		$gid = 101;
 		$user = array (
 			'username' => $username,

@@ -30,7 +30,7 @@
 									<?php if($_thread['lastuid']) { ?>
 									<span class="hidden-md-down">
 										<span class="text-grey m-x-sm"> • </span>
-										<span class="text-grey small">最后回复：</span>
+										<span class="text-grey small"><?php echo lang('last_reply');?>：</span>
 										<a href="<?php echo url("user-$_thread[lastuid]");?>" class="username text-muted m-r-xs"><?php echo $_thread['lastusername'];?></a>
 									</span>
 									<?php } ?>
