@@ -53,6 +53,7 @@ return array(
 	'guest'=>'游客',
 	'guest_group'=>'游客组',
 	'create_date'=>'创建时间',
+	'tips'=>'注',
 	
 	'month_ago'=>'月前',
 	'day_ago'=>'天前',

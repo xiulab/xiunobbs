@@ -45,6 +45,7 @@
 						<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..." style="width: 10rem;"><?php echo lang('confirm');?></button>
 					</p>
 				</form>
+				<p class="small text-grey"><?php echo lang('tips');?>：<?php echo lang('forum_edit_tip');?></p>
 			</div>
 		</div>
 	</div>
@@ -57,7 +58,7 @@
 
 <script>
 
-if(!debug) $.alert('<?php echo lang('forum_edit_tip');?>');
+//if(!debug) $.alert('<?php echo lang('forum_edit_tip');?>');
 
 var maxfid = <?php echo $maxfid;?>;
 

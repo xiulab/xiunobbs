@@ -52,7 +52,8 @@ return array(
 	'top'=>'置頂',
 	'guest'=>'遊客',
 	'guest_group'=>'遊客組',
-	'create_date'=>'Create Date',
+	'create_date'=>'注册时间',
+	'tips'=>'註',
 	
 	'month_ago'=>'月前',
 	'day_ago'=>'天前',

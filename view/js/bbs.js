@@ -104,6 +104,7 @@ jmobile_collapsing_bavbar.on('touchmove', function(e) {
 	//e.stopImmediatePropagation();
 });*/
 
+// hack: history.back() cannot back, go to the index
 $('.xn-back').on('click', function() {
 	$('.xn-back').delay(1000).location('./');
 	//return false;

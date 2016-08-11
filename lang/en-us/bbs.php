@@ -53,6 +53,7 @@ return array(
 	'guest'=>'Guest',
 	'guest_group'=>'Guest Group',
 	'create_date'=>'Create Date',
+	'tips'=>'Tips',
 	
 	'month_ago'=>' Months+',
 	'day_ago'=>' Days+',
