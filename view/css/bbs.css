@@ -1,5 +1,8 @@
-
 /********************************* bbs 业务部分 *************************************/
+
+/* 导航栏半透明背景 */
+.navbar.bg-inverse { background-color: rgba(5, 6, 9, 0.8); }
+
 #nav_pc { font-size: 0.95rem;}
 #nav_mobile a {color: #aab;}
 #nav_mobile a:hover {color: #fff;}
