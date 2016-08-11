@@ -13,7 +13,7 @@ if(empty($action) || $action == 'list') {
 		
 	$pagesize = 20;
 	$srchtype = param(2);
-	$keyword  = trim(urldecode(param(3)));
+	$keyword  = trim(xn_urldecode(param(3)));
 	$page     = param(4, 1);
 
 	// hook admin_user_list_start.php
