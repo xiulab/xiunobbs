@@ -64,6 +64,8 @@ function post_create($arr, $fid, $gid) {
 
 	// 回帖
 	if($tid > 0) {
+		
+		// todo: 如果是老帖，不更新 lastpid
 		thread__update($tid, array('posts+'=>1, 'lastpid'=>$pid, 'lastuid'=>$uid, 'last_date'=>$time));
 		$uid AND user__update($uid, array('posts+'=>1));
 	

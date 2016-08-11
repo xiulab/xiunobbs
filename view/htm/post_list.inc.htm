@@ -1,19 +1,25 @@
-					<?php foreach($postlist as $_post) { ?>
+				<!--{hook post_list_inc_start.htm}-->
+
+				<?php foreach($postlist as $_post) { ?>
 					<tr class="post">
 						<td class="vtop td-avatar" aria-hidden="true">
 							<a href="<?php echo url("user-$_post[uid]");?>" aria-hidden="true" tabindex="-1">
 								<img class="avatar" src="<?php echo $_post['user_avatar_url'];?>">
 							</a>
+							<!--{hook post_list_inc_avatar_after.htm}-->
 						</td>
 						<td class="p-l-0">
 							<dl class="row small text-muted">
 								<dt>
+									<!--{hook post_list_inc_username_before.htm}-->
 									<span class="username text-muted">
 										<a href="<?php echo url("user-$_post[uid]");?>"><?php echo $_post['username'];?></a>
 									</span>
 									<span class="date text-grey m-l-1"><?php echo $_post['create_date_fmt'];?></span>
+									<!--{hook post_list_inc_create_date_after.htm}-->
 								</dt>
 								<dd class="text-right text-grey ">
+									<!--{hook post_list_inc_edit_before.htm}-->
 									<?php if($allowupdate || $_post['allowupdate']) { ?>
 									<a href="<?php echo url("post-update-$_post[pid]");?>" class="text-grey post_update m-r-1"><i class="icon-edit" aria-hidden="true"></i> <?php echo lang('edit');?></a>
 									<?php } ?>
@@ -22,15 +28,20 @@
 									<a data-href="<?php echo url("post-delete-$_post[pid]");?>" href="javascript:void(0);" class="text-grey post_delete m-r-1"><i class="icon-remove" aria-hidden="true"></i> <?php echo lang('delete');?></a>
 									<?php } ?>
 									<span class="floor"><?php echo $_post['floor'];?></span> <?php echo lang('floor');?>
+									<!--{hook post_list_inc_floor_after.htm}-->
 								</dd>
 							</dl>
 							<div class="message m-t-xs break-all">
 							
+								<!--{hook post_list_inc_message_before.htm}-->
 								<?php echo $_post['message_fmt'];?>
-								
+								<!--{hook post_list_inc_message_after.htm}-->
 								<?php echo post_file_list_html($_post['filelist']);?>
+								<!--{hook post_list_inc_filelist_after.htm}-->
 								
 							</div>
 						</td>
 					</tr>
-					<?php } ?>
+				<?php } ?>
+				
+				<!--{hook post_list_inc_end.htm}-->

@@ -36,6 +36,8 @@
 	$filelist += (array)_SESSION('tmp_files');
 ?>
 
+<!--{hook post_start.htm}-->
+
 <div class="row">
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="card">
@@ -43,6 +45,8 @@
 				<h4 class="card-title"><?php echo $form_title; ?></h4>
 				<form action="<?php echo $form_action;?>" method="post" id="form">
 					<input type="hidden" name="doctype" value="<?php echo $form_doctype;?>" />
+					
+					<!--{hook post_subject_before.htm}-->
 					
 					<?php if($isfirst) { ?>
 					
@@ -60,34 +64,43 @@
 									<?php } ?>
 								</select>
 							</fieldset>
-							<!--{hook thread_create_subject_right.htm}-->
+							<!--{hook post_subject_right.htm}-->
 						</div>
 					</div>
 					
 					<?php } ?>
 					
+					<!--{hook post_subject_after.htm}-->
+					
 					<fieldset class="form-group">
 						<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message" style="height: 300px;"><?php echo $form_message;?></textarea>
 					</fieldset>
+					
+					<!--{hook post_message_after.htm}-->
+
 					<div class="row">
 						<div class="col-lg-10 attachlist_parent">
 							<p class="small text-left"><label class="addattach" id="addattach"><i class="icon-folder-open-alt" aria-hidden="true"></i> <span><?php echo lang('add_attach');?></span><input type="file"  multiple="multiple" /></label></p>
 							
 							<?php echo post_file_list_html($filelist, TRUE);?>
 							
-							<!--{hook thread_create_bottom_right.htm}-->
+							<!--{hook post_bottom_right.htm}-->
 						</div>
 						<div class="col-lg-2 text-right">
 							<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo $form_submit_txt;?> </button>
-							<!--{hook thread_create_bottom_left.htm}-->
+							<!--{hook post_bottom_left.htm}-->
 						</div>
 					</div>
+					
+					<!--{hook post_submit_after.htm}-->
 					
 				</form>
 			</div>
 		</div>
 	</div>
 </div>
+
+<!--{hook post_end.htm}-->
 
 <?php include "./view/htm/footer.inc.htm"; ?>
 
@@ -156,28 +169,5 @@ $('#nav_mobile li[fid="<?php echo $fid;?>"]').tab('show');
 
 </script>
 
-<link href="plugin/xn_umeditor/themes/default/css/umeditor.min.css<?php echo $static_version;?>" type="text/css" rel="stylesheet" />
-<link href="plugin/xn_umeditor/umeditor-bbs.css<?php echo $static_version;?>" type="text/css" rel="stylesheet" />
-<script type="text/javascript" src="plugin/xn_umeditor/umeditor.config.js<?php echo $static_version;?>"></script>
-<script type="text/javascript" src="plugin/xn_umeditor/umeditor.js<?php echo $static_version;?>"></script>
-<script type="text/javascript" src="plugin/xn_umeditor/umeditor-insertcode.js<?php echo $static_version;?>"></script>
-<script type="text/javascript" src="plugin/xn_umeditor/umeditor-bbs.js<?php echo $static_version;?>"></script>
-<script type="text/javascript" src="plugin/xn_umeditor/lang/zh-cn/zh-cn.js<?php echo $static_version;?>"></script>
 
-<?php if($route == 'thread' && $action == 'create') { ?>
-
-<script>
-
-</script>
-
-<?php } elseif($route == 'post' && $action == 'update') { ?>
-
-<script>
-</script>
-
-<?php } elseif($route == 'post' && $action == 'create') { ?>
-
-<script>
-</script>
-
-<?php } ?>
+<!--{hook post_js.htm}-->

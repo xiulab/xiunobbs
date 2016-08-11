@@ -6,6 +6,7 @@ upload/forum/*
 upload/tmp/*
 log/*
 umeditor-dev
+ueditor-dev
 route/browser.php
 index.php
 plugin/xn_footer_js
