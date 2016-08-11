@@ -30,8 +30,8 @@ UM.registerUI('insertcode', function( name ) {
 		'xml':'XML'
 	};
 	
-	var items = xn.array_keys(me.options['insertcode']);
-	var value = xn.array_values(me.options['insertcode']);
+	var items = xn.array_values(me.options['insertcode']);
+	var value = xn.array_keys(me.options['insertcode']);
 	 var options = {
 		autoRecord: false,
 		label: '插入代码',
