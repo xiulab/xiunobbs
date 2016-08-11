@@ -42,7 +42,8 @@ if(DEBUG < 2) {
 	// 管理组检查 / check admin group
 	if($gid != 1) {
 		setcookie('bbs_sid', '', $time - 86400);
-		http_403();
+		//http_403();
+		http_location(url('../user-login'));
 	}
 	
 	// 管理员令牌检查 / check admin token
