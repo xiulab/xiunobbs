@@ -59,14 +59,22 @@
 						<!-- LOGO -->
 						<li class="nav-item"><img src="view/img/logo.png" class="logo-sm"></li>
 						
+						<!--{hook header_nav_logo_after.htm}-->
+						
 						<!-- 前台首页 -->
 						<li class="nav-item home" fid="0"><a class="nav-link" href="."><?php echo lang('index_page');?></a></li>
 						
+						<!--{hook header_nav_home_link_after.htm}-->
+						
 						<!-- 版块 -->
 						<?php foreach($forumlist_show as $_forum) { ?>
+						
+						<!--{hook header_nav_forumlist_loop_start.htm}-->
 						<li class="nav-item" fid="<?php echo $_forum['fid'];?>">
 							<a class="nav-link" href="<?php echo url("forum-$_forum[fid]");?>"><?php echo $_forum['name'];?></a>
 						</li>
+						<!--{hook header_nav_forumlist_loop_end.htm}-->
+						
 						<?php } ?>
 						
 						<!--{hook header_nav_pc_end.htm}-->

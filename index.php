@@ -5,7 +5,7 @@
  */
 
 // 0: Production mode; 1: Developer mode; 2: Detail mode;
-!defined('DEBUG') AND define('DEBUG', 0);		 
+!defined('DEBUG') AND define('DEBUG', 2);		 
 
 ob_start('ob_gzhandler');
 
@@ -56,6 +56,9 @@ $header = array(
 
 // 运行时数据 / runteime data
 $runtime = runtime_init();
+
+// 默认为 NULL
+$setting = FALSE;
 
 // 检测站点运行级别 / restricted access
 check_runlevel();
