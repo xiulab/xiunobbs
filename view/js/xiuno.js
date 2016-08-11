@@ -278,6 +278,16 @@ xn.array_diff = function(arr1, arr2) {
 		}
 		return r;
 	}
+};
+xn.array_keys = function(obj) {
+	var arr = [];
+	$.each(obj, function(k) {arr.push(k);});
+	return arr;
+}
+xn.array_values = function(obj) {
+	var arr = [];
+	$.each(obj, function(k, v) {arr.push(v);});
+	return arr;
 }
 
 // 所谓的 js 编译模板，不过是一堆效率低下的正则替换，这种东西根据自己喜好用吧。
