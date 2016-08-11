@@ -1,3 +1,5 @@
+.edui-container {  -webkit-box-sizing: content-box; box-sizing: content-box;}
+pre{ margin:.5em 0;padding:.4em .6em;border-radius:8px;background:#f8f8f8; }
 
 /*设置按扭样式*/
 .edui-icon-xnimg {
