@@ -2200,6 +2200,12 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
         setStartAfter:function (node) {
             return this.setStart(node.parentNode, domUtils.getNodeIndex(node) + 1);
         },
+        
+        
+        extractContents:function () {
+            return this.collapsed ? null : execContentsAction(this, 2);
+        },
+        
         /**
          * 将Range开始位置设置到node节点之前
          * @name  setStartBefore

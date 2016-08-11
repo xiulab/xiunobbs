@@ -161,8 +161,8 @@ UM.plugins['insertcode'] = function() {
 				if(rng.collapsed){
 					code = browser.ie && browser.ie11below ? (browser.version <= 8 ? '&nbsp;':''):'<br/>';
 				}else{
-					//var frag = rng.extractContents();
-					var frag = rng.getClosedNode();
+					var frag = rng.extractContents();
+					//var frag = rng.getClosedNode();
 					var div = me.document.createElement('div');
 					div.appendChild(frag);
 
