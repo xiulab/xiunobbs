@@ -196,19 +196,6 @@ function user_guest() {
 	return $guest; // 防止内存拷贝
 }
 
-// 前台登录验证
-function user_login_check() {
-	global $user;
-	
-	// hook model_user_login_check_start.php
-	
-	empty($user) AND http_location(url('user-login'));
-	
-	// hook model_user_login_check_end.php
-	
-	return $user;
-}
-
 // 根据积分来调整用户组
 function user_update_group($uid) {
 	global $conf, $grouplist;
@@ -303,6 +290,20 @@ function user_token_gen($uid) {
 	$tokenkey = md5($useragent.$conf['auth_key']);
 	$token = xn_encrypt("$ip	$time	$uid", $tokenkey);
 	return $token;
+}
+
+
+// 前台登录验证
+function user_login_check() {
+	global $user;
+	
+	// hook model_user_login_check_start.php
+	
+	empty($user) AND http_location(url('user-login'));
+	
+	// hook model_user_login_check_end.php
+	
+	exit;
 }
 
 // hook model_user_end.php
