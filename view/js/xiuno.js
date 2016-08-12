@@ -848,8 +848,8 @@ $.fn.base64_encode_file = function(width, height, action) {
 
 // xn.image_resize = 
 xn.image_resize = function(file_base64_data, callback, options) {
-	var thumb_width = options.width || 800;
-	var thumb_height = options.height || 800;
+	var thumb_width = options.width || 1200;
+	var thumb_height = options.height || 2400;
 	var action = options.action || 'thumb';
 	var filetype = options.filetype || 'jpeg';
 	var qulity = options.qulity || 0.7; // 图片质量, 1 为无损
@@ -944,8 +944,8 @@ xn.image_resize = function(file_base64_data, callback, options) {
 */
 xn.upload_file = function(file, upload_url, postdata, callback, progress_callback) {
 	postdata = postdata || {};
-	postdata.width = postdata.width || 1024;
-	postdata.height = postdata.height || 2048;
+	postdata.width = postdata.width || 1200;
+	postdata.height = postdata.height || 2400;
 	var reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = function() {

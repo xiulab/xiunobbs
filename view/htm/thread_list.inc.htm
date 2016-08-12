@@ -37,7 +37,7 @@
 							</div>
 							<dl class="row small">
 								<dt>
-									<a href="<?php echo url("user-$_thread[uid]");?>" class="username text-muted m-r-xs"><?php echo $_thread['username'];?></a>
+									<a href="<?php echo url("user-$_thread[uid]");?>" class="username text-grey m-r-xs"><?php echo $_thread['username'];?></a>
 									<span class="date text-grey t"><?php echo $_thread['create_date_fmt'];?></span>
 									
 									<!--{hook thread_list_inc_lastuid_before.htm}-->
@@ -46,7 +46,7 @@
 									<span class="hidden-md-down">
 										<span class="text-grey m-x-sm" aria-hidden="true"> • </span>
 										<span class="text-grey small"><?php echo lang('last_reply');?>：</span>
-										<a href="<?php echo url("user-$_thread[lastuid]");?>" class="username text-muted m-r-xs"><?php echo $_thread['lastusername'];?></a>
+										<a href="<?php echo url("user-$_thread[lastuid]");?>" class="username text-grey m-r-xs"><?php echo $_thread['lastusername'];?></a>
 									</span>
 									<?php } ?>
 									

@@ -19,6 +19,8 @@ function cron_run($force = 0) {
 			
 			sess_gc($conf['online_hold_time']);
 			
+			$runtime['onlines'] = max(1, online_count());
+			
 			runtime_set('cron_1_last_date', $time);
 			
 			// hook model_cron_5_minutes_end.php

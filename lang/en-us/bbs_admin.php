@@ -71,7 +71,6 @@ return array(
 	'host'=>'Host',
 	'port'=>'Port',
 	'account'=>'Account',
-	'onlines'=>'Onlines',
 	
 	// 版块
 	'forum_list'=>'Forum List',

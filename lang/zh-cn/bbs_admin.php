@@ -71,7 +71,6 @@ return array(
 	'host'=>'主机',
 	'port'=>'端口',
 	'account'=>'账号',
-	'onlines'=>'在线人数',
 	
 	// 版块
 	'forum_list'=>'版块列表',

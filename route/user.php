@@ -144,7 +144,7 @@ if($action == 'login') {
 	$r = user_read_by_email($email);
 	$r AND message('email', lang('email_is_in_use'));
 	
-	$rand = rand(10000000, 99999999);
+	$rand = xn_rand(16);
 	
 	$_SESSION['create_email'] = $email;
 	$_SESSION['create_pw'] = $rand;

@@ -71,7 +71,6 @@ return array(
 	'host'=>'主機',
 	'port'=>'端口',
 	'account'=>'賬號',
-	'onlines'=>'在線人數',
 	
 	// 版塊
 	'forum_list'=>'版塊列表',
