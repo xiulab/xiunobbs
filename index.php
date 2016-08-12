@@ -5,7 +5,7 @@
  */
 
 // 0: Production mode; 1: Developer mode; 2: Detail mode;
-!defined('DEBUG') AND define('DEBUG', 2);		 
+!defined('DEBUG') AND define('DEBUG', 0);		 
 
 ob_start('ob_gzhandler');
 
@@ -48,7 +48,7 @@ $forumarr = arrlist_key_values($forumlist_show, 'fid', 'name');
 $header = array(
 	'title'=>$conf['sitename'],
 	'mobile_title'=>'',
-	'mobile_link'=>'',
+	'mobile_link'=>'./',
 	'keywords'=>'', // 搜索引擎自行分析 keywords, 自己指定没用 / Search engine automatic analysis of key words, their own designation is not used
 	'description'=>$conf['sitebrief'],
 	'navs'=>array(),

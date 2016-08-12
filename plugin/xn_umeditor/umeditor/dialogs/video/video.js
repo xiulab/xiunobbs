@@ -99,8 +99,8 @@
             }
             $("#eduiVideoPreview", me.$widget)[0].innerHTML = '<embed type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"' +
                 ' src="' + url + '"' +
-                ' width="' + 420  + '"' +
-                ' height="' + 280  + '"' +
+                ' width="' + 600  + '"' +
+                ' height="' + 400  + '"' +
                 ' wmode="transparent" play="true" loop="false" menu="false" allowscriptaccess="never" allowfullscreen="true" ></embed>';
 
         },

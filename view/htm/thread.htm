@@ -247,19 +247,40 @@ jpost_delete.on('click', function() {
 });
 
 
-// 转换为百分比，缩放图片
-var jmessagelist = $('div.message');
-var jmessage_width = jmessagelist.width();
-jmessagelist.each(function() {
-	$(this).find('img').each(function() {
-		var jimg = $(this);
-		if(jimg.width() < 500) return;
-		var img_width = jimg.width();
-		var percent = xn.min(100, xn.ceil((img_width / jmessage_width) * 100));
-		jimg.css('width', percent + '%');
-		jimg.css('height', 'auto');
+// 缩放图片，适应屏幕大小。
+function resize_image() {
+	var jmessagelist = $('div.message');
+	var jmessage_width = jmessagelist.width();
+	jmessagelist.each(function() {
+		$(this).find('img, embed').each(function() {
+			var jimg = $(this);
+			//if(jimg.width() < 500) return;
+			var img_width = this.org_width;
+			var img_height = this.org_height;
+			if(!img_width) {
+				var img_width = jimg.width();
+				var img_height = jimg.height();
+				this.org_width = img_width;
+				this.org_height = img_height;
+			}
+			
+			//var percent = xn.min(100, xn.ceil((img_width / jmessage_width) * 100));
+			if(img_width > jmessage_width) {
+				if(this.tagName == 'IMG') {
+					jimg.width(jmessage_width);
+					jimg.css('height', 'auto');
+				} else {
+					jimg.width(jmessage_width);
+					var height = (img_height / img_width) * jimg.width();
+					jimg.height(height);
+				}
+			}
+			
+		});
 	});
-});
+}
+resize_image();
+$(window).on('resize', resize_image);
 
 // 输入框自动伸缩
 var jmessage = $('#message');
