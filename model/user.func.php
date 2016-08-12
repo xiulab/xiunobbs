@@ -302,8 +302,6 @@ function user_login_check() {
 	empty($user) AND http_location(url('user-login'));
 	
 	// hook model_user_login_check_end.php
-	
-	exit;
 }
 
 // hook model_user_end.php
