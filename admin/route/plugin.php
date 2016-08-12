@@ -245,7 +245,7 @@ if($action == 'local') {
 // 检查目录是否可写，插件要求 model view admin 目录文件可写。
 function plugin_check_dir_is_writable() {
 	// 检测目录和文件可写
-	$dirs = array('../model', '../plugin', '../view', '../view/js', '../view/htm', '../view/css', '../plugin', '../admin', '../admin/route', '../admin/view/htm');
+	$dirs = array('../model', '../plugin', '../view', '../view/js', '../view/htm', '../view/css', '../plugin', './', '../', '../route', './view/htm');
 	$dirarr = array();
 	foreach($dirs as $dir) {
 		if(!xn_is_writable($dir)) {
