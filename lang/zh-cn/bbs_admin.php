@@ -66,6 +66,7 @@ return array(
 	'sitebrief'=>'站点介绍',
 	'sitebrief_tips'=>'注：支持 HTML 标签，换行请使用 &lt;br&gt;',
 	'runlevel'=>'站点访问限制',
+	'user_create_email_on'=>'注册用户开启邮箱验证',
 	'lang'=>'语言',
 	'database'=>'數據庫',
 	'host'=>'主机',

@@ -66,6 +66,7 @@ return array(
 	'sitebrief'=>'站點介紹',
 	'sitebrief_tips'=>'註：支持 HTML 標簽，換行請使用 &lt;br&gt;',
 	'runlevel'=>'站點訪問限制',
+	'user_create_email_on'=>'註冊用戶開啟郵箱驗證',
 	'lang'=>'語言',
 	'database'=>'語言',
 	'host'=>'主機',

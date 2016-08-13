@@ -21,6 +21,7 @@ if($action == 'base') {
 		$input['sitename'] = form_text('sitename', $conf['sitename']);
 		$input['sitebrief'] = form_textarea('sitebrief', $conf['sitebrief'], '100%', 100);
 		$input['runlevel'] = form_radio('runlevel', array(0=>lang('runlevel_0'), 1=>lang('runlevel_1'), 2=>lang('runlevel_2'), 3=>lang('runlevel_3'), 4=>lang('runlevel_4'), 5=>lang('runlevel_5')), $conf['runlevel']);
+		$input['user_create_email_on'] = form_radio_yes_no('user_create_email_on', $conf['user_create_email_on']);
 		$input['lang'] = form_select('lang', array('zh-cn'=>lang('lang_zh_cn'), 'zh-tw'=>lang('lang_zh_tw'), 'en-us'=>lang('lang_en_us')), $conf['lang']);
 		
 		$header['title'] = lang('admin_site_setting');
@@ -35,6 +36,7 @@ if($action == 'base') {
 		$sitebrief = param('sitebrief', '', FALSE);
 		$sitename = param('sitename', '', FALSE);
 		$runlevel = param('runlevel', 0);
+		$user_create_email_on = param('user_create_email_on', 0);
 		$_lang = param('lang');
 		
 		// hook admin_setting_base_post_start.php
@@ -43,6 +45,7 @@ if($action == 'base') {
 		$replace['sitename'] = $sitename;
 		$replace['sitebrief'] = $sitebrief;
 		$replace['runlevel'] = $runlevel;
+		$replace['user_create_email_on'] = $user_create_email_on;
 		$replace['lang'] = $_lang;
 		
 		file_replace_var('../conf/conf.php', $replace);

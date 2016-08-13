@@ -43,7 +43,7 @@ return array(
 	'data_not_changed'=>'Data not changed',
 	'admin_cant_be_deleted'=>'Can not directly delete the Administrator, please first edit for the general user group',
 	
-	// 首页
+	// index
 	'admin_index'=>'Admin Index',
 	'site_stat_info'=>'Site statistics',
 	'disk_free_space'=>'Disck free space',
@@ -61,18 +61,19 @@ return array(
 	
 	'for_safe_input_password_again'=>'Please input password again for security',
 	
-	// 设置
+	// setting
 	'sitename'=>'Site Name',
 	'sitebrief'=>'Site Brief',
 	'sitebrief_tips'=>'tops：Support HTML tag, new line use &lt;br&gt;',
 	'runlevel'=>'Site access restrictions',
+	'user_create_email_on'=>'Open email verification when  user register',
 	'lang'=>'Language',
 	'database'=>'Database',
 	'host'=>'Host',
 	'port'=>'Port',
 	'account'=>'Account',
 	
-	// 版块
+	// forum
 	'forum_list'=>'Forum List',
 	'forum_id'=>'Forum ID',
 	'forum_icon'=>'Icon',
@@ -95,14 +96,13 @@ return array(
 	'allow_download'=>'Download',
 	
 	
-	// 用户
-	
+	// user
 	'please_check_delete_user'=>'Please check your want to delete user',
 	'user_delete_confirm'=>'Sure to delete user?',
 	'user_admin_cant_be_deleted'=>'Administrator users are not allowed to delete, if you do want to delete, please adjust the user group!',
 	'search_type'=>'Search Type',
 	
-	// 用户组
+	// user group
 	'group_list'=>'Group List',
 	'group_edit'=>'Edit Group',
 	'group_id'=>'Group id',

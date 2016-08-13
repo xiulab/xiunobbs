@@ -52,7 +52,7 @@
 							<a role="button" class="btn btn-secondary setting" href="<?php echo url("plugin-setting-$dir"); ?>"><?php echo lang('setting');?></a>
 							<?php } ?>
 							
-							<?php if(!$plugin['installed']) { ?>
+							<?php if(!$plugin['installed'] && $plugin['downloaded']) { ?>
 							<a role="button" class="btn btn-primary install" href="<?php echo url("plugin-install-$dir"); ?>"><?php echo lang('install');?></a>
 							<?php } ?>
 							
