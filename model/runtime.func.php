@@ -16,6 +16,8 @@ function runtime_init() {
 		$runtime['todayposts'] = 0;
 		$runtime['todaythreads'] = 0;
 		$runtime['onlines'] = max(1, online_count());
+		$runtime['cron_1_last_date'] = 0;
+		$runtime['cron_2_last_date'] = 0;
 		
 		cache_set('runtime', $runtime);
 		

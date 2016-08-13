@@ -54,10 +54,10 @@ $header = array(
 	'navs'=>array(),
 );
 
-// 运行时数据 / runteime data
+// 运行时数据，存放于 cache_set() / runteime data
 $runtime = runtime_init();
 
-// 默认为 NULL
+// 默认为 NULL，全局设置，存放于 kv_cache_set()
 $setting = FALSE;
 
 // 检测站点运行级别 / restricted access
