@@ -856,8 +856,9 @@ xn.image_resize = function(file_base64_data, callback, options) {
 	
 	if(thumb_width < 1) return callback(-1, '缩略图宽度不能小于 1 / thumb image width length is less 1 pix');
 	if(xn.substr(file_base64_data, 0, 10) != 'data:image') return callback(-1, '传入的 base64 数据有问题 / deformed base64 data');
-	// && xn.substr(file_base64_data, 0, 14) != 'data:image/gif' gif 不支持
-		
+	// && xn.substr(file_base64_data, 0, 14) != 'data:image/gif' gif 不支持\
+	
+	
 	var img = new Image();
 	img.onload = function() {
 		var canvas = document.createElement('canvas');
@@ -867,6 +868,9 @@ xn.image_resize = function(file_base64_data, callback, options) {
 		
 		var img_width = img.width;
 		var img_height = img.height;
+		
+		if(xn.substr(file_base64_data, 0, 14) == 'data:image/gif') return callback(0, {width: img_width, height: img_height, data: file_base64_data});
+		
 		// width, height: 计算出来的宽高（求）
 		// thumb_width, thumb_height: 要求的缩略宽高
 		// img_width, img_height: 原始图片宽高
@@ -957,7 +961,10 @@ xn.upload_file = function(file, upload_url, postdata, callback, progress_callbac
         			if(progress_callback) progress_callback(percent);
         		});
         	}
+        	
+        	// gif 直接上传
         	// 图片进行缩放，然后上传
+        	//  && xn.substr(this.result, 0, 14) != 'data:image/gif'
         	if(xn.substr(this.result, 0, 10) == 'data:image') {
 	        	var filename = file.name ? file.name : (file.type == 'image/png' ? 'capture.png' : 'capture.jpg');
 	        	xn.image_resize(this.result, function(code, message) {
