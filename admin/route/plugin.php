@@ -276,12 +276,12 @@ function plugin_check_dependency($dir, $action = 'install') {
 	}
 }
 
-function plugin_dependency_arr_to_links($dir) {
+function plugin_dependency_arr_to_links($arr) {
 	global $plugins;
 	$s = '';
-	foreach($arr as $dir) {
-		if(!isset($plugins[$dir])) continue;
-		$name = $plugins[$dir]['name'];
+	foreach($arr as $dir=>$version) {
+		//if(!isset($plugins[$dir])) continue;
+		$name = isset($plugins[$dir]['name']) ? $plugins[$dir]['name'] : $dir;
 		$url = url("plugin-read-$dir");
 		$s .= " <a href=\"$url\">【{$name}】</a> ";
 	}
