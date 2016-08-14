@@ -4,7 +4,7 @@ $.alert = function(subject, timeout, options) {
 	var options = options || {};
 	var t = timeout || 2;
 	var s = '\
-	<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">\
+	<div class="modal fade" tabindex="-1" role="dialog">\
 		<div class="modal-dialog modal-md">\
 			<div class="modal-content">\
 				<div class="modal-header">\
@@ -41,7 +41,7 @@ $.confirm = function(subject, ok_callback, options) {
 	var subject = options.body ? '' : '<p>'+subject+'</p>';
 	var t = options.timeout || 3;
 	var s = '\
-	<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">\
+	<div class="modal fade" tabindex="-1" role="dialog">\
 		<div class="modal-dialog modal-md">\
 			<div class="modal-content">\
 				<div class="modal-header">\
