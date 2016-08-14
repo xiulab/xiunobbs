@@ -87,7 +87,7 @@
 			<div class="row">
 				<?php foreach ($forum['modlist'] as $mod) { ?>
 				<div class="col-xs-3 m-b-1 text-center">
-					<a href="#"><img src="view/img/avatar.png" alt="..." width="32" height="32" class="img-circle"></a><br>
+					<a href="#"><img src="<?php echo $conf['view_url'];?>/img/avatar.png" alt="..." width="32" height="32" class="img-circle"></a><br>
 					<a href="<?php echo url("user-$mod[uid]");?>" class="small text-muted text-nowrap"><?php echo $mod['username'];?></a>
 				</div>
 				<?php } ?>

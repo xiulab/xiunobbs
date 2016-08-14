@@ -39,13 +39,13 @@
 
 <!--{hook footer_js_before.htm}-->
 <script src="lang/<?php echo $conf['lang'];?>/bbs.js<?php echo $static_version;?>"></script>
-<script src="view/js/jquery-1.11.1.js<?php echo $static_version;?>"></script>
-<script src="view/js/tether.js<?php echo $static_version;?>"></script>
-<script src="view/js/bootstrap.js<?php echo $static_version;?>"></script>
-<script src="view/js/bootstrap-plugin.js<?php echo $static_version;?>"></script>
-<script src="view/js/async.js<?php echo $static_version;?>"></script>
-<script src="view/js/xiuno.js<?php echo $static_version;?>"></script>
-<script src="view/js/form.js<?php echo $static_version;?>"></script>
+<script src="<?php echo $conf['view_url'];?>/js/jquery-1.11.1.js<?php echo $static_version;?>"></script>
+<script src="<?php echo $conf['view_url'];?>/js/tether.js<?php echo $static_version;?>"></script>
+<script src="<?php echo $conf['view_url'];?>/js/bootstrap.js<?php echo $static_version;?>"></script>
+<script src="<?php echo $conf['view_url'];?>/js/bootstrap-plugin.js<?php echo $static_version;?>"></script>
+<script src="<?php echo $conf['view_url'];?>/js/async.js<?php echo $static_version;?>"></script>
+<script src="<?php echo $conf['view_url'];?>/js/xiuno.js<?php echo $static_version;?>"></script>
+<script src="<?php echo $conf['view_url'];?>/js/form.js<?php echo $static_version;?>"></script>
 <script>
 var debug = DEBUG = <?php echo DEBUG; ?>;
 var url_rewrite_on = <?php echo $conf['url_rewrite_on'];?>;
@@ -53,7 +53,7 @@ var forumlist = <?php echo xn_json_encode($forumlist_show);?>;
 var forumarr = <?php echo xn_json_encode($forumarr);?>;
 var fid = <?php echo $fid;?>;
 </script>
-<script src="view/js/bbs.js<?php echo $static_version;?>"></script>
+<script src="<?php echo $conf['view_url'];?>/js/bbs.js<?php echo $static_version;?>"></script>
 <!--{hook footer_js_after.htm}-->
 
 </div></body>
