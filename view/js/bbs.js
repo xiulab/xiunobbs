@@ -7,9 +7,13 @@ $('form').keyup(function(e) {
 });
 
 // 点击响应整行：方便手机浏览  / check response line
-$('.tap').on('click', function() {
+$('.tap').on('click', function(e) {
 	var href = $(this).attr('href');
-	window.location = href;
+	if(e.ctrlKey) {
+		window.open(href);
+	} else {
+		window.location = href;
+	}
 });
 // 点击响应整行：导航栏下拉菜单   / check response line
 $('ul.nav > li').on('click', function() {
