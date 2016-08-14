@@ -300,9 +300,57 @@ class php_zip {
 	}
 
 
+	/*
+		// fixed by axiuno, mac os zip compressed_size incorrect
+		Array
+		(
+		    [chkid] => 19280
+		    [id] => 513
+		    [version] => 789
+		    [version_extracted] => 20
+		    [flag] => 8
+		    [compression] => 8
+		    [mtime] => 1471095994
+		    [mdate] => 18701
+		    [crc] => 46309353
+		    [compressed_size] => 165
+		    [size] => 264
+		    [filename_len] => 9
+		    [extra_len] => 12
+		    [comment_len] => 0
+		    [disk] => 0
+		    [internal] => 0
+		    [external] => -2119942144
+		    [offset] => 0
+		    [filename] => conf.json
+		    [extra] => UX ��W�$�W
+		    [comment] => 
+		    [stored_filename] => conf.json
+		    [status] => ok
+		    [index] => 0
+		)
+		Array
+		(
+		    [filename] => conf.json
+		    [extra] => UX ��W�$�W� 
+		    [compression] => 8
+		    [size] => 0
+		    [compressed_size] => 0
+		    [crc] => 0
+		    [flag] => 8
+		    [mdate] => 18701
+		    [mtime] => 1471095994
+		    [stored_filename] => conf.json
+		    [status] => ok
+		    [external] => 0
+		)
+		
+	*/
 	private function extrace_file($header, $to, $zip) {
-		$header = $this->readfileheader($zip);
-
+		// fixed by axiuno, mac os zip compress
+		$header2 = $this->readfileheader($zip);
+		$header = array_merge($header2, $header);
+		
 		if(substr($to, -1) != "/"){ $to .= "/"; }
 		if(!@is_dir($to)){ @mkdir($to, 0777); }
 		$pth = explode("/", dirname($header['filename']));
