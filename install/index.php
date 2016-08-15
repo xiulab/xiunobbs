@@ -14,9 +14,6 @@ include './xiunophp/xiunophp.php';
 include './model.inc.php';
 include './install/install.func.php';
 
-$browser = get__browser();
-check_browser($browser);
-
 $action = param('action');
 
 // 安装初始化检测,放这里
