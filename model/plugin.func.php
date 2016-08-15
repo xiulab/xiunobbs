@@ -45,9 +45,11 @@ function plugin_init() {
 		// 额外的信息
 		$plugins[$dir]['hooks'] = array();
 		$hookpaths = glob("../plugin/$dir/hook/*.*"); // path
-		foreach($hookpaths as $hookpath) {
-			$hookname = file_name($hookpath);
-			$plugins[$dir]['hooks'][$hookname] = $hookpath;
+		if(is_array($hookpaths)) {
+			foreach($hookpaths as $hookpath) {
+				$hookname = file_name($hookpath);
+				$plugins[$dir]['hooks'][$hookname] = $hookpath;
+			}
 		}
 		
 		// 合并本地，线上
@@ -166,6 +168,7 @@ function plugin_unstall($dir) {
 
 function plugin_overwrite($dir, $action = 'install') {
 	$files = glob_recursive("../plugin/$dir/overwrite/*");
+	if(empty($files)) return;
 	//$files = glob("./plugin/$dir/overwrite/*");
 	foreach($files as $file) {
 		$workfile = str_replace("../plugin/$dir/overwrite/", '../', $file);
