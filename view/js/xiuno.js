@@ -1163,7 +1163,7 @@ $.fn.attr_name_index = function(rowid) {
 	return this.each(function() {
 		var jthis = $(this);
 		var name = jthis.attr('name');
-		name = name.replace(/\[(\d+)\]/, function(all, oldid) {
+		name = name.replace(/\[(\d*)\]/, function(all, oldid) {
 			var newid = rowid === undefined ? xn.intval(oldid) + 1 : rowid;
 			return '[' + newid + ']';
 		});

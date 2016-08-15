@@ -11,6 +11,7 @@ $('.tap').on('click', function(e) {
 	var href = $(this).attr('href');
 	if(e.ctrlKey) {
 		window.open(href);
+		return false;
 	} else {
 		window.location = href;
 	}
