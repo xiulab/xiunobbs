@@ -73,7 +73,7 @@ function plugin_dependencies($dir) {
 	// 检查插件依赖关系
 	$arr = array();
 	foreach($dependencies as $_dir=>$version) {
-		if(!isset($plugins[$_dir]) || $plugins[$_dir]['enable']) {
+		if(!isset($plugins[$_dir]) || !$plugins[$_dir]['enable']) {
 			$arr[$_dir] = $version;
 		}
 	}
