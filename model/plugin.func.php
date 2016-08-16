@@ -92,7 +92,7 @@ function plugin_by_dependencies($dir) {
 	
 	$arr = array();
 	foreach($plugins as $_dir=>$plugin) {
-		if(in_array($dir, $plugin['dependencies'])) {
+		if(in_array($dir, $plugin['dependencies']) && $plugin['enable']) {
 			$arr[$_dir] = $version;
 		}
 	}
