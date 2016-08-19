@@ -52,6 +52,8 @@ if($action == 'login') {
 		
 		// hook user_login_post_end.php
 		
+		// 设置 token，下次自动登陆。
+		
 		message(0, lang('user_login_successfully'));
 
 	}

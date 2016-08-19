@@ -9,7 +9,7 @@
 // hook index_start.php
 
 $page = param(1, 1);
-$order = param(2, $conf['order_default']);
+$order = $conf['order_default'];
 $order != 'tid' AND $order = 'lastpid';
 $pagesize = $conf['pagesize'];
 

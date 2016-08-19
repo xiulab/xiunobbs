@@ -92,8 +92,8 @@ function plugin_by_dependencies($dir) {
 	
 	$arr = array();
 	foreach($plugins as $_dir=>$plugin) {
-		if(in_array($dir, $plugin['dependencies']) && $plugin['enable']) {
-			$arr[$_dir] = $version;
+		if(isset($plugin['dependencies'][$dir]) && $plugin['enable']) {
+			$arr[$_dir] = $plugin['version'];
 		}
 	}
 	return $arr;
@@ -143,6 +143,8 @@ function plugin_install($dir) {
 	
 	// 写入配置文件
 	file_replace_var("../plugin/$dir/conf.json", array('installed'=>1, 'enable'=>1), TRUE);
+	
+	xn_unlink($conf['tmp_path'].'model.min.php');
 	
 	return TRUE;
 }

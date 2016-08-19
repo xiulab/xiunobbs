@@ -36,7 +36,7 @@ if(DEBUG) {
 	$__getcwd = getcwd();
 	chdir(dirname(__FILE__));
 	
-	$model_min_file = './tmp/model.min.php';
+	$model_min_file = $conf['tmp_path'].'model.min.php';
 	$isfile = is_file($model_min_file);
 	if(!$isfile) {
 		$s = php_strip_whitespace('./model/kv.func.php');
@@ -68,6 +68,11 @@ if(DEBUG) {
 }
 
 // hook model_inc_end.php
+
+
+include './model/tag_cate.func.php';	// 
+include './model/tag.func.php';	// 
+include './model/tag_thread.func.php';	// 
 
 function xn_php_strip_whitespace($file) {
 	$s = php_strip_whitespace($file);

@@ -19,6 +19,12 @@ if(empty($action) || $action == 'create') {
 	
 	// hook attach_create_start.php
 	
+	// 允许的文件后缀名
+	//$types = include './conf/attach.conf.php';
+	//$allowtypes = $types['all'];
+	
+	empty($group['allowattach']) AND $gid != 1 AND message(-1, '您无权上传');
+	
 	empty($data) AND message(-1, lang('data_is_empty'));
 	$data = base64_decode_file_data($data);
 	$size = strlen($data);
@@ -82,6 +88,8 @@ if(empty($action) || $action == 'create') {
 	// hook attach_delete_delete.php
 	
 	message(0, 'delete_successfully');
+	
+} elseif($action == 'download') {
 	
 }
 

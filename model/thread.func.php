@@ -232,7 +232,7 @@ function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'tid') {
 function thread_find_by_keyword($keyword) {
 	// hook model_thread_find_by_keyword_start.php
 	$threadlist = db_find('thread', array('subject'=>array('LIKE'=>$keyword)), array(), 1, 60);
-	arrlist_multisort($threadlist, 'tid', FALSE); // 用 PHP 排序，mysql 排序消耗太大。
+	$threadlist = arrlist_multisort($threadlist, 'tid', FALSE); // 用 PHP 排序，mysql 排序消耗太大。
 	if($threadlist) {
 		foreach ($threadlist as &$thread) {
 			thread_format($thread);
@@ -326,7 +326,7 @@ function thread_list_access_filter(&$threadlist, $gid) {
 	// hook model_thread_list_access_filter_end.php
 }
 
-function thread_find_by_tids($tids, $order = array('tid'=>-1)) {
+function thread_find_by_tids($tids, $order = array('lastpid'=>-1)) {
 	// hook model_thread_find_by_tids_start.php
 	//$start = ($page - 1) * $pagesize;
 	//$tids = array_slice($tids, $start, $pagesize);

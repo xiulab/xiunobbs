@@ -3,6 +3,15 @@
 //$_SERVER['REQUEST_URI'] = '/?plugin-unstall-xn_nav_more.htm';
 //$_SERVER['REQUEST_URI'] = '/?plugin-install-xn_user_recent_thread.htm';
 
+
+
+//$_SERVER['REQUEST_URI'] = '/?forum-update-1.htm';
+//$_SERVER['REQUEST_METHOD'] = 'POST';
+//parse_str(urldecode('name=Default+Forum&rank=0&brief=Default+Forum+Brief&announcement=&moduids=&allowread%5B0%5D=1&allowpost%5B0%5D=1&allowdown%5B0%5D=1&allowread%5B1%5D=1&allowthread%5B1%5D=1&allowpost%5B1%5D=1&allowattach%5B1%5D=1&allowdown%5B1%5D=1&allowread%5B2%5D=1&allowthread%5B2%5D=1&allowpost%5B2%5D=1&allowattach%5B2%5D=1&allowdown%5B2%5D=1&allowread%5B4%5D=1&allowthread%5B4%5D=1&allowpost%5B4%5D=1&allowattach%5B4%5D=1&allowdown%5B4%5D=1&allowread%5B5%5D=1&allowthread%5B5%5D=1&allowpost%5B5%5D=1&allowattach%5B5%5D=1&allowdown%5B5%5D=1&allowread%5B6%5D=1&allowpost%5B6%5D=1&allowdown%5B6%5D=1&allowread%5B101%5D=1&allowthread%5B101%5D=1&allowpost%5B101%5D=1&allowattach%5B101%5D=1&allowdown%5B101%5D=1&allowread%5B102%5D=1&allowthread%5B102%5D=1&allowpost%5B102%5D=1&allowattach%5B102%5D=1&allowdown%5B102%5D=1&allowread%5B103%5D=1&allowthread%5B103%5D=1&allowpost%5B103%5D=1&allowattach%5B103%5D=1&allowdown%5B103%5D=1&allowread%5B104%5D=1&allowthread%5B104%5D=1&allowpost%5B104%5D=1&allowattach%5B104%5D=1&allowdown%5B104%5D=1&allowread%5B105%5D=1&allowthread%5B105%5D=1&allowpost%5B105%5D=1&allowattach%5B105%5D=1&allowdown%5B105%5D=1&cate_name%5B12%5D=AAA&cate_rank%5B12%5D=3&cate_enable%5B12%5D=1&tag_cate_id%5B23%5D=12&tag_name%5B23%5D=A1&tag_rank%5B23%5D=2&tag_enable%5B23%5D=1&tag_cate_id%5B24%5D=12&tag_name%5B24%5D=A2&tag_rank%5B24%5D=1&tag_enable%5B24%5D=1&cate_name%5B13%5D=BBB&cate_rank%5B13%5D=2&cate_enable%5B13%5D=1&tag_cate_id%5B25%5D=13&tag_name%5B25%5D=B1&tag_rank%5B25%5D=2&tag_enable%5B25%5D=1&tag_cate_id%5B26%5D=13&tag_name%5B26%5D=B2&tag_rank%5B26%5D=1&tag_enable%5B26%5D=1&cate_name%5B14%5D=CCC&cate_rank%5B14%5D=1&cate_enable%5B14%5D=1&tag_cate_id%5B27%5D=14&tag_name%5B27%5D=C1&tag_rank%5B27%5D=0&tag_enable%5B27%5D=1&tag_cate_id%5B28%5D=14&tag_name%5B28%5D=C2&tag_rank%5B28%5D=0&tag_enable%5B28%5D=1'), $_POST);
+//
+
+
+
 // 切换到上级目录 / chdir to up one directory
 //define('BASE_HREF', '../');
 define('SKIP_ROUTE', TRUE);
@@ -60,6 +69,7 @@ switch ($route) {
 	case 'group': 		include './route/group.php'; 		break;
 	case 'user':		include './route/user.php'; 		break;
 	case 'plugin':		include './route/plugin.php'; 		break;
+	// hook admin_index_route_case.php
 	default: 
 		// 为了支持插件，此处不利于编译优化
 		// In order to support / plug-in, here is not conducive to compiler optimization

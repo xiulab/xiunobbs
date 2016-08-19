@@ -21,10 +21,13 @@
 									<i class="icon-top-<?php echo $_thread['top']; ?>" aria-hidden="true"></i></i>
 								<?php } ?>
 								
-								<!--{hook thread_list_inc_subject_before.htm}-->
+								<!--{hook thread_list_inc_subject_forum_before.htm}-->
+								
 								<?php if(!$fid) { ?>
-								<a href="<?php echo url("forum-$_thread[fid]");?>" class="text-grey small hidden-md-down">【<?php echo $_thread['forumname'];?>】</a>
+								<a href="<?php echo url("forum-$_thread[fid]");?>" class="text-grey small hidden-md-down">[<?php echo $_thread['forumname'];?>]</a>
 								<?php } ?>
+								
+								<!--{hook thread_list_inc_subject_before.htm}-->
 								
 								<a href="<?php echo url("thread-$_thread[tid]");?>"><?php echo $_thread['subject'];?></a>
 								

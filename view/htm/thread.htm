@@ -24,7 +24,11 @@
 				</dt>
 				<dd>
 					<!--{hook thread_subject_before.htm}-->
-					<h3 class="break-all"><?php echo $thread['subject'];?></h3>
+					<h3 class="break-all">
+						<!--{hook thread_subject_start.htm}-->
+						<?php echo $thread['subject'];?>
+						<!--{hook thread_subject_end.htm}-->
+					</h3>
 					<!--{hook thread_subject_after.htm}-->
 					<dl class="row small">
 						<dt>

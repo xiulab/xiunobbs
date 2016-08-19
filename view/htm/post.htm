@@ -33,6 +33,8 @@
 		$filelist = array();
 	}
 	
+	// hook post_start_init.htm
+	
 	$filelist += (array)_SESSION('tmp_files');
 ?>
 
@@ -46,31 +48,29 @@
 				<form action="<?php echo $form_action;?>" method="post" id="form">
 					<input type="hidden" name="doctype" value="<?php echo $form_doctype;?>" />
 					
-					<!--{hook post_subject_before.htm}-->
-					
+					<!--{hook post_fid_before.htm}-->
 					<?php if($isfirst) { ?>
-					
-					<div class="row">
-						<div class="col-lg-9">
-							<fieldset class="form-group">
-								<input type="text" class="form-control" placeholder="<?php echo lang('subject');?>" name="subject" value="<?php echo $form_subject;?>" id="subject">
-							</fieldset>
-						</div>
-						<div class="col-lg-3">
-							<fieldset class="form-group">
-								<select class="c-select" name="fid">
-									<?php foreach ($forumlist_show as $forum) { ?>
-									<option value="<?php echo $forum['fid']; ?>"><?php echo $forum['name']; ?></option>
-									<?php } ?>
-								</select>
-							</fieldset>
-							<!--{hook post_subject_right.htm}-->
-						</div>
+					<div>
+						<fieldset class="form-group">
+							<!--{hook post_fid_select_before.htm}-->
+							<select class="c-select m-r-sm" name="fid">
+								<?php foreach ($forumlist_show as $forum) { ?>
+								<option value="<?php echo $forum['fid']; ?>"><?php echo $forum['name']; ?></option>
+								<?php } ?>
+							</select>
+							<!--{hook post_fid_select_after.htm}-->
+						</fieldset>
 					</div>
-					
+					<!--{hook post_subject_before.htm}-->
+					<div>
+						<fieldset class="form-group">
+							<input type="text" class="form-control" placeholder="<?php echo lang('subject');?>" name="subject" value="<?php echo $form_subject;?>" id="subject">
+						</fieldset>
+					</div>
+					<!--{hook post_subject_after.htm}-->
 					<?php } ?>
 					
-					<!--{hook post_subject_after.htm}-->
+					
 					
 					<fieldset class="form-group">
 						<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message" style="height: 300px;"><?php echo $form_message;?></textarea>
@@ -168,6 +168,5 @@ $('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');
 $('#nav_mobile li[fid="<?php echo $fid;?>"]').tab('show');
 
 </script>
-
 
 <!--{hook post_js.htm}-->

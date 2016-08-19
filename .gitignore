@@ -10,3 +10,8 @@ ueditor-dev
 route/browser.php
 index.php
 plugin/xn_footer_js
+plugin/xn_tag/*
+plugin/xn_weixin*
+plugin/xn_wechat*
+1.php
+

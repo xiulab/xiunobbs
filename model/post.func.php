@@ -273,6 +273,7 @@ function post_highlight_keyword($str, $k) {
 // 公用的附件模板，采用函数，效率比 include 高。
 function post_file_list_html($filelist, $include_delete = FALSE) {
 	if(empty($filelist)) return '';
+	// 判断权限
 	$s = '<ul class="attachlist">'."\r\n";
 	foreach ($filelist as $attach) {
 		$s .= '<li aid="'.$attach['aid'].'">'."\r\n";

@@ -41,9 +41,9 @@ function table_day_cron($crontime = 0) {
 	list($y, $m, $d) = explode('-', date('Y-n-j', $crontime)); // 往前推8个小时，确保在前一天。
 	
 	$table_map = array(
-		'bbs_thread'=>'tid',
-		'bbs_post'=>'pid',
-		'bbs_user'=>'uid',
+		'thread'=>'tid',
+		'post'=>'pid',
+		'user'=>'uid',
 	);
 	foreach ($table_map as $table=>$col) {
 		$maxid = db_maxid($table, $col, array('create_date'=>array('<'=>$crontime)));

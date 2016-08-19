@@ -4,8 +4,11 @@
  * Copyright (C) xiuno.com
  */
 
+//$_SERVER['REQUEST_URI'] = '/?forum-1-1-14.htm';
+
+
 // 0: Production mode; 1: Developer mode; 2: Detail mode;
-!defined('DEBUG') AND define('DEBUG', 0);		 
+!defined('DEBUG') AND define('DEBUG', 2);
 
 ob_start('ob_gzhandler');
 
@@ -85,6 +88,7 @@ if(!defined('SKIP_ROUTE')) {
 		case 'post': 	include './route/post.php'; 	break;
 		case 'mod': 	include './route/mod.php'; 	break;
 		case 'browser': include './route/browser.php'; 	break;
+		// hook index_route_case.php
 		default: 
 			// 为了支持插件，此处不利于编译优化
 			// In order to support / plug-in, here is not conducive to compiler optimization

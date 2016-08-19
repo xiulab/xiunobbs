@@ -1,7 +1,12 @@
 <IfModule mod_rewrite.c>
 RewriteEngine on
+RewriteRule view/htm/\w+\.htm /robots.txt  [L]
+RewriteRule plugin/\w+/hook/ /robots.txt  [L]
+RewriteRule plugin/\w+/overwrite/ /robots.txt  [L]
+
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^admin/(.*)\.htm$ /admin/index.php?$1.htm [L]
 RewriteRule ^(.*)\.htm$ /index.php?$1.htm [L]
+
 </IfModule>

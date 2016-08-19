@@ -4,6 +4,13 @@ function array_value($arr, $key, $default = '') {
 	return isset($arr[$key]) ? $arr[$key] : $default;
 }
 
+function array_filter_empty($arr) {
+	foreach($arr as $k=>$v) {
+		if(empty($v)) unset($arr[$k]);
+	}
+	return $arr;
+}
+
 /*
 function array_isset_push(&$arr, $key, $value) {
 	!isset($arr[$key]) AND $arr[$key] = array();
@@ -75,7 +82,7 @@ function array_diff_value($arr1, $arr2) {
 	arrlist_multisort($data, 'edition', TRUE);
 */
 // 对多维数组排序
-function arrlist_multisort(&$arrlist, $col, $asc = TRUE) {
+function arrlist_multisort($arrlist, $col, $asc = TRUE) {
 	$colarr = array();
 	foreach($arrlist as $k=>$arr) {
 		$colarr[$k] = $arr[$col];
@@ -108,7 +115,7 @@ function arrlist_cond_orderby($arrlist, $cond = array(), $orderby = array(), $pa
 
 	if($orderby) {
 		list($k, $v) = each($orderby);
-		arrlist_multisort($resultarr, $k, $v == 1);
+		$resultarr = arrlist_multisort($resultarr, $k, $v == 1);
 	}
 
 	$start = ($page - 1) * $pagesize;
@@ -131,11 +138,11 @@ function array_assoc_slice($arrlist, $start, $length = 0) {
 
 
 // 从一个二维数组中取出一个 key=>value 格式的一维数组
-function arrlist_key_values($arrlist, $key, $value) {
+function arrlist_key_values($arrlist, $key, $value = NULL) {
 	$return = array();
 	if($key) {
-		foreach((array)$arrlist as $arr) {
-			$return[$arr[$key]] = $arr[$value];
+		foreach((array)$arrlist as $k=>$arr) {
+			$return[$arr[$key]] = $value ? $arr[$value] : $k;
 		}
 	} else {
 		foreach((array)$arrlist as $arr) {
@@ -162,13 +169,14 @@ function arrlist_values($arrlist, $key) {
 }
 
 // 将 key 更换为某一列的值，在对多维数组排序后，数字key会丢失，需要此函数
-function arrlist_change_key(&$arrlist, $key, $pre = '') {
+function arrlist_change_key($arrlist, $key, $pre = '') {
 	$return = array();
 	if(empty($arrlist)) return $return;
 	foreach($arrlist as &$arr) {
 		$return[$pre.''.$arr[$key]] = $arr;
 	}
 	$arrlist = $return;
+	return $return;
 }
 
 // 根据某一列的值进行 chunk

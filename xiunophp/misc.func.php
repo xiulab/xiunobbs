@@ -34,7 +34,7 @@ function error_handle($errno, $errstr, $errfile, $errline) {
 		array_shift($arr);
 		foreach($arr as $v) {
 			$args = '';
-			if(is_array($v['args'])) foreach ($v['args'] as $v2) $args .= ($args ? ' , ' : '').(is_array($v2) ? 'array('.count($v2).')' : (is_object($v2) ? 'object' : $v2));
+			if(!empty($v['args']) && is_array($v['args'])) foreach ($v['args'] as $v2) $args .= ($args ? ' , ' : '').(is_array($v2) ? 'array('.count($v2).')' : (is_object($v2) ? 'object' : $v2));
 			!isset($v['file']) AND $v['file'] = '';
 			!isset($v['line']) AND $v['line'] = '';
 			echo $br."File: $v[file], Line: $v[line], $v[function]($args) ";
@@ -703,7 +703,7 @@ function xn_init_query_string() {
 	$request_url = str_replace('/?', '/', $_SERVER['REQUEST_URI']);
 	$arr = parse_url($request_url);
 	
-	$q = $arr['path'];
+	$q = array_value($arr, 'path');
 	$pos = strrpos($q, '/');
 	$pos === FALSE && $pos = -1;
 	$q = substr($q, $pos + 1); // 截取最后一个 / 后面的内容
@@ -1248,6 +1248,14 @@ function xn_url_add_arg($url, $k, $v) {
 	} else {
 		return substr($url, 0, $pos).'-'.$v.substr($url, $pos);
 	}
+}
+
+function str_push($str, $v, $sep = '_') {
+	if(empty($str)) return $v;
+	if(strpos($str, $v.$sep) === FALSE) {
+		return $str.$sep.$v;
+	}
+	return $str;
 }
 
 /* 需要兼容，请自行打开开这段注释，默认不兼容

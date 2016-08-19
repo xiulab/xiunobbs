@@ -73,7 +73,7 @@ class db_pdo_sqlite {
 		if(!$query) return $query;
 		$query->setFetchMode(PDO::FETCH_ASSOC);
 		$arrlist = $query->fetchAll();
-		$key AND arrlist_change_key($arrlist, $key);
+		$key AND $arrlist = arrlist_change_key($arrlist, $key);
 		return $arrlist;
 	}
 	

@@ -7,12 +7,13 @@ function check_runlevel() {
 	// hook model_check_runlevel_start.php
 	global $conf, $method, $gid;
 	$is_user_action = (param(0) == 'user');
+	if($gid == 1) return;
 	switch ($conf['runlevel']) {
 		case 0: $gid != 1 AND message(-1, $conf['runlevel_reason']); break;
 		case 1: $gid != 1 AND message(-1, $conf['runlevel_reason']); break;
-		case 2: ($gid == 0 OR ($gid != 1 AND $method != 'GET' AND !$is_user_action)) AND message(-1, '当前站点设置状态：会员只读'); break;
-		case 3: $gid == 0 AND !$is_user_action AND message(-1, '当前站点设置状态：会员可读写，游客不允许访问'); break;
-		case 4: $method != 'GET' AND message(-1, '当前站点设置状态：所有用户只读'); break;
+		case 2: ($gid == 0 OR ($gid != 1 AND $method != 'GET' AND !$is_user_action)) AND message(-1, lang('runlevel_reson_3')); break;
+		case 3: $gid == 0 AND !$is_user_action AND message(-1, lang('runlevel_reson_4')); break;
+		case 4: $method != 'GET' AND message(-1, lang('runlevel_reson_5')); break;
 		//case 5: break;
 	}
 	// hook model_check_runlevel_end.php
@@ -32,7 +33,7 @@ function message($code, $message, $extra = array()) {
 	global $ajax;
 	
 	$arr = $extra;
-	$arr['code'] = $code;
+	$arr['code'] = $code.'';
 	$arr['message'] = $message;
 	
 	// 防止 message 本身出现错误死循环

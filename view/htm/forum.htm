@@ -8,11 +8,12 @@
 <div class="row">
 	<div class="col-lg-9">
 		<!--{hook forum_breadcrumb_before.htm}-->
-		<ol class="breadcrumb m-b-sm hidden-lg-down">
+		<ol class="breadcrumb m-b-sm hidden-md-down">
 			<li><a href="./"><i class="icon-home" aria-hidden="true"></i></a></li>
 			<li><a href="<?php echo url("forum-$fid");?>"><?php echo $forum['name'];?></a></li>
 			<!--{hook forum_breadcrumb.htm}-->
 		</ol>
+		
 		<!--{hook forum_breadcrumb_after.htm}-->
 		<div class="card p-a-sm">
 			<table class="table table-hover threadlist">

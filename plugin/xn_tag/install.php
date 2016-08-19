@@ -11,30 +11,34 @@ $tablepre = $db->tablepre;
 
 
 $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}tag_cate (
-	cateid smallint(11) unsigned NOT NULL AUTO_INCREMENT,
-	fid smallint(11) unsigned NOT NULL DEFAULT '0',		# 属于哪个版块
+	cateid int(11) unsigned NOT NULL AUTO_INCREMENT,
+	fid int(11) unsigned NOT NULL DEFAULT '0',		# 属于哪个版块
 	name char(32) NOT NULL DEFAULT '',
-	PRIMARY KEY (cateid)
-) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=utf8";
-$r = db_exec($sql);
-
-$sql = "CREATE TABLE IF NOT EXISTS {$tablepre}tag_name (
-	tagid smallint(11) unsigned NOT NULL AUTO_INCREMENT,
-	cateid smallint(11) unsigned NOT NULL DEFAULT '0',
-	name char(32) NOT NULL DEFAULT '',
-	PRIMARY KEY (cateid)
-) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=utf8";
+	rank int(11) unsigned NOT NULL DEFAULT '0',
+	PRIMARY KEY (cateid),
+	KEY (fid)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8";
 $r = db_exec($sql);
 
 $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}tag (
-	tagid smallint(11) unsigned NOT NULL DEFAULT '0',
-	tid smallint(11) unsigned NOT NULL DEFAULT '0',
+	tagid int(11) unsigned NOT NULL AUTO_INCREMENT,
+	cateid int(11) unsigned NOT NULL DEFAULT '0',
+	name char(32) NOT NULL DEFAULT '',
+	rank int(11) unsigned NOT NULL DEFAULT '0',
 	PRIMARY KEY (tagid),
+	KEY (cateid)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8";
+$r = db_exec($sql);
+
+$sql = "CREATE TABLE IF NOT EXISTS {$tablepre}tag_thread (
+	tagid int(11) unsigned NOT NULL DEFAULT '0',
+	tid int(11) unsigned NOT NULL DEFAULT '0',
+	PRIMARY KEY (tagid, tid),
 	KEY (tid)
-) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=utf8";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8";
 $r = db_exec($sql);
 
 
-$r === FALSE AND message(-1, '创建友情链接表结构失败');
+$r === FALSE AND message(-1, '创建表结构失败');
 
 ?>

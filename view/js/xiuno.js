@@ -289,6 +289,7 @@ xn.array_values = function(obj) {
 	$.each(obj, function(k, v) {arr.push(v);});
 	return arr;
 }
+xn.in_array = function(v, arr) { return $.inArray(v, arr) != -1;}
 
 // 所谓的 js 编译模板，不过是一堆效率低下的正则替换，这种东西根据自己喜好用吧。
 xn.template = function(s, json) {

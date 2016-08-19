@@ -4,6 +4,7 @@ return array(
 	'yes'=>'是',
 	'no'=>'否',
 	'none'=>'无',
+	'all'=>'全部',
 	'unknown'=>'未知',
 	'enable'=>'启用',
 	'disable'=>'禁用',
@@ -250,9 +251,20 @@ return array(
 	'runlevel_3'=>'会员可读',
 	'runlevel_4'=>'所有人可读写',
 	'runlevel_5'=>'所有人只读',
+	'runlevel_reson_3'=>'当前站点设置状态：会员只读',
+	'runlevel_reson_4'=>'当前站点设置状态：会员可读写，游客不允许访问',
+	'runlevel_reson_5'=>'当前站点设置状态：所有用户只读',
 	'lang_zh_cn'=>'简体中文',
 	'lang_zh_tw'=>'繁体中文',
 	'lang_en_us'=>'美式英语',
+	
+	
+	
+	'rank'=>'排序',
+	'tag'=>'标签',
+	'tag_cate'=>'标签分类',
+	'tag_cate_name'=>'分类名称',
+	'tag_name'=>'标签名称',
 	
 	// hook lang_zh_cn_bbs.php
 	

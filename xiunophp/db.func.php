@@ -48,7 +48,7 @@ function db_sql_find_one($sql, $d = NULL) {
 	global $db;
 	$d = $db ? $db : $d;
 	if(!$d) return FALSE;
-	$arr = $d->find_one($sql);
+	$arr = $d->sql_find_one($sql);
 	
 	db_errno_errstr($arr, $d);
 	
@@ -59,7 +59,7 @@ function db_sql_find($sql, $key = NULL, $d = NULL) {
 	global $db;
 	$d = $db ? $db : $d;
 	if(!$d) return FALSE;
-	$arr = $d->find($sql, $key);
+	$arr = $d->sql_find($sql, $key);
 	
 	db_errno_errstr($arr, $d);
 	
@@ -289,7 +289,7 @@ function db_find_one($table, $cond = array(), $orderby = array(), $col = array()
 // 保存 $db 错误到全局
 function db_errno_errstr($r, $d = NULL) {
 	global $erno, $errstr;
-	if($r === FALSE && $d->errno != 0) {
+	if($r === FALSE) { //  && $d->errno != 0
 		$errno = $d->errno;
 		$errstr = db_errstr_safe($errno, $d->errstr);
 		$s = "sql errno: ".$errno.", errstr: ".$errstr;
