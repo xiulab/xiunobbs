@@ -70,9 +70,6 @@ if(DEBUG) {
 // hook model_inc_end.php
 
 
-include './model/tag_cate.func.php';	// 
-include './model/tag.func.php';	// 
-include './model/tag_thread.func.php';	// 
 
 function xn_php_strip_whitespace($file) {
 	$s = php_strip_whitespace($file);
