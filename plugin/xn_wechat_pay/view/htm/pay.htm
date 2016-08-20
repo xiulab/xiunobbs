@@ -181,7 +181,7 @@
     <div class="s-screenWrap-2" id="div_paying" style="font-size:16px;">
         <div class="s-topbar" style="text-align: center;">
 
-            <?php if ( !empty( $order['code_url'] ) ) { ?>
+            <?php if ( $agent === FALSE &&   !empty( $order['code_url'] ) ) { ?>
                 <h1>正在生成二维码,请用微信扫码支付</h1>
             <?php } else { ?>
                 <h1>正在发起支付，请稍后...</h1>
@@ -203,7 +203,7 @@
 
             </li>
         </ol>
-        <?php if ( !empty( $order['code_url'] ) ) { ?>
+        <?php if ( $agent === FALSE &&  !empty( $order['code_url'] ) ) { ?>
             <div style="width:220px;height:220px;margin:1rem auto;" id='xcode'></div>
         <?php } else { ?>
             <span class="s-jvBorder s-block">
@@ -235,7 +235,7 @@
                 </li>
             </ol>
 
-            <?php if ( !empty( $order['code_url'] ) ) { ?>
+            <?php if ( $agent === FALSE &&  !empty( $order['code_url'] )  ) { ?>
                 <div style="width:220px;height:220px;text-align:center;" id='xcode'></div>
             <?php } else { ?>
                 <span class="s-jvBorder s-block">
@@ -247,12 +247,12 @@
     </div>
 </div>
 </div>
-<?php if ( !empty( $order['code_url'] ) ) { ?>
+<?php if ( $agent === FALSE && !empty( $order['code_url'] )  ) { ?>
     <script src="/view/js/jquery-1.11.1.js"></script>
     <script src="/plugin/xn_wechat_pay/view/js/jquery.qrcode.min.js"></script>
 <?php } ?>
 <script type="text/javascript">
-    <?php if(!empty( $order['code_url'] )){?>
+    <?php if($agent === FALSE && !empty( $order['code_url'] ) ){?>
     $('#xcode').qrcode('<?php echo $order['code_url']?>');
     <?php }else{ ?>
     function onBridgeReady () {
