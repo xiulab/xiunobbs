@@ -5,8 +5,7 @@
 // 可以合并成一个文件，加快速度
 // merge to one file.
 
-include APP_PATH.'model/plugin.func.php';
-include APP_PATH.'model/misc.func.php';
+// hook model_inc_start.php
 
 if(DEBUG) {
 	

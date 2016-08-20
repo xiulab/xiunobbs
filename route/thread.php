@@ -74,13 +74,6 @@ if($action == 'create') {
 		$pid === FALSE AND message(-1, lang('create_post_failed'));
 		$tid === FALSE AND message(-1, lang('create_thread_failed'));
 		
-		// todo:
-		$tag_cate_id_arr = param('tag_cate_id', array(0));
-		foreach($tag_cate_id_arr as $tag_cate_id => $tagid) {
-			tag_thread_create($tagid, $tid);
-		}
-		
-		
 		// hook thread_create_thread_end.php
 		message(0, lang('create_thread_sucessfully'));
 	}

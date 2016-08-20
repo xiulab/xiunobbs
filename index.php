@@ -30,7 +30,9 @@ if(DEBUG) {
 // 测试数据库连接 / try to connect database
 db_connect() OR exit($errstr);
 
-include APP_PATH.'model.inc.php';
+include APP_PATH.'model/plugin.func.php';
+include APP_PATH.'model/misc.func.php';
+include _include(APP_PATH.'model.inc.php');
 
 // 查找所有开启的插件，合并 hook file 内容
 	

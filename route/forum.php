@@ -23,7 +23,6 @@ if($thread_list_from_default) {
 }
 
 
-
 $header['title'] = $forum['seo_title'] ? $forum['seo_title'] : $forum['name'].'-'.$conf['sitename'];
 $header['mobile_title'] = $forum['name'];
 $header['mobile_link'] = url("forum-$fid");

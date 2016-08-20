@@ -412,15 +412,17 @@ function plugin_complie_srcfile_callback($m) {
 	$s = '';
 	$hookname = $m[1];
 	if(!empty($hooks[$hookname])) {
+		$fileext = file_ext($hookname);
 		foreach($hooks[$hookname] as $path) {
 			$t = file_get_contents($path);
-			
-			$t = preg_replace('#^<\?php\s*exit;\?>\s{0,2}#i', '', $t);
-			/*
-			if(substr($t, 0, 5) == '<?php' && substr($t, -2, 2) == '?>') {
-				$t = substr($t, 5, -2);		
+			if($fileext == 'php') {
+				// 去掉首尾标签
+				if(substr($t, 0, 5) == '<?php' && substr($t, -2, 2) == '?>') {
+					$t = substr($t, 5, -2);		
+				}
+				// 去掉 exit;
+				$t = preg_replace('#\s*exit;\s*#', "\r\n", $t);
 			}
-			*/
 			$s .= $t;
 		}
 	}

@@ -92,7 +92,7 @@ function _include($srcfile) {
 	// 合并插件，存入 tmp_path
 	$len = strlen(APP_PATH);
 	$tmpfile = $conf['tmp_path'].'src/'.substr(str_replace('/', '_', $srcfile), $len);
-	if(!is_file($tmpfile) || filemtime($srcfile) > filemtime($tmpfile) || DEBUG) {
+	if(!is_file($tmpfile) || DEBUG) {
 		// 开始编译
 		$s = plugin_complie_srcfile($srcfile);
 		file_put_contents_try($tmpfile, $s);
