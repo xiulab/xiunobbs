@@ -28,6 +28,8 @@ $header['mobile_title'] = $forum['name'];
 $header['mobile_link'] = url("forum-$fid");
 $header['keywords'] = $forum['seo_keywords'];
 
+$_SESSION['fid'] = $fid;
+
 // hook forum_end.php
 
 include _include(APP_PATH.'view/htm/forum.htm');

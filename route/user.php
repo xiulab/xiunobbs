@@ -50,6 +50,8 @@ if($action == 'login') {
 		// global variable $uid will save to session in register_shutdown_function() (file: model/session.func.php)
 		$uid = $user['uid'];
 		
+		$_SESSION['uid'] = $uid;
+		
 		// hook user_login_post_end.php
 		
 		// 设置 token，下次自动登陆。
@@ -123,6 +125,7 @@ if($action == 'login') {
 		
 		unset($_SESSION['create_email']);
 		unset($_SESSION['create_pw']);
+		$_SESSION['uid'] = $uid;
 		
 		$extra = array('token'=>user_token_gen($uid));
 		
@@ -169,6 +172,7 @@ if($action == 'login') {
 	// hook user_logout_start.php
 	
 	$uid = 0;
+	$_SESSION['uid'] = $uid;
 	
 	// hook user_logout_end.php
 	

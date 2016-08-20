@@ -34,6 +34,7 @@ thread_list_access_filter($threadlist, $gid);
 $header['title'] = $conf['sitename']; 		// site title
 $header['keywords'] = ''; 			// site keyword
 $header['description'] = ''; 			// site description
+$_SESSION['fid'] = 0;
 
 // hook index_end.php
 
