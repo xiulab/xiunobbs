@@ -46,6 +46,10 @@ function tag_cate_find_by_fid($fid) {
 	return $tagcatelist;
 }
 
+function tag_cate_maxid() {
+	return db_maxid('tag_cate', 'cateid');
+}
+
 // hook model_tag_cate_end.php
 
 ?>

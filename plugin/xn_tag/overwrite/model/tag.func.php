@@ -59,6 +59,10 @@ function tag_fetch_from_catelist($tagcatelist) {
 	return $taglist;
 }
 
+function tag_maxid() {
+	return db_maxid('tag', 'tagid');
+}
+
 // hook model_tag_end.php
 
 ?>
