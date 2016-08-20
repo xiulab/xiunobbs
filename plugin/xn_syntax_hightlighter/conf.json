@@ -3,8 +3,8 @@
 	"brief":"支持 HTML JS CSS PHP C JS C++ 等常用语法的高亮。",
 	"version":"1.0",
 	"bbs_version":"4.0",
-	"installed":0,
-	"enable":0,
+	"installed":1,
+	"enable":1,
 	"hooks_rank":[],
 	"dependencies":[]
 }
