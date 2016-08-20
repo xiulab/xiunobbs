@@ -383,9 +383,6 @@ function plugin_find_overwrite($srcfile) {
 
 function plugin_complie_srcfile_callback($m) {
 	static $hooks;
-	if($m[1] == 'user_login_form_footer_left.htm') {
-		echo 123;
-	}
 	if(empty($hooks)) {
 		$hooks = array();
 		$plugin_paths = plugin_paths_enabled();
@@ -399,10 +396,13 @@ function plugin_complie_srcfile_callback($m) {
 					$hookname = file_name($hookpath);
 					$rank = isset($pconf['hooks_rank'][$hookname]) ? $pconf['hooks_rank'][$hookname] : 0;
 					$hooks[$hookname][] = array('hookpath'=>$hookpath, 'rank'=>$rank);
-					$hooks[$hookname] = arrlist_multisort($hooks[$hookname], 'rank', FALSE);
-					$hooks[$hookname] = arrlist_values($hooks[$hookname], 'hookpath');
+					
 				}
 			}
+		}
+		foreach ($hooks as $hookname=>$arrlist) {
+			$arrlist = arrlist_multisort($arrlist, 'rank', FALSE);
+			$hooks[$hookname] = arrlist_values($arrlist, 'hookpath');
 		}
 	}
 	
