@@ -345,9 +345,6 @@ function plugin_paths_enabled() {
 
 // 编译源文件，把插件合并到该文件，不需要递归，执行的过程中 include _include() 自动会递归。
 function plugin_complie_srcfile($srcfile) {
-	// 正则获取插件点，遍历所有插件，将内容合并
-	// 去掉第一行 
-	
 	// 如果有 overwrite，则用 overwrite 替换掉
 	$srcfile = plugin_find_overwrite($srcfile);
 	$s = file_get_contents($srcfile);
