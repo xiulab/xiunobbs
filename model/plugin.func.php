@@ -1,7 +1,7 @@
 <?php
 
  // 本地插件
-$plugin_srcfiles = array();
+//$plugin_srcfiles = array();
 $plugin_paths = array();
 $plugins = array(); // 跟官方插件合并
 
@@ -12,7 +12,7 @@ define('PLUGIN_OFFICIAL_URL', DEBUG == 3 ? 'http://plugin.x.com/' : 'http://plug
 // 在安装、卸载插件的时候，需要先初始化
 function plugin_init() {
 	global $plugin_srcfiles, $plugin_paths, $plugins, $official_plugins;
-	$plugin_srcfiles = array_merge(
+	/*$plugin_srcfiles = array_merge(
 		glob(APP_PATH.'model/*.php'), 
 		glob(APP_PATH.'route/*.php'), 
 		glob(APP_PATH.'view/htm/*.*'), 
@@ -28,7 +28,7 @@ function plugin_init() {
 		if(is_backfile($filename)) {
 			unset($plugin_srcfiles[$k]);
 		}
-	}
+	}*/
 	
 	$official_plugins = plugin_official_list_cache();
 	empty($official_plugins) AND $official_plugins = array();
@@ -200,7 +200,7 @@ function plugin_unstall($dir) {
 	
 	return TRUE;
 }
-
+/*
 function plugin_overwrite($dir, $action = 'install') {
 	$files = glob_recursive(APP_PATH."plugin/$dir/overwrite/*");
 	if(empty($files)) return;
@@ -242,7 +242,9 @@ function plugin_overwrite($dir, $action = 'install') {
 		}
 	}
 }
+*/
 
+/*
 function plugin_hook($dir, $action = 'install') {
 	global $plugin_srcfiles, $plugin_paths, $plugins;
 	$hooks = $plugins[$dir]['hooks'];
@@ -264,7 +266,6 @@ function plugin_hook($dir, $action = 'install') {
 			$r = file_backup($srcfile);
 			if($r === FALSE) continue;
 			$s = file_get_contents($srcfile); // 直接对源文件进行操作，因为有备份可以恢复
-			//$s = preg_replace("#(\t*//\shook\s$hookname\s*\r\n)#is", "\\1".$hookscontent, $s);
 			$s = str_replace("// hook $hookname", "// hook $hookname\r\n".$hookscontent, $s);
 			$s = str_replace("<!--{hook $hookname}-->", "<!--{hook $hookname}-->".$hookscontent, $s);
 			
@@ -276,7 +277,7 @@ function plugin_hook($dir, $action = 'install') {
 		}
 	}
 	return TRUE;
-}
+}*/
 
 // 将所有的同名 hook 内容合并（按照优先级排序），需要判断 installed 是否为 1
 function plugin_hooks_merge_by_rank($hookname) {
@@ -299,7 +300,7 @@ function plugin_hooks_merge_by_rank($hookname) {
 	}
 	return $s;
 }
-
+/*
 function plugin_find_srcfile_by_hookname($hookname) {
 	global $plugin_srcfiles, $plugin_paths, $plugins;
 	foreach($plugin_srcfiles as $file) {
@@ -313,17 +314,17 @@ function plugin_find_srcfile_by_hookname($hookname) {
 		}
 	}
 	return FALSE;
-}
+}*/
 
-function plugin_overwrite_install($dir) {
+/*function plugin_overwrite_install($dir) {
 	plugin_overwrite($dir, 'install');
 	return TRUE;
-}
+}*/
 
-function plugin_overwrite_unstall($dir) {
+/*function plugin_overwrite_unstall($dir) {
 	plugin_overwrite($dir, 'unstall');
 	return TRUE;
-}
+}*/
 
 function plugin_paths_enabled() {
 	static $return_paths;
@@ -385,6 +386,9 @@ function plugin_find_overwrite($srcfile) {
 
 function plugin_complie_srcfile_callback($m) {
 	static $hooks;
+	if($m[1] == 'user_login_form_footer_left.htm') {
+		echo 123;
+	}
 	if(empty($hooks)) {
 		$hooks = array();
 		$plugin_paths = plugin_paths_enabled();
@@ -398,10 +402,10 @@ function plugin_complie_srcfile_callback($m) {
 					$hookname = file_name($hookpath);
 					$rank = isset($pconf['hooks_rank'][$hookname]) ? $pconf['hooks_rank'][$hookname] : 0;
 					$hooks[$hookname][] = array('hookpath'=>$hookpath, 'rank'=>$rank);
+					$hooks[$hookname] = arrlist_multisort($hooks[$hookname], 'rank', FALSE);
+					$hooks[$hookname] = arrlist_values($hooks[$hookname], 'hookpath');
 				}
 			}
-			$hooks[$hookname] = arrlist_multisort($hooks[$hookname], 'rank', FALSE);
-			$hooks[$hookname] = arrlist_values($hooks[$hookname], 'hookpath');
 		}
 	}
 	
@@ -410,10 +414,13 @@ function plugin_complie_srcfile_callback($m) {
 	if(!empty($hooks[$hookname])) {
 		foreach($hooks[$hookname] as $path) {
 			$t = file_get_contents($path);
-			$t = preg_replace('#^<\?php\s*exit;\?>\s{0,2}#i', '', $s);
+			
+			$t = preg_replace('#^<\?php\s*exit;\?>\s{0,2}#i', '', $t);
+			/*
 			if(substr($t, 0, 5) == '<?php' && substr($t, -2, 2) == '?>') {
-				$s = substr($t, 5, -2);		
+				$t = substr($t, 5, -2);		
 			}
+			*/
 			$s .= $t;
 		}
 	}

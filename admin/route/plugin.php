@@ -95,7 +95,7 @@ if($action == 'local') {
 	$name = $plugins[$dir]['name'];
 	
 	// 检查目录可写 / check directory writable
-	plugin_check_dir_is_writable();
+	//plugin_check_dir_is_writable();
 	
 	// 插件依赖检查 / check plugin dependency
 	plugin_check_dependency($dir, 'install');
@@ -122,7 +122,7 @@ if($action == 'local') {
 	$name = $plugins[$dir]['name'];
 	
 	// 检查目录可写
-	plugin_check_dir_is_writable();
+	// plugin_check_dir_is_writable();
 	
 	// 插件依赖检查
 	plugin_check_dependency($dir, 'unstall');
@@ -152,7 +152,7 @@ if($action == 'local') {
 	$name = $plugins[$dir]['name'];
 	
 	// 检查目录可写
-	plugin_check_dir_is_writable();
+	//plugin_check_dir_is_writable();
 	
 	// 插件依赖检查
 	plugin_check_dependency($dir, 'install');
@@ -174,7 +174,7 @@ if($action == 'local') {
 	$name = $plugins[$dir]['name'];
 	
 	// 检查目录可写
-	plugin_check_dir_is_writable();
+	//plugin_check_dir_is_writable();
 	
 	// 插件依赖检查
 	plugin_check_dependency($dir, 'unstall');
@@ -200,7 +200,7 @@ if($action == 'local') {
 	!$plugin['have_upgrade'] AND message(-1, lang('plugin_not_need_update'));
 	
 	// 检查目录可写
-	plugin_check_dir_is_writable();
+	//plugin_check_dir_is_writable();
 	
 	// 插件依赖检查
 	plugin_check_dependency($dir, 'install');
@@ -243,6 +243,7 @@ if($action == 'local') {
 	
 
 // 检查目录是否可写，插件要求 model view admin 目录文件可写。
+/*
 function plugin_check_dir_is_writable() {
 	// 检测目录和文件可写
 	$dirs = array(
@@ -264,7 +265,7 @@ function plugin_check_dir_is_writable() {
 	}
 	$msg = lang('plugin_set_relatied_dir_writable', array('dir'=>implode(', ', $dirarr)));
 	!empty($dirarr) AND message(-1, $msg);
-}
+}*/
 
 function plugin_check_dependency($dir, $action = 'install') {
 	global $plugins;

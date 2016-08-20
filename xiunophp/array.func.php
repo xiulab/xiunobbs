@@ -175,7 +175,7 @@ function arrlist_change_key($arrlist, $key, $pre = '') {
 	foreach($arrlist as &$arr) {
 		$return[$pre.''.$arr[$key]] = $arr;
 	}
-	$arrlist = $return;
+	//$arrlist = $return;
 	return $return;
 }
 
