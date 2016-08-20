@@ -1,0 +1,30 @@
+
+<script>
+
+// 初始化值，选中的值
+var tagids = <?php echo xn_json_encode($tagids);?>;
+
+// 初始化 select 控件
+var jforum_select = jform.find('select[name="fid"]');
+function forum_tag_cate_select(fid) {
+	var tagcatelist = forumlist[fid]['tagcatelist'];
+	jforum_select.siblings().remove();
+	var s = '';
+	$.each(tagcatelist, function(k, cate) {
+		var cateid = cate.cateid;
+		if(xn.empty(cate.taglist)) return;
+		s += '<select class="c-select m-r-sm" name="tag_cate_id['+cateid+']">';
+		$.each(cate.taglist, function(k, tag) {
+			var tagid = tag.tagid;
+			var selected = xn.in_array(tagid, tagids) ? ' selected' : '';
+			s += '<option value="'+tagid+'" '+selected+'>'+tag.name+'</option>';
+		});
+		s += '</select>';
+	});
+	$(s).insertAfter(jforum_select);
+}
+jforum_select.on('change', function() {forum_tag_cate_select(this.value)});
+forum_tag_cate_select(jforum_select.checked());
+
+
+</script>

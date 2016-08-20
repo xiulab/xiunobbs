@@ -1,0 +1,307 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title><?php echo $input['content']; ?></title>
+    <meta http-equiv="Expires" CONTENT="-1">
+    <meta http-equiv="Cache-Control" CONTENT="no-cache">
+    <meta http-equiv="Pragma" CONTENT="no-cache">
+    <style type="text/css">
+        body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset,
+        input, textarea, p, blockquote, th, td {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font: 14px / 150% 'Microsoft YaHei', Helvetica, Tahoma, sans-serif;
+            color: #333;
+            -webkit-text-size-adjust: none;
+            background-color: #eee;
+            min-width: 320px;
+        }
+
+        h1, h2, h3, h4, h5, h6, em, stone {
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        ol, ul {
+            list-style: none;
+        }
+
+        input, img, select {
+            vertical-align: middle;
+        }
+
+        img, fieldset {
+            border: 0;
+        }
+
+        em, address, i {
+            font-style: normal;
+        }
+
+        input[type="submit"], input[type="button"] {
+            -webkit-appearance: none;
+        }
+
+        input {
+            outline: none;
+        }
+
+        a {
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        /* screenWrap */
+
+        .s-screenWrap-2 {
+            min-width: 304px;
+            padding: 8px;
+        }
+
+        .s-pb10 {
+            padding-bottom: 10px;
+        }
+
+        .s-color2 {
+            color: #e80000;
+        }
+
+        .s-Btn34 {
+            height: 34px;
+            line-height: 34px;
+        }
+
+        .s-lvBorder {
+            border: 1px solid #81b304;
+            border-radius: 3px;
+        }
+
+        .s-block {
+            display: block;
+        }
+
+        .s-baiBtn, .s-jvBtn, .s-jv2Btn, .s-lvBtn, .s-hui2Btn, .s-hongBtn {
+            display: block;
+            border-radius: 1px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .s-jvBtn {
+            background-color: #ff8143;
+            color: #fff;
+        }
+
+        .s-lvBtn {
+            background-color: #81b304;
+            color: #fff;
+        }
+
+        .s-jvBorder {
+            border: 1px solid #ff8143;
+            border-radius: 3px;
+        }
+
+        .s-topbar {
+            width: 100%;
+            height: 43px;
+            border-bottom: 1px solid #b5b5b5;
+            position: relative;
+            background-color: #FFF;
+        }
+
+        .s-topbar h1 {
+            font-size: 18px;
+            font-weight: normal;
+            height: 43px;
+            line-height: 43px;
+            text-align: center;
+            text-overflow: ellipsis;
+            vertical-align: bottom;
+            white-space: nowrap;
+        }
+
+        .s-114 li {
+            padding: 8px;
+            border-top: 1px solid #d3d3d3;
+            border-bottom: 1px solid #d3d3d3;
+            margin-top: 10px;
+            background-color: #fff;
+            position: relative;
+        }
+
+        .s-114 li a {
+            display: block;
+        }
+
+        .s-114 h4 {
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #d9d8d1;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .s-114 p {
+            font-size: 14px;
+            line-height: 24px;
+        }
+
+        .s-114 .s-ellipsis {
+            text-align: right;
+            width: 70%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            -o-text-overflow: ellipsis;
+            overflow: hidden
+        }
+
+        .s-114 .otherline2 {
+            border-top: 1px dashed #d9d8d1;
+            margin-top: 5px;
+            padding-top: 5px;
+        }
+
+        .s-114 .otherline2 span {
+            top: 5px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="s-screenWrap-2" id="div_paying" style="font-size:16px;">
+        <div class="s-topbar" style="text-align: center;">
+
+            <?php if ( !empty( $order['code_url'] ) ) { ?>
+                <h1>正在生成二维码,请用微信扫码支付</h1>
+            <?php } else { ?>
+                <h1>正在发起支付，请稍后...</h1>
+            <?php } ?>
+
+        </div>
+        <ol class="s-114 s-pb10">
+            <li>
+                <h4>订单详情</h4>
+                <p class="s-lr">商户名称:&nbsp;&nbsp;<span class="s-r s-color2"><?php echo $conf['sitename']; ?></san></p>
+                <p class="s-lr otherline2">订&nbsp;&nbsp;单&nbsp;&nbsp;号:&nbsp;&nbsp;<span
+                            class="s-r s-color2 s-ellipsis"><?php echo $input['out_trade_no']; ?></span></p>
+                <p class="s-lr otherline2">商品描述:&nbsp;&nbsp;<span
+                            class="s-r s-color2 s-ellipsis"><?php echo $input['content']; ?></span></p>
+                <p class="s-lr otherline2">订单金额:&nbsp;&nbsp;<span class="s-r s-color2">¥<?php echo $input['price']; ?>
+                        元</span></p>
+                <p class="s-lr otherline2">充值说明:&nbsp;&nbsp;<span class="s-r s-color2">充值完成将在0-5分钟到账,若超时未到请联系管理员!</san>
+                </p>
+
+            </li>
+        </ol>
+        <?php if ( !empty( $order['code_url'] ) ) { ?>
+            <div style="width:220px;height:220px;margin:1rem auto;" id='xcode'></div>
+        <?php } else { ?>
+            <span class="s-jvBorder s-block">
+                		<a href="javascript:void(0)" onclick="wxpay();" class="s-jvBtn s-Btn34">继续支付</a>
+                </span>
+        <?php } ?>
+    </div>
+    <div id="div_retry" style="display:none">
+        <div class="s-topbar" style="text-align: center;">
+            <h1 id="error_h1"></h1>
+        </div>
+        <div class="s-screenWrap-2">
+                 <span class="s-lvBorder s-block">
+                    <a href="javascript:void(0)" onclick="gobackindex();" class="s-lvBtn s-Btn34">返回首页</a>
+                </span>
+            <ol class="s-114 s-pb10">
+                <li>
+                    <h4>订单详情</h4>
+                    <p class="s-lr">商户名称:&nbsp;&nbsp;<span class="s-r s-color2"><?php echo $conf['sitename']; ?></san>
+                    </p>
+                    <p class="s-lr otherline2">订&nbsp;&nbsp;单&nbsp;&nbsp;号:&nbsp;&nbsp;<span
+                                class="s-r s-color2 s-ellipsis"><?php echo $input['out_trade_no']; ?></span></p>
+                    <p class="s-lr otherline2">商品描述:&nbsp;&nbsp;<span
+                                class="s-r s-color2 s-ellipsis"><?php echo $input['content']; ?></span></p>
+                    <p class="s-lr otherline2">订单金额:&nbsp;&nbsp;<span
+                                class="s-r s-color2">¥<?php echo $input['price']; ?>元</span></p>
+                    <p class="s-lr otherline2">充值说明:&nbsp;&nbsp;<span
+                                class="s-r s-color2">充值完成将在0-5分钟到账,若超时未到请联系管理员!</san></p>
+                </li>
+            </ol>
+
+            <?php if ( !empty( $order['code_url'] ) ) { ?>
+                <div style="width:220px;height:220px;text-align:center;" id='xcode'></div>
+            <?php } else { ?>
+                <span class="s-jvBorder s-block">
+                		<a href="javascript:void(0)" onclick="wxpay();" class="s-jvBtn s-Btn34">继续支付</a>
+                </span>
+            <?php } ?>
+
+        </div>
+    </div>
+</div>
+</div>
+<?php if ( !empty( $order['code_url'] ) ) { ?>
+    <script src="/view/js/jquery-1.11.1.js"></script>
+    <script src="/plugin/xn_wechat_pay/view/js/jquery.qrcode.min.js"></script>
+<?php } ?>
+<script type="text/javascript">
+    <?php if(!empty( $order['code_url'] )){?>
+    $('#xcode').qrcode('<?php echo $order['code_url']?>');
+    <?php }else{ ?>
+    function onBridgeReady () {
+        wxpay();//调起微信支付
+        WeixinJSBridge.call('hideOptionMenu'); //隐藏微信中网页右上角按钮
+        WeixinJSBridge.call('hideToolbar'); //隐藏微信中网页底部导航栏
+    }
+
+    function wxpay () {
+        WeixinJSBridge.invoke('getBrandWCPayRequest',
+                <?php echo $jsApiParameters; ?>
+                , function (res) {
+                    if ( res.err_msg == "get_brand_wcpay_request:ok" ) {
+                        gobackMerchant();
+                    } else if ( res.err_msg == "get_brand_wcpay_request:cancel" ) {
+                        showError("支付未完成")
+                    } else {
+                        showError("支付失败：" + res.err_msg)
+                    }
+                });
+    }
+
+    function showError (msg) {
+        var div_retry                                 = document.getElementById("div_retry")
+        var div_paying                                = document.getElementById("div_paying")
+        div_retry.style.display                       = "block";
+        div_paying.style.display                      = "none";
+        document.getElementById("error_h1").innerHTML = msg
+    }
+
+    if ( typeof WeixinJSBridge == "undefined" ) {
+        if ( document.addEventListener ) {
+            document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+        } else if ( document.attachEvent ) {
+            document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+            document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+        }
+    } else {
+        onBridgeReady();
+    }
+    <?php  } ?>
+    function gobackMerchant () {
+        window.location.href = "http://<?php echo _SERVER('HTTP_HOST') . '/' . $input['return_url']; ?>";
+    }
+    function gobackindex () {
+        window.location.href = 'http://<?php echo _SERVER('HTTP_HOST')?>';
+    }
+
+</script>
+
+</body>
+</html>

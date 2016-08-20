@@ -1,0 +1,54 @@
+
+					
+					<div class="form-group row">
+						<label class="col-sm-2 form-control-label"><?php echo lang('tag');?>：</label>
+						<div class="col-sm-10" id="tag_html">
+							<script type="text/plain" id="tag_cate_tpl">
+								<table class="m-b-1 tag_cate_tpl">
+									<tr>
+										<td width="30" class="p-r-1">
+											<a href="javascript:void(0)" class="btn text-muted tag_cate_add"  role="btn"><i class="icon-plus"></i></a>
+										</td>
+										<td width="150" class="p-r-1">
+											<input type="text" name="cate_name[{id}]" value="{name}" class="form-control" placeholder="<?php echo lang('tag_cate_name');?>" />
+										</td>
+										<td width="80" class="p-r-1">
+											<input type="text" name="cate_rank[{id}]" value="{rank}" class="form-control" placeholder="<?php echo lang('rank');?>" />
+										</td>
+										<td width="100">
+											<label class="c-input c-checkbox"><input type="checkbox" name="cate_enable[{id}]" value="1" {enable} /><?php echo lang('enable');?><span class="c-indicator"></span></label>
+										</td>
+										<td width="100">
+											<a class="btn tag_cate_delete text-danger" role="btn"><i class="icon-remove"></i></a>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="5" class="children p-t-1" cateid="{id}">
+										</td>
+									</tr>
+								</table>
+							</script>
+							<script type="text/plain" id="tag_tpl">
+								<table class="m-b-1 m-l-3 tag_tpl">
+									<tr>
+										<td width="30" class="p-r-1">
+											<a href="javascript:void(0)" class="btn text-muted tag_add" role="btn"><i class="icon-plus"></i></a>
+										</td>
+										<td width="150" class="p-r-1">
+											<input type="hidden" name="tag_cate_id[{id}]" value="{cateid}" class="form-control" placeholder="<?php echo lang('tag_name');?>" />
+											<input type="text" name="tag_name[{id}]" value="{name}" class="form-control" placeholder="<?php echo lang('tag_name');?>" />
+										</td>
+										<td width="80" class="p-r-1">
+											<input type="text" name="tag_rank[{id}]" value="{rank}" class="form-control" placeholder="<?php echo lang('rank');?>" />
+										</td>
+										<td width="100">
+											<label class="c-input c-checkbox"><input type="checkbox" name="tag_enable[{id}]" value="1" {enable} /><?php echo lang('enable');?><span class="c-indicator"></span></label>
+										</td>
+										<td width="100">
+											<a class="btn tag_delete text-danger" role="btn"><i class="icon-remove"></i></a>
+										</td>
+									</tr>
+								</table>
+							</script>
+						</div>
+					</div>

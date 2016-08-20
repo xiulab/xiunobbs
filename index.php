@@ -4,7 +4,7 @@
  * Copyright (C) xiuno.com
  */
 
-$_SERVER['REQUEST_URI'] = '/?forum-1-1-47.htm';
+// $_SERVER['REQUEST_URI'] = '/?forum-1-1-47.htm';
 
 // 0: Production mode; 1: Developer mode; 2: Developer Plugin mode;
 !defined('DEBUG') AND define('DEBUG', 2);
