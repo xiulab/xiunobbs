@@ -15,11 +15,11 @@ $header['mobile_linke'] = url("my");
 if(empty($action)) {
 	
 	$header['title'] = lang('my_home');
-	include './view/htm/my.htm';
+	include _include(APP_PATH.'view/htm/my.htm');
 	
 } elseif($action == 'profile') {
 	
-	include './view/htm/my_profile.htm';
+	include _include(APP_PATH.'view/htm/my_profile.htm');
 
 } elseif($action == 'password') {
 	
@@ -27,7 +27,7 @@ if(empty($action)) {
 		
 		// hook my_password_get_start.php
 		
-		include './view/htm/my_password.htm';
+		include _include(APP_PATH.'view/htm/my_password.htm');
 		
 	} elseif($method == 'POST') {
 		
@@ -59,7 +59,7 @@ if(empty($action)) {
 		
 	// hook my_thread_end.php
 	
-	include './view/htm/my_thread.htm';
+	include _include(APP_PATH.'view/htm/my_thread.htm');
 
 } elseif($action == 'avatar') {
 	
@@ -67,7 +67,7 @@ if(empty($action)) {
 		
 		// hook my_avatar_get_start.php
 		
-		include './view/htm/my_avatar.htm';
+		include _include(APP_PATH.'view/htm/my_avatar.htm');
 	
 	} else {
 		

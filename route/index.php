@@ -17,7 +17,14 @@ $pagination = pagination(url("index-{page}"), $runtime['threads'], $page, $pages
 
 $toplist = thread_top_find_cache();
 
-$threadlist = thread_find_by_fid($fid, $page, $pagesize, $order);
+// 从默认的地方读取主题列表
+$thread_list_from_default = 1;
+
+// hook index_thread_list_before.php
+
+if($thread_list_from_default) {
+	$threadlist = thread_find_by_fid($fid, $page, $pagesize, $order);
+}
 //$conf['order_default'] == $order AND $threadlist = $toplist + $threadlist;
 
 // 过滤没有权限访问的主题 / filter no permission thread
@@ -30,6 +37,6 @@ $header['description'] = ''; 			// site description
 
 // hook index_end.php
 
-include './view/htm/index.htm';
+include _include(APP_PATH.'view/htm/index.htm');
 
 ?>

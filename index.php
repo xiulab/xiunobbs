@@ -6,29 +6,43 @@
 
 //$_SERVER['REQUEST_URI'] = '/?forum-1-1-14.htm';
 
-
-// 0: Production mode; 1: Developer mode; 2: Detail mode;
+// 0: Production mode; 1: Developer mode; 2: Developer Plugin mode;
 !defined('DEBUG') AND define('DEBUG', 2);
+define('APP_PATH', dirname(__FILE__).'/'); // __DIR__
+!defined('ADMIN_PATH') AND define('ADMIN_PATH', APP_PATH.'admin/');
+!defined('XIUNOPHP_PATH') AND define('XIUNOPHP_PATH', APP_PATH.'xiunophp/');
 
 ob_start('ob_gzhandler');
 
-$conf = (@include './conf/conf.php') OR exit(header('Location: install/'));
+$conf = (@include APP_PATH.'conf/conf.php') OR exit(header('Location: install/'));
+
+// 转换为绝对路径，防止被包含时出错。
+substr($conf['log_path'], 0, 2) == './' AND $conf['log_path'] = APP_PATH.$conf['log_path']; 
+substr($conf['tmp_path'], 0, 2) == './' AND $conf['tmp_path'] = APP_PATH.$conf['tmp_path']; 
+substr($conf['upload_path'], 0, 2) == './' AND $conf['upload_path'] = APP_PATH.$conf['upload_path']; 
 
 if(DEBUG) {
-	include './xiunophp/xiunophp.php';
+	include XIUNOPHP_PATH.'xiunophp.php';
 } else {
-	include './xiunophp/xiunophp.min.php';
+	include XIUNOPHP_PATH.'xiunophp.min.php';
 }
 
 // 测试数据库连接 / try to connect database
 db_connect() OR exit($errstr);
 
-include './model.inc.php';
+include APP_PATH.'model.inc.php';
 
+// 查找所有开启的插件，合并 hook file 内容
+	
+if(DEBUG == 2) {
+	xn_mkdir($conf['tmp_path'].'src');
+	//plugin_init();
+	//plugin_unstall_all();
+}
 $sid = sess_start();
 
 // 语言 / Language
-$lang = include("./lang/$conf[lang]/bbs.php");
+$lang = include(APP_PATH."lang/$conf[lang]/bbs.php");
 
 // 支持 Token 接口（token 与 session 双重登陆机制，方便 REST 接口设计，也方便 $_SESSION 使用）
 // Support Token interface (token and session dual landing mechanism, to facilitate the design of the REST interface, but also to facilitate the use of $_SESSION)
@@ -69,6 +83,7 @@ check_runlevel();
 // 全站的设置数据，站点名称，描述，关键词
 // $setting = kv_get('setting');
 
+
 $route = param(0, 'index');
 
 // hook index_route_before.php
@@ -78,22 +93,22 @@ if(!defined('SKIP_ROUTE')) {
 	// 按照使用的频次排序，增加命中率，提高效率
 	// According to the frequency of the use of sorting, increase the hit rate, improve efficiency
 	switch ($route) {
-		case 'index': 	include './route/index.php'; 	break;
-		case 'thread':	include './route/thread.php'; 	break;
-		case 'forum': 	include './route/forum.php'; 	break;
-		case 'user': 	include './route/user.php'; 	break;
-		case 'my': 	include './route/my.php'; 	break;
-		case 'attach': 	include './route/attach.php'; 	break;
-		case 'search': 	include './route/search.php'; 	break;
-		case 'post': 	include './route/post.php'; 	break;
-		case 'mod': 	include './route/mod.php'; 	break;
-		case 'browser': include './route/browser.php'; 	break;
+		case 'index': 	include _include(APP_PATH.'route/index.php'); 	break;
+		case 'thread':	include _include(APP_PATH.'route/thread.php'); 	break;
+		case 'forum': 	include _include(APP_PATH.'route/forum.php'); 	break;
+		case 'user': 	include _include(APP_PATH.'route/user.php'); 	break;
+		case 'my': 	include _include(APP_PATH.'route/my.php'); 	break;
+		case 'attach': 	include _include(APP_PATH.'route/attach.php'); 	break;
+		case 'search': 	include _include(APP_PATH.'route/search.php'); 	break;
+		case 'post': 	include _include(APP_PATH.'route/post.php'); 	break;
+		case 'mod': 	include _include(APP_PATH.'route/mod.php'); 	break;
+		case 'browser': include _include(APP_PATH.'route/browser.php'); 	break;
 		// hook index_route_case.php
 		default: 
 			// 为了支持插件，此处不利于编译优化
 			// In order to support / plug-in, here is not conducive to compiler optimization
-			(!is_word($route) || !is_file("./route/$route.php")) && http_404();
-			include "./route/$route.php";
+			(!is_word($route) || !is_file(APP_PATH."route/$route.php")) && http_404();
+			include _include(APP_PATH."route/$route.php");
 	}
 }
 

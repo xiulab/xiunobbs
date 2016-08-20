@@ -45,7 +45,7 @@ function smtp_save() {
 	// hook model_smtp_save_start.php
 	global $smtplist;
 	// hook model_smtp_save_end.php
-	file_put_contents('./conf/smtp.conf.php', "<?php\r\nreturn ".var_export($smtplist,true).";\r\n?>");
+	file_put_contents(APP_PATH.'conf/smtp.conf.php', "<?php\r\nreturn ".var_export($smtplist,true).";\r\n?>");
 }
 
 function smtp_init($confile) {
@@ -57,7 +57,6 @@ function smtp_find() {
 	// hook model_smtp_find_end.php
 	global $smtplist;
 	return $smtplist;
-	//return include './conf/smtp.conf.php';
 }
 
 function smtp_count() {

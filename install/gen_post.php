@@ -1,10 +1,8 @@
 <?php
 
-chdir('../');
-
 define('SKIP_ROUTE', TRUE);
 
-include './index.php';
+include '../index.php';
 
 for($i=1; $i<1000; $i++) {
 	$subject = '欢迎使用 Xiuno BBS 4.0 新一代论坛系统。'.$i;

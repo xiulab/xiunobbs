@@ -32,13 +32,13 @@ if($action == 'create') {
 		
 		// hook thread_create_get_end.php
 		
-		include './view/htm/post.htm';
+		include _include(APP_PATH.'view/htm/post.htm');
 		
 	} else {
 		
 		// hook thread_create_thread_start.php
 		
-		include './xiunophp/xn_html_safe.func.php';
+		include XIUNOPHP_PATH.'xn_html_safe.func.php';
 		
 		$fid = param('fid', 0);
 		$forum = forum_read($fid);
@@ -142,7 +142,7 @@ if($action == 'create') {
 	$header['keywords'] = $header['title']; 
 	
 	// hook thread_info_end.php
-	include './view/htm/thread.htm';
+	include _include(APP_PATH.'view/htm/thread.htm');
 	
 }
 

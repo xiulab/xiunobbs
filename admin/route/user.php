@@ -35,7 +35,7 @@ if(empty($action) || $action == 'list') {
 
 	// hook admin_user_list_end.php
 	
-	include "./view/htm/user_list.htm";
+	include _include(ADMIN_PATH."./view/htm/user_list.htm");
 
 } elseif($action == 'create') {
 
@@ -56,7 +56,7 @@ if(empty($action) || $action == 'list') {
 		
 		// hook admin_user_create_get_end.php
 		
-		include "./view/htm/user_create.htm";
+		include _include(ADMIN_PATH."./view/htm/user_create.htm");
 
 	} elseif ($method == 'POST') {
 
@@ -118,7 +118,7 @@ if(empty($action) || $action == 'list') {
 
 		// hook admin_user_update_get_end.php
 		
-		include "./view/htm/user_update.htm";
+		include _include(ADMIN_PATH."view/htm/user_update.htm");
 
 	} elseif($method == 'POST') {
 

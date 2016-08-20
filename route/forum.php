@@ -31,6 +31,6 @@ $header['keywords'] = $forum['seo_keywords'];
 
 // hook forum_end.php
 
-include './view/htm/forum.htm';
+include _include(APP_PATH.'view/htm/forum.htm');
 
 ?>

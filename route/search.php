@@ -1,8 +1,10 @@
 <?php
 
+exit;
+
 !defined('DEBUG') AND exit('Access Denied.');
 
-include './xiunophp/xn_html_safe.func.php';
+include XIUNOPHP_PATH.'xn_html_safe.func.php';
 
 $keyword = param('keyword');
 !$keyword AND $keyword = xn_urldecode(param(1));
@@ -36,6 +38,6 @@ $header['keywords'] = $keyword;
 
 $order = 'tid';
 
-include './pc/view/search.htm';
+include _include(APP_PATH.'view/search.htm');
 
 ?>

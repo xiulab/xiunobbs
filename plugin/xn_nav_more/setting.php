@@ -15,7 +15,7 @@ if($method == 'GET') {
 	$input = array();
 	$input['limit'] = form_text('limit', $limit);
 	
-	include '../plugin/xn_nav_more/setting.htm';
+	include _include(APP_PATH.'plugin/xn_nav_more/setting.htm');
 	
 } else {
 

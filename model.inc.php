@@ -4,67 +4,57 @@
 
 // 可以合并成一个文件，加快速度
 // merge to one file.
+
+include APP_PATH.'model/plugin.func.php';
+include APP_PATH.'model/misc.func.php';
+
 if(DEBUG) {
 	
-	$__getcwd = getcwd();
-	chdir(dirname(__FILE__));
+	include _include(APP_PATH.'model/kv.func.php');	// 
+	include _include(APP_PATH.'model/group.func.php');
+	include _include(APP_PATH.'model/user.func.php');
+	include _include(APP_PATH.'model/forum.func.php');
+	include _include(APP_PATH.'model/forum_access.func.php');
+	include _include(APP_PATH.'model/thread.func.php');
+	include _include(APP_PATH.'model/thread_top.func.php');
+	include _include(APP_PATH.'model/post.func.php');
+	include _include(APP_PATH.'model/attach.func.php');
+	include _include(APP_PATH.'model/check.func.php');
+	include _include(APP_PATH.'model/mythread.func.php');
+	include _include(APP_PATH.'model/runtime.func.php');
+	include _include(APP_PATH.'model/table_day.func.php');
+	include _include(APP_PATH.'model/cron.func.php');
+	include _include(APP_PATH.'model/session.func.php');	// 
 	
-	include './model/kv.func.php';
-	include './model/group.func.php';
-	include './model/user.func.php';
-	include './model/forum.func.php';
-	include './model/forum_access.func.php';
-	include './model/thread.func.php';
-	include './model/thread_top.func.php';
-	include './model/post.func.php';
-	include './model/attach.func.php';
-	include './model/check.func.php';
-	include './model/mythread.func.php';
-	include './model/runtime.func.php';
-	include './model/table_day.func.php';
-	include './model/cron.func.php';
-	include './model/misc.func.php';	// 杂项
-	include './model/plugin.func.php';	// 
-	include './model/session.func.php';	// 
 	// hook model_inc_include.php
 	
-	chdir($__getcwd);
-	unset($__getcwd);
-	
 } else {
-	
-	$__getcwd = getcwd();
-	chdir(dirname(__FILE__));
 	
 	$model_min_file = $conf['tmp_path'].'model.min.php';
 	$isfile = is_file($model_min_file);
 	if(!$isfile) {
-		$s = php_strip_whitespace('./model/kv.func.php');
-		$s .= php_strip_whitespace('./model/group.func.php');
-		$s .= php_strip_whitespace('./model/user.func.php');
-		$s .= php_strip_whitespace('./model/forum.func.php');
-		$s .= php_strip_whitespace('./model/forum_access.func.php');
-		$s .= php_strip_whitespace('./model/thread.func.php');
-		$s .= php_strip_whitespace('./model/thread_top.func.php');
-		$s .= php_strip_whitespace('./model/post.func.php');
-		$s .= php_strip_whitespace('./model/attach.func.php');
-		$s .= php_strip_whitespace('./model/check.func.php');
-		$s .= php_strip_whitespace('./model/mythread.func.php');
-		$s .= php_strip_whitespace('./model/runtime.func.php');
-		$s .= php_strip_whitespace('./model/table_day.func.php');
-		$s .= php_strip_whitespace('./model/cron.func.php');
-		$s .= php_strip_whitespace('./model/misc.func.php');
-		$s .= php_strip_whitespace('./model/plugin.func.php');
-		$s .= xn_php_strip_whitespace('./model/session.func.php');
+		$s = php_strip_whitespace(_include(APP_PATH.'model/kv.func.php'));
+		$s .= php_strip_whitespace(_include(APP_PATH.'model/group.func.php'));
+		$s .= php_strip_whitespace(_include(APP_PATH.'model/user.func.php'));
+		$s .= php_strip_whitespace(_include(APP_PATH.'model/forum.func.php'));
+		$s .= php_strip_whitespace(_include(APP_PATH.'model/forum_access.func.php'));
+		$s .= php_strip_whitespace(_include(APP_PATH.'model/thread.func.php'));
+		$s .= php_strip_whitespace(_include(APP_PATH.'model/thread_top.func.php'));
+		$s .= php_strip_whitespace(_include(APP_PATH.'model/post.func.php'));
+		$s .= php_strip_whitespace(_include(APP_PATH.'model/attach.func.php'));
+		$s .= php_strip_whitespace(_include(APP_PATH.'model/check.func.php'));
+		$s .= php_strip_whitespace(_include(APP_PATH.'model/mythread.func.php'));
+		$s .= php_strip_whitespace(_include(APP_PATH.'model/runtime.func.php'));
+		$s .= php_strip_whitespace(_include(APP_PATH.'model/table_day.func.php'));
+		$s .= php_strip_whitespace(_include(APP_PATH.'model/cron.func.php'));
+		$s .= xn_php_strip_whitespace(_include(APP_PATH.'model/session.func.php'));
 		// hook model_inc_merge.php
 		
 		$r = file_put_contents($model_min_file, $s);
 		unset($s);
 	}
-	include $model_min_file;
+	include _include($model_min_file);
 	
-	chdir($__getcwd);
-	unset($__getcwd);
 }
 
 // hook model_inc_end.php

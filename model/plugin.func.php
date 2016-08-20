@@ -13,19 +13,19 @@ define('PLUGIN_OFFICIAL_URL', DEBUG == 3 ? 'http://plugin.x.com/' : 'http://plug
 function plugin_init() {
 	global $plugin_srcfiles, $plugin_paths, $plugins, $official_plugins;
 	$plugin_srcfiles = array_merge(
-		glob('../model/*.php'), 
-		glob('../route/*.php'), 
-		glob('../view/htm/*.*'), 
-		glob('./route/*.php'), 
-		glob('./view/htm/*.*'),
-		glob('../lang/en-us/*.*'),
-		glob('../lang/zh-cn/*.*'),
-		glob('../lang/zh-tw/*.*'),
-		array('../index.php', '../model.inc.php', './index.php')
+		glob(APP_PATH.'model/*.php'), 
+		glob(APP_PATH.'route/*.php'), 
+		glob(APP_PATH.'view/htm/*.*'), 
+		glob(ADMIN_PATH.'route/*.php'), 
+		glob(ADMIN_PATH.'view/htm/*.*'),
+		glob(APP_PATH.'lang/en-us/*.*'),
+		glob(APP_PATH.'lang/zh-cn/*.*'),
+		glob(APP_PATH.'lang/zh-tw/*.*'),
+		array(APP_PATH.'model.inc.php')
 	);
 	foreach($plugin_srcfiles as $k=>$file) {
 		$filename = file_name($file);
-		if(substr($filename, 0, 7) == 'backup_') {
+		if(is_backfile($filename)) {
 			unset($plugin_srcfiles[$k]);
 		}
 	}
@@ -33,7 +33,7 @@ function plugin_init() {
 	$official_plugins = plugin_official_list_cache();
 	empty($official_plugins) AND $official_plugins = array();
 	
-	$plugin_paths = glob('../plugin/*', GLOB_ONLYDIR);
+	$plugin_paths = glob(APP_PATH.'plugin/*', GLOB_ONLYDIR);
 	foreach($plugin_paths as $path) {
 		$dir = file_name($path);
 		$conffile = $path."/conf.json";
@@ -44,7 +44,7 @@ function plugin_init() {
 		
 		// 额外的信息
 		$plugins[$dir]['hooks'] = array();
-		$hookpaths = glob("../plugin/$dir/hook/*.*"); // path
+		$hookpaths = glob(APP_PATH."plugin/$dir/hook/*.*"); // path
 		if(is_array($hookpaths)) {
 			foreach($hookpaths as $hookpath) {
 				$hookname = file_name($hookpath);
@@ -104,11 +104,21 @@ function plugin_enable($dir) {
 	
 	$plugins[$dir]['enable'] = 1;
 	
-	plugin_overwrite($dir, 'install');
-	plugin_hook($dir, 'install');
+	//plugin_overwrite($dir, 'install');
+	//plugin_hook($dir, 'install');
 	
-	file_replace_var("../plugin/$dir/conf.json", array('enable'=>1), TRUE);
+	file_replace_var(APP_PATH."plugin/$dir/conf.json", array('enable'=>1), TRUE);
+	
+	plugin_clear_tmp_dir();
+	
 	return TRUE;
+}
+
+// 清空插件的临时目录
+function plugin_clear_tmp_dir() {
+	global $conf;
+	rmdir_recusive($conf['tmp_path'].'src/', TRUE);
+	xn_unlink($conf['tmp_path'].'model.min.php');
 }
 
 function plugin_disable($dir) {
@@ -116,35 +126,56 @@ function plugin_disable($dir) {
 	
 	$plugins[$dir]['enable'] = 0;
 	
-	plugin_overwrite($dir, 'unstall');
-	plugin_hook($dir, 'unstall');
+	//plugin_overwrite($dir, 'unstall');
+	//plugin_hook($dir, 'unstall');
 	
-	file_replace_var("../plugin/$dir/conf.json", array('enable'=>0), TRUE);
+	file_replace_var(APP_PATH."plugin/$dir/conf.json", array('enable'=>0), TRUE);
+	
+	plugin_clear_tmp_dir();
+	
 	return TRUE;
 }
 
+// 安装所有的本地插件
+function plugin_install_all() {
+	global $plugins;
+	
+	// 检查文件更新
+	foreach ($plugins as $dir=>$plugin) {
+		plugin_install($dir);
+	}
+}
 
+// 卸载所有的本地插件
+function plugin_unstall_all() {
+	global $plugins;
+	
+	// 检查文件更新
+	foreach ($plugins as $dir=>$plugin) {
+		plugin_unstall($dir);
+	}
+}
 /*
 	插件安装：
 		把所有的插件点合并，重新写入文件。如果没有备份文件，则备份一份。
 		插件名可以为源文件名：view/header.htm
 */
 function plugin_install($dir) {
-	global $plugins;
+	global $plugins, $conf;
 	
 	$plugins[$dir]['installed'] = 1;
 	$plugins[$dir]['enable'] = 1;
 	
 	// 1. 直接覆盖的方式
-	plugin_overwrite($dir, 'install');
+	//plugin_overwrite($dir, 'install');
 	
 	// 2. 钩子的方式
-	plugin_hook($dir, 'install');
+	//plugin_hook($dir, 'install');
 	
 	// 写入配置文件
-	file_replace_var("../plugin/$dir/conf.json", array('installed'=>1, 'enable'=>1), TRUE);
+	file_replace_var(APP_PATH."plugin/$dir/conf.json", array('installed'=>1, 'enable'=>1), TRUE);
 	
-	xn_unlink($conf['tmp_path'].'model.min.php');
+	plugin_clear_tmp_dir();
 	
 	return TRUE;
 }
@@ -157,28 +188,36 @@ function plugin_unstall($dir) {
 	$plugins[$dir]['enable'] = 0;
 	
 	// 1. 直接覆盖的方式
-	plugin_overwrite($dir, 'unstall');
+	//plugin_overwrite($dir, 'unstall');
 	
 	// 2. 钩子的方式
-	plugin_hook($dir, 'unstall');
+	//plugin_hook($dir, 'unstall');
 	
 	// 写入配置文件
-	file_replace_var("../plugin/$dir/conf.json", array('installed'=>0, 'enable'=>0), TRUE);
+	file_replace_var(APP_PATH."plugin/$dir/conf.json", array('installed'=>0, 'enable'=>0), TRUE);
+	
+	plugin_clear_tmp_dir();
 	
 	return TRUE;
 }
 
 function plugin_overwrite($dir, $action = 'install') {
-	$files = glob_recursive("../plugin/$dir/overwrite/*");
+	$files = glob_recursive(APP_PATH."plugin/$dir/overwrite/*");
 	if(empty($files)) return;
 	//$files = glob("./plugin/$dir/overwrite/*");
 	foreach($files as $file) {
-		$workfile = str_replace("../plugin/$dir/overwrite/", '../', $file);
+		$workfile = $file; //str_replace(APP_PATH."plugin/$dir/overwrite/", '../', $file); // todo: 使用绝对路径后就没有必要再这么做
 		if(is_dir($file)) {
 			!is_dir($workfile) AND mkdir($workfile, 0777, TRUE);
 		} elseif(is_file($file)) {
 			$backfile = file_backname($workfile);
 			if($action == 'install') {
+				
+				// 如果没有改动，则不安装，如果备份不存在，则也成立。
+				if(xn_filemtime($workfile) <= xn_filemtime($backfile)) {
+					continue;
+				}
+				
 				// 覆盖
 				if(is_file($workfile)) {
 					$r = file_backup($workfile);
@@ -211,10 +250,15 @@ function plugin_hook($dir, $action = 'install') {
 		$srcfile = plugin_find_srcfile_by_hookname($hookname);
 		if(!$srcfile) continue;
 		
-		$hookscontent = plugin_hooks_merge_by_rank($hookname);
-		
 		// 查找源文件，将合并的内容放进去。
 		$backfile = file_backname($srcfile);
+		
+		// 如果没有改动，则不安装，如果备份不存在，则也成立。
+		if($action == 'install' && xn_filemtime($hookpath) <= xn_filemtime($backfile)) {
+			continue;
+		} 
+		
+		$hookscontent = plugin_hooks_merge_by_rank($hookname);
 		
 		if($hookscontent && $action == 'install') {
 			$r = file_backup($srcfile);
@@ -281,7 +325,100 @@ function plugin_overwrite_unstall($dir) {
 	return TRUE;
 }
 
+function plugin_paths_enabled() {
+	static $return_paths;
+	if(empty($return_paths)) {
+		$return_paths = array();
+		$plugin_paths = glob(APP_PATH.'plugin/*', GLOB_ONLYDIR);
+		foreach($plugin_paths as $path) {
+			$conffile = $path."/conf.json";
+			if(!is_file($conffile)) continue;
+			$pconf = xn_json_decode(file_get_contents($conffile));
+			if(empty($pconf)) continue;
+			if(!$pconf['enable'] || !$pconf['installed']) continue;
+			$return_paths[$path] = $pconf;
+		}
+	}
+	return $return_paths;
+}
 
+// 编译源文件，把插件合并到该文件，不需要递归，执行的过程中 include _include() 自动会递归。
+function plugin_complie_srcfile($srcfile) {
+	// 正则获取插件点，遍历所有插件，将内容合并
+	// 去掉第一行 
+	
+	// 如果有 overwrite，则用 overwrite 替换掉
+	$srcfile = plugin_find_overwrite($srcfile);
+	$s = file_get_contents($srcfile);
+	
+	$s = preg_replace('#<!--{hook\s+(.*?)}-->#', '// hook \\1', $s);
+	$s = preg_replace_callback('#//\s*hook\s+(\S+)#is', 'plugin_complie_srcfile_callback', $s);
+	return $s;
+}
+
+
+// 只返回一个权重最高的文件名
+function plugin_find_overwrite($srcfile) {
+	//$plugin_paths = glob(APP_PATH.'plugin/*', GLOB_ONLYDIR);
+	
+	$plugin_paths = plugin_paths_enabled();
+	
+	$len = strlen(APP_PATH);
+	$returnfile = $srcfile;
+	$maxrank = 0;
+	foreach($plugin_paths as $path=>$pconf) {
+		
+		// 文件路径后半部分
+		$dir = file_name($path);
+		$filepath_half = substr($srcfile, $len);
+		$overwrite_file = APP_PATH."plugin/$dir/overwrite/$filepath_half";
+		if(is_file($overwrite_file)) {
+			$rank = isset($pconf['overwrites_rank'][$filepath_half]) ? $pconf['overwrites_rank'][$filepath_half] : 0;
+			if($rank >= $maxrank) {
+				$returnfile = $overwrite_file;
+				$maxrank = $rank;
+			}
+		}
+	}
+	return $returnfile;
+}
+
+function plugin_complie_srcfile_callback($m) {
+	static $hooks;
+	if(empty($hooks)) {
+		$hooks = array();
+		$plugin_paths = plugin_paths_enabled();
+		
+		//$plugin_paths = glob(APP_PATH.'plugin/*', GLOB_ONLYDIR);
+		foreach($plugin_paths as $path=>$pconf) {
+			$dir = file_name($path);
+			$hookpaths = glob(APP_PATH."plugin/$dir/hook/*.*"); // path
+			if(is_array($hookpaths)) {
+				foreach($hookpaths as $hookpath) {
+					$hookname = file_name($hookpath);
+					$rank = isset($pconf['hooks_rank'][$hookname]) ? $pconf['hooks_rank'][$hookname] : 0;
+					$hooks[$hookname][] = array('hookpath'=>$hookpath, 'rank'=>$rank);
+				}
+			}
+			$hooks[$hookname] = arrlist_multisort($hooks[$hookname], 'rank', FALSE);
+			$hooks[$hookname] = arrlist_values($hooks[$hookname], 'hookpath');
+		}
+	}
+	
+	$s = '';
+	$hookname = $m[1];
+	if(!empty($hooks[$hookname])) {
+		foreach($hooks[$hookname] as $path) {
+			$t = file_get_contents($path);
+			$t = preg_replace('#^<\?php\s*exit;\?>\s{0,2}#i', '', $s);
+			if(substr($t, 0, 5) == '<?php' && substr($t, -2, 2) == '?>') {
+				$s = substr($t, 5, -2);		
+			}
+			$s .= $t;
+		}
+	}
+	return $s;
+}
 
 // 先下载，购买，付费，再安装
 function plugin_online_install($dir) {

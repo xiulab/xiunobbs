@@ -15,7 +15,7 @@ if($method == 'GET') {
 	$input['body_start'] = form_textarea('body_start', $setting['body_start'], '100%', '100px');
 	$input['body_end'] = form_textarea('body_end', $setting['body_end'], '100%', '100px');
 	
-	include '../plugin/xn_ad/setting.htm';
+	include _include(APP_PATH.'plugin/xn_ad/setting.htm');
 	
 } else {
 

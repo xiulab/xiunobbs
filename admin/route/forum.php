@@ -24,7 +24,7 @@ if(empty($action) || $action == 'list') {
 		
 		// hook admin_forum_list_get_end.php
 		
-		include "./view/htm/forum_list.htm";
+		include _include(ADMIN_PATH."view/htm/forum_list.htm");
 	
 	} elseif($method == 'POST') {
 		
@@ -123,7 +123,7 @@ if(empty($action) || $action == 'list') {
 		$tag_cate_maxid = tag_cate_maxid();
 		$tagcatelist = tag_cate_find_by_fid($_fid);
 		
-		include "./view/htm/forum_update.htm";
+		include _include(ADMIN_PATH."view/htm/forum_update.htm");
 	
 	} elseif($method == 'POST') {	
 		

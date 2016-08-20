@@ -2,7 +2,7 @@
 
 !defined('DEBUG') AND exit('Access Denied.');
 
-include '../xiunophp/xn_zip.func.php';
+include XIUNOPHP_PATH.'xn_zip.func.php';
 
 $action = param(1);
 
@@ -22,7 +22,7 @@ if($action == 'local') {
 	$header['title']    = lang('local_plugin');
 	$header['mobile_title'] = lang('local_plugin');
 	
-	include "./view/htm/plugin_list.htm";
+	include ADMIN_PATH."./view/htm/plugin_list.htm";
 
 } elseif($action == 'official') {
 
@@ -44,7 +44,7 @@ if($action == 'local') {
 	$header['title']    = lang('official_plugin');
 	$header['mobile_title'] = lang('official_plugin');
 	
-	include "./view/htm/plugin_list.htm";
+	include ADMIN_PATH."./view/htm/plugin_list.htm";
 	
 } elseif($action == 'read') {
 	
@@ -58,7 +58,7 @@ if($action == 'local') {
 	$header['title']    = lang('plugin_detail').'-'.$plugin['name'];
 	$header['mobile_title'] = $plugin['name'];
 	
-	include "./view/htm/plugin_read.htm";
+	include ADMIN_PATH."./view/htm/plugin_read.htm";
 	
 // 下载官方插件。 / download official plugin
 } elseif($action == 'download') {
@@ -103,7 +103,7 @@ if($action == 'local') {
 	// 安装插件 / install plugin
 	plugin_install($dir);
 	
-	$installfile = "../plugin/$dir/install.php";
+	$installfile = APP_PATH."plugin/$dir/install.php";
 	if(is_file($installfile)) {
 		include $installfile;
 	}
@@ -130,7 +130,7 @@ if($action == 'local') {
 	// 卸载插件
 	plugin_unstall($dir);
 	
-	$unstallfile = "../plugin/$dir/unstall.php";
+	$unstallfile = APP_PATH."plugin/$dir/unstall.php";
 	if(is_file($unstallfile)) {
 		include $unstallfile;
 	}
@@ -236,7 +236,7 @@ if($action == 'local') {
 	plugin_check_exists($dir);
 	$name = $plugins[$dir]['name'];
 	
-	include "../plugin/$dir/setting.php";
+	include APP_PATH."plugin/$dir/setting.php";
 }
 
 
@@ -245,7 +245,17 @@ if($action == 'local') {
 // 检查目录是否可写，插件要求 model view admin 目录文件可写。
 function plugin_check_dir_is_writable() {
 	// 检测目录和文件可写
-	$dirs = array('../model', '../plugin', '../view', '../view/js', '../view/htm', '../view/css', '../plugin', './', '../', '../route', './view/htm');
+	$dirs = array(
+		APP_PATH.'model', 
+		APP_PATH.'plugin', 
+		APP_PATH.'view', 
+		APP_PATH.'route', 
+		APP_PATH.'view/js', 
+		APP_PATH.'view/htm', 
+		APP_PATH.'view/css', 
+		APP_PATH.'plugin', 
+		ADMIN_PATH.'route', 
+		ADMIN_PATH.'view/htm');
 	$dirarr = array();
 	foreach($dirs as $dir) {
 		if(!xn_is_writable($dir)) {

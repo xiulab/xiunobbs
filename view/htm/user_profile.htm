@@ -1,4 +1,4 @@
-<?php include "./view/htm/header.inc.htm"; ?>
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
 
 <div class="row">
 	<div class="col-lg-8 col-lg-offset-2">
@@ -44,7 +44,7 @@
 			<h4 class="card-title"><?php echo lang('user_joined_thread');?> (<?php echo $_user['threads'];?>)</h4>
  			<table class="table table-hover threadlist">
 				<tbody>
-					<?php include './view/htm/thread_list.inc.htm';?>
+					<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
 				</tbody>
 			</table>
 		</div>
@@ -60,7 +60,7 @@
 	</div>
 </div>
 
-<?php include "./view/htm/footer.inc.htm"; ?>
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
 
 <script>
 

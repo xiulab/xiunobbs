@@ -1,11 +1,9 @@
 <?php
 
-chdir(getcwd().'/../');
-
-$conf = include './conf/conf.php';
+$conf = include '../conf/conf.php';
 $conf['cache']['type'] = 'memcached';
 
-include './xiunophp/xiunophp.php';
+include '../xiunophp/xiunophp.php';
 
 $r = cache_get('test2');
 x('cache_get test2:', $r, NULL);

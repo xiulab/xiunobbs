@@ -1,4 +1,4 @@
-<?php include "./view/htm/header.inc.htm"; ?>
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
 
 <!--{hook forum_start.htm}-->
 
@@ -37,12 +37,12 @@
 				</thead>
 				<tbody>
 					<!--{hook forum_threadlist_before.htm}-->
-					<?php include './view/htm/thread_list.inc.htm';?>
+					<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
 					<!--{hook forum_threadlist_after.htm}-->
 				</tbody>
 			</table>
 		</div>
-		<?php include './view/htm/thread_list_mod.inc.htm';?>
+		<?php include _include(APP_PATH.'view/htm/thread_list_mod.inc.htm');?>
 		<!--{hook forum_page_before.htm}-->
 		<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>
 		<!--{hook forum_page_after.htm}-->
@@ -103,7 +103,7 @@
 
 <!--{hook forum_end.htm}-->
 
-<?php include "./view/htm/footer.inc.htm"; ?>
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
 
 <script>
 $('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');

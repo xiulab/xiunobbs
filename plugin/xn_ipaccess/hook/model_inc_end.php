@@ -1,2 +1,2 @@
 
-include './plugin/xn_ipaccess/ipaccess.func.php';
+include _include(APP_PATH.'plugin/xn_ipaccess/ipaccess.func.php');

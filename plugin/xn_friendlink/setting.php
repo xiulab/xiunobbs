@@ -16,7 +16,7 @@ if(empty($action)) {
 	
 	if($method == 'GET') {
 		
-		include '../plugin/xn_friendlink/setting.htm';
+		include _include(APP_PATH.'plugin/xn_friendlink/setting.htm');
 		
 	} else {
 		

@@ -2,7 +2,7 @@
 
 !defined('DEBUG') AND exit('Access Denied.');
 
-include './model/modlog.func.php';
+include _include(APP_PATH.'model/modlog.func.php');
 
 $action = param(1);
 

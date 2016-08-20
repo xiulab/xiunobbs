@@ -16,7 +16,7 @@ if($method == 'GET') {
 	$input['appid'] = form_text('appid', $kv['appid']);
 	$input['appkey'] = form_text('appkey', $kv['appkey']);
 	
-	include '../plugin/xn_qq_login/setting.htm';
+	include _include(APP_PATH.'plugin/xn_qq_login/setting.htm');
 	
 } else {
 

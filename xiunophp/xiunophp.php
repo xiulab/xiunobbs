@@ -13,13 +13,14 @@
 */
 
 !defined('DEBUG') AND define('DEBUG', 1); // 1: 开发模式， 2: 线上调试：日志记录，0: 关闭
+!defined('APP_PATH') AND define('APP_PATH', './');
+!defined('XIUNOPHP_PATH') AND define('XIUNOPHP_PATH', dirname(__FILE__).'/');
 
 error_reporting(DEBUG ? E_ALL : 0);
 version_compare(PHP_VERSION, '5.3.0', '<') AND set_magic_quotes_runtime(0);
 $get_magic_quotes_gpc = get_magic_quotes_gpc();
 $starttime = microtime(1);
 $time = time();
-$_SERVER['APP_PATH'] = getcwd(); // 保存当前路径, register_shutdown_function() 需要 chdir() 到该路径
 
 // 头部，判断是否运行在命令行下
 define('IN_CMD', !empty($_SERVER['SHELL']) || empty($_SERVER['REMOTE_ADDR']));
@@ -29,8 +30,8 @@ if(IN_CMD) {
 	!isset($_SERVER['REQUEST_METHOD']) AND $_SERVER['REQUEST_METHOD'] = 'GET';
 } else {
 	header("Content-type: text/html; charset=utf-8");
-	header("Cache-Control: max-age=0;"); // 手机返回的时候回导致刷新
-	header("Cache-Control: no-store;");
+	//header("Cache-Control: max-age=0;"); // 手机返回的时候回导致刷新
+	//header("Cache-Control: no-store;");
 	//header("X-Powered-By: XiunoPHP 4.0");
 }
 
@@ -38,30 +39,24 @@ if(IN_CMD) {
 
 // ----------------------------------------------------------> db cache class
 
-$__getcwd = getcwd();
-chdir(dirname(__FILE__));
-
-include './db_mysql.class.php';
-include './db_pdo_mysql.class.php';
-include './db_pdo_sqlite.class.php';
-include './cache_apc.class.php';
-include './cache_memcached.class.php';
-include './cache_mysql.class.php';
-include './cache_redis.class.php';
-include './cache_xcache.class.php';
+include XIUNOPHP_PATH.'db_mysql.class.php';
+include XIUNOPHP_PATH.'db_pdo_mysql.class.php';
+include XIUNOPHP_PATH.'db_pdo_sqlite.class.php';
+include XIUNOPHP_PATH.'cache_apc.class.php';
+include XIUNOPHP_PATH.'cache_memcached.class.php';
+include XIUNOPHP_PATH.'cache_mysql.class.php';
+include XIUNOPHP_PATH.'cache_redis.class.php';
+include XIUNOPHP_PATH.'cache_xcache.class.php';
 
 // ----------------------------------------------------------> 全局函数
 
-include './db.func.php';
-include './cache.func.php';
-include './form.func.php';
-include './image.func.php';
-include './array.func.php';
-include './xn_encrypt.func.php';
-include './misc.func.php';
-
-chdir($__getcwd);
-unset($__getcwd);
+include XIUNOPHP_PATH.'db.func.php';
+include XIUNOPHP_PATH.'cache.func.php';
+include XIUNOPHP_PATH.'form.func.php';
+include XIUNOPHP_PATH.'image.func.php';
+include XIUNOPHP_PATH.'array.func.php';
+include XIUNOPHP_PATH.'xn_encrypt.func.php';
+include XIUNOPHP_PATH.'misc.func.php';
 
 // hook xiunophp_include_after.php
 
@@ -87,7 +82,7 @@ $errstr = '';
 
 // error_handle
 // register_shutdown_function('xn_shutdown_handle');
-set_error_handler('error_handle', -1);
+!DEBUG AND set_error_handler('error_handle', -1);
 empty($conf['timezone']) AND $conf['timezone'] = 'Asia/Shanghai';
 date_default_timezone_set($conf['timezone']);
 

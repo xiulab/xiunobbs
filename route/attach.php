@@ -20,7 +20,7 @@ if(empty($action) || $action == 'create') {
 	// hook attach_create_start.php
 	
 	// 允许的文件后缀名
-	//$types = include './conf/attach.conf.php';
+	//$types = include _include(APP_PATH.'conf/attach.conf.php');
 	//$allowtypes = $types['all'];
 	
 	empty($group['allowattach']) AND $gid != 1 AND message(-1, '您无权上传');
@@ -31,7 +31,7 @@ if(empty($action) || $action == 'create') {
 	$size > 2048000 AND message(-1, lang('filesize_too_large', array('maxsize'=>'2M', 'size'=>$size)));
 	
 	$ext = file_ext($name, 7);
-	$filetypes = include './conf/attach.conf.php';
+	$filetypes = include APP_PATH.'conf/attach.conf.php';
 	!in_array($ext, $filetypes['all']) AND $ext = '_'.$ext;
 	
 	$tmpanme = $uid.'_'.xn_rand(15).'.'.$ext;

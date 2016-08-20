@@ -2,7 +2,7 @@
 
 !defined('DEBUG') AND exit('Access Denied.');
 
-include './xiunophp/xn_html_safe.func.php';
+include APP_PATH.'xiunophp/xn_html_safe.func.php';
 
 $action = param(1);
 
@@ -38,7 +38,7 @@ if($action == 'create') {
 		$header['mobile_title'] = lang('post_create');
 		$header['mobile_link'] = url("thread-$tid");
 
-		include './view/htm/post.htm';
+		include _include(APP_PATH.'view/htm/post.htm');
 		
 	} else {
 		
@@ -82,7 +82,7 @@ if($action == 'create') {
 		if($return_html) {
 			$filelist = array();
 			ob_start();
-			include './view/htm/post_list.inc.htm';
+			include _include(APP_PATH.'view/htm/post_list.inc.htm');
 			$s = ob_get_clean();
 						
 			message(0, $s);
@@ -135,7 +135,7 @@ if($action == 'create') {
 		// todo:
 		$tagids = tag_thread_find_tagid_by_tid($tid);
 		
-		include './view/htm/post.htm';
+		include _include(APP_PATH.'view/htm/post.htm');
 		
 	} elseif($method == 'POST') {
 		

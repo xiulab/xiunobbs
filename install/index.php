@@ -4,20 +4,19 @@ define('DEBUG', 0);
 define('MESSAGE_HTM_PATH', './install/view/htm/message.htm');
 
 // 切换到上一级目录，操作很方便。
-chdir('../');
 
-$conf = (@include './conf/conf.default.php');
-$lang = include "./lang/$conf[lang]/bbs.php";
-$lang += include "./lang/$conf[lang]/bbs_install.php";
+$conf = (include '../conf/conf.default.php');
+$lang = include "../lang/$conf[lang]/bbs.php";
+$lang += include "../lang/$conf[lang]/bbs_install.php";
 
-include './xiunophp/xiunophp.php';
-include './model.inc.php';
-include './install/install.func.php';
+include '../xiunophp/xiunophp.php';
+include '../model.inc.php';
+include './install.func.php';
 
 $action = param('action');
 
 // 安装初始化检测,放这里
-is_file('./conf/conf.php') AND empty($action) AND !DEBUG AND message(0, jump(lang('installed_tips'), '../'));
+is_file('../conf/conf.php') AND empty($action) AND !DEBUG AND message(0, jump(lang('installed_tips'), '../'));
 
 // 第一步，阅读
 if(empty($action)) {
@@ -27,12 +26,12 @@ if(empty($action)) {
 		$input['lang'] = form_select('lang', array('zh-cn'=>'简体中文', 'zh-tw'=>'繁体中文', 'en-us'=>'English'), $conf['lang']);
 		
 		// 修改 conf.php
-		include "./install/view/htm/index.htm";
+		include "./view/htm/index.htm";
 	} else {
 		$_lang = param('lang');
 		$conf['lang'] = $_lang;
-		//$r = conf_save('./conf/conf.php', $conf);
-		$r = file_replace_var('./conf/conf.default.php', array('lang'=>$_lang));
+		xn_copy(APP_PATH.'./conf/conf.default.php', APP_PATH.'./conf/conf.backup.php');
+		$r = file_replace_var(APP_PATH.'./conf/conf.default.php', array('lang'=>$_lang));
 		$r === FALSE AND message(-1, jump(lang('please_set_conf_file_writable'), ''));
 		http_location('index.php?action=license');
 	}
@@ -42,7 +41,7 @@ if(empty($action)) {
 	
 	// 设置到 cookie
 	
-	include "./install/view/htm/license.htm";
+	include "./view/htm/license.htm";
 	
 } elseif($action == 'env') {
 	
@@ -50,7 +49,7 @@ if(empty($action)) {
 		$succeed = 1;
 		$env = $write = array();
 		get_env($env, $write);
-		include "./install/view/htm/env.htm";
+		include "./view/htm/env.htm";
 	} else {
 	
 	}
@@ -64,7 +63,7 @@ if(empty($action)) {
 		$pdo_mysql_support = extension_loaded('pdo_mysql');
 		(!$mysql_support && !$pdo_mysql_support) AND message(0, lang('evn_not_support_php_mysql'));
 
-		include "./install/view/htm/db.htm";
+		include "./view/htm/db.htm";
 		
 	} else {
 		
@@ -109,15 +108,11 @@ if(empty($action)) {
 		
 		// 连接成功以后，开始建表，导数据。
 		
-		install_sql_file('./install/install.sql');
+		install_sql_file('./install.sql');
 		
 		// 初始化
-		copy('./conf/conf.default.php', './conf/conf.php');
+		copy('../conf/conf.default.php', '../conf/conf.php');
 		
-		//$conf2['log_path'] = './log/';
-		//$conf2['tmp_path'] = './tmp/';
-		//$conf2['upload_path'] = './upload/';
-
 		// 写入配置文件
 		//conf_save('./conf/conf.php', $conf);
 		

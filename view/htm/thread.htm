@@ -1,4 +1,4 @@
-<?php include "./view/htm/header.inc.htm"; ?>
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
 
 <!--{hook thread_start.htm}-->
 
@@ -94,7 +94,7 @@
 				</thead>
 				<tbody>
 				
-					<?php include 'view/htm/post_list.inc.htm'; ?>
+					<?php include _include(APP_PATH.'view/htm/post_list.inc.htm'); ?>
 					
 					
 					
@@ -187,7 +187,7 @@
 
 <!--{hook thread_end.htm}-->
 
-<?php include "./view/htm/footer.inc.htm"; ?>
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
 
 <script>
 var jform = $('#form');

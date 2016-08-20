@@ -4,8 +4,8 @@
 
 $action = param(1);
 
-include '../model/smtp.func.php';
-smtp_init('../conf/smtp.conf.php');
+include _include(APP_PATH.'model/smtp.func.php');
+smtp_init(APP_PATH.'conf/smtp.conf.php');
 
 // hook admin_setting_start.php
 
@@ -29,7 +29,7 @@ if($action == 'base') {
 		
 		// hook admin_setting_base_get_end.php
 		
-		include './view/htm/setting_base.htm';
+		include _include(ADMIN_PATH.'view/htm/setting_base.htm');
 		
 	} else {
 		
@@ -48,7 +48,7 @@ if($action == 'base') {
 		$replace['user_create_email_on'] = $user_create_email_on;
 		$replace['lang'] = $_lang;
 		
-		file_replace_var('../conf/conf.php', $replace);
+		file_replace_var(APP_PATH.'conf/conf.php', $replace);
 	
 		// hook admin_setting_base_post_end.php
 		
@@ -77,7 +77,7 @@ if($action == 'base') {
 		
 		// hook admin_setting_smtp_get_end.php
 		
-		include "./view/htm/setting_smtp.htm";
+		include _include(ADMIN_PATH."./view/htm/setting_smtp.htm");
 	
 	} else {
 		
@@ -91,7 +91,7 @@ if($action == 'base') {
 		$replace['user_resetpw_on'] = $user_resetpw_on;
 		
 		// save to conf/conf.php
-		file_replace_var('../conf/conf.php', $replace);
+		file_replace_var(APP_PATH.'conf/conf.php', $replace);
 		
 		$email = param('email', array(''));
 		$host = param('host', array(0));
@@ -109,7 +109,7 @@ if($action == 'base') {
 				'pass'=>$pass[$k],
 			);
 		}
-		$r = file_put_contents_try('../conf/smtp.conf.php', "<?php\r\nreturn ".var_export($smtplist,true).";\r\n?>");
+		$r = file_put_contents_try(APP_PATH.'conf/smtp.conf.php', "<?php\r\nreturn ".var_export($smtplist,true).";\r\n?>");
 		!$r AND message(-1, lang('conf/smtp.conf.php', array('file'=>'conf/smtp.conf.php')));
 		
 		// hook admin_setting_smtp_post_end.php

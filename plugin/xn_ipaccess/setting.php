@@ -23,7 +23,7 @@ if($method == 'GET') {
 	$input['seriate_posts'] = form_text('seriate_posts', $kv['seriate_posts']);
 	$input['seriate_users'] = form_text('seriate_users', $kv['seriate_users']);
 	
-	include '../plugin/xn_ipaccess/setting.htm';
+	include _include(APP_PATH.'plugin/xn_ipaccess/setting.htm');
 	
 } else {
 

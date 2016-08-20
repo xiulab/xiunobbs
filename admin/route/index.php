@@ -16,7 +16,7 @@ if($action == 'login') {
 		
 		$header['title'] = lang('admin_login');
 		
-		include "./view/htm/index_login.htm";
+		include _include(ADMIN_PATH."view/htm/index_login.htm");
 
 	} else if($method == 'POST') {
 
@@ -78,13 +78,13 @@ if($action == 'login') {
 	$stat['posts'] = post_count();
 	$stat['users'] = user_count();
 	$stat['attachs'] = attach_count();
-	$stat['disk_free_space'] = function_exists('disk_free_space') ? humansize(disk_free_space('./')) : lang('unknown');
+	$stat['disk_free_space'] = function_exists('disk_free_space') ? humansize(disk_free_space(APP_PATH)) : lang('unknown');
 	
 	$lastversion = get_last_version($stat);
 	
 	// hook admin_index_empty_end.php
 	
-	include './view/htm/index.htm';
+	include _include(ADMIN_PATH.'view/htm/index.htm');
 
 }
 

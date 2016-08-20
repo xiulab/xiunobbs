@@ -23,7 +23,7 @@ if(empty($action) || $action == 'list') {
 		
 		// hook admin_group_list_get_end.php
 		
-		include "./view/htm/group_list.htm";
+		include _include(ADMIN_PATH."view/htm/group_list.htm");
 	
 	} elseif($method == 'POST') {
 		
@@ -99,7 +99,7 @@ if(empty($action) || $action == 'list') {
 		
 		// hook admin_group_update_get_end.php
 		
-		include "./view/htm/group_update.htm";
+		include _include(ADMIN_PATH."view/htm/group_update.htm");
 	
 	} elseif($method == 'POST') {	
 		

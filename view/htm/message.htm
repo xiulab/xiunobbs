@@ -1,5 +1,5 @@
 <?php $header['title'] = lang('message_title'); ?>
-<?php include "./view/htm/header.inc.htm"; ?>
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
 
 <!--{hook message_start.htm}-->
 
@@ -19,6 +19,6 @@
 
 <!--{hook message_end.htm}-->
 
-<?php include "./view/htm/footer.inc.htm"; ?>
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
 
 <!--{hook message_js.htm}-->

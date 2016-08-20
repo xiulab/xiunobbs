@@ -2,7 +2,7 @@
 
 !defined('DEBUG') AND exit('Access Denied.');
 
-include './xiunophp/xn_send_mail.func.php';
+include _include(XIUNOPHP_PATH.'xn_send_mail.func.php');
 
 $action = param(1);
 
@@ -22,7 +22,7 @@ if($action == 'login') {
 		
 		// hook user_login_get_end.php
 		
-		include './view/htm/user_login.htm';
+		include _include(APP_PATH.'view/htm/user_login.htm');
 
 	} else if($method == 'POST') {
 
@@ -71,7 +71,7 @@ if($action == 'login') {
 		
 		// hook user_create_get_end.php
 		
-		include './view/htm/user_create.htm';
+		include _include(APP_PATH.'view/htm/user_create.htm');
 
 	} else if($method == 'POST') {
 				
@@ -137,7 +137,7 @@ if($action == 'login') {
 	 
 	empty($conf['user_create_email_on']) AND message(-1, lang('email_verify_not_on'));
 	
-	$smtplist = include './conf/smtp.conf.php';
+	$smtplist = include _include(APP_PATH.'conf/smtp.conf.php');
 	$n = array_rand($smtplist);
 	$smtp = $smtplist[$n];
 		
@@ -191,7 +191,7 @@ if($action == 'login') {
 		
 	// hook user_thread_end.php
 	
-	include './view/htm/user_thread.htm';
+	include _include(APP_PATH.'view/htm/user_thread.htm');
 	
 // 重设密码第 1 步 | reset password first step
 } elseif($action == 'resetpw') {
@@ -206,7 +206,7 @@ if($action == 'login') {
 		
 		// hook user_resetpw_get_end.php
 		
-		include './view/htm/user_resetpw.htm';
+		include _include(APP_PATH.'view/htm/user_resetpw.htm');
 
 	} else if($method == 'POST') {
 		
@@ -259,7 +259,7 @@ if($action == 'login') {
 	!$r AND message('email', lang('email_is_not_in_use'));
 	
 	// 发送邮件 | send mail
-	$smtplist = include './conf/smtp.conf.php';
+	$smtplist = include _include(APP_PATH.'conf/smtp.conf.php');
 	$n = array_rand($smtplist);
 	$smtp = $smtplist[$n];
 	$rand = rand(100000, 999999);
@@ -298,7 +298,7 @@ if($action == 'login') {
 		
 		// hook user_resetpw_get_end.php
 		
-		include './view/htm/user_resetpw_complete.htm';
+		include _include(APP_PATH.'view/htm/user_resetpw_complete.htm');
 
 	} else if($method == 'POST') {
 		
@@ -386,7 +386,7 @@ if($action == 'login') {
 	
 	// hook user_profile_start.php
 	
-	include './view/htm/user_profile.htm';
+	include _include(APP_PATH.'view/htm/user_profile.htm');
 	
 }
 

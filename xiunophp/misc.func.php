@@ -650,7 +650,7 @@ function get__browser() {
 
 function check_browser($browser) {
 	if($browser['name'] == 'ie' && $browser['version'] < 8) {
-		include './view/htm/browser.htm';
+		include _include(APP_PATH.'view/htm/browser.htm');
 		exit;
 	}
 }
@@ -773,6 +773,7 @@ function xn_init_query_string_by_path_formt($s) {
 // 安全请求一个 URL
 // ini_set('default_socket_timeout', 60);
 function http_get($url, $timeout = 5, $times = 3) {
+	//return '';
 //	$arr = array(
 //			'ssl' => array (
 //			'verify_peer'   => TRUE,
@@ -902,7 +903,7 @@ function http_multi_get($urls) {
 function file_replace_var($filepath, $replace = array(), $pretty = FALSE) {
 	$ext = file_ext($filepath);
 	if($ext == 'php') {
-		$arr = include $filepath;
+		$arr = include _include($filepath);
 		$arr = array_merge($arr, $replace);
 		$s = "<?php\r\nreturn ".var_export($arr, true).";\r\n?>";
 		// 备份文件
@@ -924,10 +925,17 @@ function file_replace_var($filepath, $replace = array(), $pretty = FALSE) {
 }
 
 function file_backname($filepath) {
+	
 	$dirname = dirname($filepath);
-	$filename = file_name($filepath);
-	$s = "$dirname/backup_$filename";
+	//$filename = file_name($filepath);
+	$filepre = file_pre($filepath);
+	$fileext = file_ext($filepath);
+	$s = "$filepre.backup.$fileext";
 	return $s;
+}
+
+function is_backfile($filepath) {
+	return strpos($filepath, '.backup.') !== FALSE;
 }
 
 // 备份文件
@@ -1106,6 +1114,10 @@ function xn_rmdir($dir) {
 function xn_unlink($file) {
 	$r = is_file($file) ? unlink($file) : FALSE;
 	return $r;
+}
+
+function xn_filemtime($file) {
+	return is_file($file) ? filemtime($file) : 0;
 }
 
 // 递归拷贝目录

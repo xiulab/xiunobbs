@@ -44,9 +44,9 @@ function message($code, $message, $extra = array()) {
 		echo xn_json_encode($arr);
 	} else {
 		if(defined('MESSAGE_HTM_PATH')) {
-			include MESSAGE_HTM_PATH;
+			include _include(MESSAGE_HTM_PATH);
 		} else {
-			include "./view/htm/message.htm";
+			include _include(APP_PATH."view/htm/message.htm");
 		}
 	}
 	exit;
@@ -75,6 +75,29 @@ function xn_lock_end($lockname = '') {
 	global $conf, $time;
 	$lockfile = $conf['tmp_path'].'lock_'.$lockname.'.lock';
 	xn_unlink($lockfile);
+}
+
+// 将相对路径转为绝对路径
+/*function xn_realpath($path) {
+	if(substr($path, 0, 2) == './') {
+		return realpath(APP_PATH.substr($path, 2));
+	} else {
+		return realpath($path);
+	}
+}*/
+
+// todo: 对路径进行处理 include _include('./view/htm/header.inc.htm');
+function _include($srcfile) {
+	global $conf;
+	// 合并插件，存入 tmp_path
+	$len = strlen(APP_PATH);
+	$tmpfile = $conf['tmp_path'].'src/'.substr(str_replace('/', '_', $srcfile), $len);
+	if(!is_file($tmpfile) || filemtime($srcfile) > filemtime($tmpfile) || DEBUG) {
+		// 开始编译
+		$s = plugin_complie_srcfile($srcfile);
+		file_put_contents_try($tmpfile, $s);
+	}
+	return $tmpfile;
 }
 
 // hook model_misc_end.php

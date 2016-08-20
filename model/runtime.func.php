@@ -52,7 +52,7 @@ function runtime_save() {
 	// hook model_runtime_save_start.php
 	global $runtime;
 	
-	if(!empty($_SERVER['APP_PATH'])) chdir($_SERVER['APP_PATH']);
+	chdir(APP_PATH);
 	
 	$r = cache_set('runtime', $runtime);
 	
