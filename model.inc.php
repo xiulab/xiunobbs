@@ -52,7 +52,7 @@ if(DEBUG) {
 		$r = file_put_contents($model_min_file, $s);
 		unset($s);
 	}
-	include _include($model_min_file);
+	include $model_min_file;
 	
 }
 

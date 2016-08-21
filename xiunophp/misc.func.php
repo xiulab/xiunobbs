@@ -903,7 +903,7 @@ function http_multi_get($urls) {
 function file_replace_var($filepath, $replace = array(), $pretty = FALSE) {
 	$ext = file_ext($filepath);
 	if($ext == 'php') {
-		$arr = include _include($filepath);
+		$arr = include $filepath;
 		$arr = array_merge($arr, $replace);
 		$s = "<?php\r\nreturn ".var_export($arr, true).";\r\n?>";
 		// 备份文件
@@ -1295,8 +1295,11 @@ function _COOKIE($k) { return isset($_COOKIE[$k]) ? $_COOKIE[$k] : NULL; }
 function _REQUEST($k) { return isset($_REQUEST[$k]) ? $_REQUEST[$k] : NULL; }
 function _ENV($k) { return isset($_ENV[$k]) ? $_ENV[$k] : NULL; }
 function _SERVER($k) { return isset($_SERVER[$k]) ? $_SERVER[$k] : NULL; }
-function _SESSION($k) {global $g_session; return isset($_SESSION[$k]) ? $_SESSION[$k] : (isset($g_session[$k]) ? $g_session[$k] : NULL); }
 function GLOBALS($k) { return isset($GLOBALS[$k]) ? $GLOBALS[$k] : NULL; }
 function G($k) { return isset($GLOBALS[$k]) ? $GLOBALS[$k] : NULL; }
+function _SESSION($k, $v = FALSE) {
+	global $g_session; 
+	return isset($_SESSION[$k]) ? $_SESSION[$k] : (isset($g_session[$k]) ? $g_session[$k] : NULL); 
+}
 
 ?>

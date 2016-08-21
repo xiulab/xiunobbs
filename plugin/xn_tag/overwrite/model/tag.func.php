@@ -52,8 +52,10 @@ function tag_find_by_cateid($cateid) {
 // $taglist 
 function tag_fetch_from_catelist($tagcatelist) {
 	$taglist = array();
-	foreach($tagcatelist as $tagcate) {
-		$taglist = array_merge($taglist, $tagcate['taglist']);
+	if($tagcatelist) {
+		foreach($tagcatelist as $tagcate) {
+			$taglist = array_merge($taglist, $tagcate['taglist']);
+		}
 	}
 	$taglist = arrlist_change_key($taglist, 'tagid');
 	return $taglist;

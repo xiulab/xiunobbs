@@ -6,13 +6,13 @@
 			<h6 class="text-bold">友情链接：</h6>
 			<hr class="m-y-sm" />
 			<ul>
-				<?php foreach ($linklist as $link) { ?>
+				<?php if($linklist) { foreach ($linklist as $link) { ?>
 				<li class="m-b-xs text-small">
 					<a href="<?php echo $link['url'];?>" target="_blank">
 						<?php echo $link['name'];?>
 					</a>
 				</li>
-				<?php } ?>
+				<?php }} ?>
 			</ul>
 		</div>
 		

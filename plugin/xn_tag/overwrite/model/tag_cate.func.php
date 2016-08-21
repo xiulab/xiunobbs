@@ -28,8 +28,10 @@ function tag_cate_read($cateid) {
 function tag_cate_delete($cateid) {
 	// hook model_tag_cate_delete_start.php
 	$taglist = tag_find_by_cateid($cateid);
-	foreach($taglist as $tag) {
-		tag_delete($tag['tagid']);
+	if($taglist) {
+		foreach($taglist as $tag) {
+			tag_delete($tag['tagid']);
+		}
 	}
 	$r = db_delete('tag_cate', array('cateid'=>$cateid));
 	// hook model_tag_cate_delete_end.php
@@ -39,9 +41,11 @@ function tag_cate_delete($cateid) {
 // tagcatelist
 function tag_cate_find_by_fid($fid) {
 	$tagcatelist = db_find('tag_cate', array('fid'=>$fid), array('rank'=>-1), 1, 1000);
-	foreach($tagcatelist as &$tagcate) {
-		$tagcate['taglist'] = tag_find_by_cateid($tagcate['cateid']);
-		$tagcate['tagmap'] = arrlist_change_key($tagcate['taglist'], 'tagid');
+	if($tagcatelist) {
+		foreach($tagcatelist as &$tagcate) {
+			$tagcate['taglist'] = tag_find_by_cateid($tagcate['cateid']);
+			$tagcate['tagmap'] = arrlist_change_key($tagcate['taglist'], 'tagid');
+		}
 	}
 	return $tagcatelist;
 }

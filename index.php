@@ -4,7 +4,13 @@
  * Copyright (C) xiuno.com
  */
 
-// $_SERVER['REQUEST_URI'] = '/?forum-1-1-47.htm';
+//$_SERVER['REQUEST_URI'] = '/?user-login.htm';
+//$_SERVER['REQUEST_METHOD'] = 'POST';
+//$_SERVER['HTTP_X_REQUESTED_WITH'] = 'xmlhttprequest';
+//$_COOKIE['bbs_sid'] = 'e1d8c2790b9dd08267e6ea2595c3bc82';
+//$postdata = 'email=admin&password=c4ca4238a0b923820dcc509a6f75849b';
+//parse_str($postdata, $_POST);
+
 
 // 0: Production mode; 1: Developer mode; 2: Developer Plugin mode;
 !defined('DEBUG') AND define('DEBUG', 2);
@@ -45,6 +51,7 @@ $sid = sess_start();
 
 // 语言 / Language
 $lang = include(APP_PATH."lang/$conf[lang]/bbs.php");
+
 
 // 支持 Token 接口（token 与 session 双重登陆机制，方便 REST 接口设计，也方便 $_SESSION 使用）
 // Support Token interface (token and session dual landing mechanism, to facilitate the design of the REST interface, but also to facilitate the use of $_SESSION)

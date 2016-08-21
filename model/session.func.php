@@ -53,8 +53,6 @@ function sess_new($sid) {
 	global $time, $longip, $conf, $g_session_invalid;
 	
 	$agent = _SERVER('HTTP_USER_AGENT');
-	$uid = _SESSION('uid');
-	$fid = _SESSION('fid');
 	
 	// 干掉同 ip 的 sid，仅仅在遭受攻击的时候
 	//db_delete('session', array('ip'=>$longip));
@@ -76,8 +74,8 @@ function sess_new($sid) {
 	
 	$arr = array(
 		'sid'=>$sid,
-		'uid'=>$uid,
-		'fid'=>$fid,
+		'uid'=>0,
+		'fid'=>0,
 		'url'=>$url,
 		'last_date'=>$time,
 		'fid'=>$fid,
@@ -98,6 +96,15 @@ function sess_write($sid, $data) {
 	
 	$uid = _SESSION('uid');
 	$fid = _SESSION('fid');
+	unset($_SESSION['uid']);
+	unset($_SESSION['fid']);
+	
+	if($data) {
+		//$arr = session_decode($data);
+		unset($_SESSION['uid']);
+		unset($_SESSION['fid']);
+		$data = session_encode();
+	}
 	
 	function_exists('chdir') AND chdir(APP_PATH);
 	
@@ -163,7 +170,7 @@ function sess_gc($maxlifetime) {
 }
 
 function sess_start() {
-	global $conf, $sid;
+	global $conf, $sid, $g_session;
 	ini_set('session.name', 'bbs_sid');
 	
 	ini_set('session.use_cookies', 'On');
@@ -188,6 +195,9 @@ function sess_start() {
 	session_start();
 	
 	$sid = session_id();
+	
+	//$_SESSION['uid'] = $g_session['uid'];
+	//$_SESSION['fid'] = $g_session['fid'];
 	
 	//echo "sess_start() sid: $sid <br>\r\n";
 }

@@ -1,6 +1,6 @@
 
 		<table class="small nav_tag_list">
-		<?php foreach($forum['tagcatelist'] as $i=>$tagcate) { ?>
+		<?php if($forum['tagcatelist']) {foreach($forum['tagcatelist'] as $i=>$tagcate) { ?>
 			<tr>
 				<td class="text-small text-muted" align="right">
 					<?php echo $tagcate['name'];?>：
@@ -48,6 +48,6 @@
 					<?php } ?>
 				</td>
 			</tr>
-		<?php } ?>
+		<?php }} ?>
 		</table>
 		

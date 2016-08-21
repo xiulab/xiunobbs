@@ -1,6 +1,6 @@
 				<!--{hook post_list_inc_start.htm}-->
 
-				<?php foreach($postlist as $_post) { ?>
+				<?php if($postlist) { foreach($postlist as $_post) { ?>
 					<tr class="post">
 						<td class="vtop td-avatar" aria-hidden="true">
 							<a href="<?php echo url("user-$_post[uid]");?>" aria-hidden="true" tabindex="-1">
@@ -42,6 +42,6 @@
 							</div>
 						</td>
 					</tr>
-				<?php } ?>
+				<?php }} ?>
 				
 				<!--{hook post_list_inc_end.htm}-->
