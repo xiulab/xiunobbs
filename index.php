@@ -11,15 +11,15 @@
 //$postdata = 'email=admin&password=c4ca4238a0b923820dcc509a6f75849b';
 //parse_str($postdata, $_POST);
 
-
 // 0: Production mode; 1: Developer mode; 2: Developer Plugin mode;
 !defined('DEBUG') AND define('DEBUG', 2);
 define('APP_PATH', dirname(__FILE__).'/'); // __DIR__
 !defined('ADMIN_PATH') AND define('ADMIN_PATH', APP_PATH.'admin/');
 !defined('XIUNOPHP_PATH') AND define('XIUNOPHP_PATH', APP_PATH.'xiunophp/');
 
-ob_start('ob_gzhandler');
+// !ini_get('zlib.output_compression') AND ob_start('ob_gzhandler');
 
+ob_start('ob_gzhandler');
 $conf = (@include APP_PATH.'conf/conf.php') OR exit(header('Location: install/'));
 
 // 转换为绝对路径，防止被包含时出错。
@@ -92,10 +92,7 @@ check_runlevel();
 // 全站的设置数据，站点名称，描述，关键词
 // $setting = kv_get('setting');
 
-
 $route = param(0, 'index');
-
-// hook index_route_before.php
 
 if(!defined('SKIP_ROUTE')) {
 	
@@ -112,7 +109,6 @@ if(!defined('SKIP_ROUTE')) {
 		case 'post': 	include _include(APP_PATH.'route/post.php'); 	break;
 		case 'mod': 	include _include(APP_PATH.'route/mod.php'); 	break;
 		case 'browser': include _include(APP_PATH.'route/browser.php'); 	break;
-		// hook index_route_case.php
 		default: 
 			// 为了支持插件，此处不利于编译优化
 			// In order to support / plug-in, here is not conducive to compiler optimization

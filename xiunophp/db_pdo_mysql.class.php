@@ -59,7 +59,7 @@ class db_pdo_mysql {
 			$link = new PDO("mysql:host=$host;port=$port;dbname=$name", $user, $password, $attr);
 			//$link->setAttribute(PDO::ATTR_TIMEOUT, 5);
 			//$link->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
-		} catch (Exception $e) {  
+		} catch (Exception $e) {
 			$this->error($e->getCode(), '连接数据库服务器失败:'.$e->getMessage());
 			return FALSE;
 	        }

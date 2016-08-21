@@ -117,7 +117,7 @@
 		<div class="container hidden-lg-up navbar-nav">
 			<div class="row">
 				<!-- 左侧：折叠图标 -->
-				<div class="col-xs-1">
+				<div class="col-xs-2">
 					<?php if($route == 'index' || $route == 'forum') { ?>
 					 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile_collapsing_bavbar">☰</button>
 					 <?php } else { ?>
@@ -126,7 +126,7 @@
 				</div>
 				
 				<!-- 中间：标题 -->
-				<div class="col-xs-10 text-center text-nowrap">
+				<div class="col-xs-8 text-center text-nowrap">
 					<a class="nav-link p-y-0" href="<?php echo $header['mobile_link'];?>">
 						<?php if($header['mobile_title']) { ?>
 						<span class="nav-link"><?php echo $header['mobile_title'];?></span>
@@ -137,7 +137,7 @@
 				</div>
 				
 				<!-- 右侧：登陆 -->
-				<div class="col-xs-1">
+				<div class="col-xs-2">
 					<div class="pull-right">
 						<div class="nav-item small">
 							<?php if(empty($uid)) { ?>

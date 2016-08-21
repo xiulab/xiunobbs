@@ -27,6 +27,7 @@ function db_new($dbconf) {
 function db_connect($d = NULL) {
 	global $db;
 	$d = $db ? $db : $d;
+	
 	$r = $d->connect();
 	
 	db_errno_errstr($r, $d);

@@ -527,7 +527,7 @@ function xn_log($s, $file = 'error') {
 
 	$s = str_replace(array("\r\n", "\n", "\t"), ' ', $s);
 	$s = "<?php exit;?>\t$mtime\t$ip\t$url\t$uid\t$s\r\n";
-
+	
 	@error_log($s, 3, $logpath."/$file.php");
 }
 
