@@ -78,7 +78,6 @@ function sess_new($sid) {
 		'fid'=>0,
 		'url'=>$url,
 		'last_date'=>$time,
-		'fid'=>$fid,
 		'data'=> '',
 		'ip'=> $longip,
 		'useragent'=> $agent,
