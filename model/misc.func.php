@@ -6,14 +6,14 @@
 function check_runlevel() {
 	// hook model_check_runlevel_start.php
 	global $conf, $method, $gid;
-	$is_user_action = (param(0) == 'user');
 	if($gid == 1) return;
+	if((param(0) == 'user') && (param(1) == 'login' || (param(1) == 'create'))) return;
 	switch ($conf['runlevel']) {
 		case 0: $gid != 1 AND message(-1, $conf['runlevel_reason']); break;
-		case 1: $gid != 1 AND message(-1, $conf['runlevel_reason']); break;
-		case 2: ($gid == 0 OR ($gid != 1 AND $method != 'GET' AND !$is_user_action)) AND message(-1, lang('runlevel_reson_3')); break;
-		case 3: $gid == 0 AND !$is_user_action AND message(-1, lang('runlevel_reson_4')); break;
-		case 4: $method != 'GET' AND message(-1, lang('runlevel_reson_5')); break;
+		case 1: $gid != 1 AND message(-1, lang('runlevel_reson_1')); break;
+		case 2: $method != 'GET' AND message(-1, lang('runlevel_reson_2')); break;
+		case 3: $gid == 0  AND message(-1, lang('runlevel_reson_3')); break;
+		case 4: $method != 'GET' AND message(-1, lang('runlevel_reson_4')); break;
 		//case 5: break;
 	}
 	// hook model_check_runlevel_end.php

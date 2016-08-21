@@ -1,31 +1,30 @@
 <?php
 
 /*
-	功能：本程序用于将 xn3 转换到 xn4
+	功能：本程序用于将 xn21 转换到 xn4
 	步骤：
 		假定您的域名为：http://bbs.domain.com/
 		假定您的目录为：/data/wwwroot/bbs.domain.com/
 		
-		1. 备份好 3.0 的数据库
+		1. 备份好 2.1 的数据库
 		2. 新建 4.0 的数据库 xiuno4
-		3. 把 3.0 的移动到 /data/wwwroot/bbs.domain.com/old 目录，新上传 4.0 到 /data/wwwroot/bbs.domain.com/ 下
+		3. 把 2.1 的移动到 /data/wwwroot/bbs.domain.com/old 目录，新上传 4.0 到 /data/wwwroot/bbs.domain.com/ 下
 		4. 安装 4.0，访问 http://bbs.domain.com/install/
-		5. 安装完毕以后，将  xn3_to_xn4.php 上传到 /data/wwwroot/bbs.domain.com/ 下
+		5. 安装完毕以后，将  xn21_to_xn4.php 上传到 /data/wwwroot/bbs.domain.com/ 下
 		6. 命令行执行:
 			cd /data/wwwroot/bbs.domain.com/
-			php xn3_to_xn4.php
+			php xn21_to_xn4.php
 */
 
 // 需要在命令行下运行。
 
-define('XIUNO_BBS_3_PATH', './old/');
-//define('XIUNO_BBS_3_PATH', '/home/wwwroot/bbs.xiuno.com/');
+define('XIUNO_BBS_2_PATH', './old/');
 
 define('DEBUG', 1);
 
 $tablepre = 'bbs_';
 
-if(!$oldconf = include XIUNO_BBS_3_PATH.'conf/conf.php') {
+if(!$oldconf = include XIUNO_BBS_2_PATH.'conf/conf.php') {
 	exit('请将原来的整站移动到 ./old 目录');
 }
 
@@ -51,8 +50,9 @@ echo "upgrade group:\r\n";
 $grouplist = $olddb->sql_find("SELECT * FROM {$tablepre}group");
 $db->exec("TRUNCATE `{$tablepre}group`");
 foreach ($grouplist as $group) {
+	$group['groupid'] > 10 && $group['groupid'] += 90;
 	$arr = array(
-		'gid'=>$group['gid'],
+		'gid'=>$group['groupid'],
 		'name'=>$group['name'],
 		'allowread'=>$group['allowread'],
 		'allowthread'=>$group['allowthread'],
@@ -81,9 +81,10 @@ echo "upgrade user:\r\n";
 $userlist = $olddb->sql_find("SELECT * FROM {$tablepre}user");
 $db->exec("TRUNCATE {$tablepre}user");
 foreach ($userlist as $user) {
+	$user['groupid'] > 10 && $user['groupid'] += 90;
 	$arr = array(
 		'uid'=>$user['uid'],
-		'gid'=>$user['gid'],
+		'gid'=>$user['groupid'],
 		'email'=>$user['email'],
 		'username'=>$user['username'],
 		'password'=>$user['password'],
@@ -149,8 +150,8 @@ foreach ($forumlist as $forum) {
 		'brief'=>$forum['brief'],
 		'accesson'=>$forum['accesson'],
 		'orderby'=>$forum['orderby'],
-		'icon'=>$forum['icon'],
-		'moduids'=>$forum['moduids'],
+		'icon'=>0,
+		'moduids'=>str_replace("\t", ',', $forum['modids']),
 		'seo_title'=>$forum['seo_title'],
 		'seo_keywords'=>$forum['seo_keywords'],
 	);
@@ -169,7 +170,7 @@ $db->exec("TRUNCATE `{$tablepre}forum_access`");
 foreach ($accesslist as $access) {
 	$arr = array(
 		'fid'=>$access['fid'],
-		'gid'=>$access['gid'],
+		'gid'=>$access['groupid'],
 		'allowread'=>$access['allowread'],
 		'allowthread'=>$access['allowthread'],
 		'allowpost'=>$access['allowpost'],
@@ -195,17 +196,17 @@ foreach ($threadlist as $thread) {
 		'top'=>$thread['top'],
 		'uid'=>$thread['uid'],
 		'subject'=>$thread['subject'],
-		'create_date'=>$thread['create_date'],
-		'last_date'=>$thread['last_date'],
+		'create_date'=>$thread['dateline'],
+		'last_date'=>$thread['lastpost'] ? $thread['lastpost'] : $thread['dateline'],
 		'views'=>$thread['views'],
-		'posts'=>$thread['posts'],
-		'images'=>$thread['images'],
-		'files'=>$thread['files'],
-		'mods'=>$thread['mods'],	# 预留
+		'posts'=>max(0, $thread['posts'] - 1),
+		'images'=>$thread['imagenum'],
+		'files'=>$thread['attachnum'],
+		'mods'=>$thread['modnum'],	# 预留
 		'closed'=>$thread['closed'],	# 预留
 		'firstpid'=>$thread['firstpid'],
 		'lastuid'=>$thread['lastuid'],
-		'lastpid'=>$thread['lastpid'],	# 此处应该求最后一个，暂时没用
+		'lastpid'=>0,	# 此处应该求最后一个，暂时没用
 	);
 	$sqladd = db_array_to_insert_sqladd($arr);
 	$r = $db->exec("INSERT INTO {$tablepre}thread $sqladd");
@@ -232,11 +233,11 @@ foreach ($postlist as $post) {
 		'tid'=>$post['tid'],
 		'pid'=>$post['pid'],
 		'uid'=>$post['uid'],
-		'isfirst'=>$post['isfirst'],
-		'create_date'=>$post['create_date'],
+		'isfirst'=>($thread['firstpid'] == $post['pid'] ? 1 : 0),
+		'create_date'=>$post['dateline'],
 		'userip'=>$post['userip'],
-		'images'=>$post['images'],
-		'files'=>$post['files'],
+		'images'=>$post['imagenum'],
+		'files'=>$post['attachnum'],
 		'message'=>$post['message'],
 		'message_fmt'=>$post['message'],
 	);
@@ -263,7 +264,7 @@ foreach ($attachlist as $attach) {
 		'filename'=>$attach['filename'],
 		'orgfilename'=>$attach['orgfilename'],
 		'filetype'=>$attach['filetype'],
-		'create_date'=>$attach['create_date'],
+		'create_date'=>$attach['dateline'],
 		'comment'=>$attach['comment'],
 		'downloads'=>$attach['downloads'],
 		'credits'=>0,
@@ -288,7 +289,7 @@ foreach ($modloglist as $modlog) {
 		'pid'=>$modlog['pid'],
 		'subject'=>$modlog['subject'],
 		'comment'=>$modlog['comment'],
-		'create_date'=>$modlog['create_date'],
+		'create_date'=>$modlog['dateline'],
 		'action'=>$modlog['action'],
 	);
 	$sqladd = db_array_to_insert_sqladd($arr);
@@ -343,9 +344,9 @@ $sitebrief = $arr['v'];
 file_replace_var('./conf/conf.php', array('sitebrief'=>$sitebrief));*/
 
 // 递归拷贝目录
-copy_recusive(XIUNO_BBS_3_PATH.'upload/avatar', "./upload/avatar");
-copy_recusive(XIUNO_BBS_3_PATH.'upload/forum', "./upload/forum");
-copy_recusive(XIUNO_BBS_3_PATH.'upload/attach', "./upload/attach");
+copy_recusive(XIUNO_BBS_2_PATH.'upload/avatar', "./upload/avatar");
+copy_recusive(XIUNO_BBS_2_PATH.'upload/forum', "./upload/forum");
+copy_recusive(XIUNO_BBS_2_PATH.'upload/attach', "./upload/attach");
 
 mkdir('./tmp/src', 0777);
 
