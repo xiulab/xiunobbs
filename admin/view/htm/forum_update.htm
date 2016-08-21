@@ -62,7 +62,7 @@
 										</tr>
 									<thead>
 									<tbody>
-										<?php foreach ($accesslist as $access) { ?>
+										<?php foreach ($accesslist as &$access) { ?>
 										<tr align="center">								
 											<td><label class="c-input c-checkbox"><input type="checkbox" name="checkall" /><span class="c-indicator"></span></label></td>
 											<td align="left"><?php echo $access['name']; ?></td>

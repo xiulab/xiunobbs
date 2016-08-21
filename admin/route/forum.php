@@ -96,6 +96,7 @@ if(empty($action) || $action == 'list') {
 		// hook admin_forum_update_get_start.php
 		
 		$accesslist = forum_access_find_by_fid($_fid);
+		
 		if(empty($accesslist)) {
 			foreach($grouplist as $group) {
 				$accesslist[$group['gid']] = $group; // 字段名相同，直接覆盖。 / same field, directly overwrite
@@ -105,7 +106,6 @@ if(empty($action) || $action == 'list') {
 				$access['name'] = $grouplist[$access['gid']]['name']; // 字段名相同，直接覆盖。 / same field, directly overwrite
 			}
 		}
-		
 		array_htmlspecialchars($forum);
 		
 		$input = array();
