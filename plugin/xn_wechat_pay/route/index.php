@@ -6,9 +6,10 @@ $header['mobile_title'] = lang('wechat_pay');
 switch ( $action ) {
 	case 'index'://支付请求
 		empty( $conf['wx_mkpr'] ) AND message(1, '支付已关闭');
-		$agent = isset( $_SERVER['HTTP_USER_AGENT'] ) ? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
-		$agent = stripos($agent, 'MicroMessenger');
-		if ( $agent !== false ) {
+		$agent = strtolower(_SERVER('HTTP_USER_AGENT'));
+		$agent = strpos($agent, 'micromessenger');
+		
+		if ( $agent !== FALSE ) {
 			$input['trade_type'] = 'JSAPI';
 		} else {
 			$input['trade_type'] = 'NATIVE';
@@ -18,7 +19,7 @@ switch ( $action ) {
 		$input['content'] = $user['username'] . '充值金币' . (int)$input['total_fee'] * $conf['wx_mkpr'] . '枚';
 		$input['total_fee'] *= 100;
 		
-		$open_user = db_find_one('user_open_weixin', array( 'uid' => $uid ));
+		$open_user = db_find_one('user_open_wechat', array( 'uid' => $uid ));
 		$str='<div style="text-align: center"><img src="'.$conf['wx_xcode'].'" width="200" height="200"></div>';
 		$str.='请先用微信扫描二维码,绑定帐号以后才能支付!<br>Please use first WeChat scan qr code,<br> after binding account to pay!';
 		empty( $open_user['openid'] ) AND message(1, $str);

@@ -1,7 +1,7 @@
 <?php
 !defined('DEBUG') AND exit( 'Forbidden' );
 $tablepre = $db->tablepre;
-$sql = "CREATE TABLE {$tablepre}user_paylog (
+$sql = "CREATE TABLE IF NOT EXISTS {$tablepre}user_paylog (
   rid int(10) unsigned NOT NULL AUTO_INCREMENT,
   uid int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
   type tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '微信支付1',
