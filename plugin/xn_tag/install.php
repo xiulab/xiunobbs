@@ -15,6 +15,7 @@ $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}tag_cate (
 	fid int(11) unsigned NOT NULL DEFAULT '0',		# 属于哪个版块
 	name char(32) NOT NULL DEFAULT '',
 	rank int(11) unsigned NOT NULL DEFAULT '0',
+	enable int(11) unsigned NOT NULL DEFAULT '0',
 	PRIMARY KEY (cateid),
 	KEY (fid)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8";
@@ -25,6 +26,7 @@ $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}tag (
 	cateid int(11) unsigned NOT NULL DEFAULT '0',
 	name char(32) NOT NULL DEFAULT '',
 	rank int(11) unsigned NOT NULL DEFAULT '0',
+	enable int(11) unsigned NOT NULL DEFAULT '0',
 	PRIMARY KEY (tagid),
 	KEY (cateid)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8";
