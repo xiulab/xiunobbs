@@ -46,7 +46,7 @@ if(DEBUG) {
 		$s .= php_strip_whitespace(_include(APP_PATH.'model/runtime.func.php'));
 		$s .= php_strip_whitespace(_include(APP_PATH.'model/table_day.func.php'));
 		$s .= php_strip_whitespace(_include(APP_PATH.'model/cron.func.php'));
-		$s .= xn_php_strip_whitespace(_include(APP_PATH.'model/session.func.php'));
+		$s .= php_strip_whitespace(APP_PATH.'model/session.func.php');
 		// hook model_inc_merge.php
 		
 		$r = file_put_contents($model_min_file, $s);
@@ -59,7 +59,7 @@ if(DEBUG) {
 // hook model_inc_end.php
 
 
-
+/*
 function xn_php_strip_whitespace($file) {
 	$s = php_strip_whitespace($file);
 	if(substr($s, 0, 5) == '<?php') {
@@ -69,5 +69,5 @@ function xn_php_strip_whitespace($file) {
 		$s = substr($s, 0, -2);
 	}
 	return $s;
-}
+}*/
 ?>

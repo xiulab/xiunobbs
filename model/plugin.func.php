@@ -412,7 +412,7 @@ function plugin_complie_srcfile_callback($m) {
 		$fileext = file_ext($hookname);
 		foreach($hooks[$hookname] as $path) {
 			$t = file_get_contents($path);
-			if($fileext == 'php') {
+			if($fileext == 'php' && preg_match('#^<\?php\s+exit;#is', $t)) {
 				// 去掉首尾标签
 				if(substr($t, 0, 5) == '<?php' && substr($t, -2, 2) == '?>') {
 					$t = substr($t, 5, -2);		

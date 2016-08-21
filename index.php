@@ -27,7 +27,7 @@ substr($conf['log_path'], 0, 2) == './' AND $conf['log_path'] = APP_PATH.$conf['
 substr($conf['tmp_path'], 0, 2) == './' AND $conf['tmp_path'] = APP_PATH.$conf['tmp_path']; 
 substr($conf['upload_path'], 0, 2) == './' AND $conf['upload_path'] = APP_PATH.$conf['upload_path']; 
 
-if(DEBUG) {
+if(DEBUG || 1) {
 	include XIUNOPHP_PATH.'xiunophp.php';
 } else {
 	include XIUNOPHP_PATH.'xiunophp.min.php';

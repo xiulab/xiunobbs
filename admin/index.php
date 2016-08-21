@@ -32,7 +32,7 @@ $menu = include _include(ADMIN_PATH.'menu.conf.php');
 
 // 对于越权访问，可以默认为黑客企图，不用友好提示。
 // For unauthorized access, can default to the hacking attempt, without a friendly reminder.
-if(DEBUG < 2) {
+if(DEBUG < 3) {
 	// 管理组检查 / check admin group
 	if($gid != 1) {
 		setcookie('bbs_sid', '', $time - 86400);
