@@ -67,21 +67,28 @@ if($tagids) {
 if($thread_list_from_default == 0) {
 	
 	// 缓存结果集，不然查询太耗费资源。
-	$count_sql_md5 = md5($count_sql);
-	$find_sql_md5 = md5($find_sql);
-
-	$n = cache_get($count_sql_md5);
-	if($n === NULL || DEBUG) {
+	// 针对大站缓存，小站就硬查。
+	if($runtime['threads'] > 1000000) {
+		$count_sql_md5 = md5($count_sql);
+		$find_sql_md5 = md5($find_sql);
+		$n = cache_get($count_sql_md5);
+		if($n === NULL || DEBUG) {
+			$arr = db_sql_find_one($count_sql);
+			$n = $arr['num'];
+			cache_set($count_sql_md5, $n, 30);
+		}
+		$tids = cache_get($find_sql_md5);
+		if($n === NULL || DEBUG) {
+			$tidlist = db_sql_find($find_sql);
+			$tids = arrlist_values($tidlist, 'tid');
+			cache_set($find_sql_md5, $tids, 30);
+		}
+	} else {
 		$arr = db_sql_find_one($count_sql);
 		$n = $arr['num'];
-		cache_set($count_sql_md5, $n, 30);
-	}
-	
-	$tids = cache_get($find_sql_md5);
-	if($n === NULL || DEBUG) {
 		$tidlist = db_sql_find($find_sql);
 		$tids = arrlist_values($tidlist, 'tid');
-		cache_set($find_sql_md5, $tids, 30);
+		unset($arr, $tidlist);
 	}
 	
 	$pagination = pagination(url("forum-$fid-{page}-{$tagid1}_{$tagid2}_{$tagid3}_{$tagid4}"), $n, $page, $pagesize);
