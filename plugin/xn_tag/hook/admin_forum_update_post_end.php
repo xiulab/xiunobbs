@@ -21,6 +21,7 @@
 			if(isset($tagcatelist[$k])) {
 				tag_cate_update($k, $arr);
 			} else {
+				if(!$arr['name']) continue;
 				tag_cate_create($arr);
 			}
 		}
@@ -50,6 +51,7 @@
 			if(isset($taglist[$k])) {
 				tag_update($k, $arr);
 			} else {
+				if(!$arr['name']) continue;
 				tag_create($arr);
 			}
 		}
