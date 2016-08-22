@@ -4,6 +4,7 @@
  * Copyright (C) xiuno.com
  */
 
+//$_SERVER['REQUEST_URI'] = '/?qq_login.htm';
 //$_SERVER['REQUEST_URI'] = '/?user-login.htm';
 //$_SERVER['REQUEST_METHOD'] = 'POST';
 //$_SERVER['HTTP_X_REQUESTED_WITH'] = 'xmlhttprequest';
@@ -12,7 +13,7 @@
 //parse_str($postdata, $_POST);
 
 // 0: Production mode; 1: Developer mode; 2: Developer Plugin mode;
-!defined('DEBUG') AND define('DEBUG', 2);
+!defined('DEBUG') AND define('DEBUG', 0);
 define('APP_PATH', dirname(__FILE__).'/'); // __DIR__
 !defined('ADMIN_PATH') AND define('ADMIN_PATH', APP_PATH.'admin/');
 !defined('XIUNOPHP_PATH') AND define('XIUNOPHP_PATH', APP_PATH.'xiunophp/');
@@ -110,10 +111,10 @@ if(!defined('SKIP_ROUTE')) {
 		case 'mod': 	include _include(APP_PATH.'route/mod.php'); 	break;
 		case 'browser': include _include(APP_PATH.'route/browser.php'); 	break;
 		default: 
-			// 为了支持插件，此处不利于编译优化
-			// In order to support / plug-in, here is not conducive to compiler optimization
-			(!is_word($route) || !is_file(APP_PATH."route/$route.php")) && http_404();
-			include _include(APP_PATH."route/$route.php");
+			!is_word($route) AND http_404();
+			$routefile = _include(APP_PATH."route/$route.php");
+			!is_file($routefile) AND http_404();
+			include $routefile;
 	}
 }
 

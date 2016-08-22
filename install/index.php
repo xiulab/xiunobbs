@@ -11,6 +11,8 @@ define('MESSAGE_HTM_PATH', './view/htm/message.htm');
 $conf = (include APP_PATH.'conf/conf.default.php');
 $lang = include APP_PATH."lang/$conf[lang]/bbs.php";
 $lang += include APP_PATH."lang/$conf[lang]/bbs_install.php";
+$conf['log_path'] = APP_PATH.$conf['log_path']; 
+$conf['tmp_path'] = APP_PATH.$conf['tmp_path']; 
 
 include APP_PATH.'xiunophp/xiunophp.php';
 include APP_PATH.'model/misc.func.php';

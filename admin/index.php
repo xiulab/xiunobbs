@@ -56,10 +56,10 @@ switch ($route) {
 	case 'plugin':		include _include(ADMIN_PATH.'route/plugin.php'); 	break;
 	// hook admin_index_route_case.php
 	default: 
-		// 为了支持插件，此处不利于编译优化
-		// In order to support / plug-in, here is not conducive to compiler optimization
-		(!is_word($route) || !is_file(ADMIN_PATH."route/$route.php")) && http_404();
-		include _include(ADMIN_PATH."route/$route.php");
+		!is_word($route) AND http_404();
+		$routefile = _include(ADMIN_PATH."route/$route.php");
+		!is_file($routefile) AND  http_404();
+		include $routefile;
 }
 
 ?>
