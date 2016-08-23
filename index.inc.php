@@ -14,7 +14,7 @@ $lang = include(APP_PATH."lang/$conf[lang]/bbs.php");
 // 支持 Token 接口（token 与 session 双重登陆机制，方便 REST 接口设计，也方便 $_SESSION 使用）
 // Support Token interface (token and session dual landing mechanism, to facilitate the design of the REST interface, but also to facilitate the use of $_SESSION)
 $uid = intval(_SESSION('uid'));
-empty($uid) AND $uid = user_token_get() AND $_SESSION['uid'] = $_uid;
+empty($uid) AND $uid = user_token_get() AND $_SESSION['uid'] = $uid;
 $user = user_read($uid);
 
 // 用户组 / Group
