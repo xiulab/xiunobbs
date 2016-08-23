@@ -39,6 +39,9 @@ if(empty($action)) {
 	
 	$uid = $user['uid'];
 	
+	$_SESSION['uid'] = $uid;
+	user_token_set($uid);
+	
 	message(0, jump('登陆成功', http_referer(), 2));
 }
 

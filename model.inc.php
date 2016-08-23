@@ -1,6 +1,6 @@
 <?php
 
-// hook model_inc_start.php
+!defined('DEBUG') AND exit('Access Denied.');
 
 // 可以合并成一个文件，加快速度
 // merge to one file.
