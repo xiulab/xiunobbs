@@ -56,7 +56,7 @@
 			</dl>
 			<hr aria-hidden="true" />
 			<?php if($page == 1) { ?>
-			<div class="message break-all">
+			<div class="message break-all" isfirst="1">
 			
 				<!--{hook thread_message_before.htm}-->
 				<?php echo $first['message_fmt'];?>
@@ -224,8 +224,7 @@ jform.on('submit', function() {
 });
 
 // 删除帖子
-var jpost_delete = $('.post_delete');
-jpost_delete.on('click', function() {
+$('.postlist').on('click', '.post_delete', function() {
 	var jthis = $(this);
 	var href = jthis.data('href');
 	var isfirst = jthis.attr('isfirst');
@@ -254,9 +253,11 @@ jpost_delete.on('click', function() {
 // 缩放图片，适应屏幕大小。
 function resize_image() {
 	var jmessagelist = $('div.message');
-	var jmessage_width = jmessagelist.width();
 	jmessagelist.each(function() {
-		$(this).find('img, embed').each(function() {
+		var jdiv = $(this);
+		var maxwidth = jdiv.attr('isfirst') ? 815 : 746; //  734 746
+		var jmessage_width = Math.min(jdiv.width(), maxwidth);
+		jdiv.find('img, embed').each(function() {
 			var jimg = $(this);
 			//if(jimg.width() < 500) return;
 			var img_width = this.org_width;
@@ -267,7 +268,6 @@ function resize_image() {
 				this.org_width = img_width;
 				this.org_height = img_height;
 			}
-			
 			//var percent = xn.min(100, xn.ceil((img_width / jmessage_width) * 100));
 			if(img_width > jmessage_width) {
 				if(this.tagName == 'IMG') {
