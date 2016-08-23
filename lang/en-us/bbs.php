@@ -221,6 +221,8 @@ return array(
 	'create_rank' => 'Create Rank',
 	'view_thread_message' => 'View Content',
 	'last_reply' => 'Last Reply',
+	'attach_not_exists' => 'Attach does not exits',
+	'insufficient_privilege_to_download' => 'Your group privilege is insufficient to download this attach',
 	
 	// moderator
 	'please_choose_thread' => 'Please choose thread',

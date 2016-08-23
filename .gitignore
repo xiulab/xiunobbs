@@ -10,4 +10,8 @@ ueditor-dev
 route/browser.php
 plugin/xn_footer_js
 1.php
+view/bootstrap-3.3.5-dist/
+plugin/bbs_xiuno_com_ad/
+plugin/*/*.zip
+plugin/*.zip
 

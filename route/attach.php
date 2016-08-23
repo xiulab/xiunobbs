@@ -91,6 +91,65 @@ if(empty($action) || $action == 'create') {
 	
 } elseif($action == 'download') {
 	
+	// hook attach_download_start.php
+	
+	// 判断权限
+	$aid = param(2, 0);
+	$attach = attach_read($aid);
+	empty($attach) AND message(-1, lang('attach_not_exists'));
+	$tid = $attach['tid'];
+	$thread = thread_read($tid);
+	$fid = $thread['fid'];
+	$allowdown = forum_access_user($fid, $gid, 'allowdown');
+	empty($allowdown) AND message(-1, lang('insufficient_privilege_to_download'));	
+	
+	$attachpath = $conf['upload_path'].'attach/'.$attach['filename'];
+	$attachurl = $conf['upload_url'].'attach/'.$attach['filename'];
+	!is_file($attachpath)AND message(-1, lang('attach_not_exists'));
+	
+	$type = 'php';
+	
+	// hook attach_output_before.php
+	
+	// php 输出
+	if($type == 'php') {
+		
+		$filesize = $attach['filesize'];
+		if(stripos($_SERVER["HTTP_USER_AGENT"], 'MSIE') !== FALSE) {
+			$attach['orgfilename'] = urlencode($attach['orgfilename']);
+			$attach['orgfilename'] = str_replace("+", "%20", $attach['orgfilename']);
+		}
+		$timefmt = date('D, d M Y H:i:s', $time).' GMT';
+		header('Date: '.$timefmt);
+		header('Last-Modified: '.$timefmt);
+		header('Expires: '.$timefmt);
+	       // header('Cache-control: max-age=0, must-revalidate, post-check=0, pre-check=0');
+		header('Cache-control: max-age=86400');
+		header('Content-Transfer-Encoding: binary');
+		header("Pragma: public");
+		header('Content-Disposition: attachment; filename="'.$attach['orgfilename'].'"');
+		header('Content-Type: application/octet-stream');
+		//header("Content-Type: application/force-download");	// 后面的会覆盖前面
+		
+		// hook attach_download_readfile_before.php
+		
+		readfile($attachpath);
+		
+		/*if($attach['filetype'] == 'image') {
+			// ie6 下会解析图片内容！
+			//header('Content-Disposition: inline; filename='.$attach['orgfilename']);
+			//header('Content-Type: image/pjpeg');
+		} else {
+			header('Content-Disposition: attachment; filename='.$attach['orgfilename']);
+			header('Content-Type: application/octet-stream');
+		}*/
+		exit;
+	} else {
+		
+		// hook attach_download_location_before.php
+		
+		http_location($attachurl);
+	}
 }
 
 // hook attach_end.php

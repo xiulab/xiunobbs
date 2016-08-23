@@ -219,6 +219,8 @@ return array(
 	'create_rank' => '註冊排名',
 	'view_thread_message' => '查看主題內容',
 	'last_reply' => '最後回復',
+	'attach_not_exists' => '附件不存在',
+	'insufficient_privilege_to_download' => '您所在的用戶組無權下載該附件',
 	
 	// 版主管理
 	'please_choose_thread' => '請選擇主題',

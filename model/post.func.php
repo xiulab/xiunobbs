@@ -273,18 +273,25 @@ function post_highlight_keyword($str, $k) {
 // 公用的附件模板，采用函数，效率比 include 高。
 function post_file_list_html($filelist, $include_delete = FALSE) {
 	if(empty($filelist)) return '';
-	// 判断权限
+	
+	// hook model_post_file_list_html_start.php
+	
 	$s = '<ul class="attachlist">'."\r\n";
-	foreach ($filelist as $attach) {
+	foreach ($filelist as &$attach) {
 		$s .= '<li aid="'.$attach['aid'].'">'."\r\n";
-		$s .= '		<a href="'.$attach['url'].'" target="_blank">'."\r\n";
+		$s .= '		<a href="'.url("attach-download-$attach[aid]").'" target="_blank">'."\r\n";
 		$s .= '			<i class="icon filetype '.$attach['filetype'].'"></i>'."\r\n";
 		$s .= '			'.$attach['orgfilename']."\r\n";
 		$s .= '		</a>'."\r\n";
+		// hook model_post_file_list_html_delete_before.php
 		$include_delete AND $s .= '		<a href="javascript:void(0)" class="delete m-l-1"><i class="icon-remove"></i> '.lang('delete').'</a>'."\r\n";
+		// hook model_post_file_list_html_delete_after.php
 		$s .= '</li>'."\r\n";
 	};
 	$s .= '</ul>'."\r\n";
+	
+	// hook model_post_file_list_html_end.php
+	
 	return $s;
 }
 

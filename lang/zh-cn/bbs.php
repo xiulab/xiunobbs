@@ -220,6 +220,8 @@ return array(
 	'create_rank' => '注册排名',
 	'view_thread_message' => '查看主题内容',
 	'last_reply' => '最后回复',
+	'attach_not_exists' => '附件不存在',
+	'insufficient_privilege_to_download' => '您所在的用户组无权下载该附件',
 	
 	
 	// 版主管理
