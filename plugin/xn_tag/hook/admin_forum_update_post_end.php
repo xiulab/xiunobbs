@@ -6,9 +6,6 @@
 		$cate_id_arr = array_keys($cate_name_arr);
 		$cate_id_arr_old = arrlist_values($tagcatelist, 'cateid');
 		
-		//error_log(print_r($cate_id_arr, 1), 3, 'd:/cate_id_arr.txt');
-		//error_log(print_r($tagcatelist, 1), 3, 'd:/tagcatelist.txt');
-		
 		// 新增 + 更新 / new + update
 		foreach($cate_id_arr as $k) {
 			$arr = array(

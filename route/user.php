@@ -52,6 +52,8 @@ if($action == 'login') {
 		
 		$_SESSION['uid'] = $uid;
 		
+		user_token_set($uid);
+		
 		// hook user_login_post_end.php
 		
 		// 设置 token，下次自动登陆。
@@ -126,6 +128,7 @@ if($action == 'login') {
 		unset($_SESSION['create_email']);
 		unset($_SESSION['create_pw']);
 		$_SESSION['uid'] = $uid;
+		user_token_set($uid);
 		
 		$extra = array('token'=>user_token_gen($uid));
 		
@@ -173,6 +176,7 @@ if($action == 'login') {
 	
 	$uid = 0;
 	$_SESSION['uid'] = $uid;
+	user_token_clear();
 	
 	// hook user_logout_end.php
 	

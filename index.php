@@ -13,7 +13,7 @@
 //parse_str($postdata, $_POST);
 
 // 0: Production mode; 1: Developer mode; 2: Developer Plugin mode;
-!defined('DEBUG') AND define('DEBUG', 0);
+!defined('DEBUG') AND define('DEBUG', 2);
 define('APP_PATH', dirname(__FILE__).'/'); // __DIR__
 !defined('ADMIN_PATH') AND define('ADMIN_PATH', APP_PATH.'admin/');
 !defined('XIUNOPHP_PATH') AND define('XIUNOPHP_PATH', APP_PATH.'xiunophp/');
@@ -56,8 +56,8 @@ $lang = include(APP_PATH."lang/$conf[lang]/bbs.php");
 
 // 支持 Token 接口（token 与 session 双重登陆机制，方便 REST 接口设计，也方便 $_SESSION 使用）
 // Support Token interface (token and session dual landing mechanism, to facilitate the design of the REST interface, but also to facilitate the use of $_SESSION)
-$uid = user_token_get();
-empty($uid) AND $uid = intval(_SESSION('uid'));
+$uid = intval(_SESSION('uid'));
+empty($uid) AND $uid = user_token_get() AND $_SESSION['uid'] = $_uid;
 $user = user_read($uid);
 
 // 用户组 / Group

@@ -285,6 +285,19 @@ function user_token_get_do() {
 	return $_uid;	
 }
 
+// 设置 token，防止 sid 过期后被删除
+function user_token_set($uid) {
+	global $time;
+	if(empty($uid)) return;
+	$token = user_token_gen($uid);
+	setcookie('bbs_token', $token, $time + 8640000, '');
+}
+
+function user_token_clear() {
+	global $time;
+	setcookie('bbs_token', '', $time - 8640000, '');
+}
+
 function user_token_gen($uid) {
 	global $ip, $time, $useragent, $conf;
 	$tokenkey = md5($useragent.$conf['auth_key']);
