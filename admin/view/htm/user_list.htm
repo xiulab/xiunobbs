@@ -14,7 +14,7 @@
 	<div class="col-md-2 m-b-sm">
 		<select id="srchtype" value="<?php echo $srchtype; ?>" class="form-control">
 			<option value=""><?php echo lang('search_type');?></option>
-			<option value="uid"><?php echo lang('search_type');?>：</option>
+			<option value="uid"><?php echo lang('uid');?>：</option>
 			<option value="username" selected><?php echo lang('username');?>：</option>
 			<option value="email"><?php echo lang('email');?>：</option>
 			<option value="gid"><?php echo lang('user_group');?>：</option>
@@ -22,7 +22,7 @@
 		</select>
 	</div>
 	<div class="col-md-3 m-b-sm">
-		<input type="text" id="keyword" placeholder="<?php echo lang('search_type');?>" value="<?php echo $keyword; ?>"  class="form-control" />
+		<input type="text" id="keyword" placeholder="<?php echo lang('keyword');?>" value="<?php echo $keyword; ?>"  class="form-control" />
 	</div>
 	<div class="col-md-2 m-b-sm">
 		<button id="search" class="form-control btn btn-primary"><?php echo lang('search');?></button>
