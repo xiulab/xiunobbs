@@ -253,9 +253,10 @@ $('.postlist').on('click', '.post_delete', function() {
 // 缩放图片，适应屏幕大小。
 function resize_image() {
 	var jmessagelist = $('div.message');
+	var first_width = jmessagelist.width(); // 815 : 746; //  734 746
 	jmessagelist.each(function() {
 		var jdiv = $(this);
-		var maxwidth = jdiv.attr('isfirst') ? 815 : 746; //  734 746
+		var maxwidth = jdiv.attr('isfirst') ? first_width : first_width - 79; //  734 746
 		var jmessage_width = Math.min(jdiv.width(), maxwidth);
 		jdiv.find('img, embed').each(function() {
 			var jimg = $(this);
