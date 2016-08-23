@@ -55,8 +55,8 @@
 				</dd>
 			</dl>
 			<hr aria-hidden="true" />
-			<?php if($page == 1) { ?>
 			<div class="message break-all" isfirst="1">
+			<?php if($page == 1) { ?>
 			
 				<!--{hook thread_message_before.htm}-->
 				<?php echo $first['message_fmt'];?>
@@ -65,7 +65,6 @@
 				<?php echo post_file_list_html($first['filelist']);?>
 				<!--{hook thread_filelist_after.htm}-->
 				
-			</div>
 			<?php } else { ?>
 			
 				<!--{hook thread_message_more_before.htm}-->
@@ -73,6 +72,7 @@
 				<!--{hook thread_message_more_after.htm}-->
 				
 			<?php } ?>
+			</div>
 		</div>
 		
 		<!--{hook thread_postlist_before.htm}-->
