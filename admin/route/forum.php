@@ -84,7 +84,6 @@ if(empty($action) || $action == 'list') {
 	$_fid = param(2, 0);
 	$_forum = forum_read($_fid);
 	empty($_forum) AND message(-1, lang('forum_not_exists'));
-	$tagcatelist = tag_cate_find_by_fid($_fid);
 	
 	// hook admin_forum_update_get_post.php
 	
@@ -117,11 +116,6 @@ if(empty($action) || $action == 'list') {
 		$input['moduids'] = form_text('moduids', $_forum['moduids']);
 		
 		// hook admin_forum_update_get_end.php
-		
-		
-		$tag_maxid = tag_maxid();
-		$tag_cate_maxid = tag_cate_maxid();
-		$tagcatelist = tag_cate_find_by_fid($_fid);
 		
 		include _include(ADMIN_PATH."view/htm/forum_update.htm");
 	

@@ -1,4 +1,6 @@
 <?php exit;
+		
+		$tagcatelist = tag_cate_find_by_fid($_fid);
  		$tagcatelist = arrlist_change_key($tagcatelist, 'cateid');
 		$cate_name_arr = param('cate_name', array(''));
 		$cate_rank_arr = param('cate_rank', array(0));
