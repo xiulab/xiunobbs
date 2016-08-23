@@ -94,7 +94,7 @@ if($action == 'base') {
 		file_replace_var(APP_PATH.'conf/conf.php', $replace);
 		
 		$email = param('email', array(''));
-		$host = param('host', array(0));
+		$host = param('host', array(''));
 		$port = param('port', array(0));
 		$user = param('user', array(''));
 		$pass = param('pass', array(''));
