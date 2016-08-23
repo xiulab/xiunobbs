@@ -132,9 +132,6 @@ if($action == 'create') {
 		
 		// hook post_update_get_end.php
 		
-		// todo:
-		$tagids = tag_thread_find_tagid_by_tid($tid);
-		
 		include _include(APP_PATH.'view/htm/post.htm');
 		
 	} elseif($method == 'POST') {
