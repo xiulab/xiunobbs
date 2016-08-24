@@ -1,0 +1,17 @@
+
+<div class="text-muted" id="footer">
+	<div class="container" style="overflow: hidden;">
+		<dl class="row m-t-1">
+			<dt>
+				<!--{hook footer_footer_left_start.htm}-->
+				Powered by <b>Xiuno BBS <span><?php echo $conf['version'];?></span></b>
+				<!--{hook footer_footer_left_end.htm}-->
+			</dt>
+			<dd class="text-right">
+				<!--{hook footer_footer_right_start.htm}-->
+				Time: <b><?php echo substr(microtime(1) - $starttime, 0, 5);?></b>, SQL: <b><?php echo count($db->sqls);?></b>
+				<!--{hook footer_footer_right_end.htm}-->
+			</dd>
+		</dl>
+	</div>
+</div>
