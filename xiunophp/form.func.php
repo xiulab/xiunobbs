@@ -29,7 +29,7 @@ function form_checkbox($name, $checked = 0, $txt = '') {
 function form_select($name, $arr, $checked = 0, $id = TRUE) {
 	if(empty($arr)) return '';
 	$idadd = $id === TRUE ? "id=\"$name\"" : ($id ? "id=\"$id\"" : '');
-	$s = "<select name=\"$name\" class=\"c-select\" $idadd> \r\n";
+	$s = "<select name=\"$name\" class=\"custom-select\" $idadd> \r\n";
 	$s .= form_options($arr, $checked);
 	$s .= "</select> \r\n";
 	return $s;

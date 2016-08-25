@@ -27,7 +27,7 @@ xn.form_select = function(name, arr, checked, id) {
 	if(xn.empty(arr)) return '';
 	var idadd = id === true ? "id=\""+name+"\"" : (id ? "id=\""+id+"\"" : '');
 	var s = '';
-	s += "<select name=\""+name+"\" class=\"c-select\" "+idadd+"> \r\n";
+	s += "<select name=\""+name+"\" class=\"custom-select\" "+idadd+"> \r\n";
 	s += xn.form_options(arr, checked);
 	s += "</select> \r\n";
 	return s;
