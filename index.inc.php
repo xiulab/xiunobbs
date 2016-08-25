@@ -59,6 +59,7 @@ if(!defined('SKIP_ROUTE')) {
 	// 按照使用的频次排序，增加命中率，提高效率
 	// According to the frequency of the use of sorting, increase the hit rate, improve efficiency
 	switch ($route) {
+		// hook index_route_case_start.php
 		case 'index': 	include _include(APP_PATH.'route/index.php'); 	break;
 		case 'thread':	include _include(APP_PATH.'route/thread.php'); 	break;
 		case 'forum': 	include _include(APP_PATH.'route/forum.php'); 	break;
@@ -68,12 +69,16 @@ if(!defined('SKIP_ROUTE')) {
 		case 'search': 	include _include(APP_PATH.'route/search.php'); 	break;
 		case 'post': 	include _include(APP_PATH.'route/post.php'); 	break;
 		case 'mod': 	include _include(APP_PATH.'route/mod.php'); 	break;
-		case 'browser': include _include(APP_PATH.'route/browser.php'); 	break;
+		case 'browser': include _include(APP_PATH.'route/browser.php'); break;
+		// hook index_route_case_end.php
 		default: 
+			http_404();
+			/*
 			!is_word($route) AND http_404();
 			$routefile = _include(APP_PATH."route/$route.php");
 			!is_file($routefile) AND http_404();
 			include $routefile;
+			*/
 	}
 }
 

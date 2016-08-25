@@ -35,13 +35,14 @@ return array(
 			'create'=>array('url'=>url('user-create'), 'text'=>lang('admin_user_create')),
 		)
 	),
-	/*'other' => array(
+	'other' => array(
 		'url'=>url('post'), 
 		'text'=>lang('other_admin'), 
 		'icon'=>'icon-circle-blank',
 		'tab'=> array (
+			'cache'=>array('url'=>url('other-cache'), 'text'=>lang('admin_cache')),
 		)
-	),*/
+	),
 	'plugin' => array(
 		'url'=>url('plugin'), 
 		'text'=>lang('plugin'), 

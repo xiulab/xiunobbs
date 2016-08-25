@@ -47,19 +47,23 @@ if(DEBUG < 3) {
 $route = param(0, 'index');
 
 switch ($route) {
-	case 'index':		include _include(ADMIN_PATH.'route/index.php'); 		break;
+	// hook admin_index_route_case_start.php
+	case 'index':		include _include(ADMIN_PATH.'route/index.php'); 	break;
 	case 'setting': 	include _include(ADMIN_PATH.'route/setting.php'); 	break;
-	case 'forum': 		include _include(ADMIN_PATH.'route/forum.php'); 		break;
+	case 'forum': 		include _include(ADMIN_PATH.'route/forum.php'); 	break;
 	case 'friendlink': 	include _include(ADMIN_PATH.'route/friendlink.php'); 	break;
-	case 'group': 		include _include(ADMIN_PATH.'route/group.php'); 		break;
+	case 'group': 		include _include(ADMIN_PATH.'route/group.php'); 	break;
 	case 'user':		include _include(ADMIN_PATH.'route/user.php'); 		break;
 	case 'plugin':		include _include(ADMIN_PATH.'route/plugin.php'); 	break;
-	// hook admin_index_route_case.php
+	// hook admin_index_route_case_end.php
 	default: 
+		http_404();
+		/*
 		!is_word($route) AND http_404();
 		$routefile = _include(ADMIN_PATH."route/$route.php");
 		!is_file($routefile) AND  http_404();
 		include $routefile;
+		*/
 }
 
 ?>
