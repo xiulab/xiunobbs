@@ -9,9 +9,9 @@
 	<div class="col-lg-9">
 		<!--{hook thread_breadcrumb_before.htm}-->
 		<ol class="breadcrumb m-b-sm hidden-lg-down">
-			<li><a href="./" aria-label="<?php echo lang('index_page');?>"><i class="icon-home" aria-hidden="true"></i></a></li>
-			<li><a href="<?php echo url("forum-$fid");?>"><?php echo $forum['name'];?></a></li>
-			<li><a href="<?php echo url("thread-$tid");?>" title="<?php echo lang('index_page');?>返回主题第一页"><?php echo $thread['subject'];?></a></li>
+			<li class="breadcrumb-item"><a href="./" aria-label="<?php echo lang('index_page');?>"><i class="icon-home" aria-hidden="true"></i></a></li>
+			<li class="breadcrumb-item"><a href="<?php echo url("forum-$fid");?>"><?php echo $forum['name'];?></a></li>
+			<li class="breadcrumb-item active"><a href="<?php echo url("thread-$tid");?>" title="<?php echo lang('index_page');?>返回主题第一页"><?php echo $thread['subject'];?></a></li>
 			<!--{hook thread_breadcrumb.htm}-->
 		</ol>
 		<!--{hook thread_breadcrumb_after.htm}-->

@@ -9,8 +9,8 @@
 	<div class="col-lg-9">
 		<!--{hook forum_breadcrumb_before.htm}-->
 		<ol class="breadcrumb m-b-sm hidden-md-down">
-			<li><a href="./"><i class="icon-home" aria-hidden="true"></i></a></li>
-			<li><a href="<?php echo url("forum-$fid");?>"><?php echo $forum['name'];?></a></li>
+			<li class="breadcrumb-item"><a href="./"><i class="icon-home" aria-hidden="true"></i></a></li>
+			<li class="breadcrumb-item active"><a href="<?php echo url("forum-$fid");?>"><?php echo $forum['name'];?></a></li>
 			<!--{hook forum_breadcrumb.htm}-->
 		</ol>
 		
