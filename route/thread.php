@@ -68,7 +68,7 @@ if($action == 'create') {
 			'doctype'=>$doctype,
 		);
 		
-		// thread_create_thread_before.php
+		// hook thread_create_thread_before.php
 		
 		$tid = thread_create($thread, $pid);
 		$pid === FALSE AND message(-1, lang('create_post_failed'));
