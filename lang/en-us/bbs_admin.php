@@ -19,7 +19,11 @@ return array(
 	'admin_site_setting'=>'Site Setting',
 	'admin_setting_base'=>'Base Setting',
 	'admin_setting_smtp'=>'SMTP Setting',
-	
+	'admin_other_cache'=>'Cleanup Cache',
+	'admin_clear_tmp'=>'Clean up temporary directory',
+	'admin_clear_cache'=>'Cleanup cache',
+	'admin_clear_successfully'=>'Cleanup success',
+		
 	'admin_user_list'=>'User List',
 	'admin_user_group'=>'User Group',
 	'admin_user_create'=>'Create User',

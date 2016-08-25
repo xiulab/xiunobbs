@@ -19,6 +19,10 @@ return array(
 	'admin_site_setting'=>'站点设置',
 	'admin_setting_base'=>'基本设置',
 	'admin_setting_smtp'=>'SMTP 设置',
+	'admin_other_cache'=>'清理缓存',
+	'admin_clear_tmp'=>'清理临时目录',
+	'admin_clear_cache'=>'清理缓存',
+	'admin_clear_successfully'=>'清理成功',
 	
 	'admin_user_list'=>'用户列表',
 	'admin_user_group'=>'用户组',

@@ -161,7 +161,6 @@ function db_delete($table, $cond, $d = NULL) {
 function db_truncate($table, $d = NULL) {
 	global $db;
 	$d = $db ? $db : $d;
-	$d->trunate();
 	if(!$d) return FALSE;
 	
 	return $d->truncate($d->tablepre.$table);

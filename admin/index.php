@@ -53,6 +53,7 @@ switch ($route) {
 	case 'forum': 		include _include(ADMIN_PATH.'route/forum.php'); 	break;
 	case 'friendlink': 	include _include(ADMIN_PATH.'route/friendlink.php'); 	break;
 	case 'group': 		include _include(ADMIN_PATH.'route/group.php'); 	break;
+	case 'other':		include _include(ADMIN_PATH.'route/other.php'); 	break;
 	case 'user':		include _include(ADMIN_PATH.'route/user.php'); 		break;
 	case 'plugin':		include _include(ADMIN_PATH.'route/plugin.php'); 	break;
 	// hook admin_index_route_case_end.php

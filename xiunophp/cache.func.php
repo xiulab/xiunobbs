@@ -53,7 +53,7 @@ function cache_truncate($c = NULL) {
 	$c = $c ? $c : $cache;
 	if(!$c) return FALSE;
 	
-	$k = $c->cachepre.$k;
+	//$k = $c->cachepre.$k;
 	$r = $c->truncate();
 	return $r;
 }

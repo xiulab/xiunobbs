@@ -36,11 +36,11 @@ return array(
 		)
 	),
 	'other' => array(
-		'url'=>url('post'), 
-		'text'=>lang('other_admin'), 
+		'url'=>url('other'), 
+		'text'=>lang('other'), 
 		'icon'=>'icon-circle-blank',
 		'tab'=> array (
-			'cache'=>array('url'=>url('other-cache'), 'text'=>lang('admin_cache')),
+			'cache'=>array('url'=>url('other-cache'), 'text'=>lang('admin_other_cache')),
 		)
 	),
 	'plugin' => array(
