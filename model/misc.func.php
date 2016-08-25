@@ -91,7 +91,7 @@ function _include($srcfile) {
 	global $conf;
 	// 合并插件，存入 tmp_path
 	$len = strlen(APP_PATH);
-	$tmpfile = $conf['tmp_path'].'src/'.substr(str_replace('/', '_', $srcfile), $len);
+	$tmpfile = $conf['tmp_path'].substr(str_replace('/', '_', $srcfile), $len);
 	if(!is_file($tmpfile) || DEBUG) {
 		// 开始编译
 		$s = plugin_complie_srcfile($srcfile);
