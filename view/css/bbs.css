@@ -136,3 +136,4 @@ dl.row > dt.td-avatar, .table .td-avatar { width: 3.0rem; padding: 0.3rem;}
 table.nav_tag_list td {padding: 0.1rem;}
 table.nav_tag_list td a{margin-right: 0.5rem;}
 .nav_tag_list .active {font-weight: 800;}
+.message p {margin: 0.2rem 0;}

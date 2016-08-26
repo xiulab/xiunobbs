@@ -11,10 +11,14 @@ function post__create($arr, $gid) {
 	// 超长内容截取
 	$arr['message'] = xn_substr($arr['message'], 0, 2028000);
 	
-	// 格式转换
+	// 格式转换: 类型，0: html, 1: txt; 2: markdown; 3: ubb
 	$arr['message_fmt'] = htmlspecialchars($arr['message']);
+	
+	// 入库的时候进行转换，编辑的时候，自行调取 message, 或者 message_fmt
 	$arr['doctype'] == 0 && $arr['message_fmt'] = ($gid == 1 ? $arr['message'] : xn_html_safe($arr['message']));
 	$arr['doctype'] == 1 && $arr['message_fmt'] = xn_txt_to_html($arr['message']);
+	
+	// hook model_post__create_insert_before.php
 	
 	$r = db_insert('post', $arr);
 	// hook model_post__create_end.php
@@ -243,8 +247,6 @@ function post_format(&$post) {
 	} else {
 		$post['filelist'] = array();
 	}
-	
-	// 内容转换:更多格式用插件实现
 	
 	// hook model_post_format_end.php
 }

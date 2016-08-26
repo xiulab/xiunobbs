@@ -54,7 +54,7 @@ if($action == 'create') {
 		$message = param('message', '', FALSE);
 		empty($message) AND message('message', lang('please_input_message'));
 		$doctype = param('doctype', 0);
-		$doctype > 2 AND message(-1, lang('doc_type_not_supported'));
+		$doctype > 10 AND message(-1, lang('doc_type_not_supported'));
 		xn_strlen($message) > 2028000 AND message('message', lang('message_too_long'));
 		
 		$thread = array (
