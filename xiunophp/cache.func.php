@@ -10,6 +10,7 @@ function cache_new($cacheconf) {
 			case 'mysql': 	  $cache = new cache_mysql($cacheconf['mysql']); break;
 			case 'xcache': 	  $cache = new cache_xcache(); 	break;
 			case 'apc': 	  $cache = new cache_apc(); 	break;
+			case 'yac': 	  $cache = new cache_yac(); 	break;
 			default: return xn_error(-1, '不支持的 cache type:'.$conf['cache']['type']);
 		}
 		return $cache;
