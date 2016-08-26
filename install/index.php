@@ -19,6 +19,7 @@ include APP_PATH.'model/misc.func.php';
 include APP_PATH.'model/plugin.func.php';
 include APP_PATH.'model/user.func.php';
 include APP_PATH.'model/group.func.php';
+include APP_PATH.'model/form.func.php';
 include APP_PATH.'model/forum.func.php';
 include INSTALL_PATH.'install.func.php';
 
