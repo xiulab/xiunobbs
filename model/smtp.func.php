@@ -49,7 +49,9 @@ function smtp_save() {
 }
 
 function smtp_init($confile) {
-	return include $confile;
+	global $smtplist;
+	$smtplist = include $confile;
+	return $smtplist;
 }
 
 function smtp_find() {
