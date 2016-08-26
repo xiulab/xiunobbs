@@ -1,0 +1,10 @@
+{
+	"name":"登陆/回复可见",
+	"brief":"发帖时可以选择登陆和回复可见。插件为查鸽信息网制作，网址：http://cha.sgahz.net/",
+	"version":"1.0",
+	"bbs_version":"4.0",
+	"installed":0,
+	"enable":0,
+	"hooks_rank":[],
+	"dependencies":[]
+}

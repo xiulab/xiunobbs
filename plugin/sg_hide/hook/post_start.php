@@ -1,0 +1,1 @@
+$kvhide = kv_get('sg_hide');

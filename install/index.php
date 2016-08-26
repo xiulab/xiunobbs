@@ -27,6 +27,9 @@ $action = param('action');
 // 安装初始化检测,放这里
 is_file(APP_PATH.'conf/conf.php') AND empty($action) AND !DEBUG AND message(0, jump(lang('installed_tips'), '../'));
 
+// 从 cookie 中获取数据，默认为中文
+$_lang = param('lang', 'zh-cn');
+
 // 第一步，阅读
 if(empty($action)) {
 	
@@ -38,10 +41,14 @@ if(empty($action)) {
 		include INSTALL_PATH."view/htm/index.htm";
 	} else {
 		$_lang = param('lang');
-		$conf['lang'] = $_lang;
-		xn_copy(APP_PATH.'./conf/conf.default.php', APP_PATH.'./conf/conf.backup.php');
-		$r = file_replace_var(APP_PATH.'conf/conf.default.php', array('lang'=>$_lang));
-		$r === FALSE AND message(-1, jump(lang('please_set_conf_file_writable'), ''));
+		!in_array($_lang, array('zh-cn', 'zh-tw', 'en-us')) AND $_lang = 'zh-cn';
+		setcookie('lang', $_lang);
+		
+		//$conf['lang'] = $_lang;
+		//xn_copy(APP_PATH.'./conf/conf.default.php', APP_PATH.'./conf/conf.backup.php');
+		//$r = file_replace_var(APP_PATH.'conf/conf.default.php', array('lang'=>$_lang));
+		//$r === FALSE AND message(-1, jump(lang('please_set_conf_file_writable'), ''));
+		
 		http_location('index.php?action=license');
 	}
 	

@@ -125,3 +125,7 @@ nav.navbar .collapse, nav.navbar .collapse div.bg-inverse {
     height: auto;
     max-height: 350px;
 }
+
+.navbar-dark, .navbar-dark button {
+    color: rgba(255, 255, 255, 0.5);
+}

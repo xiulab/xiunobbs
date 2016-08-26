@@ -338,6 +338,96 @@ echo "[ok]\r\n";
 unset($linklist);
 
 
+// 主题分类
+
+
+$tablepre = $db->tablepre;
+$sql = "CREATE TABLE IF NOT EXISTS {$tablepre}tag_cate (
+	cateid int(11) unsigned NOT NULL AUTO_INCREMENT,
+	fid int(11) unsigned NOT NULL DEFAULT '0',		# 属于哪个版块
+	name char(32) NOT NULL DEFAULT '',
+	rank int(11) unsigned NOT NULL DEFAULT '0',
+	enable int(11) unsigned NOT NULL DEFAULT '0',
+	PRIMARY KEY (cateid),
+	KEY (fid)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8";
+$r = db_exec($sql);
+$sql = "CREATE TABLE IF NOT EXISTS {$tablepre}tag (
+	tagid int(11) unsigned NOT NULL AUTO_INCREMENT,
+	cateid int(11) unsigned NOT NULL DEFAULT '0',
+	name char(32) NOT NULL DEFAULT '',
+	rank int(11) unsigned NOT NULL DEFAULT '0',
+	enable int(11) unsigned NOT NULL DEFAULT '0',
+	PRIMARY KEY (tagid),
+	KEY (cateid)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8";
+$r = db_exec($sql);
+$sql = "CREATE TABLE IF NOT EXISTS {$tablepre}tag_thread (
+	tagid int(11) unsigned NOT NULL DEFAULT '0',
+	tid int(11) unsigned NOT NULL DEFAULT '0',
+	PRIMARY KEY (tagid, tid),
+	KEY (tid)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8";
+$r = db_exec($sql);
+
+$tagcatelist = $olddb->sql_find("SELECT * FROM {$tablepre}thread_type_cate");
+if($tagcatelist) {
+	foreach ($tagcatelist as $tagcate) {
+		$arr = array(
+			'fid'=>$tagcate['fid'],
+			'cateid'=>$tagcate['cateid'],
+			'name'=>$tagcate['catename'],
+			'rank'=>$tagcate['rank'],
+			'enable'=>$tagcate['enable'],
+		);
+		$sqladd = db_array_to_insert_sqladd($arr);
+		$r = $db->exec("INSERT INTO tag_cate $sqladd");
+		echo ".";
+	}
+}
+echo "[ok]\r\n";
+unset($tagcatelist);
+
+$taglist = $olddb->sql_find("SELECT * FROM {$tablepre}tag");
+if($taglist) {
+	foreach ($taglist as $tag) {
+		$arr = array(
+			'fid'=>$tag['fid'],
+			'tagid'=>$tag['typeid'],
+			'name'=>$tag['typename'],
+			'rank'=>$tag['rank'],
+			'enable'=>$tag['enable'],
+		);
+		$sqladd = db_array_to_insert_sqladd($arr);
+		$r = $db->exec("INSERT INTO tag_cate $sqladd");
+		echo ".";
+	}
+}
+echo "[ok]\r\n";
+unset($taglist);
+
+/*
+  fid smallint(6) NOT NULL default '0',			# 版块id
+  tid int(11) NOT NULL default '0',			# tid
+  typeidsum int(11) unsigned NOT NULL default '0',	# 这个值是一个“和”
+  */
+$taglist = $olddb->sql_find("SELECT * FROM {$tablepre}thread_type_data");
+if($taglist) {
+	foreach ($taglist as $tag) {
+		$arr = array(
+			'tagid'=>$tag['fid'],
+			'tid'=>$tag['typeid'],
+		);
+		$sqladd = db_array_to_insert_sqladd($arr);
+		$r = $db->exec("INSERT INTO tag_thread $sqladd");
+		echo ".";
+	}
+}
+echo "[ok]\r\n";
+unset($taglist);
+
+
+
 // 站点介绍
 /*$arr = $olddb->sql_find_one("SELECT * FROM kv WHERE k='sitebrief'");
 $sitebrief = $arr['v'];
