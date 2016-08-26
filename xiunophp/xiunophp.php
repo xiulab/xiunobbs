@@ -48,6 +48,7 @@ include XIUNOPHP_PATH.'cache_memcached.class.php';
 include XIUNOPHP_PATH.'cache_mysql.class.php';
 include XIUNOPHP_PATH.'cache_redis.class.php';
 include XIUNOPHP_PATH.'cache_xcache.class.php';
+include XIUNOPHP_PATH.'cache_yac.class.php';
 
 // ----------------------------------------------------------> 全局函数
 

@@ -8,9 +8,9 @@ function cache_new($cacheconf) {
 			case 'redis': 	  $cache = new cache_redis($cacheconf['redis']); 	     break;
 			case 'memcached': $cache = new cache_memcached($cacheconf['memcached']); break;
 			case 'mysql': 	  $cache = new cache_mysql($cacheconf['mysql']); break;
-			case 'xcache': 	  $cache = new cache_xcache(); 	break;
-			case 'apc': 	  $cache = new cache_apc(); 	break;
-			case 'yac': 	  $cache = new cache_yac(); 	break;
+			case 'xcache': 	  $cache = new cache_xcache($cacheconf['xcache']); 	break;
+			case 'apc': 	  $cache = new cache_apc($cacheconf['apc']); 	break;
+			case 'yac': 	  $cache = new cache_yac($cacheconf['yac']); 	break;
 			default: return xn_error(-1, '不支持的 cache type:'.$conf['cache']['type']);
 		}
 		return $cache;

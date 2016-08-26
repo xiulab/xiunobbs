@@ -3,7 +3,7 @@
 class cache_yac {
 	public $yac = NULL;
 	public $cachepre = '';
-        public function __construct() {
+        public function __construct($conf = array()) {
                 if(!class_exists('Yac')) {
                         return xn_error(1, 'yac 扩展没有加载，请检查您的 PHP 版本');
                 }
@@ -17,7 +17,9 @@ class cache_yac {
         }
         // 取不到数据的时候返回 NULL，不是 FALSE
         public function get($k) {
-                return $this->yac->get($k);
+                $r = $this->yac->get($k);
+                if($r === FALSE) $r = NULL;
+                return $r;
         }
         public function delete($k) {
                 return $this->yac->delete($k);

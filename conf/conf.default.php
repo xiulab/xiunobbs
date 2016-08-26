@@ -52,6 +52,12 @@ return array (
 		'xcache' => array (
 			'cachepre' => 'bbs_',
 		),
+		'yac' => array (
+			'cachepre' => 'bbs_',
+		),
+		'apc' => array (
+			'cachepre' => 'bbs_',
+		),
 		'mysql' => array (
 			'cachepre' => 'bbs_',
 		),
