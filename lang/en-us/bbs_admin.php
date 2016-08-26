@@ -90,7 +90,7 @@ return array(
 	'moderator'=>'Moderator',
 	'add_new_line'=>'New Line',
 	'forum_edit_tip'=>'Please carefully edit the section, once determined, do not easily change, or may lead to data related errors, generally do not change in the formal operation.',
-	'forum_cant_delete_system_reserved'=>'Please carefully edit the section, once determined, do not easily change, or may lead to data related errors, generally do not change in the formal operation.',
+	'forum_cant_delete_system_reserved'=>'Cannot delete system reserved section.',
 	'forum_moduid_format_tips'=>'Up to 10, comma separated, such as: 123456789',
 	'user_privilege'=>'User Privilege',
 	'allow_view'=>'Allow view',
