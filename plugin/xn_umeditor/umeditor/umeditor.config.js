@@ -246,10 +246,10 @@
 
         //autoFloatEnabled
         //是否保持toolbar的位置不动,默认true
-        ,autoFloatEnabled:false
+        ,autoFloatEnabled:true
 
         //浮动时工具栏距离浏览器顶部的高度，用于某些具有固定头部的页面
-        //,topOffset:40
+        ,topOffset:41
 
         //填写过滤规则
         //,filterRules: {}
