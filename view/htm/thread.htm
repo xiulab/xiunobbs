@@ -224,7 +224,7 @@ jform.on('submit', function() {
 });
 
 // 删除帖子
-$('.postlist').on('click', '.post_delete', function() {
+$('body').on('click', '.post_delete', function() {
 	var jthis = $(this);
 	var href = jthis.data('href');
 	var isfirst = jthis.attr('isfirst');
