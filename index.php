@@ -20,7 +20,7 @@ define('APP_PATH', dirname(__FILE__).'/'); // __DIR__
 
 // !ini_get('zlib.output_compression') AND ob_start('ob_gzhandler');
 
-ob_start('ob_gzhandler');
+//ob_start('ob_gzhandler');
 $conf = (@include APP_PATH.'conf/conf.php') OR exit(header('Location: install/'));
 
 // 转换为绝对路径，防止被包含时出错。
