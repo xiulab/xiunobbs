@@ -37,10 +37,10 @@ a:hover {color: #0000ff;}
 	word-break: break-all;
 	margin-bottom: 0.2rem;
 }
-dl.row > dt.td-avatar, .td-avatar { width: 3.5rem;}
+dl.row > dt.td-avatar, .table .td-avatar { width: 3.0rem; padding: 0.3rem;}
 .avatar-xs { width: 1.3rem; height: 1.3rem; border-radius: 1.3rem;}
 .avatar-sm { width: 1.6rem; height: 1.6rem; border-radius: 1.6rem;}
-.avatar { width: 2.8rem; height: 2.8rem;  border-radius: 2.8rem;}
+.avatar { width: 2.4rem; height: 2.4rem;  border-radius: 2.4rem;}
 .avatar-lg { width: 6rem; height: 6rem; border-radius: 6rem;}
 
 /* bootstrap 4 默认间距太大，缩小一些 */
@@ -56,7 +56,7 @@ dl.row > dt.td-avatar, .td-avatar { width: 3.5rem;}
 .logo-xs {width: 1.3rem; height: 1.3rem; }
 .logo-sm {width: 2.0rem; height: 2.0rem; margin-top: 2px;}
 
-.table td {padding-top: 0.6rem; padding-bottom: 0.6rem;}
+.table td {padding-top: 0.5rem; padding-bottom: 0.5rem;}
 .table td.td-checkbox {width: 0.5rem; padding: 0.2rem;}
 .icon-2x { font-size: 1.5em; }
 
