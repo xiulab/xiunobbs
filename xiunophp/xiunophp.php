@@ -53,7 +53,6 @@ include XIUNOPHP_PATH.'cache_xcache.class.php';
 
 include XIUNOPHP_PATH.'db.func.php';
 include XIUNOPHP_PATH.'cache.func.php';
-include XIUNOPHP_PATH.'form.func.php';
 include XIUNOPHP_PATH.'image.func.php';
 include XIUNOPHP_PATH.'array.func.php';
 include XIUNOPHP_PATH.'xn_encrypt.func.php';

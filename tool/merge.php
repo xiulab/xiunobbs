@@ -16,7 +16,6 @@ $s .= php_strip_whitespace($dir.'cache_xcache.class.php');
 
 $s .= php_strip_whitespace($dir.'db.func.php');
 $s .= php_strip_whitespace($dir.'cache.func.php');
-$s .= php_strip_whitespace($dir.'form.func.php');
 $s .= php_strip_whitespace($dir.'image.func.php');
 $s .= php_strip_whitespace($dir.'array.func.php');
 $s .= php_strip_whitespace($dir.'xn_encrypt.func.php');
