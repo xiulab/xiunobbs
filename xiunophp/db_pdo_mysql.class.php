@@ -3,6 +3,7 @@
 class db_pdo_mysql {
 	
 	public $conf = array(); // 配置，可以支持主从
+	public $rconf = array(); // 选择的从配置
 	public $wlink = NULL;  // 写连接
 	public $rlink = NULL;  // 读连接
 	public $link = NULL;   // 最后一次使用的连接
@@ -10,6 +11,7 @@ class db_pdo_mysql {
 	public $errstr = '';
 	public $sqls = array();
 	public $tablepre = '';
+	public $innodb_first = TRUE;// 优先 InnoDB
 	
 	public function __construct($conf) {
 		$this->conf = $conf;
@@ -37,9 +39,11 @@ class db_pdo_mysql {
 		if(empty($this->conf['slaves'])) {
 			if(!$this->wlink) $this->wlink = $this->connect_master();
 			$this->rlink = $this->wlink;
+			$this->rconf = $this->conf['master'];
 		} else {
 			$n = array_rand($this->conf['slaves']);
 			$conf = $this->conf['slaves'][$n];
+			$this->rconf = $conf;
 			$this->rlink = $this->real_connect($conf['host'], $conf['user'], $conf['password'], $conf['name'], $conf['charset'], $conf['engine']);
 		}
 		return $this->rlink;
@@ -120,6 +124,9 @@ class db_pdo_mysql {
 		if(!$this->wlink && !$this->connect_master()) return FALSE;
 		$link = $this->link = $this->wlink;
 		try {
+			if(strtoupper(substr($sql, 0, 12) == 'CREATE TABLE')) {
+				$this->innodb_first AND $this->is_support_innodb() AND $sql = str_ireplace('MyISAM', 'InnoDB', $sql);
+			}
 			$n = $link->exec($sql); // 返回受到影响的行，插入的 id ?
 		} catch (Exception $e) {  
 			$this->error($e->getCode(), $e->getMessage());
@@ -143,8 +150,13 @@ class db_pdo_mysql {
 	// SELECT TABLE_ROWS FROM information_schema.tables WHERE TABLE_SCHEMA = '$table' AND TABLE_NAME = '$table';
 	// SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '$table';
 	public function count($table, $cond = array()) {
-		$cond = db_cond_to_sqladd($cond);
-		$sql = "SELECT COUNT(*) AS num FROM `$table` $cond";
+		if(empty($conf) && $this->rconf['engine'] == 'innodb') {
+			$dbname = $this->rconf['name'];
+			$sql = "SELECT TABLE_ROWS as num FROM information_schema.tables WHERE TABLE_SCHEMA='$dbname' AND TABLE_NAME='$table'";
+		} else {
+			$cond = db_cond_to_sqladd($cond);
+			$sql = "SELECT COUNT(*) AS num FROM `$table` $cond";
+		}
 		$arr = $this->sql_find_one($sql);
 		return !empty($arr) ? intval($arr['num']) : $arr;
 	}
@@ -232,6 +244,13 @@ class db_pdo_mysql {
 		$this->errstr = $errstr ? $errstr : (isset($error[2]) ? $error[2] : '');
 		//DEBUG AND trigger_error('Database Error:'.$this->errstr);
 	}
+	
+	public function is_support_innodb() {
+		$arrlist = $this->sql_find('SHOW ENGINES');
+		$arrlist2 = arrlist_key_values($arrlist, 'Engine', 'Support');
+		return isset($arrlist2['InnoDB']) AND $arrlist2['InnoDB'] == 'YES';
+	}
+
 	
 	public function __destruct() {
 		if($this->wlink) $this->wlink = NULL;

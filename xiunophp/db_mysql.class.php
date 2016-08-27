@@ -10,6 +10,7 @@ class db_mysql {
 	public $errstr = '';
 	public $sqls = array();
 	public $tablepre = '';
+	public $innodb_first = TRUE;// 优先 InnoDB
 	
 	public function __construct($conf) {
 		$this->conf = $conf;
@@ -106,6 +107,9 @@ class db_mysql {
 			if(!$this->wlink && !$this->connect_master()) return FALSE;
 			$link = $this->link = $this->wlink;
 		}
+		if(strtoupper(substr($sql, 0, 12) == 'CREATE TABLE')) {
+			$this->innodb_first AND $this->is_support_innodb() AND $sql = str_ireplace('MyISAM', 'InnoDB', $sql);
+		}
 		$query = mysql_query($sql, $this->wlink);
 		if(count($this->sqls) < 1000) $this->sqls[] = $sql;
 		
@@ -125,11 +129,15 @@ class db_mysql {
 	
 	// 如果为 innodb，条件为空，并且有权限读取 information_schema
 	public function count($table, $cond = array()) {
-		$cond = db_cond_to_sqladd($cond);
-		$sql = "SELECT COUNT(*) AS num FROM `$table` $cond";
+		if(empty($conf) && $this->rconf['engine'] == 'innodb') {
+			$dbname = $this->rconf['name'];
+			$sql = "SELECT TABLE_ROWS as num FROM information_schema.tables WHERE TABLE_SCHEMA='$dbname' AND TABLE_NAME='$table'";
+		} else {
+			$cond = db_cond_to_sqladd($cond);
+			$sql = "SELECT COUNT(*) AS num FROM `$table` $cond";
+		}
 		$arr = $this->sql_find_one($sql);
 		return !empty($arr) ? intval($arr['num']) : $arr;
-		// SELECT TABLE_ROWS FROM information_schema.TABLES WHERE TABLE_SCHEMA='dbname' AND TABLE_NAME='tablename';
 	}
 	
 	public function maxid($table, $field, $cond = array()) {

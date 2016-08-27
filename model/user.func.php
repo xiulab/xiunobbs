@@ -93,8 +93,8 @@ function user_read_cache($uid) {
 }
 
 function user_delete($uid) {
-	// hook model_user_delete_start.php
 	global $conf;
+	// hook model_user_delete_start.php
 	// 清理用户资源
 	$threadlist = mythread_find_by_uid($uid, 1, 1000);
 	foreach($threadlist as $thread) {
