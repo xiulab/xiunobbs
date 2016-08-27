@@ -7,6 +7,4 @@
 
 !defined('DEBUG') AND exit('Forbidden');
 
- setting_delete('xn_ad_setting');
-
 ?>
