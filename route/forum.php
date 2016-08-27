@@ -12,6 +12,8 @@ empty($forum) AND message(3, lang('forum_not_exists'));
 forum_access_user($fid, $gid, 'allowread') OR message(-1, lang('insufficient_visit_forum_privilege'));
 $pagesize = $conf['pagesize'];
 
+// hook forum_top_list_before.php
+
 $toplist = thread_top_find($fid);
 
 // 从默认的地方读取主题列表

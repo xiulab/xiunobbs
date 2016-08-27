@@ -47,12 +47,10 @@ function kv_cache_delete($k) {
 
 
 // ------------> kv + cache + setting
-$g_setting = array();
+$g_setting = FALSE;
 function setting_get($k) {
 	global $g_setting;
-	if($g_setting === FALSE) {
-		$g_setting = kv_cache_get('setting', $g_setting);
-	}
+	$g_setting === FALSE AND $g_setting = kv_cache_get('setting', $g_setting);
 	empty($g_setting) AND $g_setting = array();
 	return array_value($g_setting, $k, NULL);
 }
@@ -60,14 +58,17 @@ function setting_get($k) {
 // 全站的设置，全局变量 $g_setting = array();
 function setting_set($k, $v) {
 	global $g_setting;
+	$g_setting === FALSE AND $g_setting = kv_cache_get('setting', $g_setting);
+	empty($g_setting) AND $g_setting = array();
 	$g_setting[$k] = $v;
 	return kv_cache_set('setting', $g_setting);
 }
 
 function setting_delete($k) {
 	global $g_setting;
-	if(empty($g_setting)) return TRUE;
-	unset($g_setting[$k]);
+	$g_setting === FALSE AND $g_setting = kv_cache_get('setting', $g_setting);
+	empty($g_setting) AND $g_setting = array();
+	if(isset($g_setting[$k])) unset($g_setting[$k]);
 	kv_cache_set('setting', $g_setting);
 	return TRUE;
 }

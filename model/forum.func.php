@@ -137,7 +137,6 @@ function forum_list_cache() {
 		$forumlist = forum_find();
 		cache_set('forumlist', $forumlist, 60);
 	}
-	
 	// hook model_forum_list_cache_end.php
 	return $forumlist;
 }

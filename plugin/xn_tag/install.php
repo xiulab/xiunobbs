@@ -40,6 +40,14 @@ $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}tag_thread (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8";
 $r = db_exec($sql);
 
+// 缓存 tagid 10000,10000,10000,10000
+$sql = "ALTER TABLE {$tablepre}thread ADD COLUMN tagids char(32) NOT NULL DEFAULT ''";
+$r = db_exec($sql);
+
+// 缓存的时间，用来和 setting('tag_update_time') 对比
+$sql = "ALTER TABLE {$tablepre}thread ADD COLUMN tagids_time int(11) unsigned NOT NULL DEFAULT '0'";
+$r = db_exec($sql);
+
 
 $r === FALSE AND message(-1, '创建表结构失败');
 

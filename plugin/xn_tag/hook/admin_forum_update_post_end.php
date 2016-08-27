@@ -8,6 +8,7 @@
 		$cate_id_arr = array_keys($cate_name_arr);
 		$cate_id_arr_old = arrlist_values($tagcatelist, 'cateid');
 		
+		$update = FALSE;
 		// 新增 + 更新 / new + update
 		foreach($cate_id_arr as $k) {
 			$arr = array(
@@ -23,11 +24,13 @@
 				if(!$arr['name']) continue;
 				tag_cate_create($arr);
 			}
+			$update = TRUE;
 		}
 		// 删除 / delete
 		$cate_id_delete = array_diff($cate_id_arr_old, $cate_id_arr);
 		foreach($cate_id_delete as $k) {
 			tag_cate_delete($k);
+			$update = TRUE;
 		}
 		
 		// tag
@@ -53,10 +56,14 @@
 				if(!$arr['name']) continue;
 				tag_create($arr);
 			}
+			$update = TRUE;
 		}
 		$tag_id_delete = array_diff($tag_id_arr_old, $tag_id_arr);
 		foreach($tag_id_delete as $k) {
 			tag_delete($k);
+			$update = TRUE;
 		}
+		
+		$update AND setting_set('tag_update_time', $time);
 		
 ?>
