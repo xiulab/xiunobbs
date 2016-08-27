@@ -9,7 +9,7 @@
 $sid = sess_start();
 
 // 语言 / Language
-$lang = include(APP_PATH."lang/$conf[lang]/bbs.php");
+$lang = include _include(APP_PATH."lang/$conf[lang]/bbs.php");
 
 // 支持 Token 接口（token 与 session 双重登陆机制，方便 REST 接口设计，也方便 $_SESSION 使用）
 // Support Token interface (token and session dual landing mechanism, to facilitate the design of the REST interface, but also to facilitate the use of $_SESSION)
@@ -40,9 +40,6 @@ $header = array(
 
 // 运行时数据，存放于 cache_set() / runteime data
 $runtime = runtime_init();
-
-// 默认为 NULL，全局设置，存放于 kv_cache_set()
-$setting = FALSE;
 
 // 检测站点运行级别 / restricted access
 check_runlevel();

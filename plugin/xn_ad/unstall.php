@@ -7,6 +7,6 @@
 
 !defined('DEBUG') AND exit('Forbidden');
 
- kv_delete('xn_ad_setting');
+ setting_delete('xn_ad_setting');
 
 ?>

@@ -7,7 +7,7 @@
 
 !defined('DEBUG') AND exit('Access Denied.');
 
-$setting = kv_get('xn_ad_setting');
+$setting = setting_get('xn_ad_setting');
 
 if($method == 'GET') {
 	
@@ -22,7 +22,7 @@ if($method == 'GET') {
 	$setting['body_start'] = param('body_start', '', FALSE);
 	$setting['body_end'] = param('body_end', '', FALSE);
 	
-	kv_set('xn_ad_setting', $setting);
+	setting_set('xn_ad_setting', $setting);
 	
 	message(0, '修改成功');
 }

@@ -123,11 +123,13 @@ class db_mysql {
 		return $query;
 	}
 	
+	// 如果为 innodb，条件为空，并且有权限读取 information_schema
 	public function count($table, $cond = array()) {
 		$cond = db_cond_to_sqladd($cond);
 		$sql = "SELECT COUNT(*) AS num FROM `$table` $cond";
 		$arr = $this->sql_find_one($sql);
 		return !empty($arr) ? intval($arr['num']) : $arr;
+		// SELECT TABLE_ROWS FROM information_schema.TABLES WHERE TABLE_SCHEMA='dbname' AND TABLE_NAME='tablename';
 	}
 	
 	public function maxid($table, $field, $cond = array()) {
