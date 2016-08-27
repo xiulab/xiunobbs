@@ -94,7 +94,7 @@ function _include($srcfile) {
 	$tmpfile = $conf['tmp_path'].substr(str_replace('/', '_', $srcfile), $len);
 	if(!is_file($tmpfile) || DEBUG) {
 		// 开始编译
-		$s = plugin_complie_srcfile($srcfile);
+		$s = plugin_compile_srcfile($srcfile);
 		file_put_contents_try($tmpfile, $s);
 	}
 	return $tmpfile;

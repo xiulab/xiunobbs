@@ -344,13 +344,13 @@ function plugin_paths_enabled() {
 }
 
 // 编译源文件，把插件合并到该文件，不需要递归，执行的过程中 include _include() 自动会递归。
-function plugin_complie_srcfile($srcfile) {
+function plugin_compile_srcfile($srcfile) {
 	// 如果有 overwrite，则用 overwrite 替换掉
 	$srcfile = plugin_find_overwrite($srcfile);
 	$s = file_get_contents($srcfile);
 	
 	$s = preg_replace('#<!--{hook\s+(.*?)}-->#', '// hook \\1', $s);
-	$s = preg_replace_callback('#//\s*hook\s+(\S+)#is', 'plugin_complie_srcfile_callback', $s);
+	$s = preg_replace_callback('#//\s*hook\s+(\S+)#is', 'plugin_compile_srcfile_callback', $s);
 	return $s;
 }
 
@@ -381,7 +381,7 @@ function plugin_find_overwrite($srcfile) {
 	return $returnfile;
 }
 
-function plugin_complie_srcfile_callback($m) {
+function plugin_compile_srcfile_callback($m) {
 	static $hooks;
 	if(empty($hooks)) {
 		$hooks = array();
