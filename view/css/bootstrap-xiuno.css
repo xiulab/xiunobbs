@@ -114,7 +114,8 @@ nav.bg-inverse .dropdown-item:hover {
 	background-color: #575a5c;
 	color: rgba(255, 255, 255, 1);
 }
-.navbar {padding-top: 0.2rem; padding-bottom: 0.2rem;}
+.navbar {padding-top: 0.3rem; padding-bottom: 0.3rem;}
+.navbar-nav .nav-link {padding-top: 0.3rem; padding-bottom: 0.3rem; line-height: 1.7rem;}
 
 /* checkbox 太灰 */
 .c-checkbox .c-indicator, .c-radio .c-indicator {border: 1px solid #bbb;}
