@@ -1,5 +1,7 @@
 <?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
 
+<!--{hook user_profile_start.htm}-->
+
 <div class="row">
 	<div class="col-lg-8 offset-lg-2">
 		<div class="card card-block m-t-1">
@@ -31,6 +33,7 @@
 						<dt class="text-muted"><?php echo lang('last_login_date');?>：</dt>
 						<dd class="text-right"><?php echo $_user['login_date_fmt'];?></dd>
 					</dl>
+					<!--{hook user_profile_login_date_after.htm}-->
 				</div>
 				<div class="col-xs-12  col-sm-6 m-b-1 p-l-2 p-r-2">
 					<dl class="row m-b-1">
@@ -41,8 +44,12 @@
 						<dt class="text-muted"><?php echo lang('posts');?>：</dt>
 						<dd class="text-right"><?php echo $_user['posts'];?></dd>
 					</dl>
+					<!--{hook user_profile_posts_after.htm}-->
 				</div>
 			</div>
+			
+			<!--{hook user_profile_my_thread_before.htm}-->
+			
 			<h4 class="card-title"><?php echo lang('user_joined_thread');?> (<?php echo $_user['threads'];?>)</h4>
  			<table class="table table-hover threadlist">
 				<tbody>
@@ -52,6 +59,8 @@
 		</div>
 		<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>
 		　　
+		<!--{hook user_profile_page_after.htm}-->
+
 		<?php if(!empty($group['allowdeleteuser'])) { ?>
 		<a role="button" class="btn btn-danger confirm btn-block" data-confirm-text="<?php echo lang('confirm_delete_user');?>" data-method="post" href="<?php echo url("mod-deleteuser-$_user[uid]");?>"><?php echo lang('delete_user');?></a>
 		<?php } ?>
@@ -62,8 +71,8 @@
 	</div>
 </div>
 
+<!--{hook user_profile_end.htm}-->
+
 <?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
 
-<script>
-
-</script>
+<!--{hook user_profile_js.htm}-->

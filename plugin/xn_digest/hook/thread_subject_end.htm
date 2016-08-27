@@ -1,0 +1,10 @@
+
+<?php if($thread['digest'] > 0) { ?>
+	<?php if($thread['digest'] == 1) { ?>
+		<i class="icon-diamond text-info" aria-hidden="true" title="<?php echo lang('digest_1');?>"></i>
+	<?php } elseif($thread['digest'] == 2) { ?>
+		<i class="icon-diamond text-warning" aria-hidden="true" title="<?php echo lang('digest_2');?>"></i>
+	<?php } elseif($thread['digest'] == 3) { ?>
+		<i class="icon-diamond text-danger" aria-hidden="true" title="<?php echo lang('digest_3');?>"></i>
+	<?php } ?>
+<?php } ?>

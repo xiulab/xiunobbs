@@ -340,6 +340,19 @@ unset($linklist);
 
 // 主题分类
 
+$thread_type_map = array (
+	1 => array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40),
+	2 => array(41, 82, 123, 164, 205, 246, 287, 328, 369, 410, 451, 492, 533, 574, 615, 656, 697, 738, 779, 820, 861, 902, 943, 984, 1025, 1066, 1107, 1148, 1189, 1230, 1271, 1312, 1353, 1394, 1435, 1476, 1517, 1558, 1599, 1640),
+	3 => array(1681, 3362, 5043, 6724, 8405, 10086, 11767, 13448, 15129, 16810, 18491, 20172, 21853, 23534, 25215, 26896, 28577, 30258, 31939, 33620, 35301, 36982, 38663, 40344, 42025, 43706, 45387, 47068, 48749, 50430, 52111, 53792, 55473, 57154, 58835, 60516, 62197, 63878, 65559, 67240),
+	4 => array(136161, 205082, 274003, 342924, 411845, 480766, 549687, 618608, 687529, 756450, 825371, 894292, 963213, 1032134, 1101055, 1169976, 1238897, 1307818, 1376739, 1445660, 1514581, 1583502, 1652423, 1721344, 1790265, 1859186, 1928107, 1997028, 2065949, 2134870, 2203791, 2272712, 2341633, 2410554, 2479475, 2548396, 2617317, 2686238, 2755159, 2824080),
+);
+$thread_type_map2 = array_merge($thread_type_map[1],$thread_type_map[2],$thread_type_map[3],$thread_type_map[4]);
+$thread_type_map3 = array();
+foreach($thread_type_map as $cateid=>$arr) {
+	foreach ($arr as $v) {
+		$thread_type_map3[$v] = $cateid;
+	}
+}
 
 $tablepre = $db->tablepre;
 $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}tag_cate (
@@ -370,12 +383,17 @@ $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}tag_thread (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8";
 $r = db_exec($sql);
 
+$cateid_map = array();
+$maxcateid = 0;
+$tagid_map = array();
+$maxtagid = 0;
 $tagcatelist = $olddb->sql_find("SELECT * FROM {$tablepre}thread_type_cate");
 if($tagcatelist) {
 	foreach ($tagcatelist as $tagcate) {
+		$cateid_map["$tagcate[fid]-$tagcate[cateid]"] = ++$maxcateid;
 		$arr = array(
 			'fid'=>$tagcate['fid'],
-			'cateid'=>$tagcate['cateid'],
+			'cateid'=>$maxcateid,
 			'name'=>$tagcate['catename'],
 			'rank'=>$tagcate['rank'],
 			'enable'=>$tagcate['enable'],
@@ -391,9 +409,10 @@ unset($tagcatelist);
 $taglist = $olddb->sql_find("SELECT * FROM {$tablepre}tag");
 if($taglist) {
 	foreach ($taglist as $tag) {
+		$tagid_map["$tag[fid]-$tag[typeid]"] = ++$maxtagid;
 		$arr = array(
 			'fid'=>$tag['fid'],
-			'tagid'=>$tag['typeid'],
+			'tagid'=>$maxtagid,
 			'name'=>$tag['typename'],
 			'rank'=>$tag['rank'],
 			'enable'=>$tag['enable'],
@@ -411,12 +430,14 @@ unset($taglist);
   tid int(11) NOT NULL default '0',			# tid
   typeidsum int(11) unsigned NOT NULL default '0',	# 这个值是一个“和”
   */
-$taglist = $olddb->sql_find("SELECT * FROM {$tablepre}thread_type_data");
-if($taglist) {
-	foreach ($taglist as $tag) {
+$tagdatalist = $olddb->sql_find("SELECT * FROM {$tablepre}thread_type_data");
+if($tagdatalist) {
+	foreach($tagdatalist as $tagdata) {
+		if(!isset($thread_type_map3[$tagdata['typeidsum']])) continue;
+		$tagid = $tagid_map["$tagdata[fid]-$tagdata[typeid]"];
 		$arr = array(
-			'tagid'=>$tag['fid'],
-			'tid'=>$tag['typeid'],
+			'tagid'=>$tagid,
+			'tid'=>$tagdata['tid'],
 		);
 		$sqladd = db_array_to_insert_sqladd($arr);
 		$r = $db->exec("INSERT INTO tag_thread $sqladd");
@@ -424,8 +445,7 @@ if($taglist) {
 	}
 }
 echo "[ok]\r\n";
-unset($taglist);
-
+unset($tagdatalist);
 
 
 // 站点介绍

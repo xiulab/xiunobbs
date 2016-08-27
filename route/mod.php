@@ -8,11 +8,11 @@ $action = param(1);
 
 ($method != 'POST') AND message(-1, 'Method Error');
 
-// mod_start.php
+// hook mod_start.php
 
 if($action == 'top') {
 
-	// mod_top_start.php
+	// hook mod_top_start.php
 	
 	$tids = param(2);
 	$arr = explode('_', $tids);
@@ -42,13 +42,13 @@ if($action == 'top') {
 		}
 	}
 	
-	// mod_top_end.php
+	// hook mod_top_end.php
 	
 	message(0, lang('set_completely'));
 	
 } elseif($action == 'delete') {
 
-	// mod_delete_start.php
+	// hook mod_delete_start.php
 	
 	$tids = param(2);
 	$arr = explode('_', $tids);
@@ -75,13 +75,13 @@ if($action == 'top') {
 		}
 	}
 	
-	// mod_delete_end.php
+	// hook mod_delete_end.php
 	
 	message(0, lang('delete_completely'));
 	
 } elseif($action == 'move') {
 
-	// mod_move_start.php
+	// hook mod_move_start.php
 	
 	$tids = param(2);
 	$newfid = param(3);
@@ -111,7 +111,7 @@ if($action == 'top') {
 		}
 	}
 	
-	// mod_move_end.php
+	// hook mod_move_end.php
 	
 	message(0, lang('move_completely'));
 	
@@ -138,6 +138,6 @@ if($action == 'top') {
 	message(0, lang('delete_successfully'));
 }
 
-// mod_end.php
+// hook mod_end.php
 
 ?>
