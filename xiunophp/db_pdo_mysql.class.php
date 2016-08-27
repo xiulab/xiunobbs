@@ -154,7 +154,7 @@ class db_pdo_mysql {
 	// SELECT TABLE_ROWS FROM information_schema.tables WHERE TABLE_SCHEMA = '$table' AND TABLE_NAME = '$table';
 	// SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '$table';
 	public function count($table, $cond = array()) {
-		if(empty($conf) && $this->rconf['engine'] == 'innodb') {
+		if(empty($cond) && $this->rconf['engine'] == 'innodb') {
 			$dbname = $this->rconf['name'];
 			$sql = "SELECT TABLE_ROWS as num FROM information_schema.tables WHERE TABLE_SCHEMA='$dbname' AND TABLE_NAME='$table'";
 		} else {
