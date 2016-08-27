@@ -4,7 +4,7 @@ $('.mod-button button.digest').on('click', function() {
 	var modtid = $('input[name="modtid"]').checked();
 	if(modtid.length == 0) return $.alert(lang.please_choose_thread);
 	var radios = xn.form_radio('digest', {"0": "<?php echo lang('digest_0');?>", "1": "<?php echo lang('digest_1');?>","2": "<?php echo lang('digest_2');?>", "3": "<?php echo lang('digest_3');?>"});
-	$.confirm("<?php echo lang('digest_thread');?>", function() {
+	$.confirm("<?php echo lang('set_digest_thread');?>", function() {
 		var tids = xn.implode('_', modtid);
 		var digest = $('input[name="digest"]').checked();
 		var postdata = {digest: digest};
