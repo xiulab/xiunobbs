@@ -7,7 +7,7 @@
 
 !defined('DEBUG') AND exit('Forbidden');
 
-$setting = kv_get('xn_ad_setting');
+$setting = setting_get('xn_ad_setting');
 if(empty($setting)) {
 	$setting = array('body_start'=>'', 'body_end'=>'');
 	setting_set('xn_ad_setting', $setting);
