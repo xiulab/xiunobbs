@@ -13,7 +13,7 @@
 			<form action="<?php echo url('user-create');?>" method="post" id="form">
 				<p class="input-group">
 					<span class="input-group-addon"><i class="icon icon-envelope" aria-hidden="true"></i></span>
-					<input type="text" class="form-control" placeholder="<?php echo lang('email');?>" name="email" id="email">
+					<input type="email" class="form-control" placeholder="<?php echo lang('email');?>" name="email" id="email" required>
 				</p>
 				<!--{hook user_create_email_after.htm}-->
 				<p class="input-group">
