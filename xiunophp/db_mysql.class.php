@@ -94,10 +94,12 @@ class db_mysql {
 			if(!$this->rlink && !$this->connect_slave()) return FALSE;;
 			$link = $this->link = $this->rlink;
 		}
+		$t1 = microtime(1);
 		$query = mysql_query($sql, $link);
+		$t2 = microtime(1);
 		if($query === FALSE) $this->error();
 		
-		if(count($this->sqls) < 1000) $this->sqls[] = $sql;
+		if(count($this->sqls) < 1000) $this->sqls[] = substr($t2-$t1, 0, 6).' '.$sql;
 		
 		return $query;
 	}
@@ -110,8 +112,10 @@ class db_mysql {
 		if(strtoupper(substr($sql, 0, 12) == 'CREATE TABLE')) {
 			$this->innodb_first AND $this->is_support_innodb() AND $sql = str_ireplace('MyISAM', 'InnoDB', $sql);
 		}
+		$t1 = microtime(1);
 		$query = mysql_query($sql, $this->wlink);
-		if(count($this->sqls) < 1000) $this->sqls[] = $sql;
+		$t2 = microtime(1);
+		if(count($this->sqls) < 1000) $this->sqls[] = substr($t2-$t1, 0, 6).' '.$sql;
 		
 		if($query !== FALSE) {
 			$pre = strtoupper(substr(trim($sql), 0, 7));

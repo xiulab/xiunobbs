@@ -110,13 +110,15 @@ class db_pdo_mysql {
 		if(!$this->rlink && !$this->connect_slave()) return FALSE;
 		$link = $this->link = $this->rlink;
 		try {
+			$t1 = microtime(1);
 			$query = $link->query($sql);
+			$t2 = microtime(1);
 		} catch (Exception $e) {  
 			$this->error($e->getCode(), $e->getMessage());
 			return FALSE;
 	        }
 		if($query === FALSE) $this->error();
-		if(count($this->sqls) < 1000) $this->sqls[] = $sql;
+		if(count($this->sqls) < 1000) $this->sqls[] = substr($t2-$t1, 0, 6).' '.$sql;
 		return $query;
 	}
 	
@@ -127,12 +129,14 @@ class db_pdo_mysql {
 			if(strtoupper(substr($sql, 0, 12) == 'CREATE TABLE')) {
 				$this->innodb_first AND $this->is_support_innodb() AND $sql = str_ireplace('MyISAM', 'InnoDB', $sql);
 			}
+			$t1 = microtime(1);
 			$n = $link->exec($sql); // 返回受到影响的行，插入的 id ?
+			$t2 = microtime(1);
 		} catch (Exception $e) {  
 			$this->error($e->getCode(), $e->getMessage());
 			return FALSE;
 	        }
-		if(count($this->sqls) < 1000) $this->sqls[] = $sql;
+		if(count($this->sqls) < 1000) $this->sqls[] = substr($t2-$t1, 0, 6).' '.$sql;
 		
 		if($n !== FALSE) {
 			$pre = strtoupper(substr(trim($sql), 0, 7));
