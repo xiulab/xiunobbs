@@ -13,10 +13,12 @@
 						<dt class="text-muted"><?php echo lang('username');?>：</dt>
 						<dd class="text-right"><?php echo $_user['username'];?></dd>
 					</dl>
+					<?php if($group['allowviewip']) { ?>
 					<dl class="row m-b-1">
 						<dt class="text-muted"><?php echo lang('email');?>：</dt>
 						<dd class="text-right"><?php echo $_user['email'];?></dd>
 					</dl>
+					<?php  } ?>
 					<dl class="row m-b-1">
 						<dt class="text-muted"><?php echo lang('user_group');?>：</dt>
 						<dd class="text-right"><?php echo $_user['groupname'];?></dd>
