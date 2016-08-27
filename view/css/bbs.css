@@ -134,6 +134,7 @@ dl.row > dt.td-avatar, .table .td-avatar { width: 3.0rem; padding: 0.3rem;}
 .page a:hover, .page a.active{color: #E9E9E9;  background: #000;}
 */
 
+table.nav_tag_list {margin-bottom: 0.2rem;}
 table.nav_tag_list td {padding: 0.1rem;}
 table.nav_tag_list td a{margin-right: 0.5rem;}
 .nav_tag_list .active {font-weight: 800;}
