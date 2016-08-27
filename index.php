@@ -13,7 +13,7 @@
 //parse_str($postdata, $_POST);
 
 // 0: Production mode; 1: Developer mode; 2: Developer Plugin mode;
-!defined('DEBUG') AND define('DEBUG', 2);
+!defined('DEBUG') AND define('DEBUG', 0);
 define('APP_PATH', dirname(__FILE__).'/'); // __DIR__
 !defined('ADMIN_PATH') AND define('ADMIN_PATH', APP_PATH.'admin/');
 !defined('XIUNOPHP_PATH') AND define('XIUNOPHP_PATH', APP_PATH.'xiunophp/');
