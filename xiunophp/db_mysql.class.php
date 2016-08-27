@@ -3,6 +3,7 @@
 class db_mysql {
 	
 	public $conf = array(); // 配置，可以支持主从
+	public $rconf = array(); // 配置，可以支持主从
 	public $wlink = NULL;  // 写连接
 	public $rlink = NULL;  // 读连接
 	public $link = NULL;   // 最后一次使用的连接
@@ -38,9 +39,11 @@ class db_mysql {
 		if(empty($this->conf['slaves'])) {
 			if($this->wlink === NULL) $this->wlink = $this->connect_master();
 			$this->rlink = $this->wlink;
+			$this->rconf = $this->conf['master'];
 		} else {
 			$n = array_rand($this->conf['slaves']);
 			$conf = $this->conf['slaves'][$n];
+			$this->rconf = $conf;
 			$this->rlink = $this->real_connect($conf['host'], $conf['user'], $conf['password'], $conf['name'], $conf['charset'], $conf['engine']);
 		}
 		return $this->rlink;
