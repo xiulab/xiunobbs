@@ -18,6 +18,9 @@ $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}thread_digest (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
 db_exec($sql);
 
+$sql = "ALTER TABLE {$tablepre}forum ADD COLUMN digests tinyint(3) unsigned NOT NULL default '0';";
+db_exec($sql);
+
 $sql = "ALTER TABLE {$tablepre}thread ADD COLUMN digest tinyint(3) unsigned NOT NULL default '0';";
 db_exec($sql);
 

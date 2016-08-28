@@ -12,6 +12,7 @@ $page = param(1, 1);
 $order = $conf['order_default'];
 $order != 'tid' AND $order = 'lastpid';
 $pagesize = $conf['pagesize'];
+$active = 'default';
 
 $pagination = pagination(url("index-{page}"), $runtime['threads'], $page, $pagesize);
 

@@ -3,6 +3,7 @@
 $tagids = param(3);
 $tagid1 = $tagid2 = $tagid3 = $tagid4 = '';
 $threadlist_from_tag = 0;
+$find_sql = $count_sql = '';
 if($tagids) {
 	$thread_list_from_default = 0;
 	// 从 tagids 中查找合法的 tagid，不允许任意构造，尽量保证数据关联正确。
@@ -31,8 +32,6 @@ if($tagids) {
 	$n = count($tagidarr);
 	
 	$tidlist = array();
-	$count_sql = '';
-	$find_sql = '';
 	$tablepre = $db->tablepre;
 	if($n == 1) {
 		// 查找 tagid 属于哪个 cateid
@@ -64,7 +63,7 @@ if($tagids) {
 	}
 }
 
-if($thread_list_from_default == 0) {
+if($thread_list_from_default == 0 && $find_sql) {
 	
 	// 缓存结果集，不然查询太耗费资源。
 	// 针对大站缓存，小站就硬查。

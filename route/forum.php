@@ -6,6 +6,7 @@
 
 $fid = param(1, 0);
 $page = param(2, 1);
+$active = 'default';
 
 $forum = forum_read($fid);
 empty($forum) AND message(3, lang('forum_not_exists'));

@@ -168,21 +168,25 @@ function thread_read_cache($tid) {
 
 // 删除主题
 function thread_delete($tid) {
-	// hook model_thread_delete_start.php
 	global $conf;
 	$thread = thread__read($tid);
 	if(empty($thread)) return TRUE;
 	$fid = $thread['fid'];
 	$uid = $thread['uid'];
 	
-	$r = thread__delete($tid);
-	if($r === FALSE) return FALSE;
+	// hook model_thread_delete_start.php
 	
 	// 删除所有回帖，同时更新 posts 统计数
 	$n = post_delete_by_tid($tid);
 	
 	// 删除我的主题
 	$uid AND mythread_delete($uid, $tid);
+	
+	// 清除相关缓存
+	forum_list_cache_delete();
+	
+	$r = thread__delete($tid);
+	if($r === FALSE) return FALSE;
 	
 	// 更新统计
 	forum__update($fid, array('threads-'=>1));
@@ -191,10 +195,8 @@ function thread_delete($tid) {
 	// 全站统计
 	runtime_set('threads-', 1);
 	
-	// 清除相关缓存
-	forum_list_cache_delete();
-	
 	// hook model_thread_delete_end.php
+	
 	return $r;
 }
 

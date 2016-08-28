@@ -1,5 +1,9 @@
 <?php if($gid > 0 && $gid < 5) { ?>
 <div class="text-center">
+	<label class="m-r-1">
+		<input type="checkbox" data-target='input[name="modtid"]' class="checkall m-t-sm m-r-sm" value="" aria-label="<?php echo lang('checkall');?>" /><?php echo lang('checkall');?>
+	</label>
+	
 	<div class="btn-group mod-button" role="group" aria-label="">
 		<!--{hook thread_list_mod_delete_before.htm}-->
 		<button type="button" class="btn btn-secondary delete"><?php echo lang('delete');?></button>

@@ -15,38 +15,27 @@
 		</ol>
 		
 		<!--{hook forum_breadcrumb_after.htm}-->
-		<div class="card p-a-sm">
-			<table class="table table-hover threadlist">
-				<thead>
-					<tr>
-						<th colspan="3" class="p-a-0 p-b-sm">
-							<dl class="row">
-								<dt class="text-nowrap">
-									<?php if($gid > 0 && $gid < 5) { ?>
-									<input type="checkbox" data-target='input[name="modtid"]' class="checkall m-t-sm m-r-sm" value="" aria-label="<?php echo lang('checkall');?>" />
-									<?php } ?>
-									<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-										<button type="button" class="btn btn-secondary"><?php echo lang('new_thread');?></button>
-										<button type="button" class="btn btn-secondary">Middle</button>
-										<button type="button" class="btn btn-secondary">Right</button>
-									</div>
-
-									<!--{hook forum_title_left.htm}-->
-								</dt>
-								<dd>
-									<!--{hook forum_title_right.htm}-->
-								</dd>
-							</dl>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<!--{hook forum_threadlist_before.htm}-->
-					<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
-					<!--{hook forum_threadlist_after.htm}-->
-				</tbody>
-			</table>
+				
+		<div class="card">
+			<div class="card-header">
+				<ul class="nav nav-tabs card-header-tabs pull-xs-left">
+					<li class="nav-item">
+						<a class="nav-link <?php echo $active == 'default' ? 'active' : '';?>" href="<?php echo url("forum-$fid");?>"><?php echo lang('new_thread');?></a>
+					</li>
+					<!--{hook forum_thread_list_nav_item_after.htm}-->
+				</ul>
+			</div>
+			<div class="card-block">
+				<table class="table table-hover threadlist">
+					<tbody>
+						<!--{hook forum_threadlist_before.htm}-->
+						<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
+						<!--{hook forum_threadlist_after.htm}-->
+					</tbody>
+				</table>
+			</div>
 		</div>
+
 		<?php include _include(APP_PATH.'view/htm/thread_list_mod.inc.htm');?>
 		<!--{hook forum_page_before.htm}-->
 		<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>

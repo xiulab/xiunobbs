@@ -2,8 +2,6 @@
 
 if($action == 'digest') {
 	
-	include _include(APP_PATH.'plugin/xn_digest/model/thread_digest.func.php');
-	
 	$tids = param(2);
 	$arr = explode('_', $tids);
 	$tidarr = param_force($arr, array(0));
@@ -17,7 +15,7 @@ if($action == 'digest') {
 		$fid = $thread['fid'];
 		$tid = $thread['tid'];
 		if(forum_access_mod($fid, $gid, 'allowtop')) {
-			thread_digest_change($tid, $digest, $thread['uid']);
+			thread_digest_change($tid, $digest, $thread['uid'], $thread['fid']);
 			$arr = array(
 				'uid' => $uid,
 				'tid' => $thread['tid'],

@@ -1,7 +1,7 @@
 	'digest'=>'精華',
 	'digests'=>'精華數',
 	'set_digest_thread'=>'設置主題為精華',
-	'digest_thread'=>'主題精華',
+	'digest_thread'=>'精華主題',
 	'digest_level'=>'精華等級',
 	'digest_0'=>'取消精華',
 	'digest_1'=>'壹級精華',
