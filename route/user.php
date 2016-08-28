@@ -91,7 +91,7 @@ if($action == 'login') {
 		
 		if($conf['user_create_email_on']) {
 			$email != _SESSION('create_email') AND message('sendinitpw', lang('click_to_get_init_pw'));
-			$password != _SESSION('create_pw') AND message('password', lang('init_pw_incorrect'));
+			$password != md5(_SESSION('create_pw')) AND message('password', lang('init_pw_incorrect'));
 		}
 		
 		!is_email($email, $err) AND message('email', $err);
