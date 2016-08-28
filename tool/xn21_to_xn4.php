@@ -406,7 +406,7 @@ if($tagcatelist) {
 echo "[ok]\r\n";
 unset($tagcatelist);
 
-$taglist = $olddb->sql_find("SELECT * FROM {$tablepre}tag");
+$taglist = $olddb->sql_find("SELECT * FROM {$tablepre}tag ORDER BY fid ASC, typeid ASC");
 if($taglist) {
 	foreach ($taglist as $tag) {
 		$tagid_map["$tag[fid]-$tag[typeid]"] = ++$maxtagid;
@@ -433,8 +433,9 @@ unset($taglist);
 $tagdatalist = $olddb->sql_find("SELECT * FROM {$tablepre}thread_type_data");
 if($tagdatalist) {
 	foreach($tagdatalist as $tagdata) {
+		// 过滤掉加和的值，只升级单个的值。
 		if(!isset($thread_type_map3[$tagdata['typeidsum']])) continue;
-		$tagid = $tagid_map["$tagdata[fid]-$tagdata[typeid]"];
+		$tagid = $tagid_map["$tagdata[fid]-$tagdata[typeidsum]"];
 		$arr = array(
 			'tagid'=>$tagid,
 			'tid'=>$tagdata['tid'],
@@ -448,18 +449,54 @@ echo "[ok]\r\n";
 unset($tagdatalist);
 
 
+# 精华主题
+$sql = "CREATE TABLE IF NOT EXISTS {$tablepre}thread_digest (
+  fid smallint(6) NOT NULL default '0',			# 版块id
+  tid int(11) unsigned NOT NULL default '0',		# 主题id
+  digest tinyint(3) unsigned NOT NULL default '0',	# 精华等级
+  PRIMARY KEY (tid),					# 
+  UNIQUE KEY (fid, tid)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
+db_exec($sql);
+$sql = "ALTER TABLE {$tablepre}thread ADD COLUMN digest tinyint(3) unsigned NOT NULL default '0';";
+db_exec($sql);
+$sql = "ALTER TABLE {$tablepre}user ADD COLUMN digests tinyint(3) unsigned NOT NULL default '0';";
+db_exec($sql);
+echo "upgrade digest:\r\n";
+$digestlist = $olddb->sql_find("SELECT * FROM {$tablepre}thread_digest");
+$db->exec("TRUNCATE `{$tablepre}thread_digest`");
+foreach ($digestlist as $digest) {
+	$arr = array(
+		'fid'=>$digest['fid'],
+		'tid'=>$digest['tid'],
+		'digest'=>$digest['digest'],
+	);
+	$sqladd = db_array_to_insert_sqladd($arr);
+	$r = $db->exec("INSERT INTO `{$tablepre}thread_digest` $sqladd");
+	if($r === FALSE) echo($db->errstr);
+	echo ".";
+}
+echo "[ok]\r\n";
+unset($digestlist);
+
+
+
+
+
 // 站点介绍
-/*$arr = $olddb->sql_find_one("SELECT * FROM kv WHERE k='sitebrief'");
+/*
+$arr = $olddb->sql_find_one("SELECT * FROM kv WHERE k='sitebrief'");
 $sitebrief = $arr['v'];
-file_replace_var('./conf/conf.php', array('sitebrief'=>$sitebrief));*/
+file_replace_var('./conf/conf.php', array('sitebrief'=>$sitebrief));
+*/
 
 // 递归拷贝目录
 copy_recusive(XIUNO_BBS_2_PATH.'upload/avatar', "./upload/avatar");
 copy_recusive(XIUNO_BBS_2_PATH.'upload/forum', "./upload/forum");
 copy_recusive(XIUNO_BBS_2_PATH.'upload/attach', "./upload/attach");
 
-mkdir('./tmp/src', 0777);
+mkdir('./upload/tmp', 0777);
 
-echo '<a href="../">升级完成，点击进入论坛。</a>';
+echo '<a href="../">升级完成，请手工移动 old/upload/ 目录下所有文件到 upload/ 目录下，点击进入论坛。</a>';
 
 ?>

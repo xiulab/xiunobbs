@@ -14,7 +14,7 @@ $pagesize = $conf['pagesize'];
 
 // hook forum_top_list_before.php
 
-$toplist = thread_top_find($fid);
+$toplist = $page == 1 ? thread_top_find($fid) : array();
 
 // 从默认的地方读取主题列表
 $thread_list_from_default = 1;

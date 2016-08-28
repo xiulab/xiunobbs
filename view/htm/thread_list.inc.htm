@@ -3,7 +3,9 @@
 					<tr class="thread tap <?php echo $_thread['top_class'];?>" href="<?php echo url("thread-$_thread[tid]");?>">
 						<?php if(forum_access_mod($_thread['fid'], $gid, 'allowtop')) { ?>
 						<td class="td-checkbox">
-							<input type="checkbox" name="modtid" class="m-t-sm" value="<?php echo $_thread['tid']; ?>" aria-label="<?php echo $_thread['subject'];?>" />
+							<label style="width: 100%; height: 100%;">
+								<input type="checkbox" name="modtid" class="m-t-sm" value="<?php echo $_thread['tid']; ?>" aria-label="<?php echo $_thread['subject'];?>" />
+							</label>
 						</td>
 						<?php } ?>
 						<td class="td-avatar" aria-hidden="true">
