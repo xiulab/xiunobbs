@@ -1412,14 +1412,10 @@ class HTML_White {
 				//array_push($this->_stack, $tag);
 	               		if($tagname == 'embed' || $tagname == 'iframe') {
 	               			//  && strpos($value, '.swf') !== FALSE
-	               			$safearr = array('youku.com', '56.com', 'ku6.com', 'tudou.com', 'joy.cn', 'sina.com.cn', 'ifeng.com', 'qq.com', 'sohu.com', 'iqiyi.com', 'qiyi.com');
-	               			$arr = parse_url($value);
-	               			$hostarr = explode('.', $host);
-	               			if(count($hostarr) > 2) {
-	               				$hostarr = array_slice($hostarr, -2);
+	               			// 'http://player.youku.com/embed/'+matches[1];
+	               			if(!preg_match('#^http://player\.youku\.com/embed/[\w=]+$#i', $value)) {
+	               				$value = '';
 	               			}
-	               			$host = implode('.', $hostarr);
-	               			
 	               		}
 	               		$value = $ok ? $value : $v[1];
 	                // 白名单	                
@@ -1708,8 +1704,10 @@ function xn_html_safe($doc) {
 	return $result;
 }
 
-$s = '<div><p align="center"><iframe width="800" height="600" src="http://player.youku.com/player.php/sid/XMTY5NjYzMTI3Mg/v.swf" frameborder="0" allowfullscreen="1"></iframe></p></div>';
+/*
+$s = '<div><p align="center"><iframe width="800" height="600" src="http://player.yoduku.com/embed/XMTY5NjY0NTM5Mg==" frameborder="0" allowfullscreen="1"></iframe></p></div>';
 echo xn_html_safe($s);
+*/
 
 /*
 
