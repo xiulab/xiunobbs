@@ -122,16 +122,3 @@ nav.navbar .collapse, nav.navbar .collapse div.bg-inverse {
 
 
 
-
-/*  ul, dl 多列定义，用来模拟简单的表格布局，如果不考虑响应，比 pull-left pull-right 方便  */
-dl.row, ul.row { display: table; width: 100%; clear: both;}
-dl.row, dl.row > dt, dl.row > dd, ul.row, ul.row > li {margin: 0px; padding: 0px;}
-dl.row > dt, dl.row > dd, ul.row > li {display: table-cell; vertical-align: middle;}
-dl.row > dt, dl.row > dd, ul.row > li {list-style: none; min-height: 1.6rem;}
-dl.row > dt, dl.row > dd {width: auto; /* auto */}
-dl.row > dt {font-weight: normal}
-
-ul.row.vtop > li, ul.row > li.vtop {vertical-align: top;}
-dl.row.vtop > dt, dl.row.vtop > dd, dl.row > dt.vtop, dl.row > dd.vtop {vertical-align: top;}
-ul.row.vbottom > li, ul.row > li.vbottom {vertical-align: bottom;}
-dl.row.vbottom > dt, dl.row.vbottom > dd, dl.row > dt.vbottom, dl.row > dd.vbottom {vertical-align: bottom;}
