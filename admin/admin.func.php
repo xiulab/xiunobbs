@@ -1,9 +1,13 @@
 <?php
 
+// hook admin_func_start.php
+
 function admin_token_check() {
 	global $longip, $time, $useragent, $conf;
 	$useragent_md5 = md5($useragent);
 	$key = md5($longip.$useragent_md5.$conf['auth_key']);
+	
+	// hook admin_token_check_start.php
 	
 	$admin_token = param('bbs_admin_token');
 	if(empty($admin_token)) {
@@ -30,6 +34,7 @@ function admin_token_check() {
 			admin_token_set();
 		}
 	}
+	// hook admin_token_check_end.php
 }
 
 function admin_token_set() {
@@ -37,24 +42,33 @@ function admin_token_set() {
 	$useragent_md5 = md5($useragent);
 	$key = md5($longip.$useragent_md5.$conf['auth_key']);
 	
+	// hook admin_token_set_start.php
+	
 	$admin_token = param('bbs_admin_token');
 	$s = "$longip	$time";
 	
 	$admin_token = xn_encrypt($s, $key);
 	setcookie('bbs_admin_token', $admin_token, $time + 3600, '',  '', 0, TRUE);
+	
+	// hook admin_token_set_end.php
 }
 
 function admin_token_clean() {
 	global $time;
 	setcookie('bbs_admin_token', '', $time - 86400, '', '', 0, TRUE);
+	
+	// hook admin_token_clean_start.php
 }
 
 // bootstrap style
 function admin_tab_active($arr, $active) {
 	$s = '';
 	foreach ($arr as $k=>$v) {
-		$s .= '<a role="button" class="btn btn btn-secondary'.($active == $k ? ' active' : '').'" href="'.$v['url'].'">'.$v['text'].'</a>';
+		$s .= '<a role="button" class="btn btn-secondary'.($active == $k ? ' active' : '').'" href="'.$v['url'].'">'.$v['text'].'</a>';
 	}
 	return $s;
 }
+
+// hook admin_func_end.php
+
 ?>

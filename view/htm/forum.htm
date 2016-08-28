@@ -25,7 +25,12 @@
 									<?php if($gid > 0 && $gid < 5) { ?>
 									<input type="checkbox" data-target='input[name="modtid"]' class="checkall m-t-sm m-r-sm" value="" aria-label="<?php echo lang('checkall');?>" />
 									<?php } ?>
-									<b><?php echo lang('new_thread');?></b>
+									<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+										<button type="button" class="btn btn-secondary"><?php echo lang('new_thread');?></button>
+										<button type="button" class="btn btn-secondary">Middle</button>
+										<button type="button" class="btn btn-secondary">Right</button>
+									</div>
+
 									<!--{hook forum_title_left.htm}-->
 								</dt>
 								<dd>

@@ -679,97 +679,6 @@ function browser_lang() {
 	}
 }
 
-/**
- * URL format: http://www.domain.com/demo/?user-login.htm?a=b&c=d
- * URL format: http://www.domain.com/demo/?user-login.htm&a=b&c=d
- * URL format: http://www.domain.com/demo/user-login.htm?a=b&c=d
- * URL format: http://www.domain.com/demo/user-login.htm&a=b&c=d
- * array(
- *     0 => user,
- *     1 => login
- *     a => b
- *     c => d
- * )
- */
-function xn_init_query_string() {
-	
-	!empty($_SERVER['HTTP_X_REWRITE_URL']) AND $_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_REWRITE_URL'];
-	!isset($_SERVER['REQUEST_URI']) AND $_SERVER['REQUEST_URI'] = '';
-	
-	// 兼容 iis6
-	$_SERVER['REQUEST_URI'] = str_replace('/index.php?', '/', $_SERVER['REQUEST_URI']);
-	// 处理: /demo/?user-login.htm?a=b&c=d
-	// 结果：/demo/user-login.htm?a=b&c=d
-	$request_url = str_replace('/?', '/', $_SERVER['REQUEST_URI']);
-	$arr = parse_url($request_url);
-	
-	$q = array_value($arr, 'path');
-	$pos = strrpos($q, '/');
-	$pos === FALSE && $pos = -1;
-	$q = substr($q, $pos + 1); // 截取最后一个 / 后面的内容
-	// 查找第一个 ? & 进行分割
-	$sep = strpos($q, '?') === FALSE ? strpos($q, '&') : FALSE;
-	if($sep !== FALSE) {
-		// 对后半部分截取，并且分析
-		$front = substr($q, 0, $sep);
-		$behind = substr($q, $sep + 1);
-	} else {
-		$front = $q;
-		$behind = '';
-	}
-	if(substr($front, -4) == '.htm') $front = substr($front, 0, -4);
-	$r = $front ? (array)explode('-', $front) : array();
-	// 将后半部分合并
-	if($behind) {
-		parse_str($behind, $arr1);
-		//$_SERVER['_GET'] = $arr1;
-		$r += $arr1;
-	}
-
-	// 将 xxx.htm?a=b&c=d 后面的正常的 _GET 放到 $_SERVER['_GET']
-	if(!empty($arr['query'])) {
-		parse_str($arr['query'], $arr2);
-		//$_SERVER['_GET'] = $arr2;
-		$r += $arr2;
-	}
-	
-	$_SERVER['REQUEST_URI_NO_PATH'] = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '/') + 1);
-	
-	// 是否开启 /user/login 这种格式的 URL
-	global $conf;
-	if(!empty($conf['url_rewrite_on']) && $conf['url_rewrite_on'] == 3) {
-		$r = xn_init_query_string_by_path_formt($_SERVER['REQUEST_URI']) + $r;
-	}
-
-	isset($r[0]) AND $r[0] == 'index.php' AND $r[0] = 'index';
-	return $r;
-}
-
-/**
- * 支持 URL format: http://www.domain.com/user/login?a=1&b=2
- * array(
- *     0 => user,
- *     1 => login,
- *     a => 1,
- *     b => 2
- * )
- */
-function xn_init_query_string_by_path_formt($s) {
-	$get = array();
-	substr($s, 0, 1) == '/' AND $s = substr($s, 1);
-	$arr = explode('/', $s);
-	$get = $arr;
-	$last = array_pop($arr);
-	if(strpos($last, '?') !== FALSE) {
-		$get = $arr;
-		$arr1 = explode('?', $last);
-		parse_str($arr1[1], $arr2);
-		$get[] = $arr1[0];
-		$get = array_merge($get, $arr2);
-	}
-	return $get;
-}
-
 // 安全请求一个 URL
 // ini_set('default_socket_timeout', 60);
 function http_get($url, $timeout = 5, $times = 3) {
@@ -1043,7 +952,15 @@ function http_url_path() {
 	return  "$http://$host$path/";
 }
 
-function url($url) {
+/*
+	url("thread-create-1.htm");
+	根据 $conf['url_rewrite_on'] 设置，返回以下四种格式：
+	?thread-create-1.htm
+	thread-create-1.htm
+	?/thread/create/1
+	/thread/create/1
+*/
+function url($url, $extra = array()) {
 	global $conf;
 	!isset($conf['url_rewrite_on']) AND $conf['url_rewrite_on'] = 0;
 	$r = $path = $query = '';
@@ -1054,6 +971,7 @@ function url($url) {
 		$path = '';
 		$query = $url;
 	}
+	
 	if($conf['url_rewrite_on'] == 0) {
 		$r = $path . '?' . $query . '.htm';
 	} elseif($conf['url_rewrite_on'] == 1) {
@@ -1063,7 +981,100 @@ function url($url) {
 	} elseif($conf['url_rewrite_on'] == 3) {
 		$r = $path . str_replace('-', '/', $query);
 	}
+	// 附加参数
+	if($extra) {
+		$args = http_build_query($extra);
+		$sep = strpos($r, '?') === FALSE ? '?' : '&';
+		$r .= $sep.$args;
+	}
+	
 	return $r;
+}
+
+
+/**
+ * URL format: http://www.domain.com/demo/?user-login.htm?a=b&c=d
+ * URL format: http://www.domain.com/demo/?user-login.htm&a=b&c=d
+ * URL format: http://www.domain.com/demo/user-login.htm?a=b&c=d
+ * URL format: http://www.domain.com/demo/user-login.htm&a=b&c=d
+ * array(
+ *     0 => user,
+ *     1 => login
+ *     a => b
+ *     c => d
+ * )
+ */
+function xn_url_parse($request_url) {
+	// 处理: /demo/?user-login.htm?a=b&c=d
+	// 结果：/demo/user-login.htm?a=b&c=d
+	$request_url = str_replace('/?', '/', $request_url);
+	$arr = parse_url($request_url);
+	
+	$q = array_value($arr, 'path');
+	$pos = strrpos($q, '/');
+	$pos === FALSE && $pos = -1;
+	$q = substr($q, $pos + 1); // 截取最后一个 / 后面的内容
+	// 查找第一个 ? & 进行分割
+	$sep = strpos($q, '?') === FALSE ? strpos($q, '&') : FALSE;
+	if($sep !== FALSE) {
+		// 对后半部分截取，并且分析
+		$front = substr($q, 0, $sep);
+		$behind = substr($q, $sep + 1);
+	} else {
+		$front = $q;
+		$behind = '';
+	}
+	if(substr($front, -4) == '.htm') $front = substr($front, 0, -4);
+	$r = $front ? (array)explode('-', $front) : array();
+	// 将后半部分合并
+	if($behind) {
+		parse_str($behind, $arr1);
+		//$_SERVER['_GET'] = $arr1;
+		$r += $arr1;
+	}
+
+	// 将 xxx.htm?a=b&c=d 后面的正常的 _GET 放到 $_SERVER['_GET']
+	if(!empty($arr['query'])) {
+		parse_str($arr['query'], $arr2);
+		//$_SERVER['_GET'] = $arr2;
+		$r += $arr2;
+	}
+	
+	$_SERVER['REQUEST_URI_NO_PATH'] = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '/') + 1);
+	
+	// 是否开启 /user/login 这种格式的 URL
+	global $conf;
+	if(!empty($conf['url_rewrite_on']) && $conf['url_rewrite_on'] == 3) {
+		$r = xn_url_parse_path_format($_SERVER['REQUEST_URI']) + $r;
+	}
+
+	isset($r[0]) AND $r[0] == 'index.php' AND $r[0] = 'index';
+	return $r;
+}
+
+/**
+ * 支持 URL format: http://www.domain.com/user/login?a=1&b=2
+ * array(
+ *     0 => user,
+ *     1 => login,
+ *     a => 1,
+ *     b => 2
+ * )
+ */
+function xn_url_parse_path_format($s) {
+	$get = array();
+	substr($s, 0, 1) == '/' AND $s = substr($s, 1);
+	$arr = explode('/', $s);
+	$get = $arr;
+	$last = array_pop($arr);
+	if(strpos($last, '?') !== FALSE) {
+		$get = $arr;
+		$arr1 = explode('?', $last);
+		parse_str($arr1[1], $arr2);
+		$get[] = $arr1[0];
+		$get = array_merge($get, $arr2);
+	}
+	return $get;
 }
 
 // 递归遍历目录

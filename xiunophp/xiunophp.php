@@ -88,7 +88,10 @@ empty($conf['timezone']) AND $conf['timezone'] = 'Asia/Shanghai';
 date_default_timezone_set($conf['timezone']);
 
 // 超级全局变量
-$_GET += xn_init_query_string();
+!empty($_SERVER['HTTP_X_REWRITE_URL']) AND $_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_REWRITE_URL'];
+!isset($_SERVER['REQUEST_URI']) AND $_SERVER['REQUEST_URI'] = '';
+$_SERVER['REQUEST_URI'] = str_replace('/index.php?', '/', $_SERVER['REQUEST_URI']); // 兼容 iis6
+$_GET += xn_url_parse($_SERVER['REQUEST_URI']);
 $_REQUEST = array_merge($_COOKIE, $_POST, $_GET);
 
 // 初始化 db cache，这里并没有连接，在获取数据的时候会自动连接。

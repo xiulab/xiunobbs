@@ -67,6 +67,7 @@
 */
 
 /* 文字相关的增强 */
+.icon-1x { font-size: 0.8em; }
 .text-ellipsis {
 	/*width: 100%;*/
 	white-space: nowrap; 
