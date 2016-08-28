@@ -101,7 +101,7 @@ nav.bg-inverse .dropdown-item:hover {
 	background-color: #575a5c;
 	color: rgba(255, 255, 255, 1);
 }
-.navbar {padding-top: 0.3rem; padding-bottom: 0.3rem;}
+.navbar {padding-top: 0.2rem; padding-bottom: 0.2rem;}
 .navbar-nav .nav-link {padding-top: 0.3rem; padding-bottom: 0.3rem; line-height: 1.7rem;}
 
 /* checkbox 太灰 */
@@ -119,6 +119,5 @@ nav.navbar .collapse, nav.navbar .collapse div.bg-inverse {
 }
 .nav-tabs .nav-link {padding: 0.4rem 1rem 0.1rem 1rem; font-size: 0.8rem;}
 .card .threadlist tr:first-child td {border-top: 0;}
-
 
 

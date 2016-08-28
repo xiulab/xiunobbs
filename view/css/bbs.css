@@ -18,7 +18,7 @@ dl.row.vbottom > dt, dl.row.vbottom > dd, dl.row > dt.vbottom, dl.row > dd.vbott
 /* 导航栏半透明背景 */
 .navbar.bg-inverse { background-color: rgba(5, 6, 9, 0.8); }
 
-#nav_pc { font-size: 0.95rem;}
+#nav_pc { font-size: 0.85rem;}
 #nav_mobile a {color: #aab;}
 #nav_mobile a:hover {color: #fff;}
 
@@ -70,7 +70,7 @@ dl.row > dt.td-avatar, .table .td-avatar { width: 3.0rem; padding: 0.3rem;}
 .dropdown-toggle:hover::after {opacity: 1;  }
 .breadcrumb {background: #fff; border: 1px solid #e5e5e5; font-size: 95%; padding: 0.5rem 1rem;}
 .logo-xs {width: 1.3rem; height: 1.3rem; }
-.logo-sm {width: 2.0rem; height: 2.0rem; margin-top: 2px;}
+.logo-sm {width: 1.8rem; height: 1.8rem; margin-top: 4px;}
 
 .table td {padding-top: 0.5rem; padding-bottom: 0.5rem;}
 .table td.td-checkbox {width: 0.5rem; padding: 0.2rem;}
