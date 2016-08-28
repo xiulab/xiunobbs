@@ -53,10 +53,17 @@ class db_mysql {
 		$link = mysql_connect($host, $user, $password); // 如果用户名相同，则返回同一个连接。 fastcgi 持久连接更省资源
 		if(!$link) { $this->error(mysql_errno(), '连接数据库服务器失败:'.mysql_error()); return FALSE; }
 		if(!mysql_select_db($name, $link)) { $this->error(mysql_errno(), '选择数据库失败:'.mysql_error()); return FALSE; }
-		strtolower($engine) == 'innodb' AND $this->query("SET innodb_flush_log_at_trx_commit=no", $link);
+		//strtolower($engine) == 'innodb' AND $this->query("SET innodb_flush_log_at_trx_commit=no", $link);
 		$charset AND $this->query("SET names $charset, sql_mode=''", $link);
 		return $link;
 	}
+	public function sql_find_one($sql) {
+		$query = $this->query($sql);
+		if(!$query) return $query;
+		// 如果结果为空，返回 FALSE
+		return mysql_fetch_assoc($query);
+	}
+	
 	
 	public function sql_find($sql, $key = NULL) {
 		$query = $this->query($sql);
@@ -66,13 +73,6 @@ class db_mysql {
 			$key ? $arrlist[$arr[$key]] = $arr : $arrlist[] = $arr; // 顺序没有问题，尽管是数字，仍然是有序的，看来内部实现是链表，与 js 数组不同。
 		}
 		return $arrlist;
-	}
-	
-	public function sql_find_one($sql) {
-		$query = $this->query($sql);
-		if(!$query) return $query;
-		// 如果结果为空，返回 FALSE
-		return mysql_fetch_assoc($query);
 	}
 	
 	public function find($table, $cond = array(), $orderby = array(), $page = 1, $pagesize = 10, $key = '', $col = array()) {
@@ -215,11 +215,6 @@ class db_mysql {
 	}
 	*/
 	
-	
-	//public function version() {
-	//	return mysql_get_server_info($this->link);
-	//}
-	
 	public function version() {
 		$r = $this->sql_find_one("SELECT VERSION() AS v");
 		return $r['v'];
@@ -231,6 +226,12 @@ class db_mysql {
 		DEBUG AND trigger_error('Database Error:'.$this->errstr);
 	}
 	
+	public function is_support_innodb() {
+		$arrlist = $this->sql_find('SHOW ENGINES');
+		$arrlist2 = arrlist_key_values($arrlist, 'Engine', 'Support');
+		return isset($arrlist2['InnoDB']) AND $arrlist2['InnoDB'] == 'YES';
+	}
+
 	// pconnect 不释放连接
 	public function __destruct() {
 		if($this->wlink) $this->wlink = NULL;

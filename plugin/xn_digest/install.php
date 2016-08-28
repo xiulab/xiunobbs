@@ -12,8 +12,10 @@ $tablepre = $db->tablepre;
 $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}thread_digest (
   fid smallint(6) NOT NULL default '0',			# 版块id
   tid int(11) unsigned NOT NULL default '0',		# 主题id
+  uid int(11) unsigned NOT NULL default '0',		# uid
   digest tinyint(3) unsigned NOT NULL default '0',	# 精华等级
   PRIMARY KEY (tid),					# 
+  KEY (uid),						# 
   UNIQUE KEY (fid, tid)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
 db_exec($sql);

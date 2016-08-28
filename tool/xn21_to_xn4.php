@@ -453,8 +453,10 @@ unset($tagdatalist);
 $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}thread_digest (
   fid smallint(6) NOT NULL default '0',			# 版块id
   tid int(11) unsigned NOT NULL default '0',		# 主题id
+  uid int(11) unsigned NOT NULL default '0',		# uid
   digest tinyint(3) unsigned NOT NULL default '0',	# 精华等级
   PRIMARY KEY (tid),					# 
+  KEY (uid),					# 
   UNIQUE KEY (fid, tid)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
 db_exec($sql);
@@ -466,9 +468,11 @@ echo "upgrade digest:\r\n";
 $digestlist = $olddb->sql_find("SELECT * FROM {$tablepre}thread_digest");
 $db->exec("TRUNCATE `{$tablepre}thread_digest`");
 foreach ($digestlist as $digest) {
+	$thread = $olddb->sql_find_one("SELECT * FROM {$tablepre}thread WHERE tid='$digest[tid]'");
 	$arr = array(
 		'fid'=>$digest['fid'],
 		'tid'=>$digest['tid'],
+		'uid'=>$thread['uid'],
 		'digest'=>$digest['digest'],
 	);
 	$sqladd = db_array_to_insert_sqladd($arr);

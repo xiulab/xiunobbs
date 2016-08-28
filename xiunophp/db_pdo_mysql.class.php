@@ -37,7 +37,7 @@ class db_pdo_mysql {
 	public function connect_slave() {
 		if($this->rlink) return $this->rlink;
 		if(empty($this->conf['slaves'])) {
-			if(!$this->wlink) $this->wlink = $this->connect_master();
+			if($this->wlink === NULL) $this->wlink = $this->connect_master();
 			$this->rlink = $this->wlink;
 			$this->rconf = $this->conf['master'];
 		} else {
