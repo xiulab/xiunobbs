@@ -1273,7 +1273,7 @@ class XML_HTMLSax3 {
     }
 }
 
-// class HTML_White �?axiuno@gmail.com 编写�?// 技术支持：http://www.xiuno.com/
+// class HTML_White by axiuno@gmail.com http://bbs.xiuno.com/
 class HTML_White {
         private $_stack = array();	//
         private $_dcStack = array();	// 删除的栈
@@ -1341,7 +1341,7 @@ class HTML_White {
 		return $this->_xhtml;
 	}
 
-       private function _writeAttrs($attrs) {
+       private function _writeAttrs($attrs, $tagname) {
         	if(!is_array($attrs)) {
         	 	return true;
         	}
@@ -1398,7 +1398,7 @@ class HTML_White {
 				}
 				$value = substr($value, 0, -1);
 
-			// 过滤危险�?embed src=
+			// 过滤危险 iframe / embed src=
 	               } elseif($name == 'src') {
 	              	 	$v = $this->white_value[$name];
 	              	 	$ok = 0;
@@ -1408,9 +1408,9 @@ class HTML_White {
 					}
 				}
 
-				$tag = array_pop($this->_stack);
-				array_push($this->_stack, $tag);
-	               		if($tag == 'embed') {
+				//$tag = array_pop($this->_stack);
+				//array_push($this->_stack, $tag);
+	               		if($tagname == 'embed' || $tagname == 'iframe') {
 	               			//  && strpos($value, '.swf') !== FALSE
 	               			$safearr = array('youku.com', '56.com', 'ku6.com', 'tudou.com', 'joy.cn', 'sina.com.cn', 'ifeng.com', 'qq.com', 'sohu.com', 'iqiyi.com', 'qiyi.com');
 	               			$arr = parse_url($value);
@@ -1419,9 +1419,7 @@ class HTML_White {
 	               				$hostarr = array_slice($hostarr, -2);
 	               			}
 	               			$host = implode('.', $hostarr);
-	               			if(!in_array($host, $safearr)) {
-	               				$value = 'http://cloud.xiuno.net/check-url.htm?url='.urlencode($value);
-	               			}
+	               			
 	               		}
 	               		$value = $ok ? $value : $v[1];
 	                // 白名单	                
@@ -1492,7 +1490,7 @@ class HTML_White {
 
 		if (in_array($name, $this->singleTags)) {
 			$this->_xhtml .= '<' . $name;
-			$this->_writeAttrs($attrs);
+			$this->_writeAttrs($attrs, $name);
 			$this->_xhtml .= ' />';
 			return true;
 		}
@@ -1523,7 +1521,7 @@ class HTML_White {
 		}
 
 		$this->_xhtml .= '<' . $name;
-		$this->_writeAttrs($attrs);
+		$this->_writeAttrs($attrs, $name);
 		$this->_xhtml .= '>';
 		array_push($this->_stack, $name);
 		$this->_counter[$name] = isset($this->_counter[$name]) ? $this->_counter[$name]+1 : 1;
@@ -1616,7 +1614,7 @@ function xn_html_safe($doc) {
 		'table', 'tr', 'td', 'th', 'tbody', 'thead', 'tfoot','caption',
 		'ol', 'ul', 'li', 'dl', 'dt', 'dd', 'menu', 'multicol',
 		'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'p', 'div', 'pre',
-		'br', 'img', 'area',  'embed', 'code', 'blockquote'
+		'br', 'img', 'area',  'embed', 'code', 'blockquote', 'iframe'
 	);
 	$white_value = array(
 		'href'=>array('pcre', '', array($pattern['url'], $pattern['ed2k_url'])),
@@ -1640,6 +1638,7 @@ function xn_html_safe($doc) {
 		'cellspacing'=>array('range', 0, array(0, 10)),
 		'cellpadding'=>array('range', 0, array(0, 10)),
 		'frameborder'=>array('range', 0, array(0, 10)),
+		'allowfullscreen'=>array('range', 0, array(0, 10)),
 		'align'=>array('list', 'left', array('left', 'center', 'right')),
 		'valign'=>array('list', 'middle', array('middle', 'top', 'bottom')),
 	);
@@ -1708,6 +1707,9 @@ function xn_html_safe($doc) {
 	$result = $safehtml->parse($doc);
 	return $result;
 }
+
+$s = '<div><p align="center"><iframe width="800" height="600" src="http://player.youku.com/player.php/sid/XMTY5NjYzMTI3Mg/v.swf" frameborder="0" allowfullscreen="1"></iframe></p></div>';
+echo xn_html_safe($s);
 
 /*
 

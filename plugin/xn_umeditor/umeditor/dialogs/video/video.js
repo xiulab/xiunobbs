@@ -19,8 +19,8 @@
             "<fieldset>" +
             "<legend><%=lang_video_size%></legend>" +
             "<table>" +
-            "<tr><td><label for=\"eduiVideoWidth\"><%=lang_videoW%></label></td><td><input class=\"edui-video-txt\" id=\"eduiVideoWidth\" type=\"text\"/></td></tr>" +
-            "<tr><td><label for=\"eduiVideoHeight\"><%=lang_videoH%></label></td><td><input class=\"edui-video-txt\" id=\"eduiVideoHeight\" type=\"text\"/></td></tr>" +
+            "<tr><td><label for=\"eduiVideoWidth\"><%=lang_videoW%></label></td><td><input class=\"edui-video-txt\" id=\"eduiVideoWidth\" value=\"800\" type=\"text\"/></td></tr>" +
+            "<tr><td><label for=\"eduiVideoHeight\"><%=lang_videoH%></label></td><td><input class=\"edui-video-txt\" id=\"eduiVideoHeight\" value=\"600\" type=\"text\"/></td></tr>" +
             "</table>" +
             "</fieldset>" +
             "<fieldset>" +
@@ -93,15 +93,16 @@
                 lang = me.lang,
                 conUrl = me.convert_url(url);
 
-            if(!me.endWith(conUrl,[".swf",".flv",".wmv"])){
+           /* if(!me.endWith(conUrl,[".swf",".flv",".wmv"])){
                 $("#eduiVideoPreview", me.$widget).html( lang.urlError );
                 return;
-            }
-            $("#eduiVideoPreview", me.$widget)[0].innerHTML = '<embed type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"' +
-                ' src="' + url + '"' +
-                ' width="' + 600  + '"' +
-                ' height="' + 400  + '"' +
+            }*/
+	   var s = '<embed type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"' +
+                ' src="' + conUrl + '"' +
+                ' width="' + 420  + '"' +
+                ' height="' + 280  + '"' +
                 ' wmode="transparent" play="true" loop="false" menu="false" allowscriptaccess="never" allowfullscreen="true" ></embed>';
+           $("#eduiVideoPreview", me.$widget)[0].innerHTML = s;
 
         },
         /**
@@ -128,6 +129,14 @@
         /**
          * URL转换
          */
+        /*
+        
+        	<iframe height=498 width=510 src='http://player.youku.com/embed/XMTY4Mzg4MTQ2NA==' frameborder=0 'allowfullscreen'></iframe>
+        	http://player.youku.com/player.php/sid/XMTY4Mzg4MTQ2NA==/v.swf
+        	<embed src='http://player.youku.com/player.php/sid/XMTY4Mzg4MTQ2NA==/v.swf' allowFullScreen='true' quality='high' width='480' height='400' align='middle' allowScriptAccess='always' type='application/x-shockwave-flash'></embed>
+        	
+        */
+        
         convert_url: function(url){
             if ( !url ) return '';
             var matches = url.match(/youtu.be\/(\w+)$/) ||
@@ -141,7 +150,8 @@
             } else if (matches){
                 url = "https://www.youtube.com/v/" + matches[1] + "?version=3&feature=player_embedded";
             }else if(youku){
-                url = "http://player.youku.com/player.php/sid/"+youku[1]+"/v.swf"
+            	//url = "http://player.youku.com/embed/XMTY4Mzg4MTQ2NA==";
+               url = "http://player.youku.com/player.php/sid/"+youku[1]+"/v.swf"
             } else {
                 url = url.replace(/http:\/\/www\.tudou\.com\/programs\/view\/([\w\-]+)\/?/i, "http://www.tudou.com/v/$1")
                     .replace(/http:\/\/www\.youtube\.com\/watch\?v=([\w\-]+)/i, "http://www.youtube.com/v/$1")

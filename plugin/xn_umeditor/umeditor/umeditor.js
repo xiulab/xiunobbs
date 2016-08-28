@@ -7308,6 +7308,13 @@ UM.plugins['video'] = function (){
      * @param addParagraph  是否需要添加P 标签
      */
     function creatInsertStr(url,width,height,id,align,toEmbed){
+    	  if((url.indexOf('youku') != -1 || url.indexOf('youtu') != -1)) {
+    	  	// http://player.youku.com/embed/XMTY5NjY0NTM5Mg==
+    	  	var matches = url.match(/youku\.com\/player\.php\/sid\/([\w=]+)/);
+    	  	var newurl = 'http://player.youku.com/embed/'+matches[1];
+    	  	var s = '<iframe width="'+width+'" height="'+height+'" src="'+newurl+'" frameborder="0" allowfullscreen="1"></iframe>';
+    	  	return s;
+    	  }
         return  !toEmbed ?
 
                 '<img ' + (id ? 'id="' + id+'"' : '') + ' width="'+ width +'" height="' + height + '" _url="'+url+'" class="edui-faked-video"'  +
@@ -10309,7 +10316,7 @@ UM.registerUI('link image video map formula',function(name){
     var me = this, currentRange, $dialog,
         opt = {
             title: (me.options.labelMap && me.options.labelMap[name]) || me.getLang("labelMap." + name),
-            url: me.options.UMEDITOR_HOME_URL + 'dialogs/' + name + '/' + name + '.js'
+            url: me.options.UMEDITOR_HOME_URL + 'dialogs/' + name + '/' + name + '.js' + (!!debug ? '?'+Math.random() : '')
         };
 
     var $btn = $.eduibutton({
