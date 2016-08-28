@@ -54,9 +54,16 @@ if(empty($action)) {
 	$page = param(2, 1);
 	$pagesize = 20;
 	$totalnum = $user['threads'];
-	$pagination = pagination(url('my-thread-{page}'), $totalnum, $page, $pagesize);
-	$threadlist = mythread_find_by_uid($uid, $page, $pagesize);
-		
+	$thread_list_from_default = 1;
+	$active = 'default';
+	
+	// hook my_profile_thread_list_before.php
+	
+	if($thread_list_from_default) {
+		$pagination = pagination(url('my-thread-{page}'), $totalnum, $page, $pagesize);
+		$threadlist = mythread_find_by_uid($uid, $page, $pagesize);
+	}
+	
 	// hook my_thread_end.php
 	
 	include _include(APP_PATH.'view/htm/my_thread.htm');

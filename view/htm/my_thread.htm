@@ -2,13 +2,22 @@
 
 <div class="row">
 	<div class="col-lg-8 offset-lg-2">
-		<div class="card card-block m-t-1">
-			<h4 class="card-title"><?php echo lang('my_join_thread');?> (<?php echo $user['threads'];?>)</h4>
- 			<table class="table table-hover threadlist">
-				<tbody>
-					<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
-				</tbody>
-			</table>
+		<div class="card">
+			<div class="card-header">
+				<ul class="nav nav-tabs card-header-tabs pull-xs-left">
+					<li class="nav-item">
+						<a class="nav-link <?php echo $active == 'default' ? 'active' : '';?>" href="<?php echo url("my-thread");?>"><?php echo lang('my_join_thread');?> (<?php echo $user['threads'];?>)</a>
+					</li>
+					<!--{hook my_profile_nav_item_after.htm}-->
+				</ul>
+			</div>
+			<div class="card-block">
+				<table class="table table-hover threadlist">
+					<tbody>
+						<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
+					</tbody>
+				</table>
+			</div>
 		</div>
 		
 		<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>
