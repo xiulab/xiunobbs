@@ -20,7 +20,7 @@
 						<input type="password" class="form-control" placeholder="<?php echo lang('password_new_repeat');?>" id="password2">
 					</p>
 					<p>
-						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." <?php if($conf['user_create_email_on']) { ?>disabled<?php } ?>><?php echo lang('next_step');?></button>
+						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." <?php if(!$conf['user_resetpw_on']) { ?>disabled<?php } ?>><?php echo lang('next_step');?></button>
 					</p>
 				</form>
 			</div>

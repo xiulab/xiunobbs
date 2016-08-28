@@ -410,7 +410,7 @@ function user_http_referer() {
 	$referer = param('referer'); // 优先从参数获取 | GET is priority
 	empty($referer) AND $referer = array_value($_SERVER, 'HTTP_REFERER', '');
 	$referer = str_replace(array('\"', '"', '<', '>', ' ', '*', "\t", "\r", "\n"), '', $referer); // 干掉特殊字符 strip special chars
-	if(!preg_match('#^(http|https)://[\w\-=/\.]+/[\w\-=.%\#?]*$#is', $referer) || strpos($referer, 'user-login.htm') !== FALSE || strpos($referer, 'user-logout.htm') !== FALSE || strpos($referer, 'user-create.htm') !== FALSE || strpos($referer, 'user-setpw.htm') !== FALSE) {
+	if(!preg_match('#^(http|https)://[\w\-=/\.]+/[\w\-=.%\#?]*$#is', $referer) || strpos($referer, 'user-login.htm') !== FALSE || strpos($referer, 'user-logout.htm') !== FALSE || strpos($referer, 'user-create.htm') !== FALSE || strpos($referer, 'user-setpw.htm') !== FALSE || strpos($referer, 'user-resetpw_complete.htm') !== FALSE) {
 		$referer = './';
 	}
 	// hook user_http_referer_end.php
