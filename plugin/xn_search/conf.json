@@ -5,7 +5,9 @@
 	"bbs_version":"4.0",
 	"installed":1,
 	"enable":1,
-	"hooks_rank":[],
+	"hooks_rank":{
+		"index_site_brief_after.htm":10
+	},
 	"overwrites_rank":[],
 	"dependencies":[]
 }

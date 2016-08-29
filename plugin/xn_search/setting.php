@@ -1,30 +1,35 @@
 <?php
 
 /*
-	Xiuno BBS 4.0 插件实例：广告插件设置
-	admin/plugin-setting-xn_ad.htm
+	Xiuno BBS 4.0 插件实例：搜索设置
+	admin/plugin-setting-xn_search.htm
 */
 
 !defined('DEBUG') AND exit('Access Denied.');
 
-$setting = setting_get('xn_ad_setting');
 
-if($method == 'GET') {
-	
-	$input = array();
-	$input['body_start'] = form_textarea('body_start', $setting['body_start'], '100%', '100px');
-	$input['body_end'] = form_textarea('body_end', $setting['body_end'], '100%', '100px');
-	
-	include _include(APP_PATH.'plugin/xn_ad/setting.htm');
-	
-} else {
+$action = param(3);
 
-	$setting['body_start'] = param('body_start', '', FALSE);
-	$setting['body_end'] = param('body_end', '', FALSE);
+if(empty($action)) {
+	if($method == 'GET') {
+		
+		$input = array();
+		$input['search_type'] = form_radio('search_type', array('fulltext'=>lang('search_type_fulltext'), 'like'=>lang('search_type_like')), kv_get('xn_search_type'));
+		$input['search_cutword_url'] = form_text('search_cutword_url', kv_get('xn_search_cutword_url'), '100%');
+		
+		include _include(APP_PATH.'plugin/xn_search/setting.htm');
+		
+	} else {
 	
-	setting_set('xn_ad_setting', $setting);
+		kv_set('xn_search_type', param('search_type'));
+		kv_set('xn_search_cutword_url', param('search_cutword_url'));
+		
+		message(0, '修改成功');
+	}
 	
-	message(0, '修改成功');
+// 切词、索引，跳转的方式开始执行任务，一次执行 10 条，如果超时，则重新开始任务。
+} elseif($action == 'cutword') {
+
 }
 	
 ?>

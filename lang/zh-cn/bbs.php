@@ -59,7 +59,7 @@ return array(
 	'month_ago'=>'月前',
 	'day_ago'=>'天前',
 	'hour_ago'=>'小时前',
-	'minute_ago'=>'分种前',
+	'minute_ago'=>'分钟前',
 	'second_ago'=>'秒前',
 	
 	'update_failed'=>'更新失败',

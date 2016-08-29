@@ -1,6 +1,5 @@
 <IfModule mod_rewrite.c>
 RewriteEngine on
-RewriteRule view/htm/\w+\.htm /robots.txt  [L]
 RewriteRule plugin/\w+/hook/ /robots.txt  [L]
 RewriteRule plugin/\w+/overwrite/ /robots.txt  [L]
 
