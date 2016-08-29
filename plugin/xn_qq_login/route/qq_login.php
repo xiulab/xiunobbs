@@ -2,7 +2,7 @@
 
 !defined('DEBUG') AND exit('Access Denied.');
 
-include _include(APP_PATH.'plugin/xn_qq_login/qq_login.func.php');
+include _include(APP_PATH.'plugin/xn_qq_login/model/qq_login.func.php');
 
 $action = param(1);
 

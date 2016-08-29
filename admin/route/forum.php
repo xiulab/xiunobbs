@@ -123,8 +123,8 @@ if(empty($action) || $action == 'list') {
 		
 		$name = param('name');
 		$rank = param('rank', 0);
-		$brief = param('brief');
-		$announcement = param('announcement');
+		$brief = param('brief', '', FALSE);
+		$announcement = param('announcement', '', FALSE);
 		$moduids = param('moduids');
 		$accesson = param('accesson', 0);
 		$moduids = forum_filter_moduid($moduids);

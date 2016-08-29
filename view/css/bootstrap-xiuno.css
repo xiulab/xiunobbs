@@ -120,5 +120,6 @@ nav.navbar .collapse, nav.navbar .collapse div.bg-inverse {
 .nav-tabs .nav-link {padding: 0.4rem 1rem 0.1rem 1rem; font-size: 0.8rem;}
 .card tr:first-child td, .card tr:first-child th {border-top: 0;}
 .card-title {border-bottom: 1px solid #DDD; padding-bottom: 0.5rem;}
+h6 {font-weight: 800;}
 
 

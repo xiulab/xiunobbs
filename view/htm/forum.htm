@@ -75,16 +75,14 @@
 		<?php if($forum['announcement'] || $forum['modlist']) { ?>
 		<div class="card card-block">
 			<?php if($forum['announcement']) { ?>
-			<h6 class="text-bold"><?php echo lang('forum_anouncement');?>：</h6>
-			<hr class="m-y-sm" />
+			<h6 class="card-title"><?php echo lang('forum_anouncement');?>：</h6>
 			<p class="text-middle">
 				<?php echo $forum['announcement'];?>
 			</p>
 			<?php  } ?>
 			
 			<?php if($forum['modlist']) { ?>
-			<h6 class="text-bold"><?php echo lang('forum_moderator');?>：</h6>
-			<hr class="m-y-sm" />
+			<h6 class="card-title"><?php echo lang('forum_moderator');?>：</h6>
 			<div class="row">
 				<?php foreach ($forum['modlist'] as $mod) { ?>
 				<div class="col-xs-3 m-b-1 text-center">
