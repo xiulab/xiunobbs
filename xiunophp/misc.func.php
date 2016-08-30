@@ -708,6 +708,7 @@ function http_get($url, $timeout = 5, $times = 3) {
 }
 
 function http_post($url, $post = '', $timeout = 10, $times = 3) {
+	is_array($post) AND $post = http_build_query($post);
 	$stream = stream_context_create(array('http' => array('header' => "Content-type: application/x-www-form-urlencoded\r\nx-requested-with: XMLHttpRequest", 'method' => 'POST', 'content' => $post, 'timeout' => $timeout)));
 	while($times-- > 0) {
 		$s = file_get_contents($url, NULL, $stream, 0, 4096000);
@@ -1052,6 +1053,16 @@ function xn_url_parse($request_url) {
 	return $r;
 }
 
+// 将参数添加到 URL
+function xn_url_add_arg($url, $k, $v) {
+	$pos = strpos($url, '.htm');
+	if($pos === FALSE) {
+		return strpos($url, '?') === FALSE ? $url."&$k=$v" :  $url."?$k=$v";
+	} else {
+		return substr($url, 0, $pos).'-'.$v.substr($url, $pos);
+	}
+}
+
 /**
  * 支持 URL format: http://www.domain.com/user/login?a=1&b=2
  * array(
@@ -1261,16 +1272,6 @@ function http_referer() {
 		$referer = './';
 	}
 	return $referer;
-}
-
-// 将参数添加到 URL
-function xn_url_add_arg($url, $k, $v) {
-	$pos = strpos($url, '.htm');
-	if($pos === FALSE) {
-		return strpos($url, '?') === FALSE ? $url."&$k=$v" :  $url."?$k=$v";
-	} else {
-		return substr($url, 0, $pos).'-'.$v.substr($url, $pos);
-	}
 }
 
 function str_push($str, $v, $sep = '_') {

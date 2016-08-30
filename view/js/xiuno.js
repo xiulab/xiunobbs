@@ -465,6 +465,17 @@ xn.url = function(u, url_rewrite) {
 	}
 	return r;
 }
+
+// 将参数添加到 URL
+xn.url_add_arg = function(url, k, v) {
+	var pos = xn.strpos(url, '.htm');
+	if(pos === false) {
+		return xn.strpos(url, '?') === false ? url + "&" + k + "=" + v :  url + "?" + k + "=" + v;
+	} else {
+		return xn.substr(url, 0, pos) + '-' + v + xn.substr(url, pos);
+	}
+}
+
 // 页面跳转的时间
 //xn.jumpdelay = xn.debug ? 20000000 : 2000;
 

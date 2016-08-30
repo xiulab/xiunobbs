@@ -86,7 +86,7 @@ function xn_lock_end($lockname = '') {
 	}
 }*/
 
-// todo: 对路径进行处理 include _include('./view/htm/header.inc.htm');
+// todo: 对路径进行处理 include _include(APP_PATH.'view/htm/header.inc.htm');
 function _include($srcfile) {
 	global $conf;
 	// 合并插件，存入 tmp_path
