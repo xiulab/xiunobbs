@@ -22,7 +22,7 @@ if($action == 'local') {
 	$header['title']    = lang('local_plugin');
 	$header['mobile_title'] = lang('local_plugin');
 	
-	include ADMIN_PATH."./view/htm/plugin_list.htm";
+	include _include(ADMIN_PATH."./view/htm/plugin_list.htm");
 
 } elseif($action == 'official') {
 
@@ -44,7 +44,7 @@ if($action == 'local') {
 	$header['title']    = lang('official_plugin');
 	$header['mobile_title'] = lang('official_plugin');
 	
-	include ADMIN_PATH."./view/htm/plugin_list.htm";
+	include _include(ADMIN_PATH."./view/htm/plugin_list.htm");
 	
 } elseif($action == 'read') {
 	
@@ -58,7 +58,7 @@ if($action == 'local') {
 	$header['title']    = lang('plugin_detail').'-'.$plugin['name'];
 	$header['mobile_title'] = $plugin['name'];
 	
-	include ADMIN_PATH."./view/htm/plugin_read.htm";
+	include _include(ADMIN_PATH."./view/htm/plugin_read.htm");
 	
 // 下载官方插件。 / download official plugin
 } elseif($action == 'download') {
