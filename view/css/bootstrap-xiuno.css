@@ -103,7 +103,7 @@ nav.bg-inverse .dropdown-item:hover {
 	color: rgba(255, 255, 255, 1);
 }
 .navbar {padding-top: 0.2rem; padding-bottom: 0.2rem;}
-.navbar-nav .nav-link {padding-top: 0.3rem; padding-bottom: 0.3rem; line-height: 1.7rem;}
+.navbar-nav .nav-link, .navbar-nav .drop-item,  {padding-top: 0.3rem; padding-bottom: 0.3rem; line-height: 1.7rem;}
 
 /* checkbox 太灰 */
 .c-checkbox .c-indicator, .c-radio .c-indicator {border: 1px solid #bbb;}

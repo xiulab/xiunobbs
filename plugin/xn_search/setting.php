@@ -105,7 +105,7 @@ if($action == 'set') {
 			kv_set('xn_search_cut_all_start', $start);
 		}
 		$url = url("plugin-setting-xn_search-cutstep-$range-$start");
-		message(0, jump("正在切词，主题帖总数：$threads, 当前：".($start - $limit), $url, 5));
+		message(0, jump("正在切词，主题帖总数：$threads, 当前：".($start - $limit), $url, 1));
 	}
 }
 
