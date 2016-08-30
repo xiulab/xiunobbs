@@ -63,7 +63,6 @@ if(!defined('SKIP_ROUTE')) {
 		case 'user': 	include _include(APP_PATH.'route/user.php'); 	break;
 		case 'my': 	include _include(APP_PATH.'route/my.php'); 	break;
 		case 'attach': 	include _include(APP_PATH.'route/attach.php'); 	break;
-		case 'search': 	include _include(APP_PATH.'route/search.php'); 	break;
 		case 'post': 	include _include(APP_PATH.'route/post.php'); 	break;
 		case 'mod': 	include _include(APP_PATH.'route/mod.php'); 	break;
 		case 'browser': include _include(APP_PATH.'route/browser.php'); break;

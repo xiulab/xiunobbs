@@ -14,4 +14,5 @@
 		foreach($tag_id_add as $tagid) {
 			tag_thread_create($tagid, $tid);
 		}
+		thread_update($tid, array('tagids'=>'', 'tagids_time'=>0));
 ?>

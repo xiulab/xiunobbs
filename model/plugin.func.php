@@ -412,13 +412,17 @@ function plugin_compile_srcfile_callback($m) {
 		$fileext = file_ext($hookname);
 		foreach($hooks[$hookname] as $path) {
 			$t = file_get_contents($path);
-			if($fileext == 'php' && preg_match('#^<\?php\s+exit;#is', $t)) {
-				// 去掉首尾标签
+			if($fileext == 'php' && preg_match('#^\s*<\?php\s+exit;#is', $t)) {
+				// 正则表达式去除兼容性比较好。
+				$t = preg_replace('#^\s*<\?php\s*exit;(.*?)\?>\s*$#is', '\\1', $t);
+				
+				/* 去掉首尾标签
 				if(substr($t, 0, 5) == '<?php' && substr($t, -2, 2) == '?>') {
 					$t = substr($t, 5, -2);		
 				}
 				// 去掉 exit;
 				$t = preg_replace('#\s*exit;\s*#', "\r\n", $t);
+				*/
 			}
 			$s .= $t;
 		}

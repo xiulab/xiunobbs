@@ -92,6 +92,7 @@ if($thread_list_from_default == 0 && $find_sql) {
 	
 	$pagination = pagination(url("forum-$fid-{page}-{$tagid1}_{$tagid2}_{$tagid3}_{$tagid4}"), $n, $page, $pagesize);
 	$threadlist = thread_find_by_tids($tids);
+	$toplist = array();
 
 }
 ?>

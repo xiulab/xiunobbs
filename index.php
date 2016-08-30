@@ -4,6 +4,7 @@
  * Copyright (C) xiuno.com
  */
 
+//$_SERVER['REQUEST_URI'] = '/?search-test.htm';
 //$_SERVER['REQUEST_URI'] = '/?qq_login.htm';
 //$_SERVER['REQUEST_URI'] = '/?user-login.htm';
 //$_SERVER['REQUEST_METHOD'] = 'POST';
