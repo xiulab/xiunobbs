@@ -20,11 +20,11 @@
 						</div>
 					</div>
 					<div class="form-group row" id="fulltext">
-						<label class="col-sm-2 form-control-label">中文切词 URL：</label>
+						<label class="col-sm-2 form-control-label">中文切词 API：</label>
 						<div class="col-sm-10">
 							<?php echo $input['search_cutword_url']; ?>
-							<p class="text-grey text-small">默认为官方的切词服务 URL，可以自行搭建、或者指定第三方切词服务 URL</p>
-							<p class="small text-danger m-t-1">注：为了支持中文两个字搜索，请设置 my.ini 中的 <b>ft_min_word_len</b> = 2，并重启 mysql 服务</p>
+							<p class="text-grey text-small">默认为官方的切词服务 API，可以自行搭建、或者指定第三方切词服务 API</p>
+							<p class="small text-danger">注：为了支持中文两个字搜索，请设置 my.ini 中的 <b>ft_min_word_len</b> = 2，并重启 mysql 服务</p>
 						</div>
 					</div>
 					<div class="form-group row" id="sphinx">
@@ -32,6 +32,12 @@
 						<div class="col-sm-10">
 							<?php echo $input['search_sphinx_url']; ?>
 							<p class="text-grey text-small">需要自行配置 Sphinx，参考文档：<a href="http://bbs.xiuno.com/thread-18.htm" target="_blank">http://bbs.xiuno.com/thread-18.htm</a></p>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 form-control-label">开启搜索范围：</label>
+						<div class="col-sm-10">
+							<?php echo $input['search_range']; ?>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -89,5 +95,5 @@ jform.find('input[name="search_type"]').on('click', function() {
 	var v = $(this).val();
 	search_type_radio_check(v);
 });
-search_type_radio_check(jform.find('input[name="search_type"]').val());
+search_type_radio_check(jform.find('input[name="search_type"]').checked());
 </script>

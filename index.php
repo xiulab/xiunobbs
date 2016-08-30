@@ -39,7 +39,6 @@ if(DEBUG > 1) {
 db_connect() OR exit($errstr);
 
 include APP_PATH.'model/plugin.func.php';
-include APP_PATH.'model/misc.func.php';
 include _include(APP_PATH.'model.inc.php');
 include _include(APP_PATH.'index.inc.php');
 

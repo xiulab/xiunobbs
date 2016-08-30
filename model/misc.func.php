@@ -4,8 +4,9 @@
 
 // 检测站点的运行级别
 function check_runlevel() {
-	// hook model_check_runlevel_start.php
 	global $conf, $method, $gid;
+	// hook model_check_runlevel_start.php
+	
 	if($gid == 1) return;
 	if((param(0) == 'user') && (param(1) == 'login' || (param(1) == 'create'))) return;
 	switch ($conf['runlevel']) {
@@ -36,6 +37,8 @@ function message($code, $message, $extra = array()) {
 	$arr['code'] = $code.'';
 	$arr['message'] = $message;
 	
+	// hook model_message_start.php
+	
 	// 防止 message 本身出现错误死循环
 	static $called = FALSE;
 	$called ? exit(xn_json_encode($arr)) : $called = TRUE;
@@ -49,6 +52,7 @@ function message($code, $message, $extra = array()) {
 			include _include(APP_PATH."view/htm/message.htm");
 		}
 	}
+	// hook model_message_end.php
 	exit;
 }
 
@@ -75,29 +79,6 @@ function xn_lock_end($lockname = '') {
 	global $conf, $time;
 	$lockfile = $conf['tmp_path'].'lock_'.$lockname.'.lock';
 	xn_unlink($lockfile);
-}
-
-// 将相对路径转为绝对路径
-/*function xn_realpath($path) {
-	if(substr($path, 0, 2) == './') {
-		return realpath(APP_PATH.substr($path, 2));
-	} else {
-		return realpath($path);
-	}
-}*/
-
-// todo: 对路径进行处理 include _include(APP_PATH.'view/htm/header.inc.htm');
-function _include($srcfile) {
-	global $conf;
-	// 合并插件，存入 tmp_path
-	$len = strlen(APP_PATH);
-	$tmpfile = $conf['tmp_path'].substr(str_replace('/', '_', $srcfile), $len);
-	if(!is_file($tmpfile) || DEBUG > 1) {
-		// 开始编译
-		$s = plugin_compile_srcfile($srcfile);
-		file_put_contents_try($tmpfile, $s);
-	}
-	return $tmpfile;
 }
 
 // hook model_misc_end.php

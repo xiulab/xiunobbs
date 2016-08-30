@@ -9,6 +9,21 @@ $plugins = array(); // 跟官方插件合并
 $official_plugins = array();
 
 define('PLUGIN_OFFICIAL_URL', DEBUG == 3 ? 'http://plugin.x.com/' : 'http://plugin.xiuno.com/');
+
+// todo: 对路径进行处理 include _include(APP_PATH.'view/htm/header.inc.htm');
+function _include($srcfile) {
+	global $conf;
+	// 合并插件，存入 tmp_path
+	$len = strlen(APP_PATH);
+	$tmpfile = $conf['tmp_path'].substr(str_replace('/', '_', $srcfile), $len);
+	if(!is_file($tmpfile) || DEBUG > 1) {
+		// 开始编译
+		$s = plugin_compile_srcfile($srcfile);
+		file_put_contents_try($tmpfile, $s);
+	}
+	return $tmpfile;
+}
+
 // 在安装、卸载插件的时候，需要先初始化
 function plugin_init() {
 	global $plugin_srcfiles, $plugin_paths, $plugins, $official_plugins;

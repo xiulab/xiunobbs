@@ -23,8 +23,9 @@ if(DEBUG) {
 	include _include(APP_PATH.'model/runtime.func.php');
 	include _include(APP_PATH.'model/table_day.func.php');
 	include _include(APP_PATH.'model/cron.func.php');
-	include _include(APP_PATH.'model/session.func.php');	// 
 	include _include(APP_PATH.'model/form.func.php');	// 
+	include _include(APP_PATH.'model/misc.func.php');	// 
+	include _include(APP_PATH.'model/session.func.php');	// 
 	
 	// hook model_inc_include.php
 	
@@ -48,6 +49,7 @@ if(DEBUG) {
 		$s .= php_strip_whitespace(_include(APP_PATH.'model/table_day.func.php'));
 		$s .= php_strip_whitespace(_include(APP_PATH.'model/cron.func.php'));
 		$s .= php_strip_whitespace(_include(APP_PATH.'model/form.func.php'));
+		$s .= php_strip_whitespace(_include(APP_PATH.'model/misc.func.php'));
 		$s .= php_strip_whitespace(APP_PATH.'model/session.func.php');
 		// hook model_inc_merge.php
 		
