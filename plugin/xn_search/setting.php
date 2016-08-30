@@ -36,7 +36,7 @@ if($action == 'set') {
 	
 	// 跳转的方式，对所有帖子进行切词。
 	$submit = param(4, 0);
-	$posts = $runtime['posts'];
+	$posts = $runtime['posts'] + $runtime['threads'];
 	if(empty($submit)) {
 		$start = intval(kv_get('xn_search_cutstr_start'));
 		$input = array('start'=>form_text('start', $start));
