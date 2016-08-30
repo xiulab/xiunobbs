@@ -77,7 +77,7 @@ if($action == 'base') {
 	
 		// hook admin_setting_smtp_get_end.php
 		
-		include _include(ADMIN_PATH."./view/htm/setting_smtp.htm");
+		include _include(ADMIN_PATH."view/htm/setting_smtp.htm");
 	
 	} else {
 		
