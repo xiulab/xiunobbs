@@ -46,7 +46,6 @@ function thread__find($cond = array(), $orderby = array(), $page = 1, $pagesize 
 }
 
 function thread_create($arr, &$pid) {
-	// hook model_thread_create_start.php
 	global $conf, $gid;
 	$fid = $arr['fid'];
 	$uid = $arr['uid'];
@@ -66,6 +65,9 @@ function thread_create($arr, &$pid) {
 		'message'=>$message,
 		'doctype'=>$doctype,
 	);
+	
+	// hook model_thread_create_start.php
+	
 	$pid = post__create($post, $gid);
 	if($pid === FALSE) return FALSE;
 	
@@ -114,9 +116,10 @@ function thread_create($arr, &$pid) {
 
 // 不要在大循环里调用此函数！比较耗费资源。
 function thread_update($tid, $arr) {
-	// hook model_thread_update_start.php
 	global $conf;
 	$thread = thread__read($tid);
+	
+	// hook model_thread_update_start.php
 	
 	if(isset($arr['subject']) && $arr['subject'] != $thread['subject']) {
 		$thread['top'] > 0 AND thread_top_cache_delete();
@@ -211,13 +214,14 @@ function thread_find($cond = array(), $orderby = array(), $page = 1, $pagesize =
 // $order: tid/lastpid
 // 按照: 发帖时间/最后回复时间 倒序
 function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'tid') {
-	// hook model_thread_find_by_fid_start.php
 	global $conf, $forumlist;
 	
 	$cond = array();
 	$fid AND $cond['fid'] = $fid;
 	$orderby = array($order=>-1);
 	$threadlist = thread_find($cond, $orderby, $page, $pagesize);
+	
+	// hook model_thread_find_by_fid_start.php
 	
 	// 查找置顶帖
 	if($order == $conf['order_default'] && $page == 1) {
@@ -247,9 +251,12 @@ function thread_find_by_keyword($keyword) {
 
 
 function thread_format(&$thread) {
-	// hook model_thread_format_start.php
+	
 	global $conf, $forumlist;
 	if(empty($thread)) return;
+	
+	// hook model_thread_format_start.php
+	
 	$thread['create_date_fmt'] = humandate($thread['create_date']);
 	$thread['last_date_fmt'] = humandate($thread['last_date']);
 	
@@ -315,9 +322,11 @@ function thread_get_level($n, $levelarr) {
 
 // 对 $threadlist 权限过滤
 function thread_list_access_filter(&$threadlist, $gid) {
-	// hook model_thread_list_access_filter_start.php
 	global $conf, $forumlist;
 	if(empty($threadlist)) return;
+	
+	// hook model_thread_list_access_filter_start.php
+	
 	foreach($threadlist as $tid=>$thread) {
 		if(empty($forumlist[$thread['fid']]['accesson'])) continue;
 		if($thread['top'] > 0) continue;

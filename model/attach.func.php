@@ -76,9 +76,9 @@ function attach_delete($aid) {
 }
 
 function attach_delete_by_pid($pid) {
-	// hook model_attach_delete_by_pid_start.php
 	global $conf;
 	list($attachlist, $imagelist, $filelist) = attach_find_by_pid($pid);
+	// hook model_attach_delete_by_pid_start.php
 	foreach($attachlist as $attach) {
 		$path = $conf['upload_path'].'attach/'.$attach['filename'];
 		file_exists($path) AND unlink($path);
@@ -98,8 +98,8 @@ function attach_find($cond = array(), $orderby = array(), $page = 1, $pagesize =
 
 // 获取 $filelist $imagelist
 function attach_find_by_pid($pid) {
-	// hook model_attach_find_by_pid_start.php
 	$attachlist = $imagelist = $filelist = array();
+	// hook model_attach_find_by_pid_start.php
 	$attachlist = attach__find(array('pid'=>$pid), array(), 1, 1000);
 	if($attachlist) {
 		foreach ($attachlist as $attach) {
@@ -115,8 +115,8 @@ function attach_find_by_pid($pid) {
 
 function attach_format(&$attach) {
 	global $conf;
-	// hook model_attach_format_start.php
 	if(empty($attach)) return;
+	// hook model_attach_format_start.php
 	$attach['create_date_fmt'] = date('Y-n-j', $attach['create_date']);
 	$attach['url'] = $conf['upload_url'].'attach/'.$attach['filename'];
 	// hook model_attach_format_end.php
@@ -145,8 +145,8 @@ function attach_type($name, $types) {
 
 // 扫描垃圾的附件，每日清理一次
 function attach_gc() {
-	// hook model_attach_gc_start.php
 	global $time, $conf;
+	// hook model_attach_gc_start.php
 	$tmpfiles = glob($conf['upload_path'].'tmp/*.*');
 	foreach ($tmpfiles as $file) {
 		// 清理超过一天还没处理的临时文件

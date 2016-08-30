@@ -72,11 +72,12 @@ function forum_read($fid) {
 
 // 关联数据删除
 function forum_delete($fid) {
-	// hook model_forum_delete_start.php
-	
 	//  把板块下所有的帖子都查找出来，此处数据量大可能会超时，所以不要删除帖子特别多的板块
 	$cond = array('fid'=>$fid);
 	$threadlist = db_find('thread', $cond, array(), 1, 1000000, '', array('tid', 'uid'));
+	
+	// hook model_forum_delete_start.php
+	
 	foreach ($threadlist as $thread) {
 		thread_delete($thread['tid']);
 	}
@@ -99,9 +100,11 @@ function forum_find($cond = array(), $orderby = array('rank'=>-1), $page = 1, $p
 // ------------> 其他方法
 
 function forum_format(&$forum) {
-	// hook model_forum_format_start.php
 	global $conf;
 	if(empty($forum)) return;
+	
+	// hook model_forum_format_start.php
+	
 	$forum['create_date_fmt'] = date('Y-n-j', $forum['create_date']);
 	$forum['icon_url'] = $forum['icon'] ? $conf['upload_url']."forum/$forum[fid].png" : 'view/img/forum.png';
 	$forum['accesslist'] = $forum['accesson'] ? forum_access_find_by_fid($forum['fid']) : array();
@@ -130,9 +133,11 @@ function forum_maxid() {
 
 // 从缓存中读取 forum_list 数据x
 function forum_list_cache() {
-	// hook model_forum_list_cache_start.php
 	global $conf, $forumlist;
 	$forumlist = cache_get('forumlist');
+	
+	// hook model_forum_list_cache_start.php
+	
 	if($forumlist === NULL) {
 		$forumlist = forum_find();
 		cache_set('forumlist', $forumlist, 60);
@@ -143,10 +148,12 @@ function forum_list_cache() {
 
 // 更新 forumlist 缓存
 function forum_list_cache_delete() {
-	// hook model_forum_list_cache_delete_start.php
 	global $conf;
 	static $deleted = FALSE;
 	if($deleted) return;
+	
+	// hook model_forum_list_cache_delete_start.php
+	
 	cache_delete('forumlist');
 	$deleted = TRUE;
 	// hook model_forum_list_cache_delete_end.php
@@ -154,10 +161,12 @@ function forum_list_cache_delete() {
 
 // 对 $forumlist 权限过滤，查看权限没有，则隐藏
 function forum_list_access_filter($forumlist, $gid, $allow = 'allowread') {
-	// hook model_forum_list_access_filter_start.php
 	global $conf, $group;
 	if(empty($forumlist)) return array();
 	$forumlist_filter = $forumlist;
+	
+	// hook model_forum_list_access_filter_start.php
+	
 	foreach($forumlist_filter as $fid=>$forum) {
 		if(empty($forum['accesson']) && empty($group[$allow]) || !empty($forum['accesson']) && empty($forum['accesslist'][$gid][$allow])) {
 			unset($forumlist_filter[$fid]);

@@ -2,9 +2,19 @@
 
 // 如果环境支持，可以直接改为 redis get() set() 持久存储相关 API，提高速度。
 
-function kv_get($k) {
+// 无缓存
+function kv__get($k) {
 	$arr = db_find_one('kv', array('k'=>$k));
 	return $arr ? xn_json_decode($arr['v']) : NULL;
+}
+
+// 有缓存的
+function kv_get($k) {
+	static $static = array();
+	if(!isset($static[$k])) {
+		$static[$k] = kv__get($k);
+	}
+	return $static[$k];
 }
 
 function kv_set($k, $v, $life = 0) {
@@ -20,6 +30,7 @@ function kv_delete($k) {
 	$r = db_delete('kv', array('k'=>$k));
 	return $r;
 }
+
 
 
 // --------------------> kv + cache

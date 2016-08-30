@@ -70,16 +70,8 @@ if($action == 'set') {
 			$messagearr = arrlist_key_values($postlist, 'pid', 'message');
 			foreach($messagearr as &$message) $message = strip_tags($message);
 			
-			$postdata = array('text'=>$messagearr);
-			$cutword_url = kv_get('xn_search_cutword_url');
-			$r = http_post($cutword_url, $postdata, 30, 3);
-			$arrlist2 = xn_json_decode($r);
-			if(!is_array($arrlist2)) {
-				message(-1, '服务端返回数据出错：'.$r);
-			}
-			foreach($arrlist2 as $pid=>$arrlist) {
-				$wordarr = arrlist_values($arrlist, 'word');
-				$words = implode(' ', $wordarr);
+			$arrlist2 = search_cutword($messagearr);
+			foreach($arrlist2 as $pid=>$words) {
 				db_replace('post_search', array('pid'=>$pid, 'message'=>$words));
 			}
 			$start += $limit;
@@ -105,16 +97,8 @@ if($action == 'set') {
 			$messagearr = arrlist_key_values($threadlist, 'tid', 'message');
 			foreach($messagearr as &$message) $message = strip_tags($message);
 			
-			$postdata = array('text'=>$messagearr);
-			$cutword_url = kv_get('xn_search_cutword_url');
-			$r = http_post($cutword_url, $postdata, 30, 3);
-			$arrlist2 = xn_json_decode($r);
-			if(!is_array($arrlist2)) {
-				message(-1, '服务端返回数据出错：'.$r);
-			}
-			foreach($arrlist2 as $tid=>$arrlist) {
-				$wordarr = arrlist_values($arrlist, 'word');
-				$words = implode(' ', $wordarr);
+			$arrlist2 = search_cutword($messagearr);
+			foreach($arrlist2 as $tid=>$words) {
 				db_replace('thread_search', array('tid'=>$tid, 'message'=>$words));
 			}
 			$start += $limit;
@@ -122,15 +106,13 @@ if($action == 'set') {
 		}
 		$url = url("plugin-setting-xn_search-cutstep-$range-$start");
 		message(0, jump("正在切词，主题帖总数：$threads, 当前：".($start - $limit), $url, 5));
-	
 	}
-	
-	
 }
 
 function thread_firstpid_message($firstpid) {
 	$post = post__read($firstpid);
 	return array_value($post, 'message');
 }
+
 	
 ?>

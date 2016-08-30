@@ -57,9 +57,9 @@ function user_update($uid, $arr) {
 }
 
 function user_read($uid) {
-	// hook model_user_read_start.php
 	if(empty($uid)) return array();
 	$uid = intval($uid);
+	// hook model_user_read_start.php
 	$user = user__read($uid);
 	user_format($user);
 	// hook model_user_read_end.php
@@ -68,10 +68,11 @@ function user_read($uid) {
 
 // 从缓存中读取，避免重复从数据库取数据，主要用来前端显示，可能有延迟。重要业务逻辑不要调用此函数，数据可能不准确，因为并没有清理缓存，针对 request 生命周期有效。
 function user_read_cache($uid) {
-	// hook model_user_read_cache_start.php
 	global $conf;
 	static $cache = array(); // 用静态变量只能在当前 request 生命周期缓存，要跨进程，可以再加一层缓存： memcached/xcache/apc/
 	if(isset($cache[$uid])) return $cache[$uid];
+	
+	// hook model_user_read_cache_start.php
 	
 	// 游客
 	if($uid == 0) return user_guest();
@@ -153,10 +154,11 @@ function user_maxid($cond = array()) {
 }
 
 function user_format(&$user) {
-	// hook model_user_format_start.php
 	global $conf, $grouplist;
 	if(empty($user)) return;
 
+	// hook model_user_format_start.php
+	
 	$user['create_ip_fmt']   = long2ip($user['create_ip']);
 	$user['create_date_fmt'] = empty($user['create_date']) ? '0000-00-00' : date('Y-m-d', $user['create_date']);
 	$user['login_ip_fmt']    = long2ip($user['login_ip']);

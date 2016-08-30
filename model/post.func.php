@@ -96,13 +96,14 @@ function post_create($arr, $fid, $gid) {
 
 // 编辑回帖
 function post_update($pid, $arr, $tid = 0) {
-	// hook model_post_update_start.php
 	global $conf, $user, $gid;
 	$post = post__read($pid);
 	if(empty($post)) return FALSE;
 	$tid = $post['tid'];
 	$uid = $post['uid'];
 	$isfirst = $post['isfirst'];
+	
+	// hook model_post_update_start.php
 	
 	// 超长内容截取
 	$arr['message'] = xn_substr($arr['message'], 0, 2028000);
@@ -142,7 +143,6 @@ function post_read_cache($pid) {
 
 // $tid 用来清理缓存
 function post_delete($pid) {
-	// hook model_post_delete_start.php
 	global $conf;
 	$post = post_read_cache($pid);
 	if(empty($post)) return TRUE; // 已经不存在了。
@@ -152,8 +152,7 @@ function post_delete($pid) {
 	$thread = thread_read_cache($tid);
 	$fid = $thread['fid'];
 	
-	$r = post__delete($pid);
-	if($r === FALSE) return FALSE;
+	// hook model_post_delete_start.php
 	
 	if(!$post['isfirst']) {
 		thread__update($tid, array('posts-'=>1));
@@ -164,6 +163,8 @@ function post_delete($pid) {
 	}
 	
 	($post['images'] || $post['files']) AND attach_delete_by_pid($pid);
+	
+	$r = post__delete($pid);
 	
 	// hook model_post_delete_end.php
 	return $r;
@@ -194,10 +195,10 @@ function post_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 2
 
 // 此处有缓存，是否有必要？
 function post_find_by_tid($tid, $page = 1, $pagesize = 50) {
-	// hook model_post_find_by_tid_start.php
 	global $conf;
-
 	$postlist = post__find(array('tid'=>$tid), array('pid'=>1), $page, $pagesize);
+	
+	// hook model_post_find_by_tid_start.php
 	
 	if($postlist) {
 		$floor = ($page - 1)* $pagesize;
@@ -222,12 +223,13 @@ function post_list_cache_delete($tid) {
 // ------------> 其他方法
 
 function post_format(&$post) {
-	// hook model_post_format_start.php
 	global $conf;
 	if(empty($post)) return;
 	$post['create_date_fmt'] = humandate($post['create_date']);
 	
 	$user = user_read_cache($post['uid']);
+	
+	// hook model_post_format_start.php
 	
 	$post['username'] = array_value($user, 'username');
 	$post['user_avatar_url'] = array_value($user, 'avatar_url');

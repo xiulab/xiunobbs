@@ -111,8 +111,8 @@ function group_maxid() {
 
 // 从缓存中读取 forum_list 数据
 function group_list_cache() {
-	// hook model_group_list_cache_start.php
 	$grouplist = cache_get('grouplist');
+	// hook model_group_list_cache_start.php
 	if($grouplist === NULL) {
 		$grouplist = group_find();
 		cache_set('grouplist', $grouplist);
