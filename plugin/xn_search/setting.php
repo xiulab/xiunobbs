@@ -97,7 +97,7 @@ if($action == 'set') {
 		if(empty($tidlist)) {
 			$start = $threads;
 			kv_set('xn_search_cut_all_start', $start);
-			message(0, '切词完毕，去前台体验搜索吧。');
+			message(0, '切词完毕。');
 		} else {
 			$tids = arrlist_values($tidlist, 'tid');
 			$threadlist = db_find('thread', array('tid'=>$tids), array(), 1, 1000, 'tid');

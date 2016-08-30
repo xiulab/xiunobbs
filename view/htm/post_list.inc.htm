@@ -1,3 +1,7 @@
+				<?php
+					empty($allowupdate) AND $allowupdate = 0;
+					empty($allowdelete) AND $allowdelete = 0;
+				?>
 				<!--{hook post_list_inc_start.htm}-->
 
 				<?php if($postlist) { foreach($postlist as $_post) { ?>
@@ -25,14 +29,19 @@
 									<?php } ?>
 								
 									<?php if($allowdelete || $_post['allowdelete']) { ?>
-									<a data-href="<?php echo url("post-delete-$_post[pid]");?>" href="javascript:void(0);" class="text-grey post_delete m-r-1"><i class="icon-remove" aria-hidden="true"></i> <?php echo lang('delete');?></a>
+									<a data-href="<?php echo url("post-delete-$_post[pid]");?>" data-confirm-text="<?php echo lang('confirm_delete');?>" href="javascript:void(0);" class="text-grey post_delete confirm m-r-1"><i class="icon-remove" aria-hidden="true"></i> <?php echo lang('delete');?></a>
 									<?php } ?>
+									
+									<?php if($_post['floor']) { ?>
 									<span class="floor"><?php echo $_post['floor'];?></span> <?php echo lang('floor');?>
+									<?php } ?>
 									<!--{hook post_list_inc_floor_after.htm}-->
 								</dd>
 							</dl>
 							<div class="message m-t-xs break-all">
-							
+								<?php if(!empty($_post['subject'])) { ?>
+									<h6><a href="<?php echo url("thread-$_post[tid]");?>" target="_blank"><?php echo $_post['subject'];?></a></h6>
+								<?php } ?>
 								<!--{hook post_list_inc_message_before.htm}-->
 								<?php echo $_post['message_fmt'];?>
 								<!--{hook post_list_inc_message_after.htm}-->

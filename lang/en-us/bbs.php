@@ -154,6 +154,7 @@ return array(
 	'user_joined_thread'=>'Join Thread',
 	'delete_user'=>'Delete User',
 	'confirm_delete_user'=>'Sure to delete user ?',
+	'confirm_delete'=>'Sure to delete ?',
 	
 	// my profile
 	'my_home' => 'My Home',
@@ -212,6 +213,8 @@ return array(
 	'file_not_exists' => 'File does not exists',
 	'new_thread' => 'New Thread',
 	'new_post' => 'New Post',
+	'thread_list' => 'Thread List',
+	'post_list' => 'Reply List',
 	'today_threads' => 'Today Threads',
 	'today_posts' => 'Today Posts',
 	'forum_anouncement' => 'Forum Announcement',

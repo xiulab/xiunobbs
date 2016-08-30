@@ -153,6 +153,7 @@ return array(
 	'user_joined_thread'=>'他参与的主题',
 	'delete_user'=>'删除用户',
 	'confirm_delete_user'=>'确定删除用户？',
+	'confirm_delete'=>'确定删除？',
 	
 	// 个人中心
 	'my_home' => '个人中心',
@@ -211,6 +212,8 @@ return array(
 	'file_not_exists' => '文件不存在',
 	'new_thread' => '最新主题',
 	'new_post' => '最新回复',
+	'thread_list' => '主题列表',
+	'post_list' => '回复列表',
 	'today_threads' => '今日主题',
 	'today_posts' => '今日贴子',
 	'forum_anouncement' => '版块公告',

@@ -265,6 +265,17 @@ function post_maxid() {
 	return $n;
 }
 
+
+function post_find_by_pids($pids, $order = array('pid'=>-1)) {
+	// hook model_post_find_by_pids_start.php
+	if(!$pids) return array();
+	$postlist = db_find('post', array('pid'=>$pids), $order, 1, 1000, 'pid');
+	if($postlist) foreach($postlist as &$post) post_format($post);
+	// hook model_post_find_by_pids_end.php
+	return $postlist;
+}
+
+
 function post_highlight_keyword($str, $k) {
 	// hook model_post_highlight_keyword_start.php
 	$r = str_ireplace($k, '<span class="red">'.$k.'</span>', $str);
