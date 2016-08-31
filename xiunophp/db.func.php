@@ -383,14 +383,14 @@ function db_cond_to_sqladd($cond) {
 		foreach($cond as $k=>$v) {
 			if(!is_array($v)) {
 				$v = (is_int($v) || is_float($v)) ? $v : "'".addslashes($v)."'";
-				$s .= "$k=$v AND ";
+				$s .= "`$k`=$v AND ";
 			} elseif(isset($v[0])) {
 				// OR 效率比 IN 高
 				$s .= '(';
 				//$v = array_reverse($v);
 				foreach ($v as $v1) {
 					$v1 = (is_int($v1) || is_float($v1)) ? $v1 : "'".addslashes($v1)."'";
-					$s .= "$k=$v1 OR ";
+					$s .= "`$k`=$v1 OR ";
 				}
 				$s = substr($s, 0, -4);
 				$s .= ') AND ';
@@ -406,7 +406,7 @@ function db_cond_to_sqladd($cond) {
 						$v1="%$v1%";
 					}
 					$v1 = (is_int($v1) || is_float($v1)) ? $v1 : "'".addslashes($v1)."'";
-					$s .= "$k$k1$v1 AND ";
+					$s .= "`$k`$k1$v1 AND ";
 				}
 			}
 		}
@@ -421,7 +421,7 @@ function db_orderby_to_sqladd($orderby) {
 		$s .= ' ORDER BY ';
 		$comma = '';
 		foreach($orderby as $k=>$v) {
-			$s .= $comma."$k ".($v == 1 ? ' ASC ' : ' DESC ');
+			$s .= $comma."`$k` ".($v == 1 ? ' ASC ' : ' DESC ');
 			$comma = ',';
 		}
 	}
@@ -445,10 +445,10 @@ function db_array_to_update_sqladd($arr) {
 		if($op == '+' || $op == '-') {
 			$k = substr($k, 0, -1);
 			$v = (is_int($v) || is_float($v)) ? $v : "'$v'";
-			$s .= "$k=$k$op$v,";
+			$s .= "`$k`=$k$op$v,";
 		} else {
 			$v = (is_int($v) || is_float($v)) ? $v : "'$v'";
-			$s .= "$k=$v,";
+			$s .= "`$k`=$v,";
 		}
 	}
 	return substr($s, 0, -1);
@@ -468,7 +468,7 @@ function db_array_to_insert_sqladd($arr) {
 	foreach($arr as $k=>$v) {
 		$k = addslashes($k);
 		$v = addslashes($v);
-		$keys[] = $k;
+		$keys[] = '`'.$k.'`';
 		$v = (is_int($v) || is_float($v)) ? $v : "'$v'";
 		$values[] = $v;
 	}
