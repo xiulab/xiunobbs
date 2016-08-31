@@ -1,6 +1,6 @@
 
 		<table class="small nav_tag_list">
-		<?php if($forum['tagcatelist']) {foreach($forum['tagcatelist'] as $i=>$tagcate) { ?>
+		<?php if(!empty($forum['tagcatelist'])) {foreach($forum['tagcatelist'] as $i=>$tagcate) { ?>
 			<tr>
 				<td class="text-small text-muted" align="right">
 					<?php echo $tagcate['name'];?>：
