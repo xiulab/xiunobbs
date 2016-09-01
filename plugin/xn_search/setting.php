@@ -10,23 +10,47 @@
 $action = param(3);
 empty($action) AND $action = 'set';
 
+$search_conf = kv_get('search_conf');
+if(empty($search_conf)) {
+	$search_conf = array(
+		'type'=>'like', // like|fulltext|sphinx|site
+		'range'=>0, // 0: all, 1: post, 2: thread
+		'cutword_url' => 'http://plugin.xiuno.com/cutword.php', // 切词服务
+		'sphinx_host' => '127.0.0.1',
+		'sphinx_port' => '127.0.0.1',
+		'sphinx_index' => 'thread',
+		'sphinx_delta_index' => 'thread_delta',
+		'site_url' => 'https://www.baidu.com/s?wd=site%3Abbs.xiuno.com%20{keyword}',
+	);
+	kv_set('search_conf', $search_conf);
+}
+
 if($action == 'set') {
 	if($method == 'GET') {
 		
 		// 站内搜索：https://www.baidu.com/s?wd=site%3Abbs.xiuno.com%20%E6%96%B0%E7%89%88%E6%9C%AC
 		
 		$input = array();
-		$input['search_type'] = form_radio('search_type', array('like'=>lang('search_type_like'), 'fulltext'=>lang('search_type_fulltext'), 'sphinx'=>lang('search_type_sphinx')), kv_get('xn_search_type'));
-		$input['search_range'] = form_radio('search_range', array(0=>lang('all'), 1=>lang('search_range_thread'), 2=>lang('search_range_post'), ), kv_get('xn_search_range'));
-		$input['search_cutword_url'] = form_text('search_cutword_url', kv_get('xn_search_cutword_url'), '100%');
-		$input['search_sphinx_url'] = form_text('search_sphinx_url', kv_get('xn_search_sphinx_url'), '100%');
+		$input['type'] = form_radio('type', array('like'=>lang('search_type_like'), 'fulltext'=>lang('search_type_fulltext'), 'sphinx'=>lang('search_type_sphinx'), 'site_url'=>lang('search_type_site_url')), $search_conf['type']);
+		$input['range'] = form_radio('range', array(0=>lang('all'), 1=>lang('search_range_thread'), 2=>lang('search_range_post'), ), $search_conf['range']);
+		$input['cutword_url'] = form_text('cutword_url', $search_conf['cutword_url'], '100%');
+		$input['sphinx_host'] = form_text('sphinx_host', $search_conf['sphinx_host'], '100%');
+		$input['sphinx_post'] = form_text('sphinx_post', $search_conf['sphinx_port'], '100%');
+		$input['sphinx_index'] = form_text('sphinx_index', $search_conf['sphinx_index'], '100%');
+		$input['sphinx_delta_index'] = form_text('sphinx_delta_index', $search_conf['sphinx_delta_index'], '100%');
+		$input['site_url'] = form_text('site_url', $search_conf['site_url'], '100%');
 		include _include(APP_PATH.'plugin/xn_search/setting.htm');
 		
 	} else {
 	
-		kv_set('xn_search_type', param('search_type'));
-		kv_set('xn_search_cutword_url', param('search_cutword_url'));
-		kv_set('xn_search_sphinx_url', param('search_sphinx_url'));
+		$search_conf['type'] = param('type');
+		$search_conf['range'] = param('range');
+		$search_conf['cutword_url'] = param('cutword_url');
+		$search_conf['sphinx_host'] = param('sphinx_host');
+		$search_conf['sphinx_post'] = param('sphinx_post');
+		$search_conf['site_url'] = param('site_url');
+		
+		kv_set('search_conf', $search_conf);
 		
 		message(0, '修改成功');
 	}
@@ -40,7 +64,7 @@ if($action == 'set') {
 	$post_start = intval(kv_get('xn_search_cut_post_start'));
 	$input['post_start'] = form_text('post_start', $post_start);
 	$input['all_start'] = form_text('all_start', $all_start);
-	$input['range'] = form_radio('range', array(0=>lang('all'), 1=>lang('search_range_thread')), kv_get('xn_search_range'));
+	$input['range'] = form_radio('range', array(0=>lang('all'), 1=>lang('search_range_thread')), $search_conf['range']);
 	include _include(APP_PATH.'plugin/xn_search/htm/setting_cutword.htm');
 	
 } elseif($action == 'cutstep') {

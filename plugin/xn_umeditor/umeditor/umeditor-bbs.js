@@ -85,6 +85,29 @@ $(function() {
 		}
 		me.getOpt('pasteImageEnabled') && me.$body.on('paste', xn_upload_handler);
 		me.getOpt('dropFileEnabled') && me.$body.on('drop', xn_upload_handler);
+
+		
+		var xn_paster_after_handler = function(e) {
+			me.$body.find('img').each(function() {
+				var jthis = $(this);
+				var src = jthis.attr('src');
+				if(src && xn.substr(src, 0, 10) == 'data:image') {
+					xn.upload_file(src, xn.url('attach-create'), {is_image: 1}, function(code, json) {
+						if(code == 0) {
+							jthis.attr('src', json.url);
+						} else {
+							$.alert(json);
+						}
+					});
+				}
+			});
+		}
+		
+		
+		// 处理已经粘贴进去的 
+		// <img width="222" height="113" src="data:image/png;base64,/9j/4AAQSkZJRgABAQEAYABgAAD
+		me.addListener('afterpaste', xn_paster_after_handler);
+		//me.getOpt('pasteImageEnabled') && me.$body.on('afterpaste', xn_paster_after_handler);
 		
 		// 小屏幕下隐藏一些工具
 		var jtoolbar = me.$container.find('.edui-btn-toolbar');

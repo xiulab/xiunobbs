@@ -346,6 +346,7 @@ function plugin_paths_enabled() {
 	if(empty($return_paths)) {
 		$return_paths = array();
 		$plugin_paths = glob(APP_PATH.'plugin/*', GLOB_ONLYDIR);
+		if(empty($plugin_paths)) return array();
 		foreach($plugin_paths as $path) {
 			$conffile = $path."/conf.json";
 			if(!is_file($conffile)) continue;

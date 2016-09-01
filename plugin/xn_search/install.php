@@ -25,8 +25,25 @@ $sql = "CREATE TABLE IF NOT EXISTS bbs_post_search (
 db_exec($sql);
 
 // 默认为 FULLTEXT 搜索
+/*
 kv_set('xn_search_type', 'like'); // LIKE|FULLTEXT
 kv_set('xn_search_range', 0); // LIKE|FULLTEXT
 kv_set('xn_search_cutword_url', 'http://plugin.xiuno.com/cutword.php');
+*/
+
+$search_conf = kv_get('search_conf');
+if(empty($search_conf)) {
+	$search_conf = array(
+		'type'=>'like', // like|fulltext|sphinx|site
+		'range'=>0, // 0: all, 1: post, 2: thread
+		'cutword_url' => 'http://plugin.xiuno.com/cutword.php', // 切词服务
+		'sphinx_host' => '127.0.0.1',
+		'sphinx_port' => '127.0.0.1',
+		'site_url' => 'https://www.baidu.com/s?wd=site%3Abbs.xiuno.com%20{keyword}',
+	);
+	kv_set('search_conf', $search_conf);
+}
+
+
 
 ?>

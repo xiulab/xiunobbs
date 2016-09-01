@@ -244,6 +244,7 @@ xn.strrpos = function(str, s) {return str.lastIndexOf(s);}
 xn.strpos = function(str, s) {return str.indexOf(s);}
 xn.substr = function(str, start, len) {
 	// 支持负数
+	if(!str) return '';
 	var end = length;
 	var length = str.length;
 	if(start < 0) start = length + start;
@@ -323,9 +324,13 @@ xn.is_email = function(s) {
 	return true;
 }
 
-xn.is_element = function(obj) {
-    return !!(obj && obj.nodeType === 1);
-};
+xn.is_string = function(obj) {return Object.prototype.toString.apply(obj) == '[object String]';};
+xn.is_function = function(obj) {return Object.prototype.toString.apply(obj) == '[object Function]';};
+xn.is_array = function(obj) {return Object.prototype.toString.apply(obj) == '[object Array]';};
+xn.is_number = function(obj) {return Object.prototype.toString.apply(obj) == '[object Number]';};
+xn.is_regexp = function(obj) {return Object.prototype.toString.apply(obj) == '[object RegExp]';};
+xn.is_object = function(obj) {return Object.prototype.toString.apply(obj) == '[object Object]';};
+xn.is_element = function(obj) {return !!(obj && obj.nodeType === 1);};
 
 xn.lang = function(key, arr) {
 	var r = lang[key] ? lang[key] : "lang["+key+"]";
@@ -962,9 +967,8 @@ xn.upload_file = function(file, upload_url, postdata, callback, progress_callbac
 	postdata = postdata || {};
 	postdata.width = postdata.width || 1200;
 	postdata.height = postdata.height || 2400;
-	var reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function() {
+	
+	var ajax_upload_file = function(base64_data) {
         	var ajax_upload = function(upload_url, postdata, _callback) {
         		$.xpost(upload_url, postdata, function(code, message) {
         			if(code != 0) return _callback(code, message);
@@ -976,10 +980,10 @@ xn.upload_file = function(file, upload_url, postdata, callback, progress_callbac
         	
         	// gif 直接上传
         	// 图片进行缩放，然后上传
-        	//  && xn.substr(this.result, 0, 14) != 'data:image/gif'
-        	if(xn.substr(this.result, 0, 10) == 'data:image') {
+        	//  && xn.substr(base64_data, 0, 14) != 'data:image/gif'
+        	if(xn.substr(base64_data, 0, 10) == 'data:image') {
 	        	var filename = file.name ? file.name : (file.type == 'image/png' ? 'capture.png' : 'capture.jpg');
-	        	xn.image_resize(this.result, function(code, message) {
+	        	xn.image_resize(base64_data, function(code, message) {
 	        		if(code != 0) return alert(message);
 	        		// message.width, message.height 是缩略后的宽度和高度
 	        		postdata.name = filename;
@@ -992,12 +996,26 @@ xn.upload_file = function(file, upload_url, postdata, callback, progress_callbac
         	} else {
         		var filename = file.name ? file.name : '';
         		postdata.name = filename;
-        		postdata.data = this.result;
+        		postdata.data = base64_data;
         		postdata.width = 0;
         		postdata.height = 0;
         		ajax_upload(upload_url, postdata, callback);
         	}
         }
+        
+	// 如果为 base64 则不需要 new FileReader()
+	if(xn.is_string(file) && xn.substr(file, 0, 10) == 'data:image') {
+		var base64_data = file;
+		ajax_upload_file(base64_data);
+	} else {
+		var reader = new FileReader();
+	        reader.readAsDataURL(file);
+	        reader.onload = function() {
+	        	var base64_data = this.result;
+			ajax_upload_file(base64_data);
+	        }
+	}
+	
 }
 
 // 从事件对象中查找 file 对象，兼容 jquery event, clipboard, file.onchange

@@ -1,6 +1,6 @@
 <?php
 
-define('DEBUG', 2);
+define('DEBUG', 1);
 define('APP_PATH', realpath(dirname(__FILE__).'/../').'/');
 define('INSTALL_PATH', dirname(__FILE__).'/');
 
@@ -26,7 +26,7 @@ include INSTALL_PATH.'install.func.php';
 $action = param('action');
 
 // 安装初始化检测,放这里
-is_file(APP_PATH.'conf/conf.php') AND empty($action) AND !DEBUG AND message(0, jump(lang('installed_tips'), '../'));
+is_file(APP_PATH.'conf/conf.php') AND DEBUG != 2 AND message(0, jump(lang('installed_tips'), '../'));
 
 // 从 cookie 中获取数据，默认为中文
 $_lang = param('lang', 'zh-cn');
