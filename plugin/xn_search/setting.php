@@ -35,7 +35,7 @@ if($action == 'set') {
 		$input['range'] = form_radio('range', array(0=>lang('all'), 1=>lang('search_range_thread'), 2=>lang('search_range_post'), ), $search_conf['range']);
 		$input['cutword_url'] = form_text('cutword_url', $search_conf['cutword_url'], '100%');
 		$input['sphinx_host'] = form_text('sphinx_host', $search_conf['sphinx_host'], '100%');
-		$input['sphinx_post'] = form_text('sphinx_post', $search_conf['sphinx_port'], '100%');
+		$input['sphinx_port'] = form_text('sphinx_port', $search_conf['sphinx_port'], '100%');
 		$input['sphinx_index'] = form_text('sphinx_index', $search_conf['sphinx_index'], '100%');
 		$input['sphinx_delta_index'] = form_text('sphinx_delta_index', $search_conf['sphinx_delta_index'], '100%');
 		$input['site_url'] = form_text('site_url', $search_conf['site_url'], '100%');
@@ -46,8 +46,10 @@ if($action == 'set') {
 		$search_conf['type'] = param('type');
 		$search_conf['range'] = param('range');
 		$search_conf['cutword_url'] = param('cutword_url');
-		$search_conf['sphinx_host'] = param('sphinx_host');
-		$search_conf['sphinx_post'] = param('sphinx_post');
+		$search_conf['sphinx_host'] = param('sphinx_port');
+		$search_conf['sphinx_port'] = param('sphinx_port');
+		$search_conf['sphinx_index'] = param('sphinx_index');
+		$search_conf['sphinx_delta_index'] = param('sphinx_delta_index');
 		$search_conf['site_url'] = param('site_url');
 		
 		kv_set('search_conf', $search_conf);

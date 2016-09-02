@@ -863,12 +863,105 @@ $.fn.base64_encode_file = function(width, height, action) {
 	});
 }
 
-// xn.image_resize = 
+xn.base64_data_image_type = function(s) {
+	//data:image/png;base64
+	r = s.match(/^data:image\/(\w+);/i);
+	return r[1];
+}
+
+// 图片背景透明算法 by axiuno@gmail.com，只能处理小图片，大图片 js 效率不行。
+xn.image_background_opacity = function(data, width, height, callback) {
+	var x = 0;
+	var y = 0;
+	//var map = {}; // 图片的状态位： 0: 未检测，1:检测过是背景，2：检测过不是背景
+	//var unmap = {}; // 未检测过的 map 
+	var checked = {'0-0':1}; // 检测过的点
+	var unchecked = {"1-0":1, "0-1":1}; // 未检测过的点，会不停得将新的未检测的点放进来，检测过的移动到 checked;
+	var bg = [data[0], data[1], data[2], data[3]];
+	// 如果不是纯黑，纯白，则返回。
+	if(!((bg[0] == 0 && bg[1] == 0 && bg[2] == 0) || (bg[0] == 255 && bg[1] == 255 && bg[2] == 255))) return;
+	// 判断该点是否被检测过。
+	/*
+	function is_checked(x, y) {
+		return checked[x+'-'+y] ? true : false;
+	}
+	function is_unchecked(x, y) {
+		return unchecked[x+'-'+y] ? true : false;
+	}*/
+	// 从未检测的点里找个出来
+	var unchecked2 = {};
+	function get_one_unchecked() {
+		for(k in unchecked) {
+			if(unchecked[k] == 1) {
+				var r = xn.explode('-', k);
+				unchecked[k] = 0;
+				return r;
+			}
+		}
+		return false;
+	}
+	function checked_push(x, y) {
+		var k = x+'-'+y;
+		if(checked[k] === undefined) checked[k] = 1;
+	}
+	function unchecked_push(x, y) {
+		var k = x+'-'+y;
+		if(checked[k] === undefined && unchecked[k] === undefined) unchecked[k] = 1;
+	}
+	
+	var n = 0;
+	while(1) {
+		//if(k++ > 100000) break;
+		//if(checked.length > 10000) return;
+		if(n++ % 1000 == 0) {
+			//alert(n);
+			//console.log(checked);
+			//console.log(unchecked);
+			//break;
+		}
+		// 遍历未检测的区域，并且不在 checked 列表的，放进去。
+		var curr = get_one_unchecked();
+		//if(unchecked.length > 1000) return;
+		// 遍历完毕，终止遍历
+		if(!curr) break;
+		var x = xn.intval(curr[0]);
+		var y = xn.intval(curr[1]);
+		
+		// 在 data 中的偏移量应该 * 4, rgba 各占一位。
+		var pos = 4 * ((y * width) + x);
+		var r = data[pos];
+		var g = data[pos + 1];
+		var b = data[pos + 2];
+		var a = data[pos + 3];
+		
+		//unchecked_pop(x, y);
+		
+		if(Math.abs(r - bg[0]) < 2 && Math.abs(g == bg[1]) < 2 && Math.abs(b == bg[2]) < 2) {
+			
+			data[pos + 0] = 255; // 处理为透明
+			data[pos + 1] = 0; // 处理为透明
+			data[pos + 2] = 0; // 处理为透明
+			data[pos + 3] = 128; // 处理为透明
+			
+			//callback(data);
+		
+			// 检测边距
+			if(y > 0) unchecked_push(x, y-1);	 // 上
+			if(x < width - 1) unchecked_push(x+1, y); // 右
+			if(y < height - 1) unchecked_push(x, y+1); // 下
+			if(x > 0) unchecked_push(x-1, y); 	// 左
+		}
+		
+		checked_push(x, y); // 保存
+	}
+}
+
+//对图片进行裁切，缩略，对黑色背景，透明化处理
 xn.image_resize = function(file_base64_data, callback, options) {
 	var thumb_width = options.width || 1200;
 	var thumb_height = options.height || 2400;
 	var action = options.action || 'thumb';
-	var filetype = options.filetype || 'jpeg';
+	var filetype = options.filetype || xn.base64_data_image_type(file_base64_data);
 	var qulity = options.qulity || 0.7; // 图片质量, 1 为无损
 	
 	if(thumb_width < 1) return callback(-1, '缩略图宽度不能小于 1 / thumb image width length is less 1 pix');
@@ -934,8 +1027,26 @@ xn.image_resize = function(file_base64_data, callback, options) {
 		canvas.width = canvas_width;
 		canvas.height = canvas_height;
 		var ctx = canvas.getContext("2d"); 
+		
+		
+		
+		//ctx.fillStyle = 'rgb(255,255,255)';
+		//ctx.fillRect(0,0,width,height);
+		
 		ctx.clearRect(0, 0, width, height); 			// canvas清屏
 		ctx.drawImage(img, 0, 0, img_width, img_height, dx, dy, width, height);	// 将图像绘制到canvas上 
+		
+		
+		var imagedata = ctx.getImageData(0, 0, canvas_width, canvas_height);
+		var data = imagedata.data;
+		// 判断与 [0,0] 值相同的并且连续的像素为背景
+
+		//xn.image_background_opacity(data, canvas_width, canvas_height);
+			
+		// 将修改后的代码复制回画布中
+		ctx.putImageData(imagedata, 0, 0);
+		
+		//filetype = 'png';
 		var s = canvas.toDataURL('image/'+filetype, qulity);
 		if(callback) callback(0, {width: width, height: height, data: s});
 	};

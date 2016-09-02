@@ -92,9 +92,16 @@ $(function() {
 				var jthis = $(this);
 				var src = jthis.attr('src');
 				if(src && xn.substr(src, 0, 10) == 'data:image') {
+					
+					// 如果发现有图片，则清理格式
+					// 对黑色背景的图片，进行透明化处理
 					xn.upload_file(src, xn.url('attach-create'), {is_image: 1}, function(code, json) {
 						if(code == 0) {
 							jthis.attr('src', json.url);
+							var node = jthis.closest('span').get(0);
+							 if(node && node.getAttributeNode && node.getAttributeNode('style') && node.removeAttributeNode) {
+					                    	node.removeAttributeNode(node.getAttributeNode('style'));
+					                  }
 						} else {
 							$.alert(json);
 						}
