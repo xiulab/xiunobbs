@@ -116,7 +116,7 @@ function forum_access_find($cond = array(), $orderby = array(), $page = 1, $page
 function forum_access_find_by_fid($fid) {
 	// hook model_forum_access_find_by_fid_start.php
 	$cond = array('fid'=>$fid);
-	$orderby = array('gid'=>-1);
+	$orderby = array('gid'=>1);
 	$accesslist = db_find('forum_access', $cond, $orderby, 1, 100, 'gid');
 	// hook model_forum_access_find_by_fid_end.php
 	return $accesslist;

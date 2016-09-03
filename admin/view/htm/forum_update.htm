@@ -64,13 +64,13 @@
 									<tbody>
 										<?php foreach ($accesslist as &$access) { ?>
 										<tr align="center">								
-											<td><label class="custom-input c-checkbox"><input type="checkbox" name="checkall" /><span class="c-indicator"></span></label></td>
+											<td><label class="custom-input c-checkbox"><input type="checkbox" name="checkall" /></label></td>
 											<td align="left"><?php echo $access['name']; ?></td>
-											<td><label class="custom-input c-checkbox"><input type="checkbox" name="allowread[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowread'] ? 'checked' : ''); ?> /><span class="c-indicator"></span></label></td>
-											<td><label class="custom-input c-checkbox"><input type="checkbox" name="allowthread[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowthread'] ? 'checked' : ''); ?> /><span class="c-indicator"></span></label></td>
-											<td><label class="custom-input c-checkbox"><input type="checkbox" name="allowpost[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowpost'] ? 'checked' : ''); ?> /><span class="c-indicator"></span></label></td>
-											<td><label class="custom-input c-checkbox"><input type="checkbox" name="allowattach[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowattach'] ? 'checked' : ''); ?> /><span class="c-indicator"></span></label></td>
-											<td><label class="custom-input c-checkbox"><input type="checkbox" name="allowdown[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowdown'] ? 'checked' : ''); ?> /><span class="c-indicator"></span></label></td>
+											<td><label class="custom-input c-checkbox"><input type="checkbox" name="allowread[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowread'] ? 'checked' : ''); ?> /></label></td>
+											<td><label class="custom-input c-checkbox"><input type="checkbox" name="allowthread[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowthread'] ? 'checked' : ''); ?> /></label></td>
+											<td><label class="custom-input c-checkbox"><input type="checkbox" name="allowpost[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowpost'] ? 'checked' : ''); ?> /></label></td>
+											<td><label class="custom-input c-checkbox"><input type="checkbox" name="allowattach[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowattach'] ? 'checked' : ''); ?> /></label></td>
+											<td><label class="custom-input c-checkbox"><input type="checkbox" name="allowdown[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowdown'] ? 'checked' : ''); ?> /></label></td>
 										</tr>
 										<?php } ?>
 									</tbody>
