@@ -9,35 +9,35 @@
 				<form action="<?php echo url("forum-update-$_fid");?>" method="post" id="form">
 					<h4 class="card-title"><?php echo lang('forum_edit');?> - <?php echo $_forum['name'];?></h4>
 					<div class="form-group row">
-						<label class="col-sm-2 form-control-label"><?php echo lang('forum_name');?>：</label>
+						<label class="col-sm-2 form-control-label" for="name"><?php echo lang('forum_name');?>：</label>
 						<div class="col-sm-10">
 							<?php echo $input['name'];?>
 						</div>
 					</div>
 					<!--{hook admin_forum_update_forum_name_after.htm}-->
 					<div class="form-group row">
-						<label class="col-sm-2 form-control-label"><?php echo lang('forum_rank');?>：</label>
+						<label class="col-sm-2 form-control-label" for="name"><?php echo lang('rank');?>：</label>
 						<div class="col-sm-3">
 							<?php echo $input['rank'];?>
 						</div>
 					</div>
 					<!--{hook admin_forum_update_forum_rank_after.htm}-->
 					<div class="form-group row">
-						<label class="col-sm-2 form-control-label"><?php echo lang('forum_brief');?>：</label>
+						<label class="col-sm-2 form-control-label" for="brief"><?php echo lang('forum_brief');?>：</label>
 						<div class="col-sm-10">
 							<?php echo $input['brief'];?>
 						</div>
 					</div>
 					<!--{hook admin_forum_update_forum_brief_after.htm}-->
 					<div class="form-group row">
-						<label class="col-sm-2 form-control-label"><?php echo lang('forum_announcement');?>：</label>
+						<label class="col-sm-2 form-control-label" for="announcement"><?php echo lang('forum_announcement');?>：</label>
 						<div class="col-sm-10">
 							<?php echo $input['announcement'];?>
 						</div>
 					</div>
 					<!--{hook admin_forum_update_forum_announcement_after.htm}-->
 					<div class="form-group row">
-						<label class="col-sm-2 form-control-label"><?php echo lang('moderator');?>：</label>
+						<label class="col-sm-2 form-control-label" for="moduids"><?php echo lang('moderator');?>：</label>
 						<div class="col-sm-10">
 							<?php echo $input['moduids'];?>
 							<p class="small text-muted m-t-sm" id="modnames"><?php echo lang('forum_moduid_format_tips');?></p>
@@ -45,7 +45,7 @@
 					</div>
 					<!--{hook admin_forum_update_privilete_before.htm}-->
 					<div class="form-group row">
-						<label class="col-sm-2 form-control-label"><?php echo lang('user_privilege');?>：</label>
+						<label class="col-sm-2 form-control-label" for="accesson"><?php echo lang('user_privilege');?>：</label>
 						<div class="col-sm-10">
 							<p><label><?php echo $input['accesson'];?> <?php echo lang('enable');?></label></p>
 							<div class="table-responsive <?php echo $_forum['accesson'] ? '' : 'collapse';?>" id="accesslist_div">
@@ -66,11 +66,11 @@
 										<tr align="center">								
 											<td><label class="custom-input c-checkbox"><input type="checkbox" name="checkall" /></label></td>
 											<td align="left"><?php echo $access['name']; ?></td>
-											<td><label class="custom-input c-checkbox"><input type="checkbox" name="allowread[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowread'] ? 'checked' : ''); ?> /></label></td>
-											<td><label class="custom-input c-checkbox"><input type="checkbox" name="allowthread[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowthread'] ? 'checked' : ''); ?> /></label></td>
-											<td><label class="custom-input c-checkbox"><input type="checkbox" name="allowpost[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowpost'] ? 'checked' : ''); ?> /></label></td>
-											<td><label class="custom-input c-checkbox"><input type="checkbox" name="allowattach[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowattach'] ? 'checked' : ''); ?> /></label></td>
-											<td><label class="custom-input c-checkbox"><input type="checkbox" name="allowdown[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowdown'] ? 'checked' : ''); ?> /></label></td>
+											<td><label class="custom-input ccustom-checkbox"><input type="checkbox" name="allowread[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowread'] ? 'checked' : ''); ?> /></label></td>
+											<td><label class="custom-input ccustom-checkbox"><input type="checkbox" name="allowthread[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowthread'] ? 'checked' : ''); ?> /></label></td>
+											<td><label class="custom-input ccustom-checkbox"><input type="checkbox" name="allowpost[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowpost'] ? 'checked' : ''); ?> /></label></td>
+											<td><label class="custom-input ccustom-checkbox"><input type="checkbox" name="allowattach[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowattach'] ? 'checked' : ''); ?> /></label></td>
+											<td><label class="custom-input ccustom-checkbox"><input type="checkbox" name="allowdown[<?php echo $access['gid']; ?>]" value="1"<?php echo ($access['allowdown'] ? 'checked' : ''); ?> /></label></td>
 										</tr>
 										<?php } ?>
 									</tbody>
