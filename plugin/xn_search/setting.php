@@ -17,7 +17,7 @@ if(empty($search_conf)) {
 		'range'=>0, // 0: all, 1: post, 2: thread
 		'cutword_url' => 'http://plugin.xiuno.com/cutword.php', // 切词服务
 		'sphinx_host' => '127.0.0.1',
-		'sphinx_port' => '127.0.0.1',
+		'sphinx_port' => '9312',
 		'sphinx_index' => 'thread',
 		'sphinx_delta_index' => 'thread_delta',
 		'site_url' => 'https://www.baidu.com/s?wd=site%3A'._SERVER('HTTP_HOST').'%20{keyword}',
@@ -26,6 +26,7 @@ if(empty($search_conf)) {
 }
 
 if($action == 'set') {
+	
 	if($method == 'GET') {
 		
 		// 站内搜索：https://www.baidu.com/s?wd=site%3Abbs.xiuno.com%20%E6%96%B0%E7%89%88%E6%9C%AC
@@ -46,7 +47,7 @@ if($action == 'set') {
 		$search_conf['type'] = param('type');
 		$search_conf['range'] = param('range');
 		$search_conf['cutword_url'] = param('cutword_url');
-		$search_conf['sphinx_host'] = param('sphinx_port');
+		$search_conf['sphinx_host'] = param('sphinx_host');
 		$search_conf['sphinx_port'] = param('sphinx_port');
 		$search_conf['sphinx_index'] = param('sphinx_index');
 		$search_conf['sphinx_delta_index'] = param('sphinx_delta_index');
