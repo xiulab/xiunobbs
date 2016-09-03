@@ -27,34 +27,50 @@
 							<p class="small text-danger">注：为了支持中文两个字搜索，请设置 my.ini 中的 <b>ft_min_word_len</b> = 2，并重启 mysql 服务</p>
 						</div>
 					</div>
-					<div class="form-group row" id="sphinx">
-						<label class="col-sm-2 form-control-label">Sphinx IP：</label>
-						<div class="col-sm-10">
-							<?php echo $input['sphinx_host']; ?>
-							<p class="text-grey text-small">需要自行配置 Sphinx，参考文档：<a href="http://bbs.xiuno.com/thread-18.htm" target="_blank">http://bbs.xiuno.com/thread-18.htm</a></p>
+					<div id="sphinx">
+						<div class="form-group row">
+							<label class="col-sm-2 form-control-label">Sphinx IP：</label>
+							<div class="col-sm-10">
+								<?php echo $input['sphinx_host']; ?>
+								<p class="text-grey text-small">需要自行配置 Sphinx，参考文档：<a href="http://bbs.xiuno.com/thread-18.htm" target="_blank">http://bbs.xiuno.com/thread-18.htm</a></p>
+							</div>
 						</div>
 						
-						<label class="col-sm-2 form-control-label">Sphinx 端口：</label>
-						<div class="col-sm-10">
-							<?php echo $input['sphinx_port']; ?>
+						<div class="form-group row">
+							<label class="col-sm-2 form-control-label">Sphinx 端口：</label>
+							<div class="col-sm-10">
+								<?php echo $input['sphinx_port']; ?>
+							</div>
 						</div>
 						
-						
-						<label class="col-sm-2 form-control-label">Sphinx 索引：</label>
-						<div class="col-sm-10">
-							<?php echo $input['sphinx_index']; ?>
+						<div class="form-group row">
+							<label class="col-sm-2 form-control-label">Sphinx 索引：</label>
+							<div class="col-sm-10">
+								<?php echo $input['sphinx_index']; ?>
+							</div>
 						</div>
 						
-						
-						<label class="col-sm-2 form-control-label">Sphinx 增量索引：</label>
-						<div class="col-sm-10">
-							<?php echo $input['sphinx_delta_index']; ?>
+						<div class="form-group row">
+							<label class="col-sm-2 form-control-label">Sphinx 增量索引：</label>
+							<div class="col-sm-10">
+								<?php echo $input['sphinx_delta_index']; ?>
+							</div>
 						</div>
 					</div>
-					<div class="form-group row">
-						<label class="col-sm-2 form-control-label">开启搜索范围：</label>
+					<div class="form-group row" id="site_url">
+						<label class="col-sm-2 form-control-label">第三方搜索 URL：</label>
 						<div class="col-sm-10">
-							<?php echo $input['range']; ?>
+							<?php echo $input['site_url']; ?>
+							<p class="text-grey text-small">URL 中的 {keyword} 为关键字</p>
+						</div>
+					</div>
+					
+					<div class="form-group row" id="range">
+						<div class="form-group row">
+							<label class="col-sm-2 form-control-label">开启搜索范围：</label>
+							<div class="col-sm-10">
+								<?php echo $input['range']; ?>
+							</div>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -97,15 +113,28 @@ jform.on('submit', function(){
 function search_type_radio_check(v) {
 	var jfulltext = $('#fulltext');
 	var jsphinx = $('#sphinx');
+	var jsite_url = $('#site_url');
+	var jrange = $('#range');
 	if(v == 'fulltext') {
 		jfulltext.show();
 		jsphinx.hide();
+		jsite_url.hide();
+		jrange.show();
 	} else if(v == 'like') {
 		jfulltext.hide();
 		jsphinx.hide();
+		jsite_url.hide();
+		jrange.show();
 	} else if(v == 'sphinx') {
 		jfulltext.hide();
 		jsphinx.show();
+		jsite_url.hide();
+		jrange.hide();
+	} else if(v == 'site_url') {
+		jfulltext.hide();
+		jsphinx.hide();
+		jsite_url.show();
+		jrange.hide();
 	}
 }
 jform.find('input[name="type"]').on('click', function() {

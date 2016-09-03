@@ -39,7 +39,7 @@ if(empty($search_conf)) {
 		'cutword_url' => 'http://plugin.xiuno.com/cutword.php', // 切词服务
 		'sphinx_host' => '127.0.0.1',
 		'sphinx_port' => '127.0.0.1',
-		'site_url' => 'https://www.baidu.com/s?wd=site%3Abbs.xiuno.com%20{keyword}',
+		'site_url' => 'https://www.baidu.com/s?wd=site%3A'._SERVER('HTTP_HOST').'%20{keyword}',
 	);
 	kv_set('search_conf', $search_conf);
 }

@@ -20,7 +20,7 @@ if(empty($search_conf)) {
 		'sphinx_port' => '127.0.0.1',
 		'sphinx_index' => 'thread',
 		'sphinx_delta_index' => 'thread_delta',
-		'site_url' => 'https://www.baidu.com/s?wd=site%3Abbs.xiuno.com%20{keyword}',
+		'site_url' => 'https://www.baidu.com/s?wd=site%3A'._SERVER('HTTP_HOST').'%20{keyword}',
 	);
 	kv_set('search_conf', $search_conf);
 }

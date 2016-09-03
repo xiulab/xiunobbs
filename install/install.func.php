@@ -6,6 +6,8 @@ function get_env(&$env, &$write) {
 	$env['os']['current'] = PHP_OS;
 	$env['os']['need'] = '类UNIX';
 	$env['os']['status'] = 1;
+	// glob gzip
+	//$env['os']['disable'] = 1;
 	
 	$env['php_version']['name'] = 'PHP版本';
 	$env['php_version']['must'] = TRUE;
