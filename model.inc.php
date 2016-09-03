@@ -34,7 +34,7 @@ $include_model_files = array (
 
 if(DEBUG) {
 	foreach ($include_model_files as $model_files) {
-		include $model_files;
+		include _include($model_files);
 	}
 } else {
 	
