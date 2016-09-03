@@ -3,7 +3,6 @@
 */
 
 /********************* 对 window 对象进行扩展 ************************/
-
 // 兼容 ie89
 if(!Object.keys) {
 	Object.keys = function(o) {
@@ -869,14 +868,48 @@ xn.base64_data_image_type = function(s) {
 	return r[1];
 }
 
-// 图片背景透明算法 by axiuno@gmail.com，只能处理小图片，大图片 js 效率不行。
+// 图片背景透明算法 by axiuno@gmail.com，只能处理小图片，效率做过改进，目前速度还不错。
 xn.image_background_opacity = function(data, width, height, callback) {
 	var x = 0;
 	var y = 0;
 	//var map = {}; // 图片的状态位： 0: 未检测，1:检测过是背景，2：检测过不是背景
 	//var unmap = {}; // 未检测过的 map 
 	var checked = {'0-0':1}; // 检测过的点
-	var unchecked = {"1-0":1, "0-1":1}; // 未检测过的点，会不停得将新的未检测的点放进来，检测过的移动到 checked;
+	var unchecked = {}; // 未检测过的点，会不停得将新的未检测的点放进来，检测过的移动到 checked;
+	var unchecked_arr = []; // 用来加速
+	// 从四周遍历
+	/*
+		*************************************
+		*                                   *
+		*                                   *
+		*                                   *
+		*                                   *
+		*                                   *
+		*                                   *
+		*                                   *
+		*                                   *
+		*                                   *
+		*                                   *
+		*                                   *
+		*************************************
+	*/
+	for(var i = 0; i < width; i++) {
+		var k1 = i + '-0';
+		var k2 = i + '-' + (height - 1);
+		unchecked[k1] = 1;
+		unchecked[k2] = 1;
+		unchecked_arr.push(k1);
+		unchecked_arr.push(k2);
+	}
+	for(var i = 1; i < height - 1; i++) {
+		var k1 ='0-' + i;
+		var k2 = (width - 1) + '-' + i;
+		unchecked[k1] = 1;
+		unchecked[k2] = 1;
+		unchecked_arr.push(k1);
+		unchecked_arr.push(k2);
+	}
+	
 	var bg = [data[0], data[1], data[2], data[3]];
 	// 如果不是纯黑，纯白，则返回。
 	if(!((bg[0] == 0 && bg[1] == 0 && bg[2] == 0) || (bg[0] == 255 && bg[1] == 255 && bg[2] == 255))) return;
@@ -888,17 +921,12 @@ xn.image_background_opacity = function(data, width, height, callback) {
 	function is_unchecked(x, y) {
 		return unchecked[x+'-'+y] ? true : false;
 	}*/
-	// 从未检测的点里找个出来
-	var unchecked2 = {};
+	
 	function get_one_unchecked() {
-		for(k in unchecked) {
-			if(unchecked[k] == 1) {
-				var r = xn.explode('-', k);
-				unchecked[k] = 0;
-				return r;
-			}
-		}
-		return false;
+		if(unchecked_arr.length == 0) return false;
+		var k = unchecked_arr.pop();
+		var r = xn.explode('-', k);
+		return r;
 	}
 	function checked_push(x, y) {
 		var k = x+'-'+y;
@@ -906,19 +934,22 @@ xn.image_background_opacity = function(data, width, height, callback) {
 	}
 	function unchecked_push(x, y) {
 		var k = x+'-'+y;
-		if(checked[k] === undefined && unchecked[k] === undefined) unchecked[k] = 1;
+		if(checked[k] === undefined && unchecked[k] === undefined) {
+			unchecked[k] = 1;
+			unchecked_arr.push(k);
+		}
 	}
 	
 	var n = 0;
 	while(1) {
 		//if(k++ > 100000) break;
 		//if(checked.length > 10000) return;
-		if(n++ % 1000 == 0) {
+		//(n++ % 10000 == 0) {
 			//alert(n);
-			//console.log(checked);
+			//console.log(unchecked_arr);
 			//console.log(unchecked);
 			//break;
-		}
+		//}
 		// 遍历未检测的区域，并且不在 checked 列表的，放进去。
 		var curr = get_one_unchecked();
 		//if(unchecked.length > 1000) return;
@@ -934,16 +965,16 @@ xn.image_background_opacity = function(data, width, height, callback) {
 		var b = data[pos + 2];
 		var a = data[pos + 3];
 		
-		//unchecked_pop(x, y);
-		
 		if(Math.abs(r - bg[0]) < 2 && Math.abs(g == bg[1]) < 2 && Math.abs(b == bg[2]) < 2) {
 			
-			data[pos + 0] = 255; // 处理为透明
-			data[pos + 1] = 0; // 处理为透明
-			data[pos + 2] = 0; // 处理为透明
-			data[pos + 3] = 128; // 处理为透明
-			
-			//callback(data);
+			if(!callback) {
+				data[pos + 0] = 0; // 处理为透明
+				data[pos + 1] = 0; // 处理为透明
+				data[pos + 2] = 0; // 处理为透明
+				data[pos + 3] = 0; // 处理为透明
+			} else {
+				callback(data, pos);
+			}			
 		
 			// 检测边距
 			if(y > 0) unchecked_push(x, y-1);	 // 上

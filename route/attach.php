@@ -4,12 +4,15 @@
 
 $action = param(1);
 
-$user = user_read($uid);
-user_login_check();
+
 
 // hook attach_start.php
 
 if(empty($action) || $action == 'create') {
+	
+	
+	$user = user_read($uid);
+	user_login_check();
 	
 	$width = param('width', 0);
 	$height = param('height', 0);
@@ -67,6 +70,9 @@ if(empty($action) || $action == 'create') {
 
 } elseif($action == 'delete') {
 	
+	$user = user_read($uid);
+	user_login_check();
+
 	$aid = param(2);
 	
 	// hook attach_delete_start.php
