@@ -66,14 +66,37 @@ $(function() {
 				var file = files[i];
 				if(file.getAsFile) file = file.getAsFile();
 				if(!file || file.size == 0 || file.type.indexOf('image') == -1) return;
+				var jimg = null;
+				var jprogress = null;
 				xn.upload_file(file, xn.url('attach-create'), {is_image: 1}, function(code, json) {
 					if(code == 0) {
+						if(jimg) jimg.remove();
+						if(jprogress) jprogress.remove();
 						var s = '<img src="'+json.url+'" width="'+json.width+'" height=\"'+json.height+'\" />';
 						me.execCommand('inserthtml', s);
 					} else {
 						console.log(json);
 					}
 					callback();
+				}, function(percent) {
+					if(jprogress) jprogress.val(percent);
+					//console.log(percent);
+				}, function(data) {
+					var imgid = xn.rand(16);
+					var progressid = xn.rand(16);
+					me.execCommand('inserthtml', '<img src="'+data+'" width="100" height=\"100\" class="'+imgid+'" /><progress class="progress progress-success '+progressid+'" value="0" max="100" style="width: 100px; height: 20px;">0%</progress>');
+					//setTimeout(function() {
+					//var pastebins = doc.querySelectorAll('#baidu_pastebin');
+					setTimeout(function() {
+						jimg = $('.'+imgid);
+						jprogress = $('.'+progressid);
+						/*new Tether({
+							element: jprogress.get(0),
+							target: jimg.get(0),
+							attachment: 'middle center',
+							targetAttachment: 'middle center'
+						});*/
+					}, 200);
 				});
 			});
 		}
@@ -85,7 +108,6 @@ $(function() {
 		}
 		me.getOpt('pasteImageEnabled') && me.$body.on('paste', xn_upload_handler);
 		me.getOpt('dropFileEnabled') && me.$body.on('drop', xn_upload_handler);
-
 		
 		var xn_paster_after_handler = function(e) {
 			me.$body.find('img').each(function() {

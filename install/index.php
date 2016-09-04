@@ -78,6 +78,8 @@ if(empty($action)) {
 		$succeed = 1;
 		$mysql_support = function_exists('mysql_connect');
 		$pdo_mysql_support = extension_loaded('pdo_mysql');
+		$myisam_support = extension_loaded('pdo_mysql');
+		$innodb_support = extension_loaded('pdo_mysql');
 		(!$mysql_support && !$pdo_mysql_support) AND message(0, lang('evn_not_support_php_mysql'));
 
 		include INSTALL_PATH."view/htm/db.htm";
@@ -85,6 +87,7 @@ if(empty($action)) {
 	} else {
 		
 		$type = param('type');	
+		$engine = param('engine');	
 		$host = param('host');	
 		$name = param('name');	
 		$user = param('user');
@@ -121,7 +124,14 @@ if(empty($action)) {
 		$db = db_new($conf['db']);
 		if(db_connect($db) === FALSE) {
 			message(-1, "$errstr (errno: $errno)");
-		} 
+		}
+		
+		// 设置引擎的类型
+		if($engine == 'innodb') {
+			$db->innodb_first = TRUE;
+		} else {
+			$db->innodb_first = FALSE;
+		}
 		
 		// 连接成功以后，开始建表，导数据。
 		

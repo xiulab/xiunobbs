@@ -4,7 +4,7 @@
 <form action="index.php?action=db" method="post" id="form">
 
 <div class="row m-t-1">
-	<div class="col-lg-8 col-lg-offset-2">
+	<div class="col-lg-8 offset-lg-2">
 		<div class="card card-block">
 			<h3 class="card-title"><?php echo lang('step_2_title');?></h3>
 			<div class="form-group row">
@@ -12,6 +12,13 @@
 				<div class="col-sm-9">
 					<label><input type="radio" name="type" value="mysql" <?php echo ($mysql_support ? ' checked' : ' disabled'); ?> /> mysql</label>
 					<label><input type="radio" name="type" value="pdo_mysql" <?php echo ($pdo_mysql_support ? ' checked' : ' disabled'); ?> /> pdo_mysql</label>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-3 form-control-label"><?php echo lang('db_engine');?>：</label>
+				<div class="col-sm-9">
+					<label><input type="radio" name="engine" value="myisam" checked /> MyISAM</label>
+					<label><input type="radio" name="engine" value="innodb" /> InnoDB</label>
 				</div>
 			</div>
 			<div class="form-group row">

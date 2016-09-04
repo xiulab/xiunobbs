@@ -26,6 +26,7 @@ return array(
 	
 	'step_2_title' => '2. Database settings',
 	'db_type' => 'Database type',
+	'db_engine' => 'Database Engine',
 	'db_host' => 'Database Host',
 	'db_name' => 'Database Name',
 	'db_user' => 'Database User',
@@ -46,6 +47,14 @@ BBS Xiuno 4 using the MIT agreement, you can freely modify, derived version, com
 	'install_title' => 'Xiuno BBS 4.0 Installation wizard',
 	'install_guide' => 'Installation Wizard',
 
+	
+	'function_check' => 'Function dependency check',
+	'supported' => 'Supported',
+	'not_supported' => 'Not Supported',
+	'function_glob_not_exists' => 'Plugin install dependent on it, please setting php.ini, set disabled_functions = ; Lifting restrictions on this function',
+	'function_gzcompress_not_exists' => 'Plugin install dependent on it, on Linux server, add compile argument: --with-zlib, on Windows Server, please setting php.ini open extension=php_zlib.dll',
+	
+	
 	// hook lang_en_us_bbs_install.php
 );
 

@@ -291,6 +291,15 @@ xn.array_values = function(obj) {
 }
 xn.in_array = function(v, arr) { return $.inArray(v, arr) != -1;}
 
+xn.rand = function(n) {
+	var str = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+	var r = '';
+	for (i = 0; i < n; i++) {
+		r += str.charAt(Math.floor(Math.random() * str.length));
+	}
+	return r;
+}
+
 // 所谓的 js 编译模板，不过是一堆效率低下的正则替换，这种东西根据自己喜好用吧。
 xn.template = function(s, json) {
 	//console.log(json);
@@ -1105,16 +1114,16 @@ xn.image_resize = function(file_base64_data, callback, options) {
 		}
 	}, progress);
 */
-xn.upload_file = function(file, upload_url, postdata, callback, progress_callback) {
+xn.upload_file = function(file, upload_url, postdata, complete_callback, progress_callback, thumb_callback) {
 	postdata = postdata || {};
 	postdata.width = postdata.width || 1200;
 	postdata.height = postdata.height || 2400;
 	
 	var ajax_upload_file = function(base64_data) {
-        	var ajax_upload = function(upload_url, postdata, _callback) {
+        	var ajax_upload = function(upload_url, postdata, complete_callback) {
         		$.xpost(upload_url, postdata, function(code, message) {
-        			if(code != 0) return _callback(code, message);
-        			if(_callback) _callback(0, message);
+        			if(code != 0) return complete_callback(code, message);
+        			if(complete_callback) complete_callback(0, message);
         		}, function(percent) {
         			if(progress_callback) progress_callback(percent);
         		});
@@ -1132,7 +1141,7 @@ xn.upload_file = function(file, upload_url, postdata, callback, progress_callbac
 	        		postdata.data = message.data;
 	        		postdata.width = message.width;
 	        		postdata.height = message.height;
-	        		ajax_upload(upload_url, postdata, callback);
+	        		ajax_upload(upload_url, postdata, complete_callback);
 	        	}, postdata);
 	        // 文件直接上传， 不缩略
         	} else {
@@ -1141,20 +1150,23 @@ xn.upload_file = function(file, upload_url, postdata, callback, progress_callbac
         		postdata.data = base64_data;
         		postdata.width = 0;
         		postdata.height = 0;
-        		ajax_upload(upload_url, postdata, callback);
+        		ajax_upload(upload_url, postdata, complete_callback);
         	}
         }
         
 	// 如果为 base64 则不需要 new FileReader()
 	if(xn.is_string(file) && xn.substr(file, 0, 10) == 'data:image') {
 		var base64_data = file;
+		if(thumb_callback) thumb_callback(base64_data);
 		ajax_upload_file(base64_data);
 	} else {
 		var reader = new FileReader();
 	        reader.readAsDataURL(file);
 	        reader.onload = function() {
 	        	var base64_data = this.result;
+	        	if(thumb_callback) thumb_callback(base64_data);
 			ajax_upload_file(base64_data);
+			
 	        }
 	}
 	

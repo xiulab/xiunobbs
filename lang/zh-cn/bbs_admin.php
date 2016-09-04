@@ -73,7 +73,7 @@ return array(
 	'user_create_email_on'=>'开启注册邮箱验证',
 	'user_resetpw_on'=>'开启找回密码',
 	'lang'=>'语言',
-	'database'=>'數據庫',
+	'database'=>'数据库',
 	'host'=>'主机',
 	'port'=>'端口',
 	'account'=>'账号',

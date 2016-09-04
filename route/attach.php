@@ -4,12 +4,9 @@
 
 $action = param(1);
 
-
-
 // hook attach_start.php
 
 if(empty($action) || $action == 'create') {
-	
 	
 	$user = user_read($uid);
 	user_login_check();

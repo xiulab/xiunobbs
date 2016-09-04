@@ -26,6 +26,7 @@ return array(
 	
 	'step_2_title' => '二、数据库设置',
 	'db_type' => '数据库类型',
+	'db_engine' => '数据库引擎',
 	'db_host' => '数据库服务器',
 	'db_name' => '数据库名',
 	'db_user' => '数据库用户名',
@@ -47,6 +48,12 @@ Xiuno BBS 4.0 采用 MIT 协议发布，您可以自由修改、派生版本、�
 	'agree_license_to_continue' => '同意协议继续安装',
 	'install_title' => 'Xiuno BBS 4.0 安装向导',
 	'install_guide' => '安装向导',
+	
+	'function_check' => '函数依赖检查',
+	'supported' => '支持',
+	'not_supported' => '不支持',
+	'function_glob_not_exists' => '后台插件功能依赖该函数，请配置 php.ini，设置 disabled_functions = ; 去除对该函数的限制',
+	'function_gzcompress_not_exists' => '后台插件功能依赖该函数，Linux 主机请添加编译参数 --with-zlib，Windows 主机请配置 php.ini 注释掉 extension=php_zlib.dll',
 	
 	// hook lang_zh_cn_bbs_install.php
 

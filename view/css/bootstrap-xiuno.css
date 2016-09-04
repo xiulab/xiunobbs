@@ -95,6 +95,7 @@ nav.bg-inverse .dropdown-menu {
 	border: 1px solid #272a2c;
 }
 nav.bg-inverse .dropdown-item {
+	font-size: 0.85rem;
 	-webkit-appearance: initial;
 	color: rgba(255, 255, 255, 0.5);
 }
@@ -102,6 +103,7 @@ nav.bg-inverse .dropdown-item:hover {
 	background-color: #575a5c;
 	color: rgba(255, 255, 255, 1);
 }
+
 .navbar {padding-top: 0.2rem; padding-bottom: 0.2rem;}
 .navbar-nav .nav-link, .navbar-nav .drop-item,  {padding-top: 0.3rem; padding-bottom: 0.3rem; line-height: 1.7rem;}
 
@@ -121,6 +123,7 @@ nav.navbar .collapse, nav.navbar .collapse div.bg-inverse {
 .nav-tabs .nav-link {padding: 0.4rem 1rem 0.1rem 1rem; font-size: 0.8rem;}
 .card tr:first-child td, .card tr:first-child th {border-top: 0;}
 .card-title {border-bottom: 1px solid #DDD; padding-bottom: 0.5rem;}
+/*.card-block { font-size: 0.85rem;}*/
 h6 {font-weight: 800;}
 
 

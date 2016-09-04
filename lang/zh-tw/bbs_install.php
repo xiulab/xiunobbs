@@ -26,6 +26,7 @@ return array(
 	
 	'step_2_title' => '二、數據庫設置',
 	'db_type' => '數據庫類型',
+	'db_engine' => '數據庫引擎',
 	'db_host' => '數據庫服務器',
 	'db_name' => '數據庫名',
 	'db_user' => '數據庫用戶名',
@@ -48,6 +49,13 @@ Xiuno BBS 4.0 采用 MIT 協議發布，您可以自由修改、派生版本、�
 	'install_title' => 'Xiuno BBS 4.0 安裝向導',
 	'install_guide' => '安裝向導',
 
+	'function_check' => '函數依賴檢查',
+	'supported' => '支持',
+	'not_supported' => '不支持',
+	'function_glob_not_exists' => '後臺插件功能依賴該函數，請配置 php.ini，設置 disabled_functions = ; 去除對該函數的限制',
+	'function_gzcompress_not_exists' => '後臺插件功能依賴該函數，Linux 主機請添加編譯參數 --with-zlib，Windows 主機請配置 php.ini 註釋掉  extension=php_zlib.dll',
+	
+	
 	// hook lang_zh_cn_bbs_admin.php
 );
 

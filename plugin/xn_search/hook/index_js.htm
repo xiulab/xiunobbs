@@ -1,0 +1,9 @@
+<script>
+jsearch_form = $('#search_form');
+jsearch_form.on('submit', function() {
+	var keyword = jsearch_form.find('input[name="keyword"]').val();
+	var url = xn.url('search-'+keyword);
+	window.location = url;
+	return false;
+});
+</script>
