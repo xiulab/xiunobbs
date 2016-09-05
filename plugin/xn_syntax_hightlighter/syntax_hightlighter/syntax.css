@@ -330,3 +330,7 @@
 div.syntaxhighlighter > div.toolbar {display: none;}
 td.gutter > div.line {white-space: pre}
 .syntaxhighlighter {margin: 4px 0px !important}
+.syntaxhighlighter td {padding: 8px;}
+.syntaxhighlighter td.gutter {width: 20px; padding: 8px; vertical-align: top;}
+.syntaxhighlighter td.gutter div.line {padding-right: 8px !important; border-right-width: 2px !important;}
+.syntaxhighlighter td.code {padding-left: 0px !important;}
