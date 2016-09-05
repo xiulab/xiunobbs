@@ -72,9 +72,6 @@ if($action == 'base') {
 		$smtplist = smtp_find();
 		$maxid = smtp_maxid();
 		
-		$default = array('host'=>'smtp.sina.com', 'port'=>25, 'user'=>'xxxx', 'email'=>'xxxx@sina.com', 'pass'=>'xxxx');
-		empty($smtplist) AND $smtplist = array($default);
-	
 		// hook admin_setting_smtp_get_end.php
 		
 		include _include(ADMIN_PATH."view/htm/setting_smtp.htm");
