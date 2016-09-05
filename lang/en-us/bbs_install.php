@@ -9,7 +9,7 @@ return array(
 	'dbuser_is_empty' => 'User name cannot be empty',
 	'adminuser_is_empty' => 'Administrator user name can not be empty',
 	'adminpass_is_empty' => 'Administrator password can not be empty',
-	'conguralation_installed' => 'Congratulations, installation success',
+	'conguralation_installed' => 'Congratulations, installation success, please remove install directory for security.',
 	
 	'step_1_title' => '1. Environmental Check',
 	'runtime_env_check' => 'Runtime environment detection',

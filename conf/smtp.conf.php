@@ -6,7 +6,7 @@ return array (
     'host' => 'smtp.sina.com',
     'port' => 25,
     'user' => 'axiuno',
-    'pass' => 'Axiuno1011',
+    'pass' => 'xxx',
   ),
 );
 ?>

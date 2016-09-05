@@ -9,7 +9,7 @@ return array(
 	'dbuser_is_empty' => '用户名不能为空',
 	'adminuser_is_empty' => '管理员用户名不能为空',
 	'adminpass_is_empty' => '管理员密码不能为空',
-	'conguralation_installed' => '恭喜，安装成功！',
+	'conguralation_installed' => '恭喜，安装成功！为了安全请删除 install 目录。',
 	
 	'step_1_title' => '一、安装环境检测',
 	'runtime_env_check' => '网站运行环境检测',

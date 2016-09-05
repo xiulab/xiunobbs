@@ -167,7 +167,7 @@ function attach_assoc_post($pid) {
 	if(empty($post)) return;
 	
 	$tid = $post['tid'];
-	$post['message_old'] = $post['message'];
+	$post['message_old'] = $post['message_fmt'];
 	if($tmp_files) {
 		foreach($tmp_files as $key=>$file) {
 			
@@ -181,16 +181,7 @@ function attach_assoc_post($pid) {
 			
 			$destfile = $path.'/'.$filename;
 			$desturl = $url.'/'.$filename;
-			if(!copy($file['path'], $destfile)) {
-				
-				//continue;
-				//message(-1, $file['path']." ".$destfile.(file_exists($file['path'])).file_exists($destfile));
-			}
-			/*
-			if(filesize($destfile) != filesize($file['path'])) {
-				continue;
-			}*/
-			
+			xn_copy($file['path'], $destfile);
 			$arr = array(
 				'tid'=>$tid,
 				'pid'=>$pid,
@@ -210,18 +201,19 @@ function attach_assoc_post($pid) {
 			// 插入后，进行关联
 			$aid = attach_create($arr);
 			$post['message'] = str_replace($file['url'], $desturl, $post['message']);
+			$post['message_fmt'] = str_replace($file['url'], $desturl, $post['message_fmt']);
 			
 			unset($_SESSION['tmp_files'][$key]);
 		}
 	}
-	$post['message_old'] != $post['message'] AND post__update($pid, array('message'=>$post['message']));
+	$post['message_old'] != $post['message_fmt'] AND post__update($pid, array('message'=>$post['message'], 'message_fmt'=>$post['message_fmt']));
 	
 	// 处理不在 message 中的图片，删除掉没有插入的图片附件
 	
 	list($attachlist, $imagelist, $filelist) = attach_find_by_pid($pid);
 	foreach($imagelist as $k=>$attach) {
 		$url = $conf['upload_url'].'attach/'.$attach['filename'];
-		if(strpos($post['message'], $url) === FALSE) {
+		if(strpos($post['message_fmt'], $url) === FALSE) {
 			unset($attachlist[$k]);
 			unset($imagelist[$k]);
 			attach_delete($attach['aid']);

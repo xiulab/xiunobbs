@@ -49,6 +49,6 @@ $sql = "ALTER TABLE {$tablepre}thread ADD COLUMN tagids_time int(11) unsigned NO
 $r = db_exec($sql);
 
 
-$r === FALSE AND message(-1, '创建表结构失败');
+//$r === FALSE AND message(-1, '创建表结构失败');
 
 ?>
