@@ -126,10 +126,10 @@ class php_zip {
 		eval('$hexdtime = "' . $hexdtime . '";');
 		*/
 		
-		$fr	   = "\x50\x4b\x03\x04";
-		$fr	  .= "\x14\x00";
-		$fr	  .= "\x00\x00";
-		$fr	  .= "\x08\x00";
+		//50 4b 03 04 14 00 00 00  08 00
+		//50 4b 03 04 0a 00 00 00  00 00
+		//$fr	   = "\x50\x4b\x03\x04\x14\x00\x00\x00\x08\x00";
+		$fr	   = "\x50\x4b\x03\x04\x0a\x00\x00\x00\x00\x00"; // fixed by axiuno
 		$fr	  .= $hexdtime;
 		$unc_len  = strlen($data);
 		$crc	  = crc32($data);
@@ -440,32 +440,30 @@ class php_zip {
 		if (substr($gzData, 0, 3) == "\x1f\x8b\x08") {
 			// 1F 8B 08 00 00 00 00 00 00 03
 			$s = '';
+			/* php7: data error
 			if(function_exists('gzdecode')) {
 				$s = gzdecode($gzData);
 			}
-			if(!empty($s)) {
-				return $s;
+			*/
+			$i = 10;
+			$flg = ord( substr($gzData, 3, 1) );
+			if ( $flg > 0 ) {
+				if ( $flg & 4 ) {
+					list($xlen) = unpack('v', substr($gzData, $i, 2) );
+					$i = $i + 2 + $xlen;
+				}
+				if ( $flg & 8 )
+					$i = strpos($gzData, "\0", $i) + 1;
+				if ( $flg & 16 )
+					$i = strpos($gzData, "\0", $i) + 1;
+				if ( $flg & 2 )
+					$i = $i + 2;
+			}
+			if(function_exists('gzinflate')) {
+				return gzinflate(substr($gzData, $i, -8));
 			} else {
-				$i = 10;
-				$flg = ord( substr($gzData, 3, 1) );
-				if ( $flg > 0 ) {
-					if ( $flg & 4 ) {
-						list($xlen) = unpack('v', substr($gzData, $i, 2) );
-						$i = $i + 2 + $xlen;
-					}
-					if ( $flg & 8 )
-						$i = strpos($gzData, "\0", $i) + 1;
-					if ( $flg & 16 )
-						$i = strpos($gzData, "\0", $i) + 1;
-					if ( $flg & 2 )
-						$i = $i + 2;
-				}
-				if(function_exists('gzinflate')) {
-					return gzinflate(substr($gzData, $i, -8));
-				} else {
-					throw new Exception('gzinflate() has been disabled');
-					//return gzuncompress($gzData);
-				}
+				throw new Exception('gzinflate() has been disabled');
+				//return gzuncompress($gzData);
 			}
 		} else {
 			return FALSE;

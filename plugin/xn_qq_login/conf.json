@@ -3,8 +3,8 @@
 	"brief":"QQ 一键登陆，自动生成用户名，获取头像，完成登陆。",
 	"version":"1.4",
 	"bbs_version":"4.0",
-	"installed":1,
-	"enable":1,
+	"installed":0,
+	"enable":0,
 	"hooks_rank":[],
 	"dependencies":[]
 }

@@ -70,8 +70,9 @@ $(function() {
 				var jprogress = null;
 				xn.upload_file(file, xn.url('attach-create'), {is_image: 1}, function(code, json) {
 					if(code == 0) {
-						if(jimg) jimg.remove();
-						if(jprogress) jprogress.remove();
+						setTimeout(function() {
+							if(jimg) jimg.remove();
+						}, 300);
 						var s = '<img src="'+json.url+'" width="'+json.width+'" height=\"'+json.height+'\" />';
 						me.execCommand('inserthtml', s);
 					} else {
@@ -84,7 +85,7 @@ $(function() {
 				}, function(data) {
 					var imgid = xn.rand(16);
 					var progressid = xn.rand(16);
-					me.execCommand('inserthtml', '<img src="'+data+'" width="100" height=\"100\" class="'+imgid+'" /><progress class="progress progress-success '+progressid+'" value="0" max="100" style="width: 100px; height: 20px;">0%</progress>');
+					me.execCommand('inserthtml', '<div style="width: 100px; height: 100px; position: relative; display: inline-block;" class="'+imgid+'"><img src="'+data+'" width="100" height=\"100\" /><progress class="progress progress-success '+progressid+'" value="1" max="100" style="width: 90px; height: 10px; position: absolute; left: 5px; top: 45px;">0%</progress>');
 					//setTimeout(function() {
 					//var pastebins = doc.querySelectorAll('#baidu_pastebin');
 					setTimeout(function() {
