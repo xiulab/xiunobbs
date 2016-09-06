@@ -5,10 +5,7 @@
 <div class="row">
 	<div class="col-lg-10 offset-lg-1">
 		<div class="btn-group m-b-1" role="group">
-			<?php echo admin_tab_active(array (
-					'index'=>array('url'=>url('setting-base'), 'text'=>lang('admin_setting_base')),
-					'cutword'=>array('url'=>url('setting-smtp'), 'text'=>lang('admin_setting_smtp')),
-				), 'base');?>
+			<?php echo admin_tab_active($menu['setting']['tab'], 'base');?>
 		</div>
 		<div class="card">
 			<div class="card-block">
