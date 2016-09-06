@@ -10,8 +10,8 @@ function check_runlevel() {
 	if($gid == 1) return;
 	if((param(0) == 'user') && (param(1) == 'login' || (param(1) == 'create'))) return;
 	switch ($conf['runlevel']) {
-		case 0: $gid != 1 AND message(-1, $conf['runlevel_reason']); break;
-		case 1: $gid != 1 AND message(-1, lang('runlevel_reson_1')); break;
+		case 0: message(-1, $conf['runlevel_reason']); break;
+		case 1: message(-1, lang('runlevel_reson_1')); break;
 		case 2: $method != 'GET' AND message(-1, lang('runlevel_reson_2')); break;
 		case 3: $gid == 0  AND message(-1, lang('runlevel_reson_3')); break;
 		case 4: $method != 'GET' AND message(-1, lang('runlevel_reson_4')); break;

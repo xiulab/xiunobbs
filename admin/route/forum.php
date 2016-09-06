@@ -152,7 +152,7 @@ if(empty($action) || $action == 'list') {
 					'allowread'=>array_value($allowread, $_gid, 0),
 					'allowthread'=>array_value($allowthread, $_gid, 0),
 					'allowpost'=>array_value($allowpost, $_gid, 0),
-					'allowattach'=>array_value($allowattach, $gid, 0),
+					'allowattach'=>array_value($allowattach, $_gid, 0),
 					'allowdown'=>array_value($allowdown, $_gid, 0),
 				);
 				forum_access_replace($_fid, $_gid, $access);

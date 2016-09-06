@@ -1,5 +1,5 @@
 <?php
-
+exit;
 $files = glob('../model/*.func.php');
 function my_callback($m) {
 	$arr = preg_split('#\r?\n#', $m[0]);
