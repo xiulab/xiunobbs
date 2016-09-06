@@ -1299,11 +1299,13 @@ class HTML_White {
         private $white_tag = array();
         private $white_css = array();
         private $white_value = array();
+        private $args = array();
 
-        function __construct($white_tag, $white_value, $white_css) {
+        function __construct($white_tag, $white_value, $white_css, $args) {
 	        $this->white_tag = $white_tag;
 	        $this->white_css = $white_css;
 	        $this->white_value = $white_value;
+	        $this->args = $args;
         }
 
         public function parse($doc) {
@@ -1377,7 +1379,11 @@ class HTML_White {
 						if($cssvalue < $v[2][0] || $cssvalue > $v[2][1]) {
 							$cssvalue = $v[1];
 						}
-						if($px) $cssvalue .= 'px';
+						// 如果为 table，转换为百分比，参考值可以通过参数控制。
+						if($tagname == 'table' && ($cssname == 'width' || $cssname == 'min-width')) {
+							$px AND $cssvalue > $this->args['table_max_width'] AND $cssvalue = '100%' AND $px = 0;
+						}
+						$px AND $cssvalue .= 'px';
 					} elseif($v[0] == 'list') {
 						if(!in_array($cssvalue, $v[2])) $cssvalue = $v[1];
 					} elseif($v[0] == 'pcre') {
@@ -1593,7 +1599,8 @@ class HTML_White {
 }
 
 // class xn_html_safe 由 axiuno@gmail.com 编写
-function xn_html_safe($doc) {
+function xn_html_safe($doc, $arg = array()) {
+	empty($arg['table_max_width']) AND $arg['table_max_width'] = 746; // 这个宽度为 bbs 回帖宽度
 	$pattern = array (
 		'img_url'=>'#^(https?://[^\'"\\\\<>:\s]+(:\d+)?)?([^\'"\\\\<>:\s]+?)*$#is',
 		'url'=>'#^(https?://[^\'"\\\\<>:\s]+(:\d+)?)?([^\'"\\\\<>:\s]+?)*$#is', // '#https?://[\w\-/%?.=]+#is'
@@ -1699,10 +1706,14 @@ function xn_html_safe($doc) {
 		*/
 		
 	);
-	$safehtml = new HTML_White($white_tag, $white_value, $white_css);
+	$safehtml = new HTML_White($white_tag, $white_value, $white_css, $arg);
 	$result = $safehtml->parse($doc);
 	return $result;
 }
+
+// 最大宽度限制
+//$s = '<table class="table" style="width:1126px; margin-bottom:1rem; color:rgb(55, 58, 60); font-family:none; line-height:24px; min-width:800px; background-color:rgb(255, 255, 255);"><tbody><tr valign="top"><td width="60" style="padding:0.5rem 0.75rem;"><a href="http://plugin.xiuno.com/plugin-read-xn_syntax_hightlighter.htm" target="_blank"><img src="http://plugin.xiuno.com/upload/plugin/27/icon.png" width="54" height="54"></a></td><td width="220" style="padding:0.5rem 0.75rem;"><a href="http://plugin.xiuno.com/plugin-read-xn_syntax_hightlighter.htm"><span style="font-weight:bolder;">代码高亮&nbsp;</span></a><span class="small" style="font-size:13px;">v1.1&nbsp;</span><br><span class="small" style="font-size:13px;">xn_syntax_hightlighter</span><br><span class="small" style="font-size:13px;">作者：axiuno</span></td></tr></tbody></table>';
+//echo xn_html_safe($s);
 
 /*
 $s = '<div><p align="center"><iframe width="800" height="600" src="http://player.yoduku.com/embed/XMTY5NjY0NTM5Mg==" frameborder="0" allowfullscreen="1"></iframe></p></div>';
