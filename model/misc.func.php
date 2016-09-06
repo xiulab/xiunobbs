@@ -12,8 +12,8 @@ function check_runlevel() {
 	switch ($conf['runlevel']) {
 		case 0: message(-1, $conf['runlevel_reason']); break;
 		case 1: message(-1, lang('runlevel_reson_1')); break;
-		case 2: $method != 'GET' AND message(-1, lang('runlevel_reson_2')); break;
-		case 3: $gid == 0  AND message(-1, lang('runlevel_reson_3')); break;
+		case 2: ($gid == 0 || $method != 'GET') AND message(-1, lang('runlevel_reson_2')); break;
+		case 3: $gid == 0 AND message(-1, lang('runlevel_reson_3')); break;
 		case 4: $method != 'GET' AND message(-1, lang('runlevel_reson_4')); break;
 		//case 5: break;
 	}
