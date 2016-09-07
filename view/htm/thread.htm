@@ -258,8 +258,10 @@ function resize_image() {
 		});
 	});
 }
-resize_image();
-$(window).on('resize', resize_image);
+$(function() {
+	resize_image();
+	$(window).on('resize', resize_image);
+});
 
 // 输入框自动伸缩
 var jmessage = $('#message');
