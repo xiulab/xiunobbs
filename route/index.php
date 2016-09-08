@@ -4,8 +4,6 @@
 * Copyright (C) 2015 xiuno.com
 */
 
-
-
 !defined('DEBUG') AND exit('Access Denied.');
 
 // hook index_start.php
@@ -34,9 +32,9 @@ if($thread_list_from_default) {
 thread_list_access_filter($threadlist, $gid);
 
 // SEO
-$header['title'] = $conf['sitename']; 		// site title
-$header['keywords'] = ''; 			// site keyword
-$header['description'] = ''; 			// site description
+$header['title'] = $conf['sitename']; 				// site title
+$header['keywords'] = ''; 					// site keyword
+$header['description'] = $conf['sitebrief']; 			// site description
 $_SESSION['fid'] = 0;
 
 // hook index_end.php

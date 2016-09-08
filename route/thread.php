@@ -132,7 +132,8 @@ if($action == 'create') {
 	//$header['mobile_title'] = lang('thread_detail');
 	$header['mobile_title'] = $forum['name'];;
 	$header['mobile_link'] = url("forum-$fid");
-	$header['keywords'] = $header['title']; 
+	$header['keywords'] = ''; 
+	$header['description'] = $thread['subject']; 
 	$_SESSION['fid'] = $fid;
 	
 	// hook thread_info_end.php

@@ -32,7 +32,8 @@ $threadlist = $toplist + $threadlist;
 $header['title'] = $forum['seo_title'] ? $forum['seo_title'] : $forum['name'].'-'.$conf['sitename'];
 $header['mobile_title'] = $forum['name'];
 $header['mobile_link'] = url("forum-$fid");
-$header['keywords'] = $forum['seo_keywords'];
+$header['keywords'] = '';
+$header['description'] = $forum['brief'];
 
 $_SESSION['fid'] = $fid;
 
