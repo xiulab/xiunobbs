@@ -1,9 +1,9 @@
 <?php
 
-$conf = include '../conf/conf.php';
-$conf['cache']['type'] = 'memcached';
+$conf = include '../../conf/conf.php';
+$conf['cache']['type'] = 'yac';
 
-include '../xiunophp/xiunophp.php';
+include '../xiunophp.php';
 
 $r = cache_get('test2');
 x('cache_get test2:', $r, NULL);
