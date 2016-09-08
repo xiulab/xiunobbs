@@ -430,7 +430,7 @@ function plugin_compile_srcfile_callback($m) {
 			$t = file_get_contents($path);
 			if($fileext == 'php' && preg_match('#^\s*<\?php\s+exit;#is', $t)) {
 				// 正则表达式去除兼容性比较好。
-				$t = preg_replace('#^\s*<\?php\s*exit;(.*?)\?>\s*$#is', '\\1', $t);
+				$t = preg_replace('#^\s*<\?php\s*exit;(.*?)(?:\?>)?\s*$#is', '\\1', $t);
 				
 				/* 去掉首尾标签
 				if(substr($t, 0, 5) == '<?php' && substr($t, -2, 2) == '?>') {
