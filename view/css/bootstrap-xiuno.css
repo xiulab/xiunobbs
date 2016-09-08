@@ -81,8 +81,8 @@
 .text-left { text-align: left  !important; }
 .text-bold { font-weight: bold !important; }
 .text-grey { color: #bbb  !important; }
-.text-middle { font-size: 95% !important; }
-.text-small { font-size: 85% !important; }
+.text-middle { font-size: 85% !important; }
+.small, .text-small { font-size: 75% !important; }
 .table-fixed { table-layout:fixed !important; }
 .break-all {word-break: break-all;}
 .hidden {display: none;}
