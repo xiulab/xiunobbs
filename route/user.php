@@ -366,7 +366,7 @@ if($action == 'login') {
 			'mobile'=>$user['mobile'],
 		);
 		$s = xn_json_encode($arr);
-		$s = xn_encrypt($s, $key);
+		$s = xn_encrypt($s);
 		
 		// 将 token 附加到 URL，跳转回去 | add token into URL, jump back
 		$return_url = xn_urldecode($return_url);

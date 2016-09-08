@@ -440,24 +440,27 @@ class php_zip {
 		if (substr($gzData, 0, 3) == "\x1f\x8b\x08") {
 			// 1F 8B 08 00 00 00 00 00 00 03
 			$s = '';
-			/* php7: data error
+			// php7: data error
 			if(function_exists('gzdecode')) {
-				$s = gzdecode($gzData);
+				$s = @gzdecode($gzData);
 			}
-			*/
-			$i = 10;
-			$flg = ord( substr($gzData, 3, 1) );
-			if ( $flg > 0 ) {
-				if ( $flg & 4 ) {
-					list($xlen) = unpack('v', substr($gzData, $i, 2) );
-					$i = $i + 2 + $xlen;
+			if(!empty($s)) {
+				return $s;
+			} else {
+				$i = 10;
+				$flg = ord( substr($gzData, 3, 1) );
+				if ( $flg > 0 ) {
+					if ( $flg & 4 ) {
+						list($xlen) = unpack('v', substr($gzData, $i, 2) );
+						$i = $i + 2 + $xlen;
+					}
+					if ( $flg & 8 )
+						$i = strpos($gzData, "\0", $i) + 1;
+					if ( $flg & 16 )
+						$i = strpos($gzData, "\0", $i) + 1;
+					if ( $flg & 2 )
+						$i = $i + 2;
 				}
-				if ( $flg & 8 )
-					$i = strpos($gzData, "\0", $i) + 1;
-				if ( $flg & 16 )
-					$i = strpos($gzData, "\0", $i) + 1;
-				if ( $flg & 2 )
-					$i = $i + 2;
 			}
 			if(function_exists('gzinflate')) {
 				return gzinflate(substr($gzData, $i, -8));

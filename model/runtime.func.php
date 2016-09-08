@@ -39,7 +39,7 @@ function runtime_set($k, $v) {
 	$op = substr($k, -1);
 	if($op == '+' || $op == '-') {
 		$k = substr($k, 0, -1);
-		!isset($runtime[$k]) AND $runtime[$k] = '';
+		!isset($runtime[$k]) AND $runtime[$k] = 0;
 		$v = $op == '+' ? ($runtime[$k] + $v) : ($runtime[$k] - $v);
 	}
 	

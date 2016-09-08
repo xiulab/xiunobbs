@@ -53,7 +53,7 @@ a:hover {color: #0000ff;}
 	word-break: break-all;
 	margin-bottom: 0.2rem;
 }
-dl.row > dt.td-avatar, .table .td-avatar { width: 3.0rem; padding: 0.3rem;}
+dl.row > dt.td-avatar, .table .td-avatar { width: 3.0rem; padding: 0.4rem;}
 .avatar-xs { width: 1.3rem; height: 1.3rem; border-radius: 1.3rem;}
 .avatar-sm { width: 1.6rem; height: 1.6rem; border-radius: 1.6rem;}
 .avatar { width: 2.4rem; height: 2.4rem;  border-radius: 2.4rem;}
@@ -79,7 +79,7 @@ dl.row > dt.td-avatar, .table .td-avatar { width: 3.0rem; padding: 0.3rem;}
 @media (max-width: 768px) {
 	.card-block {padding: 0.5rem;}
 	.table td.td-checkbox {width: 0.5rem; padding: 0.2rem;}
-	.table td.td-avatar {width: 2rem; padding: 0.2rem; padding-right: 0.4rem;}
+	.table td.td-avatar {width: 2rem; padding: 0.2rem; padding-right: 0.4rem; padding-top: 0.4rem;}
 	.avatar { width: 2.0rem; height: 2.0rem;  border-radius: 2.0rem;}
 }
 @media (min-width: 992px) {
