@@ -54,7 +54,7 @@
 						<fieldset class="form-group">
 							<!--{hook post_fid_select_before.htm}-->
 							<select class="custom-select m-r-sm" name="fid">
-								<?php foreach ($forumlist_show as $forum) { ?>
+								<?php foreach ($forumlist_allowthread as $forum) { ?>
 								<option value="<?php echo $forum['fid']; ?>"><?php echo $forum['name']; ?></option>
 								<?php } ?>
 							</select>

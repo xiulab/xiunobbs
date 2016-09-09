@@ -22,7 +22,7 @@ if($keyword) {
 			$arrlist = db_sql_find("SELECT * FROM bbs_thread_search WHERE MATCH(message) AGAINST ('$keyword_decode') LIMIT 50;");
 			$tids = arrlist_values($arrlist, 'tid');
 			$threadlist = thread_find_by_tids($tids);
-			arrlist_multisort($threadlist, 'tid', FALSE);
+			$threadlist = arrlist_multisort($threadlist, 'lastpid', FALSE);
 			foreach($threadlist as &$thread) {
 				$thread['subject'] = search_keyword_highlight($thread['subject'], $keyword_decode);
 			}
@@ -32,7 +32,7 @@ if($keyword) {
 			
 			$pids = arrlist_values($arrlist, 'pid');
 			$postlist = post_find_by_pids($pids);
-			arrlist_multisort($postlist, 'pid', FALSE);
+			$postlist = arrlist_multisort($postlist, 'pid', FALSE);
 			foreach($postlist as &$post) {
 				$post['message_fmt'] = search_message_format($post['message_fmt']);
 				$post['message_fmt'] = search_keyword_highlight($post['message_fmt'], $keyword_decode);
@@ -48,7 +48,7 @@ if($keyword) {
 		
 		if($range == 1) {
 			$threadlist = db_sql_find("SELECT * FROM bbs_thread WHERE subject LIKE '%$keyword_decode%' LIMIT 50;");
-			arrlist_multisort($threadlist, 'tid', FALSE);
+			$threadlist = arrlist_multisort($threadlist, 'lastpid', FALSE);
 			foreach($threadlist as &$thread) {
 				thread_format($thread);
 				$thread['subject'] = search_keyword_highlight($thread['subject'], $keyword_decode);
@@ -56,7 +56,7 @@ if($keyword) {
 		} else {
 			$posts = 0;
 			$postlist = db_sql_find("SELECT * FROM bbs_post WHERE message LIKE '%$keyword_decode%' LIMIT 50;");
-			arrlist_multisort($postlist, 'pid', FALSE);
+			$postlist = arrlist_multisort($postlist, 'pid', FALSE);
 			foreach($postlist as &$post) {
 				post_format($post);
 				$post['message_fmt'] = search_message_format($post['message_fmt']);
