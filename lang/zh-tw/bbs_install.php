@@ -54,7 +54,7 @@ Xiuno BBS 4.0 采用 MIT 協議發布，您可以自由修改、派生版本、�
 	'not_supported' => '不支持',
 	'function_glob_not_exists' => '後臺插件功能依賴該函數，請配置 php.ini，設置 disabled_functions = ; 去除對該函數的限制',
 	'function_gzcompress_not_exists' => '後臺插件功能依賴該函數，Linux 主機請添加編譯參數 --with-zlib，Windows 主機請配置 php.ini 註釋掉  extension=php_zlib.dll',
-	
+	'function_mb_substr_not_exists' => '系統依賴該函數，Linux 主機請添加編譯參數 --with-mbstring，Windows 主機請配置 php.ini 註釋掉 extension=php_mbstring.dll',
 	
 	// hook lang_zh_cn_bbs_admin.php
 );

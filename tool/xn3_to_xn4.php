@@ -347,8 +347,6 @@ copy_recusive(XIUNO_BBS_3_PATH.'upload/avatar', "./upload/avatar");
 copy_recusive(XIUNO_BBS_3_PATH.'upload/forum', "./upload/forum");
 copy_recusive(XIUNO_BBS_3_PATH.'upload/attach', "./upload/attach");
 
-mkdir('./tmp/src', 0777);
-
 echo '<a href="../">升级完成，点击进入论坛。</a>';
 
 ?>
