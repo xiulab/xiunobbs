@@ -14,6 +14,9 @@ view/bootstrap-3.3.5-dist/
 plugin/bbs_xiuno_com_ad/
 plugin/*/*.zip
 plugin/*.zip
-plugin/xn_test
-plugin2
+plugin/sg_hide
+plugin/sg_sign
+plugin/wintop_ed2k
+plugin2/
 view/img/logo-2.png
+tool/*

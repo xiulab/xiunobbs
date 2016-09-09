@@ -18,13 +18,13 @@
 
 // 需要在命令行下运行。
 
-define('XIUNO_BBS_2_PATH', './old/');
+define('XN2_PATH', './old/');
 
 define('DEBUG', 1);
 
 $tablepre = 'bbs_';
 
-if(!$oldconf = include XIUNO_BBS_2_PATH.'conf/conf.php') {
+if(!$oldconf = include XN2_PATH.'conf/conf.php') {
 	exit('请将原来的整站移动到 ./old 目录');
 }
 
@@ -495,9 +495,9 @@ file_replace_var('./conf/conf.php', array('sitebrief'=>$sitebrief));
 */
 
 // 递归拷贝目录
-copy_recusive(XIUNO_BBS_2_PATH.'upload/avatar', "./upload/avatar");
-copy_recusive(XIUNO_BBS_2_PATH.'upload/forum', "./upload/forum");
-copy_recusive(XIUNO_BBS_2_PATH.'upload/attach', "./upload/attach");
+copy_recusive(XN2_PATH.'upload/avatar', "./upload/avatar");
+copy_recusive(XN2_PATH.'upload/forum', "./upload/forum");
+copy_recusive(XN2_PATH.'upload/attach', "./upload/attach");
 
 mkdir('./upload/tmp', 0777);
 

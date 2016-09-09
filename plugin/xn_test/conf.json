@@ -1,0 +1,11 @@
+{
+	"name":"Xiuno BBS 测试插件",
+	"brief":"",
+	"version":"1.0",
+	"bbs_version":"4.0",
+	"installed":0,
+	"enable":0,
+	"hooks_rank":[],
+	"overwrites_rank":[],
+	"dependencies":[]
+}

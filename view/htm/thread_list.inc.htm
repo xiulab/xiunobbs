@@ -42,14 +42,14 @@
 							</div>
 							<dl class="row small">
 								<dt>
-									<a href="<?php echo url("user-$_thread[uid]");?>" class="username text-grey m-r-xs"><?php echo $_thread['username'];?></a>
-									<span class="date text-grey t"><?php echo $_thread['create_date_fmt'];?></span>
+									<a href="<?php echo url("user-$_thread[uid]");?>" class="username text-grey m-r-xs <?php echo $_thread['lastuid'] ? 'hidden-md-down' : ''; ?>"><?php echo $_thread['username'];?></a>
+									<span class="date text-grey <?php echo $_thread['lastuid'] ? 'hidden-md-down' : ''; ?>"><?php echo $_thread['create_date_fmt'];?></span>
 									
 									<!--{hook thread_list_inc_lastuid_before.htm}-->
 									
 									<?php if($_thread['lastuid']) { ?>
-									<span class="hidden-md-down">
-										<span class="text-grey m-x-sm" aria-hidden="true"> ← </span>
+									<span>
+										<span class="text-grey m-x-sm" aria-hidden="true">←</span>
 										<a href="<?php echo url("user-$_thread[lastuid]");?>" class="username text-grey m-r-xs"><?php echo $_thread['lastusername'];?></a>
 										<span class="text-grey small"><?php echo $_thread['last_date_fmt'];?></span>
 									</span>

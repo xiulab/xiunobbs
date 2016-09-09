@@ -3,13 +3,12 @@
 /*
 	
 	XiunoPHP 4.0 只是定义了一些函数和全局变量，方便使用，并没有要求如何组织代码。
-	XiunoPHP 4.0，采用简单结构，有利于 HHVM 编译 / opcode 缓存，完美支持 PHP7
-	1. 不要 include 变量
-	2. 不要采用 eval(), 正则表达式 e 修饰符
-	3. 不要采用 autoload
-	4. 不要采用 $$var 多重变量
-	5. 不要使用 PHP 高级特性 __call __set __get 等魔术方法
-	6. 尽量采用函数封装功能，通过前缀区分模块。
+	采用简单结构，有利于 HHVM 编译 / opcode 缓存，支持 PHP7
+	1. 禁止使用 eval(), 正则表达式 e 修饰符
+	2. 尽量避免 autoload
+	3. 尽量避免 $$var 多重变量
+	4. 尽量避免 PHP 高级特性 __call __set __get 等魔术方法
+	5. 尽量采用函数封装功能，通过前缀区分模块
 */
 
 !defined('DEBUG') AND define('DEBUG', 1); // 1: 开发模式， 2: 线上调试：日志记录，0: 关闭

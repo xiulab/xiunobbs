@@ -114,7 +114,7 @@ var jkeyword = jform.find('input[name="keyword"]');
 jform.on('submit', function() {
 	var range = jrange.checked();
 	var keyword = jkeyword.val();
-	window.location = xn.url('search-'+keyword+'-'+range);
+	window.location = xn.url('search-'+xn.urlencode(keyword)+'-'+range);
 	return false;
 });
 

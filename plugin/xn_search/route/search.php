@@ -5,7 +5,7 @@
 $keyword = param(1);
 $range = param(2, 1);
 
-$keyword_decode = search_keyword_safe(urldecode($keyword));
+$keyword_decode = search_keyword_safe(xn_urldecode($keyword));
 $threadlist = array();
 $pagination = '';
 $active = '';

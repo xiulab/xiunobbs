@@ -20,11 +20,28 @@ function thread_digest_create($tid, $digest, $uid, $fid) {
 	return $r;
 }
 
+function thread_digest_read($tid) {
+	$arr = db_read('thread_digest', array('tid'=>$tid));
+	return $arr;
+}
+
+function thread_digest_update($tid, $arr) {
+	$r = db_update('thread_digest', array('tid'=>$tid), $arr);
+	return $r;
+}
+
 function thread_digest_change($tid, $digest, $uid, $fid) {
+	$arr = thread_digest_read($tid);
 	if($digest == 0) {
-		thread_digest_delete($tid, $uid, $fid);
+		if($arr) {
+			thread_digest_delete($tid, $uid, $fid);
+		}
 	} else {
-		thread_digest_create($tid, $digest, $uid, $fid);
+		if($arr) {
+			thread_digest_update($tid, array('digest'=>$digest));
+		} else {
+			thread_digest_create($tid, $digest, $uid, $fid);
+		}
 	}
 	thread_update($tid, array('digest'=>$digest));
 }
