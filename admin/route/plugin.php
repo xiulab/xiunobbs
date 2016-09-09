@@ -320,6 +320,11 @@ function plugin_download_unzip($dir) {
 	$zipfile = $conf['tmp_path'].'plugin_'.$dir.'.zip';
 	$destpath = "../plugin/$dir/";
 	file_put_contents($zipfile, $s);
+	
+	// 清理原来的钩子，防止叠加。
+	rmdir_recusive(APP_PATH."plugin/$dir/hook/", 1);
+	rmdir_recusive(APP_PATH."plugin/$dir/overwrite/", 1);
+	
 	$files = xn_unzip($zipfile, $destpath);
 	empty($files) AND message(-1, lang('zip_data_error'));
 	unlink($zipfile);
