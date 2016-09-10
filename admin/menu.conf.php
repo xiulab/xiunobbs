@@ -17,14 +17,14 @@ return array(
 		'tab'=> array (
 		)
 	),
-	/*
-	'post' => array(
-		'url'=>url('post-list'), 
-		'text'=>lang('post_admin'), 
+	'thread' => array(
+		'url'=>url('thread-list'), 
+		'text'=>lang('thread'), 
 		'icon'=>'icon-comment',
 		'tab'=> array (
+			'list'=>array('url'=>url('thread-list'), 'text'=>lang('admin_thread_batch')),
 		)
-	),*/
+	),
 	'user' => array(
 		'url'=>url('user-list'), 
 		'text'=>lang('user'), 

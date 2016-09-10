@@ -3,7 +3,6 @@
 return array(
 	'user'=>'用戶',
 	'forum'=>'版塊',
-	'post'=>'帖子',
 	'plugin'=>'插件',
 	'other'=>'其他',
 	
@@ -11,6 +10,7 @@ return array(
 	'group_admin'=>'用戶組管理',
 	'forum_admin'=>'版塊管理',
 	'post_admin'=>'帖子管理',
+	'thread_admin'=>'主題管理',
 	'plugin_admin'=>'插件管理',
 	'other_admin'=>'其他管理',
 	
@@ -25,6 +25,7 @@ return array(
 	'admin_clear_successfully'=>'清理成功',
 	
 	'admin_user_list'=>'用戶列表',
+	'admin_thread_batch'=>'主題批量管理',
 	'admin_user_group'=>'用戶組',
 	'admin_user_create'=>'創建用戶',
 	'admin_plugin_local_list'=>'本地插件',
@@ -100,6 +101,16 @@ return array(
 	'allow_upload'=>'上傳',
 	'allow_download'=>'下載',
 	
+	'thread_queue_not_exists'=>'隊列不存在',
+	'search_condition'=>'搜索條件',
+	'start_date'=>'開始時間',
+	'end_date'=>'結束時間',
+	'searching'=>'正在搜索',
+	'operating'=>'正在操作',
+	'operator_complete'=>'操作完成',
+	'click_to_view'=>'點擊查看',
+	'thread_userip'=>'發帖 IP',
+	'thread_search_result'=>'結果：{n} 條',
 	
 	// 用戶
 	

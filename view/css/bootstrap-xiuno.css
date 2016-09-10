@@ -1,6 +1,8 @@
 /********************************* 对 bootstrasp 进行增强 *************************************/
 /* fix .row .row 间距问题 by axiuno@gmail.com  */
-/* following fix is already fixed in BootStrap 4.0-alpha 3 
+/* following fix is already fixed in BootStrap 4.0-alpha 3 */
+
+/*
 .row .row {margin-left: 0; margin-right: 0;}
 .row .row > [class^="col-"] {padding-left: 0; padding-right: 1rem; margin-left: 0; margin-right: 0;}
 .row .row > :last-child {padding-right: 0;}
@@ -16,13 +18,11 @@
 @media (max-width: 544px) {
 	.row .row > [class^="col-sm"] { padding-right: 0; }
 }
+.row .row > :last-child {padding-right: 0;}
 */
-
-/*.row .row > :last-child {padding-right: 0;}*/
-/*.row .row > :last-child {padding-right: 0;}*/
-
-
 /*h5, h6 {font-weight: 800;}*/
+.card-block .row {margin: 0px;}
+.form-control:disabled, .form-control[readonly] { background-color: inherit;}
 
 /* card 嵌套 card-group 的时候，去掉多余的边框 */
 .card-group-nest .card:first-child {border-left:0px; border-bottom: 0px; border-top-left-radius: 0}

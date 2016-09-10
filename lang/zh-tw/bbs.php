@@ -36,6 +36,7 @@ return array(
 	'confirm'=>'確定',
 	'save'=>'保存',
 	'close'=>'關閉',
+	'open'=>'打開',
 	'last_step'=>'上壹步',
 	'next_step'=>'下壹步',
 	'send_verify_code'=>'發送驗證碼',
@@ -55,6 +56,7 @@ return array(
 	'guest_group'=>'遊客組',
 	'create_date'=>'注册时间',
 	'tips'=>'註',
+	'keyword'=>'關鍵詞',
 	
 	'month_ago'=>'月前',
 	'day_ago'=>'天前',
@@ -175,9 +177,9 @@ return array(
 	
 	// 帖子
 	'thread'=>'主題',
-	'post'=>'回復',
+	'post'=>'帖子',
 	'reply'=>'回復',
-	'subject'=>'主題',
+	'subject'=>'標題',
 	'message'=>'內容',
 	'thread_create'=>'發表主題',
 	'thread_create_successfully'=>'發表主題成功',

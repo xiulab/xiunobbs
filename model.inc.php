@@ -9,6 +9,7 @@
 
 $include_model_files = array (
 	APP_PATH.'model/kv.func.php',
+	APP_PATH.'model/queue.func.php',
 	APP_PATH.'model/group.func.php',
 	APP_PATH.'model/user.func.php',
 	APP_PATH.'model/forum.func.php',

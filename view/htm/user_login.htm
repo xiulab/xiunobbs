@@ -61,8 +61,8 @@ jform.on('submit', function() {
 	postdata.password = $.md5(postdata.password);
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
-			$.alert(message);
-			jsubmit.button(message).delay(3000).location(referer);
+			//$.alert(message);
+			jsubmit.button(message).delay(1000).location(referer);
 			//jsubmit.button(message).delay(3000).location('./');
 		} else if(code == 'email') {
 			jemail.alert(message).focus();

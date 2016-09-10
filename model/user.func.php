@@ -267,9 +267,15 @@ function user_safe_info($user) {
 function user_token_get() {
 	global $time;
 	$_uid = user_token_get_do();
+	
+	// hook model_user_token_get_start.php
+	
 	if(!$_uid) {
 		setcookie('bbs_token', '', $time - 86400, '');
 	}
+	
+	// hook model_user_token_get_end.php
+	
 	return $_uid;
 }
 
@@ -277,6 +283,9 @@ function user_token_get() {
 function user_token_get_do() {
 	global $time, $ip, $useragent, $conf;
 	$token = param('bbs_token');
+	
+	// hook model_user_token_get_do_start.php
+	
 	if(empty($token)) return FALSE;
 	$tokenkey = md5($useragent.$conf['auth_key']);
 	$s = xn_decrypt($token, $tokenkey);
@@ -284,8 +293,11 @@ function user_token_get_do() {
 	$arr = explode("\t", $s);
 	if(count($arr) != 3) return FALSE;
 	list($_ip, $_time, $_uid) = $arr;
-	if($ip != $_ip) return FALSE;
-	if($time - $_time > 86400) return FALSE;
+	//if($ip != $_ip) return FALSE;
+	//if($time - $_time > 86400) return FALSE;
+	
+	// hook model_user_token_get_do_end.php
+	
 	return $_uid;	
 }
 
@@ -295,17 +307,27 @@ function user_token_set($uid) {
 	if(empty($uid)) return;
 	$token = user_token_gen($uid);
 	setcookie('bbs_token', $token, $time + 8640000, '');
+	
+	// hook model_user_token_set_end.php
 }
 
 function user_token_clear() {
 	global $time;
 	setcookie('bbs_token', '', $time - 8640000, '');
+	
+	// hook model_user_token_clear_end.php
 }
 
 function user_token_gen($uid) {
 	global $ip, $time, $useragent, $conf;
+	
+	// hook model_user_token_gen_start.php
+	
 	$tokenkey = md5($useragent.$conf['auth_key']);
 	$token = xn_encrypt("$ip	$time	$uid", $tokenkey);
+	
+	// hook model_user_token_gen_end.php
+	
 	return $token;
 }
 

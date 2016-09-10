@@ -50,6 +50,9 @@ function cron_run($force = 0) {
 			// 清理临时附件
 			attach_gc();
 			
+			// 清理过期的队列数据
+			queue_gc();
+			
 			list($y, $n, $d) = explode(' ', date('Y n j', $time)); 	// 0 点
 			$today = mktime(0, 0, 0, $n, $d, $y);			// -8 hours
 			runtime_set('cron_2_last_date', $today, TRUE);		// 加到1天后

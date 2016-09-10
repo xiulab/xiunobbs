@@ -3,7 +3,6 @@
 return array(
 	'user'=>'User',
 	'forum'=>'Forum',
-	'post'=>'Post',
 	'plugin'=>'Plugin',
 	'other'=>'Other',
 	
@@ -11,6 +10,7 @@ return array(
 	'group_admin'=>'Group Admin',
 	'forum_admin'=>'Forum Admin',
 	'post_admin'=>'Post Admin',
+	'thread_admin'=>'Thread Admin',
 	'plugin_admin'=>'Plugin Admin',
 	'other_admin'=>'Other Admin',
 	
@@ -25,6 +25,7 @@ return array(
 	'admin_clear_successfully'=>'Cleanup success',
 		
 	'admin_user_list'=>'User List',
+	'admin_thread_batch'=>'Thread Batch Operation',
 	'admin_user_group'=>'User Group',
 	'admin_user_create'=>'Create User',
 	'admin_plugin_local_list'=>'Local Plugin',
@@ -100,6 +101,16 @@ return array(
 	'allow_upload'=>'Upload',
 	'allow_download'=>'Download',
 	
+	'thread_queue_not_exists'=>'Queue does not exist',
+	'search_condition'=>'Search Condition',
+	'start_date'=>'Start Time',
+	'end_date'=>'End Time',
+	'searching'=>'Searching.',
+	'operating'=>'Operating',
+	'operator_complete'=>'Operation Completed',
+	'click_to_view'=>'Click to view',
+	'thread_userip'=>'Post IP',
+	'thread_search_result'=>'Results: {n} ',
 	
 	// user
 	'please_check_delete_user'=>'Please check your want to delete user',

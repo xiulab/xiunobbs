@@ -36,6 +36,7 @@ return array(
 	'confirm'=>'确定',
 	'save'=>'保存',
 	'close'=>'关闭',
+	'open'=>'打开',
 	'last_step'=>'上一步',
 	'next_step'=>'下一步',
 	'send_verify_code'=>'发送验证码',
@@ -55,6 +56,7 @@ return array(
 	'guest_group'=>'游客组',
 	'create_date'=>'创建时间',
 	'tips'=>'注',
+	'keyword'=>'关键词',
 	
 	'month_ago'=>'月前',
 	'day_ago'=>'天前',
@@ -176,9 +178,9 @@ return array(
 	
 	// 帖子
 	'thread'=>'主题',
-	'post'=>'回复',
+	'post'=>'帖子',
 	'reply'=>'回复',
-	'subject'=>'主题',
+	'subject'=>'标题',
 	'message'=>'内容',
 	'thread_create'=>'发表主题',
 	'thread_create_successfully'=>'发表主题成功',

@@ -36,6 +36,7 @@ return array(
 	'confirm'=>'Confirm',
 	'save'=>'Save',
 	'close'=>'Close',
+	'open'=>'Open',
 	'last_step'=>'Last Step',
 	'next_step'=>'Next Step',
 	'send_verify_code'=>'Send Verify Code',
@@ -55,6 +56,7 @@ return array(
 	'guest_group'=>'Guest Group',
 	'create_date'=>'Create Date',
 	'tips'=>'Tips',
+	'keyword'=>'Keyword',
 	
 	'month_ago'=>' Months+',
 	'day_ago'=>' Days+',

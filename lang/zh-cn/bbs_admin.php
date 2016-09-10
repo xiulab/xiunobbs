@@ -3,7 +3,6 @@
 return array(
 	'user'=>'用户',
 	'forum'=>'版块',
-	'post'=>'帖子',
 	'plugin'=>'插件',
 	'other'=>'其他',
 	
@@ -11,6 +10,7 @@ return array(
 	'group_admin'=>'用户组管理',
 	'forum_admin'=>'版块管理',
 	'post_admin'=>'帖子管理',
+	'thread_admin'=>'主题管理',
 	'plugin_admin'=>'插件管理',
 	'other_admin'=>'其他管理',
 	
@@ -25,6 +25,7 @@ return array(
 	'admin_clear_successfully'=>'清理成功',
 	
 	'admin_user_list'=>'用户列表',
+	'admin_thread_batch'=>'主题批量管理',
 	'admin_user_group'=>'用户组',
 	'admin_user_create'=>'创建用户',
 	'admin_plugin_local_list'=>'本地插件',
@@ -100,9 +101,19 @@ return array(
 	'allow_upload'=>'上传',
 	'allow_download'=>'下载',
 	
+	// 主题
+	'thread_queue_not_exists'=>'队列不存在',
+	'search_condition'=>'搜索条件',
+	'start_date'=>'开始时间',
+	'end_date'=>'结束时间',
+	'searching'=>'正在搜索',
+	'operating'=>'正在操作',
+	'operator_complete'=>'操作完成',
+	'click_to_view'=>'点击查看',
+	'thread_userip'=>'发帖 IP',
+	'thread_search_result'=>'结果：{n} 条',
 	
 	// 用户
-	
 	'please_check_delete_user'=>'请勾选您要删除的用户',
 	'user_delete_confirm'=>'确定删除用户？',
 	'user_admin_cant_be_deleted'=>'不允许删除管理员用户，如果确实要删除，请先调整用户组!',

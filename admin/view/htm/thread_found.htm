@@ -1,0 +1,40 @@
+<?php include _include(ADMIN_PATH.'view/htm/header.inc.htm');?>
+
+<!--{hook admin_thread_found_start.htm}-->
+
+<div class="row">
+	<div class="col-xs-12">
+		<div class="btn-group m-b-1" role="group">
+			<?php echo admin_tab_active($menu['thread']['tab'], 'list');?>
+		</div>
+	</div>
+</div>
+
+<base href="<?php echo http_url_path();?>"></base>
+
+<div class="row">
+	<div class="col-xs-12">
+		
+	<div class="card">
+		<div class="card-block">
+			<table class="table table-hover threadlist">
+				<tbody>
+					<base href="<?php echo http_url_path();?>../"></base>
+					<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+	<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>
+	
+	</div>
+</div>
+
+<base href="<?php echo http_url_path();?>"></base>
+
+<!--{hook admin_thread_found_end.htm}-->
+
+<?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
+
+<!--{hook admin_thread_found_js.htm}-->

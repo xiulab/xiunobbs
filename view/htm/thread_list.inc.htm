@@ -68,5 +68,9 @@
 						</td>
 						
 					</tr>
-					<?php }} ?>
+					<?php }} else { ?>
+					<tr>
+						<td colspan="3"><?php echo lang('none');?></td>
+					</tr>
+					<?php } ?>
 					<!--{hook thread_list_inc_end.htm}-->
