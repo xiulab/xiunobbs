@@ -22,6 +22,9 @@
 */
 function search_cutword($text) {
 	$cutword_url = kv_get('xn_search_cutword_url');
+	if(empty($cutword_url)) {
+		message(-1, '请指定切词服务 URL');
+	}
 	$postdata = array('text'=>$text);
 	$r = http_post($cutword_url, $postdata, 10, 2);
 	$arrlist = xn_json_decode($r);

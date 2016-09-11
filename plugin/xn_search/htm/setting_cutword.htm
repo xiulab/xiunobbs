@@ -78,7 +78,7 @@ jform.on('submit', function(){
 	jform.reset();
 	jsubmit.button('loading');
 	var range = jrange.checked();
-	var start = (range == 0 ? jall_all.val() : jpost_start.val());
+	var start = (range == 0 ? jall_start.val() : jpost_start.val());
 	var range = jrange.checked();
 	window.location = xn.url('plugin-setting-xn_search-cutstep-'+range+'-'+start);
 	return false;

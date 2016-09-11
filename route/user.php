@@ -396,7 +396,7 @@ if($action == 'login') {
 		$threadlist = mythread_find_by_uid($_uid, $page, $pagesize);
 	}
 	
-	// hook user_profile_start.php
+	// hook user_profile_end.php
 	
 	include _include(APP_PATH.'view/htm/user_profile.htm');
 	

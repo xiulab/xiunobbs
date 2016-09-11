@@ -78,6 +78,7 @@ if($action == 'set') {
 	$limit = 20;
 	$range = param(4, 0);
 	$start = param(5, 0);
+	
 	// 对回帖进行切词
 	if($range == 0) {
 		empty($start) AND $start = intval(kv_get('xn_search_cut_post_start'));
