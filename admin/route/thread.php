@@ -61,6 +61,8 @@ if(empty($action) || $action == 'list') {
 	$totalpage = ceil($threads / $pagesize);
 	$threadlist = thread_find_by_fid($fid, $page, $pagesize);
 	
+	if($page == 1) $queueid AND queue_destory($queueid);
+	
 	$tids = array();
 	// 查找到的数据存到 cache，并且返回
 	foreach($threadlist as $thread) {
