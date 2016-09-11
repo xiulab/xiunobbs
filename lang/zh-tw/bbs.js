@@ -6,6 +6,8 @@ var lang = {
 	'close': '關閉',
 	'yes': '是',
 	'no': '否',
+	'open': '打開',
+	'close': '關閉',
 	
 	'please_choose_thread':'請選擇主題',
 	'move_forum':'移動版塊',
@@ -17,6 +19,8 @@ var lang = {
 	'top_range':'置頂範圍',
 	'confirm_delete_thread':'確定刪除選中的 ({n}) 篇主題嗎？',
 	'confirm_delete':'確定刪除嗎？',
+	'close_thread':'關閉主題',
+	'close_status':'狀態',
 	
 	// hook lang_zh_cn_bbs_js.htm
 };

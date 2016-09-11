@@ -72,6 +72,22 @@ $('.mod-button button.top').on('click', function() {
 	}, {'body': '<p>'+lang.top_range+'：'+radios+'</p>'});
 })
 
+// 版主管理：关闭/开启
+$('.mod-button button._close').on('click', function() {
+	var modtid = $('input[name="modtid"]').checked();
+	if(modtid.length == 0) return $.alert(lang.please_choose_thread);
+	var radios = xn.form_radio('close', {"0": lang.open, "1": lang.close});
+	$.confirm(lang.close_thread, function() {
+		var tids = xn.implode('_', modtid);
+		var close = $('input[name="close"]').checked();
+		var postdata = {close: close};
+		$.xpost(xn.url('mod-close-'+tids), postdata, function(code, message) {
+			if(code != 0) return $.alert(message);
+			$.alert(message).delay(1000).location('');
+		});
+	}, {'body': '<p>'+lang.close_status+'：'+radios+'</p>'});
+})
+
 // 确定框 / confirm
 $('a.confirm').on('click', function() {
 	var jthis = $(this);

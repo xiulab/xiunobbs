@@ -20,6 +20,7 @@
 					<fieldset class="form-group">
 						<label for="fid"><?php echo lang('forum');?>：</label>
 						<select class="form-control" name="fid" id="fid">
+							<option value="0"></option>
 							<?php foreach ($forumlist as $forum) { ?>
 							<option value="<?php echo $forum['fid']; ?>"><?php echo $forum['name']; ?></option>
 							<?php } ?>
@@ -91,7 +92,7 @@
 
 var jform = $('#form');
 var jsubmit = $('#search');
-var jopsubmit = $('#operation').find('input[type="button"]');
+var jopsubmit = $('#operation').find('button');
 var jsearch_result = $('#search_result');
 var jprogress = $('#progress');
 var jthreads = $('#threads');

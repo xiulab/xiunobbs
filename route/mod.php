@@ -11,8 +11,6 @@ $action = param(1);
 // hook mod_start.php
 
 if($action == 'top') {
-
-	// hook mod_top_start.php
 	
 	$tids = param(2);
 	$arr = explode('_', $tids);
@@ -22,6 +20,8 @@ if($action == 'top') {
 	$top = param('top');
 	
 	$threadlist = thread_find_by_tids($tidarr);
+	
+	// hook mod_top_start.php
 	
 	foreach($threadlist as &$thread) {
 		$fid = $thread['fid'];
@@ -45,17 +45,52 @@ if($action == 'top') {
 	// hook mod_top_end.php
 	
 	message(0, lang('set_completely'));
-	
-} elseif($action == 'delete') {
 
-	// hook mod_delete_start.php
+} elseif($action == 'close') {
 	
 	$tids = param(2);
 	$arr = explode('_', $tids);
 	$tidarr = param_force($arr, array(0));
 	empty($tidarr) AND message(-1, lang('please_choose_thread'));
 	
+	$close = param('close');
+	
 	$threadlist = thread_find_by_tids($tidarr);
+	
+	// hook mod_close_start.php
+	
+	foreach($threadlist as &$thread) {
+		$fid = $thread['fid'];
+		$tid = $thread['tid'];
+		if(forum_access_mod($fid, $gid, 'allowtop')) {
+			thread_update($tid, array('closed'=>$close));
+			$arr = array(
+				'uid' => $uid,
+				'tid' => $thread['tid'],
+				'pid' => $thread['firstpid'],
+				'subject' => $thread['subject'],
+				'comment' => '',
+				'create_date' => $time,
+				'action' => 'close',
+			);
+			modlog_create($arr);
+		}
+	}
+	
+	// hook mod_close_end.php
+	
+	message(0, lang('set_completely'));
+		
+} elseif($action == 'delete') {
+
+	$tids = param(2);
+	$arr = explode('_', $tids);
+	$tidarr = param_force($arr, array(0));
+	empty($tidarr) AND message(-1, lang('please_choose_thread'));
+	
+	$threadlist = thread_find_by_tids($tidarr);
+	
+	// hook mod_delete_start.php
 	
 	foreach($threadlist as &$thread) {
 		$fid = $thread['fid'];
@@ -81,8 +116,6 @@ if($action == 'top') {
 	
 } elseif($action == 'move') {
 
-	// hook mod_move_start.php
-	
 	$tids = param(2);
 	$newfid = param(3);
 	$arr = explode('_', $tids);
@@ -92,6 +125,8 @@ if($action == 'top') {
 	!forum_read($newfid) AND message(1, lang('forum_not_exists'));
 	
 	$threadlist = thread_find_by_tids($tidarr);
+	
+	// hook mod_move_start.php
 	
 	foreach($threadlist as &$thread) {
 		$fid = $thread['fid'];
@@ -117,8 +152,6 @@ if($action == 'top') {
 	
 } elseif($action == 'deleteuser') {
 	
-	// hook mod_delete_user_start.php
-	
 	$_uid = param(2, 0);
 	
 	$method != 'POST' AND message(-1, 'Method error');
@@ -129,6 +162,8 @@ if($action == 'top') {
 	empty($u) AND message(-1, lang('user_not_exists_or_deleted'));
 	
 	$u['gid'] < 6 AND message(-1, lang('cant_delete_admin_group'));
+	
+	// hook mod_delete_user_start.php
 	
 	$r = user_delete($_uid);
 	$r === FALSE AND message(-1, lang('delete_failed'));

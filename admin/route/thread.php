@@ -50,7 +50,8 @@ if(empty($action) || $action == 'list') {
 	$cond['create_date_start'] = strtotime(param('create_date_start', 0));
 	$cond['create_date_end'] = strtotime(param('create_date_end', 0));
 	$cond['uid'] = param('uid', 0);
-	$cond['userip'] = ip2long(param('userip', ''));
+	$userip = param('userip');
+	$cond['userip'] = $userip ? ip2long($userip) : 0;
 	$cond['keyword'] = param('keyword');
 	$cond['page'] = param('page', 1);
 	
@@ -62,6 +63,7 @@ if(empty($action) || $action == 'list') {
 	$tids = array();
 	// 查找到的数据存到 cache，并且返回
 	foreach($threadlist as $thread) {
+		
 		if($cond['fid'] && $thread['fid'] != $cond['fid']) continue; 
 		if($cond['create_date_start'] && $thread['create_date'] < $cond['create_date_start']) continue; 
 		if($cond['create_date_end'] && $thread['create_date'] > $cond['create_date_end']) continue; 

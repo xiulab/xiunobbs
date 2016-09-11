@@ -1362,6 +1362,28 @@ $.fn.reset = function() {
 	jform.find('input').tooltip('dispose');
 }
 
+// 用来代替 <base href="../" /> 的功能
+$.fn.base_href = function(base) {
+	function replace_url(url) {
+		if(url.match('/^https?:\/\//i')) {
+			return url;
+		} else {
+			return base + url;
+		}
+	}
+	this.find('img').each(function() {
+		var jthis = $(this);
+		var src = jthis.attr('src');
+		if(src) jthis.attr('src', replace_url(src));
+	});
+	this.find('a').each(function() {
+		var jthis = $(this);
+		var href = jthis.attr('href');
+		if(href) jthis.attr('href', replace_url(href));
+	});
+	return this;
+}
+
 // $.each() 的串行版本，用法：
 /*
 	$.each_sync(items, function(i, callback) {
