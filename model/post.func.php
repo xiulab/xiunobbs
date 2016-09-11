@@ -308,7 +308,7 @@ function post_message_fmt(&$arr, $gid) {
 	$arr['doctype'] == 1 && $arr['message_fmt'] = xn_txt_to_html($arr['message']);
 	
 	// 对引用进行处理
-	!empty($arr['quotepid']) && $arr['quotepid'] > 0 && $arr['message_fmt'] = post_quote($arr['quotepid'], $arr['uid']).$arr['message_fmt'];
+	!empty($arr['quotepid']) && $arr['quotepid'] > 0 && $arr['message_fmt'] = post_quote($arr['quotepid']).$arr['message_fmt'];
 }
 
 // 获取内容的简介 0: html, 1: txt; 2: markdown; 3: ubb
@@ -321,12 +321,12 @@ function post_brief($s, $len = 100) {
 }
 
 // 对内容进行引用
-function post_quote($quotepid, $uid = 0) {
+function post_quote($quotepid) {
 	$quotepost = post__read($quotepid);
 	$s = $quotepost['message'];
 	$s = post_brief($s, 100);
 	$userhref = url("user-$uid");
-	$user = user_read_cache($uid);
+	$user = user_read_cache($quotepost['uid']);
 	$r = '<blockquote class="blockquote">
 		<a href="'.$userhref.'" aria-hidden="true" tabindex="-1" class="text-small text-muted user">
 			<img class="avatar-xs" src="'.$user['avatar_url'].'">
