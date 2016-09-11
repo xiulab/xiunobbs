@@ -109,7 +109,7 @@ for(var i=1; i <= totalpage; i++) pagearr.push(i);
 jfid.on('change', function() {
 	var fid = $(this).val();
 	if(fid == 0) {
-		var totalpage = Math.max(1, totalpage_back);
+		totalpage = Math.max(1, totalpage_back);
 	} else {
 		var n = forumlist[fid]['threads'];
 		totalpage = Math.max(1, Math.ceil(n / pagesize));
@@ -123,6 +123,7 @@ jsubmit.on('click', function() {
 	var postdata = jform.serializeObject();
 	var url = jform.attr('action');
 	threads = 0;
+	jprogress.val(0);
 	$.each_sync(pagearr, function(i, callback) {
 		postdata.page = pagearr[i];
 		$.xpost(url, postdata, function(code, message) {
