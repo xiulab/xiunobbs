@@ -323,10 +323,12 @@ function post_brief($s, $len = 100) {
 // 对内容进行引用
 function post_quote($quotepid) {
 	$quotepost = post__read($quotepid);
+	if(empty($quotepost)) return '';
+	$uid = $quotepost['uid'];
 	$s = $quotepost['message'];
 	$s = post_brief($s, 100);
 	$userhref = url("user-$uid");
-	$user = user_read_cache($quotepost['uid']);
+	$user = user_read_cache($uid);
 	$r = '<blockquote class="blockquote">
 		<a href="'.$userhref.'" aria-hidden="true" tabindex="-1" class="text-small text-muted user">
 			<img class="avatar-xs" src="'.$user['avatar_url'].'">
