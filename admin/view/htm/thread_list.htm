@@ -97,12 +97,27 @@ var jsearch_result = $('#search_result');
 var jprogress = $('#progress');
 var jthreads = $('#threads');
 var joperation = $('#operation');
+var jfid = $('#fid');
 var threads = 0; // 符合的条数
 var page = 1;
 var pagesize = <?php echo $pagesize;?>;
 var totalpage = <?php echo $totalpage;?>;
+var totalpage_back = totalpage;
 var pagearr = [];
 for(var i=1; i <= totalpage; i++) pagearr.push(i);
+
+jfid.on('change', function() {
+	var fid = $(this).val();
+	if(fid == 0) {
+		var totalpage = Math.max(1, totalpage_back);
+	} else {
+		var n = forumlist[fid]['threads'];
+		totalpage = Math.max(1, Math.ceil(n / pagesize));
+	}
+	pagearr = [];
+	for(var i=1; i <= totalpage; i++) pagearr.push(i);
+});
+
 jsubmit.on('click', function() {
 	jsubmit.button('loading');
 	var postdata = jform.serializeObject();

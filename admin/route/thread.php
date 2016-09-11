@@ -45,8 +45,9 @@ if(empty($action) || $action == 'list') {
 	$queueid = _SESSION('thread_find_queueid');
 	empty($queueid) AND message(-1, lang('thread_queue_not_exists'));
 	
+	$fid = param('fid', 0);
 	$cond = array();
-	$cond['fid'] = param('fid', 0);
+	$cond['fid'] = $fid;
 	$cond['create_date_start'] = strtotime(param('create_date_start', 0));
 	$cond['create_date_end'] = strtotime(param('create_date_end', 0));
 	$cond['uid'] = param('uid', 0);
@@ -56,9 +57,9 @@ if(empty($action) || $action == 'list') {
 	$cond['page'] = param('page', 1);
 	
 	$page = $cond['page'];
-	$threads = $runtime['threads'];
+	$threads = $cond['fid'] ? $forumlist[$fid]['threads'] : $runtime['threads'];
 	$totalpage = ceil($threads / $pagesize);
-	$threadlist = thread_find_by_fid(0, $page, $pagesize);
+	$threadlist = thread_find_by_fid($fid, $page, $pagesize);
 	
 	$tids = array();
 	// 查找到的数据存到 cache，并且返回
