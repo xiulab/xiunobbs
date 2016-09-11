@@ -226,6 +226,7 @@ return array(
 	'attach_not_exists' => '附件不存在',
 	'insufficient_privilege_to_download' => '您所在的用戶組無權下載該附件',
 	'advanced_reply' => '高級回復',
+	'thread_has_already_closed' => '主題已經關閉',
 	
 	// 版主管理
 	'please_choose_thread' => '請選擇主題',

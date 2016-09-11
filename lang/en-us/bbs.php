@@ -229,6 +229,7 @@ return array(
 	'attach_not_exists' => 'Attach does not exits',
 	'insufficient_privilege_to_download' => 'Your group privilege is insufficient to download this attach',
 	'advanced_reply' => 'Advanced Reply',
+	'thread_has_already_closed' => 'Thread has already closed',
 	
 	// moderator
 	'please_choose_thread' => 'Please choose thread',

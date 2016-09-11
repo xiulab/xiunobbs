@@ -228,6 +228,7 @@ return array(
 	'attach_not_exists' => '附件不存在',
 	'insufficient_privilege_to_download' => '您所在的用户组无权下载该附件',
 	'advanced_reply' => '高级回复',
+	'thread_has_already_closed' => '主题已经关闭',
 	
 	
 	// 版主管理

@@ -29,6 +29,8 @@ if($action == 'create') {
 		message(-1, lang('user_group_insufficient_privilege'));
 	}
 	
+	($thread['closed'] && ($gid == 0 || $gid > 5)) AND message(-1, lang('thread_has_already_closed'));
+	
 	// hook post_get_post.php
 	
 	if($method == 'GET') {

@@ -126,7 +126,7 @@ if($action == 'create') {
 	
 	forum_access_user($fid, $gid, 'allowread') OR message(-1, lang('user_group_insufficient_privilege'));
 	
-	$pagination = pagination(url("thread-$tid-{page}$keywordurl"), $thread['posts'], $page, $pagesize);
+	$pagination = pagination(url("thread-$tid-{page}$keywordurl"), $thread['posts'] + 1, $page, $pagesize);
 	
 	$header['title'] = $thread['subject'].'-'.$forum['name'].'-'.$conf['sitename']; 
 	//$header['mobile_title'] = lang('thread_detail');

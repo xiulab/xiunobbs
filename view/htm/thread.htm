@@ -273,4 +273,9 @@ $('#nav_mobile li[fid="<?php echo $fid;?>"]').tab('show');
 
 </script>
 
+<?php if($thread['closed'] && ($gid == 0 || $gid > 5)) { ?>
+<script>
+jmessage.val('<?php echo lang('thread_has_already_closed');?>').attr('readonly', 'readonly');
+</script>
+<?php } ?>
 <!--{hook thread_js.htm}-->
