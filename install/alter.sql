@@ -1,5 +1,11 @@
-ALTER TABLE bbs_forum ADD COLUMN  announcement text NOT NULL;
-ALTER TABLE bbs_post ADD COLUMN  message_fmt longtext NOT NULL;
-UPDATE bbs_post SET message_fmt=message WHERE 1;
-ALTER TABLE bbs_attach ADD COLUMN  isattach tinyint(11) NOT NULL default '0' after isimage;
-UPDATE bbs_attach SET isattach=0 where 1;
+# beta4 -> beta5
+DROP TABLE IF EXISTS bbs_queue;
+CREATE TABLE bbs_queue (
+  queueid int(11) unsigned NOT NULL default '0',		# 队列 id
+  v int(11) NOT NULL default '0',			# 队列中存放的数据，只能为 int
+  expiry int(11) unsigned NOT NULL default '0',		# 过期时间，默认 0，不过期
+  UNIQUE KEY(queueid, v),
+  KEY(expiry)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+ALTER TABLE bbs_post ADD COLUMN quotepid int(11) NOT NULL default '0';

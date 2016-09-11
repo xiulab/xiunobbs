@@ -14,6 +14,7 @@ if($action == 'create') {
 	
 	$tid = param(2);
 	$quick = param(3);
+	$quotepid = param(4);
 		
 	$thread = thread_read($tid);
 	empty($thread) AND message(-1, lang('thread_not_exists'));
@@ -52,6 +53,10 @@ if($action == 'create') {
 		
 		$thread['top'] > 0 AND thread_top_cache_delete();
 		
+		$quotepid = param('quotepid', 0);
+		$quotepost = post__read($quotepid);
+		(!$quotepost || $quotepost['tid'] != $tid) AND $quotepid = 0;
+		
 		$post = array(
 			'tid'=>$tid,
 			'uid'=>$uid,
@@ -59,6 +64,7 @@ if($action == 'create') {
 			'userip'=>$longip,
 			'isfirst'=>0,
 			'doctype'=>$doctype,
+			'quotepid'=>$quotepid,
 			'message'=>$message,
 		);
 		$pid = post_create($post, $fid, $gid);

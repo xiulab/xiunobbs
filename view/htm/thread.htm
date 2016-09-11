@@ -77,7 +77,7 @@
 		
 		<!--{hook thread_postlist_before.htm}-->
 		<div class="card post p-a-sm">
-			<table class="table table-hover postlist m-b-0">
+			<table class="table postlist m-b-0">
 				<thead>
 					<tr>
 						<th colspan="2" class="p-a-0  p-b-sm">
@@ -106,9 +106,10 @@
 							</a>
 						</td>
 						<td class="p-l-0">
-							<form action="<?php echo url("post-create-$tid-1");?>" method="post" id="form">	
+							<form action="<?php echo url("post-create-$tid-1");?>" method="post" id="quick_reply_form">	
 								<input type="hidden" name="doctype" value="1" />
 								<input type="hidden" name="return_html" value="1" />
+								<input type="hidden" name="quotepid" value="0" />
 								<dl class="row small text-muted">
 									<dt class="username"><?php echo $user['username'];?></dt>
 									<dd class="text-right text-grey"><span class="floor"><?php echo ($thread['posts'] + 1);?></span><?php echo lang('floor');?></dd>
@@ -127,7 +128,7 @@
 										</dt>
 										<dd class="text-right vtop">
 											<!--{hook thread_quick_reply_right_start.htm}-->
-											<a class="icon-reply" href="<?php echo url("post-create-$tid");?>"></a>
+											<a class="icon-mail-forward text-muted" href="<?php echo url("post-create-$tid");?>" id="advanced_reply"> 高级回复</a>
 											<!--{hook thread_quick_reply_right_end.htm}-->
 										</dd>
 									</dl>
@@ -151,10 +152,9 @@
 		
 	</div>
 	<div class="col-lg-3 hidden-md-down">
-	
-		<!--{hook thread_user_before.htm}-->
-		<a role="button" class="btn btn-primary btn-block btn-sm m-b-sm hidden-md-down" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
-		<div class="card hidden-lg-down">
+		<div class="card hidden-md-down">
+			<!--{hook thread_user_before.htm}-->
+			<a role="button" class="btn btn-primary btn-block btn-sm m-b-sm hidden-md-down" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
 			<a href="<?php echo url("user-$thread[uid]");?>">
 				<img class="avatar-lg center-block m-t-1" src="<?php echo $thread['user_avatar_url'];?>">
 			</a>
@@ -190,7 +190,7 @@
 <?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
 
 <script>
-var jform = $('#form');
+var jform = $('#quick_reply_form');
 var jsubmit = $('#submit');
 jform.on('submit', function() {
 	jform.reset();

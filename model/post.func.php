@@ -8,15 +8,7 @@
 function post__create($arr, $gid) {
 	// hook model_post__create_start.php
 	
-	// 超长内容截取
-	$arr['message'] = xn_substr($arr['message'], 0, 2028000);
-	
-	// 格式转换: 类型，0: html, 1: txt; 2: markdown; 3: ubb
-	$arr['message_fmt'] = htmlspecialchars($arr['message']);
-	
-	// 入库的时候进行转换，编辑的时候，自行调取 message, 或者 message_fmt
-	$arr['doctype'] == 0 && $arr['message_fmt'] = ($gid == 1 ? $arr['message'] : xn_html_safe($arr['message']));
-	$arr['doctype'] == 1 && $arr['message_fmt'] = xn_txt_to_html($arr['message']);
+	post_message_fmt($arr, $gid);
 	
 	// hook model_post__create_insert_before.php
 	
@@ -105,13 +97,7 @@ function post_update($pid, $arr, $tid = 0) {
 	
 	// hook model_post_update_start.php
 	
-	// 超长内容截取
-	$arr['message'] = xn_substr($arr['message'], 0, 2028000);
-	
-	// 格式转换
-	$arr['message_fmt'] = htmlspecialchars($arr['message']);
-	$arr['doctype'] == 0 && $arr['message_fmt'] = ($gid == 1 ? $arr['message'] : xn_html_safe($arr['message']));
-	$arr['doctype'] == 1 && $arr['message_fmt'] = xn_txt_to_html($arr['message']);
+	post_message_fmt($arr, $gid);
 	
 	// hook model_post_create_post__create_before.php
 	
@@ -222,37 +208,6 @@ function post_list_cache_delete($tid) {
 
 // ------------> 其他方法
 
-function post_format(&$post) {
-	global $conf;
-	if(empty($post)) return;
-	$post['create_date_fmt'] = humandate($post['create_date']);
-	
-	$user = user_read_cache($post['uid']);
-	
-	// hook model_post_format_start.php
-	
-	$post['username'] = array_value($user, 'username');
-	$post['user_avatar_url'] = array_value($user, 'avatar_url');
-	$post['user'] = $user;
-	!isset($post['floor']) AND  $post['floor'] = '';
-	
-	// 权限判断
-	global $uid, $sid, $longip;
-	$post['allowupdate'] = ($uid == $post['uid']);
-	$post['allowdelete'] = ($uid == $post['uid']);
-	
-	$post['user_url'] = url("user-$post[uid]".($post['uid'] ? '' : "-$post[pid]"));
-	
-	if($post['files'] > 0) {
-		list($attachlist, $imagelist, $filelist) = attach_find_by_pid($post['pid']);
-		$post['filelist'] = $filelist;
-	} else {
-		$post['filelist'] = array();
-	}
-	
-	// hook model_post_format_end.php
-}
-
 function post_count($cond = array()) {
 	// hook model_post_count_start.php
 	$n = db_count('post', $cond);
@@ -308,6 +263,78 @@ function post_file_list_html($filelist, $include_delete = FALSE) {
 	// hook model_post_file_list_html_end.php
 	
 	return $s;
+}
+
+function post_format(&$post) {
+	global $conf;
+	if(empty($post)) return;
+	$post['create_date_fmt'] = humandate($post['create_date']);
+	
+	$user = user_read_cache($post['uid']);
+	
+	// hook model_post_format_start.php
+	
+	$post['username'] = array_value($user, 'username');
+	$post['user_avatar_url'] = array_value($user, 'avatar_url');
+	$post['user'] = $user;
+	!isset($post['floor']) AND  $post['floor'] = '';
+	
+	// 权限判断
+	global $uid, $sid, $longip;
+	$post['allowupdate'] = ($uid == $post['uid']);
+	$post['allowdelete'] = ($uid == $post['uid']);
+	
+	$post['user_url'] = url("user-$post[uid]".($post['uid'] ? '' : "-$post[pid]"));
+	
+	if($post['files'] > 0) {
+		list($attachlist, $imagelist, $filelist) = attach_find_by_pid($post['pid']);
+		$post['filelist'] = $filelist;
+	} else {
+		$post['filelist'] = array();
+	}
+	
+	// hook model_post_format_end.php
+}
+
+function post_message_fmt(&$arr, $gid) {
+	// 超长内容截取
+	$arr['message'] = xn_substr($arr['message'], 0, 2028000);
+	
+	// 格式转换: 类型，0: html, 1: txt; 2: markdown; 3: ubb
+	$arr['message_fmt'] = htmlspecialchars($arr['message']);
+	
+	// 入库的时候进行转换，编辑的时候，自行调取 message, 或者 message_fmt
+	$arr['doctype'] == 0 && $arr['message_fmt'] = ($gid == 1 ? $arr['message'] : xn_html_safe($arr['message']));
+	$arr['doctype'] == 1 && $arr['message_fmt'] = xn_txt_to_html($arr['message']);
+	
+	// 对引用进行处理
+	!empty($arr['quotepid']) && $arr['quotepid'] > 0 && $arr['message_fmt'] = post_quote($arr['quotepid'], $arr['uid']).$arr['message_fmt'];
+}
+
+// 获取内容的简介 0: html, 1: txt; 2: markdown; 3: ubb
+function post_brief($s, $len = 100) {
+	$s = strip_tags($s);
+	$s = htmlspecialchars($s);
+	$more = xn_strlen($s) > $len ? ' ... ' : '';
+	$s = xn_substr($s, 0, $len).$more;
+	return $s;
+}
+
+// 对内容进行引用
+function post_quote($quotepid, $uid = 0) {
+	$quotepost = post__read($quotepid);
+	$s = $quotepost['message'];
+	$s = post_brief($s, 100);
+	$userhref = url("user-$uid");
+	$user = user_read_cache($uid);
+	$r = '<blockquote class="blockquote">
+		<a href="'.$userhref.'" aria-hidden="true" tabindex="-1" class="text-small text-muted user">
+			<img class="avatar-xs" src="'.$user['avatar_url'].'">
+			'.$user['username'].'
+		</a>
+		'.$s.'
+		</blockquote>';
+	return $r;
 }
 
 // hook model_post_end.php

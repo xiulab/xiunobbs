@@ -10,6 +10,7 @@
 		$form_message = '';
 		$form_doctype = 1;
 		$isfirst = 1;
+		$quotepid = 0;
 		$location = url("forum-'+jfid.checked()+'");
 		$filelist = array();
 	} elseif($route == 'post' && $action == 'update') {
@@ -20,15 +21,17 @@
 		$form_message = $post['message'];
 		$form_doctype = $post['doctype'];
 		$isfirst = $post['isfirst'];
+		$quotepid = 0;
 		$location = url("thread-$tid");
 	} elseif($route == 'post' && $action == 'create') {
 		$form_title = lang('post_create');
-		$form_action = url("post-create-$tid");
+		$form_action = url("post-create-$tid-0");
 		$form_submit_txt = lang('post_create');
 		$form_subject = '';
 		$form_message = '';
 		$form_doctype = 1;
 		$isfirst = 0;
+		//$quotepid = 0;
 		$location = url("thread-$tid");
 		$filelist = array();
 	}
@@ -47,6 +50,7 @@
 				<h4 class="card-title"><?php echo $form_title; ?></h4>
 				<form action="<?php echo $form_action;?>" method="post" id="form">
 					<input type="hidden" name="doctype" value="<?php echo $form_doctype;?>" />
+					<input type="hidden" name="quotepid" value="<?php echo $quotepid;?>" />
 					
 					<!--{hook post_fid_before.htm}-->
 					<?php if($isfirst) { ?>

@@ -143,3 +143,26 @@ $('body').on('click', '.post_delete', function() {
 	}
 	return false;
 });
+
+// 引用
+$('body').on('click', '.post_reply', function() {
+	var jthis = $(this);
+	var tid = jthis.attr('tid');
+	var pid = jthis.attr('pid');
+	var jmessage = $('#message');
+	var jtr = jthis.closest('tr');
+	var jadvanced_reply = $('#advanced_reply');
+	if(jtr.hasClass('quote')) {
+		jtr.removeClass('quote');
+		jadvanced_reply.attr('href', xn.url('post-create-'+tid));
+	} else {
+		jthis.parents('table').find('tr').removeClass('quote');
+		jtr.addClass('quote');
+		var s = jmessage.val();
+		var jform = $('#quick_reply_form');
+		jform.find('input[name="quotepid"]').val(pid);
+		jadvanced_reply.attr('href', xn.url('post-create-'+tid+'-0-'+pid));
+	}
+	jmessage.focus();
+	return false;
+});

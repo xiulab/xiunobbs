@@ -154,3 +154,46 @@ table.nav_tag_list td {padding: 0.1rem;}
 table.nav_tag_list td a{margin-right: 0.5rem;}
 .nav_tag_list .active {font-weight: 800;}
 .message p {margin: 0.2rem 0;}
+
+@keyframes quote_animation{
+	from {background-color: green;}
+	to {background-color: #EEEEEE;}
+}
+
+@-moz-keyframes quote_animation {
+	from {background-color: green;}
+	to {background-color: #EEEEEE;}
+}
+
+@-webkit-keyframes quote_animation {
+	from {background-color: green;}
+	to {background-color: #EEEEEE;}
+}
+
+@-o-keyframes quote_animation {
+	from {background-color: green;}
+	to {background-color: #EEEEEE;}
+}
+tr.quote {
+	background-color: #EEEEEE;
+	animation: quote_animation 1s;
+	-moz-animation: quote_animation 1s;
+	-webkit-animation: quote_animation 1s;
+	-o-animation: quote_animation 1s;
+}
+tr.quote td:nth-child(2) {
+	background-image: url(../img/quote.png);
+	background-repeat:no-repeat;
+	background-position: top right;
+}
+.blockquote {
+	font-size: 0.8rem;
+	background-color: #EEEEEE;
+	/*border: 1px solid #DDDDDD;*/
+	background-image: url(../img/quote.png);
+	background-repeat:no-repeat;
+	background-position: top right;
+}
+.blockquote .user {
+	margin-right: 0.5rem;
+}

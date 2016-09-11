@@ -227,6 +227,7 @@ return array(
 	'last_reply' => '最后回复',
 	'attach_not_exists' => '附件不存在',
 	'insufficient_privilege_to_download' => '您所在的用户组无权下载该附件',
+	'advanced_reply' => '高级回复',
 	
 	
 	// 版主管理
