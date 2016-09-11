@@ -48,8 +48,8 @@ if(empty($action) || $action == 'list') {
 	$fid = param('fid', 0);
 	$cond = array();
 	$cond['fid'] = $fid;
-	$cond['create_date_start'] = strtotime(param('create_date_start', 0));
-	$cond['create_date_end'] = strtotime(param('create_date_end', 0));
+	$cond['create_date_start'] = strtotime(param('create_date_start'));
+	$cond['create_date_end'] = strtotime(param('create_date_end'));
 	$cond['uid'] = param('uid', 0);
 	$userip = param('userip');
 	$cond['userip'] = $userip ? ip2long($userip) : 0;
@@ -76,7 +76,7 @@ if(empty($action) || $action == 'list') {
 		//if($cond['views_end'] && $thread['views'] > $cond['views_end']) continue; 
 		//if($cond['posts_start'] && $thread['posts'] > $cond['posts_start']) continue; 
 		//if($cond['posts_end'] && $thread['posts'] > $cond['posts_end']) continue; 
-		if($cond['keyword'] && stripos($thread['subject'], $cond['keyword']) !== FALSE) continue; 
+		if($cond['keyword'] && stripos($thread['subject'], $cond['keyword']) === FALSE) continue; 
 		$tids[] = $thread['tid'];
 		queue_push($queueid, $thread['tid'], 86400);
 	}

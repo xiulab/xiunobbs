@@ -22,7 +22,7 @@ if($keyword) {
 			$arrlist = db_sql_find("SELECT * FROM bbs_thread_search WHERE MATCH(message) AGAINST ('$keyword_decode') LIMIT 50;");
 			$tids = arrlist_values($arrlist, 'tid');
 			$threadlist = thread_find_by_tids($tids);
-			$threadlist = arrlist_multisort($threadlist, 'lastpid', FALSE);
+			$threadlist = arrlist_multisort($threadlist, 'tid', FALSE);
 			foreach($threadlist as &$thread) {
 				$thread['subject'] = search_keyword_highlight($thread['subject'], $keyword_decode);
 			}
@@ -48,7 +48,7 @@ if($keyword) {
 		
 		if($range == 1) {
 			$threadlist = db_sql_find("SELECT * FROM bbs_thread WHERE subject LIKE '%$keyword_decode%' LIMIT 50;");
-			$threadlist = arrlist_multisort($threadlist, 'lastpid', FALSE);
+			$threadlist = arrlist_multisort($threadlist, 'tid', FALSE);
 			foreach($threadlist as &$thread) {
 				thread_format($thread);
 				$thread['subject'] = search_keyword_highlight($thread['subject'], $keyword_decode);
