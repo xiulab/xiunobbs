@@ -132,7 +132,7 @@ function plugin_enable($dir) {
 // 清空插件的临时目录
 function plugin_clear_tmp_dir() {
 	global $conf;
-	rmdir_recusive($conf['tmp_path'].'src/', TRUE);
+	rmdir_recusive($conf['tmp_path'], TRUE);
 	xn_unlink($conf['tmp_path'].'model.min.php');
 }
 
@@ -554,3 +554,5 @@ function plugin_read($dir, $local_first = TRUE) {
 	$plugin['official_version'] = $official['version']; // 官方版本
 	return $plugin;
 }
+
+?>

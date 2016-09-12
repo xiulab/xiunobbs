@@ -1106,12 +1106,14 @@ function rmdir_recusive($dir, $keepdir = 0) {
 	$dir2 = $dir.'*';
 	
 	$files = glob($dir2);
-	foreach($files as $file) {
-		if($file == '.' || $file == '..') continue;
-		if(!is_dir($file)) {
-			xn_unlink($file);
-		} else {
-			rmdir_recusive($file);
+	if($files) {
+		foreach($files as $file) {
+			if($file == '.' || $file == '..') continue;
+			if(!is_dir($file)) {
+				xn_unlink($file);
+			} else {
+				rmdir_recusive($file);
+			}
 		}
 	}
 	if(!$keepdir) xn_rmdir($dir);
