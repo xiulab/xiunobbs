@@ -18,10 +18,16 @@ $('.tap').on('click', function(e) {
 	}
 });
 // 点击响应整行：导航栏下拉菜单   / check response line
-$('ul.nav > li').on('click', function() {
+$('ul.nav > li').on('click', function(e) {
 	var jthis = $(this);
 	var href = jthis.children('a').attr('href');
-	if(href) window.location = href;
+	if(!href) return false;
+	if(e.ctrlKey) {
+		window.open(href);
+		return false;
+	} else {
+		window.location = href;
+	}
 });
 // 点击响应整行：，但是不响应 checkbox 的点击  / check response line, without checkbox
 $('.thread input[type="checkbox"]').parents('td').on('click', function(e) {
