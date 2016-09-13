@@ -1,0 +1,11 @@
+{
+	"name":"在线手册",
+	"brief":"在线手册，支持章节编写，自定义顺序，手册数据单独表和目录存放，支持评论、删除。",
+	"version":"1.0",
+	"bbs_version":"4.0",
+	"installed":0,
+	"enable":0,
+	"hooks_rank":[],
+	"overwrites_rank":[],
+	"dependencies":[]
+}

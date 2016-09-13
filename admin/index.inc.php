@@ -1,5 +1,7 @@
 <?php
 
+!defined('DEBUG') AND exit('Access Denied.');
+
 // hook admin_index_menu_after.php
 
 // 只允许管理员登陆后台
