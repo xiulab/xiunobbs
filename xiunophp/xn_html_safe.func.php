@@ -1608,7 +1608,7 @@ function xn_html_safe($doc, $arg = array()) {
 		'ftp_url'=>'#^ftp:([\w%\-\.]+)@([\w%\-\.]+)(\.[\w%\-\.]+?)+$#is',
 		'ed2k_url'=>'#^(?:ed2k|thunder|qvod|magnet)://[^\s\'\"\\\\<>]+$#is',
 		'color'=>'#^(\#\w{3,6})|(rgb\(\d+,\s*\d+,\s*\d+\)|(\w{3,10}))$#is',
-		'safe'=>'#^[\w\-\:\.\s\x7f-\xff]+$#is',
+		'safe'=>'#^[\w\-:;\.\s\x7f-\xff]+$#is',
 		'css'=>'#^[\(,\)\#;\w\-\.\s\x7f-\xff]+$#is',
 		'word'=>'#^[\w\-\x7f-\xff]+$#is',
 	);
