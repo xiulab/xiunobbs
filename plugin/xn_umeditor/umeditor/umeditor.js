@@ -7827,8 +7827,12 @@ UM.plugins['autosave'] = function() {
             saveLocalData: function ( key, data ) {
 
                 if ( storage && data) {
-                    storage.setItem( key, data  );
-                    return true;
+                	try {
+	                    storage.setItem( key, data  );
+	                    return true;
+                	} catch(e) {
+                    	 return false;
+                    }
                 }
 
                 return false;
