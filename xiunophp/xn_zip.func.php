@@ -1,22 +1,32 @@
 <?php 
 
 function xn_zip($zipfile, $extdir) { 
-	$pathinfo = pathinfo($extdir); 
-	$parentpath = $pathinfo['dirname']; 
-	$dirname = $pathinfo['basename']; 
-
-	$z = new ZipArchive(); 
-	$z->open($zipfile, ZIPARCHIVE::CREATE); 
-	$z->addEmptyDir($dirname); 
-	xn_dir_to_zip($z, $extdir, strlen("$parentpath/")); 
-	$z->close(); 
+	if(!class_exists('ZipArchive')) {
+		$pathinfo = pathinfo($extdir); 
+		$parentpath = $pathinfo['dirname']; 
+		$dirname = $pathinfo['basename']; 
+	
+		$z = new ZipArchive(); 
+		$z->open($zipfile, ZIPARCHIVE::CREATE); 
+		$z->addEmptyDir($dirname); 
+		xn_dir_to_zip($z, $extdir, strlen("$parentpath/")); 
+		$z->close();
+	} else {
+		include_once XIUNOPHP_PATH.'xn_zip_old.func.php';
+		xn_zip_old($zipfile, $extdir);
+	}
 }
 
-function xn_unzip($zipfile, $extdir){ 
-	$z = new ZipArchive;
-	if($z->open($zipfile) === TRUE) {
-		$z->extractTo($extdir);
-		$z->close();
+function xn_unzip($zipfile, $extdir) {
+	if(!class_exists('ZipArchive')) {
+		$z = new ZipArchive;
+		if($z->open($zipfile) === TRUE) {
+			$z->extractTo($extdir);
+			$z->close();
+		}
+	} else {
+		include_once XIUNOPHP_PATH.'xn_zip_old.func.php';
+		xn_unzip_old($zipfile, $extdir);
 	}
 }
 

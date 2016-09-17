@@ -375,7 +375,7 @@ function plugin_lock_end() {
 
 // 依赖
 function plugin_env_check() {
-	!class_exists('ZipArchive') AND message(-1, 'ZipArchive does not exists! require PHP version > 5.2.0');
+	//!class_exists('ZipArchive') AND message(-1, 'ZipArchive does not exists! require PHP version > 5.2.0');
 }
 
 ?>
