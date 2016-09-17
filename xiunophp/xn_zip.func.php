@@ -1,7 +1,7 @@
 <?php 
 
 function xn_zip($zipfile, $extdir) { 
-	if(!class_exists('ZipArchive')) {
+	if(class_exists('ZipArchive')) {
 		$pathinfo = pathinfo($extdir); 
 		$parentpath = $pathinfo['dirname']; 
 		$dirname = $pathinfo['basename']; 
@@ -21,7 +21,7 @@ function xn_zip($zipfile, $extdir) {
 }
 
 function xn_unzip($zipfile, $extdir) {
-	if(!class_exists('ZipArchive')) {
+	if(class_exists('ZipArchive')) {
 		$z = new ZipArchive;
 		if($z->open($zipfile) === TRUE) {
 			$z->extractTo($extdir);
