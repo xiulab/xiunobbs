@@ -9,6 +9,9 @@ $action = param(1);
 // 初始化插件变量 / init plugin var
 plugin_init();
 
+// 插件依赖的环境检查
+plugin_env_check();
+
 empty($action) AND $action = 'local';
 
 if($action == 'local') {
@@ -318,15 +321,17 @@ function plugin_download_unzip($dir) {
 	//$arr['code'] != 0 AND message(-1, '服务端返回数据错误：'.$arr['message']);
 	
 	$zipfile = $conf['tmp_path'].'plugin_'.$dir.'.zip';
-	$destpath = "../plugin/$dir/";
+	$destpath = "../plugin/";
 	file_put_contents($zipfile, $s);
 	
 	// 清理原来的钩子，防止叠加。
 	rmdir_recusive(APP_PATH."plugin/$dir/hook/", 1);
 	rmdir_recusive(APP_PATH."plugin/$dir/overwrite/", 1);
 	
-	$files = xn_unzip($zipfile, $destpath);
-	empty($files) AND message(-1, lang('zip_data_error'));
+	// 直接覆盖原来的 plugin 目录下的插件目录
+	xn_unzip($zipfile, $destpath);
+	list($destpath, $wrapdir) = xn_zip_unwrap_path($destpath.$dir, $dir);
+	//empty($files) AND message(-1, lang('zip_data_error'));
 	unlink($zipfile);
 	// 检查配置文件
 	$conffile = "../plugin/$dir/conf.json";
@@ -368,5 +373,9 @@ function plugin_lock_end() {
 	xn_lock_end($route.'_'.$action);
 }
 
+// 依赖
+function plugin_env_check() {
+	!class_exists('ZipArchive') AND message(-1, 'ZipArchive does not exists! require PHP version > 5.2.0');
+}
 
 ?>

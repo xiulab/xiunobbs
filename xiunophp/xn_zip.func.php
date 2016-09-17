@@ -52,16 +52,17 @@ function xn_dir_to_zip(&$z, $zippath, $prelen = 0) {
 function xn_zip_unwrap_path($zippath, $dirname = '') {
 	substr($zippath, -1) != '/' AND $zippath .= '/';
 	$arr = glob("$zippath*", GLOB_ONLYDIR);
-	if(empty($arr)) return $zippath;
-	$dirname2 = end(explode(DIRECTORY_SEPARATOR, $arr[0]));
-	if(!$dirname && count($arr) == 1) return $arr[0];
-	if($dirname && $dirname == $dirname2) {
-		return $arr[0];
+	if(empty($arr)) return array($zippath, '');
+	$arr[0] = str_replace('\\', '/', $arr[0]);
+	$wrapdir = end(explode('/', $arr[0]));
+	$lastpath = $arr[0].'/';
+	if(!$dirname) return count($arr) == 1 ? array($lastpath, $wrapdir) : array($zippath, '');
+	if($dirname && $dirname == $wrapdir) {
+		return array($lastpath, $wrapdir);
 	} else {
-		return $arr[0];
+		return array($zippath, '');
 	}
 }
-
 
 //xn_unzip('d:/test/yyy.zip', 'd:/test/yyy/');
 //xn_zip('d:/test/yyy.zip', 'd:/test/xxx/xxx');
