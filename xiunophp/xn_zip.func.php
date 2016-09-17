@@ -64,7 +64,7 @@ function xn_dir_to_zip(&$z, $zippath, $prelen = 0) {
 // 第一层的目录名称，用来兼容多层打包
 function xn_zip_unwrap_path($zippath, $dirname = '') {
 	substr($zippath, -1) != '/' AND $zippath .= '/';
-	$arr = glob("$zippath*", GLOB_ONLYDIR);
+	$arr = glob("$zippath*");
 	if(empty($arr)) return array($zippath, '');
 	$arr[0] = str_replace('\\', '/', $arr[0]);
 	$wrapdir = end(explode('/', $arr[0]));
