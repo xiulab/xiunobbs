@@ -6,12 +6,15 @@ function xn_zip($zipfile, $extdir) {
 		$parentpath = $pathinfo['dirname']; 
 		$dirname = $pathinfo['basename']; 
 	
+		xn_unlink($zipfile);
 		$z = new ZipArchive(); 
 		$z->open($zipfile, ZIPARCHIVE::CREATE); 
 		$z->addEmptyDir($dirname); 
 		xn_dir_to_zip($z, $extdir, strlen("$parentpath/")); 
 		$z->close();
 	} else {
+		
+		xn_unlink($zipfile);
 		include_once XIUNOPHP_PATH.'xn_zip_old.func.php';
 		xn_zip_old($zipfile, $extdir);
 	}
