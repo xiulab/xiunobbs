@@ -128,10 +128,10 @@ class php_zip {
 		eval('$hexdtime = "' . $hexdtime . '";');
 		*/
 		
-		//50 4b 03 04 14 00 00 00  08 00
-		//50 4b 03 04 0a 00 00 00  00 00
-		//$fr	   = "\x50\x4b\x03\x04\x14\x00\x00\x00\x08\x00";
-		$fr	   = "\x50\x4b\x03\x04\x0a\x00\x00\x00\x00\x00"; // fixed by axiuno
+		$fr	   = "\x50\x4b\x03\x04";
+		$fr	  .= "\x14\x00";
+		$fr	  .= "\x00\x00";
+		$fr	  .= "\x08\x00";
 		$fr	  .= $hexdtime;
 		$unc_len  = strlen($data);
 		$crc	  = crc32($data);
@@ -302,52 +302,6 @@ class php_zip {
 	}
 
 
-	/*
-		// fixed by axiuno, mac os zip compressed_size incorrect
-		Array
-		(
-		    [chkid] => 19280
-		    [id] => 513
-		    [version] => 789
-		    [version_extracted] => 20
-		    [flag] => 8
-		    [compression] => 8
-		    [mtime] => 1471095994
-		    [mdate] => 18701
-		    [crc] => 46309353
-		    [compressed_size] => 165
-		    [size] => 264
-		    [filename_len] => 9
-		    [extra_len] => 12
-		    [comment_len] => 0
-		    [disk] => 0
-		    [internal] => 0
-		    [external] => -2119942144
-		    [offset] => 0
-		    [filename] => conf.json
-		    [extra] => UX ��W�$�W
-		    [comment] => 
-		    [stored_filename] => conf.json
-		    [status] => ok
-		    [index] => 0
-		)
-		Array
-		(
-		    [filename] => conf.json
-		    [extra] => UX ��W�$�W� 
-		    [compression] => 8
-		    [size] => 0
-		    [compressed_size] => 0
-		    [crc] => 0
-		    [flag] => 8
-		    [mdate] => 18701
-		    [mtime] => 1471095994
-		    [stored_filename] => conf.json
-		    [status] => ok
-		    [external] => 0
-		)
-		
-	*/
 	private function extrace_file($header, $to, $zip) {
 		// fixed by axiuno, mac os zip compress
 		$header2 = $this->readfileheader($zip);
@@ -442,9 +396,8 @@ class php_zip {
 		if (substr($gzData, 0, 3) == "\x1f\x8b\x08") {
 			// 1F 8B 08 00 00 00 00 00 00 03
 			$s = '';
-			// php7: data error
 			if(function_exists('gzdecode')) {
-				$s = @gzdecode($gzData);
+				$s = gzdecode($gzData);
 			}
 			if(!empty($s)) {
 				return $s;
@@ -463,12 +416,12 @@ class php_zip {
 					if ( $flg & 2 )
 						$i = $i + 2;
 				}
-			}
-			if(function_exists('gzinflate')) {
-				return gzinflate(substr($gzData, $i, -8));
-			} else {
-				throw new Exception('gzinflate() has been disabled');
-				//return gzuncompress($gzData);
+				if(function_exists('gzinflate')) {
+					return gzinflate(substr($gzData, $i, -8));
+				} else {
+					throw new Exception('gzinflate() has been disabled');
+					//return gzuncompress($gzData);
+				}
 			}
 		} else {
 			return FALSE;
