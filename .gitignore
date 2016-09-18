@@ -22,3 +22,4 @@ view/bootstrap
 tool/*
 view/bootstrap/
 !view/bootstrap/dist/
+!view/bootstrap/scss/

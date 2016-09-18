@@ -6609,21 +6609,22 @@ a.text-danger:focus, a.text-danger:hover {
 }
 
 /* 导航下拉菜单颜色修正 */
-/*
 nav.bg-inverse .dropdown-menu {
-	background-color: #373a3c;
-	border: 1px solid #272a2c;
+  background-color: #373a3c;
+  border: 1px solid #1f2021;
 }
+
 nav.bg-inverse .dropdown-item {
-	font-size: 0.85rem;
-	-webkit-appearance: initial;
-	color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+  -webkit-appearance: initial;
+  color: rgba(255, 255, 255, 0.5);
 }
+
 nav.bg-inverse .dropdown-item:hover {
-	background-color: #575a5c;
-	color: rgba(255, 255, 255, 1);
+  background-color: #4f5457;
+  color: white;
 }
-*/
+
 .navbar {
   padding-top: 0.2rem;
   padding-bottom: 0.2rem;

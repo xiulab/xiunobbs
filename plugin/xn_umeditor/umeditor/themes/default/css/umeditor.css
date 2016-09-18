@@ -599,8 +599,8 @@
 
 /*链接*/
 .edui-dialog-link-body{
-    width:400px;
-    height:200px;
+    width:100%;
+    height:120px;
 }
 .edui-popup{
     display: none;
