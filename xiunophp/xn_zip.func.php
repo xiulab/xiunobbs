@@ -67,7 +67,7 @@ function xn_zip_unwrap_path($zippath, $dirname = '') {
 	$arr = glob("$zippath*");
 	if(empty($arr)) return array($zippath, '');
 	$arr[0] = str_replace('\\', '/', $arr[0]);
-	$wrapdir = end(explode('/', $arr[0]));
+	$wrapdir = array_pop(explode('/', $arr[0]));
 	$lastpath = $arr[0].'/';
 	if(!$dirname) return count($arr) == 1 ? array($lastpath, $wrapdir) : array($zippath, '');
 	if($dirname && $dirname == $wrapdir) {
