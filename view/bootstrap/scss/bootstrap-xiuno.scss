@@ -1,0 +1,130 @@
+/********************************* 对 bootstrasp 进行增强 *************************************/
+/* fix .row .row 间距问题 by axiuno@gmail.com  */
+/* following fix is already fixed in BootStrap 4.0-alpha 3 */
+
+/*
+.row .row {margin-left: 0; margin-right: 0;}
+.row .row > [class^="col-"] {padding-left: 0; padding-right: 1rem; margin-left: 0; margin-right: 0;}
+.row .row > :last-child {padding-right: 0;}
+@media (max-width: 1200px) {
+	.row .row > [class^="col-xl"] { padding-right: 0; }
+}
+@media (max-width: 992px) {
+	.row .row > [class^="col-lg"] { padding-right: 0; }
+}
+@media (max-width: 768px) {
+	.row .row > [class^="col-md"] { padding-right: 0; }
+}
+@media (max-width: 544px) {
+	.row .row > [class^="col-sm"] { padding-right: 0; }
+}
+.row .row > :last-child {padding-right: 0;}
+*/
+/*h5, h6 {font-weight: 800;}*/
+
+.card-block .row {margin: 0px;}
+.form-control:disabled, .form-control[readonly] { background-color: inherit;}
+
+/* card 嵌套 card-group 的时候，去掉多余的边框 */
+.card-group-nest .card:first-child {border-left:0px; border-bottom: 0px; border-top-left-radius: 0}
+.card-group-nest .card:last-child {border-right:0px; border-bottom: 0px; border-top-right-radius: 0}
+.card-group-nest .card {border-bottom: 0px;}
+.card-group-nest .card .card-block {padding: 0.5rem;}
+.card-group-nest .card .card-block h5 {margin-bottom: 0;}
+.card > .table thead th {border-top: 0;}
+
+/* bootstrap 的默认间距太肥大，增加小间距 */
+.m-b-sm { margin-bottom: 0.5rem !important } 
+.m-t-sm { margin-top: 0.5rem !important } 
+.m-l-sm { margin-left: 0.5rem !important } 
+.m-r-sm { margin-right: 0.5rem !important } 
+.m-x-sm { margin-left: 0.5rem !important; margin-right: 0.5rem !important } 
+.m-y-sm { margin-top: 0.5rem !important; margin-bottom: 0.5rem !important } 
+.p-b-sm { padding-bottom: 0.5rem !important } 
+.p-t-sm { padding-top: 0.5rem !important } 
+.p-l-sm { padding-left: 0.5rem !important } 
+.p-r-sm { padding-right: 0.5rem !important } 
+.p-x-sm { padding-left: 0.5rem !important; padding-right: 0.5rem !important } 
+.p-y-sm { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important } 
+.p-a-sm { padding: 0.5rem !important;;}
+.m-b-xs { margin-bottom: 0.3rem !important } 
+.m-t-xs { margin-top: 0.3rem !important } 
+.m-l-xs { margin-left: 0.3rem !important } 
+.m-r-xs { margin-right: 0.3rem !important } 
+.m-x-xs { margin-left: 0.3rem !important; margin-right: 0.3rem !important } 
+.m-y-xs { margin-top: 0.3rem !important; margin-bottom: 0.3rem !important } 
+.p-b-xs { padding-bottom: 0.3rem !important } 
+.p-t-xs { padding-top: 0.3rem !important } 
+.p-l-xs { padding-left: 0.3rem !important } 
+.p-r-xs { padding-right: 0.3rem !important } 
+.p-x-xs { padding-left: 0.3rem !important; padding-right: 0.3rem !important } 
+.p-y-xs { padding-top: 0.3rem !important; padding-bottom: 0.3rem !important } 
+.p-a-xs { padding: 0.3rem !important; }
+
+/*
+.w-1 {style: width: 50px !important;}
+.w-2 {style: min-width: 100px !important;}
+.w-3 {style: min-width: 150px !important;}
+.w-4 {style: min-width: 200px !important;}
+*/
+
+/* 文字相关的增强 */
+.icon-1x { font-size: 0.8em; }
+.text-ellipsis {
+	/*width: 100%;*/
+	white-space: nowrap; 
+	text-overflow: ellipsis; 
+	-o-text-overflow: ellipsis; 
+	overflow: hidden; 
+}
+.text-right { text-align: right  !important; }
+.text-center { text-align: center !important; }
+.text-left { text-align: left  !important; }
+.text-bold { font-weight: bold !important; }
+.text-grey { color: ($gray-light * 1.375)  !important; }
+.text-middle { font-size: 85% !important; }
+.small, .text-small { font-size: 75% !important; }
+.table-fixed { table-layout:fixed !important; }
+.break-all {word-break: break-all;}
+.hidden {display: none;}
+.show {display: '';}
+.center-block {margin-left: auto; margin-right: auto; display: block;}
+
+/* 导航下拉菜单颜色修正 */
+
+nav.bg-inverse .dropdown-menu {
+	background-color: $brand-inverse;
+	border: 1px solid darken($brand-inverse, 10%);
+}
+nav.bg-inverse .dropdown-item {
+	font-size: 0.85rem;
+	-webkit-appearance: initial;
+	color: rgba(255, 255, 255, 0.5);
+}
+nav.bg-inverse .dropdown-item:hover {
+	background-color: lighten($brand-inverse, 10%);
+	color: rgba(255, 255, 255, 1);
+}
+
+.navbar {padding-top: 0.2rem; padding-bottom: 0.2rem;}
+.navbar-nav .nav-link, .navbar-nav .drop-item  {padding-top: 0.3rem; padding-bottom: 0.3rem; line-height: 1.7rem;}
+.navbar-nav .nav-link{ padding: 0.2rem 0px;}
+
+/* checkbox 太灰 */
+.custom-checkbox .custom-indicator, .custom-radio .custom-indicator {border: 1px solid #bbb;}
+
+/* fix the fuck bootstrap 4 navbar drop menu cannot touch scroll */
+nav.navbar .collapse, nav.navbar .collapse div.bg-inverse {
+    overflow-y: auto;
+    height: auto;
+    max-height: 350px;
+}
+
+.navbar-dark, .navbar-dark button {
+    color: rgba(255, 255, 255, 0.5);
+}
+.nav-tabs .nav-link {padding: 0.4rem 1rem 0.1rem 1rem; font-size: 0.8rem;}
+.card tr:first-child td, .card tr:first-child th {border-top: 0;}
+.card-title {border-bottom: $card-border-width solid $card-border-color; padding-bottom: 0.5rem;}
+/*.card-block { font-size: 0.85rem;}*/
+h6 {font-weight: 800;}

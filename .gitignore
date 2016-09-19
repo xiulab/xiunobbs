@@ -1,10 +1,11 @@
-tmp/*
 conf/conf.php
 upload/attach/*
 upload/avatar/*
 upload/forum/*
 upload/tmp/*
 log/*
+tmp/*
+*/.gitkeep
 umeditor-dev
 ueditor-dev
 route/browser.php
@@ -18,8 +19,5 @@ plugin/sg_sign
 plugin/wintop_ed2k
 plugin2/
 view/img/logo-2.png
-view/bootstrap
 tool/*
-view/bootstrap/
-!view/bootstrap/dist/
-!view/bootstrap/scss/
+view/bootstrap/node_modules
