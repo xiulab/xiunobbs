@@ -33,7 +33,7 @@ function xn_unzip($zipfile, $extdir) {
 	}
 }
 
-function xn_dir_to_zip(&$z, $zippath, $prelen = 0) {
+function xn_dir_to_zip($z, $zippath, $prelen = 0) {
 		
 	// (PHP 5 >= 5.3.0, PHP 7, PECL zip >= 1.9.0)
 	/*
