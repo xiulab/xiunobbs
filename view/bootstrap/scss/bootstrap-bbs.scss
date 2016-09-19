@@ -16,26 +16,25 @@ dl.row.vbottom > dt, dl.row.vbottom > dd, dl.row > dt.vbottom, dl.row > dd.vbott
 
 
 /* 导航栏半透明背景 */
-/*
-.navbar.bg-inverse { background-color: rgba(5, 6, 9, 0.8); }
-
-
-#nav_mobile a {color: #aab;}
-#nav_mobile a:hover {color: #fff;}
-*/
-#nav_pc { font-size: 0.85rem;}
+.bg-inverse { background-color: $navbar-light-active-color !important; }
+#mobile_collapsing_bavbar { font-size: 0.85rem;}
+#nav_pc { font-size: 0.85rem; }
+#nav_mobile a {color: $navbar-dark-color;}
+#nav_mobile a:hover {color: $navbar-dark-hover-color;}
+#nav_mobile .nav-item {padding: 0.5rem}
+#nav_mobile .nav-item:hover {background: $navbar-light-color;}
 
 /* bbs 全局定义 */
 html, body {height:100%; font-family:"Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", "微软雅黑", "华文细黑", STHeiti, sans-serif}
-body {background: #f4f4f4; }
-a {color: #373a3c;}
-a:hover {color: #0000ff;}
+body {background: darken($gray-lightest, 3%); }
+a {color: $gray-dark;}
+a:hover {color: $brand-primary;}
 #wrapper { min-height:100%; position:relative; }
 #body { padding-bottom: 3rem; padding-top: 3.8rem;}
 #footer {
 	font-size: 0.75rem;
-	background: #eee;
-	border-top: 1px solid #ddd;
+	background: darken($gray-lightest, 10%);
+	border-top: 1px solid darken($gray-lightest, 15%);
 	width:100%;
 	height: 3rem;
 	position:absolute;
@@ -71,7 +70,7 @@ dl.row > dt.td-avatar, .table .td-avatar { width: 3.0rem; padding: 0.4rem;}
 /* 自定义更多 */
 .dropdown-toggle::after {width: 22px; height: 16px; background: url(../img/more.png); opacity: 0.5; border: 0; }
 .dropdown-toggle:hover::after {opacity: 1;  }
-.breadcrumb {background: #fff; border: 1px solid #e5e5e5; font-size: 95%; padding: 0.5rem 1rem;}
+.breadcrumb {background-color: $card-bg; border: 1px solid $card-border-color; font-size: 95%; padding: 0.5rem 1rem;}
 .logo-xs {width: 1.3rem; height: 1.3rem; }
 .logo-sm {width: 1.8rem; height: 1.8rem; margin-top: 0.1rem}
 
@@ -123,8 +122,6 @@ dl.row > dt.td-avatar, .table .td-avatar { width: 3.0rem; padding: 0.4rem;}
 .icon-top-2 { color: #FF8800; }
 .icon-top-3 { color: #DA24A7; }
 
-#nav_mobile .nav-item {padding: 0.5rem}
-#nav_mobile .nav-item:hover {background: #444446;}
 
 #message {height: 2.4rem; transition: height 0.2s;}
 
@@ -159,26 +156,26 @@ table.nav_tag_list td a{margin-right: 0.5rem;}
 .message p {margin: 0.2rem 0;}
 
 @keyframes quote_animation{
-	from {background-color: green;}
-	to {background-color: #EEEEEE;}
+	from {background-color: $brand-success;}
+	to {background-color: $gray-lighter;}
 }
 
 @-moz-keyframes quote_animation {
-	from {background-color: green;}
-	to {background-color: #EEEEEE;}
+	from {background-color: $brand-success;}
+	to {background-color: $gray-lighter;}
 }
 
 @-webkit-keyframes quote_animation {
-	from {background-color: green;}
-	to {background-color: #EEEEEE;}
+	from {background-color: $brand-success;}
+	to {background-color: $gray-lighter;}
 }
 
 @-o-keyframes quote_animation {
-	from {background-color: green;}
-	to {background-color: #EEEEEE;}
+	from {background-color: $brand-success;}
+	to {background-color: $gray-lighter;}
 }
 tr.quote {
-	background-color: #EEEEEE;
+	background-color: $gray-lighter;
 	animation: quote_animation 1s;
 	-moz-animation: quote_animation 1s;
 	-webkit-animation: quote_animation 1s;
@@ -191,7 +188,7 @@ tr.quote td:nth-child(2) {
 }
 .blockquote {
 	font-size: 0.8rem;
-	background-color: #EEEEEE;
+	background-color: $gray-lighter;
 	/*border: 1px solid #DDDDDD;*/
 	background-image: url(../img/quote.png);
 	background-repeat:no-repeat;
