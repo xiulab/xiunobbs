@@ -15,14 +15,14 @@ function form_radio($name, $arr, $checked = 0) {
 
 	foreach((array)$arr as $k=>$v) {
 		$add = $k == $checked ? ' checked="checked"' : '';
-		$s .= "<label class=\"custom-input custom-radio\"><input type=\"radio\" name=\"$name\" value=\"$k\"$add /><span class=\"custom-indicator\"></span>$v</label> &nbsp; \r\n";
+		$s .= "<label class=\"custom-input custom-radio\"><input type=\"radio\" name=\"$name\" value=\"$k\"$add /> $v</label> &nbsp; \r\n";
 	}
 	return $s;
 }
 
 function form_checkbox($name, $checked = 0, $txt = '') {
 	$add = $checked ? ' checked="checked"' : '';
-	$s = "<label class=\"custom-input custom-checkbox\"><input type=\"checkbox\" name=\"$name\" value=\"1\" $add /><span class=\"custom-indicator\"></span> $txt</label>";
+	$s = "<label class=\"custom-input custom-checkbox\"><input type=\"checkbox\" name=\"$name\" value=\"1\" $add /> $txt</label>";
 	return $s;
 }
 

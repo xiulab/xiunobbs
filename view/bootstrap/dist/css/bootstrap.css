@@ -6390,7 +6390,8 @@ a.text-danger:focus, a.text-danger:hover {
 */
 /*h5, h6 {font-weight: 800;}*/
 .card-block .row {
-  margin: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
 }
 
 .form-control:disabled, .form-control[readonly] {
