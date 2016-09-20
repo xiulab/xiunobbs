@@ -9972,8 +9972,13 @@ dl.row > dt.td-avatar, .table .td-avatar {
 }
 
 /* fix dropmenu not pop over, but scroll style */
-#header .collapse {overflow: inherit;}
-#header #mobile_collapsing_bavbar {overflow-y: auto;}
+#header .collapse {
+  overflow: inherit;
+}
+
+#header #mobile_collapsing_bavbar {
+  overflow-y: auto;
+}
 
 /* 靠的太远 */
 /*.navbar-nav .nav-item + .nav-item.username { margin-left: 0.3rem; }*/
