@@ -126,8 +126,8 @@ dl.row > dt.td-avatar, .table .td-avatar { width: 3.0rem; padding: 0.4rem;}
 
 
 /* fix dropmenu not pop over, but scroll style */
-#nav_pc .collapse {overflow: inherit;}
-#nav_mobile .collapse {overflow: inherit;}
+#header .collapse {overflow: inherit;}
+#header #mobile_collapsing_bavbar {overflow-y: auto;}
 
 /* 靠的太远 */
 /*.navbar-nav .nav-item + .nav-item.username { margin-left: 0.3rem; }*/
