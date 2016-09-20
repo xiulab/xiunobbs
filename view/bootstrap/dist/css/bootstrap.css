@@ -9649,32 +9649,25 @@ dl.row.vbottom > dt, dl.row.vbottom > dd, dl.row > dt.vbottom, dl.row > dd.vbott
 }
 
 /* 导航栏半透明背景 */
-.bg-inverse {
-  background-color: rgba(0, 0, 0, 0.8) !important;
-}
-
-#mobile_collapsing_bavbar {
+.navbar {
   font-size: 0.85rem;
-}
-
-#nav_pc {
-  font-size: 0.85rem;
-}
-
-#nav_mobile a {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-#nav_mobile a:hover {
-  color: rgba(255, 255, 255, 0.75);
 }
 
 #nav_mobile .nav-item {
-  padding: 0.5rem;
+  float: none;
 }
 
-#nav_mobile .nav-item:hover {
-  background: rgba(0, 0, 0, 0.3);
+#header .nav-item {
+  padding: 0.2rem;
+}
+
+#header .nav-link {
+  padding: 0rem;
+  line-height: 1.8rem;
+}
+
+#header .navbar-toggler {
+  padding: 0rem;
 }
 
 /* bbs 全局定义 */
@@ -9804,7 +9797,10 @@ dl.row > dt.td-avatar, .table .td-avatar {
 .logo-sm {
   width: 1.8rem;
   height: 1.8rem;
-  margin-top: 0.1rem;
+}
+
+#header.bg-inverse {
+  background: rgba(0, 0, 0, 0.8) !important;
 }
 
 .table td {

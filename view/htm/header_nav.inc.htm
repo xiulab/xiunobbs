@@ -76,53 +76,51 @@
 		
 		
 		<!-- 手机导航 -->
-		<div class="container hidden-lg-up navbar-nav">
-			<div class="row">
-				<!-- 左侧：折叠图标 -->
-				<div class="col-xs-2">
+
+		<table width="100%" class="hidden-lg-up navbar-nav">
+			<tr>
+				<td width="100">
 					<?php if($route == 'index' || $route == 'forum') { ?>
-					 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile_collapsing_bavbar">☰</button>
+					 <button class="navbar-toggler m-t-xs" type="button" data-toggle="collapse" data-target="#mobile_collapsing_bavbar">☰</button>
 					 <?php } else { ?>
-					 <a class="nav-link icon-chevron-left icon-2x xn-back" href="javascript:history.back();" aria-label="<?php echo lang('back');?>"></a>
+					 <div class="nav-item">
+						 <a class="nav-link icon-chevron-left icon-2x xn-back" href="javascript:history.back();" aria-label="<?php echo lang('back');?>"></a>
+					 </div>
 					 <?php } ?>
-				</div>
-				
-				<!-- 中间：标题 -->
-				<div class="col-xs-8 text-center text-nowrap">
-					<a class="nav-link" href="<?php echo $header['mobile_link'];?>">
+			
+				</td>
+				<td>
 					<?php if($header['mobile_title']) { ?>
-						<?php echo $header['mobile_title'];?>
+						<a class="nav-link text-center" href="<?php echo $header['mobile_link'];?>">
+							<?php echo $header['mobile_title'];?>
+						</a>
 					<?php } else { ?>
 						<img src="<?php echo $conf['view_url'];?>img/logo.png" class="logo-sm center-block">
 					<?php } ?>
-					</a>
-				</div>
-				
-				<!-- 右侧：登陆 -->
-				<div class="col-xs-2">
-					<div class="pull-right">
-						<div class="nav-item small">
-						<?php if(empty($uid)) { ?>
-							<a class="nav-link m-r-xs" href="<?php echo url('user-login');?>" aria-label="<?php echo lang('login');?>"> <i class="icon-user  icon-2x" aria-hidden="true"></i></a>
-						<?php } else { ?>
-							
-						<?php if($route != 'thread') { ?>
-							<a class="nav-link icon-edit icon-2x" href="<?php echo url("thread-create-$fid");?>" aria-label="<?php echo lang('thread_create');?>"></a>
-						<?php } else { ?>
-							<a class="nav-link icon-reply icon-2x" href="<?php echo url("post-create-$tid");?>" aria-label="<?php echo lang('post_create_new');?>"></a>
-						<?php } ?>
-							
-						<?php } ?>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+
+				</td>
+				<td width="100" align="right">
+					<?php if(empty($uid)) { ?>
+						<a class="nav-link m-r-xs" href="<?php echo url('user-login');?>" aria-label="<?php echo lang('login');?>"> <i class="icon-user  icon-2x" aria-hidden="true"></i></a>
+					<?php } else { ?>
+						
+					<?php if($route != 'thread') { ?>
+						<a class="nav-link icon-edit icon-2x" href="<?php echo url("thread-create-$fid");?>" aria-label="<?php echo lang('thread_create');?>"></a>
+					<?php } else { ?>
+						<a class="nav-link icon-reply icon-2x" href="<?php echo url("post-create-$tid");?>" aria-label="<?php echo lang('post_create_new');?>"></a>
+					<?php } ?>
+						
+					<?php } ?>
+
+				</td>
+			</tr>
+		</table>
+	
 		
 		<!-- 手机导航：下拉菜单 mobile navigation drop menu -->
 		<div class="collapse" id="mobile_collapsing_bavbar">
 			<div class="p-a-1">
-				<ul class="nav" id="nav_mobile">
+				<ul class="nav navbar-nav" id="nav_mobile">
 					<li class="nav-item">
 						<a class="nav-link" href="./"><i class="icon-home" aria-hidden="true"></i> <?php echo lang('index_page');?></a>
 					</li>

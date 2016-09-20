@@ -16,13 +16,11 @@ dl.row.vbottom > dt, dl.row.vbottom > dd, dl.row > dt.vbottom, dl.row > dd.vbott
 
 
 /* 导航栏半透明背景 */
-.bg-inverse { background-color: $navbar-light-active-color !important; }
-#mobile_collapsing_bavbar { font-size: 0.85rem;}
-#nav_pc { font-size: 0.85rem; }
-#nav_mobile a {color: $navbar-dark-color;}
-#nav_mobile a:hover {color: $navbar-dark-hover-color;}
-#nav_mobile .nav-item {padding: 0.5rem}
-#nav_mobile .nav-item:hover {background: $navbar-light-color;}
+.navbar {font-size: 0.85rem;}
+#nav_mobile .nav-item { float: none; }
+#header .nav-item { padding: 0.2rem; }
+#header .nav-link { padding: 0rem; line-height: 1.8rem;}
+#header .navbar-toggler {padding: 0rem;}
 
 /* bbs 全局定义 */
 html, body {height:100%; font-family:"Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", "微软雅黑", "华文细黑", STHeiti, sans-serif}
@@ -72,7 +70,8 @@ dl.row > dt.td-avatar, .table .td-avatar { width: 3.0rem; padding: 0.4rem;}
 .dropdown-toggle:hover::after {opacity: 1;  }
 .breadcrumb {background-color: $card-bg; border: 1px solid $card-border-color; font-size: 95%; padding: 0.5rem 1rem;}
 .logo-xs {width: 1.3rem; height: 1.3rem; }
-.logo-sm {width: 1.8rem; height: 1.8rem; margin-top: 0.1rem}
+.logo-sm {width: 1.8rem; height: 1.8rem; }
+#header.bg-inverse { background: rgba($gray-dark % 0.5, 0.8) !important; }
 
 .table td {padding-top: 0.5rem; padding-bottom: 0.5rem;}
 .table td.td-checkbox {width: 0.5rem; padding: 0.2rem;}
