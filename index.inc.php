@@ -68,7 +68,8 @@ if(!defined('SKIP_ROUTE')) {
 		case 'browser': include _include(APP_PATH.'route/browser.php'); break;
 		// hook index_route_case_end.php
 		default: 
-			http_404();
+			include _include(APP_PATH.'route/index.php'); 	break;
+			//http_404();
 			/*
 			!is_word($route) AND http_404();
 			$routefile = _include(APP_PATH."route/$route.php");
