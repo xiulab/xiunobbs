@@ -84,19 +84,19 @@
 					<a class="icon-navicon navbar-toggler" role="button" data-toggle="collapse" data-target="#mobile_collapsing_bavbar"></a>
 					 <?php } else { ?>
 					 <div class="nav-item">
-						 <a class="nav-link icon-chevron-left icon-2x xn-back" href="javascript:history.back();" aria-label="<?php echo lang('back');?>"></a>
+						 <a class="nav-link icon-chevron-left xn-back" href="javascript:history.back();" aria-label="<?php echo lang('back');?>"></a>
 					 </div>
 					 <?php } ?>
 			
 				</td>
 				<td>
+					<a class="nav-link text-center" href="<?php echo $header['mobile_link'];?>">
 					<?php if($header['mobile_title']) { ?>
-						<a class="nav-link text-center" href="<?php echo $header['mobile_link'];?>">
-							<?php echo $header['mobile_title'];?>
-						</a>
+						<?php echo $header['mobile_title'];?>
 					<?php } else { ?>
 						<img src="<?php echo $conf['view_url'];?>img/logo.png" class="logo-sm center-block">
 					<?php } ?>
+					</a>
 
 				</td>
 				<td width="100" align="right">
@@ -105,9 +105,9 @@
 					<?php } else { ?>
 						
 					<?php if($route != 'thread') { ?>
-						<a class="nav-link icon-edit icon-2x" href="<?php echo url("thread-create-$fid");?>" aria-label="<?php echo lang('thread_create');?>"></a>
+						<a class="nav-link icon-edit icon" href="<?php echo url("thread-create-$fid");?>" aria-label="<?php echo lang('thread_create');?>"></a>
 					<?php } else { ?>
-						<a class="nav-link icon-reply icon-2x" href="<?php echo url("post-create-$tid");?>" aria-label="<?php echo lang('post_create_new');?>"></a>
+						<a class="nav-link icon-reply icon" href="<?php echo url("post-create-$tid");?>" aria-label="<?php echo lang('post_create_new');?>"></a>
 					<?php } ?>
 						
 					<?php } ?>

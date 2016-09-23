@@ -10070,4 +10070,8 @@ tr.quote td:nth-child(2) {
 .blockquote .user {
   margin-right: 0.5rem;
 }
+
+.xn-back {
+  line-height: 1 !important;
+}
 /*# sourceMappingURL=bootstrap.css.map */
