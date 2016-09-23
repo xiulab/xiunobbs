@@ -4,6 +4,7 @@
 
 $keyword = param(1);
 $range = param(2, 1);
+$page = 1;
 
 $keyword_decode = search_keyword_safe(xn_urldecode($keyword));
 $threadlist = array();

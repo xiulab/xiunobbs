@@ -319,6 +319,12 @@ function ucs2_to_utf8($s) {
 
 // ---------------------> encrypt function end
 
+function pagination_tpl($url, $text, $active = '') {
+	global $g_pagination_tpl;
+	empty($g_pagination_tpl) AND $g_pagination_tpl = '<li class="page-item{active}"><a href="{url}" class="page-link">{text}</a></li>';
+	return str_replace(array('{url}', '{text}', '{active}'), array($url, $text, $active), $g_pagination_tpl);
+}
+
 // bootstrap 翻页，命名与 bootstrap 保持一致
 function pagination($url, $totalnum, $page, $pagesize = 20) {
 	$totalpage = ceil($totalnum / $pagesize);
@@ -335,20 +341,14 @@ function pagination($url, $totalnum, $page, $pagesize = 20) {
 	$left = $page - $shownum;
 	$left < 0 && $end = min($totalpage, $end -= $left);
 
-	//$s = '<ul class="pagination">';
 	$s = '';
-	$page != 1 && $s .= '<li class="page-item"><a href="'.str_replace('{page}', $page-1, $url).'" class="page-link">◀</a></li>'."\r\n";
-	if($start > 1) $s .= '<li class="page-item"><a href="'.str_replace('{page}', 1, $url).'" class="page-link">1 '.($start > 2 ? '... ' : '').'</a></li>'."\r\n";
+	$page != 1 && $s .= pagination_tpl(str_replace('{page}', $page-1, $url), '◀', '');
+	if($start > 1) $s .= pagination_tpl(str_replace('{page}', 1, $url),'1 '.($start > 2 ? '... ' : ''));
 	for($i=$start; $i<=$end; $i++) {
-		if($i == $page) {
-			$s .= '<li class="page-item active"><a href="'.str_replace('{page}', $i, $url).'" class="page-link">'.$i.'</a></li>'."\r\n";// active
-		} else {
-			$s .= '<li class="page-item"><a href="'.str_replace('{page}', $i, $url).'" class="page-link">'.$i.'</a></li>'."\r\n";
-		}
+		$s .= pagination_tpl(str_replace('{page}', $i, $url), $i, $i == $page ? ' active' : '');
 	}
-	if($end != $totalpage) $s .= '<li class="page-item"><a href="'.str_replace('{page}', $totalpage, $url).'" class="page-link">'.($totalpage - $end > 1 ? '... ' : '').$totalpage.'</a></li>'."\r\n";
-	$page != $totalpage && $s .= '<li class="page-item"><a href="'.str_replace('{page}', $page+1, $url).'" class="page-link">▶</a></li>'."\r\n";
-	//$s .= '</ul>';
+	if($end != $totalpage) $s .= pagination_tpl(str_replace('{page}', $totalpage, $url), ($totalpage - $end > 1 ? '... ' : '').$totalpage);
+	$page != $totalpage && $s .= pagination_tpl(str_replace('{page}', $page+1, $url), '▶');
 	return $s;
 }
 

@@ -1,7 +1,7 @@
 {
 	"name":"Xiuno BBS 搜索插件",
 	"brief":"通过 HTTP 分词服务进行中文分词，结果存入到数据库，通过 FULLTEXT 索引实现全文搜索。",
-	"version":"1.8",
+	"version":"1.9",
 	"bbs_version":"4.0",
 	"installed":1,
 	"enable":1,

@@ -79,6 +79,7 @@ if($action == 'set') {
 	$range = param(4, 0);
 	$start = param(5, 0);
 	
+	
 	// 对回帖进行切词
 	if($range == 0) {
 		empty($start) AND $start = intval(kv_get('xn_search_cut_post_start'));
@@ -91,7 +92,7 @@ if($action == 'set') {
 		if(empty($pidlist)) {
 			$start = $posts;
 			kv_set('xn_search_cut_post_start', $start);
-			message(0, '切词完毕。');
+			message(0, jump('切词完毕。', url('plugin-setting-xn_search')));
 		} else {
 			$pids = arrlist_values($pidlist, 'pid');
 			$postlist = db_find('post', array('pid'=>$pids), array(), 1, $limit);

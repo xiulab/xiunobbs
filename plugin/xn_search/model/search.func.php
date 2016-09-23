@@ -21,7 +21,9 @@
 		);
 */
 function search_cutword($text) {
-	$cutword_url = kv_get('xn_search_cutword_url');
+	
+	$search_conf = kv_get('search_conf');
+	$cutword_url = $search_conf['cutword_url'];
 	if(empty($cutword_url)) {
 		message(-1, '请指定切词服务 URL');
 	}

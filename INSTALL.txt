@@ -10,6 +10,4 @@
 5. 访问 http://www.domain.com/install/, 根据提示安装。
 6. 删除 install 目录
 
-备注：如果要使用插件，请在安装、卸载操作期间设置 route model view admin 目录可读写。
-
 【完】
