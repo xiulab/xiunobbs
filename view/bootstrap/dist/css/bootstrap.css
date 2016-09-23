@@ -9660,11 +9660,11 @@ dl.row.vbottom > dt, dl.row.vbottom > dd, dl.row > dt.vbottom, dl.row > dd.vbott
 
 #header .nav-item {
   padding: 0.2rem;
+  padding-bottom: 0.1rem;
 }
 
 #header .nav-link {
   padding: 0rem;
-  line-height: 1.8rem;
 }
 
 #header .navbar-toggler {
