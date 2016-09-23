@@ -8,7 +8,9 @@ function check_runlevel() {
 	// hook model_check_runlevel_start.php
 	
 	if($gid == 1) return;
-	if((param(0) == 'user') && (param(1) == 'login' || (param(1) == 'create'))) return;
+	$param0 = param(0);
+	$param1 = param(1);
+	if($param0 == 'user' && in_array($param1, array('login', 'craete', 'logout', 'sendinitpw', 'resetpw', 'resetpw_sendcode', 'resetpw_complete', 'synlogin'))) return;
 	switch ($conf['runlevel']) {
 		case 0: message(-1, $conf['runlevel_reason']); break;
 		case 1: message(-1, lang('runlevel_reson_1')); break;
