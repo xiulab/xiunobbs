@@ -9659,8 +9659,7 @@ dl.row.vbottom > dt, dl.row.vbottom > dd, dl.row > dt.vbottom, dl.row > dd.vbott
 }
 
 #header .nav-item {
-  padding: 0.2rem;
-  padding-bottom: 0.1rem;
+  padding: 0.2rem; padding-bottom: 0.1rem;
 }
 
 #header .nav-link {
@@ -9696,7 +9695,7 @@ a:hover {
 
 #body {
   padding-bottom: 3rem;
-  padding-top: 3.8rem;
+  padding-top: 3rem;
 }
 
 #footer {
