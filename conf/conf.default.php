@@ -95,6 +95,8 @@ return array (
 	'user_create_email_on' => 0,
 	'user_resetpw_on' => 0,
 	
+	'admin_bind_ip' => 1,		// 后台是否绑定 IP
+	
 	'cdn_on' => 0,
 	'url_rewrite_on' => 0,
 	
