@@ -82,7 +82,7 @@ jarrlist.on('click', 'a.row_delete', function() {
 	var jthis = $(this);
 	var jtr = jthis.parents('tr');
 	var rowid = jtr.attr('rowid');
-	if(rowid == 1) {
+	if(jform.find('tbody').find('tr').length <= 2) {
 		$.alert('不能删除系统保留的版块。');
 		return;
 	}

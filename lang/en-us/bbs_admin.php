@@ -117,6 +117,7 @@ return array(
 	'user_delete_confirm'=>'Sure to delete user?',
 	'user_admin_cant_be_deleted'=>'Administrator users are not allowed to delete, if you do want to delete, please adjust the user group!',
 	'search_type'=>'Search Type',
+	'user_privileges'=>'User Privileges',
 	
 	// user group
 	'group_list'=>'Group List',

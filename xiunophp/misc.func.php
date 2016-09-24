@@ -1,7 +1,5 @@
 <?php
 
-
-// 此处不利于 HHVM，应该强制要求 APP 定义 message 函数，为了正确性，暂时如此。
 function xn_message($code, $message) {
 	global $ajax;
 	echo $ajax ? xn_json_encode(array('code'=>$code, 'message'=>$message)) : $message;
@@ -938,10 +936,10 @@ function file_name($path) {
 }
 
 // 在 header 头中发送DEBUG信息
-function t($name = '') {
+/*function t($name = '') {
 	global $starttime;
 	header("Time $name:".substr(microtime(1) - $starttime, 0, 7));
-}
+}*/
 
 // 获取 http://xxx.com/path/
 function http_url_path() {
@@ -1096,8 +1094,6 @@ function glob_recursive($pattern, $flags = 0) {
 	}
 	return $files;
 }
-
-// 递归删除目录，这个函数比较危险，传参一定要小心
 
 // 递归删除目录，这个函数比较危险，传参一定要小心
 function rmdir_recusive($dir, $keepdir = 0) {

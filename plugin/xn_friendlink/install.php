@@ -20,6 +20,8 @@ $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}friendlink (
 ) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=utf8
 ";
 
+
+
 $r = db_exec($sql);
 $r === FALSE AND message(-1, '创建友情链接表结构失败');
 

@@ -118,6 +118,7 @@ return array(
 	'user_delete_confirm'=>'確定刪除用戶？',
 	'user_admin_cant_be_deleted'=>'不允許刪除管理員用戶，如果確實要刪除，請先調整用戶組!',
 	'search_type'=>'搜索類型',
+	'user_privileges'=>'用戶權限',
 	
 	// 用戶組
 	'group_list'=>'用戶組列表',
