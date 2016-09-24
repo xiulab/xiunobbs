@@ -31,7 +31,7 @@ return array(
 	'admin_plugin_local_list'=>'本地插件',
 	'admin_plugin_official_list'=>'官方插件',
 	
-	'admin_token_error'=>'管理令牌錯誤',
+	'admin_token_error'=>'管理令牌錯誤，可能因為您的網絡環境不穩定，可以嘗試取消後臺綁定 IP，配置 conf.php，admin_bind_ip => 0 ',
 	'admin_token_expiry'=>'管理登錄令牌失效，請重新登錄',
 	'forum_edit'=>'版塊編輯',
 	'user_edit'=>'用戶編輯',

@@ -31,7 +31,7 @@ return array(
 	'admin_plugin_local_list'=>'本地插件',
 	'admin_plugin_official_list'=>'官方插件',
 	
-	'admin_token_error'=>'管理令牌错误',
+	'admin_token_error'=>'管理令牌错误，可能因为您的网络环境不稳定，可以尝试取消后台绑定 IP，配置 conf.php，admin_bind_ip => 0 ',
 	'admin_token_expiry'=>'管理登陆令牌失效，请重新登录',
 	'forum_edit'=>'版块编辑',
 	'user_edit'=>'用户编辑',

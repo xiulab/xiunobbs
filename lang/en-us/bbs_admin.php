@@ -31,7 +31,7 @@ return array(
 	'admin_plugin_local_list'=>'Local Plugin',
 	'admin_plugin_official_list'=>'Official Plugin',
 	
-	'admin_token_error'=>'Admin token error',
+	'admin_token_error'=>'Admin token error, That may be your network environment is not stable, can try to unbind IP, modify file: conf.php, set admin_bind_ip = 0',
 	'admin_token_expiry'=>'Admin token expiry, please re login',
 	'forum_edit'=>'Edit Forum',
 	'user_edit'=>'Edit User',
