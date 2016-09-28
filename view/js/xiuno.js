@@ -161,6 +161,10 @@ xn.strtolower = function(s) {
 	s += '';
 	return s.toLowerCase();
 }
+xn.strtoupper = function(s) {
+	s += '';
+	return s.toUpperCase();
+}
 
 xn.json_type = function(o) {
 	var _toS = Object.prototype.toString;
@@ -702,7 +706,7 @@ $.xpost = function(url, postdata, callback, progress_callback) {
 		url: url,
 		data: postdata,
 		dataType: 'text',
-		timeout: 60000,
+		timeout: 6000000,
 		progress: function(e) {
 			if (e.lengthComputable) {
 				if(progress_callback) progress_callback(e.loaded / e.total * 100);
@@ -740,9 +744,9 @@ $.xpost = function(url, postdata, callback, progress_callback) {
 		$.require('1.js', '2.js', function() {
 			alert('after all loaded');
 		});
-		$.require(['1.js', '2.js'] function() {
+		$.require(['1.js', '2.js' function() {
 			alert('after all loaded');
-		});
+		}]);
 */
 // 区别于全局的 node.js require 关键字
 $.required = [];

@@ -22,7 +22,8 @@ function admin_token_check() {
 		$s = xn_decrypt($admin_token, $key);
 		if(empty($s)) {
 			setcookie('bbs_admin_token', '', 0, '', '', '', TRUE);
-			message(-1, lang('admin_token_error'));
+			//message(-1, lang('admin_token_error'));
+			message(-1, lang('admin_token_expiry'));
 		}
 		list($_ip, $_time) = explode("\t", $s);
 		

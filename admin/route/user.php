@@ -71,11 +71,11 @@ if(empty($action) || $action == 'list') {
 		$email AND !is_email($email, $err) AND message('email', $err);
 		$username AND !is_username($username, $err) AND message('username', $err);
 
-		$user = user_read_by_email($email);
-		$user AND message('email', lang('email_is_in_use'));
+		$_user = user_read_by_email($email);
+		$_user AND message('email', lang('email_is_in_use'));
 
-		$user = user_read_by_username($username);
-		$user AND message('username', lang('user_already_exists'));
+		$_user = user_read_by_username($username);
+		$_user AND message('username', lang('user_already_exists'));
 
 		$salt = xn_rand(16);
 		$r = user_create(array(
@@ -108,13 +108,13 @@ if(empty($action) || $action == 'list') {
 		$header['title'] = lang('user_edit');
 		$header['mobile_title'] = lang('user_edit');
 		
-		$user = user_read($_uid);
+		$_user = user_read($_uid);
 		
-		$input['email'] = form_text('email', $user['email']);
-		$input['username'] = form_text('username', $user['username']);
+		$input['email'] = form_text('email', $_user['email']);
+		$input['username'] = form_text('username', $_user['username']);
 		$input['password'] = form_password('password', '');
 		$grouparr = arrlist_key_values($grouplist, 'gid', 'name');
-		$input['_gid'] = form_select('_gid', $grouparr, $user['gid']);
+		$input['_gid'] = form_select('_gid', $grouparr, $_user['gid']);
 
 		// hook admin_user_update_get_end.php
 		
@@ -134,12 +134,12 @@ if(empty($action) || $action == 'list') {
 		
 		$email AND !is_email($email, $err) AND message(2, $err);
 		if($email AND $old['email'] != $email) {
-			$user = user_read_by_email($email);
-			$user AND $user['uid'] != $_uid AND message('email', lang('email_already_exists'));
+			$_user = user_read_by_email($email);
+			$_user AND $_user['uid'] != $_uid AND message('email', lang('email_already_exists'));
 		}
 		if($username AND $old['username'] != $username) {
-			$user = user_read_by_username($username);
-			$user AND $user['uid'] != $_uid AND message('username', lang('user_already_exists'));
+			$_user = user_read_by_username($username);
+			$_user AND $_user['uid'] != $_uid AND message('username', lang('user_already_exists'));
 		}
 		
 		$arr = array();
