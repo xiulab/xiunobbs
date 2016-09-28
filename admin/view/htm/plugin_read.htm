@@ -61,7 +61,7 @@
 			<?php } ?>
 			
 			<?php if($plugin['setting_url']) { ?>
-			<a role="button" class="btn btn-secondary setting" href="<?php echo url("plugin-setting-$dir"); ?>"><?php echo lang('setting');?></a>
+			<a role="button" class="btn btn-primary setting" href="<?php echo url("plugin-setting-$dir"); ?>"><?php echo lang('setting');?></a>
 			<?php } ?>
 			
 			<?php if(!$plugin['installed']) { ?>
@@ -69,11 +69,11 @@
 			<?php } ?>
 			
 			<?php if($plugin['installed'] && $plugin['enable']) { ?>
-			<a role="button" class="btn btn-primary disable" href="<?php echo url("plugin-disable-$dir"); ?>"><?php echo lang('disable');?></a>
+			<a role="button" class="btn btn-secondary disable" href="<?php echo url("plugin-disable-$dir"); ?>"><?php echo lang('disable');?></a>
 			<?php } ?>
 			
 			<?php if($plugin['installed'] && !$plugin['enable']) { ?>
-			<a role="button" class="btn btn-primary enable" href="<?php echo url("plugin-enable-$dir"); ?>"><?php echo lang('enable');?></a>
+			<a role="button" class="btn btn-secondary enable" href="<?php echo url("plugin-enable-$dir"); ?>"><?php echo lang('enable');?></a>
 			<?php } ?>
 			
 			<?php if($plugin['installed']) { ?>
