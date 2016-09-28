@@ -318,10 +318,12 @@ function post_message_fmt(&$arr, $gid) {
 
 // 获取内容的简介 0: html, 1: txt; 2: markdown; 3: ubb
 function post_brief($s, $len = 100) {
+	// hook post_brief_start.php
 	$s = strip_tags($s);
 	$s = htmlspecialchars($s);
 	$more = xn_strlen($s) > $len ? ' ... ' : '';
 	$s = xn_substr($s, 0, $len).$more;
+	// hook post_brief_end.php
 	return $s;
 }
 
@@ -331,6 +333,9 @@ function post_quote($quotepid) {
 	if(empty($quotepost)) return '';
 	$uid = $quotepost['uid'];
 	$s = $quotepost['message'];
+	
+	// hook post_quote_start.php
+	
 	$s = post_brief($s, 100);
 	$userhref = url("user-$uid");
 	$user = user_read_cache($uid);
@@ -341,6 +346,7 @@ function post_quote($quotepid) {
 		</a>
 		'.$s.'
 		</blockquote>';
+	// hook post_quote_end.php
 	return $r;
 }
 
