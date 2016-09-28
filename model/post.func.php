@@ -297,6 +297,9 @@ function post_format(&$post) {
 }
 
 function post_message_fmt(&$arr, $gid) {
+	
+	// hook post_message_fmt_start.php
+	
 	// 超长内容截取
 	$arr['message'] = xn_substr($arr['message'], 0, 2028000);
 	
@@ -306,6 +309,8 @@ function post_message_fmt(&$arr, $gid) {
 	// 入库的时候进行转换，编辑的时候，自行调取 message, 或者 message_fmt
 	$arr['doctype'] == 0 && $arr['message_fmt'] = ($gid == 1 ? $arr['message'] : xn_html_safe($arr['message']));
 	$arr['doctype'] == 1 && $arr['message_fmt'] = xn_txt_to_html($arr['message']);
+	
+	// hook post_message_fmt_end.php
 	
 	// 对引用进行处理
 	!empty($arr['quotepid']) && $arr['quotepid'] > 0 && $arr['message_fmt'] = post_quote($arr['quotepid']).$arr['message_fmt'];
