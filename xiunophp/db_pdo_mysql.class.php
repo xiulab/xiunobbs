@@ -125,6 +125,7 @@ class db_pdo_mysql {
 	public function exec($sql) {
 		if(!$this->wlink && !$this->connect_master()) return FALSE;
 		$link = $this->link = $this->wlink;
+		$n = 0;
 		try {
 			if(strtoupper(substr($sql, 0, 12) == 'CREATE TABLE')) {
 				$fulltext = strpos($sql, 'FULLTEXT(') !== FALSE;
