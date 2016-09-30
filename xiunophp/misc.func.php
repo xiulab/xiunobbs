@@ -715,11 +715,11 @@ function http_post($url, $post = '', $timeout = 10, $times = 3) {
 	return FALSE;
 }
 
-function https_get($url, $timeout=30, $cookie = '') {
-	return https_post($url, $timeout, '', $cookie);
+function https_get($url, $cookie = '', $timeout=30) {
+	return https_post($url, '', $cookie, $timeout);
 }
 
-function https_post($url, $timeout=30, $post = '', $cookie = '') {
+function https_post($url, $post = '', $cookie = '', $timeout=30) {
 	$w = stream_get_wrappers();
 	$allow_url_fopen = strtolower(ini_get('allow_url_fopen'));
 	$allow_url_fopen = (empty($allow_url_fopen) || $allow_url_fopen == 'off') ? 0 : 1;
