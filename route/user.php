@@ -270,7 +270,7 @@ if($action == 'login') {
 	$smtplist = include _include(APP_PATH.'conf/smtp.conf.php');
 	$n = array_rand($smtplist);
 	$smtp = $smtplist[$n];
-	$rand = rand(1000000, 999999);
+	$rand = rand(100000, 999999);
 	$_SESSION['resetpw_email'] = $email;
 	$_SESSION['resetpw_verify_code'] = $rand;
 	$subject = lang('reset_pw_email_template', array('rand'=>$rand, 'sitename'=>$conf['sitename']));
