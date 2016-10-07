@@ -120,7 +120,7 @@ if(empty($action) || $action == 'create') {
 	if($type == 'php') {
 		
 		$filesize = $attach['filesize'];
-		if(stripos($_SERVER["HTTP_USER_AGENT"], 'MSIE') !== FALSE) {
+		if(stripos($_SERVER["HTTP_USER_AGENT"], 'MSIE') !== FALSE || stripos($_SERVER["HTTP_USER_AGENT"], 'Edge') !== FALSE || stripos($_SERVER["HTTP_USER_AGENT"], 'Trident') !== FALSE) {
 			$attach['orgfilename'] = urlencode($attach['orgfilename']);
 			$attach['orgfilename'] = str_replace("+", "%20", $attach['orgfilename']);
 		}
