@@ -85,8 +85,8 @@ if($action == 'create') {
 	$tid = param(1, 0);
 	$page = param(2, 1);
 	$keyword = param(3);
-	$pagesize = $conf['pagesize'];
-	$pagesize = 10;
+	$pagesize = $conf['postlist_pagesize'];
+	//$pagesize = 10;
 	//$page == 1 AND $pagesize++;
 	
 	// hook thread_info_start.php
