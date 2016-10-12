@@ -173,7 +173,7 @@ return array(
 	'plugin_task_locked'=>'另外壹個插件任務正在執行，當前任務被鎖住。',
 	
 	
-	// hook lang_zh_cn_bbs_admin.php
+	// hook lang_zh_tw_bbs_admin.php
 	
 );
 

@@ -22,5 +22,5 @@ var lang = {
 	'close_thread':'關閉主題',
 	'close_status':'狀態',
 	
-	// hook lang_zh_cn_bbs_js.htm
+	// hook lang_zh_tw_bbs_js.htm
 };

@@ -264,7 +264,7 @@ return array(
 	'lang_zh_tw'=>'繁體中文',
 	'lang_en_us'=>'美式英語',
 	
-	// hook lang_zh_cn_bbs.php
+	// hook lang_zh_tw_bbs.php
 	
 );
 
