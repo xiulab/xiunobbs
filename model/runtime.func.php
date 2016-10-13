@@ -48,6 +48,15 @@ function runtime_set($k, $v) {
 	// hook model_runtime_set_end.php
 }
 
+function runtime_delete($k) {
+	// hook model_runtime_delete_start.php
+	global $conf, $runtime;
+	unset($runtime[$k]);
+	runtime_save();
+	return TRUE;
+	// hook model_runtime_delete_end.php
+}
+
 function runtime_save() {
 	// hook model_runtime_save_start.php
 	global $runtime;
