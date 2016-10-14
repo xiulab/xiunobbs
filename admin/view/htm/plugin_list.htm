@@ -38,6 +38,11 @@
 							<span class="small text-danger text-bold">v<?php echo $plugin['official_version']; ?> </span>
 							<?php } ?>
 							<br /><span class="small"><?php echo $dir; ?></span>
+							
+							<?php if(!empty($plugin['username'])) { ?>
+							<br /><span class="small"><?php echo lang('author'); ?>：
+							<a href="http://bbs.xiuno.com/user-<?php echo $plugin['uid'];?>.htm" target="_blank"><?php echo $plugin['username'];?></span></a>
+							<?php } ?>
 						</td>
 						<td>
 							<p class="grey"><?php echo $plugin['brief']; ?></p>

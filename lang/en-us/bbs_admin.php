@@ -118,6 +118,7 @@ return array(
 	'user_admin_cant_be_deleted'=>'Administrator users are not allowed to delete, if you do want to delete, please adjust the user group!',
 	'search_type'=>'Search Type',
 	'user_privileges'=>'User Privileges',
+	'author'=>'Author',
 	
 	// user group
 	'group_list'=>'Group List',
@@ -133,7 +134,7 @@ return array(
 	'delete_user'=>'Delete User',
 	'view_user_info'=>'View user info',
 	
-	// 插件
+	// Plugin
 	'plugin_dir'=>'Plugin Directory',
 	'plugin_bbs_version'=>'Require BBS version',
 	'price'=>'Price',
