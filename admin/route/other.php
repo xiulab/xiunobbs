@@ -25,6 +25,7 @@ if($action == 'cache') {
 		$clear_cache = param('clear_cache');
 		
 		$clear_cache AND cache_truncate();
+		$clear_cache AND $runtime = NULL; // 清空
 		
 		$clear_tmp AND rmdir_recusive($conf['tmp_path'], 1);
 	
