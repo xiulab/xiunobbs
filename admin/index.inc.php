@@ -36,6 +36,7 @@ switch ($route) {
 	case 'plugin':		include _include(ADMIN_PATH.'route/plugin.php'); 	break;
 	// hook admin_index_route_case_end.php
 	default: 
+		// hook admin_index_route_case_default.php
 		include _include(ADMIN_PATH.'route/index.php'); 	break;
 		/*
 		!is_word($route) AND http_404();
