@@ -10074,4 +10074,8 @@ tr.quote td:nth-child(2) {
 .xn-back {
   line-height: 1 !important;
 }
+
+.icon-diamond:before {
+  font-weight: 800;
+}
 /*# sourceMappingURL=bootstrap.css.map */
