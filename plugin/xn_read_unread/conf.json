@@ -1,0 +1,10 @@
+{
+	"name":"主题已读未读标志",
+	"brief":"已读未读用是否加粗表示。",
+	"version":"1.0",
+	"bbs_version":"4.0",
+	"installed":1,
+	"enable":1,
+	"hooks_rank":[],
+	"dependencies":[]
+}

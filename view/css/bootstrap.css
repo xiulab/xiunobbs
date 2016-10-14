@@ -10075,3 +10075,5 @@ tr.quote td:nth-child(2) {
   line-height: 1 !important;
 }
 /*# sourceMappingURL=bootstrap.css.map */
+
+.icon-diamond:before { font-weight: 800; }

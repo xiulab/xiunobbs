@@ -1,6 +1,6 @@
 					<!--{hook thread_list_inc_start.htm}-->
 					<?php if($threadlist) { foreach($threadlist as $_thread) { ?>
-					<tr class="thread tap <?php echo $_thread['top_class'];?>" href="<?php echo url("thread-$_thread[tid]");?>">
+					<tr class="thread tap <?php echo $_thread['top_class'];?>" href="<?php echo url("thread-$_thread[tid]");?>" tid="<?php echo $_thread['tid'];?>">
 						<?php if(forum_access_mod($_thread['fid'], $gid, 'allowtop')) { ?>
 						<td class="td-checkbox">
 							<label style="width: 100%; height: 100%;">
