@@ -16,7 +16,7 @@ class cache_redis {
         public function connect() {
                 if($this->link) return $this->link;
                 $redis = new Redis;
-                $r = $redis->connect('localhost', '6379');
+                $r = $redis->connect($this->conf['host'], $this->conf['port']);
                 if(!$r) {
                         return xn_error(-1, '连接 Redis 服务器失败。');
                 }
