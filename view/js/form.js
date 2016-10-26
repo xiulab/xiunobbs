@@ -5,7 +5,7 @@ xn.form_radio = function(name, arr, checked) {
 	var s = '';
 	$.each(arr, function(k, v) {
 		var add = k == checked ? ' checked="checked"' : '';
-		s += "<label class=\"custom-input custom-radio\"><input type=\"radio\" name=\""+name+"\" value=\""+k+"\""+add+" /><span class=\"custom-indicator\"></span>"+v+"</label> &nbsp; \r\n";
+		s += "<label class=\"custom-input custom-radio\"><input type=\"radio\" name=\""+name+"\" value=\""+k+"\""+add+" />"+v+"</label> &nbsp; \r\n";
 	});
 	return s;
 }
