@@ -922,6 +922,7 @@ function file_ext($filename, $max = 16) {
 	$ext = strtolower(substr(strrchr($filename, '.'), 1));
 	$ext = xn_urlencode($ext);
 	strlen($ext) > $max AND $ext = substr($filename, 0, $max);
+	if(!preg_match('#^\w+$#', $ext)) $ext = 'attach';
 	return $ext;
 }
 
