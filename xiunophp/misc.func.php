@@ -921,12 +921,12 @@ function move_upload_file($srcfile, $destfile) {
 function file_ext($filename, $max = 16) {
 	$ext = strtolower(substr(strrchr($filename, '.'), 1));
 	$ext = xn_urlencode($ext);
-	strlen($ext) > $max AND $ext = substr($filename, 0, $max);
+	strlen($ext) > $max AND $ext = substr($ext, 0, $max);
 	if(!preg_match('#^\w+$#', $ext)) $ext = 'attach';
 	return $ext;
 }
 
-// 文件的前缀，不包含 .
+// 文件的前缀，不包含最后一个 .
 function file_pre($filename, $max = 32) {
 	return substr($filename, 0, strrpos($filename, '.'));
 }
