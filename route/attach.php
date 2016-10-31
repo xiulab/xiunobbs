@@ -32,6 +32,7 @@ if(empty($action) || $action == 'create') {
 	$size = strlen($data);
 	$size > 20480000 AND message(-1, lang('filesize_too_large', array('maxsize'=>'20M', 'size'=>$size)));
 	
+	// 111.php.shtmll 
 	$ext = file_ext($name, 7);
 	$filetypes = include APP_PATH.'conf/attach.conf.php';
 	!in_array($ext, $filetypes['all']) AND $ext = '_'.$ext;
@@ -39,6 +40,8 @@ if(empty($action) || $action == 'create') {
 	$tmpanme = $uid.'_'.xn_rand(15).'.'.$ext;
 	$tmpfile = $conf['upload_path'].'tmp/'.$tmpanme;
 	$tmpurl = $conf['upload_url'].'tmp/'.$tmpanme;
+	
+	// hook attach_create_save_before.php
 	
 	file_put_contents($tmpfile, $data) OR message(-1, lang('write_to_file_failed'));
 	

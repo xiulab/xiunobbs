@@ -266,7 +266,7 @@ function post_file_list_html($filelist, $include_delete = FALSE) {
 }
 
 function post_format(&$post) {
-	global $conf;
+	global $conf, $uid, $sid, $longip;
 	if(empty($post)) return;
 	$post['create_date_fmt'] = humandate($post['create_date']);
 	
@@ -280,7 +280,6 @@ function post_format(&$post) {
 	!isset($post['floor']) AND  $post['floor'] = '';
 	
 	// 权限判断
-	global $uid, $sid, $longip;
 	$post['allowupdate'] = ($uid == $post['uid']);
 	$post['allowdelete'] = ($uid == $post['uid']);
 	

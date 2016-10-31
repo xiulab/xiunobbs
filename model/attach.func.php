@@ -168,13 +168,14 @@ function attach_assoc_post($pid) {
 	
 	$tid = $post['tid'];
 	$post['message_old'] = $post['message_fmt'];
+	$attach_dir_save_rule = array_value($conf, 'attach_dir_save_rule', 'Ym');
 	if($tmp_files) {
 		foreach($tmp_files as $key=>$file) {
 			
 			// 将文件移动到 upload/attach 目录
 			$filename = file_name($file['url']);
 			
-			$day = date('Ymd', $time);
+			$day = date($attach_dir_save_rule, $time);
 			$path = $conf['upload_path'].'attach/'.$day;
 			$url = $conf['upload_url'].'attach/'.$day;
 			!is_dir($path) AND mkdir($path, 0777, TRUE);

@@ -119,6 +119,7 @@ if($action == 'create') {
 	!forum_access_user($fid, $gid, 'allowpost') AND message(-1, lang('user_group_insufficient_privilege'));
 	$allowupdate = forum_access_mod($fid, $gid, 'allowupdate');
 	!$allowupdate AND !$post['allowupdate'] AND message(-1, lang('have_no_privilege_to_update'));
+	!$allowupdate AND $thread['closed'] AND message(-1, lang('thread_has_already_closed'));
 	
 	// hook post_update_get_post.php
 	
@@ -203,6 +204,7 @@ if($action == 'create') {
 	!forum_access_user($fid, $gid, 'allowpost') AND message(-1, lang('user_group_insufficient_privilege'));
 	$allowdelete = forum_access_mod($fid, $gid, 'allowdelete');
 	!$allowdelete AND !$post['allowdelete'] AND message(-1, lang('insufficient_delete_privilege'));
+	!$allowdelete AND $thread['closed'] AND message(-1, lang('thread_has_already_closed'));
 	
 	if($isfirst) {
 		thread_delete($tid);
