@@ -7,7 +7,7 @@ class cache_apc {
 	public $cachepre = '';
 
         public function __construct($conf = array()) {
-                if(!function_exists('apc_get')) {
+                if(!function_exists('apc_fetch')) {
 			return xn_error(-1, 'APC 扩展没有加载，请检查您的 PHP 版本');
                 }
                 $this->conf = $conf;
@@ -19,7 +19,7 @@ class cache_apc {
                 return apc_store($k, $v, $life);
         }
         public function get($k) {
-                return apc_get($k);
+                return apc_fetch($k);
         }
         public function delete($k) {
                 return apc_delete($k);
