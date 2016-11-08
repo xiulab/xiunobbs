@@ -281,13 +281,13 @@ function user_token_get() {
 
 // 用户
 function user_token_get_do() {
-	global $time, $ip, $useragent, $conf;
+	global $time, $ip, $conf;
 	$token = param('bbs_token');
 	
 	// hook model_user_token_get_do_start.php
 	
 	if(empty($token)) return FALSE;
-	$tokenkey = md5($useragent.$conf['auth_key']);
+	$tokenkey = md5($conf['auth_key']);
 	$s = xn_decrypt($token, $tokenkey);
 	if(empty($s)) return FALSE;
 	$arr = explode("\t", $s);
@@ -319,11 +319,11 @@ function user_token_clear() {
 }
 
 function user_token_gen($uid) {
-	global $ip, $time, $useragent, $conf;
+	global $ip, $time, $conf;
 	
 	// hook model_user_token_gen_start.php
 	
-	$tokenkey = md5($useragent.$conf['auth_key']);
+	$tokenkey = md5($conf['auth_key']);
 	$token = xn_encrypt("$ip	$time	$uid", $tokenkey);
 	
 	// hook model_user_token_gen_end.php
