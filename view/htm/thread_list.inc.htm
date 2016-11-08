@@ -8,8 +8,8 @@
 							</label>
 						</td>
 						<?php } ?>
-						<td class="td-avatar" aria-hidden="true">
-							<a href="<?php echo url("user-$_thread[uid]");?>" aria-hidden="true" tabindex="-1">
+						<td class="td-avatar">
+							<a href="<?php echo url("user-$_thread[uid]");?>" tabindex="-1">
 								<img class="avatar" src="<?php echo $_thread['user_avatar_url'];?>">
 							</a>
 							<!--{hook thread_list_inc_avatar_after.htm}-->
@@ -20,7 +20,7 @@
 								<!--{hook thread_list_inc_top_icon_before.htm}-->
 							
 								<?php if($_thread['top'] > 0) { ?>
-									<i class="icon-top-<?php echo $_thread['top']; ?>" aria-hidden="true"></i></i>
+									<i class="icon-top-<?php echo $_thread['top']; ?>"></i></i>
 								<?php } ?>
 								
 								<!--{hook thread_list_inc_subject_forum_before.htm}-->
@@ -35,11 +35,11 @@
 								
 								<!--{hook thread_list_inc_subject_after.htm}-->
 								
-								<?php if($_thread['files'] > 0) { ?><i class="icon small filetype other" aria-hidden="true"></i><?php } ?>
+								<?php if($_thread['files'] > 0) { ?><i class="icon small filetype other"></i><?php } ?>
 								
 								<!--{hook thread_list_inc_filetype_icon_after.htm}-->
 								
-								<?php if($_thread['closed'] > 0) { ?><i class="icon-lock" aria-hidden="true"></i><?php } ?>
+								<?php if($_thread['closed'] > 0) { ?><i class="icon-lock"></i><?php } ?>
 								
 							</div>
 							<dl class="row small">
@@ -51,7 +51,7 @@
 									
 									<?php if($_thread['lastuid']) { ?>
 									<span>
-										<span class="text-grey m-x-sm" aria-hidden="true">←</span>
+										<span class="text-grey m-x-sm">←</span>
 										<a href="<?php echo url("user-$_thread[lastuid]");?>" class="username text-grey m-r-xs"><?php echo $_thread['lastusername'];?></a>
 										<span class="text-grey"><?php echo $_thread['last_date_fmt'];?></span>
 									</span>
@@ -62,8 +62,8 @@
 								</dt>
 								<dd class="text-right text-grey">
 									<!--{hook thread_list_inc_view_before.htm}-->
-									<span class="m-r-1"><i class="icon-eye" aria-hidden="true"></i> <?php echo $_thread['views'];?></span>
-									<span class="hidden-xs-down m-r-1"><i class="icon-comment" aria-hidden="true"></i> <?php echo $_thread['posts'];?></span>
+									<span class="m-r-1"><i class="icon-eye"></i> <?php echo $_thread['views'];?></span>
+									<span class="hidden-xs-down m-r-1"><i class="icon-comment"></i> <?php echo $_thread['posts'];?></span>
 									<!--{hook thread_list_inc_posts_after.htm}-->
 								</dd>
 							</dl>

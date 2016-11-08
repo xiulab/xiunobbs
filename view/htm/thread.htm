@@ -9,7 +9,7 @@
 	<div class="col-lg-9">
 		<!--{hook thread_breadcrumb_before.htm}-->
 		<ol class="breadcrumb m-b-sm hidden-lg-down">
-			<li class="breadcrumb-item"><a href="./" aria-label="<?php echo lang('index_page');?>"><i class="icon-home" aria-hidden="true"></i></a></li>
+			<li class="breadcrumb-item"><a href="./" aria-label="<?php echo lang('index_page');?>"><i class="icon-home"></i></a></li>
 			<li class="breadcrumb-item"><a href="<?php echo url("forum-$fid");?>"><?php echo $forum['name'];?></a></li>
 			<li class="breadcrumb-item active"><a href="<?php echo url("thread-$tid");?>" title="<?php echo lang('index_page');?>返回主题第一页"><?php echo $thread['subject'];?></a></li>
 			<!--{hook thread_breadcrumb.htm}-->
@@ -18,7 +18,7 @@
 		<div class="card card-block">
 			<dl class="row">
 				<dt class="vtop p-r-1 td-avatar">
-					<a href="<?php echo url("user-$thread[uid]");?>" aria-hidden="true" tabindex="-1">
+					<a href="<?php echo url("user-$thread[uid]");?>" tabindex="-1">
 						<img class="avatar" src="<?php echo $thread['user_avatar_url'];?>">
 					</a>
 				</dt>
@@ -37,24 +37,24 @@
 								<a href="<?php echo url("user-$thread[uid]");?>"><?php echo $thread['username'];?></a>
 							</span>
 							<span class="date text-grey m-l-1"><?php echo $thread['create_date_fmt'];?></span>
-							<span class="text-grey m-l-1 hidden-md-down"><i class="icon-eye" aria-hidden="true"></i> <?php echo $thread['views'];?></span>
+							<span class="text-grey m-l-1 hidden-md-down"><i class="icon-eye"></i> <?php echo $thread['views'];?></span>
 							<!--{hook thread_views_after.htm}-->
 						</dt>
 						<dd class="text-right">
 							<!--{hook thread_update_before.htm}-->
 							<?php if($allowupdate || $first['allowupdate']) { ?>
-							<a href="<?php echo url("post-update-$thread[firstpid]");?>" class="text-grey m-r-1 post_update"><i class="icon-edit" aria-hidden="true"></i> <?php echo lang('edit');?></a>
+							<a href="<?php echo url("post-update-$thread[firstpid]");?>" class="text-grey m-r-1 post_update"><i class="icon-edit"></i> <?php echo lang('edit');?></a>
 							<?php } ?>
 							
 							<?php if($allowdelete || $first['allowdelete']) { ?>
-							<a data-href="<?php echo url("post-delete-$thread[firstpid]");?>" href="javascript:void(0);" class="text-grey post_delete" isfirst="1"><i class="icon-remove" aria-hidden="true"></i> <?php echo lang('delete');?></a>
+							<a data-href="<?php echo url("post-delete-$thread[firstpid]");?>" href="javascript:void(0);" class="text-grey post_delete" isfirst="1"><i class="icon-remove"></i> <?php echo lang('delete');?></a>
 							<?php } ?>
 							<!--{hook thread_delete_after.htm}-->
 						</dd>
 					</dl>
 				</dd>
 			</dl>
-			<hr aria-hidden="true" />
+			<hr />
 			<div class="message break-all" isfirst="1">
 			<?php if($page == 1) { ?>
 			
@@ -100,8 +100,8 @@
 					
 					<?php if(!empty($user)) { ?>
 					<tr class="post">
-						<td class="td-avatar" aria-hidden="true">
-							<a href="<?php echo url("user-$thread[uid]");?>" aria-hidden="true" tabindex="-1">
+						<td class="td-avatar">
+							<a href="<?php echo url("user-$thread[uid]");?>" tabindex="-1">
 								<img class="avatar" src="<?php echo $user['avatar_url'];?>">
 							</a>
 						</td>

@@ -52,11 +52,11 @@
 						<!-- 登陆用户 -->
 						<?php } else { ?>
 						
-						<li class="nav-item" aria-hidden="true"><a class="nav-link" href="<?php echo url('my');?>" aria-hidden="true" tabindex="-1"><img class="avatar-xs" src="<?php echo $user['avatar_url'];?>"></a></li>
+						<li class="nav-item"><a class="nav-link" href="<?php echo url('my');?>" tabindex="-1"><img class="avatar-xs" src="<?php echo $user['avatar_url'];?>"></a></li>
 						<li class="nav-item username m-l-xs"><a class="nav-link" href="<?php echo url('my');?>"><?php echo $user['username'];?></a></li>
 						<!-- 管理员 -->
 						<?php if($gid == 1) { ?>
-						<li class="nav-item"><a class="nav-link" href="admin/"><i class="icon-home" aria-hidden="true"></i> <?php echo lang('admin_page');?></a></li>
+						<li class="nav-item"><a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_page');?></a></li>
 						<?php } ?>
 						<li class="nav-item"><a class="nav-link" href="<?php echo url('user-logout');?>"><?php echo lang('logout');?></a></li>
 						
@@ -101,7 +101,7 @@
 				</td>
 				<td width="100" align="right">
 					<?php if(empty($uid)) { ?>
-						<a class="nav-link m-r-xs" href="<?php echo url('user-login');?>" aria-label="<?php echo lang('login');?>"> <i class="icon-user  icon-2x" aria-hidden="true"></i></a>
+						<a class="nav-link m-r-xs" href="<?php echo url('user-login');?>" aria-label="<?php echo lang('login');?>"> <i class="icon-user  icon-2x"></i></a>
 					<?php } else { ?>
 						
 					<?php if($route != 'thread') { ?>
@@ -122,14 +122,14 @@
 			<div class="p-a-1">
 				<ul class="nav navbar-nav" id="nav_mobile">
 					<li class="nav-item">
-						<a class="nav-link" href="./"><i class="icon-home" aria-hidden="true"></i> <?php echo lang('index_page');?></a>
+						<a class="nav-link" href="./"><i class="icon-home"></i> <?php echo lang('index_page');?></a>
 					</li>
 					
 					<!--{hook header_nav_mobile_forum_before.htm}-->
 					
 					<?php foreach($forumlist_show as $_forum) { ?>
 					<li class="nav-item" fid="<?php echo $_forum['fid'];?>">
-						<a class="nav-link m-l-2" href="<?php echo url("forum-$_forum[fid]");?>"><i class="icon-circle-blank" aria-hidden="true"></i> <?php echo $_forum['name'];?></a>
+						<a class="nav-link m-l-2" href="<?php echo url("forum-$_forum[fid]");?>"><i class="icon-circle-blank"></i> <?php echo $_forum['name'];?></a>
 					</li>
 					<?php } ?>
 					
@@ -138,14 +138,14 @@
 					<!-- 个人资料 / profile -->
 					<?php if($uid) { ?>
 					<li class="nav-item">
-						<a class="nav-link" href="<?php echo url('my');?>"><i class="icon-user" aria-hidden="true"></i> <?php echo lang('user_profile');?></a>
+						<a class="nav-link" href="<?php echo url('my');?>"><i class="icon-user"></i> <?php echo lang('user_profile');?></a>
 					</li>
 					<?php } ?>
 					
 					<!-- 后台 / background -->
 					<?php if($gid == 1) { ?>
 					<li class="nav-item">
-						<a class="nav-link" href="admin/"><i class="icon-home" aria-hidden="true"></i> <?php echo lang('admin_page');?></a>
+						<a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_page');?></a>
 					</li>
 					<?php } ?>
 					
@@ -154,7 +154,7 @@
 					<!-- 退出 / logout-->
 					<?php if($uid) { ?>
 					<li class="nav-item">
-						<a class="nav-link" href="<?php echo url('user-logout');?>"><i class="icon-off" aria-hidden="true"></i> <?php echo lang('logout');?></a>
+						<a class="nav-link" href="<?php echo url('user-logout');?>"><i class="icon-off"></i> <?php echo lang('logout');?></a>
 					</li>
 					<?php } ?>
 					

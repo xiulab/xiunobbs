@@ -7,8 +7,8 @@
 
 				<?php if($postlist) { foreach($postlist as $_post) { ?>
 					<tr class="post" pid="<?php echo $_post['pid'];?>">
-						<td class="vtop td-avatar" aria-hidden="true">
-							<a href="<?php echo url("user-$_post[uid]");?>" aria-hidden="true" tabindex="-1">
+						<td class="vtop td-avatar">
+							<a href="<?php echo url("user-$_post[uid]");?>" tabindex="-1">
 								<img class="avatar" src="<?php echo $_post['user_avatar_url'];?>">
 							</a>
 							<!--{hook post_list_inc_avatar_after.htm}-->
@@ -31,11 +31,11 @@
 									<?php } ?>
 									
 									<?php if($allowupdate || $_post['allowupdate']) { ?>
-									<a href="<?php echo url("post-update-$_post[pid]");?>" class="text-grey post_update m-r-1"><i class="icon-edit" aria-hidden="true"></i> <?php echo lang('edit');?></a>
+									<a href="<?php echo url("post-update-$_post[pid]");?>" class="text-grey post_update m-r-1"><i class="icon-edit"></i> <?php echo lang('edit');?></a>
 									<?php } ?>
 								
 									<?php if($allowdelete || $_post['allowdelete']) { ?>
-									<a data-href="<?php echo url("post-delete-$_post[pid]");?>" data-confirm-text="<?php echo lang('confirm_delete');?>" href="javascript:void(0);" class="text-grey post_delete _confirm m-r-1"><i class="icon-remove" aria-hidden="true"></i> <?php echo lang('delete');?></a>
+									<a data-href="<?php echo url("post-delete-$_post[pid]");?>" data-confirm-text="<?php echo lang('confirm_delete');?>" href="javascript:void(0);" class="text-grey post_delete _confirm m-r-1"><i class="icon-remove"></i> <?php echo lang('delete');?></a>
 									<?php } ?>
 									
 									<?php if($_post['floor']) { ?>
