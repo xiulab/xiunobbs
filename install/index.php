@@ -168,7 +168,7 @@ if(empty($action)) {
 		
 		forum_update(1, array('name'=>lang('default_forum_name'), 'brief'=>lang('default_forum_brief')));
 				
-		message(0, lang('conguralation_installed'));
+		message(0, jump(lang('conguralation_installed'), '../'));
 	}
 }
 
