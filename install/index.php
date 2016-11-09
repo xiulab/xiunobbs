@@ -4,7 +4,7 @@ define('DEBUG', 1);
 define('APP_PATH', realpath(dirname(__FILE__).'/../').'/');
 define('INSTALL_PATH', dirname(__FILE__).'/');
 
-define('MESSAGE_HTM_PATH', './view/htm/message.htm');
+define('MESSAGE_HTM_PATH', INSTALL_PATH.'view/htm/message.htm');
 
 // 切换到上一级目录，操作很方便。
 

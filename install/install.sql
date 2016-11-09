@@ -1,22 +1,5 @@
 # Xiuno BBS 4.0 表结构
 
-# 系统表, id
-# MAXID 表，几个主要的大表，每天的最大ID，用来削减索引 create_date
-# day = 0 表示月； month = 0 AND day = 0 表示年
-# 计划任务，1点执行。 不需要太精准，用来作为过滤条件。
-# 可以有效的过滤冷热数据
-DROP TABLE IF EXISTS `bbs_table_day`;
-CREATE TABLE `bbs_table_day` (
-  `year` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '年',	#
-  `month` tinyint(11) unsigned NOT NULL DEFAULT '0' COMMENT '月', 	#
-  `day` tinyint(11) unsigned NOT NULL DEFAULT '0' COMMENT '日', 		#
-  `create_date` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '时间戳', 	#
-  `table` char(16) NOT NULL default '' COMMENT '表名',			#
-  `maxid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '最大ID', 	#
-  `count` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '总数', 		#
-  PRIMARY KEY (`year`, `month`, `day`, `table`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
 ### 用户表 ###
 DROP TABLE IF EXISTS `bbs_user`;
 CREATE TABLE `bbs_user` (
@@ -49,7 +32,7 @@ CREATE TABLE `bbs_user` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 INSERT INTO `bbs_user` SET uid=1, gid=1, email='admin@admin.com', username='admin',`password`='d98bb50e808918dd45a8d92feafc4fa3',salt='123456';
 
-# 用户组按照赞的次数升级，用户在被赞的时候判断是否升级
+# 用户组
 DROP TABLE IF EXISTS `bbs_group`;
 CREATE TABLE `bbs_group` (
   gid smallint(6) unsigned NOT NULL,			#	
@@ -123,8 +106,7 @@ CREATE TABLE bbs_forum_access (				# 字段中文名
   PRIMARY KEY (fid, gid)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 论坛主题，每个主题只能被回复 1000 次！
-# 支持 3 种排序
+# 论坛主题
 DROP TABLE IF EXISTS bbs_thread;
 CREATE TABLE bbs_thread (
   fid smallint(6) NOT NULL default '0',			# 版块 id
@@ -150,7 +132,7 @@ CREATE TABLE bbs_thread (
   KEY (fid, lastpid)					# 顶贴时间排序，倒序
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 置顶主题/最新主题，小表，记录 10 个，最新
+# 置顶主题
 DROP TABLE IF EXISTS bbs_thread_top;
 CREATE TABLE bbs_thread_top (
   fid smallint(6) NOT NULL default '0',			# 查找板块置顶
@@ -161,12 +143,12 @@ CREATE TABLE bbs_thread_top (
   KEY (fid, top)					# 版块置顶的贴 fid=1 and top=1
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 论坛帖子数据，一页显示，不分页。
+# 论坛帖子数据
 DROP TABLE IF EXISTS bbs_post;
 CREATE TABLE bbs_post (
   tid int(11) unsigned NOT NULL default '0',		# 主题id
   pid int(11) unsigned NOT NULL auto_increment,		# 帖子id
-  uid int(11) unsigned NOT NULL default '0',		# 用户id，可以接受匿名发帖
+  uid int(11) unsigned NOT NULL default '0',		# 用户id
   isfirst int(11) unsigned NOT NULL default '0',	# 是否为首帖，与 thread.firstpid 呼应
   create_date int(11) unsigned NOT NULL default '0',	# 发贴时间
   userip int(11) unsigned NOT NULL default '0',		# 发帖时用户ip ip2long()
@@ -284,3 +266,22 @@ CREATE TABLE bbs_queue (
   UNIQUE KEY(queueid, v),
   KEY(expiry)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+
+# 系统表, id
+# MAXID 表，几个主要的大表，每天的最大ID，用来削减索引 create_date
+# day = 0 表示月； month = 0 AND day = 0 表示年
+# 计划任务，1点执行。 不需要太精准，用来作为过滤条件。
+# 可以有效的过滤冷热数据
+DROP TABLE IF EXISTS `bbs_table_day`;
+CREATE TABLE `bbs_table_day` (
+  `year` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '年',	#
+  `month` tinyint(11) unsigned NOT NULL DEFAULT '0' COMMENT '月', 	#
+  `day` tinyint(11) unsigned NOT NULL DEFAULT '0' COMMENT '日', 		#
+  `create_date` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '时间戳', 	#
+  `table` char(16) NOT NULL default '' COMMENT '表名',			#
+  `maxid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '最大ID', 	#
+  `count` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '总数', 		#
+  PRIMARY KEY (`year`, `month`, `day`, `table`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
