@@ -15,7 +15,7 @@
 
 // 0: Production mode; 1: Developer mode; 2: Plugin developement mode;
 // 0: 线上模式; 1: 调试模式; 2: 插件开发模式;
-!defined('DEBUG') AND define('DEBUG', 3);
+!defined('DEBUG') AND define('DEBUG', 0);
 define('APP_PATH', dirname(__FILE__).'/'); // __DIR__
 !defined('ADMIN_PATH') AND define('ADMIN_PATH', APP_PATH.'admin/');
 !defined('XIUNOPHP_PATH') AND define('XIUNOPHP_PATH', APP_PATH.'xiunophp/');
@@ -23,7 +23,7 @@ define('APP_PATH', dirname(__FILE__).'/'); // __DIR__
 // !ini_get('zlib.output_compression') AND ob_start('ob_gzhandler');
 
 //ob_start('ob_gzhandler');
-$conf = (@include APP_PATH.'conf/conf.php') OR exit(header('Location: install/'));
+$conf = (@include APP_PATH.'conf/conf.php') OR exit('<script>window.location="install/"</script>');
 
 // 转换为绝对路径，防止被包含时出错。
 substr($conf['log_path'], 0, 2) == './' AND $conf['log_path'] = APP_PATH.$conf['log_path']; 
