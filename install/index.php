@@ -168,6 +168,11 @@ if(empty($action)) {
 		
 		forum_update(1, array('name'=>lang('default_forum_name'), 'brief'=>lang('default_forum_brief')));
 				
+		@mkdir(APP_PATH.'upload/tmp', 0777);
+		@mkdir(APP_PATH.'upload/attach', 0777);
+		@mkdir(APP_PATH.'upload/avatar', 0777);
+		@mkdir(APP_PATH.'upload/forum', 0777);
+		
 		message(0, jump(lang('conguralation_installed'), '../'));
 	}
 }
