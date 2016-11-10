@@ -478,7 +478,7 @@ function ip() {
 		} elseif(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 			$arr = array_filter(explode(',', $ip));
-			$ip = end($arr);
+			$ip = trim(end($arr));
 		} else {
 			$ip = $_SERVER['REMOTE_ADDR'];
 		}
