@@ -28,7 +28,7 @@ function search_cutword($text) {
 		message(-1, '请指定切词服务 URL');
 	}
 	$postdata = array('text'=>$text);
-	$r = http_post($cutword_url, $postdata, 10, 2);
+	$r = http_post($cutword_url, $postdata);
 	$arrlist = xn_json_decode($r);
 	if(empty($arrlist)) {
 		xn_log('切词服务器返回出错：'.$r);

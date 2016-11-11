@@ -73,7 +73,7 @@ if($keyword) {
 		
 		$range = 1;
 		
-		$threadlist = search_by_sphinx($keyword);
+		$threadlist = search_by_sphinx($keyword_decode);
 		foreach($threadlist as &$thread) {
 			$thread['subject'] = search_keyword_highlight($thread['subject'], $keyword_decode);
 		}
@@ -82,7 +82,7 @@ if($keyword) {
 		
 		$range = 1;
 		
-		$url = str_replace('{keyword}', $keyword, $search_conf['site_url']);
+		$url = str_replace('{keyword}', $keyword_decode, $search_conf['site_url']);
 		http_location($url);
 		
 	}

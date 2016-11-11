@@ -705,9 +705,10 @@ function http_get($url, $timeout = 5, $times = 3) {
 	return FALSE;
 }
 
-function http_post($url, $post = '', $timeout = 10, $times = 3) {
+function http_post($url, $post = '', $cookie='', $timeout = 10, $times = 3) {
 	is_array($post) AND $post = http_build_query($post);
-	$stream = stream_context_create(array('http' => array('header' => "Content-type: application/x-www-form-urlencoded\r\nx-requested-with: XMLHttpRequest", 'method' => 'POST', 'content' => $post, 'timeout' => $timeout)));
+	is_array($cookie) AND $cookie = http_build_query($cookie);
+	$stream = stream_context_create(array('http' => array('header' => "Content-type: application/x-www-form-urlencoded\r\nx-requested-with: XMLHttpRequest\r\nCookie: $cookie\r\n", 'method' => 'POST', 'content' => $post, 'timeout' => $timeout)));
 	while($times-- > 0) {
 		$s = file_get_contents($url, NULL, $stream, 0, 4096000);
 		if($s !== FALSE) return $s;
