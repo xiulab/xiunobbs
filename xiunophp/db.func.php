@@ -26,7 +26,7 @@ function db_new($dbconf) {
 // 测试连接
 function db_connect($d = NULL) {
 	global $db;
-	$d = $db ? $db : $d;
+	$d = $d ? $d : $db;
 	
 	$r = $d->connect();
 	
@@ -37,7 +37,7 @@ function db_connect($d = NULL) {
 
 function db_close($d = NULL) {
 	global $db;
-	$d = $db ? $db : $d;
+	$d = $d ? $d : $db;
 	$r = $d->close();
 	
 	db_errno_errstr($r, $d);
@@ -47,7 +47,7 @@ function db_close($d = NULL) {
 
 function db_sql_find_one($sql, $d = NULL) {
 	global $db;
-	$d = $db ? $db : $d;
+	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	$arr = $d->sql_find_one($sql);
 	
@@ -58,7 +58,7 @@ function db_sql_find_one($sql, $d = NULL) {
 
 function db_sql_find($sql, $key = NULL, $d = NULL) {
 	global $db;
-	$d = $db ? $db : $d;
+	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	$arr = $d->sql_find($sql, $key);
 	
@@ -73,7 +73,7 @@ function db_sql_find($sql, $key = NULL, $d = NULL) {
 // 判断是否执行成功: mysql_exec() === FALSE
 function db_exec($sql, $d = NULL) {
 	global $db;
-	$d = $db ? $db : $d;
+	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
 	DEBUG AND xn_log($sql, 'mysql_exec');
@@ -87,7 +87,7 @@ function db_exec($sql, $d = NULL) {
 
 function db_count($table, $cond = array(), $d = NULL) {
 	global $db;
-	$d = $db ? $db : $d;
+	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
 	$r = $d->count($d->tablepre.$table, $cond);
@@ -99,7 +99,7 @@ function db_count($table, $cond = array(), $d = NULL) {
 
 function db_maxid($table, $field, $cond = array(), $d = NULL) {
 	global $db;
-	$d = $db ? $db : $d;
+	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
 	$r = $d->maxid($d->tablepre.$table, $field, $cond);
@@ -112,7 +112,7 @@ function db_maxid($table, $field, $cond = array(), $d = NULL) {
 // NO SQL 封装，可以支持 MySQL Marial PG MongoDB
 function db_create($table, $arr, $d = NULL) {
 	global $db;
-	$d = $db ? $db : $d;
+	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
 	return db_insert($table, $arr);
@@ -120,7 +120,7 @@ function db_create($table, $arr, $d = NULL) {
 
 function db_insert($table, $arr, $d = NULL) {
 	global $db;
-	$d = $db ? $db : $d;
+	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
 	$sqladd = db_array_to_insert_sqladd($arr);
@@ -130,7 +130,7 @@ function db_insert($table, $arr, $d = NULL) {
 
 function db_replace($table, $arr, $d = NULL) {
 	global $db;
-	$d = $db ? $db : $d;
+	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
 	$sqladd = db_array_to_insert_sqladd($arr);
@@ -140,7 +140,7 @@ function db_replace($table, $arr, $d = NULL) {
 
 function db_update($table, $cond, $update, $d = NULL) {
 	global $db;
-	$d = $db ? $db : $d;
+	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
 	$condadd = db_cond_to_sqladd($cond);
@@ -151,7 +151,7 @@ function db_update($table, $cond, $update, $d = NULL) {
 
 function db_delete($table, $cond, $d = NULL) {
 	global $db;
-	$d = $db ? $db : $d;
+	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
 	$condadd = db_cond_to_sqladd($cond);
@@ -160,7 +160,7 @@ function db_delete($table, $cond, $d = NULL) {
 
 function db_truncate($table, $d = NULL) {
 	global $db;
-	$d = $db ? $db : $d;
+	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
 	return $d->truncate($d->tablepre.$table);
@@ -168,7 +168,7 @@ function db_truncate($table, $d = NULL) {
 
 function db_read($table, $cond, $d = NULL) {
 	global $db;
-	$d = $db ? $db : $d;
+	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
 	$sqladd = db_cond_to_sqladd($cond);
@@ -180,7 +180,7 @@ function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesi
 	global $db;
 	
 	// 高效写法，定参有利于编译器优化
-	$d = $db ? $db : $d;
+	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
 	return $d->find($table, $cond, $orderby, $page, $pagesize, $key, $col);
@@ -202,7 +202,7 @@ function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesi
 		$key = array_value($table, 'key');
 		$d = array_value($table, 'db');
 		
-		$d = $db ? $db : $d;
+		$d = $d ? $d : $db;
 		if(!$d) return FALSE;
 		
 		$cond = db_cond_to_sqladd($cond);
@@ -213,7 +213,7 @@ function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesi
 		
 	} elseif(strtoupper(substr($table, 0, 7)) != 'SELECT ') {
 		
-		$d = $db ? $db : $d;
+		$d = $d ? $d : $db;
 		if(!$d) return FALSE;
 		
 		$cond = db_cond_to_sqladd($cond);
@@ -224,7 +224,7 @@ function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesi
 		
 	} else {
 		
-		$d = $db ? $db : $d;
+		$d = $d ? $d : $db;
 		if(!$d) return FALSE;
 		
 		// 兼容 XiunoPHP 3.0
@@ -238,7 +238,7 @@ function db_find_one($table, $cond = array(), $orderby = array(), $col = array()
 	global $db;
 	
 	// 高效写法，定参有利于编译器优化
-	$d = $db ? $db : $d;
+	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
 	return $d->find_one($table, $cond, $orderby, $col);
@@ -256,7 +256,7 @@ function db_find_one($table, $cond = array(), $orderby = array(), $col = array()
 		$orderby = array_value($table, 'orderby');
 		$d = array_value($table, 'db');
 		
-		$d = $db ? $db : $d;
+		$d = $d ? $d : $db;
 		if(!$d) return FALSE;
 		
 		$cond = db_cond_to_sqladd($cond);
@@ -266,7 +266,7 @@ function db_find_one($table, $cond = array(), $orderby = array(), $col = array()
 		
 	} elseif(strtoupper(substr($table, 0, 7)) != 'SELECT ') {
 		
-		$d = $db ? $db : $d;
+		$d = $d ? $d : $db;
 		if(!$d) return FALSE;
 		
 		$cond = db_cond_to_sqladd($cond);
@@ -276,7 +276,7 @@ function db_find_one($table, $cond = array(), $orderby = array(), $col = array()
 		
 	} else {
 		
-		$d = $db ? $db : $d;
+		$d = $d ? $d : $db;
 		if(!$d) return FALSE;
 		
 		// 兼容 XiunoPHP 3.0
