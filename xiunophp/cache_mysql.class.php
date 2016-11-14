@@ -19,9 +19,10 @@ class cache_mysql {
 	public $cachepre = '';
 
         public function __construct($dbconf = array()) {
+        	
         	// 可以复用全局的 $db
                 if(is_object($dbconf['db'])) {
-                        $this->db = $dbconf; // 可以直接传 $db 进来
+                        $this->db = $dbconf['db']; // 可以直接传 $db 进来
                 } else {
                         $this->conf = $dbconf;
                         $this->db = db_new($dbconf);
