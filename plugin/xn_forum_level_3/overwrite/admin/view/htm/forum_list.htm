@@ -1,0 +1,168 @@
+<?php include _include(ADMIN_PATH.'view/htm/header.inc.htm');?>
+
+<style>
+ul > li {list-style: none;}
+</style>
+
+<!--{hook admin_forum_list_start.htm}-->
+
+<script type="text/x-template" id="tpl_forum">
+<table width="100%">
+	<tr>
+		<td width="30">
+			<a href="javascript:void(0);" @click="new_forum(forum.fup)" v-if="is_last"><i class="icon-plus"></i> </a>
+			<a href="javascript:void(0);" v-else><i class="icon-circle-thin text-grey"></i> </a>
+		</td>
+		<td>
+			<input type="text" v-model="forum.name" class="form-control" placeholder="<?php echo lang('forum_name');?>" />
+		</td>
+		<td width="100">
+			<input type="text" v-model="forum.rank" class="form-control" placeholder="<?php echo lang('forum_rank');?>" />
+		</td>
+		<td width="50" align="center">
+			<img :src="'../'+forum.icon_url" width="32" :id="'img_'+forum.fid" />
+		</td>
+		<td width="100">
+			<input type="file" multiple="multiple" accept=".jpg,.jpeg,.png,.gif,.bmp" class="form-control" :name="'icon['+forum.fid+']'" value="" :data-assoc="'img_'+forum.fid" placeholder="<?php echo lang('forum_icon');?>" /></td>
+		<td width="100">
+			<a href="javascript:void(0);" @click="new_forum(forum.fid)" v-if="level != 3" class="m-l-sm"><i class="icon-plus"></i></a>
+			<a href="javascript:void(0);" @click="delete_forum(forum.fid)" class="m-l-sm"><i class="icon-remove text-danger"></i></a>
+		</td>
+	</tr>
+</table>
+</script>
+
+<form id="form">
+	<div id="forumlist">
+		<ul>
+			<li v-for="(cate,index) in catelist" :fid="cate.fid">
+				<comp-forum :forum="cate" level="1" :is_last="index === catelist.length - 1"></comp-forum>
+				<ul v-if="cate.forumlist.length > 0">
+					<li v-for="(forum,index2) in cate.forumlist" :fid="forum.fid">
+						<comp-forum :forum="forum" level="2" :is_last="index2 === cate.forumlist.length - 1"></comp-forum>
+						<ul v-if="forum.forumlist.length > 0">
+							<li v-for="(sub,index3) in forum.forumlist" :fid="sub.fid">
+								<comp-forum :forum="sub" level="3" :is_last="index3 === forum.forumlist.length - 1"></comp-forum>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		<p class="text-center">
+			<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..." style="width: 10rem;"><?php echo lang('confirm');?></button>
+		</p>
+	</div>
+</form>
+
+<!--{hook admin_forum_list_end.htm}-->
+
+<?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
+
+<script src="../view/js/vue.js"></script>
+<script>
+//var forumobj = forumlist;
+
+var jform = $("#form");
+var jsubmit = $("#submit");
+jform.base64_encode_file();
+
+var forumlist = Object.values(forumlist);
+
+var maxfid = <?php echo forum_maxid();?>;
+
+var app = null;
+
+Vue.component('comp-forum', {
+	props: ['forum', 'level', 'is_last'],
+	template: '#tpl_forum',
+	methods: {
+		// 同级增加
+	  	new_forum: function(fup) {
+	  		var arr = {fid: ++maxfid, fup: fup, name: "新版块", icon_url: "view/img/forum.png"};
+	  		console.log(app.forumlist);
+	  		app.forumlist.push(arr);
+	  		console.log(app.forumlist);
+	  	},
+	  	delete_forum: function(fid) {
+	  		if(!window.confirm('确定删除版块（板块下的帖子会被一同清理）？')) return;
+	  		var fidarr = [];
+	  		for(var k in app.forumlist) {
+	  			var forum = app.forumlist[k];
+	  			// 删除子版块
+	  			if(forum.fid == fid || forum.fup == fid) {
+	  				delete app.forumlist[k];
+	  				fidarr.push(fid);
+	  			}
+	  		}
+	  		// 删除第三级
+	  		for(var k in app.forumlist) {
+	  			var forum = app.forumlist[k];
+	  			if(xn.in_array(forum.fid, fidarr) || xn.in_array(forum.fup, fidarr)) {
+	  				delete app.forumlist[k];
+	  			}
+	  		}
+	  		//app.forumlist.push();
+	  		//app.forumlist.pop();
+	  		app.forumlist = xn.array_filter(app.forumlist);
+	  	}
+  	}
+});
+
+app = new Vue({
+	el: '#forumlist',
+	data: {
+		forumlist: forumlist,
+	},
+	computed: {
+		catelist: function() {
+			var catelist = this.find_sub_list(0);
+			for(var k in catelist) {
+				var cate = catelist[k];
+				var forumlist = this.find_sub_list(cate.fid);
+				cate.forumlist = forumlist;
+				for(var k2 in forumlist) {
+					var sub = forumlist[k2];
+					var sublist = this.find_sub_list(sub.fid);
+					sub.forumlist = sublist;
+				}
+			}
+			return catelist;
+		}
+	},
+	methods: {
+		find_sub_list: function(fid) {
+			var sublist = [];
+			for(var k in this.forumlist) {
+				if(this.forumlist[k]['fup'] == fid) {
+					sublist.push(this.forumlist[k]);
+				}
+			}
+			return sublist;
+		}
+	}
+});
+
+jform.on('submit', function() {
+	jsubmit.button('loading');
+	var formdata = jform.serializeObject();
+	var postdata = {
+		fid: xn.arrlist_key_values(app.forumlist, 'fid', 'fid'),
+		fup: xn.arrlist_key_values(app.forumlist, 'fid', 'fup'),
+		name: xn.arrlist_key_values(app.forumlist, 'fid', 'name'),
+		rank: xn.arrlist_key_values(app.forumlist, 'fid', 'rank'),
+		icon: formdata.icon,
+	}
+	$.xpost(xn.url('forum-list'), postdata, function(code, message) {
+		if(code == 0) {
+			jsubmit.button(message).delay(3000).button('reset');
+		} else {
+			alert(message);
+		}
+	});
+	return false;
+});
+
+ </script>
+
+<!--{hook admin_forum_list_js.htm}-->

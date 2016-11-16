@@ -1,0 +1,113 @@
+<?php include _include(ADMIN_PATH.'view/htm/header.inc.htm');?>
+
+<!--{hook admin_forum_list_start.htm}-->
+
+<script type="text/x-template" id="tpl_forum">
+<table>
+	<tr>
+		<td>{{ forum.fid }}</td>
+		<td><a href="javascript:void(0);" @click="new_forum(forum.fup)" v-if="is_last">[+]</a><input type="text" :value="forum.name" /></td>
+		<td><img :src="'../'+forum.icon_url" width="32" /></td>
+		<td><input type="file" multiple="multiple" accept=".jpg,.jpeg,.png,.gif,.bmp" class="form-control" :name="'icon['+forum.fid+']'" value="" :data-assoc="'img_'+forum.fid" placeholder="<?php echo lang('forum_icon');?>" /></td>
+		<td>
+			<a href="javascript:void(0);" @click="new_sub(forum)" v-if="level != 3">[+]</a>
+			<a href="javascript:void(0);" @click="delete_forum(forum)">[-]</a>
+		</td>
+	</tr>
+</table>
+</script>
+
+<div id="forumlist">
+	<form @submit.prevent="onsubmit">
+		<ul>
+			<li v-for="(cate,index) in catelist" :fid="cate.fid">
+				<comp-forum :forum="cate" level="1" :is_last="index === catelist.length - 1"></comp-forum>
+				<ul v-if="cate.forumlist.length > 0">
+					<li v-for="(forum,index2) in cate.forumlist" :fid="forum.fid">
+						<comp-forum :forum="forum" level="2" :is_last="index2 === forumlist.length - 1"></comp-forum>
+						<ul v-if="forum.forumlist.length > 0">
+							<li v-for="(sub,index3) in forum.forumlist" :fid="sub.fid">
+								<comp-forum :forum="sub" level="3" :is_last="index3 === sublist.length - 1"></comp-forum>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		<p>
+			<button>保存</button>
+		</p>
+	</form>
+</div>
+
+
+<!--{hook admin_forum_list_end.htm}-->
+
+<?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
+
+<script src="../view/js/vue.js"></script>
+<script>
+//var forumobj = forumlist;
+//var forumlist = Object.values(forumlist);
+
+var maxfid = <?php echo forum_maxid();?>;
+Vue.component('comp-forum', {
+	props: ['forum', 'level', 'is_last'],
+	template: '#tpl_forum',
+	methods: {
+		// 同级增加
+	  	new_forum: function(forum) {
+	  		var arr = {fid: ++maxfid, fup: forum.fup, name: "新版块"};
+	  		forumlist.push(arr);
+	  	}, 
+	  	new_sub: function(forum) {
+	  		var arr = {fid: ++maxfid, fup: forum.fid, name: "新版块"};
+	  		forumlist.push(arr);
+	  	},
+	  	delete_forum: function(forum) {
+	  		//forumlist.
+	  	}
+  	}
+});
+
+var app = new Vue({
+	el: '#forumlist',
+	data: {
+		forumlist: forumlist,
+	},
+	computed:{
+		catelist: function() {
+			var catelist = this.find_sub_list(0);
+			for(var k in catelist) {
+				var cate = catelist[k];
+				cate.forumlist = this.find_sub_list(cate.fid);
+				for(var k in cate.forumlist) {
+					cate.forumlist[k].forumlist = this.find_sub_list(cate.forumlist[k].fid);
+				}
+			}
+			return catelist;
+		}
+	},
+	methods: {
+		onsubmit: function() {
+			// ajax post 提交
+			//console.log(forumlist);
+			//alert(123);
+		},
+		// 查找儿子
+		find_sub_list: function(fid) {
+			var sublist = [];
+			for(var k in forumlist) {
+				if(forumlist[k]['fup'] == fid) {
+					sublist.push(forumlist[k]);
+				}
+			}
+			return sublist;
+		}
+	}
+});
+
+
+ </script>
+
+<!--{hook admin_forum_list_js.htm}-->
