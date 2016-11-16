@@ -39,20 +39,21 @@ if(empty($action) || $action == 'list') {
 		foreach($fidarr as $k=>$v) {
 			$arr = array(
 				'fid'=>$k,
-				'name'=>$namearr[$k],
-				'rank'=>$rankarr[$k]
+				'name'=>array_value($namearr, $k),
+				'rank'=>array_value($rankarr, $k)
 			);
+			
 			if(!isset($forumlist[$k])) {
-				// 添加 / add
+				// hook admin_forum_list_add_before.php
 				forum_create($arr);
 			} else {
-				
+				// hook admin_forum_list_update_before.php
 				forum_update($k, $arr);
 			}
 			// icon
 			if(!empty($iconarr[$k])) {
 				
-				$s = $iconarr[$k];
+				$s = array_value($iconarr, $k);
 				$data = substr($s, strpos($s, ',') + 1);
 				$data = base64_decode($data);
 				
@@ -61,13 +62,17 @@ if(empty($action) || $action == 'list') {
 				
 				forum_update($k, array('icon'=>$time));
 			}
+			
+			// hook admin_forum_list_post_loop_end.php
 		}
 		
 		// 删除 / delete
 		$deletearr = array_diff_key($forumlist, $fidarr);
 		foreach($deletearr as $k=>$v) {
 			if(in_array($k, $system_forum)) continue;
+			// hook admin_forum_list_delete_before.php
 			forum_delete($k);
+			// hook admin_forum_list_delete_end.php
 		}
 		
 		forum_list_cache_delete();

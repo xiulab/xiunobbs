@@ -8,13 +8,30 @@ if(!Object.keys) {
 	Object.keys = function(o) {
 		var arr = [];
 		for(var k in o) {
+			if(o.hasOwnProperty(k)) arr.push(k);
+		}
+		return arr;
+	}
+}
+if(!Object.values) {
+	Object.values = function(o) {
+		var arr = [];
+		if(!o) return arr;
+		for(var k in o) {
 			if(o.hasOwnProperty(k)) arr.push(o[k]);
 		}
 		return arr;
 	}
 }
+Array.values = function(arr) {
+	return xn.array_filter(arr);
+}
 Object.first = function(obj) {
 	for(var k in obj) return obj[k];
+}
+Object.last = function(obj) {
+	for(var k in obj);
+	return obj[k];
 }
 Object.length = function(obj) {
 	var n = 0;
@@ -35,7 +52,6 @@ Object.sum = function(obj) {
 	$.each(obj, function(k, v) {sum += intval(v)});
 	return sum;
 }
-
 if(typeof console == 'undefined') {
 	console = {};
 	console.log = function() {};
@@ -283,6 +299,28 @@ xn.array_diff = function(arr1, arr2) {
 		return r;
 	}
 };
+// 过滤空值，可以用于删除
+/*
+	// 第一种用法：
+	var arr = [0,1,2,3];
+	delete arr[1];
+	delete arr[2];
+	arr = array_filter(arr);
+	
+	// 第二种：
+	var arr = [0,1,2,3];
+	array_filter(arr, function(k,v) { k == 1} );
+*/
+xn.array_filter = function(arr, callback) {
+	var newarr = [];
+	for(var k in arr) {
+		var v = arr[k];
+		if(callback && callback(k, v)) continue;
+		// if(!callback && v === undefined) continue; // 默认过滤空值
+		newarr.push(v);
+	}
+	return newarr;
+}
 xn.array_keys = function(obj) {
 	var arr = [];
 	$.each(obj, function(k) {arr.push(k);});
@@ -505,27 +543,39 @@ $.location = function(url, seconds) {
 }
 
 // 二级数组排序
-/*var first = function(obj) {for(var k in obj) return k;}
-Array.prototype.proto_sort = Array.prototype.sort;
+/*Array.prototype.proto_sort = Array.prototype.sort;
 Array.prototype.sort = function(arg) {
 	if(arg === undefined) {
 		return this.proto_sort();
 	} else if(arg.constructor === Function) {
 		return this.proto_sort(arg);
 	} else if(arg.constructor === Object) {
-		var k = first(arg);
+		var k = Object.first(arg);
 		var v = arg[k];
 		return this.proto_sort(function(a, b) {return v == 1 ? a[k] > b[k] : a[k] < b[k];});
 	} else {
 		return this;
 	}
 }*/
+
+xn.arrlist_values = function(arrlist, key) {
+	var r = [];
+	arrlist.map(function(arr) { r.push(arr[key]); });
+	return r;
+}
+
+xn.arrlist_key_values = function(arrlist, key, val) {
+	var r = {};
+	arrlist.map(function(arr) { r[arr[key]] = arr[val]; });
+	return r;
+}
+
 // var arrlist = [{id:1, name:"zhangsan"}, {id:2, name:"lisi"}];
 // arrlist.sort(function(a, b) {a.name > b.name});
 // arrlist.sort({name:1});
 // console.log(arrlist);
 
-if(xn.is_ie) document.documentElement.addBehavior("#default#userdata");
+// if(xn.is_ie) document.documentElement.addBehavior("#default#userdata");
 
 $.pdata = function(key, value) {
 	var r = '';
@@ -1327,6 +1377,88 @@ $.fn.alert = function(message) {
 }
 
 $.fn.serializeObject = function() {
+	var self = this,
+		json = {},
+		push_counters = {},
+		patterns = {
+			"validate": /^[a-zA-Z][a-zA-Z0-9_]*(?:\[(?:\d*|[a-zA-Z0-9_]+)\])*$/,
+			"key":	  /[a-zA-Z0-9_]+|(?=\[\])/g,
+			"push":	 /^$/,
+			"fixed":	/^\d+$/,
+			"named":	/^[a-zA-Z0-9_]+$/
+		};
+
+
+	this.build = function(base, key, value){
+		base[key] = value;
+		return base;
+	};
+
+	this.push_counter = function(key){
+		if(push_counters[key] === undefined){
+			push_counters[key] = 0;
+		}
+		return push_counters[key]++;
+	};
+
+	$.each($(this).serializeArray(), function(){
+
+		// skip invalid keys
+		if(!patterns.validate.test(this.name)){
+			return;
+		}
+
+		var k,
+			keys = this.name.match(patterns.key),
+			merge = this.value,
+			reverse_key = this.name;
+
+		while((k = keys.pop()) !== undefined){
+
+			// adjust reverse_key
+			reverse_key = reverse_key.replace(new RegExp("\\[" + k + "\\]$"), '');
+
+			// push
+			if(k.match(patterns.push)){
+				merge = self.build([], self.push_counter(reverse_key), merge);
+			}
+
+			// fixed
+			else if(k.match(patterns.fixed)){
+				merge = self.build([], k, merge);
+			}
+
+			// named
+			else if(k.match(patterns.named)){
+				merge = self.build({}, k, merge);
+			}
+		}
+
+		json = $.extend(true, json, merge);
+	});
+
+	return json;
+};
+
+/*
+$.fn.serializeObject = function() {
+	var o = {};
+	var a = this.serializeArray();
+	$.each(a, function() {
+		if(o[this.name]) {
+			if(!o[this.name].push) {
+				o[this.name] = [o[this.name]];
+			}
+			o[this.name].push(this.value || '');
+		} else {
+			o[this.name] = this.value || '';
+		}
+	});
+	return o;
+};*/
+ 
+/*
+$.fn.serializeObject = function() {
 	var formobj = {};
 	$([].slice.call(this.get(0).elements)).each(function() {
 		var jthis = $(this);
@@ -1344,7 +1476,7 @@ $.fn.serializeObject = function() {
 		}
 	})
 	return formobj;
-}
+}*/
 
 // 批量修改 input name="gid[123]" 中的 123 的值
 $.fn.attr_name_index = function(rowid) {
@@ -1419,6 +1551,7 @@ $.each_sync = function(array, func, callback){
 		if(callback) callback(null, "complete");
 	});
 }
+
 /*
 $.change_input_name_rowid = function(jtr, rowid) {
 	jtr.find('input').each(function() {
