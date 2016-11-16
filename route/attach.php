@@ -41,13 +41,14 @@ if(empty($action) || $action == 'create') {
 	$tmpfile = $conf['upload_path'].'tmp/'.$tmpanme;
 	$tmpurl = $conf['upload_url'].'tmp/'.$tmpanme;
 	
+	$filetype = attach_type($name, $filetypes);
+	
 	// hook attach_create_save_before.php
 	
 	file_put_contents($tmpfile, $data) OR message(-1, lang('write_to_file_failed'));
 	
 	// 保存到 session，发帖成功以后，关联到帖子。
 	// save attach information to session, associate to post after create thread.
-	$filetype = attach_type($name, $filetypes);
 	empty($_SESSION['tmp_files']) AND $_SESSION['tmp_files'] = array();
 	$n = count($_SESSION['tmp_files']);
 	$filesize = filesize($tmpfile);
