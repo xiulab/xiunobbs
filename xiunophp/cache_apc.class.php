@@ -19,7 +19,9 @@ class cache_apc {
                 return apc_store($k, $v, $life);
         }
         public function get($k) {
-                return apc_fetch($k);
+                $r = apc_fetch($k);
+                if($r === FALSE) $r = NULL;
+                return $r;
         }
         public function delete($k) {
                 return apc_delete($k);
