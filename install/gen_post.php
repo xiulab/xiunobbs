@@ -1,5 +1,7 @@
 <?php
 
+exit; // 如果要使用请注释掉该行
+
 // 跳过路由
 define('SKIP_ROUTE', TRUE);
 
