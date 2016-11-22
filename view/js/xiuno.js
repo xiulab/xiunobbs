@@ -1552,15 +1552,179 @@ $.each_sync = function(array, func, callback){
 	});
 }
 
+// 定位
 /*
-$.change_input_name_rowid = function(jtr, rowid) {
-	jtr.find('input').each(function() {
-		var jthis = $(this);
-		var name = jthis.attr('name');
-		name = name.replace(/\[(\d+)\]/, function(all, oldid) {
-			var newid = rowid === undefined ? xn.intval(oldid) + 1 : rowid;
-			return '[' + newid + ']';
-		});
-		jthis.attr('name', name);
-	});
-}*/
+         11      12      1
+        --------------------
+     10 |  -11   -12   -1  | 2
+        |                  | 
+      9 |  -9    0     -3  | 3
+        |                  | 
+      8 |  -7    -6    -5  | 4
+        --------------------
+         7        6       5
+*/
+// 将菜单定位于自己的周围
+$.fn.xn_position = function(jfloat, pos, offset) {
+	var jthis = $(this);
+	var jparent = jthis.offsetParent();
+	var pos = pos || 0;
+	var offset = offset || {left: 0, top: 0};
+	offset.left = offset.left || 0;
+	offset.top = offset.top || 0;
+	
+	// 如果 menu 藏的特别深，把它移动出来。
+	if(jfloat.offsetParent().get(0) != jthis.offsetParent().get(0)) {
+		jfloat.appendTo(jthis.offsetParent());
+	}
+	
+	// 设置菜单为绝对定位
+	jfloat.css('position', 'absolute').css('z-index', jthis.css('z-index') + 1);
+	
+	var p = jthis.position();
+	p.w = jthis.outerWidth();
+	p.h = jthis.outerHeight();
+	var m = {left: 0, top: 0};
+	m.w = jfloat.outerWidth();
+	m.h = jfloat.outerHeight();
+	p.margin = {
+		left: xn.floatval(jthis.css('margin-left')),
+		top: xn.floatval(jthis.css('margin-top')),
+		right: xn.floatval(jthis.css('margin-right')),
+		bottom: xn.floatval(jthis.css('margin-bottom')),
+	}
+	p.border = {
+		left: xn.floatval(jthis.css('border-left-width')),
+		top: xn.floatval(jthis.css('border-top-width')),
+		right: xn.floatval(jthis.css('border-right-width')),
+		bottom: xn.floatval(jthis.css('border-bottom-width')),
+	}
+	//alert('margin-top:'+p.margin.top+', border-top:'+p.border.top);
+	
+	if(pos == 12) {
+		m.left = p.left + ((p.w - m.w) / 2);
+		m.top = p.top - m.h ;
+	} else if(pos == 1) {
+		m.left = p.left + (p.w - m.w);
+		m.top = p.top - m.h;
+	} else if(pos == 11) {
+		m.left = p.left;
+		m.top = p.top - m.h;
+	} else if(pos == 2) {
+		m.left = p.left + p.w;
+		m.top = p.top;
+	} else if(pos == 3) {
+		m.left = p.left + p.w;
+		m.top = p.top + ((p.h - m.h) / 2);
+	} else if(pos == 4) {
+		m.left = p.left + p.w;
+		m.top = p.top + (p.h - m.h);
+	} else if(pos == 5) {
+		m.left = p.left + (p.w - m.w);
+		m.top = p.top + p.h;
+	} else if(pos == 6) {
+		m.left = p.left + ((p.w - m.w) / 2);
+		m.top = p.top + p.h;
+	} else if(pos == 7) {
+		m.left = p.left;
+		m.top = p.top + p.h;
+	} else if(pos == 8) {
+		m.left = p.left - m.w;
+		m.top = p.top + (p.h - m.h);
+	} else if(pos == 9) {
+		m.left = p.left - m.w;
+		m.top = p.top + ((p.h - m.h) / 2);
+	} else if(pos == 10) {
+		m.left = p.left - m.w;
+		m.top = p.top;
+	} else if(pos == -12) {
+		m.left = p.left + ((p.w - m.w) / 2);
+		m.top = p.top;
+	} else if(pos == -1) {
+		m.left = p.left + (p.w - m.w);
+		m.top = p.top;
+	} else if(pos == -3) {
+		m.left = p.left + p.w - m.w;
+		m.top = p.top + ((p.h - m.h) / 2);
+	} else if(pos == -5) {
+		m.left = p.left + (p.w - m.w);
+		m.top = p.top + p.h - m.h;
+	} else if(pos == -6) {
+		m.left = p.left + ((p.w - m.w) / 2);
+		m.top = p.top + p.h - m.h;
+	} else if(pos == -7) {
+		m.left = p.left;
+		m.top = p.top + p.h - m.h;
+	} else if(pos == -9) {
+		m.left = p.left;
+		m.top = p.top + ((p.h - m.h) / 2);
+	} else if(pos == -11) {
+		m.left = p.left;
+		m.top = p.top - m.h + m.h;
+	} else if(pos == 0) {
+		m.left = p.left + ((p.w - m.w) / 2);
+		m.top = p.top + ((p.h - m.h) / 2);
+	}
+	jfloat.css({left: m.left + offset.left, top: m.top + offset.top});
+}
+
+// 菜单定位
+/*
+         11        12     1
+        --------------------
+     10 |                  | 2
+        |                  | 
+      9 |        0         | 3
+        |                  | 
+      8 |                  | 4
+        --------------------
+         7        6       5
+*/
+// 弹出菜单
+$.fn.xn_menu = function(jmenu, pos) {
+	// 生成一个箭头放到菜单的周围
+	var jthis = $(this);
+	var pos = pos || 6;
+	var offset = {};
+	var jparent = jmenu.offsetParent();
+	if(!jmenu.jarrow) jmenu.jarrow = $('<div class="arrow arrow-up"><div class="arrow-box"></div></div>').insertAfter(jthis);
+	if(pos == 2 || pos == 3 || pos == 4) {
+		jmenu.jarrow.addClass('arrow-left');
+		offset.left = 7;
+	} else if(pos == 5 || pos == 6 || pos == 7) {
+		jmenu.jarrow.addClass('arrow-up');
+		offset.top = 7;
+	} else if(pos == 8 || pos == 9 || pos == 10) {
+		jmenu.jarrow.addClass('arrow-right');
+		offset.left = -7;
+	} else if(pos == 11 || pos == 12 || pos == 1) {
+		jmenu.jarrow.addClass('arrow-down');
+		offset.top = -7;
+	}
+	var arr_pos_map = {2: 10, 3: 9, 4: 8, 5: 1, 6: 12, 7: 11, 8: 4, 8: 3, 10: 2, 11: 7, 12: 6, 1: 5};
+	var arr_offset_map = {
+		2: {left: -1, top: 10},
+		3: {left: -1, top: 0},
+		4: {left: -1, top: -10},
+		5: {left: -10, top: -1},
+		6: {left: 0, top: -1},
+		7: {left: 10, top: -1},
+		8: {left: 1, top: -10},
+		9: {left: 1, top: 0},
+		10: {left: 1, top: 10},
+		11: {left: 10, top: 1},
+		12: {left: 0, top: 1},
+		1: {left: -10, top: 1},
+	}
+	jthis.xn_position(jmenu, pos, offset);
+	jmenu.show();
+	var mpos = arr_pos_map[pos];
+	jmenu.xn_position(jmenu.jarrow, mpos, arr_offset_map[mpos]);
+	jmenu.jarrow.show();
+	var menu_hide = function() {
+		jmenu.hide();
+		jmenu.jarrow.hide();
+		$('body').off('click', menu_hide);
+	}
+	$('body').on('click', menu_hide);
+};
