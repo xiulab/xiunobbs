@@ -1,6 +1,6 @@
 <?php
 
-define('DEBUG', 1);
+define('DEBUG', 2);
 define('APP_PATH', realpath(dirname(__FILE__).'/../').'/');
 define('INSTALL_PATH', dirname(__FILE__).'/');
 
@@ -123,8 +123,12 @@ if(empty($action)) {
 		
 		$db = db_new($conf['db']);
 		if(db_connect($db) === FALSE) {
+			// 
 			message(-1, "$errstr (errno: $errno)");
 		}
+		
+		$conf['cache']['mysql']['db'] = $db; // 这里直接传 $db，复用 $db；如果传配置文件，会产生新链接。
+		$cache = !empty($conf['cache']) ? cache_new($conf['cache']) : NULL;
 		
 		// 设置引擎的类型
 		if($engine == 'innodb') {
@@ -150,7 +154,7 @@ if(empty($action)) {
 		$replace['db'] = $conf['db'];
 		$replace['auth_key'] = xn_rand(64);
 		$replace['installed'] = 1;
-		file_replace_var(APP_PATH.'conf/conf.php', $replace);
+		//file_replace_var(APP_PATH.'conf/conf.php', $replace);
 		
 		// 处理语言包
 		group_update(0, array('name'=>lang('group_0')));
@@ -173,7 +177,8 @@ if(empty($action)) {
 		@mkdir(APP_PATH.'upload/avatar', 0777);
 		@mkdir(APP_PATH.'upload/forum', 0777);
 		
-		message(0, jump(lang('conguralation_installed'), '../'));
+		echo 123;exit;
+		//message(0, jump(lang('conguralation_installed'), '../'));
 	}
 }
 
