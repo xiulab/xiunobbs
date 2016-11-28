@@ -19,9 +19,25 @@ function _include($srcfile) {
 	if(!is_file($tmpfile) || DEBUG > 1) {
 		// 开始编译
 		$s = plugin_compile_srcfile($srcfile);
+		
+		// 支持 <template> <slot>
+		$s = preg_replace_callback('#<template\sinclude="(.*?)">(.*?)</template>#is', '_include_callback_1', $s);
+		
 		file_put_contents_try($tmpfile, $s);
 	}
 	return $tmpfile;
+}
+
+function _include_callback_1($m) {
+	$r = file_get_contents($m[1]);
+	preg_match_all('#<slot\sname="(.*?)">(.*?)</slot>#is', $m[2], $m2);
+	if(!empty($m2[1])) {
+		$kv = array_combine($m2[1], $m2[2]);
+		foreach($kv as $slot=>$content) {
+			$r = preg_replace('#<slot\sname="'.$slot.'"\s*/>#is', $content, $r);
+		}
+	}
+	return $r;
 }
 
 // 在安装、卸载插件的时候，需要先初始化
