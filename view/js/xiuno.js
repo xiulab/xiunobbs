@@ -342,6 +342,12 @@ xn.rand = function(n) {
 	return r;
 }
 
+xn.random = function(min, max) {
+	var num = Math.random()*(max-min + 1) + min;
+	var r = Math.floor(num);
+	return r;
+}
+
 // 所谓的 js 编译模板，不过是一堆效率低下的正则替换，这种东西根据自己喜好用吧。
 xn.template = function(s, json) {
 	//console.log(json);
@@ -1563,6 +1569,10 @@ $.each_sync = function(array, func, callback){
       8 |  -7    -6    -5  | 4
         --------------------
          7        6       5
+     
+     将菜单定位于自己的周围：
+     $(this).xn_position($('#menuid'), 6);    
+         
 */
 // 将菜单定位于自己的周围
 $.fn.xn_position = function(jfloat, pos, offset) {
@@ -1679,27 +1689,32 @@ $.fn.xn_position = function(jfloat, pos, offset) {
       8 |                  | 4
         --------------------
          7        6       5
+         
+	弹出菜单：
+	$(this).xn_menu($('#menuid'), 6);    
 */
-// 弹出菜单
-$.fn.xn_menu = function(jmenu, pos) {
+$.fn.xn_menu = function(jmenu, pos, option) {
 	// 生成一个箭头放到菜单的周围
 	var jthis = $(this);
 	var pos = pos || 6;
 	var offset = {};
+	var option = option || {hidearrow: 0};
 	var jparent = jmenu.offsetParent();
-	if(!jmenu.jarrow) jmenu.jarrow = $('<div class="arrow arrow-up"><div class="arrow-box"></div></div>').insertAfter(jthis);
-	if(pos == 2 || pos == 3 || pos == 4) {
-		jmenu.jarrow.addClass('arrow-left');
-		offset.left = 7;
-	} else if(pos == 5 || pos == 6 || pos == 7) {
-		jmenu.jarrow.addClass('arrow-up');
-		offset.top = 7;
-	} else if(pos == 8 || pos == 9 || pos == 10) {
-		jmenu.jarrow.addClass('arrow-right');
-		offset.left = -7;
-	} else if(pos == 11 || pos == 12 || pos == 1) {
-		jmenu.jarrow.addClass('arrow-down');
-		offset.top = -7;
+	if(!jmenu.jarrow && !option.hidearrow) jmenu.jarrow = $('<div class="arrow arrow-up" style="display: none;"><div class="arrow-box"></div></div>').insertAfter(jthis);
+	if(!option.hidearrow) {
+		if(pos == 2 || pos == 3 || pos == 4) {
+			jmenu.jarrow.addClass('arrow-left');
+			offset.left = 7;
+		} else if(pos == 5 || pos == 6 || pos == 7) {
+			jmenu.jarrow.addClass('arrow-up');
+			offset.top = 7;
+		} else if(pos == 8 || pos == 9 || pos == 10) {
+			jmenu.jarrow.addClass('arrow-right');
+			offset.left = -7;
+		} else if(pos == 11 || pos == 12 || pos == 1) {
+			jmenu.jarrow.addClass('arrow-down');
+			offset.top = -7;
+		}
 	}
 	var arr_pos_map = {2: 10, 3: 9, 4: 8, 5: 1, 6: 12, 7: 11, 8: 4, 8: 3, 10: 2, 11: 7, 12: 6, 1: 5};
 	var arr_offset_map = {
@@ -1717,14 +1732,53 @@ $.fn.xn_menu = function(jmenu, pos) {
 		1: {left: -10, top: 1},
 	}
 	jthis.xn_position(jmenu, pos, offset);
-	jmenu.show();
+	jmenu.toggle();
+	
+	// arrow
 	var mpos = arr_pos_map[pos];
-	jmenu.xn_position(jmenu.jarrow, mpos, arr_offset_map[mpos]);
-	jmenu.jarrow.show();
-	var menu_hide = function() {
-		jmenu.hide();
-		jmenu.jarrow.hide();
+	if(!option.hidearrow) jmenu.xn_position(jmenu.jarrow, mpos, arr_offset_map[mpos]);
+	if(!option.hidearrow) jmenu.jarrow.toggle();
+	var menu_hide = function(e) {
+		jmenu.toggle();
+		if(!option.hidearrow) jmenu.jarrow.hide();
 		$('body').off('click', menu_hide);
 	}
-	$('body').on('click', menu_hide);
+	
+	$('body').off('click', menu_hide).on('click', menu_hide);
 };
+
+
+$.fn.xn_dropdown = function() {
+	return this.each(function() {
+		var jthis = $(this);
+		var jtoggler = jthis.find('.dropdown-toggle');
+		var jdropmenu = jthis.find('.dropdown-menu');
+		var pos = jthis.data('pos') || 5;
+		var hidearrow = !!jthis.data('hidearrow');
+		jtoggler.on('click', function() {
+			jtoggler.xn_menu(jdropmenu, pos, {hidearrow: hidearrow});
+			return false;
+		});
+	});
+}
+
+$.fn.xn_toggle = function() {
+	return this.each(function() {
+		var jthis = $(this);
+		var jtarget = $(jthis.data('target'));
+		var target_hide = function(e) {
+			jtarget.slideToggle('fast');
+			$('body').off('click', target_hide);
+		}
+		jthis.on('click', function() {
+			jtarget.slideToggle('fast');
+			$('body').off('click', target_hide).on('click', target_hide);
+			return false;
+		});
+	});
+}
+
+$('.xn-dropdown').xn_dropdown();
+$('.xn-toggle').xn_toggle();
+
+console.log('xiuno.js loaded');
