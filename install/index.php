@@ -122,6 +122,7 @@ if(empty($action)) {
 		$conf['db']['pdo_mysql']['master']['password'] = $password;
 		
 		$db = db_new($conf['db']);
+		// 此处可能报错
 		if(db_connect($db) === FALSE) {
 			// 
 			message(-1, "$errstr (errno: $errno)");
@@ -177,8 +178,7 @@ if(empty($action)) {
 		@mkdir(APP_PATH.'upload/avatar', 0777);
 		@mkdir(APP_PATH.'upload/forum', 0777);
 		
-		echo 123;exit;
-		//message(0, jump(lang('conguralation_installed'), '../'));
+		message(0, jump(lang('conguralation_installed'), '../'));
 	}
 }
 
