@@ -1156,6 +1156,39 @@ function xn_filemtime($file) {
 	return is_file($file) ? filemtime($file) : 0;
 }
 
+/*
+	实例：
+	xn_set_dir(123, APP_PATH.'upload');
+	
+	000/000/1.jpg
+	000/000/100.jpg
+	000/000/100.jpg
+	000/000/999.jpg
+	000/001/1000.jpg
+	000/001/001.jpg
+	000/002/001.jpg
+*/
+function xn_set_dir($id, $dir = './') {
+
+	$id = sprintf("%09d", $id);
+	$s1 = substr($id, 0, 3);
+	$s2 = substr($id, 3, 3);
+	$dir1 = $dir.$s1;
+	$dir2 = $dir."$s1/$s2";
+
+	!is_dir($dir1) && mkdir($dir1, 0777);
+	!is_dir($dir2) && mkdir($dir2, 0777);
+	return "$s1/$s2";
+}
+
+// 取得路径：001/123
+function xn_get_dir($id) {
+	$id = sprintf("%09d", $id);
+	$s1 = substr($id, 0, 3);
+	$s2 = substr($id, 3, 3);
+	return "$s1/$s2";
+}
+
 // 递归拷贝目录
 function copy_recusive($src, $dst) {
 	substr($src, -1) == '/' AND $src = substr($src, 0, -1);
