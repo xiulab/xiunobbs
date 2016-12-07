@@ -311,6 +311,7 @@ function plugin_hook($dir, $action = 'install') {
 }*/
 
 // 将所有的同名 hook 内容合并（按照优先级排序），需要判断 installed 是否为 1
+/*
 function plugin_hooks_merge_by_rank($hookname) {
 	global $plugin_srcfiles, $plugin_paths, $plugins;
 	$arr = array();
@@ -325,12 +326,16 @@ function plugin_hooks_merge_by_rank($hookname) {
 			$arr[$rank][] = file_get_contents($hookpath);
 		}
 	}
+	ksort($arr);
+	if($hookname == 'lang_zh_cn_bbs.php') {
+		print_r($arr);exit;
+	}
 	$s = '';
 	foreach ($arr as $arr2) {
 		$s .= implode("\r\n", $arr2);
 	}
 	return $s;
-}
+}*/
 /*
 function plugin_find_srcfile_by_hookname($hookname) {
 	global $plugin_srcfiles, $plugin_paths, $plugins;
@@ -436,6 +441,7 @@ function plugin_compile_srcfile_callback($m) {
 			$arrlist = arrlist_multisort($arrlist, 'rank', FALSE);
 			$hooks[$hookname] = arrlist_values($arrlist, 'hookpath');
 		}
+		
 	}
 	
 	$s = '';
