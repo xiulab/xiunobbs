@@ -215,13 +215,34 @@ function thread_find($cond = array(), $orderby = array(), $page = 1, $pagesize =
 // 按照: 发帖时间/最后回复时间 倒序
 function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'tid') {
 	global $conf, $forumlist;
+	$forum = $forumlist[$fid];
+	
+	// hook model_thread_find_by_fid_start.php
 	
 	$cond = array();
 	$fid AND $cond['fid'] = $fid;
-	$orderby = array($order=>-1);
-	$threadlist = thread_find($cond, $orderby, $page, $pagesize);
 	
-	// hook model_thread_find_by_fid_start.php
+	$desc = TRUE;
+	$limitpage = 50000; // 如果需要防止 CC 攻击，可以调整为 5000
+	if($page > 100) {
+		$totalpage = ceil($forum['threads'] / $pagesize);
+		$halfpage = ceil($totalpage / 2);
+		if($halfpage > $limitpage && $page > $limitpage && $page < ($totalpage - $limitpage)) {
+			$page = $limitpage;
+		}
+		if($page > $halfpage) {
+			$page = max(1, $totalpage - $page);
+			$threadlist = thread_find($cond, array($order=>1), $page, $pagesize);
+			$threadlist = array_reverse($threadlist, TRUE);
+			$desc = FALSE;
+		}
+	}
+	if($desc) {
+		$orderby = array($order=>-1);
+		$threadlist = thread_find($cond, $orderby, $page, $pagesize);
+	}
+	
+	// hook model_thread_find_by_fid_middle.php
 	
 	// 查找置顶帖
 	if($order == $conf['order_default'] && $page == 1) {
