@@ -155,7 +155,7 @@ if(empty($action)) {
 		$replace['db'] = $conf['db'];
 		$replace['auth_key'] = xn_rand(64);
 		$replace['installed'] = 1;
-		//file_replace_var(APP_PATH.'conf/conf.php', $replace);
+		file_replace_var(APP_PATH.'conf/conf.php', $replace);
 		
 		// 处理语言包
 		group_update(0, array('name'=>lang('group_0')));
