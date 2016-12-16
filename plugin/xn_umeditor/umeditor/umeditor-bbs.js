@@ -45,8 +45,6 @@ $(function() {
 	
 	});
 	
-	if(typeof jform != 'unefined') jform.find('[name="doctype"]').val(0);
-	
 	var um = UM.getEditor('message', {
 	    lang:/^zh/.test(navigator.language || navigator.browserLanguage || navigator.userLanguage) ? 'zh-cn' : 'en',
 	    langPath:UMEDITOR_CONFIG.UMEDITOR_HOME_URL + "lang/",

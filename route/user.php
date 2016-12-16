@@ -52,7 +52,7 @@ if($action == 'login') {
 		
 		$_SESSION['uid'] = $uid;
 		
-		user_token_set($uid);
+		user_token_set($user['uid'], $user['gid'], $user['password'], $user['avatar'], $user['username'], $user['email'], APP_NAME, 86400);
 		
 		// hook user_login_post_end.php
 		

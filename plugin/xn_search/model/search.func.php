@@ -35,8 +35,8 @@ function search_cutword($text) {
 		return array();
 	}
 	$return = array();
-	if(is_array($text)) {
-		foreach ($text as $id=>$arr) {
+	if(is_array($arrlist)) {
+		foreach ($arrlist as $id=>$arr) {
 			$return[$id] = implode(' ', arrlist_values($arr, 'word'));
 		}
 	} else {

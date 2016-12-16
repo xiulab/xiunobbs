@@ -1,0 +1,92 @@
+<?php $conf = G('conf');?>
+<?php $header = G('header');?>
+<?php $user = G('user');?>
+<?php $uid = G('uid');?>
+<?php $gid = G('gid');?>
+<?php $fid = G('fid');?>
+<?php $tid = G('tid');?>
+<?php $pid = G('pid');?>
+<?php $route = G('route');?>
+<?php $forumlist_show = G('forumlist_show');?>
+<?php $static_version = $conf['static_version'];?>
+<!DOCTYPE html>
+<html lang="<?php echo $conf['lang'];?>">
+<head>
+	
+	<?php echo defined('BASE_HREF') ? '<base href="'.BASE_HREF.'" />' : '' ;?>
+	
+	<!--{hook header_mete_before.htm}-->
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="XiunoBBS 4.0" />
+	<meta name="keywords" content="<?php echo $header['keywords'];?>" />
+	<meta name="description" content="<?php echo $header['description'];?>" />
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+
+	<title><?php echo $header['title'];?></title>
+	
+	<link rel="shortcut icon" href="<?php echo $conf['view_url'];?>img/favicon.ico" />
+	<link rel="icon" sizes="32x32" href="<?php echo $conf['view_url'];?>img/favicon.ico">
+	<link rel="Bookmark" href="<?php echo $conf['view_url'];?>img/favicon.ico" />
+	<?php if(DEBUG) { ?>
+	<link rel="stylesheet" href="<?php echo $conf['view_url'];?>css/bootstrap.css<?php echo $static_version;?>">
+	<?php } else { ?>
+	<link rel="stylesheet" href="<?php echo $conf['view_url'];?>css/bootstrap.min.css<?php echo $static_version;?>">
+	<?php } ?>
+	
+	<!--{hook header_link_after.htm}-->
+</head>
+
+<body>
+
+<!--{hook header_body_start.htm}-->
+
+<style>
+/* 三列布局 */
+html, body, #wrapper { height: 100%; width: 100%; overflow: hidden;}
+#frame { display: flex; height: 100%; overflow: hidden;}
+#frame_nav { min-width: 45px; width: 45px; background: #2a2a2a; height: 100%; overflow: hidden;}
+#frame_left { min-width: 275px; max-width: 475px; width: 35%; height: 100%; overflow: hidden; position: relative; background: url(plugin/xn_body_column_3/overwrite/view/img/bg_1.jpg); background-size:cover;}
+#frame_right { background: #fff; width: 100%; height: 100%; overflow: auto; }
+#body { max-width: 900px; padding-top: 0px; }
+
+/* 导航图标 */
+#frame_nav ul, #frame_nav ul > li { margin: 0px; padding: 0px; list-style: none; }
+#frame_nav ul > li > a { width: 45px; height: 45px; line-height: 45px; color: rgba(255,255,255,0.7); overflow: hidden; text-indent: 7px; display: block; text-decoration: none; font-size: 12px; white-space:nowrap;}
+#frame_nav ul > li > a:hover { background: #277796; color: rgba(255,255,255,1); }
+#frame_nav ul > li > a.active { background: #277796; }
+#frame_nav ul > li > a > span { margin-left: 4px; display: none;}
+#frame_nav ul [class^="icon-"] { font-size: 1rem; }
+
+.logo {display:block; width: 22px; height: 22px; margin-top: 12px; margin-left: 12px !important;  background: url(plugin/xn_body_column_3/view/img/logo.png); background-size: cover; float: left;}
+
+/* 中间菜单样式 */
+ul.forumlist { margin-top: 1rem; padding-left: 30px;}
+ul.forumlist > li { list-style: none; color: rgba(255,255,255, 0.8); margin-bottom: 1.5rem; }
+ul.forumlist li a { }
+ul.forumlist > li > a:hover {color: rgba(255,255,255, 1);}
+
+ul.forumlist > li > ul { margin: 0; padding: 0; margin-top: 0.2rem; line-height: 1.6;}
+ul.forumlist > li > ul > li  {list-style: none; margin-right: 1rem; display: inline-block;}
+
+ul.forumlist > li > ul > li  > a { color: rgba(255,255,255, 0.8); font-size: 0.8rem; /*border: 1px solid rgba(255,255,255, 0.4); border-radius: 20px; margin-bottom: 0.2rem; padding: 0rem 0.5rem;*/}
+ul.forumlist > li > ul > li  > a:hover { color: rgba(255,255,255, 1); }
+ul.forumlist > li > ul > li  > a.active { color: rgba(255,255,255, 1); font-weight: 800; /*border: 1px solid rgba(255,255,255, 0.9);*/}
+
+/* 右侧内容区域 */
+#body > .card {border: 0px;}
+#body > .card > .card-header { background: transparent; border-bottom: 2px solid #ddd;}
+#body > .card > .card-header a.nav-link { border: 0px; border-bottom: 2px solid transparent;}
+#body > .card > .card-header a.nav-link.active { border: 0px; border-bottom: 2px solid #888;}
+#body > .card > .card-header a.nav-link:hover { border: 0px; border-bottom: 2px solid #aaa;}
+#body > .card  .card-header-tabs {margin-bottom: -0.8rem; }
+</style>
+
+<!--
+<div id="wrapper">
+-->
+
+	<!-- 左侧绝对定位？ -->
+	

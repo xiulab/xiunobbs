@@ -1,0 +1,15 @@
+<?php
+
+// 判断用户的最后一次更新的时间
+
+if($uid > 0 && isset($user['online_time'])) {
+	$online_time = $user['online_time'];
+	$online_last_update = _SESSION('online_last_update');
+	
+	// 如果超过 300 秒，则加 300
+	if($time - $online_last_update > 300) {
+		user_update($uid, array('oneline_time+' => 300));
+	}
+}
+
+?>

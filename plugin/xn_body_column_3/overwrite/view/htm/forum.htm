@@ -1,0 +1,70 @@
+
+<template include="./plugin/xn_body_column_3/overwrite/view/htm/_column_3.htm">
+
+	<slot name="slot1">
+		<?php include _include(APP_PATH.'plugin/xn_body_column_3/overwrite/view/htm/_forum_nav.inc.htm');?>
+	</slot>
+	
+	<slot name="slot2">
+	
+		<div class="p-l-1">
+			<dl cl ass="row m-t-0 m-b-0" style="margin-bottom: 0px;">
+				<dt>
+					<?php $sublist = forum_is_sub($fid) ? forum_find_sibling_list($forumlist, $fid) : forum_find_son_list($forumlist, $fid); ?>
+					<?php if($sublist) { ?>
+					<ul class="nav nav-pills sublist m-t-1 m-b-0">
+					<?php foreach($sublist as $sub) { ?>
+						<li class="nav-item "><a href="<?php echo url("forum-$sub[fid]");?>" class="nav-link <?php echo $fid == $sub['fid'] ? 'active' : ''; ?>"><?php echo $sub['name'];?></a></li>
+					<?php } ?>
+					</ul>
+					<?php } ?>
+				</dt>
+				<dd class="vtop right">
+					
+				</dd>
+			</dl>
+			
+			<!--{hook forum_breadcrumb_before.htm}-->
+			
+			<!--{hook forum_breadcrumb_after.htm}-->
+		</div>
+		
+		<div class="card">
+			<div style="text-align: right; margin-bottom: -20px; margin-top: 8px;">
+				<a href="<?php echo url("thread-create-$fid");?>" role="button" class="btn btn-primary">发新帖</a>
+			</div>
+			<div class="card-header p-t-0">
+				<ul class="nav nav-tabs card-header-tabs pull-xs-left">
+					<li class="nav-item">
+						<a class="nav-link <?php echo $active == 'default' ? 'active' : '';?>" href="<?php echo url("forum-$fid");?>"><?php echo lang('new_thread');?></a>
+					</li>
+					<!--{hook forum_thread_list_nav_item_after.htm}-->
+				</ul>
+				
+			</div>
+			<div class="card-block">
+				<table class="table table-hover threadlist">
+					<tbody>
+						<!--{hook forum_threadlist_before.htm}-->
+						<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
+						<!--{hook forum_threadlist_after.htm}-->
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<?php include _include(APP_PATH.'view/htm/thread_list_mod.inc.htm');?>
+		<!--{hook forum_page_before.htm}-->
+		<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>
+		<!--{hook forum_page_after.htm}-->
+	
+		<!--{hook forum_end.htm}-->
+	</slot>
+	
+</template>
+
+<script>
+$('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');
+</script>
+
+<!--{hook forum_js.htm}-->

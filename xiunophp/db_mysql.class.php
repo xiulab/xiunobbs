@@ -162,6 +162,14 @@ class db_mysql {
 		return $this->exec("TRUNCATE $table");
 	}
 	
+	public function close() {
+		$r = mysql_close($this->wlink);
+		if($this->wlink != $this->rlink) {
+			$r = mysql_close($this->rlink);
+		}
+		return $r;
+	}
+	
 	/*
 	// $index = array('uid'=>1, 'dateline'=>-1)
 	// $index = array('uid'=>1, 'dateline'=>-1, 'unique'=>TRUE, 'dropDups'=>TRUE)

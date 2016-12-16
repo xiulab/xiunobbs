@@ -1,0 +1,261 @@
+
+<template include="./plugin/xn_body_column_3/overwrite/view/htm/_column_3.htm">
+
+	<slot name="slot1">
+		<?php include _include(APP_PATH.'plugin/xn_body_column_3/overwrite/view/htm/_forum_nav.inc.htm');?>
+	</slot>
+	
+	<slot name="slot2">
+			
+		<div style="text-align: right; margin-bottom: -30px; margin-top: 8px;" class="hidden-md-down">
+			<a href="<?php echo url("thread-create-$fid");?>" role="button" class="btn btn-primary">发新帖</a>
+		</div>
+		<!--{hook thread_breadcrumb_before.htm}-->
+		<ol class="breadcrumb m-b-sm hidden-lg-down">
+			<li class="breadcrumb-item"><a href="./" aria-label="<?php echo lang('index_page');?>"><i class="icon-home"></i></a></li>
+			<li class="breadcrumb-item"><a href="<?php echo url("forum-$fid");?>"><?php echo $forum['name'];?></a></li>
+			<li class="breadcrumb-item active"><a href="<?php echo url("thread-$tid");?>" title="<?php echo lang('index_page');?>返回主题第一页"><?php echo $thread['subject'];?></a></li>
+			<!--{hook thread_breadcrumb.htm}-->
+		</ol>
+		<!--{hook thread_breadcrumb_after.htm}-->
+		
+		<div class="card card-block">
+			<dl class="row">
+				<dt class="vtop p-r-1 td-avatar">
+					<a href="<?php echo url("user-$thread[uid]");?>" aria-hidden="true" tabindex="-1">
+						<img class="avatar" src="<?php echo $thread['user_avatar_url'];?>">
+					</a>
+					
+				</dt>
+				<dd class="vtop" style="width: 100px;">
+					<div class="text-grey" style="font-size: 9px; margin-top: 4px;">
+						注册：<?php echo date('Y-n', $thread['user']['create_date']);?> <br>
+						帖子：<?php echo date('Y-n', $thread['user']['posts']);?> <br>
+						<?php if($thread['user']) { ?>
+						精华：<span class="text-danger text-bold"><?php echo $thread['user']['digests'];?></span> <br>
+						<?php } ?>
+					</div>
+				</dd>
+				<dd>
+					<!--{hook thread_subject_before.htm}-->
+					<h3 class="break-all">
+						<!--{hook thread_subject_start.htm}-->
+						<?php echo $thread['subject'];?>
+						<!--{hook thread_subject_end.htm}-->
+					</h3>
+					<!--{hook thread_subject_after.htm}-->
+					<dl class="row small">
+						<dt>
+							<!--{hook thread_username_before.htm}-->
+							<span class="username text-muted">
+								<a href="<?php echo url("user-$thread[uid]");?>"><?php echo $thread['username'];?></a>
+							</span>
+							<span class="text-grey hidden-md-down">『<?php echo $thread['user']['groupname'];?>』</span>
+							<span class="hidden-md-down" title="<?php echo $thread['user']['online_time_title'];?>"><?php echo $thread['user']['online_time_fmt'];?></span>
+							<span class="date text-grey m-l-1"><?php echo $thread['create_date_fmt'];?></span>
+							<span class="text-grey m-l-1 hidden-md-down"><i class="icon-eye" aria-hidden="true"></i> <?php echo $thread['views'];?></span>
+							<!--{hook thread_views_after.htm}-->
+						</dt>
+						<dd class="text-right">
+							<!--{hook thread_update_before.htm}-->
+							<?php if($allowupdate || $first['allowupdate']) { ?>
+							<a href="<?php echo url("post-update-$thread[firstpid]");?>" class="text-grey m-r-1 post_update"><i class="icon-edit" aria-hidden="true"></i> <?php echo lang('edit');?></a>
+							<?php } ?>
+							
+							<?php if($allowdelete || $first['allowdelete']) { ?>
+							<a data-href="<?php echo url("post-delete-$thread[firstpid]");?>" href="javascript:void(0);" class="text-grey post_delete" isfirst="1"><i class="icon-remove" aria-hidden="true"></i> <?php echo lang('delete');?></a>
+							<?php } ?>
+							<!--{hook thread_delete_after.htm}-->
+						</dd>
+					</dl>
+				</dd>
+			</dl>
+			<hr aria-hidden="true" />
+			<div class="message break-all" isfirst="1">
+			<?php if($page == 1) { ?>
+			
+				<!--{hook thread_message_before.htm}-->
+				<?php echo $first['message_fmt'];?>
+				<!--{hook thread_message_after.htm}-->
+				
+				<?php echo post_file_list_html($first['filelist']);?>
+				<!--{hook thread_filelist_after.htm}-->
+				
+			<?php } else { ?>
+			
+				<!--{hook thread_message_more_before.htm}-->
+				<p><a href="<?php echo url("thread-$tid");?>"><?php echo lang('view_thread_message');?></a></p>
+				<!--{hook thread_message_more_after.htm}-->
+				
+			<?php } ?>
+			</div>
+		</div>
+		
+		<!--{hook thread_postlist_before.htm}-->
+		<div class="card post p-a-sm">
+			<table class="table postlist m-b-0">
+				<thead>
+					<tr>
+						<th colspan="2" class="p-a-0  p-b-sm">
+							<dl class="row">
+								<dt>
+									<b><?php echo lang('new_post');?></b> (<span class="posts"><?php echo $thread['posts'];?></span>)
+								</dt>
+								<dd>
+									<!--{hook thread_post_list_title_right.htm}-->
+								</dd>
+							</dl>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+				
+					<?php include _include(APP_PATH.'view/htm/post_list.inc.htm'); ?>
+					
+					<?php if(!empty($user)) { ?>
+					<tr class="post">
+						<td class="td-avatar" aria-hidden="true">
+							<a href="<?php echo url("user-$thread[uid]");?>" aria-hidden="true" tabindex="-1">
+								<img class="avatar" src="<?php echo $user['avatar_url'];?>">
+							</a>
+						</td>
+						<td class="p-l-0">
+							<form action="<?php echo url("post-create-$tid-1");?>" method="post" id="quick_reply_form">	
+								<input type="hidden" name="doctype" value="1" />
+								<input type="hidden" name="return_html" value="1" />
+								<input type="hidden" name="quotepid" value="0" />
+								<dl class="row small text-muted">
+									<dt class="username"><?php echo $user['username'];?></dt>
+									<dd class="text-right text-grey"><span class="floor"><?php echo ($thread['posts'] + 1);?></span><?php echo lang('floor');?></dd>
+								</dl>
+								<div class="message m-t-xs">
+									<fieldset class="form-group m-b-0">
+										<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message"></textarea>
+									</fieldset>
+								</div>
+								<div class="text-muted  m-t-sm small">
+									<dl class="row">
+										<dt>
+											<!--{hook thread_quick_reply_left_start.htm}-->
+											<button type="submit" class="btn btn-sm btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('post_create');?> </button>
+											<!--{hook thread_quick_reply_left_end.htm}-->
+										</dt>
+										<dd class="text-right vtop">
+											<!--{hook thread_quick_reply_right_start.htm}-->
+											<a class="icon-mail-forward text-muted" href="<?php echo url("post-create-$tid");?>" id="advanced_reply"> 高级回复</a>
+											<!--{hook thread_quick_reply_right_end.htm}-->
+										</dd>
+									</dl>
+								</div>
+							</form>
+						</td>
+					</tr>
+					<?php } ?>
+				</tbody>
+			</table>
+		</div>
+		<!--{hook thread_postlist_after.htm}-->
+		
+		<?php if($pagination) { ?>
+		<nav class="text-center"><ul class="pagination m-y-xs"><?php echo $pagination; ?></ul></nav>
+		<?php }?>
+		
+		<!--{hook thread_page_after.htm}-->
+		
+		<a role="button" class="btn btn-secondary btn-block xn-back m-y-1 m-x-auto" style="max-width: 50%;" href="javascript:history.back();"><?php echo lang('back');?></a>
+		
+		<!--{hook thread_end.htm}-->
+		
+		</slot>
+</template>
+
+<script>
+var jform = $('#quick_reply_form');
+var jsubmit = $('#submit');
+jform.on('submit', function() {
+	jform.reset();
+	jsubmit.button('loading');
+	var postdata = jform.serialize();
+	$.xpost(jform.attr('action'), postdata, function(code, message) {
+		if(code == 0) {
+			var s = '<table>'+message+'</table>';
+			var jtr = $(s).find('tr');
+			jtr.insertBefore($('table.postlist tr').last());
+			jsubmit.button('reset');
+			$('#message').val('');
+			
+			// 楼层 +1
+			var jfloor = jform.find('.floor');
+			jfloor.html(xn.intval(jfloor.html()) + 1);
+			
+			// 回复数 +1
+			var jposts = $('.posts');
+			jposts.html(xn.intval(jposts.html()) + 1);
+			
+		} else if(code < 0) {
+			$.alert(message);
+			jsubmit.button('reset');
+		} else {
+			jform.find('[name="'+code+'"]').alert(message).focus();
+			jsubmit.button('reset');
+		}
+	});
+	return false;
+});
+
+
+// 缩放图片，适应屏幕大小。
+function resize_image() {
+	var jmessagelist = $('div.message');
+	var first_width = jmessagelist.width(); // 815 : 746; //  734 746
+	jmessagelist.each(function() {
+		var jdiv = $(this);
+		var maxwidth = jdiv.attr('isfirst') ? first_width : first_width - 79; //  734 746
+		var jmessage_width = Math.min(jdiv.width(), maxwidth);
+		jdiv.find('img, embed, iframe').each(function() {
+			var jimg = $(this);
+			//if(jimg.width() < 500) return;
+			var img_width = this.org_width;
+			var img_height = this.org_height;
+			if(!img_width) {
+				var img_width = jimg.width();
+				var img_height = jimg.height();
+				this.org_width = img_width;
+				this.org_height = img_height;
+			}
+			//var percent = xn.min(100, xn.ceil((img_width / jmessage_width) * 100));
+			if(img_width > jmessage_width) {
+				if(this.tagName == 'IMG') {
+					jimg.width(jmessage_width);
+					jimg.css('height', 'auto');
+				} else {
+					jimg.width(jmessage_width);
+					var height = (img_height / img_width) * jimg.width();
+					jimg.height(height);
+				}
+			}
+			
+		});
+	});
+}
+$(function() {
+	resize_image();
+	$(window).on('resize', resize_image);
+});
+
+// 输入框自动伸缩
+var jmessage = $('#message');
+jmessage.on('focus', function() {if(jmessage.t) { clearTimeout(jmessage.t); jmessage.t = null; } jmessage.css('height', '6rem'); });
+jmessage.on('blur', function() {jmessage.t = setTimeout(function() { jmessage.css('height', '2.5rem');}, 1000); });
+
+$('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');
+$('#nav_mobile li[fid="<?php echo $fid;?>"]').tab('show');
+
+</script>
+
+<?php if($thread['closed'] && ($gid == 0 || $gid > 5)) { ?>
+<script>
+jmessage.val('<?php echo lang('thread_has_already_closed');?>').attr('readonly', 'readonly');
+</script>
+<?php } ?>
+<!--{hook thread_js.htm}-->

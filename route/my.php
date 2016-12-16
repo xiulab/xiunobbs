@@ -95,6 +95,7 @@ if(empty($action)) {
 		$url = $conf['upload_url'].'avatar/'.$dir.$filename;
 		!is_dir($path) AND (mkdir($path, 0777, TRUE) OR message(-2, lang('directory_create_failed')));
 		
+		// hook my_avatar_post_save_before.php
 		file_put_contents($path.$filename, $data) OR message(-1, lang('write_to_file_failed'));
 		
 		user_update($uid, array('avatar'=>$time));

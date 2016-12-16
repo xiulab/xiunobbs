@@ -4,8 +4,6 @@
 
 // hook index_inc_start.php
 
-// 查找所有开启的插件，合并 hook file 内容
-
 $sid = sess_start();
 
 // 语言 / Language

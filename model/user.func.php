@@ -304,17 +304,17 @@ function user_token_get_do() {
 
 // 设置 token，防止 sid 过期后被删除
 function user_token_set($uid) {
-	global $time;
+	global $time, $conf;
 	if(empty($uid)) return;
 	$token = user_token_gen($uid);
-	setcookie('bbs_token', $token, $time + 8640000, '');
+	setcookie('bbs_token', $token, $time + 8640000, $conf['cookie_path']);
 	
 	// hook model_user_token_set_end.php
 }
 
 function user_token_clear() {
-	global $time;
-	setcookie('bbs_token', '', $time - 8640000, '');
+	global $time, $conf;
+	setcookie('bbs_token', '', $time - 8640000, $conf['cookie_path']);
 	
 	// hook model_user_token_clear_end.php
 }

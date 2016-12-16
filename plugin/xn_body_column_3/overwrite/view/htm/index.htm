@@ -1,0 +1,54 @@
+
+<template include="./plugin/xn_body_column_3/overwrite/view/htm/_column_3.htm">
+
+	<slot name="slot1">
+	
+		<?php include _include(APP_PATH.'plugin/xn_body_column_3/overwrite/view/htm/_forum_nav.inc.htm');?>
+		
+		<!-- 版块 -->
+		
+		<!--<p style="position: absolute; bottom: 1rem; text-align: center; width: 100%; opacity: 0.8">
+			<a  class="btn btn-secondary m-r-1" role="button" href="<?php echo url('user-login');?>">登陆</a>
+			<a class="btn btn-primary" role="button" href="<?php echo url('thread-create');?>">发新帖</a>
+		</p>-->
+		
+	</slot>
+	
+	<slot name="slot2">
+	
+		<!--{hook body_start.htm}-->
+		<div class="card">
+			<div class="card-header">
+				<ul class="nav nav-tabs card-header-tabs pull-xs-left">
+					<li class="nav-item">
+						<a class="nav-link <?php echo $active == 'default' ? 'active' : '';?>" href="./"><?php echo lang('new_thread');?></a>
+					</li>
+					<!--{hook index_thread_list_nav_item_after.htm}-->
+				</ul>
+			</div>
+			<div class="card-block">
+				<table class="table table-hover threadlist">
+					<tbody>
+						<!--{hook index_threadlist_before.htm}-->
+						<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
+						<!--{hook index_threadlist_after.htm}-->
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<?php include _include(APP_PATH.'view/htm/thread_list_mod.inc.htm');?>
+		<!--{hook index_page_before.htm}-->
+		<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>
+		<!--{hook index_page_end.htm}-->
+		
+		<!--{hook index_end.htm}-->
+		
+		<?php  echo xn_debug_info(); ?>
+		
+		<!--{hook index_js.htm}-->
+		
+	</slot>
+	
+</template>
+

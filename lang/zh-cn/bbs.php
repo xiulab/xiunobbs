@@ -164,7 +164,7 @@ return array(
 	'modify_avatar' => '修改头像',
 	'my_post' => '我的发帖',
 	'last_login_date' => '最后登录时间',
-	'my_join_thread' => '我参与的主题',
+	'my_join_thread' => '我的主题',
 	'repeat_password_incorrect' => '两次输入的密码不一致',
 	'old_password_incorrect' => '旧密码不正确',
 	'password_modify_failed' => '密码修改失败',

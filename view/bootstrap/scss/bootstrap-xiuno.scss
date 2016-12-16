@@ -128,3 +128,21 @@ nav.navbar .collapse, nav.navbar .collapse div.bg-inverse {
 .card-title {border-bottom: $card-border-width solid $card-border-color; padding-bottom: 0.5rem;}
 /*.card-block { font-size: 0.85rem;}*/
 h6 {font-weight: 800;}
+
+.arrow { width:15px; height: 15px;  overflow: hidden; }
+.arrow-box {
+	-webkit-transform: rotate(45deg);
+	transform: rotate(45deg);
+	width: 10px; height: 10px;
+	margin-left: 3px;
+	margin-top: 3px;
+	border: 1px solid #bbb;
+	background: #fff;
+	overflow: hidden;
+}
+.arrow-up { width:15px; height: 7px; }
+.arrow-down { width:15px; height: 7px; }
+.arrow-down > .arrow-box{ margin-top: -7px; }
+.arrow-left { width:7px; height: 15px; }
+.arrow-right {width:7px; height: 15px; }
+.arrow-right > .arrow-box{ margin-left: -7px; }

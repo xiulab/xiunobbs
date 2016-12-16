@@ -1739,6 +1739,7 @@ $.fn.xn_menu = function(jmenu, pos, option) {
 	if(!option.hidearrow) jmenu.xn_position(jmenu.jarrow, mpos, arr_offset_map[mpos]);
 	if(!option.hidearrow) jmenu.jarrow.toggle();
 	var menu_hide = function(e) {
+		if(jmenu.is(":hidden")) return;
 		jmenu.toggle();
 		if(!option.hidearrow) jmenu.jarrow.hide();
 		$('body').off('click', menu_hide);
@@ -1767,6 +1768,7 @@ $.fn.xn_toggle = function() {
 		var jthis = $(this);
 		var jtarget = $(jthis.data('target'));
 		var target_hide = function(e) {
+			if(jtarget.is(":hidden")) return;
 			jtarget.slideToggle('fast');
 			$('body').off('click', target_hide);
 		}

@@ -1,3 +1,20 @@
 <script>
 $('form').append('<input type="hidden" name="<?php echo setting_get('xn_anti_spam_key');?>" value="<?php echo setting_get('xn_anti_spam_key');?>" />');
+
+<?php $__rand = xn_rand(16);?>
+$('form').append('<input type="hidden" name="__anti_xss__" value="<?php echo $__rand;?>" />');
+$.cookie('__anti_xss__', '<?php echo $__rand;?>');
+
+// 重新定义 $.xpost()，追加 postdata
+$.xpost_old = $.xpost;
+$.xpost = function(url, postdata, callback, progress_callback) {
+	if(xn.is_object(postdata)) {
+		postdata['__anti_xss__'] = '<?php echo $__rand;?>';
+	} else if(xn.is_function(postdata)) {
+		callback = postdata;
+		postdata = {__anti_xss__: '<?php echo $__rand;?>'};
+	}
+	return $.xpost_old(url, postdata, callback, progress_callback);
+};
+
 </script>

@@ -18,7 +18,7 @@
 
 // 需要在命令行下运行。
 
-define('XN2_PATH', './old/');
+define('XN2_PATH', '../ceshi.1lou.com/');
 
 define('DEBUG', 1);
 
@@ -34,8 +34,12 @@ if(!$conf = include './conf/conf.php') {
 
 include './xiunophp/xiunophp.php';
 
-$oldconf['db']['pdo_mysql']['master']['tablepre'] = 'bbs_';
+$oldconf['db']['type'] = 'mysql';
 $oldconf['db']['mysql']['master']['tablepre'] = 'bbs_';
+$oldconf['db']['mysql']['user'] = 'ceshi2';
+$oldconf['db']['mysql']['password'] = 'ceshi2';
+$oldconf['db']['mysql']['name'] = 'ceshi2';
+
 $db = db_new($conf['db']);
 $olddb = db_new($oldconf['db']);
 
@@ -46,6 +50,7 @@ if($conf['db']['pdo_mysql']['master']['host'] == $oldconf['db']['pdo_mysql']['ma
 	exit('不能在同一个数据库里升级，否则数据会被清空！请将新论坛安装到其他数据库。');
 }
 
+/*
 echo "upgrade group:\r\n";
 $grouplist = $olddb->sql_find("SELECT * FROM {$tablepre}group");
 $db->exec("TRUNCATE `{$tablepre}group`");
@@ -75,12 +80,13 @@ foreach ($grouplist as $group) {
 }
 echo "[ok]\r\n";
 unset($grouplist);
-
+*/
 
 echo "upgrade user:\r\n";
-$userlist = $olddb->sql_find("SELECT * FROM {$tablepre}user");
+$userlist = $olddb->sql_find("SELECT uid FROM {$tablepre}user");
 $db->exec("TRUNCATE {$tablepre}user");
 foreach ($userlist as $user) {
+	$user = $olddb->sql_find_one("SELECT * FROM {$tablepre}user WHERE uid='$user[uid]'");
 	$user['groupid'] > 10 && $user['groupid'] += 90;
 	$arr = array(
 		'uid'=>$user['uid'],
@@ -92,19 +98,32 @@ foreach ($userlist as $user) {
 		'threads'=>$user['threads'],
 		'posts'=>$user['posts'],
 		'credits'=>$user['credits'],
-		'create_ip'=>$user['create_ip'],
-		'create_date'=>$user['create_date'],
+		'create_ip'=>$user['regip'],
+		'create_date'=>$user['regdate'],
 		'avatar'=>$user['avatar'],
 	);
 	$sqladd = db_array_to_insert_sqladd($arr);
 	$r = $db->exec("INSERT INTO bbs_user $sqladd");
 	if($r === FALSE) echo($db->errstr);
 	
-	echo ".";
+	// 拷贝头像
+	if($user['avatar']) {
+		$uid = $user['uid'];
+		$dir = xn_set_dir($uid,  './upload/avatar/');
+		
+		$oldpath = XN2_PATH.'upload/avatar/'.$dir.'/'.$uid."_huge.gif";
+		$newpath = './upload/avatar/'.$dir.'/'.$uid.".png";
+		
+		!is_file($newpath) && copy($oldpath, $newpath);
+	}
+	echo $user['uid'] % 100 == 0 ? "." : '';
 }
 echo "[ok]\r\n";
 unset($userlist);
 
+exit;
+
+/*
 echo "upgrade qq login:\r\n";
 
 $tablepre = $db->tablepre;
@@ -168,6 +187,7 @@ echo "upgrade forum_access:\r\n";
 $accesslist = $olddb->sql_find("SELECT * FROM {$tablepre}forum_access");
 $db->exec("TRUNCATE `{$tablepre}forum_access`");
 foreach ($accesslist as $access) {
+	$access['groupid'] > 10 && $access['groupid'] += 90;
 	$arr = array(
 		'fid'=>$access['fid'],
 		'gid'=>$access['groupid'],
@@ -185,11 +205,14 @@ foreach ($accesslist as $access) {
 echo "[ok]\r\n";
 unset($accesslist);
 
+$i = 0;
+
 echo "upgrade thread:\r\n";
-$threadlist = $olddb->sql_find("SELECT * FROM {$tablepre}thread");
+$threadlist = $olddb->sql_find("SELECT tid FROM {$tablepre}thread");
 $db->exec("TRUNCATE `{$tablepre}thread`");
 $db->exec("TRUNCATE `{$tablepre}thread_top`");
 foreach ($threadlist as $thread) {
+	$thread = $olddb->sql_find_one("SELECT * FROM {$tablepre}thread WHERE tid='$thread[tid]'");
 	$arr = array(
 		'fid'=>$thread['fid'],
 		'tid'=>$thread['tid'],
@@ -218,16 +241,19 @@ foreach ($threadlist as $thread) {
 	
 	$db->exec("INSERT INTO {$tablepre}mythread SET uid='$thread[uid]',tid='$thread[tid]'");
 	
-	echo ".";
+	if($i++ > 10) { echo  "."; $i = 0; }
 }
 echo "[ok]\r\n";
 unset($threadlist);
 
+*/
+/*
 echo "upgrade post:\r\n";
-$postlist = $olddb->sql_find("SELECT * FROM {$tablepre}post");
+$postlist = $olddb->sql_find("SELECT pid FROM {$tablepre}post");
 $db->exec("TRUNCATE `{$tablepre}post`");
-$i = 0;
 foreach ($postlist as $post) {
+	$post = $olddb->sql_find_one("SELECT * FROM {$tablepre}post WHERE pid='$post[pid]'");
+	$thread = $olddb->sql_find_one("SELECT * FROM {$tablepre}thread WHERE tid='$post[tid]'");
 	if(strlen($post['message']) > 1024000) continue;
 	$arr = array(
 		'tid'=>$post['tid'],
@@ -244,15 +270,16 @@ foreach ($postlist as $post) {
 	$sqladd = db_array_to_insert_sqladd($arr);
 	$r = $db->exec("INSERT INTO {$tablepre}post $sqladd");
 	if($r === FALSE) echo($db->errstr);
-	if($i++ > 10) { echo  "."; $i = 0; }
+	if($i++ > 10) { echo  " . ".memory_get_usage().' '; $i = 0; }
 }
 echo "[ok]\r\n";
 unset($postlist);
 
 echo "upgrade attach:\r\n";
-$attachlist = $olddb->sql_find("SELECT * FROM {$tablepre}attach");
+$attachlist = $olddb->sql_find("SELECT aid FROM {$tablepre}attach");
 $db->exec("TRUNCATE `{$tablepre}attach`");
 foreach ($attachlist as $attach) {
+	$attach = $olddb->sql_find_one("SELECT * FROM {$tablepre}attach WHERE aid='$attach[aid]'");
 	$arr = array(
 		'aid'=>$attach['aid'],
 		'tid'=>$attach['tid'],
@@ -274,7 +301,7 @@ foreach ($attachlist as $attach) {
 	$sqladd = db_array_to_insert_sqladd($arr);
 	$r = $db->exec("INSERT INTO {$tablepre}attach $sqladd");
 	if($r === FALSE) echo($db->errstr);
-	echo ".";
+	if($i++ > 10) { echo  "."; $i = 0; }
 }
 echo "[ok]\r\n";
 unset($attachlist);
@@ -336,7 +363,7 @@ if($linklist) {
 }
 echo "[ok]\r\n";
 unset($linklist);
-
+*/
 
 // 主题分类
 
@@ -355,6 +382,9 @@ foreach($thread_type_map as $cateid=>$arr) {
 }
 
 $tablepre = $db->tablepre;
+db_exec("TRUNCATE {$tablepre}tag_cate");
+db_exec("TRUNCATE {$tablepre}tag");
+db_exec("TRUNCATE {$tablepre}tag_thread");
 $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}tag_cate (
 	cateid int(11) unsigned NOT NULL AUTO_INCREMENT,
 	fid int(11) unsigned NOT NULL DEFAULT '0',		# 属于哪个版块
@@ -399,26 +429,28 @@ if($tagcatelist) {
 			'enable'=>$tagcate['enable'],
 		);
 		$sqladd = db_array_to_insert_sqladd($arr);
-		$r = $db->exec("INSERT INTO tag_cate $sqladd");
+		$r = $db->exec("INSERT INTO {$tablepre}tag_cate $sqladd");
 		echo ".";
 	}
 }
 echo "[ok]\r\n";
 unset($tagcatelist);
 
-$taglist = $olddb->sql_find("SELECT * FROM {$tablepre}tag ORDER BY fid ASC, typeid ASC");
+$taglist = $olddb->sql_find("SELECT * FROM {$tablepre}thread_type ORDER BY fid ASC, typeid ASC");
 if($taglist) {
 	foreach ($taglist as $tag) {
 		$tagid_map["$tag[fid]-$tag[typeid]"] = ++$maxtagid;
+		$tagcateid = $thread_type_map3[$tag['typeid']]; // typeid 根据范围自动隐射到 cateid
+		$cateid = $cateid_map["$tag[fid]-$tagcateid"];	// 找到隐射的自增的 cateid
 		$arr = array(
-			'fid'=>$tag['fid'],
+			'cateid'=>$cateid,
 			'tagid'=>$maxtagid,
 			'name'=>$tag['typename'],
 			'rank'=>$tag['rank'],
 			'enable'=>$tag['enable'],
 		);
 		$sqladd = db_array_to_insert_sqladd($arr);
-		$r = $db->exec("INSERT INTO tag_cate $sqladd");
+		$r = $db->exec("INSERT INTO {$tablepre}tag $sqladd");
 		echo ".";
 	}
 }
@@ -441,7 +473,7 @@ if($tagdatalist) {
 			'tid'=>$tagdata['tid'],
 		);
 		$sqladd = db_array_to_insert_sqladd($arr);
-		$r = $db->exec("INSERT INTO tag_thread $sqladd");
+		$r = $db->exec("INSERT INTO {$tablepre}tag_thread $sqladd");
 		echo ".";
 	}
 }
@@ -450,6 +482,7 @@ unset($tagdatalist);
 
 
 # 精华主题
+db_exec("TRUNCATE {$tablepre}thread_digest");
 $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}thread_digest (
   fid smallint(6) NOT NULL default '0',			# 版块id
   tid int(11) unsigned NOT NULL default '0',		# 主题id
@@ -495,12 +528,16 @@ file_replace_var('./conf/conf.php', array('sitebrief'=>$sitebrief));
 */
 
 // 递归拷贝目录
-copy_recusive(XN2_PATH.'upload/avatar', "./upload/avatar");
-copy_recusive(XN2_PATH.'upload/forum', "./upload/forum");
-copy_recusive(XN2_PATH.'upload/attach', "./upload/attach");
+//copy_recusive(XN2_PATH.'upload/avatar', "./upload/avatar");
+//copy_recusive(XN2_PATH.'upload/forum', "./upload/forum");
+//copy_recusive(XN2_PATH.'upload/attach', "./upload/attach");
 
 mkdir('./upload/tmp', 0777);
 
 echo '<a href="../">升级完成，请手工移动 old/upload/ 目录下所有文件到 upload/ 目录下，点击进入论坛。</a>';
+
+// tag 缓存的时间
+include './model/kv.func.php';
+setting_set('tag_update_time', $time);
 
 ?>

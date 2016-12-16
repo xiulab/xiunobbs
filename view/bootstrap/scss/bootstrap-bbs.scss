@@ -66,8 +66,8 @@ dl.row > dt.td-avatar, .table .td-avatar { width: 3.0rem; padding: 0.4rem;}
 }
 
 /* 自定义更多 */
-.dropdown-toggle::after {width: 22px; height: 16px; background: url(../img/more.png); opacity: 0.5; border: 0; }
-.dropdown-toggle:hover::after {opacity: 1;  }
+.more.dropdown-toggle::after {width: 22px; height: 16px; background: url(../img/more.png); opacity: 0.5; border: 0; }
+.more.dropdown-toggle:hover::after {opacity: 1;  }
 .breadcrumb {background-color: $card-bg; border: 1px solid $card-border-color; font-size: 95%; padding: 0.5rem 1rem;}
 .logo-xs {width: 1.3rem; height: 1.3rem; }
 .logo-sm {width: 1.8rem; height: 1.8rem; }
@@ -149,11 +149,7 @@ dl.row > dt.td-avatar, .table .td-avatar { width: 3.0rem; padding: 0.4rem;}
 .page a:hover, .page a.active{color: #E9E9E9;  background: #000;}
 */
 
-table.nav_tag_list {margin-bottom: 0.2rem;}
-table.nav_tag_list td {padding: 0.1rem;}
-table.nav_tag_list td a{margin-right: 0.5rem;}
-.nav_tag_list .active {font-weight: 800;}
-.message p {margin: 0.2rem 0;}
+.message p {margin: 0.2rem 0; line-height: 1.7;}
 
 @keyframes quote_animation{
 	from {background-color: $brand-success;}

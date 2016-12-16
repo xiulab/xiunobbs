@@ -110,7 +110,7 @@ if(empty($action) || $action == 'list') {
 				$access['name'] = $grouplist[$access['gid']]['name']; // 字段名相同，直接覆盖。 / same field, directly overwrite
 			}
 		}
-		array_htmlspecialchars($forum);
+		array_htmlspecialchars($_forum);
 		
 		$input = array();
 		$input['name'] = form_text('name', $_forum['name']);
@@ -121,6 +121,8 @@ if(empty($action) || $action == 'list') {
 		$input['moduids'] = form_text('moduids', $_forum['moduids']);
 		
 		// hook admin_forum_update_get_end.php
+		
+		//print_r($_forum);exit;
 		
 		include _include(ADMIN_PATH."view/htm/forum_update.htm");
 	

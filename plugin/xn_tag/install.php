@@ -48,6 +48,9 @@ $r = db_exec($sql);
 $sql = "ALTER TABLE {$tablepre}thread ADD COLUMN tagids_time int(11) unsigned NOT NULL DEFAULT '0'";
 $r = db_exec($sql);
 
+// tag 缓存的时间
+setting_set('tag_update_time', $time);
+
 
 //$r === FALSE AND message(-1, '创建表结构失败');
 

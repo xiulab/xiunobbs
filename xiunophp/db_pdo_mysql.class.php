@@ -58,7 +58,7 @@ class db_pdo_mysql {
 		try {
 			$attr = array(
 				PDO::ATTR_TIMEOUT => 5,
-				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+				//PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 			);
 			$link = new PDO("mysql:host=$host;port=$port;dbname=$name", $user, $password, $attr);
 			//$link->setAttribute(PDO::ATTR_TIMEOUT, 5);
@@ -260,6 +260,12 @@ class db_pdo_mysql {
 		return isset($arrlist2['InnoDB']) AND $arrlist2['InnoDB'] == 'YES';
 	}
 
+	
+	public function close() {
+		$this->wlink = NULL;
+		$this->rlink = NULL;
+		return TRUE;
+	}
 	
 	public function __destruct() {
 		if($this->wlink) $this->wlink = NULL;

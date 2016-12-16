@@ -13,7 +13,7 @@ function tag_cate_add(tagcate) {
 	tagcate.enable = tagcate.enable || 1;
 	tagcate.cateid = tagcate.cateid || ++tag_cate_maxid;
 	var s = jtag_cate_tpl.html();
-	if($('#tag_html').find('table').length > 8) {
+	if($('#tag_html').children('table').length > 8) {
 		return false;
 	}
 	s = xn.template(s, {
@@ -78,6 +78,7 @@ if(xn.empty(tagcatelist)) {
 	$.each(tagcatelist, function(k, tagcate) {
 		var cateid = tagcate.cateid;
 		var jpnode = tag_cate_add(tagcate);
+		if(!jpnode) return;
 		var jpnode_children = jpnode.find('.children');
 		$.each(tagcate.taglist, function(k, tag) {
 			var tagid = tag.tagid;

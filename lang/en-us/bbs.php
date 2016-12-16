@@ -165,7 +165,7 @@ return array(
 	'modify_avatar' => 'Modify Avatar',
 	'my_post' => 'My Post',
 	'last_login_date' => 'Last Login Date',
-	'my_join_thread' => 'My join thread',
+	'my_join_thread' => 'My Thread',
 	'repeat_password_incorrect' => 'Repeat new password is not consistent',
 	'old_password_incorrect' => 'Old password incorrect',
 	'password_modify_failed' => 'Password modification failed',

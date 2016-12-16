@@ -163,7 +163,7 @@ return array(
 	'modify_avatar' => '修改頭像',
 	'my_post' => '我的發帖',
 	'last_login_date' => '最後登錄時間',
-	'my_join_thread' => '我參與的主題',
+	'my_join_thread' => '我的主題',
 	'repeat_password_incorrect' => '兩次輸入的密碼不壹致',
 	'old_password_incorrect' => '舊密碼不正確',
 	'password_modify_failed' => '密碼修改失敗',

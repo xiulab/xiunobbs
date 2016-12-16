@@ -1,5 +1,9 @@
 		<?php
 			$_threadlist = mythread_find_by_uid($thread['uid'], 1, 10);
+						
+			// 过滤没有权限访问的主题 / filter no permission thread
+			thread_list_access_filter($_threadlist, $gid);
+
 		?>
 		<div class="card">
 			<div class="card-block">

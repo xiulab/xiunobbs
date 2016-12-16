@@ -7,6 +7,7 @@ ul > li {list-style: none;}
 <!--{hook admin_forum_list_start.htm}-->
 
 <script type="text/x-template" id="tpl_forum">
+
 <table width="100%">
 	<tr>
 		<td width="30">
@@ -27,9 +28,11 @@ ul > li {list-style: none;}
 		<td width="100">
 			<a href="javascript:void(0);" @click="new_forum(forum.fid)" v-if="level != 3" class="m-l-sm"><i class="icon-plus"></i></a>
 			<a href="javascript:void(0);" @click="delete_forum(forum.fid)" class="m-l-sm"><i class="icon-remove text-danger"></i></a>
+			<a :href="forum_edit_link(forum.fid)" class="m-l-sm"><i class="icon-gear"></i></a>
 		</td>
 	</tr>
 </table>
+
 </script>
 
 <form id="form">
@@ -61,10 +64,15 @@ ul > li {list-style: none;}
 
 <script src="../view/js/vue.js"></script>
 <script>
+
+var forumlist = <?php echo xn_json_encode($forumlist_show);?>;
+var forumarr = <?php echo xn_json_encode($forumarr);?>;
+
 //var forumobj = forumlist;
 
 var jform = $("#form");
 var jsubmit = $("#submit");
+
 jform.base64_encode_file();
 
 var forumlist = Object.values(forumlist);
@@ -105,6 +113,9 @@ Vue.component('comp-forum', {
 	  		//app.forumlist.push();
 	  		//app.forumlist.pop();
 	  		app.forumlist = xn.array_filter(app.forumlist);
+	  	},
+	  	forum_edit_link: function(fid) {
+	  		return xn.url("forum-update-"+fid);
 	  	}
   	}
 });
@@ -140,7 +151,19 @@ app = new Vue({
 			}
 			return sublist;
 		}
+	},
+	updated: function() {
+		//alert('updated');
+		//alert($('#forumlist').html());
+	},
+	mounted: function() {
+		//jform.on('click', function() {alert('form clicked')});
+		//alert('mounted');
+		
+		//$('#forumlist').on('click', function() {alert('fxxx');});
+		
 	}
+	
 });
 
 jform.on('submit', function() {
@@ -155,12 +178,18 @@ jform.on('submit', function() {
 	}
 	$.xpost(xn.url('forum-list'), postdata, function(code, message) {
 		if(code == 0) {
+			alert(message);
 			jsubmit.button(message).delay(3000).button('reset');
 		} else {
 			alert(message);
 		}
 	});
 	return false;
+});
+
+
+$('body').on('click', 'table', function(e) {
+	//alert(123);
 });
 
  </script>

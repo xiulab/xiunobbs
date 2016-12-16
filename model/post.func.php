@@ -291,6 +291,8 @@ function post_format(&$post) {
 	} else {
 		$post['filelist'] = array();
 	}
+
+	$post['classname'] = 'post';
 	
 	// hook model_post_format_end.php
 }

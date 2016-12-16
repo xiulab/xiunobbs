@@ -1,8 +1,15 @@
 
+<style>
+table.nav_tag_list {margin-bottom: 0.2rem;}
+table.nav_tag_list td {padding: 0.3rem;}
+table.nav_tag_list td a{margin-right: 0.5rem;}
+.nav_tag_list .active {font-weight: 800;}
+</style>
+
 		<table class="small nav_tag_list">
 		<?php if(!empty($forum['tagcatelist'])) {foreach($forum['tagcatelist'] as $i=>$tagcate) { ?>
 			<tr>
-				<td class="text-small text-muted" align="right">
+				<td class="text-small text-muted text-nowrap" align="right" valign="top">
 					<?php echo $tagcate['name'];?>：
 				</td>
 				<td>
@@ -24,7 +31,7 @@
 								break;
 						}
 					?>
-					<a href="<?php echo url("forum-$fid-$page-$tagidadd");?>" <?php echo $tagactive;?>><?php echo lang('all');?></a>
+					<a href="<?php echo url("forum-$fid-1-$tagidadd");?>" <?php echo $tagactive;?>><?php echo lang('all');?></a>
 					<?php foreach($tagcate['taglist'] as $tag) { ?>
 					<?php 
 						
@@ -44,7 +51,7 @@
 								break;
 						}
 					?>
-					<a href="<?php echo url("forum-$fid-$page-$tagidadd");?>" <?php echo $tagactive;?>><?php echo $tag['name'];?></a>
+					<a href="<?php echo url("forum-$fid-1-$tagidadd");?>" <?php echo $tagactive;?>><?php echo $tag['name'];?></a>
 					<?php } ?>
 				</td>
 			</tr>

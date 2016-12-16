@@ -206,6 +206,8 @@ if($action == 'create') {
 	!$allowdelete AND !$post['allowdelete'] AND message(-1, lang('insufficient_delete_privilege'));
 	!$allowdelete AND $thread['closed'] AND message(-1, lang('thread_has_already_closed'));
 	
+	// hook post_delete_middle.php
+
 	if($isfirst) {
 		thread_delete($tid);
 	} else {

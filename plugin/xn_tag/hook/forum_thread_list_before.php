@@ -33,31 +33,33 @@ if($tagids) {
 	
 	$tidlist = array();
 	$tablepre = $db->tablepre;
+	$start = ($page - 1) * $pagesize;
+	$limit = $pagesize;
 	if($n == 1) {
 		// 查找 tagid 属于哪个 cateid
 		$count_sql = "SELECT COUNT(tid) AS num FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[0]'";
-		$find_sql = "SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[0]'";
+		$find_sql = "SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[0]' ORDER BY tid DESC LIMIT $start, $limit";
 	} elseif($n == 2) {
 		$count_sql = "SELECT COUNT(tid) num FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[0]' AND tid IN(
 			SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[1]')";
 		$find_sql = "SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[0]' AND tid IN(
-			SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[1]')";
+			SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[1]') ORDER BY tid DESC LIMIT $start, $limit";
 	} elseif($n == 3) {
 		$count_sql = "SELECT COUNT(tid) num FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[0]' AND tid IN(
 			SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[1]' AND tid IN(
 				SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[2]'))";
 		$find_sql = "SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[0]' AND tid IN(
 			SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[1]' AND tid IN(
-				SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[2]'))";
+				SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[2]'))  ORDER BY tid DESC LIMIT $start, $limit<b></b>";
 	} elseif($n == 4) {
 		$count_sql = "SELECT COUNT(tid) num FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[0]' AND tid IN(
 			SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[1]' AND tid IN(
 				SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[2]' AND tid IN(
-					SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[3]')))";
+					SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[3]')))  ORDER BY tid DESC LIMIT $start, $limit";
 		$find_sql = "SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[0]' AND tid IN(
 			SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[1]' AND tid IN(
 				SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[2]' AND tid IN(
-					SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[3]')))";
+					SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[3]')))  ORDER BY tid DESC LIMIT $start, $limit";
 	} else {
 		$thread_list_from_default = 1;
 	}

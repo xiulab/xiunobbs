@@ -1,10 +1,13 @@
 <?php
 
-// 安全的加密 key，过期时间 100 秒。
+// 安全的加密 key，过期时间 100 秒，如果最后 2 位 大于 90，则
 function xn_safe_key() {
 	global $conf, $longip, $time, $useragent;
 	!isset($conf['auth_key']) AND $conf['auth_key'] = md5($useragent);
-	$key = md5($conf['auth_key'].$useragent.substr($time, 0, -2));
+	$behind = intval(substr($time, -2, 2));
+	$t = $behind > 80 ? $time - 20 : ($behind < 20 ? $time - 40 : $time); // 修正范围，防止进位
+	$front = substr($t, 0, -2);
+	$key = md5($conf['auth_key'].$useragent.$front);
 	return $key;
 }
 
@@ -12,7 +15,6 @@ function xn_encrypt($txt, $key = '') {
 	empty($key) AND $key = xn_safe_key();
 	return xn_urlencode(base64_encode(xxtea_encrypt($txt, $key)));
 }
-
 
 function xn_decrypt($txt, $key = '') {
 	empty($key) AND $key = xn_safe_key();

@@ -23,6 +23,8 @@ function cache_get($k, $c = NULL) {
 	$c = $c ? $c : $cache;
 	if(!$c) return FALSE;
 	
+	strlen($k) > 32 AND $k = md5($k);
+	
 	$k = $c->cachepre.$k;
 	$r = $c->get($k);
 	return $r;
@@ -33,6 +35,8 @@ function cache_set($k, $v, $life = 0, $c = NULL) {
 	$c = $c ? $c : $cache;
 	if(!$c) return FALSE;
 	
+	strlen($k) > 32 AND $k = md5($k);
+	
 	$k = $c->cachepre.$k;
 	$r = $c->set($k, $v, $life);
 	return $r;
@@ -42,6 +46,8 @@ function cache_delete($k, $c = NULL) {
 	global $cache;
 	$c = $c ? $c : $cache;
 	if(!$c) return FALSE;
+	
+	strlen($k) > 32 AND $k = md5($k);
 	
 	$k = $c->cachepre.$k;
 	$r = $c->delete($k);

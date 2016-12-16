@@ -8,7 +8,7 @@
 /*! normalize.css v4.0.0 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: sans-serif;
-  -ms-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;f
   -webkit-text-size-adjust: 100%;
 }
 
@@ -10015,6 +10015,7 @@ table.nav_tag_list td a {
 
 .message p {
   margin: 0.2rem 0;
+  line-height: 1.7;
 }
 
 @keyframes quote_animation {
