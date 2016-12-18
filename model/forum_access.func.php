@@ -130,11 +130,12 @@ function forum_access_user($fid, $gid, $access) {
 	$group = $grouplist[$gid];
 	$forum = $forumlist[$fid];
 	if($forum['accesson']) {
-		return !empty($group[$access]) && !empty($forum['accesslist'][$gid][$access]);
+		$r = !empty($group[$access]) && !empty($forum['accesslist'][$gid][$access]);
 	} else {
-		return !empty($group[$access]);
+		$r = !empty($group[$access]);
 	}
 	// hook model_forum_access_user_end.php
+	return $r;
 }
 
 // 板块斑竹权限判断: allowtop, allowmove, allowupdate, allowdelete, allowbanuser, allowviewip, allowdeleteuser
