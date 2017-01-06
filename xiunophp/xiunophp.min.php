@@ -97,4 +97,7 @@ $cache = !empty($conf['cache']) ? cache_new($conf['cache']) : NULL;
 unset($conf['cache']['mysql']['db']); // 用完清除，防止保存到配置文件
 !$cache AND $errno AND xn_message(-1, $errstr);
 
+// 对 key 进行安全保护
+!empty($conf) && function_exists('xn_key') && $conf['auth_key'] = xn_key();
+
 ?>
