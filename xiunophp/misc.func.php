@@ -167,19 +167,20 @@ function xn_txt_to_html($s) {
 }
 
 function xn_urlencode($s) {
-	$s = str_replace('-', '_2d', $s);
-	$s = str_replace('.', '_2e', $s);
-	$s = str_replace('+', '_2b', $s);
-	$s = str_replace('=', '_3d', $s);
-	$s = urlencode($s);
-	$s = str_replace('%', '_', $s);
-	return $s;
+    $s = urlencode($s);
+    $s = str_replace('_', '_5f', $s);
+    $s = str_replace('-', '_2d', $s);
+    $s = str_replace('.', '_2e', $s);
+    $s = str_replace('+', '_20', $s);
+    $s = str_replace('=', '_3d', $s);
+    $s = str_replace('%', '_', $s);
+    return $s; 
 }
 
 function xn_urldecode($s) {
-	$s = str_replace('_', '%', $s);
-	$s = urldecode($s);
-	return $s;
+    $s = str_replace('_', '%', $s);
+    $s = urldecode($s);
+    return $s; 
 }
 
 function xn_json_encode($data, $pretty = FALSE, $level = 0) {
@@ -229,6 +230,8 @@ function xn_json_encode($data, $pretty = FALSE, $level = 0) {
 }
 
 function xn_json_decode($json) {
+	$json = trim($json, "\xEF\xBB\xBF");
+	$json = trim($json, "\xFE\xFF");
 	return json_decode($json, 1);
 }
 
@@ -1327,6 +1330,26 @@ function str_push($str, $v, $sep = '_') {
 		return $str.$sep.$v;
 	}
 	return $str;
+}
+
+function y2f($rmb) {
+        $rmb = floor($rmb * 10 * 10);		
+        return $rmb;
+}
+
+// $round: float round ceil floor
+function f2y($rmb, $round = 'float') {
+        $rmb = floor($rmb * 100) / 10000;
+        if($round == 'float') {
+                $rmb = number_format($rmb, 2, '.', '');
+        } elseif($round == 'round') {
+                $rmb = round($rmb);
+        } elseif ($round == 'ceil') {
+                $rmb = ceil($rmb);
+        } elseif ($round == 'floor') {
+                $rmb = floor($rmb);
+        }
+        return $rmb;
 }
 
 /* 需要兼容，请自行打开开这段注释，默认不兼容
