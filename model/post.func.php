@@ -341,7 +341,7 @@ function post_quote($quotepid) {
 	$userhref = url("user-$uid");
 	$user = user_read_cache($uid);
 	$r = '<blockquote class="blockquote">
-		<a href="'.$userhref.'" aria-hidden="true" tabindex="-1" class="text-small text-muted user">
+		<a href="'.$userhref.'" class="text-small text-muted user">
 			<img class="avatar-xs" src="'.$user['avatar_url'].'">
 			'.$user['username'].'
 		</a>
