@@ -214,8 +214,9 @@ function thread_find($cond = array(), $orderby = array(), $page = 1, $pagesize =
 // $order: tid/lastpid
 // 按照: 发帖时间/最后回复时间 倒序
 function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'tid') {
-	global $conf, $forumlist;
+	global $conf, $forumlist, $runtime;
 	$forum = $fid ? $forumlist[$fid] : array();
+	$threads = empty($forum) ? $runtime['threads'] : $forum['threads'];
 	
 	// hook model_thread_find_by_fid_start.php
 	
@@ -225,13 +226,13 @@ function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'tid') {
 	$desc = TRUE;
 	$limitpage = 50000; // 如果需要防止 CC 攻击，可以调整为 5000
 	if($page > 100) {
-		$totalpage = ceil($forum['threads'] / $pagesize);
+		$totalpage = ceil($threads / $pagesize);
 		$halfpage = ceil($totalpage / 2);
-		if($halfpage > $limitpage && $page > $limitpage && $page < ($totalpage - $limitpage)) {
+		if($halfpage > $limitpage && $page < ($totalpage - $limitpage)) {
 			$page = $limitpage;
 		}
 		if($page > $halfpage) {
-			$page = max(1, $totalpage - $page);
+			$page = max(1, $totalpage - $page + 1) ;
 			$threadlist = thread_find($cond, array($order=>1), $page, $pagesize);
 			$threadlist = array_reverse($threadlist, TRUE);
 			$desc = FALSE;
