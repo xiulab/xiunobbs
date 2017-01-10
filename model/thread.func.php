@@ -286,7 +286,7 @@ function thread_format(&$thread) {
 	$thread['user_avatar_url'] = $user['avatar_url'];
 	$thread['user'] = $user;
 	
-	$forum = $forumlist[$thread['fid']];
+	$forum = isset($forumlist[$thread['fid']]) ? $forumlist[$thread['fid']] : array('name'=>'');
 	$thread['forumname'] = $forum['name'];
 	
 	if($thread['last_date'] == $thread['create_date']) {

@@ -399,6 +399,15 @@ function plugin_find_overwrite($srcfile) {
 	$plugin_paths = plugin_paths_enabled();
 	
 	$len = strlen(APP_PATH);
+	/*
+	// 如果发现插件目录，则尝试去掉插件目录前缀，避免新建的 overwrite 目录过深。
+	if(strpos($srcfile, '/plugin/') !== FALSE) {
+		preg_match('#'.preg_quote(APP_PATH).'plugin/\w+/#i', $srcfile, $m);
+		if(!empty($m[0])) {
+			$len = strlen($m[0]);
+		}
+	}*/
+	
 	$returnfile = $srcfile;
 	$maxrank = 0;
 	foreach($plugin_paths as $path=>$pconf) {

@@ -12,6 +12,7 @@ if($action == 'login') {
 
 	// hook user_login_get_post.php
 	
+	
 	if($method == 'GET') {
 
 		// hook user_login_get_start.php
@@ -52,7 +53,7 @@ if($action == 'login') {
 		
 		$_SESSION['uid'] = $uid;
 		
-		user_token_set($user['uid'], $user['gid'], $user['password'], $user['avatar'], $user['username'], $user['email'], APP_NAME, 86400);
+		user_token_set($user['uid']);
 		
 		// hook user_login_post_end.php
 		

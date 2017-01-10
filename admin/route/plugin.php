@@ -224,9 +224,13 @@ if($action == 'local') {
 	// copy end
 	
 	
-	
 	// 安装插件
 	plugin_install($dir);
+
+	$upgradefile = APP_PATH."plugin/$dir/upgrade.php";
+	if(is_file($upgradefile)) {
+		include $upgradefile;
+	}
 	
 	plugin_lock_end();
 	
