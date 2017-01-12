@@ -4,8 +4,6 @@
 * Copyright (C) 2015 xiuno.com
 */
 
-db_update('user', array('uid'=>2), array('username'=>'1234567890123456789012345678901\\\''));
-
 !defined('DEBUG') AND exit('Access Denied.');
 
 // hook index_start.php
