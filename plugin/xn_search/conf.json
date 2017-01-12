@@ -3,8 +3,8 @@
 	"brief":"通过 HTTP 分词服务进行中文分词，结果存入到数据库，通过 FULLTEXT 索引实现全文搜索。",
 	"version":"1.15",
 	"bbs_version":"4.0",
-	"installed":1,
-	"enable":1,
+	"installed":0,
+	"enable":0,
 	"hooks_rank":{
 		"index_site_brief_after.htm":10
 	},
