@@ -57,7 +57,9 @@ return array(
 	'create_date'=>'注册时间',
 	'tips'=>'註',
 	'keyword'=>'關鍵詞',
-	
+	'last_page'=>'上壹頁',
+	'next_page'=>'下壹頁',
+
 	'month_ago'=>'月前',
 	'day_ago'=>'天前',
 	'hour_ago'=>'小時前',

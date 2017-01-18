@@ -57,7 +57,9 @@ return array(
 	'create_date'=>'Create Date',
 	'tips'=>'Tips',
 	'keyword'=>'Keyword',
-	
+	'last_page'=>'Last Page',
+	'next_page'=>'Next Page',
+
 	'month_ago'=>' Months+',
 	'day_ago'=>' Days+',
 	'hour_ago'=>' Hours+',

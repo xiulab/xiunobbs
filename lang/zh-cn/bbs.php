@@ -57,6 +57,8 @@ return array(
 	'create_date'=>'创建时间',
 	'tips'=>'注',
 	'keyword'=>'关键词',
+	'last_page'=>'上一页',
+	'next_page'=>'下一页',
 	
 	'month_ago'=>'月前',
 	'day_ago'=>'天前',
