@@ -1,0 +1,116 @@
+
+<style>
+#pm_dialog .modal-dialog { max-width: 726px;}
+#pm_dialog .modal-body > dl { height: 100%;}
+#pm_dialog .modal-body > dl > dt { padding: 8px; background: #eee; width: 150px;}
+#pm_dialog .modal-body > dl > dd { padding: 8px; }
+#pm_dialog .modal-body ul { list-style: none; margin:0px; padding: 0px; }
+ul.recentlist li:hover { background: #fff; }
+ul.recentlist li.active { background: #fff; }
+
+@keyframes pm_flash {
+	0% { opacity: 0; } 
+	50% { opacity: 1;} 
+	100% {opacity: 0;} 
+} 
+#pm_link i.icon-envelope-o.newpm { animation: pm_flash 1s linear infinite; webkit-animation: pm_flash 2s linear; pointer-events: none }
+</style>
+
+<script src="<?php echo $conf['view_url'];?>js/vue.js<?php echo $static_version;?>"></script>
+
+<!--
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pm_dialog">Open modal for @mdo</button>
+-->
+
+<script type="text/x-template" id="tpl_pm">
+<table width="100%">
+	<tr v-if="pm.senduid != uid">
+		<td width="30">
+                        <img :src="user.avatar_url" class="avatar-xs" />
+                        <a :href="user.uid">{{ user.username }}</a>
+		</td>
+		<td>
+			{{ pm.message }} - {{ pm.create_date_fmt }}
+		</td>
+	</tr>
+	<tr v-else>
+		<td>
+			{{ pm.message }} - {{ pm.create_date_fmt }}
+                        <a href="javascript:void(0);" @click="delete_pm(pm)" class="m-l-sm">
+                                <i class="icon-remove text-danger"></i>
+                        </a>
+		</td>
+		<td width="100">
+                        <img :src="user.avatar_url" class="avatar" />
+		</td>
+	</tr>
+</table>
+</script>
+
+
+<div class="modal fade" id="pm_dialog" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+  	<div class="modal-content">
+  	  <div class="modal-header">
+  	  	<button type="button" class="close" data-dismiss="modal">
+  	  	        <span aria-hidden="true">&times;</span>
+  	  	</button>
+                <h5 class="modal-title">{{ cuser.username }}</h5>
+  	  </div>
+  	  <div class="modal-body" style="width: 724px;">
+                <dl class="row" style="">
+                        <dt class="vtop">
+                                <div class="text-center m-y-1">
+                                        <img src="<?php echo $user['avatar_url'];?>" class="avatar" />
+                                        <br><?php echo $user['username'];?>
+                                </div>
+                                <ul class="recentlist">
+                                        <li v-for="(user,index) in recentlist" @click="change_user(user.uid)" :class="{active: user.uid == cuid}" style="cursor:pointer">
+                                                <img :src="user.avatar_url" class="avatar-xs" />{{ user.username }}
+                                        </li>
+                                </ul>
+                        </dt>
+                        <dd class="vtop">
+                                <div style="height: 504px; overflow: hidden; display: flex; display: -webkit-flex; flex-direction: column; ">
+                                        <div id="pmlist" style="flex-grow: 0; max-height: 100%; overflow: auto;" >
+                                                <ul>
+                                                        <li v-for="(pm,index) in pmlist" :pmid="pm.pmid">
+                                                                <comp-pm :pm="pm" :is_last="index === pmlist.length - 1" :user="user" :cuser="cuser"></comp-pm>
+                                                        </li>
+                                                </ul>
+                                        </div>
+                                        <div style="height: 100px;">
+                                                <textarea style="width: 100%; height: 60px;" v-model="textarea" ref="textarea"></textarea>         
+                                                <p class="text-left">
+                                                        <button @click="create_pm()" type="button" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..." style="width: 10rem;"><?php echo lang('confirm');?></button>
+                                                </p>
+                                        </div>
+                                </div>
+                        </dd>
+                </dl>
+  	  </div>
+  	</div>
+  </div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<?php if($uid) { ?>
+
+<script>
+var user = <?php echo json_encode($user);?>;
+var uid = user.uid ? user.uid : 0;  // 我的 uid
+var jpm_link = $('#pm_link');
+jpm_link.on('click', function() {
+        show_pm_dialog();
+});
+
+</script>
+
+<script src="plugin/xn_pm/hook/1.js"></script>
+
+<?php } ?>

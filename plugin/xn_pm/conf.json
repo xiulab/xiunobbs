@@ -1,11 +1,11 @@
 {
-	"name":"Xiuno BBS 短消息系统",
-	"brief":"基于 Xiuno BBS 4.0 的短消息系统。",
-	"version":"1.0",
-	"bbs_version":"4.0",
-	"installed":0,
-	"enable":0,
-	"hooks_rank":[],
-	"overwrites_rank":[],
-	"dependencies":[]
+    "name": "Xiuno BBS 短消息系统",
+    "brief": "基于 Xiuno BBS 4.0 的短消息系统。",
+    "version": "1.0",
+    "bbs_version": "4.0",
+    "installed": 0,
+    "enable": 0,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
 }

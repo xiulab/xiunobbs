@@ -1,0 +1,1 @@
+APP_PATH.'plugin/xn_pm/model/pm.func.php',
