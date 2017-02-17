@@ -32,6 +32,9 @@ function thread_digest_update($tid, $arr) {
 
 function thread_digest_change($tid, $digest, $uid, $fid) {
 	$arr = thread_digest_read($tid);
+	
+	// hook thread_digest_change_start.php
+	
 	if($digest == 0) {
 		if($arr) {
 			thread_digest_delete($tid, $uid, $fid);
@@ -44,6 +47,8 @@ function thread_digest_change($tid, $digest, $uid, $fid) {
 		}
 	}
 	thread_update($tid, array('digest'=>$digest));
+	
+	// hook thread_digest_change_end.php
 }
 
 
