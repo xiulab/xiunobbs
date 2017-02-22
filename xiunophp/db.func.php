@@ -76,7 +76,7 @@ function db_exec($sql, $d = NULL) {
 	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
-	DEBUG AND xn_log($sql, 'mysql_exec');
+	DEBUG AND xn_log($sql, 'db_exec');
 	
 	$n = $d->exec($sql);
 	

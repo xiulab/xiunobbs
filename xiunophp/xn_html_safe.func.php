@@ -1279,7 +1279,7 @@ class HTML_White {
         private $_dcStack = array();	// 删除的栈
         private $_dcCounter = array();	// 删除的标签数
         private $_xhtml = '';
-        private $_counter = '';		 // 打开的标签数
+        private $_counter = array();		 // 打开的标签数
         private $tableTags = array('caption', 'col', 'colgroup', 'tbody', 'td', 'tfoot', 'th', 'thead',   'tr');
         private $closeParagraph = array(
 	        'address', 'blockquote', 'center', 'dd',      'dir',       'div',
@@ -1343,6 +1343,7 @@ class HTML_White {
 		return $this->_xhtml;
 	}
 
+        // 过滤属性
        private function _writeAttrs($attrs, $tagname) {
         	if(!is_array($attrs)) {
         	 	return true;
@@ -1425,7 +1426,7 @@ class HTML_White {
 	               		}
 	               		$value = $ok ? $value : $v[1];
 	                // 白名单	                
-			} elseif(isset($this->white_value[$name]))  {
+	                } elseif(isset($this->white_value[$name]))  {
 	                	$v = $this->white_value[$name];
         			if($v[0] == 'range') {
         				$px = 0;
@@ -1481,6 +1482,7 @@ class HTML_White {
 	public function _openHandler(&$parser, $name, $attrs) {
 		$name = strtolower($name);
 
+		// 删除标签和内容
 		if(!in_array($name, $this->white_tag)) {
 			array_push($this->_dcStack, $name);
 			$this->_dcCounter[$name] = isset($this->_dcCounter[$name]) ? $this->_dcCounter[$name]+1 : 1;
@@ -1739,7 +1741,5 @@ echo xn_html_safe($s);
 </table>
 
 */
-
-
 
 ?>

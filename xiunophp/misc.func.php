@@ -23,11 +23,13 @@ function error_handle($errno, $errstr, $errfile, $errline) {
 	$br = ($ajax ? "\n" : "<br>\n");
 	IN_CMD AND $errstr = str_replace('<br>', "\n", $errstr);
 	$s = $br."Error[$errno]: $errstr, File: $errfile, Line: $errline";
-	xn_log($s, 'php_error'); // 所有PHP错误报告都记录日志
 	if(DEBUG) {
 		// 如果放在 register_shutdown_function 里面，文件句柄会被关闭，然后这里就写入不了文件了！
 		// if(strpos($s, 'error_log(') !== FALSE) return TRUE;
-		echo $s.$br;
+
+		xn_log($s, 'php_error'); // 所有PHP错误报告都记录日志
+
+		$s .= $br;
 		$arr = debug_backtrace();
 		array_shift($arr);
 		foreach($arr as $v) {
@@ -35,9 +37,13 @@ function error_handle($errno, $errstr, $errfile, $errline) {
 			if(!empty($v['args']) && is_array($v['args'])) foreach ($v['args'] as $v2) $args .= ($args ? ' , ' : '').(is_array($v2) ? 'array('.count($v2).')' : (is_object($v2) ? 'object' : $v2));
 			!isset($v['file']) AND $v['file'] = '';
 			!isset($v['line']) AND $v['line'] = '';
-			echo $br."File: $v[file], Line: $v[line], $v[function]($args) ";
+			$s .= $br."File: $v[file], Line: $v[line], $v[function]($args) ";
 		}
-		echo $br;
+		$s .= $br;
+		echo $s;
+		
+		// 详细的 DEBUG 数据
+		if(DEBUG == 2) xn_log($s, 'debug_error');
 		return TRUE;
 	} else {
 		return FALSE;
@@ -472,7 +478,7 @@ function ip() {
 	global $conf;
 	$ip = '127.0.0.1';
 	if(empty($conf['cdn_on'])) {
-		$ip = $_SERVER['REMOTE_ADDR'];
+		$ip = _SERVER('REMOTE_ADDR');
 	} else {
 		if(isset($_SERVER['HTTP_CDN_SRC_IP'])) {
 			$ip = $_SERVER['HTTP_CDN_SRC_IP'];
@@ -483,7 +489,7 @@ function ip() {
 			$arr = array_filter(explode(',', $ip));
 			$ip = trim(end($arr));
 		} else {
-			$ip = $_SERVER['REMOTE_ADDR'];
+			$ip = _SERVER('REMOTE_ADDR');
 		}
 	}
 	return long2ip(ip2long($ip));
@@ -951,8 +957,10 @@ function http_url_path() {
 	$port = _SERVER('SERVER_PORT');
 	//$portadd = ($port == 80 ? '' : ':'.$port);
 	$host = _SERVER('HTTP_HOST');  // host 里包含 port
+	$https = strtolower(_SERVER('HTTPS', 'off'));
+	$proto = strtolower(_SERVER('HTTP_X_FORWARDED_PROTO'));
 	$path = substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/'));
-	$http = (($port == 443) || (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off')) ? 'https' : 'http';
+	$http = (($port == 443) || $proto == 'https' || $https != 'off') ? 'https' : 'http';
 	return  "$http://$host$path/";
 }
 
