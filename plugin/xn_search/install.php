@@ -7,8 +7,10 @@
 
 !defined('DEBUG') AND exit('Forbidden');
 
+$tablepre = $db->tablepre;
+
 # 论坛帖子数据，一页显示，不分页。
-$sql = "CREATE TABLE IF NOT EXISTS bbs_thread_search (
+$sql = "CREATE TABLE IF NOT EXISTS {$tablepre}thread_search (
   fid int(11) unsigned NOT NULL default '0',		# fid 
   tid int(11) unsigned NOT NULL default '0',		# 主题 id
   message longtext NOT NULL,				# 标题/内容
@@ -17,10 +19,10 @@ $sql = "CREATE TABLE IF NOT EXISTS bbs_thread_search (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
 db_exec($sql);
 
-$sql = "CREATE TABLE IF NOT EXISTS bbs_post_search (
+$sql = "CREATE TABLE IF NOT EXISTS {$tablepre}post_search (
   fid int(11) unsigned NOT NULL default '0',		# 主题 id 
   pid int(11) unsigned NOT NULL default '0',		# 主题帖子 id
-  message longtext NOT NULL,				# 回帖内容合并后切词，存放于此，FULLTEXT
+  message longtext NOT NULL,				            # 回帖内容合并后切词，存放于此，FULLTEXT，search_fid_123
   UNIQUE KEY (pid),
   FULLTEXT(message)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";

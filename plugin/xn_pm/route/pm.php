@@ -42,21 +42,24 @@ if($route == 'new') {
         message(0, $recentlist);
 
 // 【两人的聊天记录】
-// GET /pm-list-{recvuid}-{senduid}-{startpmid}.htm
+// GET /pm-list-{recvuid}-{senduid}-{gt|lt}-{pmid}.htm
 } elseif($route == 'list') {
         
         $uid1 = $recvuid = $uid; // param(2, 0);
         $uid2 = $senduid = param(3, 0);
-        $startpmid = param(4, 0);
+        $op = param(4);
+        $pmid = param(5, 0);
         
+        $op = str_replace(array('gt', 'lt'), array('>', '<'), $op);
+
         if($uid1 != $uid && $uid2 != $uid) {
                 message(-1, 'user_group_insufficient_privilege');
         }
 
-        $pmlist = pm_list($uid1, $uid2, $startpmid);
+        $pmlist = pm_list($uid1, $uid2, $op, $pmid);
 
-        // 获取过就等于已阅读
-        if($startpmid == 0) {
+        // 查看新消息等于已阅读，不太严谨，先这样
+        if($op == '>') {
                 pm_recent_update($recvuid, $senduid, array('count'=>0));
                 user_update($recvuid, array('newpms'=>0));
         }
@@ -76,14 +79,13 @@ if($route == 'new') {
         $arr = array(
                 'uid1'=>($uid > $touid ? $touid : $uid),
                 'uid2'=>($uid > $touid ? $uid : $touid),
-                'username1'=>($uid > $touid ? $touser['username'] : $user['username']),
-                'username2'=>($uid > $touid ? $user['username'] : $touser['username']),
                 'senduid'=>$uid,
                 'create_date'=>$time,
                 'message'=>$message,
                 'message_search'=>$message_search
         );
-        $pmid = pm_create($arr);
+        $pmid = pm_send($touid, $uid, $message);
+        
         $pmid === FALSE AND message(-1, lang('pm_create_failed'));
 
         //pm_recent_replace($touid, $uid);

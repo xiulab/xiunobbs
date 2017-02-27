@@ -36,7 +36,7 @@ if($keyword) {
 			$pagination = pagination(url("search-$keyword-$range-{page}"), $total, $page, $pagesize);
 
 			$start = ($page - 1) * $pagesize;
-			$arrlist = db_sql_find("SELECT * FROM bbs_thread_search WHERE MATCH(message) AGAINST ('$keyword_decode_against' IN BOOLEAN MODE) LIMIT $start, $pagesize;");
+			$arrlist = db_sql_find("SELECT * FROM bbs_thread_search WHERE MATCH(message) AGAINST ('$keyword_decode_against' IN BOOLEAN MODE) ORDER BY tid DESC LIMIT $start, $pagesize;");
 			// echo "SELECT * FROM bbs_thread_search WHERE MATCH(message) AGAINST ('$keyword_decode_against' IN BOOLEAN MODE) LIMIT $start, $pagesize;";exit;
 			$tids = arrlist_values($arrlist, 'tid');
 			$threadlist = thread_find_by_tids($tids);
@@ -57,7 +57,7 @@ if($keyword) {
 			$pagination = pagination(url("search-$keyword-$range-{page}"), $total, $page, $pagesize);
 
 			$start = ($page - 1) * $pagesize;
-			$arrlist = db_sql_find("SELECT * FROM bbs_post_search WHERE MATCH(message) AGAINST ('$keyword_decode_against' IN BOOLEAN MODE) LIMIT $start, $pagesize;");
+			$arrlist = db_sql_find("SELECT * FROM bbs_post_search WHERE MATCH(message) AGAINST ('$keyword_decode_against' IN BOOLEAN MODE) ORDER BY pid DESC  LIMIT $start, $pagesize;");
 			
 			$pids = arrlist_values($arrlist, 'pid');
 			$postlist = post_find_by_pids($pids);

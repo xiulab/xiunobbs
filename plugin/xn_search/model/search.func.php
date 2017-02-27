@@ -24,7 +24,7 @@ function search_keyword_safe($s) {
 	return $s;
 }
 
-// Chinese character unicode
+// Chinese character unicode by axiuno@gmail.com
 function search_cn_encode($s) {
 	// 对 UTF-8 字符的汉字进行编码，转化为 mysql 可以索引的 word
         $r = '';

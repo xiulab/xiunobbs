@@ -25,27 +25,26 @@ function pm_find($cond, $order = array(), $page = 1, $pagesize = 10) {
         return $pmlist;
 }
 
+function pm_swap(&$v1, &$v2) {
+        $t = $v1;
+        $v1 = $v2;
+        $v2 = $t;
+}
+
 // uid1 为 senduid
-function pm_send($uid1, $uid2, $username1, $username2, $message) {
+function pm_send($recvuid, $senduid, $message) {
         global $time;
 
-        if(empty($uid1) || empty($uid2)) {
+        if(empty($recvuid) || empty($senduid)) {
                 return FALSE;
         }
-        $senduid = $uid1;
-        $recvuid = $uid2;
+
         $recvuser = user_read($recvuid);
         if(empty($recvuser)) {
                 return FALSE;
         }
         
-        // 交换变量，最小的在前。
-        if($uid1 > $uid2) {
-                $t = $uid1; $uid1 = $uid2; $uid2 = $t;
-                $t = $username1; $username1 = $username2; $username2 = $t;
-        }
-        
-        $recent = pm_recent_read($recvuid);
+        $recent = pm_recent_read($recvuid, $senduid);
         if(empty($recent)) {
                 pm_recent_create($recvuid, $senduid, 1);
         } else {
@@ -53,11 +52,9 @@ function pm_send($uid1, $uid2, $username1, $username2, $message) {
         }
         
         $pm = array(
-                'uid1'=>$uid1,
-                'uid2'=>$uid2,
+                'uid1'=>min($senduid, $recvuid),
+                'uid2'=>max($recvuid, $senduid),
                 'senduid'=>$senduid,
-                'username1'=>$username1,
-                'username2'=>$username2,
                 'message'=>$message,
                 'create_date'=>$time
         );
@@ -65,28 +62,29 @@ function pm_send($uid1, $uid2, $username1, $username2, $message) {
 
         user_update($recvuid, array('newpms'=>1));
         
-        return $pm;
+        return $pmid;
 }
 
-// 获取两个人的聊天记录，可以指定"更多"
-function pm_list($uid1, $uid2, $startpmid = 0) {
+// 获取两个人的聊天记录， $op = > | <
+function pm_list($uid1, $uid2,  $op = '', $pmid = 0, $pagesize = 10) {
         if($uid1 > $uid2) {
-                $t = $uid1; $uid1 = $uid2; $uid2 = $t;
+                pm_swap($uid1, $uid2);
         }
-        $pmlist = db_find('pm', array('uid1'=>$uid1, 'uid2'=>$uid2, 'pmid'=>array('>'=>$startpmid)), array(), 1, 20);
+        $cond = array('uid1'=>$uid1, 'uid2'=>$uid2);
+        $op AND $cond['pmid'] = array($op=>$pmid);
+        $pmlist = db_find('pm', $cond, array('pmid'=>-1), 1, $pagesize + 1);
         foreach($pmlist as &$pm) {
                 pm_format($pm);
         }
+        $pmlist = arrlist_multisort($pmlist, 'pmid', $asc = TRUE);
         return $pmlist;
 }
 
 function pm_format(&$pm) {
        if($pm['senduid'] == $pm['uid1']) {
                $pm['uid'] = $pm['uid1'];
-               $pm['username'] = $pm['username1'];
        } else {
                $pm['uid'] = $pm['uid2'];
-               $pm['username'] = $pm['username2'];
        }
        $pm['create_date_fmt'] = humandate($pm['create_date']);
 }

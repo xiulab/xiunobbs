@@ -37,8 +37,6 @@ $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}pm (
   uid1 int(11) unsigned NOT NULL default '0',		# 用户id small uid
   uid2 int(11) unsigned NOT NULL default '0',		# 用户id big uid
   senduid int(11) unsigned NOT NULL default '0',		# 由谁发出
-  username1 char(16) NOT NULL default '',		# 用户名	未登录为空
-  username2 char(16) NOT NULL default '',		# 用户名	未登录为空
   create_date int(11) unsigned NOT NULL default '0',	# 时间
   message text NOT NULL,		        # 内容，没有编辑操作。避免碎片产生
   message_search text NOT NULL,		# 全文索引 search_uid_123 search_uid_234
