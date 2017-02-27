@@ -149,7 +149,7 @@ dl.row > dt.td-avatar, .table .td-avatar { width: 3.0rem; padding: 0.4rem;}
 .page a:hover, .page a.active{color: #E9E9E9;  background: #000;}
 */
 
-.message p {margin: 0.2rem 0; line-height: 1.7;}
+.message p { margin: 0.2rem 0; line-height: 1.7; }
 
 @keyframes quote_animation{
 	from {background-color: $brand-success;}
@@ -189,6 +189,8 @@ tr.quote td:nth-child(2) {
 	background-image: url(../img/quote.png);
 	background-repeat:no-repeat;
 	background-position: top right;
+	color: #737373;
+	border-left: 4px solid #bbb;
 }
 .blockquote .user {
 	margin-right: 0.5rem;

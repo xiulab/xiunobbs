@@ -16,7 +16,9 @@ $active = 'default';
 
 $pagination = pagination(url("index-{page}"), $runtime['threads'], $page, $pagesize);
 
-$toplist = thread_top_find_cache();
+/*$toplist = thread_top_find_cache();
+
+print_r($toplist);exit;*/
 
 // 从默认的地方读取主题列表
 $thread_list_from_default = 1;

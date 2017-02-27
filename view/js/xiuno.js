@@ -26,6 +26,7 @@ if(!Object.values) {
 Array.values = function(arr) {
 	return xn.array_filter(arr);
 };
+
 Object.first = function(obj) {
 	for(var k in obj) return obj[k];
 };
@@ -254,6 +255,10 @@ xn.json_decode = function(s) {
 		return null;
 	}
 };
+
+xn.clone = function(obj) {
+        return xn.json_decode(xn.json_encode(obj));
+}
 
 // 方便移植 PHP 代码
 xn.min = function() {return Math.min.apply(this, arguments);}

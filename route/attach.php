@@ -4,8 +4,6 @@
 
 $action = param(1);
 
-
-
 // hook attach_start.php
 
 if(empty($action) || $action == 'create') {

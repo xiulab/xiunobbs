@@ -437,9 +437,9 @@ function humandate($timestamp, $lan = array()) {
 	empty($lan) AND $lan = array(
 		'month_ago'=>'月前',
 		'day_ago'=>'天前',
-		'hour_ago'=>'月前',
-		'minute_ago'=>'月前',
-		'second_ago'=>'月前',
+		'hour_ago'=>'小时前',
+		'minute_ago'=>'分钟前',
+		'second_ago'=>'秒前',
 	);
 	if($seconds > 31536000) {
 		return date('Y-n-j', $timestamp);

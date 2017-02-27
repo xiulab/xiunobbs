@@ -1,13 +1,34 @@
 					<!--{hook thread_list_inc_start.htm}-->
-					<?php if($threadlist) { foreach($threadlist as $_thread) { ?>
+
+					<?php 
+					if($threadlist) { 
+						$have_allowtop = 0;
+						foreach($threadlist as &$_thread) {
+							$_thread['allowtop'] = forum_access_mod($_thread['fid'], $gid, 'allowtop');
+							if($_thread['allowtop']) $have_allowtop = 1;
+						}
+					}
+					?>
+
+					<?php if($threadlist) { foreach($threadlist as &$_thread) { ?>
 					<tr class="thread tap <?php echo $_thread['top_class'];?>" href="<?php echo url("thread-$_thread[tid]");?>" tid="<?php echo $_thread['tid'];?>">
-						<?php if(forum_access_mod($_thread['fid'], $gid, 'allowtop')) { ?>
-						<td class="td-checkbox">
-							<label style="width: 100%; height: 100%;">
-								<input type="checkbox" name="modtid" class="m-t-sm" value="<?php echo $_thread['tid']; ?>" />
-							</label>
-						</td>
+						<?php if($have_allowtop) { ?>
+							<?php if($_thread['allowtop']) { ?>
+							<td class="td-checkbox">
+								<label style="width: 100%; height: 100%;">
+									<input type="checkbox" name="modtid" class="m-t-sm" value="<?php echo $_thread['tid']; ?>" />
+								</label>
+							</td>
+
+							<?php } else {?>
+						
+							<td>&nbsp;</td>
+
+							<?php } ?>
+						
 						<?php } ?>
+
+
 						<td class="td-avatar">
 							<a href="<?php echo url("user-$_thread[uid]");?>" tabindex="-1">
 								<img class="avatar" src="<?php echo $_thread['user_avatar_url'];?>">

@@ -213,9 +213,10 @@ function user_update_group($uid) {
 		$n = $user['posts'] + $user['threads']; // 根据发帖数
 		// user_update_group_policy_start.php
 		if($n > $group['creditsfrom'] && $n < $group['creditsto']) {
-			$user['gid'] = $group['gid'];
-			user_update($uid, array('gid'=>$group['gid']));
-			return TRUE;
+			if($user['gid'] != $group['gid']) {
+				user_update($uid, array('gid'=>$group['gid']));
+				return TRUE;
+			}
 		}
 	}
 	
