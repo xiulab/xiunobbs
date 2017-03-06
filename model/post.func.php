@@ -276,7 +276,7 @@ function post_format(&$post) {
 	
 	$post['username'] = array_value($user, 'username');
 	$post['user_avatar_url'] = array_value($user, 'avatar_url');
-	$post['user'] = $user;
+	$post['user'] = $user ? $user : user_guest();
 	!isset($post['floor']) AND  $post['floor'] = '';
 	
 	// 权限判断
@@ -295,8 +295,10 @@ function post_format(&$post) {
 	$post['classname'] = 'post';
 	
 	// hook model_post_format_end.php
+
 }
 
+// 写入时格式化
 function post_message_fmt(&$arr, $gid) {
 	
 	// hook post_message_fmt_start.php

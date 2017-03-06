@@ -305,6 +305,8 @@ function thread_format(&$thread) {
 	$thread['user_url'] = "user-$thread[uid]".($thread['uid'] ? '' : "-$thread[firstpid]").".htm";
 	
 	$thread['top_class'] = $thread['top'] ? 'top_'.$thread['top'] : '';
+
+	$thread['pages'] = ceil($thread['posts'] / $conf['pagesize']);
 	
 	// hook model_thread_format_end.php
 }

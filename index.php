@@ -13,10 +13,15 @@
 //$postdata = 'email=admin&password=c4ca4238a0b923820dcc509a6f75849b';
 //parse_str($postdata, $_POST);
 
+// 本地开启 DEBUG 模式
+!isset($_SERVER['REMOTE_ADDR']) AND $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+if($_SERVER['REMOTE_ADDR'] == '127.0.0.1' || substr($_SERVER['REMOTE_ADDR'], 0, 8) == '192.168.') {
+	define('DEBUG', 2);
+}
 
 // 0: Production mode; 1: Developer mode; 2: Plugin developement mode;
 // 0: 线上模式; 1: 调试模式; 2: 插件开发模式;
-!defined('DEBUG') AND define('DEBUG', 2);
+!defined('DEBUG') AND define('DEBUG', 0);
 define('APP_PATH', dirname(__FILE__).'/'); // __DIR__
 !defined('ADMIN_PATH') AND define('ADMIN_PATH', APP_PATH.'admin/');
 !defined('XIUNOPHP_PATH') AND define('XIUNOPHP_PATH', APP_PATH.'xiunophp/');
