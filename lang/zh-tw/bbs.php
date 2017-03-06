@@ -108,8 +108,6 @@ return array(
 	'user_login'=>'用戶登錄',
 	'user_profile'=>'個人資料',
 	'user_resetpw'=>'重設密碼',
-	'password_new'=>'新密碼',
-	'password_new'=>'重復新密碼',
 	'email_is_empty' => '郵箱為空',
 	'email_not_exists' => '郵箱不存在',
 	'username_not_exists' => '用戶名不存在',

@@ -109,8 +109,6 @@ return array(
 	'user_login'=>'用户登录',
 	'user_profile'=>'个人资料',
 	'user_resetpw'=>'重设密码',
-	'password_new'=>'新密码',
-	'password_new'=>'重复新密码',
 	'email_is_empty' => '邮箱为空',
 	'email_not_exists' => '邮箱不存在',
 	'username_not_exists' => '用户名不存在',
