@@ -122,7 +122,6 @@ if(empty($action) || $action == 'list') {
 		
 		// hook admin_forum_update_get_end.php
 		
-		//print_r($_forum);exit;
 		
 		include _include(ADMIN_PATH."view/htm/forum_update.htm");
 	
@@ -146,6 +145,9 @@ if(empty($action) || $action == 'list') {
 			'moduids' => $moduids,
 			'accesson' => $accesson,
 		);
+
+		// hook admin_forum_update_post_before.php
+		
 		forum_update($_fid, $arr);
 		
 		if($accesson) {

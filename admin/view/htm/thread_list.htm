@@ -105,6 +105,7 @@ var totalpage = <?php echo $totalpage;?>;
 var totalpage_back = totalpage;
 var pagearr = [];
 for(var i=1; i <= totalpage; i++) pagearr.push(i);
+var forumlist = <?php echo xn_json_encode($forumlist_simple);?>;
 
 jfid.on('change', function() {
 	var fid = $(this).val();

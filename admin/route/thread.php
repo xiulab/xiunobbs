@@ -22,6 +22,14 @@ if(empty($action) || $action == 'list') {
 	$queueid AND queue_destory($queueid);
 	$queueid = $time;
 	$_SESSION['thread_find_queueid'] = $queueid;
+
+	$forumlist_simple = array();
+	foreach($forumlist as $k=>$v) {
+		$forumlist_simple[$k] = array(
+			'name'=>$v['name'],
+			'name'=>$v['threads'],
+		);
+	}
 	
 	//$queue_count = queue_count($queueid);
 	
