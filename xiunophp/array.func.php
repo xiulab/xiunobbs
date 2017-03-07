@@ -181,6 +181,7 @@ function arrlist_change_key($arrlist, $key, $pre = '') {
 
 // 保留指定的 key
 function arrlist_keep_keys($arrlist, $keys = array()) {
+	!is_array($keys) AND $keys = array($keys);
 	foreach($arrlist as &$v) {
 		$arr = array();
 		foreach($keys as $key) {
@@ -188,6 +189,7 @@ function arrlist_keep_keys($arrlist, $keys = array()) {
 		}
 		$v = $arr;
 	}
+	return $arrlist;
 }
 
 // 根据某一列的值进行 chunk
