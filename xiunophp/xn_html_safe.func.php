@@ -1381,10 +1381,12 @@ class HTML_White {
 							$cssvalue = $v[1];
 						}
 						// 如果为 table，转换为百分比，参考值可以通过参数控制。
-						if($tagname == 'table' && ($cssname == 'width' || $cssname == 'min-width')) {
-							$px AND $cssvalue > $this->args['table_max_width'] AND $cssvalue = '100%' AND $px = 0;
+						if($cssname == 'width' || $cssname == 'min-width') {
+							$px AND $cssvalue > $this->args['table_max_width'] AND $cssvalue = '100%';
+							$px = 0;
 						}
 						$px AND $cssvalue .= 'px';
+						
 					} elseif($v[0] == 'list') {
 						if(!in_array($cssvalue, $v[2])) $cssvalue = $v[1];
 					} elseif($v[0] == 'pcre') {
@@ -1619,7 +1621,7 @@ function xn_html_safe($doc, $arg = array()) {
 		'table', 'tr', 'td', 'th', 'tbody', 'thead', 'tfoot','caption',
 		'ol', 'ul', 'li', 'dl', 'dt', 'dd', 'menu', 'multicol',
 		'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'p', 'div', 'pre',
-		'br', 'img', 'area',  'embed', 'code', 'blockquote', 'iframe'
+		'br', 'img', 'area',  'embed', 'code', 'blockquote', 'iframe', 'section'
 	);
 	$white_value = array(
 		'href'=>array('pcre', '', array($pattern['url'], $pattern['ed2k_url'])),
@@ -1633,6 +1635,7 @@ function xn_html_safe($doc, $arg = array()) {
 		'face'=>array('pcre', '', array($pattern['word'])),
 		'color'=>array('pcre', '', array($pattern['color'])),
 		'alt'=>array('pcre', '', array($pattern['safe'])),
+		'label'=>array('pcre', '', array($pattern['safe'])),
 		'title'=>array('pcre', '', array($pattern['safe'])),
 		'target'=>array('list', '_self', array('_blank', '_self')),
 		'type'=>array('pcre', '', array('#^[\w/\-]+$#')),

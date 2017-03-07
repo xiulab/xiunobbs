@@ -432,6 +432,11 @@ function mid($n, $min, $max) {
 
 function humandate($timestamp, $lan = array()) {
 	global $time, $lang;
+	
+	static $custom_humandate = NULL;
+	if($custom_humandate === NULL) $custom_humandate = function_exists('custom_humandate');
+	if($custom_humandate) return custom_humandate($timestamp, $lan);
+	
 	$seconds = $time - $timestamp;
 	$lan = empty($lang) ? $lan : $lang;
 	empty($lan) AND $lan = array(
@@ -457,11 +462,21 @@ function humandate($timestamp, $lan = array()) {
 }
 
 function humannumber($num) {
+	
+	static $custom_humannumber = NULL;
+	if($custom_humannumber === NULL) $custom_humannumber = function_exists('custom_humannumber');
+	if($custom_humannumber) return custom_humannumber($num);
+	
 	$num > 100000 && $num = ceil($num / 10000).'万';
 	return $num;
 }
 
 function humansize($num) {
+	
+	static $custom_humansize = NULL;
+	if($custom_humansize === NULL) $custom_humansize = function_exists('custom_humansize');
+	if($custom_humansize) return custom_humansize($num);
+	
 	if($num > 1073741824) {
 		return number_format($num / 1073741824, 2, '.', '').'G';
 	} elseif($num > 1048576) {

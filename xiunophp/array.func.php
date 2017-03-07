@@ -138,11 +138,11 @@ function array_assoc_slice($arrlist, $start, $length = 0) {
 
 
 // 从一个二维数组中取出一个 key=>value 格式的一维数组
-function arrlist_key_values($arrlist, $key, $value = NULL) {
+function arrlist_key_values($arrlist, $key, $value = NULL, $pre = '') {
 	$return = array();
 	if($key) {
 		foreach((array)$arrlist as $k=>$arr) {
-			$return[$arr[$key]] = $value ? $arr[$value] : $k;
+			$return[$pre.$arr[$key]] = $value ? $arr[$value] : $k;
 		}
 	} else {
 		foreach((array)$arrlist as $arr) {

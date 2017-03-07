@@ -93,6 +93,10 @@ $_SERVER['REQUEST_URI'] = str_replace('/index.php?', '/', $_SERVER['REQUEST_URI'
 $_GET += xn_url_parse($_SERVER['REQUEST_URI']);
 $_REQUEST = array_merge($_COOKIE, $_POST, $_GET);
 
+// IP 地址
+!isset($_SERVER['REMOTE_ADDR']) AND $_SERVER['REMOTE_ADDR'] = '';
+!isset($_SERVER['SERVER_ADDR']) AND $_SERVER['SERVER_ADDR'] = '';
+
 // 初始化 db cache，这里并没有连接，在获取数据的时候会自动连接。
 $db = !empty($conf['db']) ? db_new($conf['db']) : NULL;
 $db AND $db->errno AND xn_message(-1, $db->errstr); // 安装的时候检测过了，不必每次都检测。但是要考虑环境移植。
