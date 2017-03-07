@@ -575,16 +575,52 @@ xn.arrlist_values = function(arrlist, key) {
 	return r;
 };
 
-xn.arrlist_key_values = function(arrlist, key, val) {
+xn.arrlist_key_values = function(arrlist, key, val, pre) {
 	var r = {};
-	arrlist.map(function(arr) { r[arr[key]] = arr[val]; });
+	var pre = pre || '';
+	arrlist.map(function(arr) { r[arr[pre+key]] = arr[val]; });
 	return r;
 };
 
-// var arrlist = [{id:1, name:"zhangsan"}, {id:2, name:"lisi"}];
-// arrlist.sort(function(a, b) {a.name > b.name});
-// arrlist.sort({name:1});
-// console.log(arrlist);
+xn.arrlist_keep_keys = function(arrlist, keys) {
+	if(!xn.is_array(keys)) keys = [keys];
+	for(k in arrlist) {
+		var arr = arrlist[k];
+		var newarr = {};
+		for(k2 in keys) {
+			var key = keys[k2];
+			newarr[key] = arr[key];
+		}
+		arrlist[k] = newarr;
+	}
+	return arrlist;
+}
+/*var arrlist = [
+	{uid:1, gid:3},
+	{uid:2, gid:2},
+	{uid:3, gid:1},
+];
+var arrlist2 = xn.arrlist_keep_keys(arrlist, 'gid');
+console.log(arrlist2);*/
+
+xn.arrlist_multisort = function(arrlist, k, asc) {
+	var arrlist = arrlist.sort(function(a, b) {
+		if(a[k] == b[k]) return 0;
+		var r = a[k] > b[k];
+		r = asc ? r : !r;
+		return r ? 1 : -1;
+	});
+	return arrlist;
+}
+/*
+var arrlist = [
+	{uid:1, gid:3},
+	{uid:2, gid:2},
+	{uid:3, gid:1},
+];
+var arrlist2 = xn.arrlist_multisort(arrlist, 'gid', false);
+console.log(arrlist2);
+*/
 
 // if(xn.is_ie) document.documentElement.addBehavior("#default#userdata");
 
