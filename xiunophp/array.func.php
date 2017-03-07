@@ -179,6 +179,17 @@ function arrlist_change_key($arrlist, $key, $pre = '') {
 	return $return;
 }
 
+// 保留指定的 key
+function arrlist_keep_keys($arrlist, $keys = array()) {
+	foreach($arrlist as &$v) {
+		$arr = array();
+		foreach($keys as $key) {
+			$arr[$key] = isset($v[$key]) ? $v[$key] : NULL;
+		}
+		$v = $arr;
+	}
+}
+
 // 根据某一列的值进行 chunk
 function arrlist_chunk($arrlist, $key) {
 	$r = array();
