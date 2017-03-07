@@ -169,11 +169,15 @@ function arrlist_values($arrlist, $key) {
 }
 
 // 将 key 更换为某一列的值，在对多维数组排序后，数字key会丢失，需要此函数
-function arrlist_change_key($arrlist, $key, $pre = '') {
+function arrlist_change_key($arrlist, $key = '', $pre = '') {
 	$return = array();
 	if(empty($arrlist)) return $return;
 	foreach($arrlist as &$arr) {
-		$return[$pre.''.$arr[$key]] = $arr;
+		if(empty($key)) {
+			$return[] = $arr;
+		} else {
+			$return[$pre.''.$arr[$key]] = $arr;
+		}
 	}
 	//$arrlist = $return;
 	return $return;
