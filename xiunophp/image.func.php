@@ -146,7 +146,8 @@ function image_thumb($sourcefile, $destfile, $forcedwidth = 80, $forcedheight = 
 	imagefill($img_dst, 0, 0 , 0xFFFFFF);
 	imagecopyresampled($img_dst, $img_src, 0, 0, 0, 0, $des_width, $des_height, $src_width, $src_height);
 
-	$tmppath = ini_get('upload_tmp_dir').'/';
+	global $conf;
+	$tmppath = isset($conf['tmp_path']) ? $conf['tmp_path'] : ini_get('upload_tmp_dir').'/';
 	$tmppath == '/' AND $tmppath = './tmp/';
 
 	$tmpfile = $tmppath.md5($destfile).'.tmp';
@@ -208,7 +209,8 @@ function image_clip($sourcefile, $destfile, $clipx, $clipy, $clipwidth, $cliphei
 	imagefill($img_dst, 0, 0 , 0xFFFFFF);
 	imagecopyresampled($img_dst, $imgcolor, 0, 0, $clipx, $clipy, $imgwidth, $imgheight, $imgwidth, $imgheight);
 
-	$tmppath = ini_get('upload_tmp_dir').'/';
+	global $conf;
+	$tmppath = isset($conf['tmp_path']) ? $conf['tmp_path'] : ini_get('upload_tmp_dir').'/';
 	$tmppath == '/' AND $tmppath = './tmp/';
 
 	$tmpfile = $tmppath.md5($destfile).'.tmp';

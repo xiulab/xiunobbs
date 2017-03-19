@@ -199,6 +199,7 @@ function sess_start() {
 	//$_SESSION['fid'] = $g_session['fid'];
 	
 	//echo "sess_start() sid: $sid <br>\r\n";
+	return $sid;
 }
 
 function online_count() {

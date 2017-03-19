@@ -975,7 +975,7 @@ function http_url_path() {
 	$https = strtolower(_SERVER('HTTPS', 'off'));
 	$proto = strtolower(_SERVER('HTTP_X_FORWARDED_PROTO'));
 	$path = substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/'));
-	$http = (($port == 443) || $proto == 'https' || $https != 'off') ? 'https' : 'http';
+	$http = (($port == 443) || $proto == 'https' || ($https && $https != 'off')) ? 'https' : 'http';
 	return  "$http://$host$path/";
 }
 
@@ -1291,8 +1291,10 @@ function xn_debug_info() {
 			$s .= "</ul>\r\n";
 			$s .= '_REQUEST:<br>';
 			$s .= xn_txt_to_html(print_r($_REQUEST, 1));
-			$s .= '_SESSION:<br>';
-			$s .= xn_txt_to_html(print_r($_SESSION, 1));
+			if(!empty($_SESSION)) {
+				$s .= '_SESSION:<br>';
+				$s .= xn_txt_to_html(print_r($_SESSION, 1));
+			}
 			$s .= '';
 		}
 		$s .= '</div>';
