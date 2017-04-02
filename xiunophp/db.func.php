@@ -2,6 +2,7 @@
 
 // 此处的 $db 是局部变量，要注意，它返回后在定义为全局变量，可以有多个实例。
 function db_new($dbconf) {
+	global $errno, $errstr;
 	// 数据库初始化，这里并不会产生连接！
 	if($dbconf) {
 		//print_r($dbconf);

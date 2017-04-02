@@ -1396,17 +1396,17 @@ function orderby_to_sqladd($orderby) {
 */
 
 // 无 Notice 方式的获取超级全局变量中的 key
-function _GET($k) { return isset($_GET[$k]) ? $_GET[$k] : NULL; }
-function _POST($k) { return isset($_POST[$k]) ? $_POST[$k] : NULL; }
-function _COOKIE($k) { return isset($_COOKIE[$k]) ? $_COOKIE[$k] : NULL; }
-function _REQUEST($k) { return isset($_REQUEST[$k]) ? $_REQUEST[$k] : NULL; }
-function _ENV($k) { return isset($_ENV[$k]) ? $_ENV[$k] : NULL; }
-function _SERVER($k) { return isset($_SERVER[$k]) ? $_SERVER[$k] : NULL; }
-function GLOBALS($k) { return isset($GLOBALS[$k]) ? $GLOBALS[$k] : NULL; }
-function G($k) { return isset($GLOBALS[$k]) ? $GLOBALS[$k] : NULL; }
-function _SESSION($k, $v = FALSE) {
+function _GET($k, $def = NULL) { return isset($_GET[$k]) ? $_GET[$k] : $def; }
+function _POST($k, $def = NULL) { return isset($_POST[$k]) ? $_POST[$k] : $def; }
+function _COOKIE($k, $def = NULL) { return isset($_COOKIE[$k]) ? $_COOKIE[$k] : $def; }
+function _REQUEST($k, $def = NULL) { return isset($_REQUEST[$k]) ? $_REQUEST[$k] : $def; }
+function _ENV($k, $def = NULL) { return isset($_ENV[$k]) ? $_ENV[$k] : $def; }
+function _SERVER($k, $def = NULL) { return isset($_SERVER[$k]) ? $_SERVER[$k] : $def; }
+function GLOBALS($k, $def = NULL) { return isset($GLOBALS[$k]) ? $GLOBALS[$k] : $def; }
+function G($k, $def = NULL) { return isset($GLOBALS[$k]) ? $GLOBALS[$k] : $def; }
+function _SESSION($k, $def = NULL) {
 	global $g_session; 
-	return isset($_SESSION[$k]) ? $_SESSION[$k] : (isset($g_session[$k]) ? $g_session[$k] : NULL); 
+	return isset($_SESSION[$k]) ? $_SESSION[$k] : (isset($g_session[$k]) ? $g_session[$k] : $def); 
 }
 
 ?>
