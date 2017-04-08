@@ -5,7 +5,7 @@ function xn_safe_key() {
 	global $conf, $longip, $time, $useragent;
 	!isset($conf['auth_key']) AND $conf['auth_key'] = md5($useragent);
 	$behind = intval(substr($time, -2, 2));
-	$t = $behind > 80 ? $time - 20 : ($behind < 20 ? $time - 40 : $time); // 修正范围，防止进位
+	$t = $behind > 80 ? $time - 20 : ($behind < 20 ? $time - 40 : $time); // 修正范围，防止进位，窗口期
 	$front = substr($t, 0, -2);
 	$key = md5($conf['auth_key'].$useragent.$front);
 	return $key;
@@ -81,13 +81,16 @@ function xxtea_encrypt($str, $key) {
 	$z = $v[$n];
 	$y = $v[0];
 	$delta = 0x9E3779B9;
-	$q = floor(6 + 52 / ($n + 1));
+	$q = floor(6 + 52 / ($n + 1)); // 多少轮，数组元素越多，轮数越少，考虑到效率
 	$sum = 0;
 	while (0 < $q--) {
 		$sum = xxtea_int32($sum + $delta);
 		$e = $sum >> 2 & 3;
+		// 遍历所有 int 元素
 		for ($p = 0; $p < $n; $p++) {
-			$y = $v[$p + 1];
+			// $p 为当前元素，$p + 1 为下一个元素
+			$y = $v[$p + 1]; // 下一个元素
+			// $mx 为相邻两位数组各种移位+异或的结果（高地位信息的损失可以通过互相弥补）
 			$mx = xxtea_int32((($z >> 5 & 0x07ffffff) ^ $y << 2) + (($y >> 3 & 0x1fffffff) ^ $z << 4)) ^ xxtea_int32(($sum ^ $y) + ($k[$p & 3 ^ $e] ^ $z));
 			$z = $v[$p] = xxtea_int32($v[$p] + $mx);
 		}
