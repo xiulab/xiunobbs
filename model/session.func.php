@@ -84,7 +84,19 @@ function sess_new($sid) {
 		'bigdata'=> 0,
 	);
 	db_insert('session', $arr);
-	
+}
+
+// 重新启动 session，降低并发写入数据的问题，这回抛弃前面的 _SESSION 数据
+function sess_restart() {
+	global $sid;
+	$data = sess_read($sid);
+	session_decode($data); // 直接存入了 $_SESSION
+}
+
+// 将当前的 _SESSION 变量保存
+function sess_save() {
+	global $sid;
+	sess_write($sid, TRUE);
 }
 
 function sess_write($sid, $data) {
@@ -100,8 +112,8 @@ function sess_write($sid, $data) {
 	
 	if($data) {
 		//$arr = session_decode($data);
-		unset($_SESSION['uid']);
-		unset($_SESSION['fid']);
+		//unset($_SESSION['uid']);
+		//unset($_SESSION['fid']);
 		$data = session_encode();
 	}
 	

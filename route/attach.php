@@ -47,6 +47,11 @@ if(empty($action) || $action == 'create') {
 	
 	// 保存到 session，发帖成功以后，关联到帖子。
 	// save attach information to session, associate to post after create thread.
+
+	// 抛弃之前的 $_SESSION 数据，重新启动 session，降低 session 并发写入的问题
+	// Discard the previous $_SESSION data, restart the session, reduce the problem of concurrent session write
+	sess_restart();
+	
 	empty($_SESSION['tmp_files']) AND $_SESSION['tmp_files'] = array();
 	$n = count($_SESSION['tmp_files']);
 	$filesize = filesize($tmpfile);
