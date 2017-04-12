@@ -161,9 +161,11 @@ function forum_list_cache_delete() {
 
 // 对 $forumlist 权限过滤，查看权限没有，则隐藏
 function forum_list_access_filter($forumlist, $gid, $allow = 'allowread') {
-	global $conf, $group;
+	global $conf, $grouplist;
 	if(empty($forumlist)) return array();
+	if($gid == 1) return $forumlist;
 	$forumlist_filter = $forumlist;
+	$group = $grouplist[$gid];
 	
 	// hook model_forum_list_access_filter_start.php
 	
