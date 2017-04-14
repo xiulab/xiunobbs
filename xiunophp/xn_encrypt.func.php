@@ -38,7 +38,7 @@ function xn_encrypt($txt, $key = '') {
 
 function xn_decrypt($txt, $key = '') {
 	empty($key) AND $key = xn_key();
-	$encrypt = xxtea_decrypt(base64_decode(xn_urldecode($txt)), $key);
+	$encrypt = base64_decode(xn_urldecode($txt));
 	$ret = function_exists('xiuno_decrypt') ? xiuno_decrypt($encrypt, $key) : xxtea_decrypt($encrypt, $key);
 	return $ret;
 }
