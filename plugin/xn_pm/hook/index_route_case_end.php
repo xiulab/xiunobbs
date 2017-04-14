@@ -1,1 +1,0 @@
-case 'pm': include _include(APP_PATH.'plugin/xn_pm/route/pm.php'); break;
