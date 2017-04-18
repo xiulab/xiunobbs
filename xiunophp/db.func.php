@@ -12,7 +12,7 @@ function db_new($dbconf) {
 			case 'pdo_mysql':  $db = new db_pdo_mysql($dbconf['pdo_mysql']);	break;
 			case 'pdo_sqlite': $db = new db_pdo_sqlite($dbconf['pdo_sqlite']);	break;
 			case 'pdo_mongodb': $db = new db_pdo_mongodb($dbconf['pdo_mongodb']);	break;
-			default: xn_message(-1, '不支持的 db type:'.$dbconf['type']);
+			default: xn_message(-1, 'Not suppported db type:'.$dbconf['type']);
 		}
 		if(!$db || ($db && $db->errstr)) {
 			$errno = -1;

@@ -52,6 +52,7 @@ class db_pdo_sqlite {
 				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 			);
 			$link = new PDO($sqlitedb, $attr);//连接sqlite
+			//new PDO($sqlitedb,'','',$attr);//连接sqlite
 		} catch (Exception $e) {
 			$this->error($e->getCode(), '连接数据库服务器失败:'.$e->getMessage());
 			return FALSE;
