@@ -19,7 +19,7 @@ $search_conf = kv_get('search_conf');
 $search_type = $search_conf['type'];
 $search_range = $search_conf['range'];
 
-$search_type = 'fulltext';
+//$search_type = 'fulltext';
 
 $pagesize = 20;
 
@@ -48,21 +48,25 @@ if($keyword) {
 			foreach($threadlist as &$thread) {
 				$thread['subject'] = search_keyword_highlight($thread['subject'], $keyword_arr);
 			}
-		} else if($range == 2) {
+		} else if($range == 0) {
 
 			
-			$arr = db_sql_find_one("SELECT COUNT(*) AS num FROM bbs_post_search WHERE MATCH(message) AGAINST ('$keyword_decode_against' IN BOOLEAN MODE)");
-			$total = $arr['num'];
+			//$arr = db_sql_find_one("SELECT COUNT(*) AS num FROM bbs_post_search WHERE MATCH(message) AGAINST ('$keyword_decode_against' IN BOOLEAN MODE)");
+			//$total = $arr['num'];
+
+			$total =10;
 
 			$pagination = pagination(url("search-$keyword-$range-{page}"), $total, $page, $pagesize);
 
 			$start = ($page - 1) * $pagesize;
-			$arrlist = db_sql_find("SELECT * FROM bbs_post_search WHERE MATCH(message) AGAINST ('$keyword_decode_against' IN BOOLEAN MODE) ORDER BY pid DESC  LIMIT $start, $pagesize;");
+			$arrlist = db_sql_find("SELECT * FROM bbs_post_search WHERE MATCH(message) AGAINST ('$keyword_decode_against' IN BOOLEAN MODE) LIMIT $start, $pagesize;"); //  ORDER BY pid DESC 
+			
+			$nextpage =  count($arrlist) == $pagesize ? $page + 1 : 0;
 			
 			$pids = arrlist_values($arrlist, 'pid');
 			$postlist = post_find_by_pids($pids);
 			$postlist = arrlist_multisort($postlist, 'pid', FALSE);
-
+			
 			// ...
 			foreach($postlist as &$post) {
 				$post['message_fmt'] = search_message_format($post['message_fmt']);
@@ -72,7 +76,7 @@ if($keyword) {
 				$thread = thread_read_cache($post['tid']);
 				$post['subject'] = search_keyword_highlight($thread['subject'], $keyword_arr);
 			}
-			
+
 		}
 		
 	} elseif($search_type == 'like') {
@@ -84,7 +88,7 @@ if($keyword) {
 				thread_format($thread);
 				$thread['subject'] = search_keyword_highlight($thread['subject'], $keyword_arr);
 			}
-		} else if($range == 2) {
+		} else if($range == 0) {
 			$posts = 0;
 			$postlist = db_sql_find("SELECT * FROM bbs_post WHERE message LIKE '%$keyword_decode%' LIMIT 50;");
 			$postlist = arrlist_multisort($postlist, 'pid', FALSE);

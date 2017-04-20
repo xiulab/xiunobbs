@@ -1,7 +1,9 @@
 <?php
 
 function search_type() {
-	return kv_get('xn_search_type');
+	static $search_conf = FALSE;
+	if($search_conf === FALSE) $search_conf = kv_get('search_conf');;
+	return $search_conf['type'];
 }
 
 function search_message_format($s) {

@@ -1,13 +1,13 @@
 {
-	"name":"Xiuno BBS 搜索插件",
-	"brief":"通过 HTTP 分词服务进行中文分词，结果存入到数据库，通过 FULLTEXT 索引实现全文搜索。",
-	"version":"1.15",
-	"bbs_version":"4.0",
-	"installed":0,
-	"enable":0,
-	"hooks_rank":{
-		"index_site_brief_after.htm":10
-	},
-	"overwrites_rank":[],
-	"dependencies":[]
+    "name": "Xiuno BBS 搜索插件",
+    "brief": "采用 MySQL FULLTEXT 实现全文搜索，Xiuno BBS 4 采用独特的处理方式，支持中文高效搜索。",
+    "version": "1.18",
+    "bbs_version": "4.0",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": {
+        "index_site_brief_after.htm": 10
+    },
+    "overwrites_rank": [],
+    "dependencies": []
 }

@@ -71,7 +71,7 @@ if($action == 'set') {
 		if(empty($tidlist)) {
 			$start = $threads;
 			kv_set('xn_search_cn_encode_subject_start', $start);
-			message(0, '重建索引完毕。');
+			message(0, jump('重建索引完毕。', url('plugin-setting-xn_search-cn_encode')));
 		} else {
 			$tids = arrlist_values($tidlist, 'tid');
 			$threadlist = db_find('thread', array('tid'=>$tids), array(), 1, 1000, 'tid');
@@ -99,7 +99,7 @@ if($action == 'set') {
 		if(empty($pidlist)) {
 			$start = $posts;
 			kv_set('xn_search_cn_encode_post_start', $start);
-			message(0, jump('重建索引完毕。', url('plugin-setting-xn_search')));
+			message(0, jump('重建索引完毕。', url('plugin-setting-xn_search-cn_encode')));
 		} else {
 			$pids = arrlist_values($pidlist, 'pid');
 			$postlist = db_find('post', array('pid'=>$pids), array(), 1, $limit);

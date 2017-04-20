@@ -11,6 +11,7 @@ function kv__get($k) {
 // 有缓存的
 function kv_get($k) {
 	static $static = array();
+	strlen($k) > 32 AND $k = md5($k);
 	if(!isset($static[$k])) {
 		$static[$k] = kv__get($k);
 	}
@@ -18,6 +19,7 @@ function kv_get($k) {
 }
 
 function kv_set($k, $v, $life = 0) {
+	strlen($k) > 32 AND $k = md5($k);
 	$arr = array(
 		'k'=>$k,
 		'v'=>xn_json_encode($v),
@@ -27,6 +29,7 @@ function kv_set($k, $v, $life = 0) {
 }
 
 function kv_delete($k) {
+	strlen($k) > 32 AND $k = md5($k);
 	$r = db_delete('kv', array('k'=>$k));
 	return $r;
 }
