@@ -27,7 +27,7 @@ if(empty($action) || $action == 'list') {
 	foreach($forumlist as $k=>$v) {
 		$forumlist_simple[$k] = array(
 			'name'=>$v['name'],
-			'name'=>$v['threads'],
+			'threads'=>$v['threads'],
 		);
 	}
 	
