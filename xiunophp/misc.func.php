@@ -68,7 +68,7 @@ function xn_error($no, $str, $return = FALSE) {
 	param(1, array(''));
 	param(1, array(0));
 */
-function param($key, $defval = '', $safe = TRUE) {
+function param($key, $defval = '', $htmlspecialchars = TRUE, $addslashes = FALSE) {
 	if(!isset($_REQUEST[$key]) || ($key === 0 && empty($_REQUEST[$key]))) {
 		if(is_array($defval)) {
 			return array();
@@ -77,7 +77,7 @@ function param($key, $defval = '', $safe = TRUE) {
 		}
 	}
 	$val = $_REQUEST[$key];
-	$val = param_force($val, $defval, $safe);
+	$val = param_force($val, $defval, $htmlspecialchars, $addslashes);
 	return $val;
 }
 
@@ -90,7 +90,7 @@ function param($key, $defval = '', $safe = TRUE) {
 	param_force($arr, array(''));
 	param_force($arr, array(0));
 */
-function param_force($val, $defval, $safe = TRUE) {
+function param_force($val, $defval, $htmlspecialchars = TRUE, $addslashes = FALSE) {
 	global $get_magic_quotes_gpc;
 	if(is_array($defval)) {
 		$defval = empty($defval) ? '' : $defval[0]; // 数组的第一个元素，如果没有则为空字符串
@@ -101,9 +101,9 @@ function param_force($val, $defval, $safe = TRUE) {
 				} else {
 					if(is_string($defval)) {
 						//$v = trim($v);
-						$safe AND !$get_magic_quotes_gpc && $v = addslashes($v);
-						!$safe AND $get_magic_quotes_gpc && $v = stripslashes($v);
-						$safe AND $v = htmlspecialchars($v);
+						$addslashes AND !$get_magic_quotes_gpc && $v = addslashes($v);
+						!$addslashes AND $get_magic_quotes_gpc && $v = stripslashes($v);
+						$htmlspecialchars AND $v = htmlspecialchars($v);
 					} else {
 						$v = intval($v);
 					}
@@ -118,9 +118,9 @@ function param_force($val, $defval, $safe = TRUE) {
 		} else {
 			if(is_string($defval)) {
 				//$val = trim($val);
-				$safe AND !$get_magic_quotes_gpc && $val = addslashes($val);
-				!$safe AND $get_magic_quotes_gpc && $val = stripslashes($val);
-				$safe AND $val = htmlspecialchars($val);
+				$addslashes AND !$get_magic_quotes_gpc && $val = addslashes($val);
+				!$addslashes AND $get_magic_quotes_gpc && $val = stripslashes($val);
+				$htmlspecialchars AND $val = htmlspecialchars($val);
 			} else {
 				$val = intval($val);
 			}
