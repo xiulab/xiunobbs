@@ -116,6 +116,7 @@ if(empty($action)) {
 		$conf['db']['mysql']['master']['name'] = $name;
 		$conf['db']['mysql']['master']['user'] = $user;
 		$conf['db']['mysql']['master']['password'] = $password;
+		$conf['db']['mysql']['master']['engine'] = $engine;
 		$conf['db']['pdo_mysql']['master']['host'] = $host;
 		$conf['db']['pdo_mysql']['master']['name'] = $name;
 		$conf['db']['pdo_mysql']['master']['user'] = $user;
