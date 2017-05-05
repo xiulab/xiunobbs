@@ -116,7 +116,10 @@ class db_mysql {
 			$fulltext = strpos($sql, 'FULLTEXT(') !== FALSE;
 			$highversion = version_compare($this->version(), '5.6') >= 0;
 			if(!$fulltext || ($fulltext && $highversion)) {
-				$this->innodb_first AND $this->is_support_innodb() AND $sql = str_ireplace('MyISAM', 'InnoDB', $sql);
+				$conf = $this->conf['master'];
+				if(strtolower($conf['engine']) != 'myisam') {
+					$this->innodb_first AND $this->is_support_innodb() AND $sql = str_ireplace('MyISAM', 'InnoDB', $sql);
+				}
 			}
 		}
 		$t1 = microtime(1);
