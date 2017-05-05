@@ -36,7 +36,7 @@ if(empty($action)) {
 	
 	if($method == 'GET') {
 		$input = array();
-		$input['lang'] = form_select('lang', array('zh-cn'=>'简体中文', 'zh-tw'=>'繁体中文', 'en-us'=>'English'), $conf['lang']);
+		$input['lang'] = form_select('lang', array('zh-cn'=>'简体中文', 'zh-tw'=>'正體中文', 'en-us'=>'English'), $conf['lang']);
 		
 		// 修改 conf.php
 		include INSTALL_PATH."view/htm/index.htm";
@@ -120,6 +120,7 @@ if(empty($action)) {
 		$conf['db']['pdo_mysql']['master']['name'] = $name;
 		$conf['db']['pdo_mysql']['master']['user'] = $user;
 		$conf['db']['pdo_mysql']['master']['password'] = $password;
+		$conf['db']['pdo_mysql']['master']['engine'] = $engine;
 		
 		$db = db_new($conf['db']);
 		// 此处可能报错
