@@ -816,6 +816,7 @@ function http_multi_get($urls) {
 	do {
 		$mrc = curl_multi_exec($multi_handle, $active);
 	} while ($mrc == CURLM_CALL_MULTI_PERFORM);
+	
 	while($active and $mrc == CURLM_OK) {
 		if(curl_multi_select($multi_handle) != - 1) {
 			do {
