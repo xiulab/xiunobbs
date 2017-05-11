@@ -795,8 +795,8 @@ function https_post($url, $post = '', $cookie = '', $timeout=30) {
 // 多线程抓取数据，需要CURL支持，一般在命令行下执行，此函数收集于互联网，由 xiuno 整理。
 function http_multi_get($urls) {
 	// 如果不支持，则转为单线程顺序抓取
+	$data = array();
 	if(!function_exists('curl_multi_init')) {
-		$data = array();
 		foreach($urls as $k=>$url) {
 			$data[$k] = https_get($url);
 		}
