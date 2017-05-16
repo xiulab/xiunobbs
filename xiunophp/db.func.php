@@ -26,7 +26,7 @@ function db_new($dbconf) {
 
 // 测试连接
 function db_connect($d = NULL) {
-	global $db;
+	$db = $_SERVER['db'];
 	$d = $d ? $d : $db;
 	
 	$r = $d->connect();
@@ -37,7 +37,7 @@ function db_connect($d = NULL) {
 }
 
 function db_close($d = NULL) {
-	global $db;
+	$db = $_SERVER['db'];
 	$d = $d ? $d : $db;
 	$r = $d->close();
 	
@@ -47,7 +47,7 @@ function db_close($d = NULL) {
 }
 
 function db_sql_find_one($sql, $d = NULL) {
-	global $db;
+	$db = $_SERVER['db'];
 	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	$arr = $d->sql_find_one($sql);
@@ -58,7 +58,7 @@ function db_sql_find_one($sql, $d = NULL) {
 }
 
 function db_sql_find($sql, $key = NULL, $d = NULL) {
-	global $db;
+	$db = $_SERVER['db'];
 	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	$arr = $d->sql_find($sql, $key);
@@ -73,7 +73,7 @@ function db_sql_find($sql, $key = NULL, $d = NULL) {
 // 对于非自增的表，INSERT 后，返回的一直是 0
 // 判断是否执行成功: mysql_exec() === FALSE
 function db_exec($sql, $d = NULL) {
-	global $db;
+	$db = $_SERVER['db'];
 	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
@@ -87,7 +87,7 @@ function db_exec($sql, $d = NULL) {
 }
 
 function db_count($table, $cond = array(), $d = NULL) {
-	global $db;
+	$db = $_SERVER['db'];
 	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
@@ -99,7 +99,7 @@ function db_count($table, $cond = array(), $d = NULL) {
 }
 
 function db_maxid($table, $field, $cond = array(), $d = NULL) {
-	global $db;
+	$db = $_SERVER['db'];
 	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
@@ -112,7 +112,7 @@ function db_maxid($table, $field, $cond = array(), $d = NULL) {
 
 // NO SQL 封装，可以支持 MySQL Marial PG MongoDB
 function db_create($table, $arr, $d = NULL) {
-	global $db;
+	$db = $_SERVER['db'];
 	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
@@ -120,7 +120,7 @@ function db_create($table, $arr, $d = NULL) {
 }
 
 function db_insert($table, $arr, $d = NULL) {
-	global $db;
+	$db = $_SERVER['db'];
 	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
@@ -130,7 +130,7 @@ function db_insert($table, $arr, $d = NULL) {
 }
 
 function db_replace($table, $arr, $d = NULL) {
-	global $db;
+	$db = $_SERVER['db'];
 	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
@@ -140,7 +140,7 @@ function db_replace($table, $arr, $d = NULL) {
 }
 
 function db_update($table, $cond, $update, $d = NULL) {
-	global $db;
+	$db = $_SERVER['db'];
 	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
@@ -151,7 +151,7 @@ function db_update($table, $cond, $update, $d = NULL) {
 }
 
 function db_delete($table, $cond, $d = NULL) {
-	global $db;
+	$db = $_SERVER['db'];
 	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
@@ -160,7 +160,7 @@ function db_delete($table, $cond, $d = NULL) {
 }
 
 function db_truncate($table, $d = NULL) {
-	global $db;
+	$db = $_SERVER['db'];
 	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
@@ -168,7 +168,7 @@ function db_truncate($table, $d = NULL) {
 }
 
 function db_read($table, $cond, $d = NULL) {
-	global $db;
+	$db = $_SERVER['db'];
 	$d = $d ? $d : $db;
 	if(!$d) return FALSE;
 	
@@ -178,7 +178,7 @@ function db_read($table, $cond, $d = NULL) {
 }
 
 function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesize = 10, $key = '', $col = array(), $d = NULL) {
-	global $db;
+	$db = $_SERVER['db'];
 	
 	// 高效写法，定参有利于编译器优化
 	$d = $d ? $d : $db;
@@ -236,7 +236,7 @@ function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesi
 }
 
 function db_find_one($table, $cond = array(), $orderby = array(), $col = array(), $d = NULL) {
-	global $db;
+	$db = $_SERVER['db'];
 	
 	// 高效写法，定参有利于编译器优化
 	$d = $d ? $d : $db;
@@ -289,7 +289,7 @@ function db_find_one($table, $cond = array(), $orderby = array(), $col = array()
 
 // 保存 $db 错误到全局
 function db_errno_errstr($r, $d = NULL) {
-	global $erno, $errstr;
+	global $errno, $errstr;
 	if($r === FALSE) { //  && $d->errno != 0
 		$errno = $d->errno;
 		$errstr = db_errstr_safe($errno, $d->errstr);
@@ -326,37 +326,37 @@ $ddl = array(
 */
 /*
 function db_table_create($tablename, $ddl) {
-	global $db;
+	$db = $_SERVER['db'];
 	return $db->table_create($tablename, $ddl);
 }
 
 // 删除表
 function db_table_drop($tablename) {
-	global $db;
+	$db = $_SERVER['db'];
 	return $db->table_drop($tablename);
 }
 
 // 增加一列，默认增加到最后
 function db_table_column_add($tablename, $ddl, $after = '') {
-	global $db;
+	$db = $_SERVER['db'];
 	return $db->table_table_column_add($tablename, $ddl, $after);
 }
 
 // 删除一列，默认增加到最后
 function db_table_column_drop($tablename, $colnames) {
-	global $db;
+	$db = $_SERVER['db'];
 	return $db->table_table_column_drop($tablename, $colnames);
 }
 
 // 添加索引 $index = array('gid'=>1, 'create_date'=>-1)
 function db_index_create($tablename, $index) {
-	global $db;
+	$db = $_SERVER['db'];
 	return $db->index_create($tablename, $index);
 }
 
 // 删除索引 $index = array('gid'=>1, 'create_date'=>-1)
 function db_index_drop($tablename, $index) {
-	global $db;
+	$db = $_SERVER['db'];
 	return $db->index_drop($tablename, $index);
 }
 */

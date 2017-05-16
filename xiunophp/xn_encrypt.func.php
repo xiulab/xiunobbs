@@ -14,7 +14,7 @@
 
 // 获取配置文件中的 key，优先从扩展中获取（比较安全）。 
 function xn_key($fromso = TRUE) {
-	global $conf;
+	$conf = _SERVER('conf');
 	return ($fromso && function_exists('xiuno_key')) ? xiuno_key() : (isset($conf['auth_key']) ? $conf['auth_key'] : '');
 }
 
@@ -22,6 +22,10 @@ function xn_key($fromso = TRUE) {
 // 临时使用，一般用作数据传输和校验
 function xn_safe_key() {
 	global $conf, $longip, $time, $useragent;
+	$conf = _SERVER('conf');
+	$longip = _SERVER('longip');
+	$time = _SERVER('time');
+	$useragent = _SERVER('useragent');
 	$key = xn_key();
 	$behind = intval(substr($time, -2, 2));
 	$t = $behind > 80 ? $time - 20 : ($behind < 20 ? $time - 40 : $time); // 修正范围，防止进位，有效时间窗口

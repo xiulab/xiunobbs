@@ -523,7 +523,7 @@ function xn_mkdir_by_filename($filename) {
 }
 
 function xn_unzip_old($zipfile, $destpath) {
-	global $conf;
+	$conf = _SERVER('conf');
 	$tmppath = empty($conf['tmp_path']) ? ini_get('upload_tmp_dir').'/' : $conf['tmp_path'];
 	$destpath = str_replace('\\', '/', $destpath);
 	substr($destpath, -1, 1) != '/' && $destpath .= '/';
@@ -546,7 +546,7 @@ function xn_unzip_old($zipfile, $destpath) {
 
 // 不支持对 storage 打包
 function xn_zip_old($destzip, $srcpath) {
-	global $conf;
+	$conf = _SERVER('conf');
 	$tmppath = empty($conf['tmp_path']) ? ini_get('upload_tmp_dir').'/' : $conf['tmp_path'];
 	$tmppath == '/' AND $tmppath = './';
 	$srcpath = str_replace('\\', '/', $srcpath);

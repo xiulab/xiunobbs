@@ -1,13 +1,13 @@
 <?php
 
 function xn_message($code, $message) {
-	global $ajax;
+	$ajax = $_SERVER['ajax'];
 	echo $ajax ? xn_json_encode(array('code'=>$code, 'message'=>$message)) : $message;
 	exit;
 }
 
 function xn_log_post_data() {
-	global $method;
+	$method = $_SERVER['method'];
 	if($method != 'POST') return;
 	$post = $_POST;
 	isset($post['password']) AND $post['password'] = '******'; 		// 干掉密码信息
@@ -19,7 +19,8 @@ function xn_log_post_data() {
 
 // 中断流程很危险！可能会导致数据问题，线上模式不允许中断流程！
 function error_handle($errno, $errstr, $errfile, $errline) {
-	global $time, $ajax;
+	$time = $_SERVER['time'];
+	$ajax = $_SERVER['ajax'];
 	$br = ($ajax ? "\n" : "<br>\n");
 	IN_CMD AND $errstr = str_replace('<br>', "\n", $errstr);
 	$s = $br."Error[$errno]: $errstr, File: $errfile, Line: $errline";
@@ -91,7 +92,7 @@ function param($key, $defval = '', $htmlspecialchars = TRUE, $addslashes = FALSE
 	param_force($arr, array(0));
 */
 function param_force($val, $defval, $htmlspecialchars = TRUE, $addslashes = FALSE) {
-	global $get_magic_quotes_gpc;
+	$get_magic_quotes_gpc = $_SERVER['get_magic_quotes_gpc'];
 	if(is_array($defval)) {
 		$defval = empty($defval) ? '' : $defval[0]; // 数组的第一个元素，如果没有则为空字符串
 		if(is_array($val)) {
@@ -134,7 +135,7 @@ function param_force($val, $defval, $htmlspecialchars = TRUE, $addslashes = FALS
 	lang('mobile_length_error', array('mobile'=>$mobile));
 */
 function lang($key, $arr = array()) {
-	global $lang;
+	$lang = $_SERVER['lang'];
 	if(!isset($lang[$key])) return 'lang['.$key.']';
 	$s = $lang[$key];
 	if(!empty($arr)) {
@@ -146,7 +147,7 @@ function lang($key, $arr = array()) {
 }
 
 function jump($message, $url = '', $delay = 3) {
-	global $ajax;
+	$ajax = $_SERVER['ajax'];
 	if($ajax) return $message;
 	if(!$url) return $message;
 	$url == 'back' AND $url = 'javascript:history.back()';
@@ -431,7 +432,8 @@ function mid($n, $min, $max) {
 }
 
 function humandate($timestamp, $lan = array()) {
-	global $time, $lang;
+	$time = $_SERVER['time'];
+	$lang = $_SERVER['lang'];
 	
 	static $custom_humandate = NULL;
 	if($custom_humandate === NULL) $custom_humandate = function_exists('custom_humandate');
@@ -490,7 +492,7 @@ function humansize($num) {
 
 // 不安全的获取 IP 方式，在开启 CDN 的时候，如果被人猜到真实 IP，则可以伪造。
 function ip() {
-	global $conf;
+	$conf = _SERVER('conf');
 	$ip = '127.0.0.1';
 	if(empty($conf['cdn_on'])) {
 		$ip = _SERVER('REMOTE_ADDR');
@@ -539,7 +541,9 @@ function ip() {
 
 // 日志记录
 function xn_log($s, $file = 'error') {
-	global $time, $ip, $conf;
+	$time = $_SERVER['time'];
+	$ip = $_SERVER['ip'];
+	$conf = _SERVER('conf');
 	$uid = intval(G('uid')); // xiunophp 未定义 $uid
 	$day = date('Ymd', $time);
 	$mtime = date('Y-m-d H:i:s'); // 默认值为 time()
@@ -989,7 +993,7 @@ function http_url_path() {
 	/thread/create/1
 */
 function url($url, $extra = array()) {
-	global $conf;
+	$conf = _SERVER('conf');
 	!isset($conf['url_rewrite_on']) AND $conf['url_rewrite_on'] = 0;
 	$r = $path = $query = '';
 	if(strpos($url, '/') !== FALSE) {
@@ -1071,7 +1075,7 @@ function xn_url_parse($request_url) {
 	$_SERVER['REQUEST_URI_NO_PATH'] = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '/') + 1);
 	
 	// 是否开启 /user/login 这种格式的 URL
-	global $conf;
+	$conf = _SERVER('conf');
 	if(!empty($conf['url_rewrite_on']) && $conf['url_rewrite_on'] == 3) {
 		$r = xn_url_parse_path_format($_SERVER['REQUEST_URI']) + $r;
 	}
@@ -1275,7 +1279,8 @@ function xn_shutdown_handle() {
 }
 
 function xn_debug_info() {
-	global $db, $starttime;
+	$db = $_SERVER['db'];
+	$starttime = $_SERVER['starttime'];
 	$s = '';
 	if(DEBUG > 1) {
 		$s .= '<div class="small break-all">';

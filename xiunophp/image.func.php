@@ -22,7 +22,7 @@ function image_ext($filename) {
 
 // 获取安全的文件名，如果文件存在，则加时间戳和随机数，避免重复
 function image_safe_name($filename, $dir) {
-	global $time;
+	$time = $_SERVER['time'];
 	// 最后一个 . 保留，其他的 . 替换
 	$s1 = substr($filename, 0, strrpos($filename, '.'));
 	$s2 = substr(strrchr($filename, '.'), 1);
@@ -43,7 +43,7 @@ function image_thumb_name($filename) {
 
 // 随即文件名
 function image_rand_name($k) {
-	global $time;
+	$time = $_SERVER['time'];
 	return $time.'_'.rand(1000000000, 9999999999).'_'.$k;
 }
 
@@ -146,7 +146,7 @@ function image_thumb($sourcefile, $destfile, $forcedwidth = 80, $forcedheight = 
 	imagefill($img_dst, 0, 0 , 0xFFFFFF);
 	imagecopyresampled($img_dst, $img_src, 0, 0, 0, 0, $des_width, $des_height, $src_width, $src_height);
 
-	global $conf;
+	$conf = _SERVER('conf');
 	$tmppath = isset($conf['tmp_path']) ? $conf['tmp_path'] : ini_get('upload_tmp_dir').'/';
 	$tmppath == '/' AND $tmppath = './tmp/';
 
@@ -209,7 +209,7 @@ function image_clip($sourcefile, $destfile, $clipx, $clipy, $clipwidth, $cliphei
 	imagefill($img_dst, 0, 0 , 0xFFFFFF);
 	imagecopyresampled($img_dst, $imgcolor, 0, 0, $clipx, $clipy, $imgwidth, $imgheight, $imgwidth, $imgheight);
 
-	global $conf;
+	$conf = _SERVER('conf');
 	$tmppath = isset($conf['tmp_path']) ? $conf['tmp_path'] : ini_get('upload_tmp_dir').'/';
 	$tmppath == '/' AND $tmppath = './tmp/';
 
@@ -271,7 +271,8 @@ function image_clip_thumb($sourcefile, $destfile, $forcedwidth = 80, $forcedheig
 }
 
 function image_safe_thumb($sourcefile, $id, $ext, $dir1, $forcedwidth, $forcedheight, $randomname = 0) {
-	global $time, $ip;
+	$time = $_SERVER['time'];
+	$ip = $_SERVER['ip'];
 	$dir2 = image_set_dir($id, $dir1);
 	$filename = $randomname ? md5(rand(0, 1000000000).$time.$ip).$ext : $id.$ext;
 	$filepath = "$dir1$dir2/$filename";
