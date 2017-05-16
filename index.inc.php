@@ -7,7 +7,7 @@
 $sid = sess_start();
 
 // 语言 / Language
-$lang = include _include(APP_PATH."lang/$conf[lang]/bbs.php");
+$_SERVER['lang'] = $lang = include _include(APP_PATH."lang/$conf[lang]/bbs.php");
 
 // 支持 Token 接口（token 与 session 双重登陆机制，方便 REST 接口设计，也方便 $_SESSION 使用）
 // Support Token interface (token and session dual match, to facilitate the design of the REST interface, but also to facilitate the use of $_SESSION)
@@ -63,7 +63,6 @@ if(!defined('SKIP_ROUTE')) {
 		case 'attach': 	include _include(APP_PATH.'route/attach.php'); 	break;
 		case 'post': 	include _include(APP_PATH.'route/post.php'); 	break;
 		case 'mod': 	include _include(APP_PATH.'route/mod.php'); 	break;
-		case 'browser': include _include(APP_PATH.'route/browser.php'); break;
 		// hook index_route_case_end.php
 		default: 
 			// hook index_route_case_default.php

@@ -92,6 +92,26 @@ $_REQUEST = array_merge($_COOKIE, $_POST, $_GET);
 !isset($_SERVER['REMOTE_ADDR']) AND $_SERVER['REMOTE_ADDR'] = '';
 !isset($_SERVER['SERVER_ADDR']) AND $_SERVER['SERVER_ADDR'] = '';
 
+
+
+
+// 保存到超级全局变量，防止冲突被覆盖。
+$_SERVER['starttime'] = $starttime;
+$_SERVER['time'] = $time;
+$_SERVER['ip'] = $ip;
+$_SERVER['longip'] = $longip;
+$_SERVER['useragent'] = $useragent;
+$_SERVER['conf'] = $conf;
+$_SERVER['lang'] = $lang;
+$_SERVER['errno'] = $errno;
+$_SERVER['errstr'] = $errstr;
+$_SERVER['method'] = $method;
+$_SERVER['ajax'] = $ajax;
+$_SERVER['get_magic_quotes_gpc'] = $get_magic_quotes_gpc;
+
+
+
+
 // 初始化 db cache，这里并没有连接，在获取数据的时候会自动连接。
 $db = !empty($conf['db']) ? db_new($conf['db']) : NULL;
 $db AND $db->errno AND xn_message(-1, $db->errstr); // 安装的时候检测过了，不必每次都检测。但是要考虑环境移植。
@@ -104,20 +124,7 @@ unset($conf['cache']['mysql']['db']); // 用完清除，防止保存到配置文
 // 对 key 进行安全保护，Xiuno 专用扩展
 !empty($conf) && function_exists('xiuno_key') && $conf['auth_key'] = xiuno_key();
 
-// 保存到超级全局变量，防止冲突被覆盖。
-$_SERVER['starttime'] = $starttime;
-$_SERVER['time'] = $time;
-$_SERVER['ip'] = $ip;
-$_SERVER['longip'] = $longip;
-$_SERVER['useragent'] = $useragent;
-$_SERVER['conf'] = $conf;
-$_SERVER['lang'] = $lang;
-$_SERVER['errno'] = $errno;
-$_SERVER['errstr'] = $errstr;
 $_SERVER['db'] = $db;
 $_SERVER['cache'] = $cache;
-$_SERVER['method'] = $method;
-$_SERVER['ajax'] = $ajax;
-$_SERVER['get_magic_quotes_gpc'] = $get_magic_quotes_gpc;
 
 ?>

@@ -101,18 +101,18 @@ $_REQUEST = array_merge($_COOKIE, $_POST, $_GET);
 
 
 // 保存到超级全局变量，防止冲突被覆盖。
-$_SERVER['starttime'] = &$starttime;
-$_SERVER['time'] = &$time;
-$_SERVER['ip'] = &$ip;
-$_SERVER['longip'] = &$longip;
-$_SERVER['useragent'] = &$useragent;
-$_SERVER['conf'] = &$conf;
-$_SERVER['lang'] = &$lang;
-$_SERVER['errno'] = &$errno;
-$_SERVER['errstr'] = &$errstr;
-$_SERVER['method'] = &$method;
-$_SERVER['ajax'] = &$ajax;
-$_SERVER['get_magic_quotes_gpc'] = &$get_magic_quotes_gpc;
+$_SERVER['starttime'] = $starttime;
+$_SERVER['time'] = $time;
+$_SERVER['ip'] = $ip;
+$_SERVER['longip'] = $longip;
+$_SERVER['useragent'] = $useragent;
+$_SERVER['conf'] = $conf;
+$_SERVER['lang'] = $lang;
+$_SERVER['errno'] = $errno;
+$_SERVER['errstr'] = $errstr;
+$_SERVER['method'] = $method;
+$_SERVER['ajax'] = $ajax;
+$_SERVER['get_magic_quotes_gpc'] = $get_magic_quotes_gpc;
 
 
 
@@ -129,7 +129,8 @@ unset($conf['cache']['mysql']['db']); // 用完清除，防止保存到配置文
 // 对 key 进行安全保护，Xiuno 专用扩展
 !empty($conf) && function_exists('xiuno_key') && $conf['auth_key'] = xiuno_key();
 
-$_SERVER['db'] = &$db;
-$_SERVER['cache'] = &$cache;
+
+$_SERVER['db'] = $db;
+$_SERVER['cache'] = $cache;
 
 ?>
