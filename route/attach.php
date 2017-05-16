@@ -15,7 +15,7 @@ if(empty($action) || $action == 'create') {
 	$height = param('height', 0);
 	$is_image = param('is_image', 0);
 	$name = param('name');
-	$data = param('data', '', FALSE);
+	$data = param('data', '', FALSE, FALSE);
 	
 	// hook attach_create_start.php
 	
