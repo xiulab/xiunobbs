@@ -195,6 +195,16 @@ CREATE TABLE bbs_mythread (
   PRIMARY KEY (uid, tid)				# 每一个帖子只能插入一次 unique
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+# 我的回帖。大表，需要分区。
+DROP TABLE IF EXISTS bbs_mypost;
+CREATE TABLE bbs_mypost (
+  uid int(11) unsigned NOT NULL default '0',		# uid
+  tid int(11) unsigned NOT NULL default '0',		# 用来清理
+  pid int(11) unsigned NOT NULL default '0',		#
+  KEY (tid),						#
+  PRIMARY KEY (uid, pid)				#
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 # session 表
 # 缓存到 runtime 表。 online_0 全局 online_fid 版块。提高遍历效率。
 DROP TABLE IF EXISTS bbs_session;
@@ -211,8 +221,9 @@ CREATE TABLE bbs_session (
   PRIMARY KEY (sid),
   KEY ip (ip),
   KEY fid (fid),
-  KEY uid (uid)
+  KEY uid_last_date (uid, last_date)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 
 DROP TABLE IF EXISTS bbs_session_data;
 CREATE TABLE bbs_session_data (
