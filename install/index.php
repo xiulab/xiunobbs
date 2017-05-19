@@ -123,7 +123,7 @@ if(empty($action)) {
 		$conf['db']['pdo_mysql']['master']['password'] = $password;
 		$conf['db']['pdo_mysql']['master']['engine'] = $engine;
 		
-		$db = db_new($conf['db']);
+		$_SERVER['db'] = $db = db_new($conf['db']);
 		// 此处可能报错
 		if(db_connect($db) === FALSE) {
 			// 
