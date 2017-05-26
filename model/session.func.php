@@ -46,6 +46,8 @@ function sess_read($sid) {
 		$arr['data'] = $arr2['data'];
 	}
 	$g_session = $arr;
+	// 在 php 5.6.29 版本，需要返回 session_decode()
+	//return $arr ? session_decode($arr['data']) : '';
 	return $arr ? $arr['data'] : '';
 }
 
@@ -102,8 +104,8 @@ function sess_save() {
 function sess_write($sid, $data) {
 	global $g_session, $time, $longip, $g_session_invalid, $conf;
 	
-	//echo "sess_write($sid, $data)";exit;
-	if($g_session_invalid) return TRUE;
+	//echo "sess_write($sid, $data)";
+	//if($g_session_invalid) return TRUE;
 	
 	$uid = _SESSION('uid');
 	$fid = _SESSION('fid');
@@ -172,8 +174,7 @@ function sess_destroy($sid) {
 }
 
 function sess_gc($maxlifetime) {
-	//echo "sess_gc($maxlifetime) \r\n";
-	global $time;
+	// echo "sess_gc($maxlifetime) \r\n";
 	$expiry = $time - $maxlifetime;
 	db_delete('session', array('last_date'=>array('<'=>$expiry)));
 	db_delete('session_data', array('last_date'=>array('<'=>$expiry)));
@@ -211,6 +212,7 @@ function sess_start() {
 	//$_SESSION['fid'] = $g_session['fid'];
 	
 	//echo "sess_start() sid: $sid <br>\r\n";
+	//print_r(db_find('session'));
 	return $sid;
 }
 

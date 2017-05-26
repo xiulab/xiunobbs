@@ -213,7 +213,7 @@ function thread_find($cond = array(), $orderby = array(), $page = 1, $pagesize =
 
 // $order: tid/lastpid
 // 按照: 发帖时间/最后回复时间 倒序
-function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'tid') {
+function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'lastpid') {
 	global $conf, $forumlist, $runtime;
 	$forum = $fid ? $forumlist[$fid] : array();
 	$threads = empty($forum) ? $runtime['threads'] : $forum['threads'];

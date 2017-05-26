@@ -211,7 +211,7 @@ function user_update_group($uid) {
 	foreach($grouplist as $group) {
 		if($group['gid'] < 100) continue;
 		$n = $user['posts'] + $user['threads']; // 根据发帖数
-		// user_update_group_policy_start.php
+		// hook model_user_update_group_policy_start.php
 		if($n > $group['creditsfrom'] && $n < $group['creditsto']) {
 			if($user['gid'] != $group['gid']) {
 				user_update($uid, array('gid'=>$group['gid']));
@@ -289,7 +289,7 @@ function user_token_get_do() {
 	// hook model_user_token_get_do_start.php
 	
 	if(empty($token)) return FALSE;
-	$tokenkey = md5($conf['auth_key']);
+	$tokenkey = md5(xn_key());
 	$s = xn_decrypt($token, $tokenkey);
 	if(empty($s)) return FALSE;
 	$arr = explode("\t", $s);
@@ -325,7 +325,7 @@ function user_token_gen($uid) {
 	
 	// hook model_user_token_gen_start.php
 	
-	$tokenkey = md5($conf['auth_key']);
+	$tokenkey = md5(xn_key());
 	$token = xn_encrypt("$ip	$time	$uid", $tokenkey);
 	
 	// hook model_user_token_gen_end.php

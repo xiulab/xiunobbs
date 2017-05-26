@@ -16,7 +16,7 @@ function _include($srcfile) {
 	// 合并插件，存入 tmp_path
 	$len = strlen(APP_PATH);
 	$tmpfile = $conf['tmp_path'].substr(str_replace('/', '_', $srcfile), $len);
-	if(!is_file($tmpfile) || DEBUG > 1) {
+	if(!is_file($tmpfile)  || DEBUG > 1) {
 		// 开始编译
 		$s = plugin_compile_srcfile($srcfile);
 		
@@ -382,9 +382,15 @@ function plugin_paths_enabled() {
 
 // 编译源文件，把插件合并到该文件，不需要递归，执行的过程中 include _include() 自动会递归。
 function plugin_compile_srcfile($srcfile) {
-	// 如果有 overwrite，则用 overwrite 替换掉
-	$srcfile = plugin_find_overwrite($srcfile);
-	$s = file_get_contents($srcfile);
+	// 判断是否开启插件
+	if(!empty($conf['disabled_plugin'])) {
+		$s = file_get_contents($srcfile);
+		return $s;
+	} else {
+		// 如果有 overwrite，则用 overwrite 替换掉
+		$srcfile = plugin_find_overwrite($srcfile);
+		$s = file_get_contents($srcfile);
+	}
 	
 	$s = preg_replace('#<!--{hook\s+(.*?)}-->#', '// hook \\1', $s);
 	$s = preg_replace_callback('#//\s*hook\s+(\S+)#is', 'plugin_compile_srcfile_callback', $s);
