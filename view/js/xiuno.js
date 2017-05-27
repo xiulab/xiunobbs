@@ -100,6 +100,7 @@ xn.urlencode = function(s) {
 	s = s.replace(/\*/g, "%2a");
 	s = s.replace(/\(/g, "%28");
 	s = s.replace(/\)/g, "%29");
+	//s = s.replace(/\+/g, "%20");
 	s = s.replace(/\%/g, "_");
 	return s;
 };
@@ -349,7 +350,7 @@ xn.rand = function(n) {
 
 xn.random = function(min, max) {
 	var num = Math.random()*(max-min + 1) + min;
-	var r = Math.floor(num);
+	var r = Math.ceil(num);
 	return r;
 };
 
