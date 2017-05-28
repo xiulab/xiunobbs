@@ -174,6 +174,7 @@ function sess_destroy($sid) {
 }
 
 function sess_gc($maxlifetime) {
+	global $time;
 	// echo "sess_gc($maxlifetime) \r\n";
 	$expiry = $time - $maxlifetime;
 	db_delete('session', array('last_date'=>array('<'=>$expiry)));
