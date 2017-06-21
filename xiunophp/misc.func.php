@@ -178,7 +178,7 @@ function xn_urlencode($s) {
     $s = str_replace('_', '_5f', $s);
     $s = str_replace('-', '_2d', $s);
     $s = str_replace('.', '_2e', $s);
-    $s = str_replace('+', '_20', $s);
+    $s = str_replace('+', '_2b', $s);
     $s = str_replace('=', '_3d', $s);
     $s = str_replace('%', '_', $s);
     return $s; 

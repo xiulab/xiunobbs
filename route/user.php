@@ -12,13 +12,12 @@ if($action == 'login') {
 
 	// hook user_login_get_post.php
 	
-	
 	if($method == 'GET') {
 
 		// hook user_login_get_start.php
 		
 		$referer = user_http_referer();
-	
+			
 		$header['title'] = lang('user_login');
 		
 		// hook user_login_get_end.php
@@ -342,8 +341,9 @@ if($action == 'login') {
 } elseif($action == 'synlogin') {
 
 	// 检查过来的 token | check token
-	$token = param(2);
-	$return_url = param(3);
+	$token = param('token');
+	$return_url = param('return_url');
+	
 	$s = xn_decrypt($token);
 	!$s AND message(-1, lang('unauthorized_access'));
 	list($_time, $_useragent) = explode("\t", $s);
@@ -370,8 +370,8 @@ if($action == 'login') {
 		$s = xn_encrypt($s);
 		
 		// 将 token 附加到 URL，跳转回去 | add token into URL, jump back
-		$return_url = xn_urldecode($return_url);
-		$url = xn_url_add_arg($return_url, 'token', $s);
+		$url = xn_urldecode($return_url).'?token='.$s;
+		//$url = xn_url_add_arg($return_url, 'token', $s);
 		http_location($url);
 	}
 	
@@ -410,8 +410,17 @@ function user_http_referer() {
 	// hook user_http_referer_start.php
 	$referer = param('referer'); // 优先从参数获取 | GET is priority
 	empty($referer) AND $referer = array_value($_SERVER, 'HTTP_REFERER', '');
+	
 	$referer = str_replace(array('\"', '"', '<', '>', ' ', '*', "\t", "\r", "\n"), '', $referer); // 干掉特殊字符 strip special chars
-	if(!preg_match('#^(http|https)://[\w\-=/\.]+/[\w\-=.%\#?]*$#is', $referer) || strpos($referer, 'user-login.htm') !== FALSE || strpos($referer, 'user-logout.htm') !== FALSE || strpos($referer, 'user-create.htm') !== FALSE || strpos($referer, 'user-setpw.htm') !== FALSE || strpos($referer, 'user-resetpw_complete.htm') !== FALSE) {
+	
+	if(
+		!preg_match('#^(http|https)://[\w\-=/\.]+/[\w\-=.%\#?]*$#is', $referer) 
+		|| strpos($referer, 'user-login.htm') !== FALSE 
+		|| strpos($referer, 'user-logout.htm') !== FALSE 
+		|| strpos($referer, 'user-create.htm') !== FALSE 
+		|| strpos($referer, 'user-setpw.htm') !== FALSE 
+		|| strpos($referer, 'user-resetpw_complete.htm') !== FALSE
+	) {
 		$referer = './';
 	}
 	// hook user_http_referer_end.php

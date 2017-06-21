@@ -141,6 +141,6 @@ if($action == 'create') {
 	
 }
 
-// hook thread_start.php
+// hook thread_end.php
 
 ?>

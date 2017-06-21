@@ -130,7 +130,7 @@ function forum_access_user($fid, $gid, $access) {
 	$group = $grouplist[$gid];
 	$forum = $forumlist[$fid];
 	if($forum['accesson']) {
-		$r = !empty($group[$access]) && !empty($forum['accesslist'][$gid][$access]);
+		$r = (!isset($group[$access]) || $group[$access]) && !empty($forum['accesslist'][$gid][$access]);
 	} else {
 		$r = !empty($group[$access]);
 	}

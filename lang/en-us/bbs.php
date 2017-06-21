@@ -265,7 +265,7 @@ return array(
 	'runlevel_reson_3'=>'the status of the current site settings: member can read and write',
 	'runlevel_reson_4'=>'the status of the current site settings: all people read only',
 	'lang_zh_cn'=>'简体中文',
-	'lang_zh_tw'=>'繁体中文',
+	'lang_zh_tw'=>'正體中文',
 	'lang_en_us'=>'English',
 	
 	// hook lang_en_us_bbs.php
