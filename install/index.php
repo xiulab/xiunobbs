@@ -1,6 +1,6 @@
 <?php
 
-define('DEBUG', 2);
+define('DEBUG', 0);
 define('APP_PATH', realpath(dirname(__FILE__).'/../').'/');
 define('INSTALL_PATH', dirname(__FILE__).'/');
 
@@ -26,7 +26,7 @@ include INSTALL_PATH.'install.func.php';
 $action = param('action');
 
 // 安装初始化检测,放这里
-is_file(APP_PATH.'conf/conf.php') AND DEBUG != 2 AND message(0, jump(lang('installed_tips'), '../'));
+//is_file(APP_PATH.'conf/conf.php') AND DEBUG != 2 AND message(0, jump(lang('installed_tips'), '../'));
 
 // 从 cookie 中获取数据，默认为中文
 $_lang = param('lang', 'zh-cn');
@@ -125,9 +125,34 @@ if(empty($action)) {
 		
 		$_SERVER['db'] = $db = db_new($conf['db']);
 		// 此处可能报错
-		if(db_connect($db) === FALSE) {
-			// 
-			message(-1, "$errstr (errno: $errno)");
+		$r = db_connect($db);
+		if($r === FALSE) {
+			if($errno == 1049 || $errno == 1045) {
+				if($type == 'mysql') {
+					mysql_query("CREATE DATABASE $name");
+					$r = db_connect($db);
+				} elseif($type == 'pdo_mysql') {
+					try {
+						$attr = array(
+							PDO::ATTR_TIMEOUT => 5,
+							//PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+						);
+						$link = new PDO("mysql:host=$host;port=$port", $user, $password, $attr);
+						$r = $link->exec("CREATE DATABASE `$name`");
+						if($r === FALSE) {
+							$error = $link->errorInfo();
+							$errno = $error[1];
+							$errstr = $error[2];
+						}
+					} catch (PDOException $e) {
+						$errno = $e->getCode();
+						$errstr = $e->getMessage();
+					}
+				}
+			}
+			if($r === FALSE) {
+				message(-1, "$errstr (errno: $errno)");
+			}
 		}
 		
 		$conf['cache']['mysql']['db'] = $db; // 这里直接传 $db，复用 $db；如果传配置文件，会产生新链接。
