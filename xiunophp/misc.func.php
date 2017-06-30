@@ -541,11 +541,12 @@ function ip() {
 
 // 日志记录
 function xn_log($s, $file = 'error') {
+	if(DEBUG == 0) return;
 	$time = $_SERVER['time'];
 	$ip = $_SERVER['ip'];
 	$conf = _SERVER('conf');
 	$uid = intval(G('uid')); // xiunophp 未定义 $uid
-	$day = date('Ymd', $time);
+	$day = date('Ym', $time); // 按照月存放，否则目录太多。
 	$mtime = date('Y-m-d H:i:s'); // 默认值为 time()
 	$url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 	$logpath = $conf['log_path'].$day;
