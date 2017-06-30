@@ -153,7 +153,7 @@ $('body').on('click', '.post_delete', function() {
 					jthis.parents('tr').remove();
 					// 回复数 -1
 					var jposts = $('.posts');
-					jposts.html(xn.intval(jposts.html()) + 1);
+					jposts.html(xn.intval(jposts.html()) - 1);
 				}
 			} else {
 				$.alert(message);
