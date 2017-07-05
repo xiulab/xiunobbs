@@ -26,7 +26,7 @@ include INSTALL_PATH.'install.func.php';
 $action = param('action');
 
 // 安装初始化检测,放这里
-//is_file(APP_PATH.'conf/conf.php') AND DEBUG != 2 AND message(0, jump(lang('installed_tips'), '../'));
+is_file(APP_PATH.'conf/conf.php') AND DEBUG != 2 AND message(0, jump(lang('installed_tips'), '../'));
 
 // 从 cookie 中获取数据，默认为中文
 $_lang = param('lang', 'zh-cn');
@@ -167,7 +167,7 @@ if(empty($action)) {
 		
 		// 连接成功以后，开始建表，导数据。
 		
-		install_sql_file('./install.sql');
+		install_sql_file(INSTALL_PATH.'install.sql');
 		
 		// 初始化
 		copy(APP_PATH.'conf/conf.default.php', APP_PATH.'conf/conf.php');
