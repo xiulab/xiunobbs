@@ -92,7 +92,7 @@ function arrlist_multisort($arrlist, $col, $asc = TRUE) {
 	return $arrlist;
 }
 
-// 对数组进行查找，排序，筛选，只支持一种条件排序
+// 对数组进行查找，排序，筛选，支持多种条件排序
 function arrlist_cond_orderby($arrlist, $cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	$resultarr = array();
 	if(empty($arrlist)) return $arrlist;
@@ -102,9 +102,26 @@ function arrlist_cond_orderby($arrlist, $cond = array(), $orderby = array(), $pa
 		foreach($arrlist as $key=>$val) {
 			$ok = TRUE;
 			foreach($cond as $k=>$v) {
-				if(!isset($val[$k]) || $val[$k] != $v) {
-					$ok = FALSE;
-					break;
+				if(!isset($val[$k])) {
+					$ok = FALSE; break;
+				}
+				if(!is_array($v)) {
+					if($val[$k] != $v) {
+						$ok = FALSE; break;
+					}
+				} else {
+					foreach($v as $k3=>$v3) {
+						if(
+							($k3 == '>' && $val[$k] <= $v3) || 
+							($k3 == '<' && $val[$k] >= $v3) ||
+							($k3 == '>=' && $val[$k] < $v3) ||
+							($k3 == '<=' && $val[$k] > $v3) ||
+							($k3 == '==' && $val[$k] != $v3) ||
+							($k3 == 'LIKE' && stripos($val[$k], $v3) === FALSE)
+						)  {
+							$ok = FALSE; break 2;
+						}
+					}
 				}
 			}
 			if($ok) $resultarr[$key] = $val;
