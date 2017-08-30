@@ -25,7 +25,14 @@ $(function() {
 				var file = files[i];
 				xn.upload_file(file, xn.url('attach-create'), {is_image: 1}, function(code, json) {
 					if(code == 0) {
-						var s = '<img src="'+json.url+'" width="'+json.width+'" height=\"'+json.height+'\" />';
+						if(json.width > 800) {
+							var scale = json.height / json.width;
+							json.width = 800;
+							json.height = xn.intval(800 * scale);
+							var s = '<a href="'+json.url+'" target="_blank"><img src="'+json.url+'" width="'+json.width+'" height=\"'+json.height+'\" /></a><br>';
+						} else {
+							var s = '<img src="'+json.url+'" width="'+json.width+'" height=\"'+json.height+'\" />';
+						}
 						me.execCommand('inserthtml', s);
 					} else {
 						$.alert(json);
@@ -83,7 +90,7 @@ $(function() {
 				}, function(data) {
 					var imgid = xn.rand(16);
 					var progressid = xn.rand(16);
-					me.execCommand('inserthtml', '<div style="width: 100px; height: 100px; position: relative; display: inline-block;" class="'+imgid+'"><img src="'+data+'" width="100" height=\"100\" /><progress class="progress progress-success '+progressid+'" value="1" max="100" style="width: 90px; height: 10px; position: absolute; left: 5px; top: 45px;">0%</progress>');
+					me.execCommand('inserthtml', '<div style="width: 100px; height: 100px; position: relative; display: inline-block;" class="'+imgid+'"><img src="'+data+'" width="100" height=\"100\" data-keep-src="1" /><progress class="progress progress-success '+progressid+'" value="1" max="100" style="width: 90px; height: 10px; position: absolute; left: 5px; top: 45px;">0%</progress>');
 					//setTimeout(function() {
 					//var pastebins = doc.querySelectorAll('#baidu_pastebin');
 					setTimeout(function() {
@@ -112,6 +119,7 @@ $(function() {
 			me.$body.find('img').each(function() {
 				var jthis = $(this);
 				var src = jthis.attr('src');
+				if(jthis.data('keep-src')) return;
 				if(src && xn.substr(src, 0, 10) == 'data:image') {
 					
 					// 如果发现有图片，则清理格式

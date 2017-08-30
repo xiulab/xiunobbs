@@ -1,12 +1,7 @@
 <?php
-define('DEBUG', 0);
-define('BASE_HREF', '../../../');
-define('SKIP_ROUTE', true); // 跳过路由处理，否则 index.php 中会中断流程
-chdir('../../../');
-$openid = true;
-include './index.php';
-include './plugin/xn_wechat_public/model/wechat.func.php';
 
+$openid = true;
+include _include(APP_PATH.'plugin/xn_wechat_public/model/wechat.func.php');
 if ( $method == 'POST' ) {
 	$email = param('email');                        // 邮箱或者手机号 / email or mobile
 	$password = param('password');
@@ -29,11 +24,13 @@ if ( $method == 'POST' ) {
 	$open_user = db_find_one('user_open_wechat', array( 'openid' => $openid ));
 	!empty( $open_user['uid'] ) AND message(1, '无需重复授权,谢谢!');
 	db_update('user_open_wechat', array( 'openid' => $openid ), array( 'uid' => $uid ));
-	message(0, ' 授权登录成功!');
+    $_SESSION['uid'] = $uid;
+    user_token_set($user['uid']);
+    message(0, ' 授权登录成功!');
 }
-
 $code = param('code');
-$auto = param('auto', 0);
+$auto = param(1, '');
+$auto=  $auto=='auto' ? 1:0;
 $state = param('state');
 if ( $code ) {
 	wechat_get_token($code, $state);

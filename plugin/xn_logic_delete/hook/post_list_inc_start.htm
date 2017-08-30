@@ -1,0 +1,9 @@
+<?php 
+	if($postlist) { 
+		foreach($postlist as $k=>$_post) { 
+			if($_post['deleted'] && !$group['allowharddelete']) {
+				unset($postlist[$k]);
+			}
+		}
+	}		
+?>

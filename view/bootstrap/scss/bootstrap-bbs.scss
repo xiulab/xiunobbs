@@ -198,3 +198,18 @@ tr.quote td:nth-child(2) {
 .xn-back {line-height: 1 !important;}
 
 .icon-diamond:before { font-weight: 800; }
+
+.fieldset {
+	padding:10px;
+	margin:10px;
+	border:#aaa solid 1px;
+}
+.fieldset > legend {
+	width: auto;
+	font-size: 1rem;
+	font-weight: 800;
+	background: #888;
+	color: #fff;
+	padding: 0px 16px;
+
+}

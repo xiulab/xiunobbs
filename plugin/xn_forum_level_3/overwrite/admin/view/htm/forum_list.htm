@@ -110,6 +110,13 @@ Vue.component('comp-forum', {
 	  				delete app.forumlist[k];
 	  			}
 	  		}
+	  		$.xpost(xn.url('forum-delete-'+fid), function(code) {
+			  	if(code == 0) {
+			  		alert('删除成功');
+			  	} else {
+			  		alert(message);
+			  	}
+	  		});
 	  		//app.forumlist.push();
 	  		//app.forumlist.pop();
 	  		app.forumlist = xn.array_filter(app.forumlist);

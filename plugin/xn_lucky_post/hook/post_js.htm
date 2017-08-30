@@ -1,0 +1,30 @@
+<script>
+
+var jlucky_pids = $('#lucky_pids');
+var jstart_floor = $('#start_floor');
+var jend_floor = $('#end_floor');
+var jtotal_floor = $('#total_floor');
+var jrandom_floor = $('#random_floor');
+
+jrandom_floor.on('click', function(e) {
+	var arr = [];
+	var start = jstart_floor.val();
+	var end = jend_floor.val();
+	var total = jtotal_floor.val();
+	if(total >= end - start) {
+		total = end - start + 1;
+	}
+	for(var i=0; i<total; i++) {
+		do {
+			var r = xn.random(start, end);
+		} while(xn.in_array(r, arr));
+		arr.push(r);
+		if(r == 0) {
+			console.log(r);
+		}
+	}
+	arr = arr.sort(function(a, b) { return a - b;});
+	jlucky_pids.val(arr.join(', '));
+});
+
+</script>

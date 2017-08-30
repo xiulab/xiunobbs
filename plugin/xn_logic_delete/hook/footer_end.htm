@@ -1,0 +1,48 @@
+<script>
+
+$(function() {
+	// 版主管理：删除 / moderator : delete
+	$('.mod-button button.delete').off('click').on('click', function() {
+		var modtid = $('input[name="modtid"]').checked();
+		if(modtid.length == 0) return $.alert(lang.please_choose_thread);
+		var radios = '';
+		<?php if(!empty($group['allowharddelete'])) { ?>
+		var radios = xn.form_radio('type', {"0": "删除", "1": "物理删除", "2": "恢复删除"}, 0);
+		<?php } ?>
+		//var htmladd = '<br><br><label class="text-small"><input type="checkbox" name="logic" value="0" /> 物理删除</label>';
+		//htmladd += '<br><label class="text-small"><input type="checkbox" name="logic" value="0" /> 恢复删除</label>';
+		$.confirm(xn.lang('confirm_delete_thread', {n:modtid.length}) + '<br><br>'+radios, function() {
+			var tids = xn.implode('_', modtid);
+			var type = $('input[name="type"]').checked();
+			$.xpost(xn.url('mod-delete-'+tids), {type: type}, function(code, message) {
+				if(code != 0) return $.alert(message);
+				$.alert(message).delay(1000).location('');
+			});
+		});
+	})
+
+	// 恢复逻辑删除的帖子
+	$('body').on('click', '.post_recover', function() {
+		var jthis = $(this);
+		var href = jthis.data('href');
+		var isfirst = jthis.attr('isfirst');
+		if(window.confirm('确定恢复删除的帖子？')) {
+			$.xpost(href, function(code, message) {
+				var isfirst = jthis.attr('isfirst');
+				if(code == 0) {
+					if(isfirst == '1') {
+						$.location('<?php echo url("forum-$fid");?>');
+					} else {
+						window.location.reload();
+					}
+				} else {
+					$.alert(message);
+				}
+			});
+		}
+		return false;
+	});
+
+})
+
+</script>

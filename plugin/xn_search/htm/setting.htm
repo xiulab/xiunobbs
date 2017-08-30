@@ -8,7 +8,7 @@
 					'set'=>array('url'=>url('plugin-setting-xn_search-set'), 'text'=>lang('admin_setting_search_set')),
 					'cn_encode'=>array('url'=>url('plugin-setting-xn_search-cn_encode'), 'text'=>lang('admin_setting_search_cn_encode'))
 				), $action);
-			?>
+		?>
         </div>
 
         <div class="card">
@@ -54,52 +54,53 @@
 <?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
 
 <script>
-    var jform = $("#form");
-    var jsubmit = $("#submit");
-    var referer = '<?php echo http_referer();?>';
-    jform.on('submit', function() {
-        jform.reset();
-        jsubmit.button('loading');
-        var postdata = jform.serialize();
-        $.xpost(jform.attr('action'), postdata, function(code, message) {
-            if (code == 0) {
-                $.alert(message);
-                jsubmit.text(message).delay(2000).button('reset').location(referer);
-                return;
-            } else {
-                $.alert(message);
-                jsubmit.button('reset');
-            }
-        });
-        return false;
-    });
+var jform = $("#form");
+var jsubmit = $("#submit");
+var referer = '<?php echo http_referer();?>';
+jform.on('submit', function() {
+	jform.reset();
+	jsubmit.button('loading');
+	var postdata = jform.serialize();
+	$.xpost(jform.attr('action'), postdata, function(code, message) {
+	    if (code == 0) {
+	        $.alert(message);
+	        jsubmit.text(message).delay(2000).button('reset').location(referer);
+	        return;
+	    } else {
+	        $.alert(message);
+	        jsubmit.button('reset');
+	    }
+	});
+	return false;
+});
 
-    function search_type_radio_check(v) {
-        var jfulltext = $('#fulltext');
-        var jsphinx = $('#sphinx');
-        var jsite_url = $('#site_url');
-        var jrange = $('#range');
-        if (v == 'fulltext') {
-            jfulltext.show();
-            jsite_url.hide();
-            jrange.show();
-        } else if (v == 'like') {
-            jfulltext.hide();
-            jsite_url.hide();
-            jrange.show();
-        } else if (v == 'sphinx') {
-            jfulltext.hide();
-            jsite_url.hide();
-            jrange.hide();
-        } else if (v == 'site_url') {
-            jfulltext.hide();
-            jsite_url.show();
-            jrange.hide();
-        }
-    }
-    jform.find('input[name="type"]').on('click', function() {
-        var v = $(this).val();
-        search_type_radio_check(v);
-    });
-    search_type_radio_check(jform.find('input[name="type"]').checked());
+function search_type_radio_check(v) {
+	var jfulltext = $('#fulltext');
+	var jsphinx = $('#sphinx');
+	var jsite_url = $('#site_url');
+	var jrange = $('#range');
+	if (v == 'fulltext') {
+	    jfulltext.show();
+	    jsite_url.hide();
+	    jrange.show();
+	} else if (v == 'like') {
+	    jfulltext.hide();
+	    jsite_url.hide();
+	    jrange.show();
+	} else if (v == 'sphinx') {
+	    jfulltext.hide();
+	    jsite_url.hide();
+	    jrange.hide();
+	} else if (v == 'site_url') {
+	    jfulltext.hide();
+	    jsite_url.show();
+	    jrange.hide();
+	}
+}
+
+jform.find('input[name="type"]').on('click', function() {
+	var v = $(this).val();
+	search_type_radio_check(v);
+});
+search_type_radio_check(jform.find('input[name="type"]').checked());
 </script>

@@ -47,8 +47,8 @@ if($action == 'set') {
 	
 	$posts = $runtime['posts'] + $runtime['threads'];
 	$input = array();
-	$subject_start = intval(kv_get('xn_search_cn_encode_subject_start'));
-	$post_start = intval(kv_get('xn_search_cn_encode_post_start'));
+	$subject_start = intval(kv_get('xn_search_subject_start'));
+	$post_start = intval(kv_get('xn_search_post_start'));
 	$input['post_start'] = form_text('post_start', $post_start);
 	$input['subject_start'] = form_text('subject_start', $subject_start);
 	$input['range'] = form_radio('range', array(1=>lang('search_range_subject'), 2=>lang('search_range_post')), 1);
@@ -63,14 +63,14 @@ if($action == 'set') {
 	// 标题
 	if($range == 1) {
 		
-		//empty($start) AND $start = intval(kv_get('xn_search_cn_encode_subject_start'));
+		//empty($start) AND $start = intval(kv_get('xn_search_subject_start'));
 		
 		$threads = $runtime['threads'];
 		$page = max(1, ceil(($start + 1) / $limit));
 		$tidlist = db_find('thread', array(), array('tid'=>1), $page, $limit, 'tid', array('tid'));
 		if(empty($tidlist)) {
 			$start = $threads;
-			kv_set('xn_search_cn_encode_subject_start', $start);
+			kv_set('xn_search_subject_start', $start);
 			message(0, jump('重建索引完毕。', url('plugin-setting-xn_search-cn_encode')));
 		} else {
 			$tids = arrlist_values($tidlist, 'tid');
@@ -82,7 +82,7 @@ if($action == 'set') {
 			}
 			
 			$start += $limit;
-			kv_set('xn_search_cn_encode_subject_start', $start);
+			kv_set('xn_search_subject_start', $start);
 		}
 		$url = url("plugin-setting-xn_search-rebuild-$range-$start");
 		message(0, jump("正在对标题建立全文索引，主题帖总数：$threads, 当前：".($start - $limit), $url, 1));
@@ -90,7 +90,7 @@ if($action == 'set') {
 	// 帖子
 	} elseif($range == 2) {
 
-		//empty($start) AND $start = intval(kv_get('xn_search_cn_encode_post_start'));
+		//empty($start) AND $start = intval(kv_get('xn_search_post_start'));
 		
 		$posts = $runtime['posts'] + $runtime['threads'];
 		$page = max(1, ceil(($start + 1) / $limit));
@@ -98,7 +98,7 @@ if($action == 'set') {
 		
 		if(empty($pidlist)) {
 			$start = $posts;
-			kv_set('xn_search_cn_encode_post_start', $start);
+			kv_set('xn_search_post_start', $start);
 			message(0, jump('重建索引完毕。', url('plugin-setting-xn_search-cn_encode')));
 		} else {
 			$pids = arrlist_values($pidlist, 'pid');
@@ -111,7 +111,7 @@ if($action == 'set') {
 				db_replace('post_search', array('pid'=>$pid, 'message'=>$message_cn_encode));
 			}
 			$start += $limit;
-			kv_set('xn_search_cn_encode_post_start', $start);
+			kv_set('xn_search_post_start', $start);
 		}
 		$url = url("plugin-setting-xn_search-rebuild-$range-$start");
 		message(0, jump("正在建立全文索引，总贴数：$posts, 当前：".($start - $limit), $url, 5));

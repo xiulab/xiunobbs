@@ -5,6 +5,7 @@ return array(
 	'forum'=>'版块',
 	'plugin'=>'插件',
 	'other'=>'其他',
+	'buy'=>'购买',
 	
 	'user_admin'=>'用户管理',
 	'group_admin'=>'用户组管理',
@@ -30,6 +31,8 @@ return array(
 	'admin_user_create'=>'创建用户',
 	'admin_plugin_local_list'=>'本地插件',
 	'admin_plugin_official_list'=>'官方插件',
+	'admin_plugin_official_free_list'=>'免费插件',
+	'admin_plugin_official_fee_list'=>'收费插件',
 	
 	'admin_token_error'=>'管理令牌错误，可能因为您的网络环境不稳定，可以尝试取消后台绑定 IP，配置 conf.php，admin_bind_ip => 0 ',
 	'admin_token_expiry'=>'管理登陆令牌失效，请重新登录',

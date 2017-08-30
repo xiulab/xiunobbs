@@ -16,7 +16,7 @@ $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}thread_search (
   message longtext NOT NULL,				# 标题/内容
   UNIQUE KEY (tid),
   FULLTEXT(message)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
 db_exec($sql);
 
 $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}post_search (
@@ -25,7 +25,7 @@ $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}post_search (
   message longtext NOT NULL,				            # 回帖内容合并后切词，存放于此，FULLTEXT，search_fid_123
   UNIQUE KEY (pid),
   FULLTEXT(message)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
 db_exec($sql);
 
 // 默认为 FULLTEXT 搜索

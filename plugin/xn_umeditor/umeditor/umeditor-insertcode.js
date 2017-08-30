@@ -2,32 +2,19 @@
 
 UM.registerUI('insertcode', function( name ) {
 
-	 var me = this;
+	var me = this;
 	me.options['insertcode'] = {
-		'as3':'ActionScript 3',
 		'bash':'Bash/Shell',
 		'cpp':'C/C++',
-		'css':'CSS',
-		'cf':'ColdFusion',
 		'c#':'C#',
-		'delphi':'Delphi',
-		'diff':'Diff',
-		'erlang':'Erlang',
-		'groovy':'Groovy',
-		'html':'HTML',
 		'java':'Java',
-		'jfx':'JavaFX',
-		'js':'JavaScript',
-		'pl':'Perl',
 		'php':'PHP',
-		'plain':'Plain Text',
-		'ps':'PowerShell',
 		'python':'Python',
 		'ruby':'Ruby',
-		'scala':'Scala',
+		'c':'Object-c',
 		'sql':'SQL',
-		'vb':'Visual Basic',
-		'xml':'XML'
+		'js':'JavaScript',
+		'html':'HTML'
 	};
 	
 	var items = xn.array_values(me.options['insertcode']);

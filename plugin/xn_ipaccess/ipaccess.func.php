@@ -126,7 +126,7 @@ function ipaccess_count() {
 }
 
 function ipaccess_truncate() {
-	return  db_truncate('ipaccess`');
+	return  db_truncate('ipaccess');
 }
 
 ?>

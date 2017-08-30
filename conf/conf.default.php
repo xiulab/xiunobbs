@@ -83,23 +83,36 @@ return array (
 	'auth_key' => 'efdkjfjiiiwurjdmclsldow753jsdj438',
 	
 	'pagesize' => 20,
-	'postlist_pagesize' => 1000,
+	'postlist_pagesize' => 100,
 	'cache_thread_list_pages' => 10,
 	'online_update_span' => 120,	// 在线更新频度，大站设置的长一些
 	'online_hold_time' => 3600,	// 在线的时间
 	'session_delay_update' => 0,
 	'upload_image_width' => 927,	// 上传图片自动缩略的最大宽度
 	'order_default' => 'lastpid',
+	'attach_dir_save_rule' => 'Ym',	// 附件存放规则，附件多用：Ymd，附件少：Ym
 	
 	'update_views_on' => 1,
 	'user_create_email_on' => 0,
 	'user_resetpw_on' => 0,
 	
-	'admin_bind_ip' => 1,		// 后台是否绑定 IP
+	
+	
+	'admin_bind_ip' => 0,		// 后台是否绑定 IP
 	
 	'cdn_on' => 0,
+	
+	/* 支持多种 URL 格式：
+		0: ?thread-create-1.htm
+		1: thread-create-1.htm
+		2: ?/thread/create/1
+		3: /thread/create/1
+	*/
 	'url_rewrite_on' => 0,
 	
+	// 禁止插件
+	'disabled_plugin' => 0, 
+	  
 	'version' => '4.0',
 	'static_version' => '?1.0',
 	'installed' => 0,

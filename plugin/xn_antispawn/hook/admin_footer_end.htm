@@ -1,7 +1,7 @@
 <script>
 $('form').append('<input type="hidden" name="<?php echo setting_get('xn_anti_spam_key');?>" value="<?php echo setting_get('xn_anti_spam_key');?>" />');
 
-<?php $__rand = xn_rand(16);?>
+<?php $__rand = $time.'_'.md5($ip.$useragent.$conf['auth_key'].$time);?>
 $('form').append('<input type="hidden" name="__anti_xss__" value="<?php echo $__rand;?>" />');
 $.cookie('__anti_xss__', '<?php echo $__rand;?>');
 
@@ -11,6 +11,8 @@ $.xpost_old = $.xpost;
 $.xpost = function(url, postdata, callback, progress_callback) {
 	if(xn.is_object(postdata)) {
 		postdata['__anti_xss__'] = '<?php echo $__rand;?>';
+	} else if(xn.is_string(postdata)) {
+		postdata += '&__anti_xss__=<?php echo $__rand;?>';
 	} else if(xn.is_function(postdata)) {
 		callback = postdata;
 		postdata = {__anti_xss__: '<?php echo $__rand;?>'};

@@ -1,0 +1,38 @@
+<?php
+
+	// 公用一个模板
+	$thread_lucky = array('pids'=>'', 'success_template'=>'');
+	$show_lucky_post = FALSE;
+	if($route == 'thread' && $action == 'create') {
+		$show_lucky_post = TRUE;
+	} elseif($route == 'post' && $action == 'update' && $isfirst && $thread['is_lucky_thread']) {
+		$thread_lucky = db_find_one('thread_lucky_post', array('tid'=>$tid));
+		$show_lucky_post = TRUE;
+	}
+
+?>
+
+<?php if($gid == 1 && $show_lucky_post) { ?>
+	
+	<div>
+		<fieldset class="form-group">
+			<input type="text" class="form-control" placeholder="幸运楼层，多个逗号隔开" name="lucky_pids" value="<?php echo $thread_lucky['pids'];?>" id="lucky_pids">
+		</fieldset>
+	</div>
+	<div>
+		
+		<fieldset class="form-group form-inline text-small">
+			开始楼层：<input type="text" class="form-control form-control-sm" size="4" placeholder="开始楼层" name="start_floor" value="2" id="start_floor">
+			结束楼层：<input type="text" class="form-control form-control-sm" size="4" placeholder="结束楼层" name="end_floor" value="100" id="end_floor">
+			中奖个数：<input type="text" class="form-control form-control-sm" size="4" placeholder="总数" name="total_floor" value="10" id="total_floor">
+			<button type="button" class="btn btn-primary btn-sm" id="random_floor">随机生成</button>
+		</fieldset>
+	</div>
+	<div>
+		<fieldset class="form-group">
+			<input type="text" class="form-control" placeholder="中奖信息" name="success_template" value="<?php echo $thread_lucky['success_template'];?>" id="success_template">
+		</fieldset>
+	</div>
+	
+<?php } ?>
+

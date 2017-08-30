@@ -63,34 +63,33 @@
 <?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
 
 <script>
-    var jform = $("#form");
-    var jsubmit = $("#submit");
-    var jrange = jform.find('input[name="range"]');
-    var jsubject_start_div = $('#subject_start_div');
-    var jpost_start_div = $('#post_start_div');
-    var jsubject_start = jform.find('input[name="subject_start"]');
-    var jpost_start = jform.find('input[name="post_start"]');
-    jform.on('submit', function() {
+var jform = $("#form");
+var jsubmit = $("#submit");
+var jrange = jform.find('input[name="range"]');
+var jsubject_start_div = $('#subject_start_div');
+var jpost_start_div = $('#post_start_div');
+var jsubject_start = jform.find('input[name="subject_start"]');
+var jpost_start = jform.find('input[name="post_start"]');
+jform.on('submit', function() {
+	jform.reset();
+	jsubmit.button('loading');
+	var range = jrange.checked();
+	var start = (range == 1 ? jsubject_start.val() : jpost_start.val());
+	window.location = xn.url('plugin-setting-xn_search-rebuild-' + range + '-' + start);
+	return false;
+});
 
-        jform.reset();
-        jsubmit.button('loading');
-        var range = jrange.checked();
-        var start = (range == 0 ? jsubject_start.val() : jpost_start.val());
-        window.location = xn.url('plugin-setting-xn_search-rebuild-' + range + '-' + start);
-        return false;
-    });
-
-    function on_range_change(v) {
-        if (v == 0) {
-            jsubject_start_div.show();
-            jpost_start_div.hide();
-        } else {
-            jsubject_start_div.hide();
-            jpost_start_div.show();
-        }
-    }
-    jrange.on('change', function() {
-        on_range_change($(this).val());
-    });
-    on_range_change(jrange.checked());
+function on_range_change(v) {
+	if (v == 1) {
+	    jsubject_start_div.show();
+	    jpost_start_div.hide();
+	} else {
+	    jsubject_start_div.hide();
+	    jpost_start_div.show();
+	}
+}
+jrange.on('change', function() {
+	on_range_change($(this).val());
+});
+on_range_change(jrange.checked());
 </script>

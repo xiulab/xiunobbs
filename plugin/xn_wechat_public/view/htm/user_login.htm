@@ -1,4 +1,4 @@
-<?php include _include(ADMIN_PATH.'view/htm/header.inc.htm');?>
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
 
 <!--{hook user_login_start.htm}-->
 
@@ -31,7 +31,7 @@
                 <!--{hook user_login_submit_after.htm}-->
                 <p class="text-xs-right">
                     <a type="submit" class="btn btn-primary btn-block"
-                       href="/plugin/xn_wechat_public/route/login.php?auto=1"
+                       href="<?php echo url('wxlogin-auto')?>"
                        data-loading-text="<?php echo lang('submiting'); ?>..."><span class="icon-qq"></span> 一键自动登</a>
                 </p>
 
@@ -43,7 +43,7 @@
 
 <!--{hook user_login_end.htm}-->
 
-<?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
 
 <script src="view/js/md5.js"></script>
 
@@ -61,7 +61,7 @@
         $.xpost(jform.attr('action'), postdata, function (code, message) {
             if ( code == 0 ) {
                 $.alert(message);
-                jsubmit.button(message).delay(3000).location(referer);
+                jsubmit.button(message).delay(3000).location('./');
                 //jsubmit.button(message).delay(3000).location('./');
             } else if ( code == 'email' ) {
                 jemail.alert(message).focus();

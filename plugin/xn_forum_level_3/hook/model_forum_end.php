@@ -43,6 +43,27 @@ function forum_list_tree($forumlist) {
 	return $catelist;
 }
 
+// 三级下拉菜单
+function forum_3_options($forumlist, $fid = 0) {
+	$catelist = forum_find_son_list($forumlist, 0);
+	$s = '';
+	foreach ($catelist as $cate) {
+		$selected = $cate['fid'] == $fid ? ' selected' : '';
+		$s .= "<option value=\"$cate[fid]\"$selected>$cate[name] ($cate[threads])</option>\r\n";
+		$forum2list = forum_find_son_list($forumlist, $cate['fid']);
+		foreach($forum2list as $forum) {
+			$selected = $forum['fid'] == $fid ? ' selected' : '';
+			$s .= "<option value=\"$forum[fid]\"$selected>|-------- $forum[name] ($forum[threads])</option>\r\n";
+			$sonlist = forum_find_son_list($forumlist, $forum['fid']);
+			foreach($sonlist as $son) {
+				$selected = $son['fid'] == $fid ? ' selected' : '';
+				$s .= "<option value=\"$son[fid]\"$selected>|---------------- $son[name] ($son[threads])</option>\r\n";
+			}
+		}
+	}
+	return $s;
+}
+
 function forum_find_son_list($forumlist, $fid) {
 	$arrlist = array();
 	foreach($forumlist as $forum) {

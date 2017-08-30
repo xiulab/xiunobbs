@@ -5877,7 +5877,7 @@ UM.plugins['font'] = function () {
             { name: 'timesNewRoman', val: 'times new roman'},
             { name: 'sans-serif',val:'sans-serif'}
         ],
-        'fontsize': [10, 12,  16, 18,24, 32,48]
+        'fontsize': [12, 14,  16, 18,24, 32]
     });
 
     me.addOutputRule(function (root) {
@@ -5942,12 +5942,11 @@ UM.plugins['font'] = function () {
                     }else{
                         if(cmdName == 'fontsize'){
                             value  = {
-                                '10':'1',
-                                '12':'2',
+                                '12':'1',
+                                '14':'2',
                                 '16':'3',
                                 '18':'4',
                                 '24':'5',
-                                '32':'6',
                                 '48':'7'
                             }[(value+"").replace(/px/,'')]
                         }
@@ -6182,7 +6181,7 @@ UM.commands['print'] = {
  */
 UM.plugins['paragraph'] = function() {
     var me = this;
-    me.setOpt('paragraph',{'p':'', 'h1':'', 'h2':'', 'h3':'', 'h4':'', 'h5':'', 'h6':''});
+    me.setOpt('paragraph',{'p':'', 'h6':'', 'h5':'', 'h4':'', 'h3':'', 'h2':'', 'h1':''});
     me.commands['paragraph'] = {
         execCommand : function( cmdName, style ) {
             return this.document.execCommand('formatBlock',false,'<' + style + '>');
@@ -6681,7 +6680,7 @@ UM.plugins['paste'] = function () {
             if (me.options.filterRules) {
                 UM.filterNode(root, me.options.filterRules);
             }
-            //执行默认的处理
+            //执行默认的处理，直接清理掉节点
             me.filterInputRule(root);
             //针对chrome的处理
             if (browser.webkit) {
@@ -7475,6 +7474,7 @@ UM.plugins['removeformat'] = function(){
                 }
                 return !node.attributes.length;
             }
+            
             function doRemove( range ) {
 
                 var bookmark1 = range.createBookmark();
@@ -7496,7 +7496,6 @@ UM.plugins['removeformat'] = function(){
 
                 }
 
-
                 bookmark = range.createBookmark();
 
                 node = bookmark.start;
@@ -7517,14 +7516,19 @@ UM.plugins['removeformat'] = function(){
                     //开始去除样式
                     var current = domUtils.getNextDomNode( bookmark.start, false, filter ),
                         next;
+                        
                     while ( current ) {
                         if ( current == bookmark.end ) {
                             break;
                         }
 
                         next = domUtils.getNextDomNode( current, true, filter );
-
-                        if ( !dtd.$empty[current.tagName.toLowerCase()] && !domUtils.isBookmarkNode( current ) ) {
+                        
+                        // 去除所有空节点上的 style 样式，粘贴的时候的垃圾代码
+                        // by axiuno:
+			//  !dtd.$empty[current.tagName.toLowerCase()] && 
+			
+                        if (!domUtils.isBookmarkNode( current )) {
                             if ( tagReg.test( current.tagName ) ) {
                                 if ( style ) {
                                     domUtils.removeStyle( current, style );
@@ -7536,12 +7540,15 @@ UM.plugins['removeformat'] = function(){
                                 }
                             } else {
                                 //trace:939  不能把list上的样式去掉
-                                if(!dtd.$tableContent[current.tagName] && !dtd.$list[current.tagName]){
+                                /* fixed by axiuno: 去掉 ol li ul 标签的格式 */
+                               // if(!dtd.$tableContent[current.tagName] && !dtd.$list[current.tagName]){
+                                 
                                     domUtils.removeAttributes( current, removeFormatAttributes );
                                     if ( isRedundantSpan( current ) ){
                                         domUtils.remove( current, true );
                                     }
-                                }
+                                   
+                               // }
 
                             }
                         }
@@ -7584,8 +7591,6 @@ UM.plugins['removeformat'] = function(){
 
                         node = tmp;
                     }
-
-
                 }
             }
 
@@ -8802,6 +8807,9 @@ UM.ui.define('scale', {
     _eventHandler: function (e) {
         var me = this,
             $doc = me.defaultOpt.$doc;
+            
+            
+            
         switch (e.type) {
             case 'mousedown':
                 var hand = e.target || e.srcElement, hand;
@@ -8857,6 +8865,26 @@ UM.ui.define('scale', {
                 [0, 0, 0, 1],
                 [0, 0, 1, 1]
             ];
+            
+        // 等比缩放，by axiuno@gmail.com
+        // 缩放的 img 标签，等比缩放需要参考它！
+        var $target = me.data('$scaleTarget');
+        var $target_scale = me.data('$target_scale');
+        if(!$target_scale) {
+        	
+//        	var img = new Image();
+//        	img.src = $target.attr('src');
+//        	var $target_width = img.width;
+//        	var $target_height = img.height;
+        	
+        	var $target_width = $target.width();
+	        var $target_height = $target.height();
+	        var $target_scale =  $target_height / $target_width;
+	        //alert($target_scale);
+	        me.data('$target_scale', $target_scale);
+        }
+        
+       // $target.css({width: $root.width(), height: $root.height()});
 
         if (rect[dir][0] != 0) {
             tmp = parseInt($dom.offset().left) + offset.x;
@@ -8871,7 +8899,9 @@ UM.ui.define('scale', {
             $dom.css('width', me._validScaledProp('width', tmp));
         }
         if (rect[dir][3] != 0) {
-            tmp = $dom.height() + rect[dir][3] * offset.y;
+           //tmp = $dom.height() + rect[dir][3] * offset.y;
+            tmp = ($dom.width() * $target_scale)  + rect[dir][3] * offset.y; // 按照比例走
+            //console.log(tmp);
             $dom.css('height', me._validScaledProp('height', tmp));
         }
     },

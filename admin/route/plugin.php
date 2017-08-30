@@ -25,27 +25,34 @@ if($action == 'local') {
 	$header['title']    = lang('local_plugin');
 	$header['mobile_title'] = lang('local_plugin');
 	
+	
 	include _include(ADMIN_PATH."view/htm/plugin_list.htm");
 
 } elseif($action == 'official') {
 
-	$cateid = param(2, 0);
-	$page = param(3, 1);
+	$isfee = param(2, 0);	// >= $price 默认免费
+	$action = $isfee ? 'official_fee' : 'official_free';
+	$cateid = param(3, 0);
+	$page = param(4, 1);
 	$pagesize = 10;
 	$cond = $cateid ? array('cateid'=>$cateid) : array();
+	$cond['price'] = $isfee ? array('>'=>0) : 0;
 			
 	// plugin category
 	$pugin_cates = array(0=>lang('pugin_cate_0'), 1=>lang('pugin_cate_1'), 2=>lang('pugin_cate_2'), 3=>lang('pugin_cate_3'), 4=>lang('pugin_cate_4'), 99=>lang('pugin_cate_99'));
 
 	$pugin_cate_html = plugin_cate_active($pugin_cates, $cateid, $page);
 	
+	DEBUG AND $official_plugins['xn_forum_merge']['price'] = 1;
+	
 	// official plugin
 	$total = plugin_official_total($cond);
 	$pluginlist = plugin_official_list($cond, array('pluginid'=>-1), $page, $pagesize);
-	$pagination = pagination(url("plugin-official-$cateid-{page}"), $total, $page, $pagesize);
+	$pagination = pagination(url("plugin-official-$isfee-$cateid-{page}"), $total, $page, $pagesize);
 	
 	$header['title']    = lang('official_plugin');
 	$header['mobile_title'] = lang('official_plugin');
+	
 	
 	include _include(ADMIN_PATH."view/htm/plugin_list.htm");
 	
@@ -63,6 +70,11 @@ if($action == 'local') {
 	
 	include _include(ADMIN_PATH."view/htm/plugin_read.htm");
 	
+// 给出二维码扫描后开始下载。
+} elseif($action == 'buy') {
+
+	// 给出插件的介绍+付款二维码
+
 // 下载官方插件。 / download official plugin
 } elseif($action == 'download') {
 	

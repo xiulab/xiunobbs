@@ -24,4 +24,21 @@
 .arrow-left { width:7px; height: 15px; }
 .arrow-right {width:7px; height: 15px; }
 .arrow-right > .arrow-box{ margin-left: -7px; }
+
+
+.fieldset {
+	padding:10px;
+	margin:10px;
+	border:#aaa solid 1px;
+}
+.fieldset > legend {
+	width: auto;
+	font-size: 1rem;
+	font-weight: 800;
+	background: #888;
+	color: #fff;
+	padding: 0px 16px;
+
+}
+.message img { max-width:  100%; height:auto !important;}
  /*# sourceMappingURL=bootstrap.min.css.map */

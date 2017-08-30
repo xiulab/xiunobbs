@@ -153,7 +153,7 @@
         
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
         ,toolbar:[
-            'source | undo redo | removeformat bold italic underline | forecolor backcolor fontsize',
+            'source | undo redo | removeformat bold italic underline | forecolor paragraph',
             ' | justifyleft justifycenter justifyright justifyjustify | link unlink | insertcode video xnimg',
             'fullscreen', 
         ]
@@ -220,7 +220,7 @@
 
         //paragraph
         //段落格式 值留空时支持多语言自动识别，若配置，则以配置值为准
-        //,'paragraph':{'p':'', 'h1':'', 'h2':'', 'h3':'', 'h4':'', 'h5':'', 'h6':''}
+        ,'paragraph':{'p':'', 'h6':'', 'h5':'', 'h4':'', 'h3':'', 'h2':'', 'h1':''}
 
         //undo
         //可以最多回退的次数,默认20

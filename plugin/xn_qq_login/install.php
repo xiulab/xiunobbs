@@ -25,6 +25,5 @@ if(!$kv) {
 	$kv = array('meta'=>'', 'appid'=>'', 'appkey'=>'');
 	kv_set('qq_login', $kv);
 }
-	
 
 ?>

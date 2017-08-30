@@ -25,6 +25,13 @@ function tag_cate_read($cateid) {
 	return $tag_cate;
 }
 
+function tag_cate_delete_by_fid($fid) {
+	$tagcatelist = tag_cate_find_by_fid($fid);
+	foreach ($tagcatelist as $tagcate) {
+		tag_cate_delete($tagcate['cateid']);
+	}
+}
+
 function tag_cate_delete($cateid) {
 	// hook model_tag_cate_delete_start.php
 	$taglist = tag_find_by_cateid($cateid);

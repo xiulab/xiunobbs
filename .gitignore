@@ -8,7 +8,6 @@ tmp/*
 */.gitkeep
 umeditor-dev
 ueditor-dev
-route/browser.php
 plugin/xn_footer_js
 1.php
 plugin/bbs_xiuno_com_ad/
@@ -19,5 +18,9 @@ plugin/sg_sign
 plugin/wintop_ed2k
 plugin2/
 view/img/logo-2.png
-tool/*
+#tool/*
 view/bootstrap/node_modules
+vux/*
+weixin
+view/bootstrap*
+.vscode

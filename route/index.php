@@ -8,27 +8,53 @@
 
 // hook index_start.php
 
-$page = param(1, 1);
-$order = $conf['order_default'];
-$order != 'tid' AND $order = 'lastpid';
-$pagesize = $conf['pagesize'];
-$active = 'default';
+// fids 白名单，如果设置后，将从指定的版块 fids 中读取
+$fids = array();
 
-$pagination = pagination(url("index-{page}"), $runtime['threads'], $page, $pagesize);
+if(empty($fids)) {
+	$page = param(1, 1);
+	$order = $conf['order_default'];
+	$order != 'tid' AND $order = 'lastpid';
+	$pagesize = $conf['pagesize'];
+	$active = 'default';
 
-/*$toplist = thread_top_find_cache();
+	$pagination = pagination(url("index-{page}"), $runtime['threads'], $page, $pagesize);
 
-print_r($toplist);exit;*/
+	/*$toplist = thread_top_find_cache();
 
-// 从默认的地方读取主题列表
-$thread_list_from_default = 1;
+	print_r($toplist);exit;*/
 
-// hook index_thread_list_before.php
+	// 从默认的地方读取主题列表
+	$thread_list_from_default = 1;
 
-if($thread_list_from_default) {
-	$threadlist = thread_find_by_fid($fid, $page, $pagesize, $order);
+	// hook index_thread_list_before.php
+
+	if($thread_list_from_default) {
+		$threadlist = thread_find_by_fid($fid, $page, $pagesize, $order);
+	}
+	//$conf['order_default'] == $order AND $threadlist = $toplist + $threadlist;
+
+} else {
+	$page = param(1, 1);
+	$order = $conf['order_default'];
+	$order != 'tid' AND $order = 'lastpid';
+	foreach($fids as $_fid) {
+		$threads += $forumlist[$fid]['threads'];
+
+	}
+	$pagesize = $conf['pagesize'];
+	$active = 'default';
+
+	$pagination = pagination(url("index-{page}"), $runtime['threads'], $page, $pagesize);
+
+	// 从默认的地方读取主题列表
+	$thread_list_from_default = 1;
+
+	if($thread_list_from_default) {
+		$threadlist = thread_find_by_fid($fid, $page, $pagesize, $order);
+	}
+
 }
-//$conf['order_default'] == $order AND $threadlist = $toplist + $threadlist;
 
 // 过滤没有权限访问的主题 / filter no permission thread
 thread_list_access_filter($threadlist, $gid);

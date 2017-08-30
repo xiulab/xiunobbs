@@ -50,7 +50,7 @@ if($tagids) {
 				SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[2]'))";
 		$find_sql = "SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[0]' AND tid IN(
 			SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[1]' AND tid IN(
-				SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[2]'))  ORDER BY tid DESC LIMIT $start, $limit<b></b>";
+				SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[2]'))  ORDER BY tid DESC LIMIT $start, $limit";
 	} elseif($n == 4) {
 		$count_sql = "SELECT COUNT(tid) num FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[0]' AND tid IN(
 			SELECT tid FROM {$tablepre}tag_thread WHERE tagid='$tagidarr[1]' AND tid IN(

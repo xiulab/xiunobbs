@@ -2,8 +2,6 @@
 
 !defined('DEBUG') AND exit('Access Denied.');
 
-include APP_PATH.'xiunophp/xn_html_safe.func.php';
-
 $action = param(1);
 
 user_login_check();

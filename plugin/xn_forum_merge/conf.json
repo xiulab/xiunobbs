@@ -1,0 +1,10 @@
+{
+    "name": "版块合并 / Forum Merge",
+    "brief": "合并版块下的主题，帖子。",
+    "version": "1.0",
+    "bbs_version": "4.0",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "dependencies": []
+}

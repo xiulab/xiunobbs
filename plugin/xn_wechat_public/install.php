@@ -9,11 +9,12 @@
 
 $tablepre = $db->tablepre;
 $sql = "CREATE TABLE {$tablepre}user_open_wechat (
-	uid int(11) unsigned NOT NULL  COMMENT '用户编号',
-	openid char(40) NOT NULL  COMMENT '微信 OPENID 标识',
-	KEY (uid),
-	KEY openid (openid)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8";
+  id int(10) unsigned NOT NULL AUTO_INCREMENT,
+  uid int(10) unsigned NOT NULL COMMENT '用户编号',
+  openid char(40) NOT NULL COMMENT '微信 OPENID 标识',
+  PRIMARY KEY (id),
+  KEY openid (openid)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;8";
 
 $r = db_exec($sql);
 

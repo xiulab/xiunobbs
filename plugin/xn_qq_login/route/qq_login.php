@@ -29,7 +29,9 @@ if(empty($action)) {
 	
 	// 获取 openid
 	$openid = qq_login_get_openid_by_token($token);
-	
+	if(!$openid) {
+		message(-1, '获取 openid 失败，错误原因：'.$errstr);
+	}
 	// 如果有 openid，则直接自动登陆
 	$user = qq_login_read_user_by_openid($openid);
 	if(!$user) {
