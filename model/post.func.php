@@ -153,6 +153,11 @@ function post_delete($pid) {
 	($post['images'] || $post['files']) AND attach_delete_by_pid($pid);
 	
 	$r = post__delete($pid);
+
+	// 更新最后的 lastpid
+	if($r && !$post['isfirst'] && $pid == $thread['lastpid']) {
+		thread_update_last($tid);
+	}
 	
 	// hook model_post_delete_end.php
 	return $r;

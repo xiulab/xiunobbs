@@ -373,6 +373,26 @@ function thread_find_by_tids($tids, $order = array('lastpid'=>-1)) {
 	return $threadlist;
 }
 
+// 查找 lastpid
+function thread_find_lastpid($tid) {
+	$arr = db_find_one("post", array('tid'=>$tid), array('pid'=>-1), array('pid'));
+	$lastpid = empty($arr) ? 0 : $arr['pid'];
+	return $lastpid;
+}
+
+// 更新最后的 uid pid
+function thread_update_last($tid) {
+	$lastpid = thread_find_lastpid($tid);
+	if(empty($lastpid)) return;
+	
+	$lastpost = post__read($lastpid);
+	if(empty($lastpost)) return;
+	
+	$r = thread__update($tid, array('lastpid'=>$lastpid, 'lastuid'=>$lastpost['uid'], 'last_date'=>$lastpost['create_date']));
+
+	return $r;
+}
+
 // hook model_thread_end.php
 
 ?>
