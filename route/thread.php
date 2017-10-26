@@ -38,8 +38,6 @@ if($action == 'create') {
 		
 		// hook thread_create_thread_start.php
 		
-		include XIUNOPHP_PATH.'xn_html_safe.func.php';
-		
 		$fid = param('fid', 0);
 		$forum = forum_read($fid);
 		empty($forum) AND message('fid', lang('forum_not_exists'));
