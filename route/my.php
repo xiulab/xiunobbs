@@ -19,8 +19,12 @@ if(empty($action)) {
 	
 } elseif($action == 'profile') {
 	
-	include _include(APP_PATH.'view/htm/my_profile.htm');
-
+	if($ajax) {
+		// user_safe_info($user);
+		message(0, $user);
+	} else {
+		include _include(APP_PATH.'view/htm/my_profile.htm');
+	}
 } elseif($action == 'password') {
 	
 	if($method == 'GET') {
@@ -65,9 +69,12 @@ if(empty($action)) {
 	}
 	
 	// hook my_thread_end.php
-	
-	include _include(APP_PATH.'view/htm/my_thread.htm');
-
+	if($ajax) {
+		foreach($threadlist as &$thread) $thread = thread_safe_info($thread);
+		message(0, $threadlist);
+	} else {
+		include _include(APP_PATH.'view/htm/my_thread.htm');
+	}
 } elseif($action == 'avatar') {
 	
 	if($method == 'GET') {

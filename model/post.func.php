@@ -229,6 +229,15 @@ function post_maxid() {
 	return $n;
 }
 
+function post_safe_info($post) {
+	// hook model_post_safe_info_start.php
+	unset($post['userip']);
+	if(!empty($post['user'])) {
+		$post['user'] = user_safe_info($post['user']);
+	}
+	// hook model_post_safe_info_end.php
+	return $post;
+}
 
 function post_find_by_pids($pids, $order = array('pid'=>-1)) {
 	// hook model_post_find_by_pids_start.php

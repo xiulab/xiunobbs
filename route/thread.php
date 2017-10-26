@@ -137,8 +137,14 @@ if($action == 'create') {
 	$_SESSION['fid'] = $fid;
 	
 	// hook thread_info_end.php
-	include _include(APP_PATH.'view/htm/thread.htm');
 	
+	if($ajax) {
+		$thread = thread_safe_info($thread);
+		foreach($postlist as &$post) $post = post_safe_info($post);
+		message(0, array('thread'=>$thread, 'postlist'=>$postlist));
+	} else {
+		include _include(APP_PATH.'view/htm/thread.htm');
+	}
 }
 
 // hook thread_end.php

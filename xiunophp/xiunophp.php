@@ -1,13 +1,12 @@
 <?php
 
 /*
-	
 	XiunoPHP 4.0 只是定义了一些函数和全局变量，方便使用，并没有要求如何组织代码。
-	采用简单结构，有利于 HHVM 编译 / opcode 缓存，支持 PHP7
+	采用静态语言编程风格，有利于 Zend 引擎的编译和 OPCache 缓存，支持 PHP7
 	1. 禁止使用 eval(), 正则表达式 e 修饰符
 	2. 尽量避免 autoload
 	3. 尽量避免 $$var 多重变量
-	4. 尽量避免 PHP 高级特性 __call __set __get 等魔术方法
+	4. 尽量避免 PHP 高级特性 __call __set __get 等魔术方法，不利于错误排查
 	5. 尽量采用函数封装功能，通过前缀区分模块
 */
 
@@ -72,10 +71,6 @@ $useragent = _SERVER('HTTP_USER_AGENT');
 // 语言包变量
 !isset($lang) AND $lang = array();
 
-// $_SERVER['REQUEST_METHOD'] === 'PUT' ? @parse_str(file_get_contents('php://input', false , null, -1 , $_SERVER['CONTENT_LENGTH']), $_PUT) : $_PUT = array(); // 不需要支持 PUT
-$ajax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower(trim($_SERVER['HTTP_X_REQUESTED_WITH'])) == 'xmlhttprequest';
-$method = $_SERVER['REQUEST_METHOD'];
-
 // 全局的错误，非多线程下很方便。
 $errno = 0;
 $errstr = '';
@@ -97,6 +92,9 @@ $_REQUEST = array_merge($_COOKIE, $_POST, $_GET);
 !isset($_SERVER['REMOTE_ADDR']) AND $_SERVER['REMOTE_ADDR'] = '';
 !isset($_SERVER['SERVER_ADDR']) AND $_SERVER['SERVER_ADDR'] = '';
 
+// $_SERVER['REQUEST_METHOD'] === 'PUT' ? @parse_str(file_get_contents('php://input', false , null, -1 , $_SERVER['CONTENT_LENGTH']), $_PUT) : $_PUT = array(); // 不需要支持 PUT
+$ajax = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower(trim($_SERVER['HTTP_X_REQUESTED_WITH'])) == 'xmlhttprequest') || param('ajax');
+$method = $_SERVER['REQUEST_METHOD'];
 
 
 

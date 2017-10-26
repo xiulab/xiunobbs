@@ -195,6 +195,14 @@ function forum_filter_moduid($moduids) {
 	return implode(',', $r);
 }
 
+
+function forum_safe_info($forum) {
+	// hook model_forum_safe_info_start.php
+	//unset($forum['moduids']);
+	// hook model_forum_safe_info_end.php
+	return $forum;
+}
+
 // hook model_forum_end.php
 
 ?>

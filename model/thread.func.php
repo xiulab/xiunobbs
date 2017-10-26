@@ -335,6 +335,16 @@ function thread_maxid() {
 	return $n;
 }
 
+function thread_safe_info($thread) {
+	// hook model_thread_safe_info_start.php
+	unset($thread['userip']);
+	if(!empty($thread['user'])) {
+		$thread['user'] = user_safe_info($thread['user']);
+	}
+	// hook model_thread_safe_info_end.php
+	return $thread;
+}
+
 function thread_get_level($n, $levelarr) {
 	// hook model_thread_get_level_start.php
 	foreach($levelarr as $k=>$level) {

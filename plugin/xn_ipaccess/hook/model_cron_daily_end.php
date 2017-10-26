@@ -1,0 +1,1 @@
+	ipaccess_truncate();

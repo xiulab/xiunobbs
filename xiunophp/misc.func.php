@@ -92,7 +92,7 @@ function param($key, $defval = '', $htmlspecialchars = TRUE, $addslashes = FALSE
 	param_force($arr, array(0));
 */
 function param_force($val, $defval, $htmlspecialchars = TRUE, $addslashes = FALSE) {
-	$get_magic_quotes_gpc = $_SERVER['get_magic_quotes_gpc'];
+	$get_magic_quotes_gpc = _SERVER('get_magic_quotes_gpc');
 	if(is_array($defval)) {
 		$defval = empty($defval) ? '' : $defval[0]; // 数组的第一个元素，如果没有则为空字符串
 		if(is_array($val)) {

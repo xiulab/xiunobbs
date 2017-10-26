@@ -67,6 +67,10 @@ $_SESSION['fid'] = 0;
 
 // hook index_end.php
 
-include _include(APP_PATH.'view/htm/index.htm');
-
+if($ajax) {
+	foreach($threadlist as &$thread) $thread = thread_safe_info($thread);
+	message(0, $threadlist);
+} else {
+	include _include(APP_PATH.'view/htm/index.htm');
+}
 ?>

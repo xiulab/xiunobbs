@@ -22,6 +22,7 @@ $search_range = $search_conf['range'];
 //$search_type = 'fulltext';
 
 $pagesize = 20;
+$threadlist = $postlist = array();
 
 if($keyword) {
 	// 搜索结果
@@ -113,8 +114,17 @@ if($keyword) {
 	}
 }
 
-include _include(APP_PATH.'plugin/xn_search/htm/search.htm');
-
+if($ajax) {
+	if($threadlist) {
+		foreach($threadlist as &$thread) $thread = thread_safe_info($thread);
+		message(0, $threadlist);
+	} else {
+		foreach($postlist as &$post) $post = post_safe_info($post);
+		message(0, $postlist);
+	}
+} else {
+	include _include(APP_PATH.'plugin/xn_search/htm/search.htm');
+}
 
 
 ?>

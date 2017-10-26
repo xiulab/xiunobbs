@@ -199,7 +199,12 @@ if($action == 'login') {
 		
 	// hook user_thread_end.php
 	
-	include _include(APP_PATH.'view/htm/user_thread.htm');
+	if($ajax) {
+		foreach($threadlist as &$thread) $thread = thread_safe_info($thread);
+		message(0, $threadlist);
+	} else {
+		include _include(APP_PATH.'view/htm/user_thread.htm');
+	}
 	
 // 重设密码第 1 步 | reset password first step
 } elseif($action == 'resetpw') {
@@ -399,8 +404,12 @@ if($action == 'login') {
 	
 	// hook user_profile_end.php
 	
-	include _include(APP_PATH.'view/htm/user_profile.htm');
-	
+	if($ajax) {
+		$_user = user_safe_info($_user);
+		message(0, $_user);
+	} else {
+		include _include(APP_PATH.'view/htm/user_profile.htm');
+	}
 }
 
 // hook user_end.php
