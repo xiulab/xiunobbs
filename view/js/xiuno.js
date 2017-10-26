@@ -950,25 +950,25 @@ $.fn.base64_encode_file = function(width, height, action) {
 		var jhidden = $('<input type="hidden" name="'+obj.name+'" />').appendTo(jform);
 		obj.name = '';
 
-			var reader = new FileReader();
-			reader.readAsDataURL(file);
-			reader.onload = function(e) {
-				// 如果是图片，并且设置了，宽高，和剪切模式
-				if(xn.substr(this.result, 0, 10) == 'data:image') {
-					xn.image_resize(this.result, function(code, message) {
-						if(code == 0) {
-							jassoc.attr('src', message.data);
-							jhidden.val(message.data); // base64
-						} else {
-							alert(message);
-						}
-						jsubmit.button('reset');
-					}, {width: width, height: height, action: action});
-				} else {
-					jhidden.val(this.result);
+		var reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onload = function(e) {
+			// 如果是图片，并且设置了，宽高，和剪切模式
+			if(width && height && xn.substr(this.result, 0, 10) == 'data:image') {
+				xn.image_resize(this.result, function(code, message) {
+					if(code == 0) {
+						jassoc.attr('src', message.data);
+						jhidden.val(message.data); // base64
+					} else {
+						alert(message);
+					}
 					jsubmit.button('reset');
-				}
+				}, {width: width, height: height, action: action});
+			} else {
+				jhidden.val(this.result);
+				jsubmit.button('reset');
 			}
+		}
 	});
 };
 
