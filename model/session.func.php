@@ -52,7 +52,7 @@ function sess_read($sid) {
 }
 
 function sess_new($sid) {
-	global $time, $longip, $conf, $g_session_invalid;
+	global $time, $longip, $conf, $g_session, $g_session_invalid;
 	
 	$agent = _SERVER('HTTP_USER_AGENT');
 	
@@ -85,6 +85,7 @@ function sess_new($sid) {
 		'useragent'=> $agent,
 		'bigdata'=> 0,
 	);
+	$g_session = $arr;
 	db_insert('session', $arr);
 }
 
