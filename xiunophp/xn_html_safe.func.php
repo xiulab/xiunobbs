@@ -1319,7 +1319,10 @@ class HTML_White {
 		$doc = str_replace("\xC0\xBC", '&lt;', $doc);
 
 		// UTF-7 encoding ASCII decode
-		$doc = $this->repackUTF7($doc);
+		// $doc = $this->repackUTF7($doc);
+		
+		// 过滤泰文, Filter Thai Character
+		$doc = preg_replace('/\p{Thai}/u', '', $doc);
 
 		// Instantiate the parser
 		$parser = new XML_HTMLSax3();
@@ -1716,6 +1719,8 @@ function xn_html_safe($doc, $arg = array()) {
 	$result = $safehtml->parse($doc);
 	return $result;
 }
+
+// echo xn_html_safe('+ab-');
 
 // 最大宽度限制
 //$s = '<table class="table" style="width:1126px; margin-bottom:1rem; color:rgb(55, 58, 60); font-family:none; line-height:24px; min-width:800px; background-color:rgb(255, 255, 255);"><tbody><tr valign="top"><td width="60" style="padding:0.5rem 0.75rem;"><a href="http://plugin.xiuno.com/plugin-read-xn_syntax_hightlighter.htm" target="_blank"><img src="http://plugin.xiuno.com/upload/plugin/27/icon.png" width="54" height="54"></a></td><td width="220" style="padding:0.5rem 0.75rem;"><a href="http://plugin.xiuno.com/plugin-read-xn_syntax_hightlighter.htm"><span style="font-weight:bolder;">代码高亮&nbsp;</span></a><span class="small" style="font-size:13px;">v1.1&nbsp;</span><br><span class="small" style="font-size:13px;">xn_syntax_hightlighter</span><br><span class="small" style="font-size:13px;">作者：axiuno</span></td></tr></tbody></table>';
