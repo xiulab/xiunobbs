@@ -1,5 +1,9 @@
 <?php
 
+
+// 只能在当前 request 生命周期缓存，要跨进程，可以再加一层缓存： memcached/xcache/apc/
+$g_static_users = array(); // 变量缓存
+
 // hook model_user_start.php
 
 // ------------> 最原生的 CURD，无关联其他数据。
@@ -49,28 +53,32 @@ function user_create($arr) {
 
 function user_update($uid, $arr) {
 	// hook model_user_update_start.php
-	global $conf;
+	global $conf, $g_static_users;
 	$r = user__update($uid, $arr);
 	$conf['cache']['type'] != 'mysql' AND cache_delete("user-$uid");
+	isset($g_static_users[$uid]) AND $g_static_users[$uid] = array_merge($g_static_users[$uid], $arr);
+	
 	// hook model_user_update_end.php
 	return $r;
 }
 
 function user_read($uid) {
+	global $g_static_users;
 	if(empty($uid)) return array();
 	$uid = intval($uid);
 	// hook model_user_read_start.php
 	$user = user__read($uid);
 	user_format($user);
+	$g_static_users[$uid] = $user;
 	// hook model_user_read_end.php
 	return $user;
 }
 
+
 // 从缓存中读取，避免重复从数据库取数据，主要用来前端显示，可能有延迟。重要业务逻辑不要调用此函数，数据可能不准确，因为并没有清理缓存，针对 request 生命周期有效。
 function user_read_cache($uid) {
-	global $conf;
-	static $cache = array(); // 用静态变量只能在当前 request 生命周期缓存，要跨进程，可以再加一层缓存： memcached/xcache/apc/
-	if(isset($cache[$uid])) return $cache[$uid];
+	global $conf, $g_static_users;
+	if(isset($g_static_users[$uid])) return $g_static_users[$uid];
 	
 	// hook model_user_read_cache_start.php
 	
@@ -87,14 +95,14 @@ function user_read_cache($uid) {
 		$r = user_read($uid);
 	}
 	
-	$cache[$uid] = $r ? $r : user_guest();
+	$g_static_users[$uid] = $r ? $r : user_guest();
 	
 	// hook model_user_read_cache_end.php
-	return $cache[$uid];
+	return $g_static_users[$uid];
 }
 
 function user_delete($uid) {
-	global $conf;
+	global $conf, $g_static_users;
 	// hook model_user_delete_start.php
 	// 清理用户资源
 	$threadlist = mythread_find_by_uid($uid, 1, 1000);
@@ -105,6 +113,7 @@ function user_delete($uid) {
 	$r = user__delete($uid);
 	
 	$conf['cache']['type'] != 'mysql' AND cache_delete("user-$uid");
+	if(isset($g_static_users[$uid])) unset($g_static_users[$uid]);
 	
 	// 全站统计
 	runtime_set('users-', 1);
@@ -114,9 +123,13 @@ function user_delete($uid) {
 }
 
 function user_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
+	global $g_static_users;
 	// hook model_user_find_start.php
 	$userlist = db_find('user', $cond, $orderby, $page, $pagesize);
-	if($userlist) foreach ($userlist as &$user) user_format($user);
+	if($userlist) foreach ($userlist as &$user) {
+		$g_static_users[$user['uid']] = $user;
+		user_format($user);
+	}
 	// hook model_user_find_end.php
 	return $userlist;
 }
@@ -124,17 +137,21 @@ function user_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 2
 // ------------> 其他方法
 
 function user_read_by_email($email) {
+	global $g_static_users;
 	// hook model_user_read_by_email_start.php
 	$user = db_find_one('user', array('email'=>$email));
 	user_format($user);
+	$g_static_users[$user['uid']] = $user;
 	// hook model_user_read_by_email_end.php
 	return $user;
 }
 
 function user_read_by_username($username) {
+	global $g_static_users;
 	// hook model_user_read_by_username_start.php
 	$user = db_find_one('user', array('username'=>$username));
 	user_format($user);
+	$g_static_users[$user['uid']] = $user;
 	// hook model_user_read_by_username_end.php
 	return $user;
 }
