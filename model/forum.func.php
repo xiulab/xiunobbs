@@ -172,8 +172,8 @@ function forum_list_access_filter($forumlist, $gid, $allow = 'allowread') {
 	foreach($forumlist_filter as $fid=>$forum) {
 		if(empty($forum['accesson']) && empty($group[$allow]) || !empty($forum['accesson']) && empty($forum['accesslist'][$gid][$allow])) {
 			unset($forumlist_filter[$fid]);
+			unset($forumlist_filter[$fid]['modlist']);
 		}
-		unset($forumlist_filter[$fid]['modlist']);
 		unset($forumlist_filter[$fid]['accesslist']);
 	}
 	// hook model_forum_list_access_filter_end.php
