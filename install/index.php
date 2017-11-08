@@ -80,7 +80,7 @@ if(empty($action)) {
 		$pdo_mysql_support = extension_loaded('pdo_mysql');
 		$myisam_support = extension_loaded('pdo_mysql');
 		$innodb_support = extension_loaded('pdo_mysql');
-		(!$mysql_support && !$pdo_mysql_support) AND message(0, lang('evn_not_support_php_mysql'));
+		(!$mysql_support && !$pdo_mysql_support) AND exit(lang('evn_not_support_php_mysql'));
 
 		include INSTALL_PATH."view/htm/db.htm";
 		
