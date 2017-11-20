@@ -18,12 +18,14 @@ class cache_memcached {
                 if($this->link) return $this->link;
                 if(extension_loaded('Memcache')) {
                         $memcache = new Memcache;
+                        $r = $memcache->connect($conf['host'], $conf['port']);
                 } elseif(extension_loaded('Memcached')) {
                         $memcache = new Memcached;
+                        $r = $memcache->addserver($conf['host'], $conf['port']);
                 } else {
 			return xn_error(-1, 'Memcache 扩展不存在。');
                 }
-                $r = $memcache->connect($conf['host'], $conf['port']);
+                
                 if(!$r) {
 			return xn_error(-1, '连接 Memcached 服务器失败。');
                 }
