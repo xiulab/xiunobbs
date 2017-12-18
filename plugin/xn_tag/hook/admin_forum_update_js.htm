@@ -1,11 +1,12 @@
 
 <script>
-var tag_cate_maxid = <?php echo $tag_cate_maxid;?>;
-var tag_maxid = <?php echo $tag_maxid;?>;
+
+var tag_cate_maxid = <?php echo intval($tag_cate_maxid);?>;
+var tag_maxid = <?php echo intval($tag_maxid);?>;
 var jtag_html = $('#tag_html');
 var jtag_cate_tpl = $('#tag_cate_tpl');
 var jtag_tpl = $('#tag_tpl');
-var tagcatelist = <?php echo xn_json_encode($tagcatelist);?>;
+var tagcatelist = <?php echo xn_json_encode($tagcatelist);?> || [];
 function tag_cate_add(tagcate) {
 	tagcate = tagcate || {};
 	tagcate.name = tagcate.name || '';
@@ -40,7 +41,11 @@ function tag_add(jpnode, tag) {
 	}
 	tag.cateid = jpnode.attr('cateid') || 0; // cateid
 	tagcate = tagcatelist.find(function(item) {return item.cateid == tag.cateid});
-	console.log(tagcate);
+	if(!tagcate) {
+		tagcate = {
+			defaulttagid: 0,
+		}
+	}
 	var s = jtag_tpl.html();
 	s = xn.template(s, {
 		name: tag.name, 

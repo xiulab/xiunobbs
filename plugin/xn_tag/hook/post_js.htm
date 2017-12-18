@@ -1,10 +1,10 @@
 <script>
-/*
+
 var forumlist = <?php echo xn_json_encode($forumlist_show);?>;
 
 // 初始化值，选中的值
 var tagids = <?php echo xn_json_encode($tagids);?>;
-
+/*
 // 初始化 select 控件
 var jforum_select = jform.find('select[name="subject_prefix"]');
 function forum_tag_cate_select(fid) {
@@ -31,14 +31,37 @@ forum_tag_cate_select(<?php echo $fid;?>);
 //forum_tag_cate_select(jforum_select.checked());
 */
 
-$('a.tag_option').on('click', function() {
+var jfid = $('select[name="fid"]');
+jfid.on('change', function() {
+	var s = '<table class="small nav_tag_list">';
+	var fid = jfid.val();
+	var forum = forumlist[fid];
+	$.each(forum.tagcatelist, function(k, tagcate) {
+		s += '<tr><td class="text-muted text-nowrap" align="right" valign="top">';
+		s += tagcate.name;
+		s += '：</td><td>';
+		$.each(tagcate.taglist, function(k, tag) {
+			s += '<a href="javascript:void(0);" class="tag_option ' + (xn.in_array(tag.tagid, tagids) || tag.tagid == tagcate.defaulttagid ? ' active' : '') + '" tagid="' + tag.tagid + '">' + tag.name + '</a>';
+			s += '<input type="hidden" name="tagid[]" value="' + (xn.in_array(tag.tagid, tagids) ? tag.tagid : '') + '" />';
+		});
+		s += '</td></tr>';
+	});
+	s += '</table>';
+	$('#nav_tag_list_div').html(s);
+});
+
+jfid.trigger('change');
+
+$('#nav_tag_list_div').on('click', 'a.tag_option', function() {
 	var jthis = $(this);
 	var tagid = jthis.attr('tagid');
 	jthis.toggleClass('active');
 	// 隐藏域
 	var v = jthis.hasClass('active') ? tagid : '';
 	jthis.next().attr('value', v);
-	
 });
+
+
+// tag 选中区域。
 
 </script>

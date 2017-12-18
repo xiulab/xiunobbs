@@ -8,7 +8,7 @@
 		$cate_isforce_arr = param('cate_isforce', array(0));
 		$cate_id_arr = array_keys($cate_name_arr);
 		$cate_id_arr_old = arrlist_values($tagcatelist, 'cateid');
-		$cate_defaulttagid = $_POST['cate_defaulttagid'];
+		$cate_defaulttagid = array_value($_POST, 'cate_defaulttagid', array());
 		
 		$update = FALSE;
 		// 新增 + 更新 / new + update
@@ -71,5 +71,6 @@
 		}
 		
 		$update AND setting_set('tag_update_time', $time);
+		
 		
 ?>
