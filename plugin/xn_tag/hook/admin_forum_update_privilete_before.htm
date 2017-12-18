@@ -19,6 +19,9 @@
 											<label class="c-input c-checkbox"><input type="checkbox" name="cate_enable[{id}]" value="1" {enable} /><?php echo lang('enable');?><span class="c-indicator"></span></label>
 										</td>
 										<td width="100">
+											<label class="c-input c-checkbox"><input type="checkbox" name="cate_isforce[{id}]" value="1" {isforce} /><?php echo lang('is_force');?><span class="c-indicator"></span></label>
+										</td>
+										<td width="100">
 											<a class="btn tag_cate_delete text-danger" role="btn"><i class="icon-remove"></i></a>
 										</td>
 									</tr>
@@ -43,6 +46,9 @@
 										</td>
 										<td width="100">
 											<label class="c-input c-checkbox"><input type="checkbox" name="tag_enable[{id}]" value="1" {enable} /><?php echo lang('enable');?><span class="c-indicator"></span></label>
+										</td>
+										<td width="100">
+											<label class="c-input c-checkbox"><input type="radio" name="cate_defaulttagid[{cateid}]" value="{id}" {defaulttagid_checked} /><?php echo lang('is_default');?><span class="c-indicator"></span></label>
 										</td>
 										<td width="100">
 											<a class="btn tag_delete text-danger" role="btn"><i class="icon-remove"></i></a>

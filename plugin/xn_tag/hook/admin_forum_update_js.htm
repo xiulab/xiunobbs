@@ -11,6 +11,8 @@ function tag_cate_add(tagcate) {
 	tagcate.name = tagcate.name || '';
 	tagcate.rank = tagcate.rank || 0;
 	tagcate.enable = tagcate.enable || 1;
+	tagcate.isforce = tagcate.isforce || 0;
+	tagcate.defaulttagid = tagcate.defaulttagid || 0;
 	tagcate.cateid = tagcate.cateid || ++tag_cate_maxid;
 	var s = jtag_cate_tpl.html();
 	if($('#tag_html').children('table').length > 8) {
@@ -20,6 +22,7 @@ function tag_cate_add(tagcate) {
 		name: tagcate.name, 
 		rank: tagcate.rank, 
 		enable: (tagcate.enable == "1" ? "checked" : ''), 
+		isforce: (tagcate.isforce == "1" ? "checked" : ''), 
 		id: tagcate.cateid
 	});
 	return $(s).appendTo(jtag_html);
@@ -30,18 +33,22 @@ function tag_add(jpnode, tag) {
 	tag.rank = tag.rank || 0;
 	tag.enable = tag.enable || 1;
 	tag.tagid = tag.tagid || ++tag_maxid;
+	
 	jpnode = $(jpnode);
 	if(!jpnode.hasClass('children')) {
 		jpnode = jpnode.parents('.children');
 	}
 	tag.cateid = jpnode.attr('cateid') || 0; // cateid
-	
+	tagcate = tagcatelist.find(function(item) {return item.cateid == tag.cateid});
+	console.log(tagcate);
 	var s = jtag_tpl.html();
 	s = xn.template(s, {
 		name: tag.name, 
 		rank: tag.rank, 
 		cateid: tag.cateid,
 		enable: (tag.enable == "1" ? "checked" : ''), 
+		defaulttagid: tagcate.defaulttagid, 
+		defaulttagid_checked: (tag.tagid == tagcate.defaulttagid ? "checked" : ''), 
 		id: tag.tagid
 		
 	});

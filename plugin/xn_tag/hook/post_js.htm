@@ -1,12 +1,12 @@
 <script>
-
+/*
 var forumlist = <?php echo xn_json_encode($forumlist_show);?>;
 
 // 初始化值，选中的值
 var tagids = <?php echo xn_json_encode($tagids);?>;
 
 // 初始化 select 控件
-var jforum_select = jform.find('select[name="fid"]');
+var jforum_select = jform.find('select[name="subject_prefix"]');
 function forum_tag_cate_select(fid) {
 	if(xn.empty(fid)) return;
 	var tagcatelist = forumlist[fid]['tagcatelist'];
@@ -18,15 +18,27 @@ function forum_tag_cate_select(fid) {
 		s += '<select class="custom-select m-r-sm" name="tag_cate_id['+cateid+']">';
 		$.each(cate.taglist, function(k, tag) {
 			var tagid = tag.tagid;
-			var selected = xn.in_array(tagid, tagids) ? ' selected' : '';
+			var selected = (xn.in_array(tagid, tagids) || tagid == cate.defaultcateid) ? ' selected' : '';
 			s += '<option value="'+tagid+'" '+selected+'>'+tag.name+'</option>';
 		});
 		s += '</select>';
 	});
-	$(s).insertAfter(jforum_select);
+	$(s).append(jforum_select);
 }
-jforum_select.on('change', function() {forum_tag_cate_select(this.value)});
-forum_tag_cate_select(jforum_select.checked());
 
+forum_tag_cate_select(<?php echo $fid;?>);
+//jforum_select.on('change', function() {forum_tag_cate_select(this.value)});
+//forum_tag_cate_select(jforum_select.checked());
+*/
+
+$('a.tag_option').on('click', function() {
+	var jthis = $(this);
+	var tagid = jthis.attr('tagid');
+	jthis.toggleClass('active');
+	// 隐藏域
+	var v = jthis.hasClass('active') ? tagid : '';
+	jthis.next().attr('value', v);
+	
+});
 
 </script>
