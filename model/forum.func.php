@@ -84,6 +84,8 @@ function forum_delete($fid) {
 	
 	$r = forum__delete($fid);
 	
+	forum_access_delete_by_fid($fid);
+	
 	forum_list_cache_delete();
 	// hook model_forum_delete_end.php
 	return $r;

@@ -1,6 +1,6 @@
 <?php exit;
 
-$tagids = param(3);
+$tagids = param('tagids');
 $tagid1 = $tagid2 = $tagid3 = $tagid4 = '';
 $threadlist_from_tag = 0;
 $find_sql = $count_sql = '';
@@ -17,7 +17,6 @@ if($tagids) {
 	}
 	
 	// 结果集缓存下来
-	$tagids = param(3);
 	$tagidarr = explode('_', $tagids);
 	$tagidarr = array_filter_empty($tagidarr);
 	$tagidarr = array_values($tagidarr);
@@ -92,7 +91,7 @@ if($thread_list_from_default == 0 && $find_sql) {
 		unset($arr, $tidlist);
 	}
 	
-	$pagination = pagination(url("forum-$fid-{page}-{$tagid1}_{$tagid2}_{$tagid3}_{$tagid4}"), $n, $page, $pagesize);
+	$pagination = pagination(url("forum-$fid-{page}", array('tagids'=>"{$tagid1}_{$tagid2}_{$tagid3}_{$tagid4}")), $n, $page, $pagesize);
 	$threadlist = thread_find_by_tids($tids);
 	$toplist = array();
 

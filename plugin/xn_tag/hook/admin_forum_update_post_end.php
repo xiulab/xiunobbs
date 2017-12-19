@@ -72,5 +72,4 @@
 		
 		$update AND setting_set('tag_update_time', $time);
 		
-		
 ?>

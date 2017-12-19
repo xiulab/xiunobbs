@@ -31,10 +31,9 @@ table.nav_tag_list td a{margin-right: 0.5rem;}
 								break;
 						}
 					?>
-					<a href="<?php echo url("forum-$fid-1-$tagidadd");?>" <?php echo $tagactive;?>><?php echo lang('all');?></a>
+					<a href="<?php echo url("forum-$fid-1", array("tagids=$tagidadd"));?>" <?php echo $tagactive;?>><?php echo lang('all');?></a>
 					<?php foreach($tagcate['taglist'] as $tag) { ?>
 					<?php 
-						
 						switch ($i) {
 							case 0: 
 								$tagidadd = "{$tag['tagid']}_{$tagid2}_{$tagid3}_{$tagid4}";
@@ -51,7 +50,7 @@ table.nav_tag_list td a{margin-right: 0.5rem;}
 								break;
 						}
 					?>
-					<a href="<?php echo url("forum-$fid-1-$tagidadd");?>" <?php echo $tagactive;?>><?php echo $tag['name'];?></a>
+					<a href="<?php echo url("forum-$fid-1", array('tagids'=>$tagidadd));?>" <?php echo $tagactive;?>><?php echo $tag['name'];?></a>
 					<?php } ?>
 				</td>
 			</tr>

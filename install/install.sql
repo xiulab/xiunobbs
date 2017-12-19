@@ -117,6 +117,7 @@ CREATE TABLE bbs_thread (
   subject char(128) NOT NULL default '',		# 主题
   create_date int(11) unsigned NOT NULL default '0',	# 发帖时间
   last_date int(11) unsigned NOT NULL default '0',	# 最后回复时间
+
   views int(11) unsigned NOT NULL default '0',		# 查看次数, 剥离出去，单独的服务，避免 cache 失效
   posts int(11) unsigned NOT NULL default '0',		# 回帖数
   images tinyint(6) NOT NULL default '0',		# 附件中包含的图片数
@@ -156,11 +157,13 @@ CREATE TABLE bbs_post (
   files smallint(6) NOT NULL default '0',		# 附件中包含的文件数
   doctype tinyint(3) NOT NULL default '0',		# 类型，0: html, 1: txt; 2: markdown; 3: ubb
   quotepid int(11) NOT NULL default '0',		# 引用哪个 pid，可能不存在
+
   message longtext NOT NULL,				# 内容，用户提示的原始数据
   message_fmt longtext NOT NULL,			# 内容，存放的过滤后的html内容，可以定期清理，减肥。
   PRIMARY KEY (pid),
   KEY (tid, pid)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+# 编辑历史
 
 #论坛附件表  只能按照从上往下的方式查找和删除！ 此表如果大，可以考虑通过 aid 分区。
 DROP TABLE IF EXISTS bbs_attach;

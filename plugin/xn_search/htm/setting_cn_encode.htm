@@ -1,63 +1,63 @@
 <?php include _include(ADMIN_PATH.'view/htm/header.inc.htm');?>
 
 <div class="row">
-    <div class="col-lg-10 offset-lg-1">
+	<div class="col-lg-10 offset-lg-1">
 
-        <div class="btn-group m-b-1" role="group">
-            <?php echo admin_tab_active(array(
+		<div class="btn-group m-b-1" role="group">
+			<?php echo admin_tab_active(array(
 					'set'=>array('url'=>url('plugin-setting-xn_search-set'), 'text'=>lang('admin_setting_search_set')),
 					'cn_encode'=>array('url'=>url('plugin-setting-xn_search-cn_encode'), 'text'=>lang('admin_setting_search_cn_encode'))
 				), $action);
 			?>
-        </div>
+		</div>
 
-        <div class="card">
-            <div class="card-block">
-                <form action="" method="get" id="form">
-                    <div class="form-group row">
-                        <label class="col-sm-2 form-control-label">当前主题贴数：</label>
-                        <div class="col-sm-10">
-                            <?php echo $runtime['threads']; ?>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 form-control-label">总贴数：</label>
-                        <div class="col-sm-10">
-                            <?php echo $posts; ?>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 form-control-label">重建范围：</label>
-                        <div class="col-sm-10">
-                            <?php echo $input['range']; ?>
-                        </div>
-                    </div>
-                    <div class="form-group row hide" id="subject_start_div">
-                        <label class="col-sm-2 form-control-label">进度：</label>
-                        <div class="col-sm-10">
-                            <?php echo $input['subject_start']; ?>
-                        </div>
-                    </div>
-                    <div class="form-group row hide" id="post_start_div">
-                        <label class="col-sm-2 form-control-label">进度：</label>
-                        <div class="col-sm-10">
-                            <?php echo $input['post_start']; ?>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 form-control-label"></label>
-                        <div class="col-sm-10">
-                            <button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('admin_start_rebuild');?></button>
-                            <a role="button" class="btn btn-secondary btn-block m-t-1" href="javascript:history.back();">
-                                <?php echo lang('back');?>
-                            </a>
-                        </div>
-                    </div>
+		<div class="card">
+			<div class="card-block">
+				<form action="" method="get" id="form">
+					<div class="form-group row">
+						<label class="col-sm-2 form-control-label">当前主题贴数：</label>
+						<div class="col-sm-10">
+							<?php echo $runtime['threads']; ?>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 form-control-label">总贴数：</label>
+						<div class="col-sm-10">
+							<?php echo $posts; ?>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 form-control-label">重建范围：</label>
+						<div class="col-sm-10">
+							<?php echo $input['range']; ?>
+						</div>
+					</div>
+					<div class="form-group row hide" id="subject_start_div">
+						<label class="col-sm-2 form-control-label">进度：</label>
+						<div class="col-sm-10">
+							<?php echo $input['subject_start']; ?>
+						</div>
+					</div>
+					<div class="form-group row hide" id="post_start_div">
+						<label class="col-sm-2 form-control-label">进度：</label>
+						<div class="col-sm-10">
+							<?php echo $input['post_start']; ?>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 form-control-label"></label>
+						<div class="col-sm-10">
+							<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('admin_start_rebuild');?></button>
+							<a role="button" class="btn btn-secondary btn-block m-t-1" href="javascript:history.back();">
+								<?php echo lang('back');?>
+							</a>
+						</div>
+					</div>
 
-                </form>
-            </div>
-        </div>
-    </div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 
 <?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
@@ -81,11 +81,11 @@ jform.on('submit', function() {
 
 function on_range_change(v) {
 	if (v == 1) {
-	    jsubject_start_div.show();
-	    jpost_start_div.hide();
+		jsubject_start_div.show();
+		jpost_start_div.hide();
 	} else {
-	    jsubject_start_div.hide();
-	    jpost_start_div.show();
+		jsubject_start_div.hide();
+		jpost_start_div.show();
 	}
 }
 jrange.on('change', function() {

@@ -2,9 +2,6 @@
 
 <!--{hook thread_start.htm}-->
 
-<!-- only for screenreader  -->
-<a role="button" class="sr-only sr-focusable" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
-
 <div class="row">
 	<div class="col-lg-9">
 		<!--{hook thread_breadcrumb_before.htm}-->
@@ -95,8 +92,6 @@
 				<tbody>
 				
 					<?php include _include(APP_PATH.'view/htm/post_list.inc.htm'); ?>
-					
-					
 					
 					<?php if(!empty($user)) { ?>
 					<tr class="post">

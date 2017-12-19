@@ -5,7 +5,10 @@
 // hook forum_start.php
 $fid = param(1, 0);
 $page = param(2, 1);
+$orderby = param('orderby');
+
 $active = 'default';
+!in_array($orderby, array('tid', 'lastpid')) AND $orderby = 'lastpid';
 
 $forum = forum_read($fid);
 empty($forum) AND message(3, lang('forum_not_exists'));
@@ -22,8 +25,8 @@ $thread_list_from_default = 1;
 // hook forum_thread_list_before.php
 
 if($thread_list_from_default) {
-	$pagination = pagination(url("forum-$fid-{page}"), $forum['threads'], $page, $pagesize);
-	$threadlist = thread_find_by_fid($fid, $page, $pagesize);
+	$pagination = pagination(url("forum-$fid-{page}", $_GET), $forum['threads'], $page, $pagesize);
+	$threadlist = thread_find_by_fid($fid, $page, $pagesize, $orderby);
 }
 
 // 三级置顶在首页显示，版块列表页不显示

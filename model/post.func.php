@@ -262,7 +262,9 @@ function post_file_list_html($filelist, $include_delete = FALSE) {
 	
 	// hook model_post_file_list_html_start.php
 	
-	$s = '<ul class="attachlist">'."\r\n";
+	$s = '<fieldset class="fieldset">'."\r\n";
+	$s .= '<legend>上传的附件：</legend>'."\r\n";
+	$s .= '<ul class="attachlist">'."\r\n";
 	foreach ($filelist as &$attach) {
 		$s .= '<li aid="'.$attach['aid'].'">'."\r\n";
 		$s .= '		<a href="'.url("attach-download-$attach[aid]").'" target="_blank">'."\r\n";
@@ -275,6 +277,7 @@ function post_file_list_html($filelist, $include_delete = FALSE) {
 		$s .= '</li>'."\r\n";
 	};
 	$s .= '</ul>'."\r\n";
+	$s .= '</fieldset>'."\r\n";
 	
 	// hook model_post_file_list_html_end.php
 	

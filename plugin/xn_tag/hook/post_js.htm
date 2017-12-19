@@ -4,37 +4,16 @@ var forumlist = <?php echo xn_json_encode($forumlist_show);?>;
 
 // 初始化值，选中的值
 var tagids = <?php echo xn_json_encode($tagids);?>;
-/*
-// 初始化 select 控件
-var jforum_select = jform.find('select[name="subject_prefix"]');
-function forum_tag_cate_select(fid) {
-	if(xn.empty(fid)) return;
-	var tagcatelist = forumlist[fid]['tagcatelist'];
-	jforum_select.siblings().remove();
-	var s = '';
-	$.each(tagcatelist, function(k, cate) {
-		var cateid = cate.cateid;
-		if(xn.empty(cate.taglist)) return;
-		s += '<select class="custom-select m-r-sm" name="tag_cate_id['+cateid+']">';
-		$.each(cate.taglist, function(k, tag) {
-			var tagid = tag.tagid;
-			var selected = (xn.in_array(tagid, tagids) || tagid == cate.defaultcateid) ? ' selected' : '';
-			s += '<option value="'+tagid+'" '+selected+'>'+tag.name+'</option>';
-		});
-		s += '</select>';
-	});
-	$(s).append(jforum_select);
-}
-
-forum_tag_cate_select(<?php echo $fid;?>);
-//jforum_select.on('change', function() {forum_tag_cate_select(this.value)});
-//forum_tag_cate_select(jforum_select.checked());
-*/
 
 var jfid = $('select[name="fid"]');
+var fid = <?php echo intval($fid); ?> || $('select[name="fid"]').val();
 jfid.on('change', function() {
-	var s = '<table class="small nav_tag_list">';
 	var fid = jfid.val();
+	fid_on_change(fid);
+});
+
+function fid_on_change(fid) {
+	var s = '<table class="small nav_tag_list m-b-sm">';
 	var forum = forumlist[fid];
 	$.each(forum.tagcatelist, function(k, tagcate) {
 		s += '<tr><td class="text-muted text-nowrap" align="right" valign="top">';
@@ -42,15 +21,15 @@ jfid.on('change', function() {
 		s += '：</td><td>';
 		$.each(tagcate.taglist, function(k, tag) {
 			s += '<a href="javascript:void(0);" class="tag_option ' + (xn.in_array(tag.tagid, tagids) || tag.tagid == tagcate.defaulttagid ? ' active' : '') + '" tagid="' + tag.tagid + '">' + tag.name + '</a>';
-			s += '<input type="hidden" name="tagid[]" value="' + (xn.in_array(tag.tagid, tagids) ? tag.tagid : '') + '" />';
+			s += '<input type="hidden" name="tagid[]" value="' + (xn.in_array(tag.tagid, tagids) || tag.tagid == tagcate.defaulttagid ? tag.tagid : '') + '" />';
 		});
 		s += '</td></tr>';
 	});
 	s += '</table>';
 	$('#nav_tag_list_div').html(s);
-});
+}
 
-jfid.trigger('change');
+fid_on_change(fid);
 
 $('#nav_tag_list_div').on('click', 'a.tag_option', function() {
 	var jthis = $(this);

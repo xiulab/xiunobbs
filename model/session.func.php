@@ -102,6 +102,7 @@ function sess_save() {
 	sess_write($sid, TRUE);
 }
 
+// 模拟加锁，如果发现写入的时候数据已经发生改变，则读取后，合并数据，重新写入（合并总比删除安全一点）。
 function sess_write($sid, $data) {
 	global $g_session, $time, $longip, $g_session_invalid, $conf;
 	
@@ -225,4 +226,21 @@ function online_count() {
 function online_find_cache() {
 	return db_find('session');
 }
+
+function online_list_cache() {
+	$onlinelist = cache_get('online_list');
+	if($onlinelist === NULL) {
+		$onlinelist = db_find('session', array('uid'=>array('>'=>0)), array('last_date'=>-1), 1, 500);
+		foreach($onlinelist as &$online) {
+			$user = user_read_cache($online['uid']);
+			$online['username'] = $user['username'];
+			$online['gid'] = $user['gid'];
+			$online['ip_fmt'] = long2ip($online['ip']);
+			$online['last_date_fmt'] = date('Y-n-j H:i', $online['last_date']);
+		}
+		cache_set('online_list', $onlinelist, 300);
+	}
+	return $onlinelist;
+}
+
 ?>

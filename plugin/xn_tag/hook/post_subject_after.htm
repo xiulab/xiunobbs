@@ -12,21 +12,4 @@ table.nav_tag_list td a{margin-right: 0.2rem;}
 </style>
 
 <div id="nav_tag_list_div">
-
-<table class="small nav_tag_list">
-<?php if(!empty($forum['tagcatelist'])) {foreach($forum['tagcatelist'] as $i=>$tagcate) { ?>
-	<tr>
-		<td class="text-muted text-nowrap" align="right" valign="top">
-			<?php echo $tagcate['name'];?>：
-		</td>
-		<td>
-			<?php foreach($tagcate['taglist'] as $tag) { ?>
-				<a href="javascript:void(0);" class="tag_option <?php echo in_array($tag['tagid'], $tagids) ? ' active' : '';?>" tagid="<?php echo $tag['tagid'];?>"><?php echo $tag['name'];?></a>
-				<input type="hidden" name="tagid[]" value="<?php echo in_array($tag['tagid'], $tagids) ? $tag['tagid'] : '';?>" />
-			<?php } ?>
-		</td>
-	</tr>
-<?php }} ?>
-</table>
-
 </div>
