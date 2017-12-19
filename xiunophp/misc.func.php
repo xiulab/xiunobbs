@@ -1057,21 +1057,28 @@ function xn_url_parse($request_url) {
 		$front = $q;
 		$behind = '';
 	}
+	
 	if(substr($front, -4) == '.htm') $front = substr($front, 0, -4);
 	$r = $front ? (array)explode('-', $front) : array();
+	
 	// 将后半部分合并
-	if($behind) {
-		parse_str($behind, $arr1);
-		//$_SERVER['_GET'] = $arr1;
-		$r += $arr1;
-	}
-
-	// 将 xxx.htm?a=b&c=d 后面的正常的 _GET 放到 $_SERVER['_GET']
+	$arr1 = $arr2 = $arr3 = array();
+	$behind AND parse_str($behind, $arr1);
+	
+	// 将 xxx.htm?a=b&c=d 放到后面，并且修正 $_GET
 	if(!empty($arr['query'])) {
 		parse_str($arr['query'], $arr2);
-		//$_SERVER['_GET'] = $arr2;
-		$r += $arr2;
+	} else {
+		!empty($_GET) AND $_GET = array();
 	}
+	$arr3 = $arr1 + $arr2;
+	if($arr3) {
+		//array_diff_key($arr3, $_GET) || array_diff_key($_GET, $arr3);
+		count($arr3) != count($_GET) AND $_GET = $arr3;
+	} else {
+		!empty($_GET) AND $_GET = array();
+	}
+	$r += $arr3;
 	
 	$_SERVER['REQUEST_URI_NO_PATH'] = substr($_SERVER['REQUEST_URI'], strrpos($_SERVER['REQUEST_URI'], '/') + 1);
 	

@@ -1625,7 +1625,7 @@ function xn_html_safe($doc, $arg = array()) {
 		'table', 'tr', 'td', 'th', 'tbody', 'thead', 'tfoot','caption',
 		'ol', 'ul', 'li', 'dl', 'dt', 'dd', 'menu', 'multicol',
 		'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'p', 'div', 'pre',
-		'br', 'img', 'area',  'embed', 'code', 'blockquote', 'iframe', 'section'
+		'br', 'img', 'area',  'embed', 'code', 'blockquote', 'iframe', 'section', 'fieldset', 'legend'
 	);
 	$white_value = array(
 		'href'=>array('pcre', '', array($pattern['url'], $pattern['ed2k_url'])),
@@ -1653,6 +1653,7 @@ function xn_html_safe($doc, $arg = array()) {
 		'allowfullscreen'=>array('range', 0, array(0, 10)),
 		'align'=>array('list', 'left', array('left', 'center', 'right')),
 		'valign'=>array('list', 'middle', array('middle', 'top', 'bottom')),
+        'name'=>array('pcre', '', array($pattern['word'])),
 	);
 	$white_css = array(
 		'font'=>array('pcre', 'none', array($pattern['safe'])),

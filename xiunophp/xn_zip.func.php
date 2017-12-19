@@ -31,6 +31,21 @@ function xn_unzip($zipfile, $extdir) {
 		include_once XIUNOPHP_PATH.'xn_zip_old.func.php';
 		xn_unzip_old($zipfile, $extdir);
 	}
+	
+	// 如果解压出来多了一层，则去掉一层。
+	// /path/dir1/dir1/a/b   ->   /path/dir1/a/b
+	
+	$extdirlast = substr(strrchr(substr($extdir, 0, -1), '/'), 1); // /path/dir1/ -> /dir1 -> dir1
+	$extdirp = substr(substr($extdir, 0, -1), 0, strpos($extdir, '/') + 1); // 上一级目录 /path/
+	if(is_dir($extdir.$extdirlast)) { // /path/dir1/dir1
+		$extdirtmp = substr($extdir, 0, -1).'__xn__tmp__dir__/'; // path/dir1__xn__tmp__dir__/
+		
+		rename(substr($extdir, 0, -1), substr($extdirtmp, 0, -1)); // rename('/path/dir1', '/path/dir1__xn__tmp__dir__');
+		rename($extdirtmp.$extdirlast, substr($extdir, 0, -1)); // rename('/path/dir1__xn__tmp__dir__/dir1', '/path/dir1');
+		
+		// 干掉临时目录
+		// rmdir($extdirtmp);
+	}
 }
 
 function xn_dir_to_zip($z, $zippath, $prelen = 0) {
