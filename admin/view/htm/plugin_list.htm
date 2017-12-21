@@ -55,7 +55,8 @@
 							<?php } ?>
 						</td>
 						<td width="100">
-							<span class="price"><?php echo array_value($plugin, 'price', 0); ?></span>
+							<?php $price = array_value($plugin, 'price', 0); ?>
+							<span class="price" <?php echo $price == 0 ? 'style="color: #aaa"' : ''; ?>><?php echo $price; ?></span>
 						</td>
 						<td>
 							<p class="grey"><?php echo $plugin['brief']; ?></p>

@@ -43,7 +43,7 @@ if($action == 'local') {
 
 	$pugin_cate_html = plugin_cate_active($pugin_cates, $cateid, $page);
 	
-	DEBUG AND $official_plugins['xn_forum_merge']['price'] = 1;
+	DEBUG AND isset($official_plugins['xn_qq_login']) AND $official_plugins['xn_qq_login']['price'] = 1;
 	
 	// official plugin
 	$total = plugin_official_total($cond);
@@ -53,7 +53,6 @@ if($action == 'local') {
 	$header['title']    = lang('official_plugin');
 	$header['mobile_title'] = lang('official_plugin');
 	
-	
 	include _include(ADMIN_PATH."view/htm/plugin_list.htm");
 	
 } elseif($action == 'read') {
@@ -61,7 +60,7 @@ if($action == 'local') {
 	$dir = param(2);
 	plugin_check_exists($dir);
 	
-	$plugin = plugin_read($dir);
+	$plugin = plugin_read_by_dir($dir);
 	
 	$tab = $plugin['pluginid'] ? 'official' : 'local';
 	
@@ -74,7 +73,55 @@ if($action == 'local') {
 } elseif($action == 'buy') {
 
 	// 给出插件的介绍+付款二维码
+	$dir = param(2);
+	$siteid = plugin_order_siteid($conf['auth_key'], _SERVER('SERVER_ADDR'));
+	
+	//plugin_check_exists($dir);
+	
+	plugin_check_exists($dir, FALSE);
+	$plugin = plugin_read_by_dir($dir);
 
+	$tab = $plugin['pluginid'] ? 'official' : 'local';
+	
+	$header['title']    = lang('plugin_detail').'-'.$plugin['name'];
+	$header['mobile_title'] = $plugin['name'];
+	
+	$url = plugin_order_buy_qrcode_url($siteid, $dir, $app_url);
+	if($url === FALSE) {
+		/*
+			0: 返回支付 URL(weixin://)
+			1: 已经支付
+			2: 不需要支付
+			-1: 业务逻辑错误
+			<-1: 系统错误
+		*/
+		if($errno == 1 || $errno == 2) {
+			// 直接跳转到下载
+			http_location(url("plugin-download-$dir"));
+		} else {
+			message($errno, $errstr);
+		}
+	}
+	include _include(ADMIN_PATH."view/htm/plugin_buy.htm");
+	
+// 给出二维码扫描后开始下载。
+} elseif($action == 'is_bought') {
+
+	// 给出插件的介绍+付款二维码
+	$dir = param(2);
+	plugin_check_exists($dir);
+	$plugin = plugin_read_by_dir($dir);
+	
+	if($plugin['price'] == 0) {
+		message(1, '免费插件，不需要购买');
+	}
+	if(plugin_is_bought($dir)) {
+		message(0, '已经购买过');
+	} else {
+		message(2, '还没购买过');
+	}
+	
+	
 // 下载官方插件。 / download official plugin
 } elseif($action == 'download') {
 	
@@ -82,8 +129,8 @@ if($action == 'local') {
 	
 	$dir = param(2);
 	plugin_check_exists($dir, FALSE);
+	$plugin = plugin_read_by_dir($dir);
 	
-	//print_r($official_plugins);exit;
 	
 	$official = plugin_official_read($dir);
 	empty($official) AND message(-1, lang('plugin_not_exists'));
@@ -211,7 +258,7 @@ if($action == 'local') {
 	$name = $plugins[$dir]['name'];
 	
 	// 判断插件版本
-	$plugin = plugin_read($dir);
+	$plugin = plugin_read_by_dir($dir);
 	!$plugin['have_upgrade'] AND message(-1, lang('plugin_not_need_update'));
 	
 	// 检查目录可写
@@ -219,7 +266,6 @@ if($action == 'local') {
 	
 	// 插件依赖检查
 	plugin_check_dependency($dir, 'install');
-	
 	
 	
 	// copy from $action == "download"
@@ -252,7 +298,7 @@ if($action == 'local') {
 } elseif($action == 'setting') {
 	
 	$dir = param(2);
-	plugin_check_exists($dir);
+	plugin_check_exists($dir, FALSE);
 	$name = $plugins[$dir]['name'];
 	
 	include APP_PATH."plugin/$dir/setting.php";
@@ -323,15 +369,19 @@ function plugin_dependency_arr_to_links($arr) {
 function plugin_download_unzip($dir) {
 	global $conf;
 	$app_url = http_url_path();
-	$siteid =  md5($app_url.$conf['auth_key']);
+	$siteid =  plugin_order_siteid($app_url, _SERVER('SERVER_ADDR'));
 	$app_url = xn_urlencode($app_url);
 	$url = PLUGIN_OFFICIAL_URL."plugin-download-$dir-$siteid-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
 
 	// 服务端开始下载
 	set_time_limit(0); // 设置超时
 	$s = http_get($url, 120);
-	empty($s) AND message(-1, lang('server_response_empty')); 
-	substr($s, 0, 2) != 'PK' AND message(-1, lang('server_response_error').':'.$s);
+	empty($s) AND message(-1, $url.' 返回数据: '.lang('server_response_empty')); 
+	if(substr($s, 0, 2) != 'PK') {
+		$arr = xn_json_decode($s);
+		empty($arr) AND  message(-1, $url.' 返回数据: '.$s); 
+		message($arr['code'], $url.' 返回数据: '.$arr['message']);  //lang('server_response_error').':'
+	}
 	//$arr = xn_json_decode($s);
 	//empty($arr['message']) AND message(-1, '服务端返回数据错误：'.$s);
 	//$arr['code'] != 0 AND message(-1, '服务端返回数据错误：'.$arr['message']);
@@ -358,6 +408,48 @@ function plugin_download_unzip($dir) {
 	!is_dir("../plugin/$dir") AND message(-1, lang('plugin_maybe_download_failed')." plugin/$dir");
 }
 
+function plugin_is_bought($dir) {
+	// 发起请求
+	global $conf;
+	$app_url = http_url_path();
+	$siteid =  md5($app_url.$conf['auth_key']);
+	$app_url = xn_urlencode($app_url);
+	$url = PLUGIN_OFFICIAL_URL."plugin-is_bought-$siteid-$dir-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
+	$s = http_get($url, 120);
+	$arr = xn_json_decode($s);
+	empty($arr) AND  message(-1, $url.' 返回数据: '.$s); 
+	if($arr['code'] == 0) {
+		return TRUE;
+	} else {
+		return xn_error($arr['code'], $arr['message']);
+	}
+}
+
+function plugin_order_buy_qrcode_url($siteid, $dir, $app_url = '') {
+	// 发起请求
+	global $conf;
+	
+	$app_url = http_url_path();
+	$siteid =  md5($app_url.$conf['auth_key']);
+	$app_url = xn_urlencode($app_url);
+	$url = PLUGIN_OFFICIAL_URL."plugin-buy_qrcode_url-$siteid-$dir-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
+
+	// 服务端开始下载
+	set_time_limit(0); // 设置超时
+	$s = http_get($url, 12);
+	empty($s) AND message(-1, lang('server_response_empty')); 
+	$arr = xn_json_decode($s);
+	if(empty($arr) || !isset($arr['code'])) {
+		return xn_error($arr['code'], $url.' 返回的数据有误：'.$s);
+	}
+	if($arr['code'] == 0) {
+		return $arr['message'];
+	} else {
+		return xn_error($arr['code'], $url.' 返回数据：'.$arr['message']);
+	}
+}
+
+
 function plugin_check_exists($dir, $local = TRUE) {
 	global $plugins, $official_plugins;
 	!is_word($dir) AND message(-1, lang('plugin_name_error'));
@@ -367,7 +459,6 @@ function plugin_check_exists($dir, $local = TRUE) {
 		!isset($official_plugins[$dir]) AND message(-1, lang('plugin_not_exists'));
 	}
 }
-
 
 // bootstrap style
 function plugin_cate_active($plugin_cate, $cateid, $page) {
