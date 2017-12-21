@@ -84,7 +84,7 @@ function plugin_init() {
 		}
 		
 		// 合并本地，线上
-		$plugins[$dir] = plugin_read($dir);
+		$plugins[$dir] = plugin_read_by_dir($dir);
 	}
 }
 
@@ -506,12 +506,12 @@ function plugin_official_list($cond = array(), $orderby = array('pluginid'=>-1),
 	// 服务端插件信息，缓存起来
 	$offlist = $official_plugins;
 	$offlist = arrlist_cond_orderby($offlist, $cond, $orderby, $page, $pagesize);
-	foreach($offlist as &$plugin) $plugin = plugin_read($plugin['dir'], FALSE);
+	foreach($offlist as &$plugin) $plugin = plugin_read_by_dir($plugin['dir'], FALSE);
 	return $offlist;
 }
 
 function plugin_official_list_cache() {
-	$s = cache_get('plugin_official_list');
+	$s = DEBUG == 3 ? NULL : cache_get('plugin_official_list');
 	if($s === NULL) {
 		$url = PLUGIN_OFFICIAL_URL."plugin-all-4.htm"; // 获取所有的插件，匹配到3.0以上的。
 		$s = http_get($url, 30, 3);
@@ -536,7 +536,7 @@ function plugin_official_read($dir) {
 
 // -------------------> 本地插件列表缓存到本地。
 // 安装，卸载，禁用，更新
-function plugin_read($dir, $local_first = TRUE) {
+function plugin_read_by_dir($dir, $local_first = TRUE) {
 	global $plugins;
 	
 	$local = array_value($plugins, $dir, array());
@@ -592,4 +592,13 @@ function plugin_read($dir, $local_first = TRUE) {
 	return $plugin;
 }
 
+function plugin_order_siteid($auth_key, $siteip) {
+	$siteid = md5($auth_key.$siteip);
+	return $siteid;
+}
+
+function plugin_order_outid($siteid, $dir) {
+	$outid = md5($siteid.$dir);
+	return $outid;
+}
 ?>
