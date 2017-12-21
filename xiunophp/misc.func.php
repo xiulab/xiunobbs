@@ -82,6 +82,20 @@ function param($key, $defval = '', $htmlspecialchars = TRUE, $addslashes = FALSE
 	return $val;
 }
 
+// 安全获取单词类参数
+function param_word($key, $len = 32) {
+	$s = param($key);
+	$s = xn_safe_word($s, $len);
+	return $s;
+}
+
+// 安全过滤字符串，仅仅保留 [a-zA-Z0-9_]
+function xn_safe_word($s, $len) {
+	$s = preg_replace('#\W+#', '', $s);
+	$s = substr($s, 0, $len);
+	return $s;
+}
+
 /*
 	仅支持一维数组的类型强制转换。
 	param_force($val);
@@ -797,7 +811,7 @@ function https_post($url, $post = '', $cookie = '', $timeout=30) {
 	return $data;
 }
 
-// 多线程抓取数据，需要CURL支持，一般在命令行下执行，此函数收集于互联网，由 xiuno 整理。
+// 多线程抓取数据，需要CURL支持，一般在命令行下执行，此函数收集于互联网，由 xiuno 整理，经过测试，会导致 CPU 100%。
 function http_multi_get($urls) {
 	// 如果不支持，则转为单线程顺序抓取
 	$data = array();
