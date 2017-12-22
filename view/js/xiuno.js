@@ -935,7 +935,7 @@ $.fn.loading = function(action) {
 
 // 对图片进行缩略，裁剪，然后 base64 存入 form 隐藏表单，name 与 file 控件相同
 // 上传过程中，禁止 button，对图片可以缩略
-$.fn.base64_encode_file = function(width, height, action, ) {
+$.fn.base64_encode_file = function(width, height, action) {
 	var action = action || 'thumb';
 	var jform = $(this);
 	var jsubmit = jform.find('input[type="submit"]');
