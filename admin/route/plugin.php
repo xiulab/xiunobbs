@@ -58,7 +58,7 @@ if($action == 'local') {
 
 	// 给出插件的介绍+付款二维码
 	$dir = param_word(2);
-	$siteid = plugin_order_siteid($conf['auth_key'], _SERVER('SERVER_ADDR'));
+	$siteid = plugin_siteid();
 	
 	$plugin = plugin_read_by_dir($dir);
 	empty($plugin) AND message(-1, lang('plugin_not_exists'));
@@ -355,7 +355,7 @@ function plugin_dependency_arr_to_links($arr) {
 function plugin_download_unzip($dir) {
 	global $conf;
 	$app_url = http_url_path();
-	$siteid =  plugin_order_siteid($app_url, _SERVER('SERVER_ADDR'));
+	$siteid =  plugin_siteid();
 	$app_url = xn_urlencode($app_url);
 	$url = PLUGIN_OFFICIAL_URL."plugin-download-$siteid-$dir-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
 
@@ -398,7 +398,7 @@ function plugin_is_bought($dir) {
 	// 发起请求
 	global $conf;
 	$app_url = http_url_path();
-	$siteid =  md5($app_url.$conf['auth_key']);
+	$siteid =  plugin_siteid();
 	$app_url = xn_urlencode($app_url);
 	$url = PLUGIN_OFFICIAL_URL."plugin-is_bought-$siteid-$dir-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
 	$s = http_get($url, 120);
@@ -416,7 +416,7 @@ function plugin_order_buy_qrcode_url($siteid, $dir, $app_url = '') {
 	global $conf;
 	
 	$app_url = http_url_path();
-	$siteid = plugin_order_siteid($conf['auth_key'], _SERVER('SERVER_ADDR'));
+	$siteid = plugin_siteid();
 	$app_url = xn_urlencode($app_url);
 	$url = PLUGIN_OFFICIAL_URL."plugin-buy_qrcode_url-$siteid-$dir-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
 

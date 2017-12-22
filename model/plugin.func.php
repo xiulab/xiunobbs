@@ -602,13 +602,19 @@ function plugin_read_by_dir($dir, $local_first = TRUE) {
 	return $plugin;
 }
 
-function plugin_order_siteid($auth_key, $siteip) {
+function plugin_siteid() {
+	global $conf;
+	$auth_key = $conf['auth_key'];
+	$siteip = _SERVER('SERVER_ADDR');
 	$siteid = md5($auth_key.$siteip);
 	return $siteid;
 }
 
-function plugin_order_outid($siteid, $dir) {
-	$outid = md5($siteid.$dir);
+/*function plugin_outid($dir) {
+	global $conf;
+	$auth_key = $conf['auth_key'];
+	$siteip = _SERVER('SERVER_ADDR')
+	$outid = md5($auth_key.$siteip.$dir);
 	return $outid;
-}
+}*/
 ?>
