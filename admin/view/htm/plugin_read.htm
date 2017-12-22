@@ -81,7 +81,7 @@
 		<p class="text-center">
 			<?php if(!$islocal) { ?>
 				<?php if($plugin['price'] > 0) { ?>
-				<a role="button" class="btn btn-primary buy" href="<?php echo url("plugin-buy-$dir"); ?>"><?php echo lang('buy');?></a>
+				<a role="button" class="btn btn-primary buy" href="<?php echo url("plugin-read-$dir"); ?>" style="display:none;"><?php echo lang('buy');?></a>
 				<?php } else { ?>
 				<a role="button" class="btn btn-primary download" href="<?php echo url("plugin-download-$dir"); ?>"><?php echo lang('download');?></a>
 				<?php } ?>
