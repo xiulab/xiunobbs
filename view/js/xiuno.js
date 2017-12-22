@@ -935,7 +935,7 @@ $.fn.loading = function(action) {
 
 // 对图片进行缩略，裁剪，然后 base64 存入 form 隐藏表单，name 与 file 控件相同
 // 上传过程中，禁止 button，对图片可以缩略
-$.fn.base64_encode_file = function(width, height, action) {
+$.fn.base64_encode_file = function(width, height, action, ) {
 	var action = action || 'thumb';
 	var jform = $(this);
 	var jsubmit = jform.find('input[type="submit"]');
@@ -1103,7 +1103,7 @@ xn.image_resize = function(file_base64_data, callback, options) {
 	var thumb_width = options.width || 1200;
 	var thumb_height = options.height || 2400;
 	var action = options.action || 'thumb';
-	var filetype = options.filetype || xn.base64_data_image_type(file_base64_data);
+	var filetype = options.filetype || 'jpg';//xn.base64_data_image_type(file_base64_data);
 	var qulity = options.qulity || 0.7; // 图片质量, 1 为无损
 	
 	if(thumb_width < 1) return callback(-1, '缩略图宽度不能小于 1 / thumb image width length is less 1 pix');
@@ -1191,6 +1191,7 @@ xn.image_resize = function(file_base64_data, callback, options) {
 		ctx.putImageData(imagedata, 0, 0);
 
 		//filetype = 'png';
+		if(filetype == 'jpg') filetype = 'jpeg';
 		var s = canvas.toDataURL('image/'+filetype, qulity);
 		if(callback) callback(0, {width: width, height: height, data: s});
 	};
