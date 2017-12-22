@@ -31,7 +31,7 @@
 						<dd class="text-right"><?php echo $plugin['bbs_version']; ?></dd>
 					</dl>
 				</div>
-				<?php if(!$islocal) { ?>
+				<?php if(!empty($plugin['pluginid'])) { ?>
 				<div class="col-md-4 p-l-2 p-r-2">
 					<dl class="row m-b-1">
 						<dt class="text-muted"><?php echo lang('price');?>：</dt>
@@ -56,7 +56,7 @@
 				</div>
 				<?php  } ?>
 			</div>
-			<?php if($plugin['pluginid']) { ?>
+			<?php if(!empty($plugin['pluginid'])) { ?>
 			<hr />
 			<div class="row">
 				<table width="60%" align="center">
