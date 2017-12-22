@@ -28,88 +28,74 @@ if($action == 'local') {
 	
 	include _include(ADMIN_PATH."view/htm/plugin_list.htm");
 
-} elseif($action == 'official') {
+} elseif($action == 'official_fee' || $action == 'official_free') {
 
-	$isfee = param(2, 0);	// >= $price 默认免费
-	$action = $isfee ? 'official_fee' : 'official_free';
-	$cateid = param(3, 0);
-	$page = param(4, 1);
+	$cateid = param(2, 0);
+	$page = param(3, 1);
 	$pagesize = 10;
 	$cond = $cateid ? array('cateid'=>$cateid) : array();
-	$cond['price'] = $isfee ? array('>'=>0) : 0;
+	$cond['price'] = $action == 'official_fee' ? array('>'=>0) : 0;
 			
 	// plugin category
 	$pugin_cates = array(0=>lang('pugin_cate_0'), 1=>lang('pugin_cate_1'), 2=>lang('pugin_cate_2'), 3=>lang('pugin_cate_3'), 4=>lang('pugin_cate_4'), 99=>lang('pugin_cate_99'));
 
-	$pugin_cate_html = plugin_cate_active($pugin_cates, $cateid, $page);
+	$pugin_cate_html = plugin_cate_active($action, $pugin_cates, $cateid, $page);
 	
 	DEBUG AND isset($official_plugins['xn_qq_login']) AND $official_plugins['xn_qq_login']['price'] = 1;
 	
 	// official plugin
 	$total = plugin_official_total($cond);
 	$pluginlist = plugin_official_list($cond, array('pluginid'=>-1), $page, $pagesize);
-	$pagination = pagination(url("plugin-official-$isfee-$cateid-{page}"), $total, $page, $pagesize);
+	$pagination = pagination(url("plugin-$action-$cateid-{page}"), $total, $page, $pagesize);
 	
 	$header['title']    = lang('official_plugin');
 	$header['mobile_title'] = lang('official_plugin');
 	
 	include _include(ADMIN_PATH."view/htm/plugin_list.htm");
 	
-} elseif($action == 'read') {
-	
-	$dir = param(2);
-	plugin_check_exists($dir);
-	
-	$plugin = plugin_read_by_dir($dir);
-	
-	$tab = $plugin['pluginid'] ? 'official' : 'local';
-	
-	$header['title']    = lang('plugin_detail').'-'.$plugin['name'];
-	$header['mobile_title'] = $plugin['name'];
-	
-	include _include(ADMIN_PATH."view/htm/plugin_read.htm");
-	
 // 给出二维码扫描后开始下载。
-} elseif($action == 'buy') {
+} elseif($action == 'read') {
 
 	// 给出插件的介绍+付款二维码
-	$dir = param(2);
+	$dir = param_word(2);
 	$siteid = plugin_order_siteid($conf['auth_key'], _SERVER('SERVER_ADDR'));
 	
-	//plugin_check_exists($dir);
-	
-	plugin_check_exists($dir, FALSE);
 	$plugin = plugin_read_by_dir($dir);
-
-	$tab = $plugin['pluginid'] ? 'official' : 'local';
+	empty($plugin) AND message(-1, lang('plugin_not_exists'));
 	
+	$islocal = plugin_is_local($dir);
+	if(!$islocal) {
+		$url = plugin_order_buy_qrcode_url($siteid, $dir);
+		if($url === FALSE) {
+			/*
+				0: 返回支付 URL(weixin://)
+				1: 已经支付
+				2: 不需要支付
+				-1: 业务逻辑错误
+				<-1: 系统错误
+			*/
+			if($errno == 1 || $errno == 2) {
+				// 直接跳转到下载
+				http_location(url("plugin-download-$dir"));
+			} else {
+				message($errno, $errstr);
+			}
+		}
+	} else {
+		$url = '';
+	}
+	
+	$tab = !$islocal ? ($plugin['price'] > 0 ? 'official_fee' : 'official_free') : 'local';
 	$header['title']    = lang('plugin_detail').'-'.$plugin['name'];
 	$header['mobile_title'] = $plugin['name'];
-	
-	$url = plugin_order_buy_qrcode_url($siteid, $dir, $app_url);
-	if($url === FALSE) {
-		/*
-			0: 返回支付 URL(weixin://)
-			1: 已经支付
-			2: 不需要支付
-			-1: 业务逻辑错误
-			<-1: 系统错误
-		*/
-		if($errno == 1 || $errno == 2) {
-			// 直接跳转到下载
-			http_location(url("plugin-download-$dir"));
-		} else {
-			message($errno, $errstr);
-		}
-	}
-	include _include(ADMIN_PATH."view/htm/plugin_buy.htm");
+	include _include(ADMIN_PATH."view/htm/plugin_read.htm");
 	
 // 给出二维码扫描后开始下载。
 } elseif($action == 'is_bought') {
 
 	// 给出插件的介绍+付款二维码
-	$dir = param(2);
-	plugin_check_exists($dir);
+	$dir = param_word(2);
+	plugin_check_exists($dir, FALSE);
 	$plugin = plugin_read_by_dir($dir);
 	
 	if($plugin['price'] == 0) {
@@ -127,7 +113,7 @@ if($action == 'local') {
 	
 	plugin_lock_start();
 	
-	$dir = param(2);
+	$dir = param_word(2);
 	plugin_check_exists($dir, FALSE);
 	$plugin = plugin_read_by_dir($dir);
 	
@@ -152,7 +138,7 @@ if($action == 'local') {
 	
 	plugin_lock_start();
 	
-	$dir = param(2);
+	$dir = param_word(2);
 	plugin_check_exists($dir);
 	$name = $plugins[$dir]['name'];
 	
@@ -179,7 +165,7 @@ if($action == 'local') {
 	
 	plugin_lock_start();
 	
-	$dir = param(2);
+	$dir = param_word(2);
 	plugin_check_exists($dir);
 	$name = $plugins[$dir]['name'];
 	
@@ -209,7 +195,7 @@ if($action == 'local') {
 	
 	plugin_lock_start();
 	
-	$dir = param(2);
+	$dir = param_word(2);
 	plugin_check_exists($dir);
 	$name = $plugins[$dir]['name'];
 	
@@ -231,7 +217,7 @@ if($action == 'local') {
 	
 	plugin_lock_start();
 	
-	$dir = param(2);
+	$dir = param_word(2);
 	plugin_check_exists($dir);
 	$name = $plugins[$dir]['name'];
 	
@@ -253,7 +239,7 @@ if($action == 'local') {
 	
 	plugin_lock_start();
 	
-	$dir = param(2);
+	$dir = param_word(2);
 	plugin_check_exists($dir);
 	$name = $plugins[$dir]['name'];
 	
@@ -297,7 +283,7 @@ if($action == 'local') {
 	
 } elseif($action == 'setting') {
 	
-	$dir = param(2);
+	$dir = param_word(2);
 	plugin_check_exists($dir, FALSE);
 	$name = $plugins[$dir]['name'];
 	
@@ -371,7 +357,7 @@ function plugin_download_unzip($dir) {
 	$app_url = http_url_path();
 	$siteid =  plugin_order_siteid($app_url, _SERVER('SERVER_ADDR'));
 	$app_url = xn_urlencode($app_url);
-	$url = PLUGIN_OFFICIAL_URL."plugin-download-$dir-$siteid-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
+	$url = PLUGIN_OFFICIAL_URL."plugin-download-$siteid-$dir-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
 
 	// 服务端开始下载
 	set_time_limit(0); // 设置超时
@@ -430,7 +416,7 @@ function plugin_order_buy_qrcode_url($siteid, $dir, $app_url = '') {
 	global $conf;
 	
 	$app_url = http_url_path();
-	$siteid =  md5($app_url.$conf['auth_key']);
+	$siteid = plugin_order_siteid($conf['auth_key'], _SERVER('SERVER_ADDR'));
 	$app_url = xn_urlencode($app_url);
 	$url = PLUGIN_OFFICIAL_URL."plugin-buy_qrcode_url-$siteid-$dir-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
 
@@ -449,6 +435,10 @@ function plugin_order_buy_qrcode_url($siteid, $dir, $app_url = '') {
 	}
 }
 
+function plugin_is_local($dir) {
+	global $plugins;
+	return isset($plugins[$dir]) ? TRUE : FALSE;
+}
 
 function plugin_check_exists($dir, $local = TRUE) {
 	global $plugins, $official_plugins;
@@ -461,10 +451,10 @@ function plugin_check_exists($dir, $local = TRUE) {
 }
 
 // bootstrap style
-function plugin_cate_active($plugin_cate, $cateid, $page) {
+function plugin_cate_active($action, $plugin_cate, $cateid, $page) {
 	$s = '';
 	foreach ($plugin_cate as $_cateid=>$_catename) {
-		$url = url("plugin-official-$_cateid-$page");
+		$url = url("plugin-$action-$_cateid-$page");
 		$s .= '<a role="button" class="btn btn btn-secondary'.($cateid == $_cateid ? ' active' : '').'" href="'.$url.'">'.$_catename.'</a>';
 	}
 	return $s;

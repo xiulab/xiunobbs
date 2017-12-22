@@ -6,6 +6,7 @@
 $fid = param(1, 0);
 $page = param(2, 1);
 $orderby = param('orderby');
+$extra = array(); // 给插件预留
 
 $active = 'default';
 !in_array($orderby, array('tid', 'lastpid')) AND $orderby = 'lastpid';
@@ -25,7 +26,7 @@ $thread_list_from_default = 1;
 // hook forum_thread_list_before.php
 
 if($thread_list_from_default) {
-	$pagination = pagination(url("forum-$fid-{page}", $_GET), $forum['threads'], $page, $pagesize);
+	$pagination = pagination(url("forum-$fid-{page}", $extra), $forum['threads'], $page, $pagesize);
 	$threadlist = thread_find_by_fid($fid, $page, $pagesize, $orderby);
 }
 

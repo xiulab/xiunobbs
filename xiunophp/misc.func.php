@@ -69,6 +69,8 @@ function xn_error($no, $str, $return = FALSE) {
 	param(1, array(''));
 	param(1, array(0));
 */
+//define('base64', '__base64__');
+//define('json', '__base64__');
 function param($key, $defval = '', $htmlspecialchars = TRUE, $addslashes = FALSE) {
 	if(!isset($_REQUEST[$key]) || ($key === 0 && empty($_REQUEST[$key]))) {
 		if(is_array($defval)) {
@@ -87,6 +89,26 @@ function param_word($key, $len = 32) {
 	$s = param($key);
 	$s = xn_safe_word($s, $len);
 	return $s;
+}
+
+function param_base64($key, $len = 0) {
+	$s = param($key, '', FALSE);
+	$s = substr($s, strpos($s, ',') + 1);
+	$s = base64_decode($s);
+	$len AND $s = substr($s, 0, $len);
+	return $s;
+}
+
+function param_json($key) {
+	$s = param($key, '', FALSE);
+	$arr = xn_json_decode($s);
+	return $arr;
+}
+
+function param_url($key) {
+	$s = param($key, '', FALSE);
+	$arr = xn_urldecode($s);
+	return $arr;
 }
 
 // 安全过滤字符串，仅仅保留 [a-zA-Z0-9_]

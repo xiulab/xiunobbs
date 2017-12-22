@@ -83,7 +83,7 @@ function plugin_init() {
 			}
 		}
 		
-		// 合并本地，线上
+		// 本地 + 线上数据
 		$plugins[$dir] = plugin_read_by_dir($dir);
 	}
 }
@@ -538,15 +538,16 @@ function plugin_official_read($dir) {
 // 安装，卸载，禁用，更新
 function plugin_read_by_dir($dir, $local_first = TRUE) {
 	global $plugins;
-	
+
 	$local = array_value($plugins, $dir, array());
 	$official = plugin_official_read($dir);
-	
 	if(empty($local) && empty($official)) return array();
+	if(empty($local)) $local_first = FALSE;
 	
 	// 本地插件信息
 	//!isset($plugin['dir']) && $plugin['dir'] = '';
 	!isset($local['name']) && $local['name'] = '';
+	!isset($local['price']) && $local['price'] = 0;
 	!isset($local['brief']) && $local['brief'] = '';
 	!isset($local['version']) && $local['version'] = '1.0';
 	!isset($local['bbs_version']) && $local['bbs_version'] = '4.0';
@@ -562,6 +563,7 @@ function plugin_read_by_dir($dir, $local_first = TRUE) {
 	// 加上官方插件的信息
 	!isset($official['pluginid']) && $official['pluginid'] = 0;
 	!isset($official['name']) && $official['name'] = '';
+	!isset($official['price']) && $official['price'] = 0;
 	!isset($official['brief']) && $official['brief'] = '';
 	!isset($official['bbs_version']) && $official['bbs_version'] = '4.0';
 	!isset($official['version']) && $official['version'] = '1.0';
@@ -575,6 +577,10 @@ function plugin_read_by_dir($dir, $local_first = TRUE) {
 	!isset($official['filename']) && $official['filename'] = '';
 	!isset($official['is_cert']) && $official['is_cert'] = 0;
 	!isset($official['is_show']) && $official['is_show'] = 0;
+	!isset($official['img1']) && $official['img1'] = 0;
+	!isset($official['img2']) && $official['img2'] = 0;
+	!isset($official['img3']) && $official['img3'] = 0;
+	!isset($official['img4']) && $official['img4'] = 0;
 	
 	if($local_first) {
 		$plugin = $local + $official;
@@ -589,6 +595,10 @@ function plugin_read_by_dir($dir, $local_first = TRUE) {
 	$plugin['user_stars_fmt'] = $plugin['pluginid'] ? str_repeat('<span class="icon star"></span>', $plugin['user_stars']) : '';
 	$plugin['have_upgrade'] = $plugin['installed'] && version_compare($official['version'], $local['version']) > 0 ? TRUE : FALSE;
 	$plugin['official_version'] = $official['version']; // 官方版本
+	$plugin['img1_url'] = $official['img1'] ? PLUGIN_OFFICIAL_URL.'upload/plugin/'.$plugin['pluginid'].'/img1.jpg' : ''; // 官方版本
+	$plugin['img2_url'] = $official['img2'] ? PLUGIN_OFFICIAL_URL.'upload/plugin/'.$plugin['pluginid'].'/img2.jpg' : ''; // 官方版本
+	$plugin['img3_url'] = $official['img3'] ? PLUGIN_OFFICIAL_URL.'upload/plugin/'.$plugin['pluginid'].'/img3.jpg' : ''; // 官方版本
+	$plugin['img4_url'] = $official['img4'] ? PLUGIN_OFFICIAL_URL.'upload/plugin/'.$plugin['pluginid'].'/img4.jpg' : ''; // 官方版本
 	return $plugin;
 }
 

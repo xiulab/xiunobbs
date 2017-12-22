@@ -3,10 +3,9 @@
 <div class="row">
 	<div class="col-lg-12">
 		<div class="btn-group m-b-1" role="group">
-			<?php echo admin_tab_active($menu['plugin']['tab'], $tab);?>
+			<?php echo admin_tab_active($menu['plugin']['tab'], 'official_fee');?>
 		</div>
-		xxx
-		<img alt="模式二扫码支付" src="http://paysdk.weixin.qq.com/example/qrcode.php?data=<?php echo urlencode($url);?>" style="width:150px;height:150px;"/>
+		
 		
 		<div class="card card-block">
 			<div class="row">
@@ -36,7 +35,7 @@
 				<div class="col-md-4 p-l-2 p-r-2">
 					<dl class="row m-b-1">
 						<dt class="text-muted"><?php echo lang('price');?>：</dt>
-						<dd class="text-right"><?php echo $plugin['price']; ?></dd>
+						<dd class="text-right"><span class="price"><?php echo $plugin['price']; ?>元</span></dd>
 					</dl>
 					<dl class="row m-b-1">
 						<dt class="text-muted"><?php echo lang('installs');?>：</dt>
@@ -57,17 +56,40 @@
 				</div>
 				<?php  } ?>
 			</div>
-		</div>
+			<hr />
+			<div class="row">
+				<table width="100%">
+					<tr>
+						<?php if($plugin['img1_url']) { ?> <a href="<?php echo $plugin['img1_url'];?>" target="_blank"><img src="<?php echo $plugin['img1_url'];?>" width="100" height="120" class="border" /></a> <?php } ?>
+						<?php if($plugin['img2_url']) { ?> <a href="<?php echo $plugin['img2_url'];?>" target="_blank"><img src="<?php echo $plugin['img2_url'];?>" width="100" height="120" class="border" /></a> <?php } ?>
+						<?php if($plugin['img3_url']) { ?> <a href="<?php echo $plugin['img3_url'];?>" target="_blank"><img src="<?php echo $plugin['img3_url'];?>" width="100" height="120" class="border" /></a> <?php } ?>
+						<?php if($plugin['img4_url']) { ?> <a href="<?php echo $plugin['img4_url'];?>" target="_blank"><img src="<?php echo $plugin['img4_url'];?>" width="100" height="120" class="border" /></a> <?php } ?>
+					</tr>
+				</table>
+						
+			</div>
+			<hr />			
+			<div class="row">
+				<div class="col-xs-12" style="text-align: center;">
+					<img alt="模式二扫码支付" src="http://paysdk.weixin.qq.com/example/qrcode.php?data=<?php echo urlencode($url);?>" style="width:150px; height:150px;"/>
+					<br>微信扫码支付
+					<br><span class="price"><?php echo $plugin['price']; ?>元</span>
+				</div>
+			</div>
 		<p class="text-center">
 			<?php if(!$plugin['downloaded']) { ?>
-			<a role="button" class="btn btn-primary download" href="<?php echo url("plugin-download-$dir"); ?>"><?php echo lang('download');?></a>
+				<?php if($plugin['price'] > 0) { ?>
+				<a role="button" class="btn btn-primary buy" href="<?php echo url("plugin-buy-$dir"); ?>"><?php echo lang('buy');?></a>
+				<?php } else { ?>
+				<a role="button" class="btn btn-primary download" href="<?php echo url("plugin-download-$dir"); ?>"><?php echo lang('download');?></a>
+				<?php } ?>
 			<?php } ?>
 			
 			<?php if($plugin['setting_url']) { ?>
 			<a role="button" class="btn btn-primary setting" href="<?php echo url("plugin-setting-$dir"); ?>"><?php echo lang('setting');?></a>
 			<?php } ?>
 			
-			<?php if(!$plugin['installed']) { ?>
+			<?php if($plugin['downloaded'] && !$plugin['installed']) { ?>
 			<a role="button" class="btn btn-primary install" href="<?php echo url("plugin-install-$dir"); ?>"><?php echo lang('install');?></a>
 			<?php } ?>
 			

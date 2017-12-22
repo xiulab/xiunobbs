@@ -1,11 +1,4 @@
-<?php empty($isfee) AND $isfee = 0; ?>
 <?php include _include(ADMIN_PATH.'view/htm/header.inc.htm');?>
-
-<style>
-.price { font-size: 1rem; color:coral; font-weight: bold;}
-.price:before { content:"￥"; font-weight: bold;}
-</style>
-
 
 <div class="row">
 	<div class="col-lg-12">
@@ -56,18 +49,18 @@
 						</td>
 						<td width="100">
 							<?php $price = array_value($plugin, 'price', 0); ?>
-							<span class="price" <?php echo $price == 0 ? 'style="color: #aaa"' : ''; ?>><?php echo $price; ?></span>
+							<span class="price" <?php echo $price == 0 ? 'style="color: #aaa"' : ''; ?>><?php echo $price; ?>元</span>
 						</td>
 						<td>
 							<p class="grey"><?php echo $plugin['brief']; ?></p>
 						</td>
 						<td width="250" align="right">
 						
-							<?php if($isfee == 1 && !$plugin['downloaded']) { ?>
-							<a role="button" class="btn btn-primary btn-sm buy" href="<?php echo url("plugin-buy-$dir"); ?>"><?php echo lang('buy');?></a>
+							<?php if($action == 'official_fee' && !$plugin['downloaded']) { ?>
+							<a role="button" class="btn btn-primary btn-sm buy" href="<?php echo url("plugin-read-$dir"); ?>"><?php echo lang('buy');?></a>
 							<?php } ?>
 
-							<?php if($isfee == 0 && !$plugin['downloaded']) { ?>
+							<?php if($action == 'official_free' && !$plugin['downloaded']) { ?>
 							<a role="button" class="btn btn-primary btn-sm download" href="<?php echo url("plugin-download-$dir"); ?>"><?php echo lang('download');?></a>
 							<?php } ?>
 							

@@ -965,6 +965,7 @@ $.fn.base64_encode_file = function(width, height, action) {
 					jsubmit.button('reset');
 				}, {width: width, height: height, action: action});
 			} else {
+				jassoc.attr('src', this.result);
 				jhidden.val(this.result);
 				jsubmit.button('reset');
 			}
