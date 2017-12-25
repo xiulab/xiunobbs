@@ -284,7 +284,7 @@ if($action == 'local') {
 } elseif($action == 'setting') {
 	
 	$dir = param_word(2);
-	plugin_check_exists($dir, FALSE);
+	plugin_check_exists($dir);
 	$name = $plugins[$dir]['name'];
 	
 	include APP_PATH."plugin/$dir/setting.php";
