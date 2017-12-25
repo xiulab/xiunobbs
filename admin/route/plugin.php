@@ -240,23 +240,19 @@ if($action == 'local') {
 	plugin_lock_start();
 	
 	$dir = param_word(2);
-	plugin_check_exists($dir);
+	plugin_check_exists($dir, FALSE);
 	$name = $plugins[$dir]['name'];
 	
 	// 判断插件版本
 	$plugin = plugin_read_by_dir($dir);
-	!$plugin['have_upgrade'] AND message(-1, lang('plugin_not_need_update'));
+	//!$plugin['have_upgrade'] AND message(-1, lang('plugin_not_need_update'));
 	
 	// 检查目录可写
 	//plugin_check_dir_is_writable();
 	
 	// 插件依赖检查
 	plugin_check_dependency($dir, 'install');
-	
-	
-	// copy from $action == "download"
-	$official = plugin_official_read($dir);
-	empty($official) AND message(-1, lang('plugin_not_exists'));
+	$official = plugin_read_by_dir($dir, FALSE);
 	
 	// 检查版本  / check version match
 	if(version_compare($conf['version'], $official['bbs_version']) == -1) {
@@ -265,8 +261,6 @@ if($action == 'local') {
 	
 	// 下载，解压 / download and zip
 	plugin_download_unzip($dir);
-	// copy end
-	
 	
 	// 安装插件
 	plugin_install($dir);
