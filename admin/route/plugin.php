@@ -351,7 +351,7 @@ function plugin_download_unzip($dir) {
 	$app_url = http_url_path();
 	$siteid =  plugin_siteid();
 	$app_url = xn_urlencode($app_url);
-	$url = PLUGIN_OFFICIAL_URL."plugin-download-$siteid-$dir-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
+	$url = PLUGIN_OFFICIAL_URL."plugin-download-$dir-$siteid-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
 
 	// 服务端开始下载
 	set_time_limit(0); // 设置超时
@@ -367,7 +367,7 @@ function plugin_download_unzip($dir) {
 	//$arr['code'] != 0 AND message(-1, '服务端返回数据错误：'.$arr['message']);
 	
 	$zipfile = $conf['tmp_path'].'plugin_'.$dir.'.zip';
-	$destpath = "../plugin/";
+	$destpath = APP_PATH."plugin/";
 	file_put_contents($zipfile, $s);
 	
 	// 清理原来的钩子，防止叠加。
@@ -376,9 +376,11 @@ function plugin_download_unzip($dir) {
 	
 	// 直接覆盖原来的 plugin 目录下的插件目录
 	xn_unzip($zipfile, $destpath);
-	list($destpath, $wrapdir) = xn_zip_unwrap_path($destpath.$dir, $dir);
+	//echo $zipfile; echo $destpath;exit;
+	//list($destpath, $wrapdir) = xn_zip_unwrap_path($destpath.$dir, $dir);
 	//empty($files) AND message(-1, lang('zip_data_error'));
-	unlink($zipfile);
+	//unlink($zipfile);
+	
 	// 检查配置文件
 	$conffile = "../plugin/$dir/conf.json";
 	!is_file($conffile) AND message(-1, 'conf.json '.lang('not_exists'));
@@ -394,7 +396,7 @@ function plugin_is_bought($dir) {
 	$app_url = http_url_path();
 	$siteid =  plugin_siteid();
 	$app_url = xn_urlencode($app_url);
-	$url = PLUGIN_OFFICIAL_URL."plugin-is_bought-$siteid-$dir-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
+	$url = PLUGIN_OFFICIAL_URL."plugin-is_bought-$dir-$siteid-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
 	$s = http_get($url, 120);
 	$arr = xn_json_decode($s);
 	empty($arr) AND  message(-1, $url.' 返回数据: '.$s); 
@@ -412,7 +414,7 @@ function plugin_order_buy_qrcode_url($siteid, $dir, $app_url = '') {
 	$app_url = http_url_path();
 	$siteid = plugin_siteid();
 	$app_url = xn_urlencode($app_url);
-	$url = PLUGIN_OFFICIAL_URL."plugin-buy_qrcode_url-$siteid-$dir-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
+	$url = PLUGIN_OFFICIAL_URL."plugin-buy_qrcode_url-$dir-$siteid-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
 
 	// 服务端开始下载
 	set_time_limit(0); // 设置超时
