@@ -205,6 +205,6 @@ if(empty($action) || $action == 'list') {
 		
 }
 
-// hook admin_forum_start.php
+// hook admin_forum_end.php
 
 ?>
