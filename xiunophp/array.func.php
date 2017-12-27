@@ -131,7 +131,13 @@ function arrlist_cond_orderby($arrlist, $cond = array(), $orderby = array(), $pa
 	}
 
 	if($orderby) {
-		list($k, $v) = each($orderby);
+		
+		// php 7.2 deprecated each()
+		//list($k, $v) = each($orderby);
+		
+		$k = key($orderby);
+		$v = current($orderby);
+		
 		$resultarr = arrlist_multisort($resultarr, $k, $v == 1);
 	}
 
