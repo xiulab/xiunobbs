@@ -744,7 +744,7 @@ function browser_lang() {
 
 // 安全请求一个 URL
 // ini_set('default_socket_timeout', 60);
-function http_get($url, $timeout = 5, $times = 3) {
+function http_get($url, $cookie = '', $timeout = 30, $times = 3) {
 	//return '';
 //	$arr = array(
 //			'ssl' => array (
@@ -756,6 +756,9 @@ function http_get($url, $timeout = 5, $times = 3) {
 //			'CN_match'      => 'secure.example.com'
 //		)
 //	);
+	if(substr($url, 0, 8) == 'https://') {
+		return https_get($url, $cookie, $timeout, $times);
+	}
 	$arr = array(
 		'http' => array(
 			'method'=> 'GET',
@@ -770,7 +773,10 @@ function http_get($url, $timeout = 5, $times = 3) {
 	return FALSE;
 }
 
-function http_post($url, $post = '', $cookie='', $timeout = 10, $times = 3) {
+function http_post($url, $post = '', $cookie='', $timeout = 30, $times = 3) {
+	if(substr($url, 0, 8) == 'https://') {
+		return https_post($url, $post, $cookie, $timeout, $times);
+	}
 	is_array($post) AND $post = http_build_query($post);
 	is_array($cookie) AND $cookie = http_build_query($cookie);
 	$stream = stream_context_create(array('http' => array('header' => "Content-type: application/x-www-form-urlencoded\r\nx-requested-with: XMLHttpRequest\r\nCookie: $cookie\r\n", 'method' => 'POST', 'content' => $post, 'timeout' => $timeout)));
@@ -781,11 +787,17 @@ function http_post($url, $post = '', $cookie='', $timeout = 10, $times = 3) {
 	return FALSE;
 }
 
-function https_get($url, $cookie = '', $timeout=30) {
+function https_get($url, $cookie = '', $timeout = 30, $times = 1) {
+	if(substr($url, 0, 7) != 'http://') {
+		return http_get($url, $cookie, $timeout, $times);
+	}
 	return https_post($url, '', $cookie, $timeout);
 }
 
-function https_post($url, $post = '', $cookie = '', $timeout=30) {
+function https_post($url, $post = '', $cookie = '', $timeout = 30, $times = 1) {
+	if(substr($url, 0, 7) == 'http://') {
+		return http_post($url, $post, $cookie, $timeout, $times);
+	}
 	$w = stream_get_wrappers();
 	$allow_url_fopen = strtolower(ini_get('allow_url_fopen'));
 	$allow_url_fopen = (empty($allow_url_fopen) || $allow_url_fopen == 'off') ? 0 : 1;
