@@ -64,25 +64,46 @@ if($action == 'local') {
 	empty($plugin) AND message(-1, lang('plugin_not_exists'));
 	
 	$islocal = plugin_is_local($dir);
-	if(!$islocal) {
-		$url = plugin_order_buy_qrcode_url($siteid, $dir);
-		if($url === FALSE) {
-			/*
-				0: 返回支付 URL(weixin://)
-				1: 已经支付
-				2: 不需要支付
-				-1: 业务逻辑错误
-				<-1: 系统错误
-			*/
-			if($errno == 1 || $errno == 2) {
-				// 直接跳转到下载
-				http_location(url("plugin-download-$dir"));
+	
+	$url = '';
+	$download_url = '';
+	$errmsg = '';
+	if($plugin['pluginid']) {
+		// 判断是否已经购买过。
+		// 如果之前免费，后来收费，则判断是否已经支付。
+		
+		// 如果收费，判断是否购买过。
+		if(!empty($plugin['official']) && $plugin['official']['price'] > 0) {
+			$url = plugin_order_buy_qrcode_url($siteid, $dir);
+			// 如果已经购买过，或者发生错误。
+			if($url === FALSE) {
+				/*
+					0: 返回支付 URL(weixin://)
+					1: 已经支付
+					2: 不需要支付
+					-1: 业务逻辑错误
+					<-1: 系统错误
+				*/
+				if($errno == 1 || $errno == 2) {
+					// 已经支付，就给出下载地址。
+					$download_url = url("plugin-download-$dir");
+				} else {
+					$download_url = '';
+					$errmsg = $errstr;
+					//message($errno, $errstr);
+				}
+			// 如果没购买，则在用二维码显示 $url;
 			} else {
-				message($errno, $errstr);
+				// ... 二维码显示 $url
 			}
+		// 如果免费
+		} else {
+		
 		}
 	} else {
+		// 判断新版本是否收费，是否已经支付。
 		$url = '';
+		
 	}
 	
 	$tab = !$islocal ? ($plugin['price'] > 0 ? 'official_fee' : 'official_free') : 'local';
@@ -98,7 +119,7 @@ if($action == 'local') {
 	plugin_check_exists($dir, FALSE);
 	$plugin = plugin_read_by_dir($dir);
 	
-	if($plugin['price'] == 0) {
+	if($plugin['official']['price'] == 0) {
 		message(1, '免费插件，不需要购买');
 	}
 	if(plugin_is_bought($dir)) {
@@ -116,7 +137,6 @@ if($action == 'local') {
 	$dir = param_word(2);
 	plugin_check_exists($dir, FALSE);
 	$plugin = plugin_read_by_dir($dir);
-	
 	
 	$official = plugin_official_read($dir);
 	empty($official) AND message(-1, lang('plugin_not_exists'));
@@ -355,11 +375,15 @@ function plugin_download_unzip($dir) {
 
 	// 服务端开始下载
 	set_time_limit(0); // 设置超时
-	$s = http_get($url, 120);
+	$s = http_get($url);
 	empty($s) AND message(-1, $url.' 返回数据: '.lang('server_response_empty')); 
 	if(substr($s, 0, 2) != 'PK') {
 		$arr = xn_json_decode($s);
+		
 		empty($arr) AND  message(-1, $url.' 返回数据: '.$s); 
+		if($arr['code'] == -2) {
+			message(-2, jump('该插件需要付费购买，请先支付。', url("plugin-read-$dir")));
+		}
 		message($arr['code'], $url.' 返回数据: '.$arr['message']);  //lang('server_response_error').':'
 	}
 	//$arr = xn_json_decode($s);
@@ -393,11 +417,11 @@ function plugin_download_unzip($dir) {
 function plugin_is_bought($dir) {
 	// 发起请求
 	global $conf;
-	$app_url = http_url_path();
 	$siteid =  plugin_siteid();
+	$app_url = http_url_path();
 	$app_url = xn_urlencode($app_url);
 	$url = PLUGIN_OFFICIAL_URL."plugin-is_bought-$dir-$siteid-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
-	$s = http_get($url, 120);
+	$s = http_get($url);
 	$arr = xn_json_decode($s);
 	empty($arr) AND  message(-1, $url.' 返回数据: '.$s); 
 	if($arr['code'] == 0) {
@@ -411,15 +435,15 @@ function plugin_order_buy_qrcode_url($siteid, $dir, $app_url = '') {
 	// 发起请求
 	global $conf;
 	
-	$app_url = http_url_path();
 	$siteid = plugin_siteid();
+	$app_url = http_url_path();
 	$app_url = xn_urlencode($app_url);
 	$url = PLUGIN_OFFICIAL_URL."plugin-buy_qrcode_url-$dir-$siteid-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
 
 	// 服务端开始下载
 	set_time_limit(0); // 设置超时
-	$s = http_get($url, 12);
-	empty($s) AND message(-1, lang('server_response_empty')); 
+	$s = http_get($url);
+	if(empty($s)) return xn_error(-1, lang('server_response_empty')); 
 	$arr = xn_json_decode($s);
 	if(empty($arr) || !isset($arr['code'])) {
 		return xn_error($arr['code'], $url.' 返回的数据有误：'.$s);

@@ -160,7 +160,7 @@ function attach_gc() {
 // 关联 session 中的临时文件，并不会重新统计 images, files
 function attach_assoc_post($pid) {
 	global $uid, $time, $conf;
-	$tmp_files = _SESSION('tmp_files');
+	$sess_tmp_files = _SESSION('tmp_files');
 	//if(empty($tmp_files)) return;
 	
 	$post = post__read($pid);
@@ -168,61 +168,73 @@ function attach_assoc_post($pid) {
 	
 	$tid = $post['tid'];
 	$post['message_old'] = $post['message_fmt'];
+	
+	// 把临时文件 upload/tmp/xxx.xxx 也处理了
+	//preg_match_all('#src="upload/tmp/(\w+\.\w+)"#', $post['message_old'], $m);
+	//$use_tmp_files = $m[1]; // 实际使用的临时文件，不用的全部删除？如果是两个帖子一起编辑？
+	
+	// 将 session 中的数据和 message 中的数据合并。
+	//$tmp_files = array_unique(array_merge($sess_tmp_files, $use_tmp_files));
+	
 	$attach_dir_save_rule = array_value($conf, 'attach_dir_save_rule', 'Ym');
-	if($tmp_files) {
-		foreach($tmp_files as $key=>$file) {
-			
-			// 将文件移动到 upload/attach 目录
-			$filename = file_name($file['url']);
-			
-			$day = date($attach_dir_save_rule, $time);
-			$path = $conf['upload_path'].'attach/'.$day;
-			$url = $conf['upload_url'].'attach/'.$day;
-			!is_dir($path) AND mkdir($path, 0777, TRUE);
-			
-			$destfile = $path.'/'.$filename;
-			$desturl = $url.'/'.$filename;
-			$r = xn_copy($file['path'], $destfile);
-			!$r AND xn_log("xn_copy($file[path]), $destfile) failed, pid:$pid, tid:$tid", 'php_error');
-			$arr = array(
-				'tid'=>$tid,
-				'pid'=>$pid,
-				'uid'=>$uid,
-				'filesize'=>$file['filesize'],
-				'width'=>$file['width'],
-				'height'=>$file['height'],
-				'filename'=>"$day/$filename",
-				'orgfilename'=>$file['orgfilename'],
-				'filetype'=>$file['filetype'],
-				'create_date'=>$time,
-				'comment'=>'',
-				'downloads'=>0,
-				'isimage'=>$file['isimage']
-			);
-			
-			// 插入后，进行关联
-			$aid = attach_create($arr);
-			$post['message'] = str_replace($file['url'], $desturl, $post['message']);
-			$post['message_fmt'] = str_replace($file['url'], $desturl, $post['message_fmt']);
-			
-			unset($_SESSION['tmp_files'][$key]);
-		}
+	
+	$tmp_files = $sess_tmp_files;
+	foreach($tmp_files as $file) {
+		
+		// 将文件移动到 upload/attach 目录
+		$filename = file_name($file['url']);
+		
+		$day = date($attach_dir_save_rule, $time);
+		$path = $conf['upload_path'].'attach/'.$day;
+		$url = $conf['upload_url'].'attach/'.$day;
+		!is_dir($path) AND mkdir($path, 0777, TRUE);
+		
+		$destfile = $path.'/'.$filename;
+		$desturl = $url.'/'.$filename;
+		$r = xn_copy($file['path'], $destfile);
+		!$r AND xn_log("xn_copy($file[path]), $destfile) failed, pid:$pid, tid:$tid", 'php_error');
+		$arr = array(
+			'tid'=>$tid,
+			'pid'=>$pid,
+			'uid'=>$uid,
+			'filesize'=>$file['filesize'],
+			'width'=>$file['width'],
+			'height'=>$file['height'],
+			'filename'=>"$day/$filename",
+			'orgfilename'=>$file['orgfilename'],
+			'filetype'=>$file['filetype'],
+			'create_date'=>$time,
+			'comment'=>'',
+			'downloads'=>0,
+			'isimage'=>$file['isimage']
+		);
+		
+		// 插入后，进行关联
+		$aid = attach_create($arr);
+		$post['message'] = str_replace($file['url'], $desturl, $post['message']);
+		$post['message_fmt'] = str_replace($file['url'], $desturl, $post['message_fmt']);
+		
 	}
+
+	// 清空 session
+	$_SESSION['tmp_files'] = array();
+	
 	$post['message_old'] != $post['message_fmt'] AND post__update($pid, array('message'=>$post['message'], 'message_fmt'=>$post['message_fmt']));
 	
 	// 处理不在 message 中的图片，删除掉没有插入的图片附件
-	
+	/*
 	list($attachlist, $imagelist, $filelist) = attach_find_by_pid($pid);
 	foreach($imagelist as $k=>$attach) {
 		$url = $conf['upload_url'].'attach/'.$attach['filename'];
 		if(strpos($post['message_fmt'], $url) === FALSE) {
-			unset($attachlist[$k]);
 			unset($imagelist[$k]);
 			attach_delete($attach['aid']);
 		}
 	}
+	*/
 	
 	// 更新 images files
+	list($attachlist, $imagelist, $filelist) = attach_find_by_pid($pid);
 	$images = count($imagelist);
 	$files = count($filelist);
 	$post['isfirst'] AND thread__update($tid, array('images'=>$images, 'files'=>$files));

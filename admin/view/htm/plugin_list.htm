@@ -48,7 +48,7 @@
 							<?php } ?>
 						</td>
 						<td width="100">
-							<?php $price = array_value($plugin, 'price', 0); ?>
+							<?php $price = $plugin['official']['price']; ?>
 							<span class="price" <?php echo $price == 0 ? 'style="color: #aaa"' : ''; ?>><?php echo $price; ?>元</span>
 						</td>
 						<td>

@@ -133,6 +133,10 @@ function plugin_by_dependencies($dir) {
 function plugin_enable($dir) {
 	global $plugins;
 	
+	if(!isset($plugins[$dir])) {
+		return FALSE;
+	}
+	
 	$plugins[$dir]['enable'] = 1;
 	
 	//plugin_overwrite($dir, 'install');
@@ -154,6 +158,10 @@ function plugin_clear_tmp_dir() {
 
 function plugin_disable($dir) {
 	global $plugins;
+	
+	if(!isset($plugins[$dir])) {
+		return FALSE;
+	}
 	
 	$plugins[$dir]['enable'] = 0;
 	
@@ -194,6 +202,10 @@ function plugin_unstall_all() {
 function plugin_install($dir) {
 	global $plugins, $conf;
 	
+	if(!isset($plugins[$dir])) {
+		return FALSE;
+	}
+	
 	$plugins[$dir]['installed'] = 1;
 	$plugins[$dir]['enable'] = 1;
 	
@@ -214,6 +226,10 @@ function plugin_install($dir) {
 // copy from plugin_install 修改
 function plugin_unstall($dir) {
 	global $plugins;
+	
+	if(!isset($plugins[$dir])) {
+		return TRUE;
+	}
 	
 	$plugins[$dir]['installed'] = 0;
 	$plugins[$dir]['enable'] = 0;
@@ -514,7 +530,7 @@ function plugin_official_list_cache() {
 	$s = DEBUG == 3 ? NULL : cache_get('plugin_official_list');
 	if($s === NULL) {
 		$url = PLUGIN_OFFICIAL_URL."plugin-all-4.htm"; // 获取所有的插件，匹配到3.0以上的。
-		$s = http_get($url, 30, 3);
+		$s = http_get($url);
 		
 		// 检查返回值是否正确
 		if(empty($s)) return xn_error(-1, '从官方获取插件数据失败。');
@@ -581,6 +597,8 @@ function plugin_read_by_dir($dir, $local_first = TRUE) {
 	!isset($official['img2']) && $official['img2'] = 0;
 	!isset($official['img3']) && $official['img3'] = 0;
 	!isset($official['img4']) && $official['img4'] = 0;
+	
+	$local['official'] = $official;
 	
 	if($local_first) {
 		$plugin = $local + $official;

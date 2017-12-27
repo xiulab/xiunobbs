@@ -35,7 +35,7 @@
 				<div class="col-md-4 p-l-2 p-r-2">
 					<dl class="row m-b-1">
 						<dt class="text-muted"><?php echo lang('price');?>：</dt>
-						<dd class="text-right"><span class="price"><?php echo $plugin['price']; ?>元</span></dd>
+						<dd class="text-right"><span class="price"><?php echo $plugin['official']['price']; ?>元</span></dd>
 					</dl>
 					<dl class="row m-b-1">
 						<dt class="text-muted"><?php echo lang('installs');?>：</dt>
@@ -56,8 +56,16 @@
 				</div>
 				<?php  } ?>
 			</div>
-			<?php if(!empty($plugin['pluginid']) && !empty($url)) { ?>
+			
 			<hr />
+			
+			<?php if($errmsg) { ?>
+			<div class="alert alert-primary">
+				<?php echo $errmsg; ?>
+			</div>
+			<?php } ?>
+			
+			<?php if(!empty($plugin['pluginid']) && !empty($url)) { ?>
 			<div class="row">
 				<table width="60%" align="center">
 					<tr>
@@ -74,17 +82,13 @@
 				<div class="col-xs-12" style="text-align: center;">
 					<img alt="模式二扫码支付" src="http://paysdk.weixin.qq.com/example/qrcode.php?data=<?php echo urlencode($url);?>" style="width:150px; height:150px;"/>
 					<br>微信扫码支付
-					<br><span class="price"><?php echo $plugin['price']; ?>元</span>
+					<br><span class="price"><?php echo $plugin['official']['price']; ?>元</span>
 				</div>
 			</div>
 			<?php } ?>
 		<p class="text-center">
-			<?php if(!$islocal) { ?>
-				<?php if($plugin['price'] > 0) { ?>
-				<a role="button" class="btn btn-primary buy" href="<?php echo url("plugin-read-$dir"); ?>" style="display:none;"><?php echo lang('buy');?></a>
-				<?php } else { ?>
-				<a role="button" class="btn btn-primary download" href="<?php echo url("plugin-download-$dir"); ?>"><?php echo lang('download');?></a>
-				<?php } ?>
+			<?php if($download_url && !$islocal) { ?>
+				<a role="button" class="btn btn-primary download" href="<?php echo $download_url; ?>"><?php echo lang('download');?></a>
 			<?php } ?>
 			
 			<?php if($plugin['setting_url']) { ?>
@@ -128,6 +132,8 @@ $('#nav_pc li.plugin, #nav_mobile li.plugin').tab('show');
 <script>
 $('#nav_pc li.plugin, #nav_mobile li.plugin').tab('show');
 
+<?php if(!empty($plugin['pluginid']) && !empty($url)) { ?>
+
 // 定时查询 plugin.xiuno.com ，如果支付成功，则跳转到下载。
 var dir = '<?php echo $dir;?>';
 var t = setInterval(function() {
@@ -139,5 +145,5 @@ var t = setInterval(function() {
 		}
 	});
 }, 5000);
-
+<?php } ?>
 </script>
