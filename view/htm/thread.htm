@@ -225,16 +225,15 @@ function resize_image() {
 	var first_width = jmessagelist.width(); // 815 : 746; //  734 746
 	jmessagelist.each(function() {
 		var jdiv = $(this);
-		var maxwidth = jdiv.attr('isfirst') ? first_width : first_width - 79; //  734 746
+		var maxwidth = jdiv.attr('isfirst') ? first_width : jdiv.width(); //  734 746
 		var jmessage_width = Math.min(jdiv.width(), maxwidth);
 		jdiv.find('img, embed, iframe').each(function() {
 			var jimg = $(this);
-			//if(jimg.width() < 500) return;
 			var img_width = this.org_width;
 			var img_height = this.org_height;
 			if(!img_width) {
-				var img_width = jimg.width();
-				var img_height = jimg.height();
+				var img_width = jimg.attr('width');
+				var img_height = jimg.attr('height');
 				this.org_width = img_width;
 				this.org_height = img_height;
 			}
@@ -243,6 +242,10 @@ function resize_image() {
 				if(this.tagName == 'IMG') {
 					jimg.width(jmessage_width);
 					jimg.css('height', 'auto');
+					jimg.css('cursor', 'pointer');
+					jimg.on('click', function() {
+						window.open(jimg.attr('src'));
+					});
 				} else {
 					jimg.width(jmessage_width);
 					var height = (img_height / img_width) * jimg.width();

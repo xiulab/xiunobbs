@@ -83,6 +83,7 @@ if(empty($action) || $action == 'create') {
 	
 	// hook attach_delete_start.php
 	
+	// 临时的文件 id / temp attach id : _0 _1 _2 _3 ...
 	if(substr($aid, 0, 1) == '_') {
 		$key = intval(substr($aid, 1));
 		$tmp_files = _SESSION('tmp_files');
