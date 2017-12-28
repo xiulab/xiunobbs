@@ -788,10 +788,10 @@ function http_post($url, $post = '', $cookie='', $timeout = 30, $times = 3) {
 }
 
 function https_get($url, $cookie = '', $timeout = 30, $times = 1) {
-	if(substr($url, 0, 7) != 'http://') {
+	if(substr($url, 0, 7) == 'http://') {
 		return http_get($url, $cookie, $timeout, $times);
 	}
-	return https_post($url, '', $cookie, $timeout);
+	return https_post($url, '', $cookie, $timeout, $times);
 }
 
 function https_post($url, $post = '', $cookie = '', $timeout = 30, $times = 1) {
