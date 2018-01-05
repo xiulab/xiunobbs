@@ -4,6 +4,7 @@ html, table {
 body {
 	background: #e8ecef;
 }
+
 .table th {
 	border-top: none;
 }
@@ -76,14 +77,20 @@ small,
 
 /* 仅仅小屏幕下显示，中大屏隐藏 */
 /* 等价于： d-none d-sm-block */
+/* >= 576 */
+
 @media (min-width: 576px) {
 	.d-sm-show { display: none !important; }
+	#body { padding-top: 1.5rem;}
 }
 
 /* 仅仅大屏幕下显示，中小屏隐藏 */
 /* 等价于： d-none d-lg-block */
+/* <= 576 */
 @media (max-width: 576px) {
 	.d-sm-hide { display: none !important; }
+	#body { padding-top: 0.5rem;}
+	#body > .row > div { padding: 0.2rem;}
 }
 
 /* 中小屏显示，大屏下不显示 
@@ -98,7 +105,7 @@ small,
 
 /********************************* bbs 业务部分 *************************************/
 /*  ul, dl 多列定义，用来模拟简单的表格布局，如果不考虑响应，比 pull-left pull-right 方便  */
-
+/*
 dl.row, ul.row {
   display: table;
   width: 100%;
@@ -143,7 +150,7 @@ ul.row.vbottom > li, ul.row > li.vbottom {
 dl.row.vbottom > dt, dl.row.vbottom > dd, dl.row > dt.vbottom, dl.row > dd.vbottom {
   vertical-align: bottom;
 }
-
+*/
 
 /* 导航栏半透明背景 */
 /*
@@ -226,10 +233,8 @@ a:hover {
   word-break: break-all;
   margin-bottom: 0.2rem;
 }
-
-
-
 */
+
 td.td-checkbox {
   width: 0.5rem;
   padding: 0.2rem;
@@ -238,7 +243,6 @@ td.td-avatar {
   width: 3.0rem;
   padding: 0.4rem;
 }
-
 
 .avatar-xs {
   width: 1.3rem;
@@ -264,33 +268,6 @@ td.td-avatar {
   border-radius: 6rem;
 }
 
-/* bootstrap 4 默认间距太大，缩小一些 */
-/*
-.col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12 {
-  padding-right: .37rem;
-  padding-left: .37rem;
-}
-
-
-.more.dropdown-toggle::after {
-  width: 22px;
-  height: 16px;
-  background: url(../img/more.png);
-  opacity: 0.5;
-  border: 0;
-}
-
-.more.dropdown-toggle:hover::after {
-  opacity: 1;
-}
-
-.breadcrumb {
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  font-size: 95%;
-  padding: 0.5rem 1rem;
-}
-*/
 .logo-xs {
   width: 1.3rem;
   height: 1.3rem;
