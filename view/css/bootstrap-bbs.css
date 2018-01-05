@@ -521,10 +521,6 @@ table.nav_tag_list td a {
   font-weight: 800;
 }
 
-.message p {
-  margin: 0.2rem 0;
-  line-height: 1.7;
-}
 
 @keyframes quote_animation {
   from {
@@ -619,5 +615,10 @@ tr.quote td:nth-child(2) {
 	color: #fff;
 	padding: 0px 16px;
 
+}
+
+.message p {
+	margin: 0.2rem 0;
+	line-height: 1.7;
 }
 .message img { max-width:  100%; height:auto !important;}
