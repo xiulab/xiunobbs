@@ -25,11 +25,6 @@ if(empty($action)) {
 		$urlarr = param('url', array(''));
 		$rankarr = param('rank', array(0));
 		
-		unset($rowidarr[0]);
-		unset($namearr[0]);
-		unset($urlarr[0]);
-		unset($rankarr[0]);
-		
 		$arrlist = array();
 		foreach($rowidarr as $k=>$v) {
 			$arr = array(

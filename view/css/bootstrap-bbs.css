@@ -3,7 +3,7 @@ html, table {
 }
 
 body {
-	background: #e8ecef url(../img/body_bg.jpg) repeat-x;
+	background: #e8ecef/* url(../img/body_bg.jpg) repeat-x*/;
 }
 
 html, body {
@@ -89,6 +89,18 @@ small, .small {
 .breadcrumb {
 	border-radius: 5px;
 	background-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.line-height-1 {
+	 line-height: 1 !important;
+}
+
+.line-height-2 {
+	 line-height: 2 !important;
+}
+
+.line-height-3 {
+	 line-height: 3 !important;
 }
 
 /* 仅仅小屏幕下显示，中大屏隐藏 */
