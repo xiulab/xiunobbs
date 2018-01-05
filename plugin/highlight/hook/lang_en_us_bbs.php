@@ -1,6 +1,0 @@
-	'highlight'=>'HighLight',
-	'confirm_success'=>'Confirm Success',
-	'style'=>'Style',
-	'color'=>'Color',
-	'set_highlight'=>'Set HighLight',
-	'un_highlight'=>'UnHighLight',
