@@ -1,7 +1,7 @@
 {
     "name": "版块三级分类",
     "brief": "增强到三级版块。",
-    "version": "1.0",
+    "version": "2.0",
     "bbs_version": "4.0",
     "installed": 1,
     "enable": 0,

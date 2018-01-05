@@ -1,7 +1,7 @@
 {
 	"name":"精华主题",
 	"brief":"支持三级精华设置，用尾部图标标示精华主题。",
-	"version":"1.4",
+	"version":"2.0",
 	"bbs_version":"4.0",
 	"installed":0,
 	"enable":0,

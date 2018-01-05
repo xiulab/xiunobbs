@@ -504,7 +504,7 @@ td.td-avatar {
 .page a, .page a.active{display: inline-block; padding: 5px 8px; margin-right: 2px; border: 1px solid #49535E; color: #E9E9E9; -webkit-border-radius: 12px; border-radius: 12px; background: #555; text-decoration: none}
 .page a:hover, .page a.active{color: #E9E9E9;  background: #000;}
 */
-/*
+
 table.nav_tag_list {
   margin-bottom: 0.2rem;
 }
@@ -569,16 +569,13 @@ tr.quote td:nth-child(2) {
   background-image: url(../img/quote.png);
   background-repeat: no-repeat;
   background-position: top right;
+  padding: 0.5rem 1rem !important;
 }
 
 .blockquote .user {
   margin-right: 0.5rem;
 }
 
-.xn-back {
-  line-height: 1 !important;
-}
-*/
 /*# sourceMappingURL=bootstrap.css.map */
 /*
 .icon-diamond:before { font-weight: 800; }
