@@ -2,11 +2,13 @@
 
 <div class="row">
 	<div class="col-lg-8 offset-lg-2">
-		<div class="card card-block m-t-1">
-			<h4 class="card-title text-xs-center">
-				<i class="icon-<?php echo $code == 0 ? 'ok' : 'warning-sign'; ?>" aria-hidden="true"></i> 
-				<?php echo $message;?>
-			</h4>
+		<div class="card m-3">
+			<div class="card-body">
+				<h4 class="card-title text-xs-center">
+					<i class="icon-<?php echo $code == 0 ? 'ok' : 'warning-sign'; ?>" aria-hidden="true"></i> 
+					<?php echo $message;?>
+				</h4>
+			</div>
 		</div>
 	</div>
 </div>
