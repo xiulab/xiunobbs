@@ -35,7 +35,7 @@
 
 		<?php include _include(APP_PATH.'view/htm/thread_list_mod.inc.htm');?>
 		<!--{hook forum_page_before.htm}-->
-		<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>
+		<nav class="my-3"><ul class="pagination justify-content-center"><?php echo $pagination; ?></ul></nav>
 		<!--{hook forum_page_after.htm}-->
 	</div>
 	<div class="col-lg-3 d-none d-lg-block">
@@ -73,25 +73,27 @@
 		
 		<!--{hook forum_mod_before.htm}-->
 		<?php if($forum['announcement'] || $forum['modlist']) { ?>
-		<div class="card card-body">
-			<?php if($forum['announcement']) { ?>
-			<h6 class="card-title"><?php echo lang('forum_anouncement');?>：</h6>
-			<p class="text-middle">
-				<?php echo $forum['announcement'];?>
-			</p>
-			<?php  } ?>
-			
-			<?php if($forum['modlist']) { ?>
-			<h6 class="card-title"><?php echo lang('forum_moderator');?>：</h6>
-			<div class="row">
-				<?php foreach ($forum['modlist'] as $mod) { ?>
-				<div class="col-xs-3 m-b-1 text-center">
-					<a href="#"><img src="<?php echo $conf['view_url'];?>img/avatar.png" alt="..." width="32" height="32" class="img-circle"></a><br>
-					<a href="<?php echo url("user-$mod[uid]");?>" class="small text-muted text-nowrap"><?php echo $mod['username'];?></a>
+		<div class="card">
+			<div class="card-body">
+				<?php if($forum['announcement']) { ?>
+				<h6 class="card-title"><?php echo lang('forum_anouncement');?>：</h6>
+				<p class="text-middle">
+					<?php echo $forum['announcement'];?>
+				</p>
+				<?php  } ?>
+				
+				<?php if($forum['modlist']) { ?>
+				<h6 class="card-title"><?php echo lang('forum_moderator');?>：</h6>
+				<div class="row">
+					<?php foreach ($forum['modlist'] as $mod) { ?>
+					<div class="col-xs-3 m-b-1 text-center">
+						<a href="#"><img src="<?php echo $conf['view_url'];?>img/avatar.png" alt="..." width="32" height="32" class="img-circle"></a><br>
+						<a href="<?php echo url("user-$mod[uid]");?>" class="small text-muted text-nowrap"><?php echo $mod['username'];?></a>
+					</div>
+					<?php } ?>
 				</div>
-				<?php } ?>
+				<?php  } ?>
 			</div>
-			<?php  } ?>
 		</div>
 		<?php  } ?>
 		<!--{hook forum_mod_after.htm}-->
