@@ -5,11 +5,8 @@
 <div class="row">
 	<div class="col-lg-10 offset-lg-1">
 		<div class="card">
-			<div class="card-block">
+			<div class="card-body">
 				<form action="<?php echo url('forum-list');?>" method="post" id="form">
-					<!--
-					<h4 class="card-title"><?php echo lang('forum_list');?></h4>
-					-->
 					<div class="table-responsive arrlist">
 						<table class="table" style="min-width: 800px">
 							<thead>
@@ -137,7 +134,7 @@ jadd.on('click', function() {
 });
 
 
-$('#nav_pc li.forum, #nav_mobile li.forum').tab('show');
+$('#nav_pc li.forum, #nav_mobile li.forum').addClass('active');
 
 </script>
 

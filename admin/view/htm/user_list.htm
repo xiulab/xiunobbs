@@ -3,15 +3,15 @@
 <!--{hook admin_user_list_start.htm}-->
 
 <div class="row">
-	<div class="col-xs-12">
-		<div class="btn-group m-b-1" role="group">
+	<div class="col-12">
+		<div class="btn-group mb-3" role="group">
 			<?php echo admin_tab_active($menu['user']['tab'], 'list');?>
 		</div>
 	</div>
 </div>
 
 <div class="row">
-	<div class="col-md-2 m-b-sm">
+	<div class="col-md-2 mb-3">
 		<select id="srchtype" value="<?php echo $srchtype; ?>" class="form-control">
 			<option value=""><?php echo lang('search_type');?></option>
 			<option value="uid"><?php echo lang('uid');?>：</option>
@@ -21,10 +21,10 @@
 			<option value="create_ip"><?php echo lang('create_ip');?>：</option>
 		</select>
 	</div>
-	<div class="col-md-3 m-b-sm">
+	<div class="col-md-3 mb-3">
 		<input type="text" id="keyword" placeholder="<?php echo lang('keyword');?>" value="<?php echo $keyword; ?>"  class="form-control" />
 	</div>
-	<div class="col-md-2 m-b-sm">
+	<div class="col-md-2 mb-3">
 		<button id="search" class="form-control btn btn-primary"><?php echo lang('search');?></button>
 	</div>
 </div>
@@ -32,40 +32,42 @@
 <div class="row">
 	<div class="col-lg-12">
 		<div class="card">
-			<div class="table-responsive">
-				<table class="table" style="min-width: 800px">
-					<thead>
-						<tr>
-							<th width="60" class="text-center"><?php echo lang('delete');?></th>
-							<th width="50">ID：</th>
-							<!--<th>手机号</th>-->
-							<th width="150"><?php echo lang('email');?></th>
-							<th width="150"><?php echo lang('username');?></th>
-							<th width="100"><?php echo lang('user_group');?></th>
-							<th width="100"><?php echo lang('create_date');?></th>
-							<th width="100"><?php echo lang('create_ip');?></th>
-							<th width="60"><?php echo lang('operation');?></th>
+			<div class="card-block">
+				<div class="table-responsive">
+					<table class="table" style="min-width: 800px">
+						<thead>
+							<tr>
+								<th width="60" class="text-center"><?php echo lang('delete');?></th>
+								<th width="50">ID：</th>
+								<!--<th>手机号</th>-->
+								<th width="150"><?php echo lang('email');?></th>
+								<th width="150"><?php echo lang('username');?></th>
+								<th width="100"><?php echo lang('user_group');?></th>
+								<th width="100"><?php echo lang('create_date');?></th>
+								<th width="100"><?php echo lang('create_ip');?></th>
+								<th width="60"><?php echo lang('operation');?></th>
+							</tr>
+						</thead>
+						<tbody id="userlist">
+					<?php foreach($userlist as &$_user){ ?>
+						<tr uid="<?php echo $_user['uid']; ?>">
+							<td class="text-center"><input type="checkbox" name="delete" /></td>
+							<td><?php echo $_user['uid']; ?></td>
+							<!--<td><?php echo $_user['mobile']; ?></td>-->
+							<td><?php echo $_user['email']; ?></td>
+							<td><?php echo $_user['username']; ?></td>
+							<td><?php echo $_user['groupname']; ?></td>
+							<td><?php echo $_user['create_date_fmt']; ?></td>
+							<td><?php echo $_user['create_ip_fmt']; ?></td>
+							<td><a href="<?php echo url("user-update-$_user[uid]"); ?>"><?php echo lang('edit');?></a></td>
 						</tr>
-					</thead>
-					<tbody id="userlist">
-				<?php foreach($userlist as &$_user){ ?>
-					<tr uid="<?php echo $_user['uid']; ?>">
-						<td class="text-center"><input type="checkbox" name="delete" /></td>
-						<td><?php echo $_user['uid']; ?></td>
-						<!--<td><?php echo $_user['mobile']; ?></td>-->
-						<td><?php echo $_user['email']; ?></td>
-						<td><?php echo $_user['username']; ?></td>
-						<td><?php echo $_user['groupname']; ?></td>
-						<td><?php echo $_user['create_date_fmt']; ?></td>
-						<td><?php echo $_user['create_ip_fmt']; ?></td>
-						<td><a href="<?php echo url("user-update-$_user[uid]"); ?>"><?php echo lang('edit');?></a></td>
-					</tr>
-				<?php } ?>
-					</tbody>
-				</table>
+					<?php } ?>
+						</tbody>
+					</table>
+				</div>
+				<hr class="m-t-0" />
+				<p><button class="btn btn-sm m-l-1" id="confirm"><?php echo lang('delete');?></button></p>
 			</div>
-			<hr class="m-t-0" />
-			<p><button class="btn btn-sm m-l-1" id="confirm"><?php echo lang('delete');?></button></p>
 		</div>
 		<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>
 	</div>
@@ -118,7 +120,7 @@ jconfirm.on('click', function(){
 });
 
 
-$('#nav_pc li.user, #nav_mobile li.user').tab('show');
+$('#nav_pc li.user, #nav_mobile li.user').addClass('active');
 
 </script>
 

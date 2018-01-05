@@ -38,7 +38,7 @@ return array(
 	'other' => array(
 		'url'=>url('other'), 
 		'text'=>lang('other'), 
-		'icon'=>'icon-circle-blank',
+		'icon'=>'icon-wrench',
 		'tab'=> array (
 			'cache'=>array('url'=>url('other-cache'), 'text'=>lang('admin_other_cache')),
 		)

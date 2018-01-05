@@ -4,14 +4,14 @@
 
 <div class="row">
 	<div class="col-lg-10 offset-lg-1">
-		<div class="btn-group m-b-1" role="group">
+		<div class="btn-group mb-3" role="group">
 			<?php echo admin_tab_active($menu['setting']['tab'], 'smtp');?>
 		</div>
 		<div class="card">
-			<div class="card-block">
+			<div class="card-body">
 				<form action="<?php echo url('setting-smtp');?>" method="post" id="form">
 					<div class="table-responsive arrlist">
-						<table class="table"  style="min-width: 800px">
+						<table class="table">
 							<thead>
 								<tr align="center">
 									<th><?php echo lang('username');?></th>
@@ -106,7 +106,7 @@ jadd.on('click', function() {
 });
 
 
-$('#nav_pc li.setting, #nav_mobile li.setting').tab('show');
+$('#nav_pc li.setting, #nav_mobile li.setting').addClass('active');
 
 </script>
 

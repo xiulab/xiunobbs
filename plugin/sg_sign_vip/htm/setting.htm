@@ -2,72 +2,74 @@
 
 <div class="row">
 	<div class="col-lg-10 offset-lg-1">
-		<div class="card card-block">
-			<form action="<?php echo url("plugin-setting-sg_sign_vip");?>" method="post" id="form">
-				<h4 class="card-title">每日签到VIP版 设置</h4>
-				<fieldset class="form-group">
-					<label class="col-sm-3 form-control-label">签到积分字段：</label>
-					<div class="col-sm-9">
-						<?php echo $input['sign9']; ?><font  class="text-small" color="#FF0000">设置用户表对应字段，方便整合其他插件</font>
-					</div>
-				</fieldset><fieldset class="form-group">
-					<label class="col-sm-3 form-control-label">签到按扭背景色：</label>
-					<div class="col-sm-9">
-						<?php echo $input['sign10']; ?>
-					</div>
-				</fieldset><fieldset class="form-group">
-					<label class="col-sm-3 form-control-label">开启签到列表：</label>
-					<div class="col-sm-9">
-						<?php echo $input['sign11']; ?>
-					</div>
-				</fieldset><fieldset class="form-group">
-					<label class="col-sm-3 form-control-label">每日签到奖励：</label>
-					<div class="col-sm-9">
-						<?php echo $input['sign1']; ?>
-					</div>
-				</fieldset><fieldset class="form-group">
-					<label class="col-sm-3 form-control-label">连续签3天增加奖励：</label>
-					<div class="col-sm-9">
-						<?php echo $input['sign2']; ?>
-					</div>
-				</fieldset><fieldset class="form-group">
-					<label class="col-sm-3 form-control-label">连续签7天增加奖励：</label>
-					<div class="col-sm-9">
-						<?php echo $input['sign3']; ?>
-					</div>
-				</fieldset><fieldset class="form-group">
-					<label class="col-sm-3 form-control-label">连续签15天增加奖励：</label>
-					<div class="col-sm-9">
-						<?php echo $input['sign4']; ?>
-					</div>
-				</fieldset><fieldset class="form-group">
-					<label class="col-sm-3 form-control-label">连续签15天以上奖励：</label>
-					<div class="col-sm-4">
-						<?php echo $input['sign7']; ?>
-					</div>
-					<div class="col-sm-1" style="text-align: center;">至</div>
-					<div class="col-sm-4">
-						<?php echo $input['sign8']; ?>
-					</div>
-				</fieldset><fieldset class="form-group">
-					<label class="col-sm-3 form-control-label">每日第1名增加奖励：</label>
-					<div class="col-sm-9">
-						<?php echo $input['sign5']; ?>
-					</div>
-				</fieldset><fieldset class="form-group">
-					<label class="col-sm-3 form-control-label">每日第2-5名增加奖励：</label>
-					<div class="col-sm-9">
-						<?php echo $input['sign6']; ?>
-					</div>
-				</fieldset><fieldset class="form-group">
-					<label class="col-sm-3 form-control-label"></label>
-					<div class="col-sm-9">
-						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
-						<a role="button" class="btn btn-secondary btn-block m-t-1" href="javascript:history.back();"><?php echo lang('back');?></a>
-					</div>
-				</fieldset>
-			</form>
-			<p class="text-small text-muted">注：积分计算等于（每日签到奖励+连续签到奖励+排名奖励）</p>
+		<div class="card">
+			<div class="card-body">
+				<form action="<?php echo url("plugin-setting-sg_sign_vip");?>" method="post" id="form">
+					<h4 class="card-title">每日签到VIP版 设置</h4>
+					<fieldset class="form-group">
+						<label class="col-sm-3 form-control-label">签到积分字段：</label>
+						<div class="col-sm-9">
+							<?php echo $input['sign9']; ?><font  class="text-small" color="#FF0000">设置用户表对应字段，方便整合其他插件</font>
+						</div>
+					</fieldset><fieldset class="form-group">
+						<label class="col-sm-3 form-control-label">签到按扭背景色：</label>
+						<div class="col-sm-9">
+							<?php echo $input['sign10']; ?>
+						</div>
+					</fieldset><fieldset class="form-group">
+						<label class="col-sm-3 form-control-label">开启签到列表：</label>
+						<div class="col-sm-9">
+							<?php echo $input['sign11']; ?>
+						</div>
+					</fieldset><fieldset class="form-group">
+						<label class="col-sm-3 form-control-label">每日签到奖励：</label>
+						<div class="col-sm-9">
+							<?php echo $input['sign1']; ?>
+						</div>
+					</fieldset><fieldset class="form-group">
+						<label class="col-sm-3 form-control-label">连续签3天增加奖励：</label>
+						<div class="col-sm-9">
+							<?php echo $input['sign2']; ?>
+						</div>
+					</fieldset><fieldset class="form-group">
+						<label class="col-sm-3 form-control-label">连续签7天增加奖励：</label>
+						<div class="col-sm-9">
+							<?php echo $input['sign3']; ?>
+						</div>
+					</fieldset><fieldset class="form-group">
+						<label class="col-sm-3 form-control-label">连续签15天增加奖励：</label>
+						<div class="col-sm-9">
+							<?php echo $input['sign4']; ?>
+						</div>
+					</fieldset><fieldset class="form-group">
+						<label class="col-sm-3 form-control-label">连续签15天以上奖励：</label>
+						<div class="col-sm-4">
+							<?php echo $input['sign7']; ?>
+						</div>
+						<div class="col-sm-1" style="text-align: center;">至</div>
+						<div class="col-sm-4">
+							<?php echo $input['sign8']; ?>
+						</div>
+					</fieldset><fieldset class="form-group">
+						<label class="col-sm-3 form-control-label">每日第1名增加奖励：</label>
+						<div class="col-sm-9">
+							<?php echo $input['sign5']; ?>
+						</div>
+					</fieldset><fieldset class="form-group">
+						<label class="col-sm-3 form-control-label">每日第2-5名增加奖励：</label>
+						<div class="col-sm-9">
+							<?php echo $input['sign6']; ?>
+						</div>
+					</fieldset><fieldset class="form-group">
+						<label class="col-sm-3 form-control-label"></label>
+						<div class="col-sm-9">
+							<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
+							<a role="button" class="btn btn-secondary btn-block m-t-1" href="javascript:history.back();"><?php echo lang('back');?></a>
+						</div>
+					</fieldset>
+				</form>
+				<p class="text-small text-muted">注：积分计算等于（每日签到奖励+连续签到奖励+排名奖励）</p>
+			</div>
 		</div>
 	</div>
 </div>

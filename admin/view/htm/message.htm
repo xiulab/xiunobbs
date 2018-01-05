@@ -5,16 +5,15 @@
 
 <div class="row">
 	<div class="col-lg-8 offset-lg-2">
-		<div class="card card-block m-t-1">
-			<h4 class="card-title text-xs-center">
-				<i class="icon-<?php echo $code == 0 ? 'ok' : 'warning-sign'; ?>"></i> 
-				<?php echo $message;?>
-				
-				<!--{hook admin_message_message_after.htm}-->
-			</h4>
-			<!--
-			<p class="text-xs-center"><a href="#">Card link</a></p>
-			-->
+		<div class="card">
+			<div class="card-body">
+				<h4 class="card-title text-xs-center">
+					<i class="icon-<?php echo $code == 0 ? 'ok' : 'warning-sign'; ?>"></i> 
+					<?php echo $message;?>
+					
+					<!--{hook admin_message_message_after.htm}-->
+				</h4>
+			</div>
 		</div>
 	</div>
 </div>

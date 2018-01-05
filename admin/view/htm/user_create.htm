@@ -4,11 +4,11 @@
 
 <div class="row">
 	<div class="col-lg-8 offset-lg-2">
-		<div class="btn-group m-b-1" role="group">
+		<div class="btn-group mb-3" role="group">
 			<?php echo admin_tab_active($menu['user']['tab'], 'create');?>
 		</div>
 		<div class="card">
-			<div class="card-block">
+			<div class="card-body">
 				<!--
 				<h4 class="card-title"><?php echo lang('create_user');?></h4>
 				-->
@@ -77,7 +77,7 @@ jform.on('submit', function() {
 	return false;
 });
 
-$('#nav_pc li.user, #nav_mobile li.user').tab('show');
+$('#nav_pc li.user, #nav_mobile li.user').addClass('active');
 
 </script>
 

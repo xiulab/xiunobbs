@@ -4,11 +4,11 @@
 
 <div class="row">
 	<div class="col-lg-10 offset-lg-1">
-		<div class="btn-group m-b-1" role="group">
+		<div class="btn-group mb-3" role="group">
 			<?php echo admin_tab_active($menu['user']['tab'], 'group');?>
 		</div>
 		<div class="card">
-			<div class="card-block">
+			<div class="card-body">
 				<form action="<?php echo url("group-update-$_gid");?>" method="post" id="form">
 					<h4 class="card-title"><?php echo lang('group_edit');?> - <?php echo $_group['name'];?></h4>
 					<div class="form-group row">
@@ -119,7 +119,7 @@ jform.on('submit', function(){
 	return false;
 });
 
-$('#nav_pc li.user, #nav_mobile li.user').tab('show');
+$('#nav_pc li.user, #nav_mobile li.user').addClass('active');
 
 </script>
 
