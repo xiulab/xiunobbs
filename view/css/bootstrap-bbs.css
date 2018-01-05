@@ -1,78 +1,94 @@
 html, table {
 	font-size: 14px;
 }
+
 body {
-	background: #e8ecef;
+	background: #e8ecef url(../img/body_bg.jpg) repeat-x;
+}
+
+html, body {
+	height: 100%;
+	font-family: "Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", "微软雅黑", "华文细黑", STHeiti, sans-serif;
+
 }
 
 .table th {
 	border-top: none;
 }
-small,
-.small {
-  font-size: 85%;
-  font-weight: 400;
+
+.table > tbody > tr:first-child > td { 
+	border-top: none; 
 }
+
+small, .small {
+	font-size: 85%;
+	font-weight: 400;
+}
+
 .text-grey {
 	color: #aaaaaa !important;
 }
+
 .card {
 	margin-bottom: 1.5rem;
 }
+
 .center {
 	margin-left: auto !important;
 	margin-right: auto !important;
 }
+
 .w-auto {
 	width: auto !important;
 }
+
 .card, .border-shadow {
-    box-shadow: 2px 2px 3px #AEB8B9;
-    border: 1px solid #BCC6C9;
-    border-radius: 0.5rem;
-    overflow: hidden;
+	box-shadow: 2px 2px 3px #AEB8B9;
+	border: 1px solid #BCC6C9;
+	border-radius: 0.5rem;
+	overflow: hidden;
 }
 
 .card {
-    background: #FAFAFA;
-    margin-bottom: 1rem;
+	background: #FAFAFA;
+	margin-bottom: 1rem;
 }
 
 .card > .card-header {
-    color: #454d55;
-    text-shadow: 1px 1px 1px #fff;
-    font-size: 14px;
-    padding: 0.6rem 1rem;
-    border-bottom: 1px solid #BCC6C9;
-    background-image: linear-gradient(0deg, #d1d5d6, #fcfdfd);
+	color: #454d55;
+	text-shadow: 1px 1px 1px #fff;
+	font-size: 14px;
+	padding: 0.6rem 1rem;
+	border-bottom: 1px solid #BCC6C9;
+	background-image: linear-gradient(0deg, #d1d5d6, #fcfdfd);
 }
 
 .card-header a.nav-link {
-    border: 0px;
-    border-bottom: 2px solid transparent;
-    padding-top: 0rem;
-    padding-bottom: 0.7rem;
+	border: 0px;
+	border-bottom: 2px solid transparent;
+	padding-top: 0rem;
+	padding-bottom: 0.7rem;
 }
 
 .card > .card-header a.nav-link.active {
-    font-weight: 800;
-    background: transparent;
-    color: #000;
+	font-weight: 800;
+	background: transparent;
+	color: #000;
 }
 
 .card > .card-header a.nav-link:hover {}
 
 .card .card-header-tabs {
-   /* margin-bottom: -0.8rem;*/
+	/* margin-bottom: -0.8rem;*/
 }
 
 .card > .card-block > table > tbody > tr:last-child > td {
-    border-bottom: 0px;
+	border-bottom: 0px;
 }
 
 .breadcrumb {
-    border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.38) !important;
+	border-radius: 5px;
+	background-color: rgba(255, 255, 255, 0.6) !important;
 }
 
 /* 仅仅小屏幕下显示，中大屏隐藏 */
@@ -176,11 +192,7 @@ dl.row.vbottom > dt, dl.row.vbottom > dd, dl.row > dt.vbottom, dl.row > dd.vbott
 }
 */
 
-/* bbs 全局定义 */
-html, body {
-  height: 100%;
-  font-family: "Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", "微软雅黑", "华文细黑", STHeiti, sans-serif;
-}
+
 
 /*
 body {
@@ -277,6 +289,7 @@ td.td-avatar {
   width: 1.8rem;
   height: 1.8rem;
 }
+
 /*
 #header.bg-inverse {
   background: rgba(0, 0, 0, 0.8) !important;
