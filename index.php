@@ -1,4 +1,6 @@
 <?php
+//xhprof_enable();
+
 /*
  * Copyright (C) xiuno.com
  */
@@ -15,7 +17,7 @@
 // 本地开启 DEBUG 模式
 !isset($_SERVER['REMOTE_ADDR']) AND $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 if($_SERVER['REMOTE_ADDR'] == '127.0.0.1' || substr($_SERVER['REMOTE_ADDR'], 0, 8) == '192.168.') {
-	define('DEBUG', 2);
+	define('DEBUG', 3);
 }
 
 // 0: Production mode; 1: Developer mode; 2: Plugin developement mode;
@@ -47,5 +49,9 @@ db_connect() OR exit($errstr);
 include APP_PATH.'model/plugin.func.php';
 include _include(APP_PATH.'model.inc.php');
 include _include(APP_PATH.'index.inc.php');
+
+
+
+//file_put_contents((ini_get('xhprof.output_dir') ? : '/tmp') . '/' . uniqid() . '.xhprof.xhprof', serialize(xhprof_disable()));
 
 ?>

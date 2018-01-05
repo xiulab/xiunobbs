@@ -2,16 +2,18 @@
 		<?php
 			$linklist = db_find('friendlink', array(), array('rank'=>-1), 1, 1000, 'linkid');
 		?>
-		<div class="card card-block">
-			<h6 class="card-title">友情链接：</h6>
-			<ul>
-				<?php if($linklist) { foreach ($linklist as $link) { ?>
-				<li class="m-b-xs text-small">
-					<a href="<?php echo $link['url'];?>" target="_blank">
-						<?php echo $link['name'];?>
-					</a>
-				</li>
-				<?php }} ?>
-			</ul>
+		<div class="card">
+			<div class="card-header">友情链接</div>
+			<div class="card-body">
+				<ul>
+					<?php if($linklist) { foreach ($linklist as $link) { ?>
+					<li class="m-b-xs text-small">
+						<a href="<?php echo $link['url'];?>" target="_blank">
+							<?php echo $link['name'];?>
+						</a>
+					</li>
+					<?php }} ?>
+				</ul>
+			</div>
 		</div>
 		

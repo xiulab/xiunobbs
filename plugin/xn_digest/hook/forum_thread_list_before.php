@@ -1,5 +1,6 @@
 
 $digest = param('digest', 0);
+$extra['digest'] = $digest;
 if($digest == 1) {
 	$thread_list_from_default = 0;
 	$active = 'digest';

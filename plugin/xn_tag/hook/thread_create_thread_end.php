@@ -27,7 +27,6 @@
 					array_push($tagids, $defaulttagid);
 				}
 			}
-			
 		}
 		
 		foreach($tagids as $tagid) {

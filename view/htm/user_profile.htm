@@ -4,64 +4,41 @@
 
 <div class="row">
 	<div class="col-lg-8 offset-lg-2">
-		<div class="card card-block m-t-1">
-			<img class="avatar-lg center-block" src="<?php echo $_user['avatar_url'];?>">
-			<h4 class="text-center"><?php echo $_user['username'];?></h4>
-			<p class="text-center">[<?php echo $_user['groupname'];?>]</p>
-			<hr />
-			<div class="row">
-				<div class="col-xs-12  col-sm-6 m-b-1 p-l-2 p-r-2">
-					<dl class="row m-b-1">
-						<dt class="text-muted"><?php echo lang('username');?>：</dt>
-						<dd class="text-right"><?php echo $_user['username'];?></dd>
-					</dl>
-					<?php if($group['allowviewip']) { ?>
-					<dl class="row m-b-1">
-						<dt class="text-muted"><?php echo lang('email');?>：</dt>
-						<dd class="text-right"><?php echo $_user['email'];?></dd>
-					</dl>
-					<?php  } ?>
-					<dl class="row m-b-1">
-						<dt class="text-muted"><?php echo lang('user_group');?>：</dt>
-						<dd class="text-right"><?php echo $_user['groupname'];?></dd>
-					</dl>
-					<dl class="row m-b-1">
-						<dt class="text-muted"><?php echo lang('create_date');?>：</dt>
-						<dd class="text-right"><?php echo $_user['create_date_fmt'];?></dd>
-					</dl>
-					<dl class="row m-b-1">
-						<dt class="text-muted"><?php echo lang('last_login_date');?>：</dt>
-						<dd class="text-right"><?php echo $_user['login_date_fmt'];?></dd>
-					</dl>
-					<!--{hook user_profile_login_date_after.htm}-->
+		<div class="card">
+			<div class="card-body text-center">
+				<img class="avatar-lg" src="<?php echo $_user['avatar_url'];?>">
+				<h4 class="text-center"><?php echo $_user['username'];?></h4>
+				<p class="text-center">[<?php echo $_user['groupname'];?>]</p>
+				<hr />
+				<div class="row">
+					<div class="col-sm-6">
+						<p><span class="text-muted"><?php echo lang('username');?>：</span><span><?php echo $_user['username'];?></span></p>
+						<p><span class="text-muted"><?php echo lang('email');?>：</span><span><?php echo $_user['email'];?></span></p>
+						<p><span class="text-muted"><?php echo lang('user_group');?>：</span><span><?php echo $_user['groupname'];?></span></p>
+						<p><span class="text-muted"><?php echo lang('create_date');?>：</span><span><?php echo $_user['create_date_fmt'];?></span></p>
+						<p><span class="text-muted"><?php echo lang('last_login_date');?>：</span><span><?php echo $_user['login_date_fmt'];?></span></p>
+						<!--{hook user_profile_login_date_after.htm}-->
+					</div>
+					<div class="col-sm-6">
+						<p><span class="text-muted"><?php echo lang('threads');?>：</span><span><?php echo $_user['threads'];?></span></p>
+						<p><span class="text-muted"><?php echo lang('posts');?>：</span><span><?php echo $_user['posts'];?></span></p>
+						<!--{hook user_profile_posts_after.htm}-->
+					</div>
 				</div>
-				<div class="col-xs-12  col-sm-6 m-b-1 p-l-2 p-r-2">
-					<dl class="row m-b-1">
-						<dt class="text-muted"><?php echo lang('threads');?>：</dt>
-						<dd class="text-right"><?php echo $_user['threads'];?></dd>
-					</dl>
-					<dl class="row m-b-1">
-						<dt class="text-muted"><?php echo lang('posts');?>：</dt>
-						<dd class="text-right"><?php echo $_user['posts'];?></dd>
-					</dl>
-					<!--{hook user_profile_posts_after.htm}-->
-				</div>
+				<!--{hook user_profile_my_thread_before.htm}-->
 			</div>
-			
-			<!--{hook user_profile_my_thread_before.htm}-->
-			
 		</div>
 		
 		<div class="card">
 			<div class="card-header">
-				<ul class="nav nav-tabs card-header-tabs pull-xs-left">
+				<ul class="nav nav-tabs card-header-tabs">
 					<li class="nav-item">
 						<a class="nav-link <?php echo $active == 'default' ? 'active' : '';?>" href="<?php echo url("user-$_uid");?>"><?php echo lang('user_joined_thread');?> (<?php echo $_user['threads'];?>)</a>
 					</li>
 					<!--{hook user_profile_nav_item_after.htm}-->
 				</ul>
 			</div>
-			<div class="card-block">
+			<div class="card-body">
 				<table class="table table-hover threadlist">
 					<tbody>
 						<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
@@ -78,7 +55,7 @@
 		<a role="button" class="btn btn-danger confirm btn-block" data-confirm-text="<?php echo lang('confirm_delete_user');?>" data-method="post" href="<?php echo url("mod-deleteuser-$_user[uid]");?>"><?php echo lang('delete_user');?></a>
 		<?php } ?>
 		
-		<a role="button" class="btn btn-secondary center-block m-t-1" href="<?php echo url('my');?>"> <?php echo lang('back');?> </a>
+		<a role="button" class="btn btn-secondary btn-block mt-3" href="<?php echo url('my');?>"> <?php echo lang('back');?> </a>
 		
 		
 	</div>

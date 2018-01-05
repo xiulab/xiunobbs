@@ -1,10 +1,10 @@
-<div class="card">
+<div class="form-group">
 	<form action="<?php echo url('search');?>" id="search_form">
-		<div class="input-group">
+		<div class="input-group mb-3">
 			<input type="text" class="form-control" placeholder="<?php echo lang('keyword');?>" name="keyword">
-			<span class="input-group-btn">
-				<button class="btn btn-secondary" type="submit"><?php echo lang('search');?></button>
-			</span>
+			<div class="input-group-append">
+				<button class="btn btn-outline-success" type="submit"><?php echo lang('search');?></button>
+			</div>
 		</div>
 	</form>
 </div>

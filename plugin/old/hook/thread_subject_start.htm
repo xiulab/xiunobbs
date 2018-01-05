@@ -1,0 +1,4 @@
+						
+						<?php if(!empty($thread['taglist'])) { foreach($thread['taglist'] as $tag) { ?>
+						<a href="<?php echo url("forum-$thread[fid]-1-$tag[tagid]");?>" class="text-grey hidden-md-down">[<?php echo $tag['name'];?>]</a>
+						<?php  }} ?>

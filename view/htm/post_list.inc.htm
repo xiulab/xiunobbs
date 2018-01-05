@@ -7,39 +7,39 @@
 
 				<?php if($postlist) { foreach($postlist as $_post) { ?>
 					<tr class="<?php echo $_post['classname'];?>" pid="<?php echo $_post['pid'];?>">
-						<td class="vtop td-avatar">
+						<td class="td-avatar">
 							<a href="<?php echo url("user-$_post[uid]");?>" tabindex="-1">
 								<img class="avatar" src="<?php echo $_post['user_avatar_url'];?>">
 							</a>
 							<!--{hook post_list_inc_avatar_after.htm}-->
 						</td>
-						<td class="p-x-0">
-							<dl class="row small text-muted">
-								<dt>
+						<td class="px-0">
+							<div class="media small text-muted">
+								<div>
 									<!--{hook post_list_inc_username_before.htm}-->
 									<span class="username text-muted">
 										<a href="<?php echo url("user-$_post[uid]");?>"><?php echo $_post['username'];?></a>
 									</span>
-									<span class="date text-grey m-l-1"><?php echo $_post['create_date_fmt'];?></span>
+									<span class="date text-grey ml-2"><?php echo $_post['create_date_fmt'];?></span>
 									<!--{hook post_list_inc_create_date_after.htm}-->
-								</dt>
-								<dd class="text-right text-grey ">
+								</div>
+								<div class="media-body text-right text-grey ">
 									<!--{hook post_list_inc_edit_before.htm}-->
 									
 									<?php if($allowpost) { ?>
-									<a href="javascript:void(0)" tid="<?php echo $_post['tid'];?>" pid="<?php echo $_post['pid'];?>" class="text-grey post_reply m-r-1"><i class="icon-reply"></i> 引用</a>
+									<a href="javascript:void(0)" tid="<?php echo $_post['tid'];?>" pid="<?php echo $_post['pid'];?>" class="text-grey post_reply mr-2"><i class="icon-reply"></i> 引用</a>
 									<?php } ?>
 									
 									<!--{hook post_list_inc_update_before.htm}-->
 
 									<?php if($allowupdate || $_post['allowupdate']) { ?>
-									<a href="<?php echo url("post-update-$_post[pid]");?>" class="text-grey post_update m-r-1"><i class="icon-edit"></i> <?php echo lang('edit');?></a>
+									<a href="<?php echo url("post-update-$_post[pid]");?>" class="text-grey post_update mr-2"><i class="icon-edit"></i> <?php echo lang('edit');?></a>
 									<?php } ?>
 								
 									<!--{hook post_list_inc_delete_before.htm}-->
 
 									<?php if($allowdelete || $_post['allowdelete']) { ?>
-									<a data-href="<?php echo url("post-delete-$_post[pid]");?>" data-confirm-text="<?php echo lang('confirm_delete');?>" href="javascript:void(0);" class="text-grey post_delete _confirm m-r-1"><i class="icon-remove"></i> <?php echo lang('delete');?></a>
+									<a data-href="<?php echo url("post-delete-$_post[pid]");?>" data-confirm-text="<?php echo lang('confirm_delete');?>" href="javascript:void(0);" class="text-grey post_delete _confirm mr-2"><i class="icon-remove"></i> <?php echo lang('delete');?></a>
 									<?php } ?>
 									
 									<!--{hook post_list_inc_delete_after.htm}-->
@@ -48,15 +48,18 @@
 									<span class="floor"><?php echo $_post['floor'];?></span> <?php echo lang('floor');?>
 									<?php } ?>
 									<!--{hook post_list_inc_floor_after.htm}-->
-								</dd>
-							</dl>
-							<div class="message m-t-xs break-all">
+								</div>
+							</div>
+							<div class="message mt-1 break-all">
+							
 								<?php if(!empty($_post['subject'])) { ?>
 									<h6><a href="<?php echo url("thread-$_post[tid]");?>" target="_blank"><?php echo $_post['subject'];?></a></h6>
 								<?php } ?>
+								
 								<!--{hook post_list_inc_message_before.htm}-->
 								<?php echo $_post['message_fmt'];?>
 								<!--{hook post_list_inc_message_after.htm}-->
+								
 								<?php echo post_file_list_html($_post['filelist']);?>
 								<!--{hook post_list_inc_filelist_after.htm}-->
 								

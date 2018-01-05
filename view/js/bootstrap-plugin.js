@@ -8,10 +8,10 @@ $.alert = function(subject, timeout, options) {
 		<div class="modal-dialog modal-md">\
 			<div class="modal-content">\
 				<div class="modal-header">\
+					<h4 class="modal-title">'+lang.tips_title+'</h4>\
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">\
 						<span aria-hidden="true">&times;</span>\
 					</button>\
-					<h4 class="modal-title">'+lang.tips_title+'</h4>\
 				</div>\
 				<div class="modal-body">\
 					<h5>'+subject+'</h5>\
@@ -45,10 +45,10 @@ $.confirm = function(subject, ok_callback, options) {
 		<div class="modal-dialog modal-md">\
 			<div class="modal-content">\
 				<div class="modal-header">\
+					<h5 class="modal-title">'+title+'</h5>\
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">\
 						<span aria-hidden="true">&times;</span>\
 					</button>\
-					<h5 class="modal-title">'+title+'</h5>\
 				</div>\
 				<div class="modal-body">\
 					'+subject+'\

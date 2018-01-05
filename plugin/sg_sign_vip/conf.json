@@ -1,0 +1,10 @@
+{
+    "name": "每日签到VIP版",
+    "brief": "VIP版可设置签到积分用户表对应字段。<br>功能有天启关闭签到列表、签到按扭背景色选择、每日签到奖励、连签奖励、签到排名奖励。<br>插件为<a target='_blank' href='http://cha.sgahz.net/'>查鸽信息网</a>制作。<br>联系QQ：5886425",
+    "version": "1.0",
+    "bbs_version": "4.0",
+    "installed": 0,
+    "enable": 0,
+    "hooks_rank": [],
+    "dependencies": []
+}

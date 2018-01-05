@@ -4,6 +4,7 @@ var forumlist = <?php echo xn_json_encode($forumlist_show);?>;
 
 // 初始化值，选中的值
 var tagids = <?php echo xn_json_encode($tagids);?>;
+var action = '<?php echo $action;?>';
 
 var jfid = $('select[name="fid"]');
 var fid = <?php echo intval($fid); ?> || $('select[name="fid"]').val();
@@ -20,8 +21,8 @@ function fid_on_change(fid) {
 		s += tagcate.name;
 		s += '：</td><td>';
 		$.each(tagcate.taglist, function(k, tag) {
-			s += '<a href="javascript:void(0);" class="tag_option ' + (xn.in_array(tag.tagid, tagids) || tag.tagid == tagcate.defaulttagid ? ' active' : '') + '" tagid="' + tag.tagid + '">' + tag.name + '</a>';
-			s += '<input type="hidden" name="tagid[]" value="' + (xn.in_array(tag.tagid, tagids) || tag.tagid == tagcate.defaulttagid ? tag.tagid : '') + '" />';
+			s += '<a href="javascript:void(0);" class="tag_option ' + (xn.in_array(tag.tagid, tagids) || (tag.tagid == tagcate.defaulttagid && action == 'create') ? ' active' : '') + '" tagid="' + tag.tagid + '">' + tag.name + '</a>';
+			s += '<input type="hidden" name="tagid[]" value="' + (xn.in_array(tag.tagid, tagids) || (tag.tagid == tagcate.defaulttagid && action == 'create') ? tag.tagid : '') + '" />';
 		});
 		s += '</td></tr>';
 	});

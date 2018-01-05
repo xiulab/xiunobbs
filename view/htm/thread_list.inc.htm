@@ -46,10 +46,6 @@
 								
 								<!--{hook thread_list_inc_subject_forum_before.htm}-->
 								
-								<?php if(!$fid) { ?>
-								<a href="<?php echo url("forum-$_thread[fid]");?>" class="text-grey small hidden-md-down">[<?php echo $_thread['forumname'];?>]</a>
-								<?php } ?>
-								
 								<!--{hook thread_list_inc_subject_before.htm}-->
 								
 								<a href="<?php echo url("thread-$_thread[tid]");?>"><?php echo $_thread['subject'];?></a>
@@ -63,31 +59,31 @@
 								<?php if($_thread['closed'] > 0) { ?><i class="icon-lock"></i><?php } ?>
 								
 							</div>
-							<dl class="row small">
-								<dt>
-									<a href="<?php echo url("user-$_thread[uid]");?>" class="username text-grey m-r-xs <?php echo $_thread['lastuid'] ? 'hidden-md-down' : ''; ?>"><?php echo $_thread['username'];?></a>
-									<span class="date text-grey <?php echo $_thread['lastuid'] ? 'hidden-md-down' : ''; ?>"><?php echo $_thread['create_date_fmt'];?></span>
+							<div class="row small justify-content-between m-0">
+								<div>
+									<a href="<?php echo url("user-$_thread[uid]");?>" class="username text-grey mr-xs"><?php echo $_thread['username'];?></a>
+									<span class="date text-grey"><?php echo $_thread['create_date_fmt'];?></span>
 									
 									<!--{hook thread_list_inc_lastuid_before.htm}-->
 									
 									<?php if($_thread['lastuid']) { ?>
 									<span>
-										<span class="text-grey m-x-sm">←</span>
-										<a href="<?php echo url("user-$_thread[lastuid]");?>" class="username text-grey m-r-xs"><?php echo $_thread['lastusername'];?></a>
+										<span class="text-grey mx-1">←</span>
+										<a href="<?php echo url("user-$_thread[lastuid]");?>" class="username text-grey mr-1"><?php echo $_thread['lastusername'];?></a>
 										<span class="text-grey"><?php echo $_thread['last_date_fmt'];?></span>
 									</span>
 									<?php } ?>
 									
 									<!--{hook thread_list_inc_lastuid_after.htm}-->
 									 
-								</dt>
-								<dd class="text-right text-grey">
+								</div>
+								<div class="text-right text-grey">
 									<!--{hook thread_list_inc_view_before.htm}-->
-									<span class="m-r-1"><i class="icon-eye"></i> <?php echo $_thread['views'];?></span>
-									<span class="hidden-xs-down m-r-1"><i class="icon-comment"></i> <?php echo $_thread['posts'];?></span>
+									<span class="ml-2"><i class="icon-eye"></i> <?php echo $_thread['views'];?></span>
+									<span class="ml-2"><i class="icon-comment"></i> <?php echo $_thread['posts'];?></span>
 									<!--{hook thread_list_inc_posts_after.htm}-->
-								</dd>
-							</dl>
+								</div>
+							</div>
 						</td>
 						
 					</tr>

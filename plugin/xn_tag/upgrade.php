@@ -10,10 +10,10 @@
 $tablepre = $db->tablepre;
 
 
-$sql = "ALTER TABLE {$tablepre}tag_cate ADD COLUMN defaulttagid int(11) unsigned NOT NULL DEFAULT '0'";
+$sql = "ALTER TABLE {$tablepre}tag_cate ADD COLUMN defaulttagid int(10) unsigned NOT NULL DEFAULT '0'";
 $r = db_exec($sql);
 
-$sql = "ALTER TABLE {$tablepre}tag_cate ADD COLUMN isforce int(11) unsigned NOT NULL DEFAULT '0'";
+$sql = "ALTER TABLE {$tablepre}tag_cate ADD COLUMN isforce int(10) unsigned NOT NULL DEFAULT '0'";
 $r = db_exec($sql);
 
 // tag 缓存的时间

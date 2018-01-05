@@ -4,27 +4,33 @@
 	<div class="col-lg-6 offset-lg-3">
 		<div class="card">
 			<!--{hook user_create_card_title.htm}-->
-			<div class="card-block">
-				<h4 class="card-title"><?php echo lang('user_resetpw');?></h4>
+			<div class="card-header">
+				<?php echo lang('user_resetpw');?>
+				<!--{hook user_login_title_after.htm}-->
+			</div>
+			<div class="card-body">
 				<form action="<?php echo url('user-resetpw');?>" method="post" id="form">
-					<p class="input-group">
-						<span class="input-group-addon"><i class="icon icon-envelope"></i></span>
+					<div class="form-group input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="icon-envelope"></i></span>
+						</div>
 						<input type="text" class="form-control" placeholder="<?php echo lang('email');?>" name="email" id="email">
-					</p>
-					<dl class="row">
-						<dt style="width: 68%">
-							<p class="input-group">
-								<span class="input-group-addon"><i class="icon icon-key"></i></span>
+						<div class="invalid-feedback"></div>
+					</div>
+					<div class="media">
+						<div class="media-body">
+							<div class="form-group input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="icon-key"></i></span>
+								</div>
 								<input type="text" class="form-control" placeholder="<?php echo lang('verify_code');?>" name="verify_code" id="verify_code">
-							</p>
-						</dt>
-						<dd class="text-right vtop">
+							</div>
+						</div>
+						<div class="ml-1 mt-1">
 							<button type="submit" class="btn btn-primary btn-sm m-l-1" id="send" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-resetpw_sendcode');?>"><?php echo lang('send_verify_code');?></button>
-						</dd>
-					</dl>
-					<p>
-						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." <?php if($conf['user_create_email_on']) { ?>disabled<?php } ?>><?php echo lang('next_step');?></button>
-					</p>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." <?php if($conf['user_create_email_on']) { ?>disabled<?php } ?>><?php echo lang('next_step');?></button>
 				</form>
 			</div>
 		</div>

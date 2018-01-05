@@ -4,30 +4,34 @@
 
 <div class="row">
 	<div class="col-lg-10 offset-lg-1">
-		<div class="card card-block">
-			<form action="<?php echo url('search');?>" id="form">
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="<?php echo lang('keyword');?>" name="keyword" value="<?php echo $keyword_decode;?>">
-					<span class="input-group-btn">
-						<button class="btn btn-primary" type="submit" id="submit"><?php echo lang('search');?></button>
-					</span>
-				</div>
-				<?php if($search_type == 'like' || $search_type == 'fulltext') { ?>
-				<div class="form-group">
-					<?php if($search_range == 0 || $search_range == 1) { ?>
-					<label class="form-check-inline">
-					<input class="form-check-input" type="radio" name="range" value="1" <?php echo $range == '1' ? 'checked' : '';?>> 主题贴
-					</label>
+		<div class="card">
+			<div class="card-body">
+				<form action="<?php echo url('search');?>" id="form">
+				
+					<div class="input-group mb-3">
+						<input type="text" class="form-control" placeholder="<?php echo lang('keyword');?>" name="keyword" value="<?php echo $keyword_decode;?>">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="submit" id="submit"><?php echo lang('search');?></button>
+						</div>
+					</div>
+				
+					<?php if($search_type == 'like' || $search_type == 'fulltext') { ?>
+					<div class="form-group">
+						<?php if($search_range == 0 || $search_range == 1) { ?>
+						<label class="form-check-inline">
+						<input class="form-check-input" type="radio" name="range" value="1" <?php echo $range == '1' ? 'checked' : '';?>> 主题贴
+						</label>
+						<?php } ?>
+	
+						<?php if($search_range == 0 || $search_range == 2) { ?>
+						<label class="form-check-inline">
+							<input class="form-check-input" type="radio" name="range" value="0" <?php echo $range == '0' ? 'checked' : '';?>> 所有贴
+						</label>
+						<?php } ?>
+					</div>
 					<?php } ?>
-
-					<?php if($search_range == 0 || $search_range == 2) { ?>
-					<label class="form-check-inline">
-						<input class="form-check-input" type="radio" name="range" value="0" <?php echo $range == '0' ? 'checked' : '';?>> 所有贴
-					</label>
-					<?php } ?>
-				</div>
-				<?php } ?>
-			</form>
+				</form>
+			</div>
 		</div>
 
 		<?php if($keyword) { ?>
@@ -35,9 +39,10 @@
 		<?php if($range == 1) { ?>
 
 		<?php if($threadlist) { ?>
+		
 		<div class="card">
 			<div class="card-header">
-				<ul class="nav nav-tabs card-header-tabs pull-xs-left">
+				<ul class="nav nav-tabs card-header-tabs">
 					<li class="nav-item">
 						<a class="nav-link <?php echo $active == 'default' ? 'active' : '';?>" href="./">
 							<?php echo lang('thread_list');?>
@@ -46,7 +51,7 @@
 					<!--{hook search_thread_list_nav_item_after.htm}-->
 				</ul>
 			</div>
-			<div class="card-block">
+			<div class="card-body">
 				<table class="table table-hover threadlist">
 					<tbody>
 						<!--{hook search_threadlist_before.htm}-->
@@ -56,12 +61,19 @@
 				</table>
 			</div>
 		</div>
+		
 		<?php } else { ?>
-		<div class="card card-block">
-			无结果
+		
+		<div class="card">
+			<div class="card-body">
+				无结果
+			</div>
 		</div>
+		
 		<?php } ?>
+		
 		<?php include _include(APP_PATH.'view/htm/thread_list_mod.inc.htm');?>
+		
 		<!--{hook search_page_before.htm}-->
 		<nav class="text-center">
 			<ul class="pagination">
@@ -72,29 +84,30 @@
 
 		<?php } elseif($range == 0) { ?>
 
-
-		<div class="card post p-a-sm">
-			<table class="table table-hover postlist m-b-0">
-				<thead>
-					<tr>
-						<th colspan="2" class="p-a-0  p-b-sm">
-							<dl class="row">
-								<dt>
-									<b><?php echo lang('post_list');?></b>
-								</dt>
-								<dd>
-									<!--{hook thread_post_list_title_right.htm}-->
-								</dd>
-							</dl>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php include _include(APP_PATH.'view/htm/post_list.inc.htm'); ?>
-				</tbody>
-			</table>
+		
+		<div class="card">
+			<div class="card-body">
+				<div class="card-title">
+					<div class="media">
+						<div>
+							<?php echo lang('post_list');?>
+						</div>
+						<div class="media-body text-right">
+							<!--{hook search_post_list_title_right.htm}-->
+						</div>
+					</div>
+				</div>
+				<div class="postlist">
+					<table class="table table-hover">
+						<tbody>
+							<!--{hook search_postlist_before.htm}-->
+							<?php include _include(APP_PATH.'view/htm/post_list.inc.htm'); ?>
+							<!--{hook search_postlist_before.htm}-->
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
-
 
 		<?php } ?>
 		<?php } ?>
@@ -113,18 +126,18 @@
 <?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
 
 <script>
-	var jform = $('#form');
-	var jsubmit = $('#submit');
-	var jrange = jform.find('input[name="range"]');
-	var jkeyword = jform.find('input[name="keyword"]');
-	jform.on('submit', function() {
-		var range = jrange.checked();
-		var keyword = jkeyword.val();
-		window.location = xn.url('search-' + xn.urlencode(keyword) + '-' + range);
-		return false;
-	});
+var jform = $('#form');
+var jsubmit = $('#submit');
+var jrange = jform.find('input[name="range"]');
+var jkeyword = jform.find('input[name="keyword"]');
+jform.on('submit', function() {
+	var range = jrange.checked();
+	var keyword = jkeyword.val();
+	window.location = xn.url('search-' + xn.urlencode(keyword) + '-' + range);
+	return false;
+});
 
-	$('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');
+$('#nav_pc li[fid="<?php echo $fid;?>"]').addClass('active');
 </script>
 
 

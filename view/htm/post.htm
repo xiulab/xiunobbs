@@ -46,45 +46,41 @@
 <div class="row">
 	<div class="col-lg-10 offset-lg-1">
 		<div class="card">
-			<div class="card-block">
-				<h4 class="card-title"><?php echo $form_title; ?></h4>
+			<div class="card-header">
+				<?php echo $form_title; ?>
+			</div>
+			<div class="card-body">
 				<form action="<?php echo $form_action;?>" method="post" id="form">
 					<input type="hidden" name="doctype" value="<?php echo $form_doctype;?>" />
 					<input type="hidden" name="quotepid" value="<?php echo $quotepid;?>" />
 					
 					<!--{hook post_fid_before.htm}-->
 					<?php if($isfirst) { ?>
-					<div>
-						<fieldset class="form-group">
-							<!--{hook post_fid_select_before.htm}-->
-							<select class="custom-select m-r-sm" name="fid">
-								<?php foreach ($forumlist_allowthread as $forum) { ?>
-								<option value="<?php echo $forum['fid']; ?>"><?php echo $forum['name']; ?></option>
-								<?php } ?>
-							</select>
-							<!--{hook post_fid_select_after.htm}-->
-						</fieldset>
+					<div class="form-group">
+						<!--{hook post_fid_select_before.htm}-->
+						<select class="custom-select mr-1 w-auto" name="fid">
+							<?php foreach ($forumlist_allowthread as $forum) { ?>
+							<option value="<?php echo $forum['fid']; ?>"><?php echo $forum['name']; ?></option>
+							<?php } ?>
+						</select>
+						<!--{hook post_fid_select_after.htm}-->
 					</div>
 					<!--{hook post_subject_before.htm}-->
-					<div>
-						<fieldset class="form-group">
-							<input type="text" class="form-control" placeholder="<?php echo lang('subject');?>" name="subject" value="<?php echo $form_subject;?>" id="subject">
-						</fieldset>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="<?php echo lang('subject');?>" name="subject" value="<?php echo $form_subject;?>" id="subject">
 					</div>
 					<!--{hook post_subject_after.htm}-->
 					<?php } ?>
 					
-					
-					
-					<fieldset class="form-group">
+					<div class="form-group">
 						<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message" style="height: 300px;"><?php echo $form_message;?></textarea>
-					</fieldset>
+					</div>
 					
 					<!--{hook post_message_after.htm}-->
 
 					<div class="row">
 						<div class="col-lg-10 attachlist_parent">
-							<p class="small text-left"><label class="addattach" id="addattach"><i class="icon-folder-open-o"></i> <span><?php echo lang('add_attach');?></span><input type="file"  multiple="multiple" /></label></p>
+							<p class="small text-left"><label class="addattach" id="addattach"><i class="icon-folder-open-o"></i> <span><?php echo lang('add_attach');?></span><input type="file"  multiple="multiple" class="invisible" /></label></p>
 							
 							<?php echo post_file_list_html($filelist, TRUE);?>
 							
@@ -154,7 +150,7 @@ $('#addattach').on('change', function(e) {
 			var filetype = message.filetype;
 			var aid = message.aid;
 			
-			$('.attachlist').append('<li aid="' + aid + '"><a href="' + message.url + '" target="_blank"><i class="icon filetype ' + filetype + '"></i> ' + message.orgfilename + '</a> <a href="javascript:void(0);" class="delete m-l-1"><i class="icon-remove"></i> <?php echo lang('delete');?></a></li>');
+			$('.attachlist').append('<li aid="' + aid + '"><a href="' + message.url + '" target="_blank"><i class="icon filetype ' + filetype + '"></i> ' + message.orgfilename + '</a> <a href="javascript:void(0);" class="delete ml-2"><i class="icon-remove"></i> <?php echo lang('delete');?></a></li>');
 			callback();
 			jprogress.hide();
 			jprogress.val(0);
@@ -188,8 +184,8 @@ $('.attachlist_parent').on('click', 'a.delete', function() {
 })
 
 jform.find('[name="fid"]').checked(<?php echo $fid;?>);
-$('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');
-$('#nav_mobile li[fid="<?php echo $fid;?>"]').tab('show');
+$('#nav_pc li[fid="<?php echo $fid;?>"]').addClass('active');
+$('#nav_mobile li[fid="<?php echo $fid;?>"]').addClass('active');
 
 </script>
 

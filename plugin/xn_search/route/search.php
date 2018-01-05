@@ -5,7 +5,7 @@
 $keyword = param('keyword');
 empty($keyword) AND $keyword = param(1);
 $keyword = trim($keyword);
-$range = param(2, 1);
+$range = param(2, 0);
 $page = param(3, 1);
 
 $keyword_decode = search_keyword_safe(xn_urldecode($keyword));
@@ -55,7 +55,7 @@ if($keyword) {
 			//$arr = db_sql_find_one("SELECT COUNT(*) AS num FROM bbs_post_search WHERE MATCH(message) AGAINST ('$keyword_decode_against' IN BOOLEAN MODE)");
 			//$total = $arr['num'];
 
-			$total =10;
+			$total = 10;
 
 			$pagination = pagination(url("search-$keyword-$range-{page}"), $total, $page, $pagesize);
 
@@ -80,7 +80,7 @@ if($keyword) {
 
 		}
 		
-	} elseif($search_type == 'like') {
+	} elseif($search_type == 'like' || empty($search_type)) {
 		
 		if($range == 1) {
 			$threadlist = db_sql_find("SELECT * FROM bbs_thread WHERE subject LIKE '%$keyword_decode%' LIMIT 50;");

@@ -11,8 +11,8 @@
 					<!--{hook my_profile_nav_item_after.htm}-->
 				</ul>
 			</div>
-			<div class="card-block">
-				<table class="table table-hover threadlist">
+			<div class="card-body">
+				<table class="table table-hover threadlist mb-0">
 					<tbody>
 						<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
 					</tbody>
@@ -20,9 +20,11 @@
 			</div>
 		</div>
 		
+		<?php if($pagination) { ?>
 		<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>
+		<?php } ?>
 		
-		<a role="button" class="btn btn-secondary center-block" href="<?php echo url('my');?>"> <?php echo lang('back');?> </a>
+		<a role="button" class="btn btn-secondary btn-block" href="<?php echo url('my');?>"> <?php echo lang('back');?> </a>
 	</div>
 </div>
 

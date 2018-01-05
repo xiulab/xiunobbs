@@ -5,176 +5,182 @@
 <div class="row">
 	<div class="col-lg-9">
 		<!--{hook thread_breadcrumb_before.htm}-->
-		<ol class="breadcrumb m-b-sm hidden-lg-down">
+		<ol class="breadcrumb d-none d-md-flex">
 			<li class="breadcrumb-item"><a href="./" aria-label="<?php echo lang('index_page');?>"><i class="icon-home"></i></a></li>
 			<li class="breadcrumb-item"><a href="<?php echo url("forum-$fid");?>"><?php echo $forum['name'];?></a></li>
 			<li class="breadcrumb-item active"><a href="<?php echo url("thread-$tid");?>" title="<?php echo lang('index_page');?>返回主题第一页"><?php echo $thread['subject'];?></a></li>
 			<!--{hook thread_breadcrumb.htm}-->
 		</ol>
 		<!--{hook thread_breadcrumb_after.htm}-->
-		<div class="card card-block">
-			<dl class="row">
-				<dt class="vtop p-r-1 td-avatar">
+		
+		<div class="card">
+			<div class="card-body">
+				<div class="media">
 					<a href="<?php echo url("user-$thread[uid]");?>" tabindex="-1">
-						<img class="avatar" src="<?php echo $thread['user_avatar_url'];?>">
+						<img class="avatar mr-3" src="<?php echo $thread['user_avatar_url'];?>">
 					</a>
-				</dt>
-				<dd>
-					<!--{hook thread_subject_before.htm}-->
-					<h3 class="break-all">
-						<!--{hook thread_subject_start.htm}-->
-						<?php echo $thread['subject'];?>
-						<!--{hook thread_subject_end.htm}-->
-					</h3>
-					<!--{hook thread_subject_after.htm}-->
-					<dl class="row small">
-						<dt>
-							<!--{hook thread_username_before.htm}-->
-							<span class="username text-muted">
-								<a href="<?php echo url("user-$thread[uid]");?>"><?php echo $thread['username'];?></a>
-							</span>
-							<span class="date text-grey m-l-1"><?php echo $thread['create_date_fmt'];?></span>
-							<span class="text-grey m-l-1 hidden-md-down"><i class="icon-eye"></i> <?php echo $thread['views'];?></span>
-							<!--{hook thread_views_after.htm}-->
-						</dt>
-						<dd class="text-right">
-							<!--{hook thread_update_before.htm}-->
-							<?php if($allowupdate || $first['allowupdate']) { ?>
-							<a href="<?php echo url("post-update-$thread[firstpid]");?>" class="text-grey m-r-1 post_update"><i class="icon-edit"></i> <?php echo lang('edit');?></a>
-							<?php } ?>
-							
-							<?php if($allowdelete || $first['allowdelete']) { ?>
-							<a data-href="<?php echo url("post-delete-$thread[firstpid]");?>" href="javascript:void(0);" class="text-grey post_delete" isfirst="1"><i class="icon-remove"></i> <?php echo lang('delete');?></a>
-							<?php } ?>
-							<!--{hook thread_delete_after.htm}-->
-						</dd>
-					</dl>
-				</dd>
-			</dl>
-			<hr />
-			<div class="message break-all" isfirst="1">
-			<?php if($page == 1) { ?>
-			
-				<!--{hook thread_message_before.htm}-->
-				<?php echo $first['message_fmt'];?>
-				<!--{hook thread_message_after.htm}-->
+					<div class="media-body">
+						<!--{hook thread_subject_before.htm}-->
+						<h4 class="break-all">
+							<!--{hook thread_subject_start.htm}-->
+							<?php echo $thread['subject'];?>
+							<!--{hook thread_subject_end.htm}-->
+						</h4>
+						<!--{hook thread_subject_after.htm}-->
+						<div class="media small">
+							<div>
+								<!--{hook thread_username_before.htm}-->
+								<span class="username text-muted">
+									<a href="<?php echo url("user-$thread[uid]");?>"><?php echo $thread['username'];?></a>
+								</span>
+								<span class="date text-grey ml-2"><?php echo $thread['create_date_fmt'];?></span>
+								<span class="text-grey ml-2 hidden-md-down"><i class="icon-eye"></i> <?php echo $thread['views'];?></span>
+								<!--{hook thread_views_after.htm}-->
+							</div>
+							<div class="media-body text-right">
+								<!--{hook thread_update_before.htm}-->
+								<?php if($allowupdate || $first['allowupdate']) { ?>
+								<a href="<?php echo url("post-update-$thread[firstpid]");?>" class="text-grey mr-2 post_update"><i class="icon-edit"></i> <?php echo lang('edit');?></a>
+								<?php } ?>
+								
+								<?php if($allowdelete || $first['allowdelete']) { ?>
+								<a data-href="<?php echo url("post-delete-$thread[firstpid]");?>" href="javascript:void(0);" class="text-grey post_delete" isfirst="1"><i class="icon-remove"></i> <?php echo lang('delete');?></a>
+								<?php } ?>
+								<!--{hook thread_delete_after.htm}-->
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr />
+				<div class="message break-all" isfirst="1">
+				<?php if($page == 1) { ?>
 				
-				<?php echo post_file_list_html($first['filelist']);?>
-				<!--{hook thread_filelist_after.htm}-->
+					<!--{hook thread_message_before.htm}-->
+					<?php echo $first['message_fmt'];?>
+					<!--{hook thread_message_after.htm}-->
+					
+					<?php echo post_file_list_html($first['filelist']);?>
+					<!--{hook thread_filelist_after.htm}-->
+					
+				<?php } else { ?>
 				
-			<?php } else { ?>
-			
-				<!--{hook thread_message_more_before.htm}-->
-				<p><a href="<?php echo url("thread-$tid");?>"><?php echo lang('view_thread_message');?></a></p>
-				<!--{hook thread_message_more_after.htm}-->
-				
-			<?php } ?>
+					<!--{hook thread_message_more_before.htm}-->
+					<p><a href="<?php echo url("thread-$tid");?>"><?php echo lang('view_thread_message');?></a></p>
+					<!--{hook thread_message_more_after.htm}-->
+					
+				<?php } ?>
+				</div>
 			</div>
 		</div>
 		
 		<!--{hook thread_postlist_before.htm}-->
-		<div class="card post p-a-sm">
-			<table class="table postlist m-b-0">
-				<thead>
-					<tr>
-						<th colspan="2" class="p-a-0  p-b-sm">
-							<dl class="row">
-								<dt>
-									<b><?php echo lang('new_post');?></b> (<span class="posts"><?php echo $thread['posts'];?></span>)
-								</dt>
-								<dd>
-									<!--{hook thread_post_list_title_right.htm}-->
-								</dd>
-							</dl>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-				
-					<?php include _include(APP_PATH.'view/htm/post_list.inc.htm'); ?>
-					
-					<?php if(!empty($user)) { ?>
-					<tr class="post">
-						<td class="td-avatar">
-							<a href="<?php echo url("user-$thread[uid]");?>" tabindex="-1">
-								<img class="avatar" src="<?php echo $user['avatar_url'];?>">
-							</a>
-						</td>
-						<td class="p-l-0">
-							<form action="<?php echo url("post-create-$tid-1");?>" method="post" id="quick_reply_form">	
-								<input type="hidden" name="doctype" value="1" />
-								<input type="hidden" name="return_html" value="1" />
-								<input type="hidden" name="quotepid" value="0" />
-								<dl class="row small text-muted">
-									<dt class="username"><?php echo $user['username'];?></dt>
-									<dd class="text-right text-grey"><span class="floor"><?php echo ($thread['posts'] + 1);?></span><?php echo lang('floor');?></dd>
-								</dl>
-								<div class="message m-t-xs">
-									<fieldset class="form-group m-b-0">
-										<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message"></textarea>
-									</fieldset>
-								</div>
-								<div class="text-muted  m-t-sm small">
-									<dl class="row">
-										<dt>
-											<!--{hook thread_quick_reply_left_start.htm}-->
-											<button type="submit" class="btn btn-sm btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('post_create');?> </button>
-											<!--{hook thread_quick_reply_left_end.htm}-->
-										</dt>
-										<dd class="text-right vtop">
-											<!--{hook thread_quick_reply_right_start.htm}-->
-											<a class="icon-mail-forward text-muted" href="<?php echo url("post-create-$tid");?>" id="advanced_reply"> <?php echo lang('advanced_reply');?></a>
-											<!--{hook thread_quick_reply_right_end.htm}-->
-										</dd>
-									</dl>
-								</div>
-							</form>
-						</td>
-					</tr>
-					<?php } ?>
-				</tbody>
-			</table>
+		
+		<div class="card post">
+			<div class="card-body">
+				<div class="card-title">
+					<div class="media">
+						<div>
+							<b><?php echo lang('new_post');?></b> (<span class="posts"><?php echo $thread['posts'];?></span>)
+						</div>
+						<div class="media-body text-right">
+							<!--{hook thread_post_list_title_right.htm}-->
+						</div>
+					</div>
+				</div>
+				<div class="postlist">
+					<table class="table">
+						<tbody>
+							<?php include _include(APP_PATH.'view/htm/post_list.inc.htm'); ?>
+							
+							<?php if(!empty($user)) { ?>
+							<tr class="post">
+								<td class="td-avatar">
+									<a href="<?php echo url("user-$thread[uid]");?>" tabindex="-1">
+										<img class="avatar" src="<?php echo $user['avatar_url'];?>">
+									</a>
+								</td>
+								<td class="pl-0">
+									<form action="<?php echo url("post-create-$tid-1");?>" method="post" id="quick_reply_form">	
+										<input type="hidden" name="doctype" value="1" />
+										<input type="hidden" name="return_html" value="1" />
+										<input type="hidden" name="quotepid" value="0" />
+										<div class="media small text-muted">
+											<div><?php echo $user['username'];?></div>
+											<div class="media-body text-right">
+												<span class="floor"><?php echo ($thread['posts'] + 1);?></span><?php echo lang('floor');?>
+											</div>
+										</div>
+										<div class="message mt-1">
+											<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message"></textarea>
+										</div>
+										<div class="text-muted mt-2 small">
+											<div class="media">
+												<div>
+													<!--{hook thread_quick_reply_left_start.htm}-->
+													<button type="submit" class="btn btn-sm btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('post_create');?> </button>
+													<!--{hook thread_quick_reply_left_end.htm}-->
+												</div>
+												<div class="media-body text-right">
+													<!--{hook thread_quick_reply_right_start.htm}-->
+													<a class="icon-mail-forward text-muted" href="<?php echo url("post-create-$tid");?>" id="advanced_reply"> <?php echo lang('advanced_reply');?></a>
+													<!--{hook thread_quick_reply_right_end.htm}-->
+												</div>
+											</div>
+										</div>
+									</form>
+								</td>
+							</tr>
+							<?php } ?>
+							
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 		<!--{hook thread_postlist_after.htm}-->
 		
 		<?php if($pagination) { ?>
-		<nav class="text-center"><ul class="pagination m-y-xs"><?php echo $pagination; ?></ul></nav>
+		<nav class="text-center"><ul class="pagination my-4"><?php echo $pagination; ?></ul></nav>
 		<?php }?>
 		
 		<!--{hook thread_page_after.htm}-->
 		
-		<a role="button" class="btn btn-secondary btn-block xn-back m-y-1 m-x-auto" style="max-width: 50%;" href="javascript:history.back();"><?php echo lang('back');?></a>
+		<a role="button" class="btn btn-secondary btn-block xn-back w-50 mx-auto" href="javascript:history.back();"><?php echo lang('back');?></a>
 		
 	</div>
-	<div class="col-lg-3 hidden-md-down">
-		<a role="button" class="btn btn-primary btn-block btn-sm m-b-sm hidden-md-down" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
-		<div class="card hidden-md-down">
-			<!--{hook thread_user_before.htm}-->
-			<a href="<?php echo url("user-$thread[uid]");?>">
-				<img class="avatar-lg center-block m-t-1" src="<?php echo $thread['user_avatar_url'];?>">
-			</a>
-			<h5 class="text-xs-center"><?php echo $thread['username'];?></h5>
-			<div class="card-group card-group-nest">
-				<div class="card">
-					<div class="card-block">
-						<div class="text-xs-center text-muted small"><?php echo lang('threads');?></div>
-						<h5 class="text-xs-center"><?php echo $thread['user']['threads'];?></h5>
-					</div>
-				</div>
-				<div class="card">
-					<div class="card-block">
-						<div class="text-xs-center text-muted small"><?php echo lang('posts');?></div>
-						<h5 class="text-xs-center"><?php echo $thread['user']['posts'];?></h5>
-					</div>
-				</div>
-				<div class="card">
-					<div class="card-block">
-						<div class="text-xs-center text-muted small"><?php echo lang('create_rank');?></div>
-						<h5 class="text-xs-center"><?php echo $thread['user']['uid'];?></h5>
-					</div>
-				</div>
+	<div class="col-lg-3 d-none d-lg-block">
+	
+		<a role="button" class="btn btn-primary btn-block mb-4" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
+		
+		<div class="card">
+			<div class="m-3 text-center">
+				<img align="center" data-src="" alt="100%x180" src="<?php echo $forum['icon_url'];?>" width="100" height="100">
+				<h5><?php echo $forum['name'];?></h5>
+				<!--{hook forum_brief_before.htm}-->
+				<div class="text-left"><?php echo $forum['brief'];?></div>
+				<!--{hook forum_brief_before.htm}-->
+			</div>
+			<div class="card-footer p-2">
+				<table class="w-100 small">
+					<tr align="center">
+						<td>
+							<span class="text-muted"><?php echo lang('threads');?></span><br>
+							<b><?php echo $forum['threads'];?></b>
+						</td>
+						<td>
+							<span class="text-muted"><?php echo lang('today_posts');?></span><br>
+							<b><?php echo $forum['todayposts'];?></b>
+						</td>
+						<td>
+							<span class="text-muted"><?php echo lang('create_rank');?></span><br>
+							<b><?php echo $thread['user']['uid'];?></b>
+						</td>
+						<!--{hook forum_todaythreads_after.htm}-->
+					</tr>
+				</table>
 			</div>
 		</div>
+		
 		<!--{hook thread_user_after.htm}-->
 		
 	</div>
@@ -195,7 +201,7 @@ jform.on('submit', function() {
 		if(code == 0) {
 			var s = '<table>'+message+'</table>';
 			var jtr = $(s).find('tr');
-			jtr.insertBefore($('table.postlist tr').last());
+			jtr.insertBefore($('.postlist > table tr').last());
 			jsubmit.button('reset');
 			$('#message').val('');
 			
@@ -266,9 +272,7 @@ var jmessage = $('#message');
 jmessage.on('focus', function() {if(jmessage.t) { clearTimeout(jmessage.t); jmessage.t = null; } jmessage.css('height', '6rem'); });
 jmessage.on('blur', function() {jmessage.t = setTimeout(function() { jmessage.css('height', '2.5rem');}, 1000); });
 
-$('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');
-$('#nav_mobile li[fid="<?php echo $fid;?>"]').tab('show');
-
+$('#nav_pc li[fid="<?php echo $fid;?>"]').addClass('active');
 </script>
 
 <?php if($thread['closed'] && ($gid == 0 || $gid > 5)) { ?>

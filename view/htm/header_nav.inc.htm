@@ -1,168 +1,55 @@
-	
 	<!--{hook header_nav_start.htm}-->
-	
-	<nav class="navbar navbar-dark bg-inverse navbar-full navbar-fixed-top" id="header">
-	
-		<!-- PC 导航 -->
-		<div class="container collapse navbar-toggleable-md">
-			<div class="row">
-				<!-- 左侧：版块区域 -->
-				<div class="col-md-8">
-					<ul class="nav navbar-nav" id="nav_pc">
-					
-						<!--{hook header_nav_pc_start.htm}-->
-						
-						<!-- LOGO -->
-						<li class="nav-item"><img src="<?php echo $conf['view_url'];?>img/logo.png" class="logo-sm"></li>
-						
-						<!--{hook header_nav_logo_after.htm}-->
-						
-						<!-- 前台首页 -->
-						<li class="nav-item home" fid="0"><a class="nav-link" href="."><?php echo lang('index_page');?></a></li>
-						
-						<!--{hook header_nav_home_link_after.htm}-->
-						
-						<!-- 版块 -->
-						<?php foreach($forumlist_show as $_forum) { ?>
-						
-						<!--{hook header_nav_forumlist_loop_start.htm}-->
-						<li class="nav-item" fid="<?php echo $_forum['fid'];?>">
-							<a class="nav-link" href="<?php echo url("forum-$_forum[fid]");?>"><?php echo $_forum['name'];?></a>
-						</li>
-						<!--{hook header_nav_forumlist_loop_end.htm}-->
-						
-						<?php } ?>
-						
-						<!--{hook header_nav_pc_end.htm}-->
-						
-					</ul>
-				</div>
-				<!-- 右侧：用户区域-->
-				<div class="col-md-4">
-					<ul class="nav navbar-nav pull-right">
-					
-						<!--{hook header_nav_pc_user_start.htm}-->
-						
-						<!-- 游客 -->
-						<?php if(empty($uid)) { ?>
-						
-						<li class="nav-item"><a class="nav-link" href="<?php echo url('user-login');?>"><?php echo lang('login');?></a></li>
-						<li class="nav-item"><a class="nav-link" href="<?php echo url('user-create');?>"><?php echo lang('register');?></a></li>
-						
-						<!-- 登陆用户 -->
-						<?php } else { ?>
-						
-						<li class="nav-item"><a class="nav-link" href="<?php echo url('my');?>" tabindex="-1"><img class="avatar-xs" src="<?php echo $user['avatar_url'];?>"></a></li>
-						<li class="nav-item username m-l-xs"><a class="nav-link" href="<?php echo url('my');?>"><?php echo $user['username'];?></a></li>
-						<!-- 管理员 -->
-						<?php if($gid == 1) { ?>
-						<li class="nav-item"><a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_page');?></a></li>
-						<?php } ?>
-						<li class="nav-item"><a class="nav-link" href="<?php echo url('user-logout');?>"><?php echo lang('logout');?></a></li>
-						
-						<?php } ?>
-						
-						<!--{hook header_nav_pc_user_end.htm}-->
-					</ul>
-				</div>
-			</div>
-		</div>
-		
-		
-		
-		
-		
-		
-		
-		
-		<!-- 手机导航 -->
-
-		<table width="100%" class="hidden-lg-up navbar-nav">
-			<tr>
-				<td width="100">
-					<?php if($route == 'index' || $route == 'forum') { ?>
-					<a class="icon-navicon navbar-toggler" role="button" data-toggle="collapse" data-target="#mobile_collapsing_bavbar"></a>
-					 <?php } else { ?>
-					 <div class="nav-item">
-						 <a class="nav-link icon-chevron-left xn-back" href="javascript:history.back();" aria-label="<?php echo lang('back');?>"></a>
-					 </div>
-					 <?php } ?>
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+		<div class="container">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav_pc" aria-controls="navbar_collapse" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<!--{hook header_nav_pc_start.htm}-->
+			<a class="navbar-brand" href="<?php echo $header['mobile_link'];?>">
+				<img src="<?php echo $conf['view_url'];?>img/logo.png" class="logo-sm center-block">
+				<?php if($header['mobile_title']) { ?>
+					<span class="d-md-none"><?php echo $header['mobile_title'];?></span>
+				<?php } ?>
+			</a>
 			
-				</td>
-				<td>
-					<a class="nav-link text-center" href="<?php echo $header['mobile_link'];?>">
-					<?php if($header['mobile_title']) { ?>
-						<?php echo $header['mobile_title'];?>
-					<?php } else { ?>
-						<img src="<?php echo $conf['view_url'];?>img/logo.png" class="logo-sm center-block">
-					<?php } ?>
-					</a>
-
-				</td>
-				<td width="100" align="right">
-					<?php if(empty($uid)) { ?>
-						<a class="nav-link m-r-xs" href="<?php echo url('user-login');?>" aria-label="<?php echo lang('login');?>"> <i class="icon-user  icon-2x"></i></a>
-					<?php } else { ?>
-						
-					<?php if($route != 'thread') { ?>
-						<a class="nav-link icon-edit icon" href="<?php echo url("thread-create-$fid");?>" aria-label="<?php echo lang('thread_create');?>"></a>
-					<?php } else { ?>
-						<a class="nav-link icon-reply icon" href="<?php echo url("post-create-$tid");?>" aria-label="<?php echo lang('post_create_new');?>"></a>
-					<?php } ?>
-						
-					<?php } ?>
-
-				</td>
-			</tr>
-		</table>
-	
-		
-		<!-- 手机导航：下拉菜单 mobile navigation drop menu -->
-		<div class="collapse" id="mobile_collapsing_bavbar" style="overflow-y: auto;">
-			<div class="p-a-1">
-				<ul class="nav navbar-nav" id="nav_mobile">
-					<li class="nav-item">
-						<a class="nav-link" href="./"><i class="icon-home"></i> <?php echo lang('index_page');?></a>
-					</li>
-					
-					<!--{hook header_nav_mobile_forum_before.htm}-->
-					
+			<?php if(empty($uid)) { ?>
+				<a class="navbar-brand d-md-none" href="<?php echo url('user-login');?>" aria-label="<?php echo lang('login');?>"> <i class="icon-user icon"></i></a>
+			<?php } else { ?>
+				<a class="navbar-brand d-md-none" href="<?php echo url("thread-create-$fid");?>" aria-label="<?php echo lang('thread_create');?>"><i class="icon-edit icon"></i></a>
+			<?php } ?>
+			
+			<!--{hook header_nav_logo_after.htm}-->
+			<div class="collapse navbar-collapse" id="nav_pc">
+				<!-- 左侧：版块 -->
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item home" fid="0"><a class="nav-link" href="."><?php echo lang('index_page');?></a></li>
+					<!--{hook header_nav_home_link_after.htm}-->
 					<?php foreach($forumlist_show as $_forum) { ?>
+					<!--{hook header_nav_forumlist_loop_start.htm}-->
 					<li class="nav-item" fid="<?php echo $_forum['fid'];?>">
-						<a class="nav-link m-l-2" href="<?php echo url("forum-$_forum[fid]");?>"><i class="icon-circle-blank"></i> <?php echo $_forum['name'];?></a>
+						<a class="nav-link" href="<?php echo url("forum-$_forum[fid]");?>"><?php echo $_forum['name'];?></a>
 					</li>
+					<!--{hook header_nav_forumlist_loop_end.htm}-->
 					<?php } ?>
-					
-					<!--{hook header_nav_mobile_forum_after.htm}-->
-					
-					<!-- 个人资料 / profile -->
-					<?php if($uid) { ?>
-					<li class="nav-item">
-						<a class="nav-link" href="<?php echo url('my');?>"><i class="icon-user"></i> <?php echo lang('user_profile');?></a>
-					</li>
-					<?php } ?>
-					
-					<!-- 后台 / background -->
+					<!--{hook header_nav_pc_end.htm}-->
+				</ul>
+				<!-- 右侧：用户 -->
+				<ul class="navbar-nav">
+					<!--{hook header_nav_pc_user_start.htm}-->
+				<?php if(empty($uid)) { ?>
+					<li class="nav-item"><a class="nav-link" href="<?php echo url('user-login');?>"><i class="icon-user"></i> <?php echo lang('login');?></a></li>
+					<!--<li class="nav-item"><a class="nav-link" href="<?php echo url('user-create');?>"><?php echo lang('register');?></a></li>-->
+				<?php } else { ?>
+					<li class="nav-item username"><a class="nav-link" href="<?php echo url('my');?>"><img class="avatar-xs" src="<?php echo $user['avatar_url'];?>"> <?php echo $user['username'];?></a></li>
+					<!-- 管理员 -->
 					<?php if($gid == 1) { ?>
-					<li class="nav-item">
-						<a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_page');?></a>
-					</li>
+					<li class="nav-item"><a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_page');?></a></li>
 					<?php } ?>
-					
-					<!--{hook header_nav_mobile_logout_before.htm}-->
-					
-					<!-- 退出 / logout-->
-					<?php if($uid) { ?>
-					<li class="nav-item">
-						<a class="nav-link" href="<?php echo url('user-logout');?>"><i class="icon-power-off"></i> <?php echo lang('logout');?></a>
-					</li>
-					<?php } ?>
-					
-					<!--{hook header_nav_mobile_logout_after.htm}-->
+					<li class="nav-item"><a class="nav-link" href="<?php echo url('user-logout');?>"><i class="icon-user-times"></i> <?php echo lang('logout');?></a></li>
+				<?php } ?>
+					<!--{hook header_nav_pc_user_end.htm}-->
 				</ul>
 			</div>
 		</div>
-		
 	</nav>
-	
 	<!--{hook header_nav_footer.htm}-->

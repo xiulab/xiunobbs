@@ -26,6 +26,7 @@ function form_checkbox($name, $checked = 0, $txt = '') {
 	return $s;
 }
 
+/*
 function form_multi_checkbox($name, $arr, $checked = array()) {
 	$s = '';
 	foreach($arr as $k=>$v) {
@@ -34,6 +35,7 @@ function form_multi_checkbox($name, $arr, $checked = array()) {
 	}
 	return $s;
 }
+*/
 
 function form_select($name, $arr, $checked = 0, $id = TRUE) {
 	if(empty($arr)) return '';

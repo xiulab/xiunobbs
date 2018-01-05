@@ -2,25 +2,23 @@
 
 <div class="row">
 	<div class="col-lg-6 offset-lg-3">
-		<div class="card card-block m-t-1">
-			<h4 class="card-title"><?php echo lang('modify_avatar');?></h4>
-			<div style="width: 60%; margin: auto;">
-				<p class="text-center">
+		<div class="card">
+			<div class="card-header"><?php echo lang('modify_avatar');?></div>
+			<div class="card-body text-center">
+				<div class="form-group">
 					<img id="avatar_img" class="avatar-lg" src="<?php echo $user['avatar_url'];?>">
-				</p>
-				<p class="text-center">
-					<!--
-					<label class="file">
-						<input type="file" id="file">
-						<span class="file-custom"></span>
-					</label>
-					-->
-					<input type="file" id="avatar_upload" accept="image/gif,image/jpeg,image/png,image/jpg,image/bmp"  class="upload" style="width: 200px; opacity: 0.7" value="<?php echo lang('modify_avatar');?>"/>
-				</p>
-				<progress class="progress progress-success" value="0" max="100" id="avatar_progress">0%</progress>
+				</div>
+				<div class="form-group custom-file">
+					<input type="file" id="avatar_upload" accept="image/gif,image/jpeg,image/png,image/jpg,image/bmp"  class="upload custom-file-input" value="<?php echo lang('modify_avatar');?>"/>
+					<label class="custom-file-label" for="customFile">Choose file</label>
+				</div>
+				<div class="progress mt-2">
+					<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"  id="avatar_progress"></div>
+				</div>
 			</div>
 		</div>
-		<a role="button" class="btn btn-secondary center-block" href="<?php echo url('my');?>"> <?php echo lang('back');?> </a>
+		<a role="button" class="btn btn-secondary btn-block" href="<?php echo url('my');?>"> <?php echo lang('back');?> </a>
+		
 	</div>
 </div>
 
@@ -30,9 +28,9 @@
 var javatar_upload = $('#avatar_upload');
 var jprogress = $('#avatar_progress');
 var jimg = $('#avatar_img');
+jprogress.hide();
 javatar_upload.on('change', function(e) {
 	var files = xn.get_files_from_event(e);
-	jprogress.val(0);
 	xn.upload_file(
 		files[0], 
 		xn.url('my-avatar'), 
@@ -40,12 +38,15 @@ javatar_upload.on('change', function(e) {
 		function(code, message) {
 			if(code == 0) {
 				jimg.attr('src', message.url+'?'+Math.random());
+				$.alert('成功');
+				jprogress.delay(1000).hide();
 			} else {
 				$.alert(message);
 			}
 		}, 
 		function(percent) {
-			jprogress.val(percent);
+			jprogress.show();
+			jprogress.width(percent+'%');
 		}
 	);
 });

@@ -3,8 +3,8 @@
     "brief": "友情链接管理，在首页右侧显示友情链接列表。",
     "version": "1.2",
     "bbs_version": "4.0",
-    "installed": 0,
-    "enable": 0,
+    "installed": 1,
+    "enable": 1,
     "hooks_rank": [],
     "dependencies": []
 }

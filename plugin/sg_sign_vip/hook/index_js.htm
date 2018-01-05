@@ -1,0 +1,20 @@
+<script><?php $sg_sign = db_find_one('sg_sign', array('uid'=>$uid));$sg_sign_set = db_find_one('sg_sign_set', array('id'=>1)); ?>
+var sg_sign = $('#sg_sign');
+var sign = $('#sign');
+var peo = $('#peo');
+var day = $('#day');
+var s1 = '<?php if($sg_sign['stime'] > strtotime('today')) { echo lang('sg_sign29');}else{ echo lang('sg_sign30');} ?>'; 
+var s2 = '<?php if(isset($sg_sign_set['sg_sign'])) { echo $sg_sign_set['sg_sign'];}else{ echo '0';}  echo lang('sg_sign28');?>'; 
+var s3 = '<?php echo lang('sg_sign35'); if(isset($sg_sign['keepdays'])) { echo $sg_sign['keepdays'];}else{ echo '0';}  echo lang('sg_sign21');?>'; 
+var sign = sign.html(s1);
+var peo = peo.html(s2);
+var day = day.html(s3);
+sg_sign.on('click', function() {
+	var postdata = sg_sign.serialize();
+	$.xpost(xn.url('sg_sign'), postdata, function(code, message) {
+			$.alert(message);
+			sg_sign.delay(1000).location(xn.url('sg_sign'));
+	});
+	return false;
+});
+</script>

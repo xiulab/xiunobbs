@@ -1,0 +1,11 @@
+<script>
+var sg_sign_mobile = $('#sg_sign_mobile');
+sg_sign_mobile.on('click', function() {
+	var postdata = sg_sign_mobile.serialize();
+	$.xpost(xn.url('sg_sign'), postdata, function(code, message) {
+			$.alert(message);
+			sg_sign_mobile.delay(2000).location(xn.url('sg_sign'));
+	});
+	return false;
+});
+</script>

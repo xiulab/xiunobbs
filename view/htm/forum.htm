@@ -2,13 +2,10 @@
 
 <!--{hook forum_start.htm}-->
 
-<!-- only for screenreader  -->
-<a role="button" class="sr-only sr-focusable" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
-
 <div class="row">
 	<div class="col-lg-9">
 		<!--{hook forum_breadcrumb_before.htm}-->
-		<ol class="breadcrumb m-b-sm hidden-md-down">
+		<ol class="breadcrumb d-none d-md-flex">
 			<li class="breadcrumb-item"><a href="./"><i class="icon-home" aria-hidden="true"></i></a></li>
 			<li class="breadcrumb-item active"><a href="<?php echo url("forum-$fid");?>"><?php echo $forum['name'];?></a></li>
 			<!--{hook forum_breadcrumb.htm}-->
@@ -25,8 +22,8 @@
 					<!--{hook forum_thread_list_nav_item_after.htm}-->
 				</ul>
 			</div>
-			<div class="card-block">
-				<table class="table table-hover threadlist">
+			<div class="card-body">
+				<table class="table table-hover threadlist mb-0">
 					<tbody>
 						<!--{hook forum_threadlist_before.htm}-->
 						<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
@@ -41,36 +38,39 @@
 		<nav class="text-center"><ul class="pagination"><?php echo $pagination; ?></ul></nav>
 		<!--{hook forum_page_after.htm}-->
 	</div>
-	<div class="col-lg-3 hidden-md-down">
-		<a role="button" class="btn btn-primary btn-block btn-sm m-b-sm hidden-md-down" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
+	<div class="col-lg-3 d-none d-lg-block">
+	
+		<a role="button" class="btn btn-primary btn-block mb-4" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
+		
 		<div class="card">
-			<img class="center-block m-t-1" data-src="holder.js/100%x180" alt="100%x180" src="<?php echo $forum['icon_url'];?>" width="100" height="100">
-			<h4 class="text-center"><?php echo $forum['name'];?></h4>
-			<!--{hook forum_brief_before.htm}-->
-			<p class="m-x-1 text-middle"><?php echo $forum['brief'];?></p>
-			<!--{hook forum_brief_before.htm}-->
-			<div class="card-group card-group-nest">
-				<div class="card">
-					<div class="card-block">
-						<div class="text-center text-muted small"><?php echo lang('threads');?></div>
-						<h5 class="text-center"><?php echo $forum['threads'];?></h5>
-					</div>
-				</div>
-				<div class="card">
-					<div class="card-block">
-						<div class="text-center text-muted small"><?php echo lang('today_posts');?></div>
-						<h5 class="text-center"><?php echo $forum['todayposts'];?></h5>
-					</div>
-				</div>
-				<div class="card">
-					<div class="card-block">
-						<div class="text-center text-muted small"><?php echo lang('today_threads');?></div>
-						<h5 class="text-center"><?php echo $forum['todaythreads'];?></h5>
-					</div>
-				</div>
-				<!--{hook forum_todaythreads_after.htm}-->
+			<div class="m-3 text-center">
+				<img align="center" data-src="" alt="100%x180" src="<?php echo $forum['icon_url'];?>" width="100" height="100">
+				<h5><?php echo $forum['name'];?></h5>
+				<!--{hook forum_brief_before.htm}-->
+				<div class="text-left"><?php echo $forum['brief'];?></div>
+				<!--{hook forum_brief_before.htm}-->
+			</div>
+			<div class="card-footer p-2">
+				<table class="w-100 small">
+					<tr align="center">
+						<td>
+							<span class="text-muted"><?php echo lang('threads');?></span><br>
+							<b><?php echo $forum['threads'];?></b>
+						</td>
+						<td>
+							<span class="text-muted"><?php echo lang('today_posts');?></span><br>
+							<b><?php echo $forum['todayposts'];?></b>
+						</td>
+						<td>
+							<span class="text-muted"><?php echo lang('today_threads');?></span><br>
+							<b><?php echo $forum['todaythreads'];?></b>
+						</td>
+						<!--{hook forum_todaythreads_after.htm}-->
+					</tr>
+				</table>
 			</div>
 		</div>
+		
 		<!--{hook forum_mod_before.htm}-->
 		<?php if($forum['announcement'] || $forum['modlist']) { ?>
 		<div class="card card-block">
@@ -104,7 +104,7 @@
 <?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
 
 <script>
-$('#nav_pc li[fid="<?php echo $fid;?>"]').tab('show');
+$('#nav_pc li[fid="<?php echo $fid;?>"]').addClass('active');
 </script>
 
 <!--{hook forum_js.htm}-->

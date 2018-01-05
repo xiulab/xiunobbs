@@ -1,37 +1,40 @@
 <?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
 
 <!--{hook my_index_start.htm}-->
+
 <div class="row">
 	<div class="col-lg-6 offset-lg-3">
-		<div class="card card-block m-t-1">
-			<img class="avatar-lg center-block" src="<?php echo $user['avatar_url']; ?>">
-			<h4 class="text-center"><?php echo $user['username']; ?></h4>
-			<p class="text-center">[<?php echo $user['groupname']; ?>]</p>
-			<!--{hook my_index_groupname_before.htm}-->
-			<hr />
-			<div class="row">
-			
-				<!--{hook my_index_profile_before.htm}-->
-				<div class="col-xs-6 col-sm-3 m-b-1 text-center">
-					<a href="<?php echo url('my-profile'); ?>"><i class="icon-cog icon-2x"></i></a><br>
-					<a href="<?php echo url('my-profile'); ?>"><?php echo lang('my_profile'); ?></a>
+		<div class="card">
+			<div class="card-body text-center">
+				<img class="avatar-lg" src="<?php echo $user['avatar_url']; ?>">
+				<h4><?php echo $user['username']; ?></h4>
+				<div>[<?php echo $user['groupname']; ?>]</div>
+				<!--{hook my_index_groupname_before.htm}-->
+			</div>
+			<div class="card-footer">
+				<div class="row text-center">
+					<!--{hook my_index_profile_before.htm}-->
+					<div class="col-3">
+						<a href="<?php echo url('my-profile'); ?>"><i class="icon-cog icon-2x"></i></a><br>
+						<a href="<?php echo url('my-profile'); ?>"><?php echo lang('my_profile'); ?></a>
+					</div>
+					<!--{hook my_index_profile_after.htm}-->
+					<div class="col-3">
+						<a href="<?php echo url('my-password'); ?>"><i class="icon-lock icon-2x"></i></a><br>
+						<a href="<?php echo url('my-password'); ?>"><?php echo lang('modify_password'); ?></a>
+					</div>
+					<!--{hook my_index_password_after.htm}-->
+					<div class="col-3">
+						<a href="<?php echo url('my-avatar'); ?>"><i class="icon-user icon-2x"></i></a><br>
+						<a href="<?php echo url('my-avatar'); ?>"><?php echo lang('modify_avatar'); ?></i></a>
+					</div>
+					<!--{hook my_index_avatar_after.htm}-->
+					<div class="col-3">
+						<a href="<?php echo url('my-thread'); ?>"><i class="icon-comment icon-2x"></i></a><br>
+						<a href="<?php echo url('my-thread'); ?>"><?php echo lang('my_post'); ?></a>
+					</div>
+					<!--{hook my_index_thread_after.htm}-->
 				</div>
-				<!--{hook my_index_profile_after.htm}-->
-				<div class="col-xs-6 col-sm-3 m-b-1 text-center">
-					<a href="<?php echo url('my-password'); ?>"><i class="icon-lock icon-2x"></i></a><br>
-					<a href="<?php echo url('my-password'); ?>"><?php echo lang('modify_password'); ?></a>
-				</div>
-				<!--{hook my_index_password_after.htm}-->
-				<div class="col-xs-6 col-sm-3 m-b-1 text-center">
-					<a href="<?php echo url('my-avatar'); ?>"><i class="icon-user icon-2x"></i></a><br>
-					<a href="<?php echo url('my-avatar'); ?>"><?php echo lang('modify_avatar'); ?></i></a>
-				</div>
-				<!--{hook my_index_avatar_after.htm}-->
-				<div class="col-xs-6 col-sm-3 m-b-1 text-center">
-					<a href="<?php echo url('my-thread'); ?>"><i class="icon-comment icon-2x"></i></a><br>
-					<a href="<?php echo url('my-thread'); ?>"><?php echo lang('my_post'); ?></a>
-				</div>
-				<!--{hook my_index_thread_after.htm}-->
 			</div>
 		</div>
 	</div>
