@@ -727,6 +727,7 @@ $.xget = function(url, callback, retry) {
 		url: url,
 		dataType: 'text',
 		timeout: 15000,
+		xhrFields: {withCredentials: true},
 		success: function(r){
 			if(!r) return callback(-100, 'Server Response Empty!');
 			var s = xn.json_decode(r);
@@ -946,7 +947,7 @@ $.fn.base64_encode_file = function(width, height, action) {
 		jsubmit.button('disabled');
 		var file = obj.files[0];
 
-        // 创建一个隐藏域，用来保存 base64 数据
+       		// 创建一个隐藏域，用来保存 base64 数据
 		var jhidden = $('<input type="hidden" name="'+obj.name+'" />').appendTo(jform);
 		obj.name = '';
 

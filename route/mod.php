@@ -132,6 +132,7 @@ if($action == 'top') {
 		$fid = $thread['fid'];
 		$tid = $thread['tid'];
 		if(forum_access_mod($fid, $gid, 'allowmove')) {
+			if($fid == $newfid) continue;
 			thread_update($tid, array('fid'=>$newfid));
 			$arr = array(
 				'uid' => $uid,

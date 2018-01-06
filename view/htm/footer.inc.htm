@@ -44,6 +44,8 @@ var debug = DEBUG = <?php echo DEBUG; ?>;
 var url_rewrite_on = <?php echo $conf['url_rewrite_on'];?>;
 var forumarr = <?php echo xn_json_encode($forumarr);?>;
 var fid = <?php echo $fid;?>;
+var uid = <?php echo intval($uid);?>;
+var gid = <?php echo intval($gid);?>;
 </script>
 <script src="<?php echo $conf['view_url'];?>js/bbs.js<?php echo $static_version;?>"></script>
 <!--{hook footer_js_after.htm}-->
@@ -52,4 +54,5 @@ var fid = <?php echo $fid;?>;
 </body>
 </html>
 <!--{hook footer_end.htm}-->
+
 <?php echo cron_run();?>

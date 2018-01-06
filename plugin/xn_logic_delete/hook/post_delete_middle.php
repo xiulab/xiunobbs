@@ -1,9 +1,20 @@
 <?php exit;
 
+	// 是否为逻辑删除
+	$ishard = param(3, 0);
+
 	if($isfirst) {
-		thread_logic_delete($tid);
+		if($ishard) {
+			$group['allowharddelete'] AND thread_delete($tid);
+		} else {
+			thread_logic_delete($tid);
+		}
 	} else {
-		post_logic_delete($pid);
+		if($ishard) {
+			$group['allowharddelete'] AND post_delete($pid);
+		} else {
+			post_logic_delete($pid);
+		}
 	}
 
 	// hook post_delete_end.php

@@ -64,6 +64,7 @@ if(empty($action) || $action == 'create') {
 		'width'=>$width, 
 		'height'=>$height, 
 		'isimage'=>$is_image, 
+		'downloads'=>0, 
 		'aid'=>'_'.$n
 	);
 	$_SESSION['tmp_files'][$n] = $attach;
@@ -126,6 +127,8 @@ if(empty($action) || $action == 'create') {
 	
 	// php 输出
 	if($type == 'php') {
+
+		attach_update($aid, array('downloads+'=>1));
 		
 		$filesize = $attach['filesize'];
 		if(stripos($_SERVER["HTTP_USER_AGENT"], 'MSIE') !== FALSE || stripos($_SERVER["HTTP_USER_AGENT"], 'Edge') !== FALSE || stripos($_SERVER["HTTP_USER_AGENT"], 'Trident') !== FALSE) {

@@ -1,5 +1,7 @@
 <?php
 
+!defined('DEBUG') AND exit('Access Denied.');
+
 $action = param(1);
 
 if($action == 'download') {

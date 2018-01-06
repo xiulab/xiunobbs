@@ -1,7 +1,7 @@
 {
 	"name":"逻辑删除",
 	"brief":"逻辑删除。",
-	"version":"1.0",
+	"version":"2.0",
 	"bbs_version":"4.0",
 	"installed":0,
 	"enable":0,

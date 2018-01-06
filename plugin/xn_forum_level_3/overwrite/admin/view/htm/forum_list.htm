@@ -2,6 +2,10 @@
 
 <style>
 ul > li {list-style: none;}
+ul.level1 > li { margin-top: 3rem;}
+ul.level1 > li > table > tr > td > a > i { color: #d62828;}
+ul.level2 > li > table > tr > td > a > i { color: #e7ba58;}
+ul.level3 > li > table > tr > td > a > i { color: #8bca1d;}
 </style>
 
 <!--{hook admin_forum_list_start.htm}-->
@@ -12,13 +16,13 @@ ul > li {list-style: none;}
 	<tr>
 		<td width="30">
 			<a href="javascript:void(0);" @click="new_forum(forum.fup)" v-if="is_last"><i class="icon-plus"></i> </a>
-			<a href="javascript:void(0);" v-else><i class="icon-circle-thin text-grey"></i> </a>
+			<a href="javascript:void(0);" v-else><i class="icon-circle"></i> </a>
 		</td>
 		<td>
 			<input type="text" v-model="forum.name" class="form-control" placeholder="<?php echo lang('forum_name');?>" />
 		</td>
 		<td width="100">
-			<input type="text" v-model="forum.rank" class="form-control" placeholder="<?php echo lang('forum_rank');?>" />
+			<input type="text" v-model.lazy="forum.rank" class="form-control" placeholder="<?php echo lang('forum_rank');?>" type="number" />
 		</td>
 		<td width="50" align="center">
 			<img :src="'../'+forum.icon_url" width="32" :id="'img_'+forum.fid" />
@@ -27,7 +31,7 @@ ul > li {list-style: none;}
 			<input type="file" multiple="multiple" accept=".jpg,.jpeg,.png,.gif,.bmp" class="form-control" :name="'icon['+forum.fid+']'" value="" :data-assoc="'img_'+forum.fid" placeholder="<?php echo lang('forum_icon');?>" /></td>
 		<td width="100">
 			<a href="javascript:void(0);" @click="new_forum(forum.fid)" v-if="level != 3" class="m-l-sm"><i class="icon-plus"></i></a>
-			<a href="javascript:void(0);" @click="delete_forum(forum.fid)" class="m-l-sm"><i class="icon-remove text-danger"></i></a>
+			<a href="javascript:void(0);" @click="delete_forum(forum.fid)" class="m-l-sm"><i class="icon-trash"></i></a>
 			<a :href="forum_edit_link(forum.fid)" class="m-l-sm"><i class="icon-gear"></i></a>
 		</td>
 	</tr>
@@ -37,13 +41,13 @@ ul > li {list-style: none;}
 
 <form id="form">
 	<div id="forumlist">
-		<ul>
+		<ul class="level1">
 			<li v-for="(cate,index) in catelist" :fid="cate.fid">
 				<comp-forum :forum="cate" level="1" :is_last="index === catelist.length - 1"></comp-forum>
-				<ul v-if="cate.forumlist.length > 0">
+				<ul v-if="cate.forumlist.length > 0" class="level2">
 					<li v-for="(forum,index2) in cate.forumlist" :fid="forum.fid">
 						<comp-forum :forum="forum" level="2" :is_last="index2 === cate.forumlist.length - 1"></comp-forum>
-						<ul v-if="forum.forumlist.length > 0">
+						<ul v-if="forum.forumlist.length > 0" class="level3">
 							<li v-for="(sub,index3) in forum.forumlist" :fid="sub.fid">
 								<comp-forum :forum="sub" level="3" :is_last="index3 === forum.forumlist.length - 1"></comp-forum>
 							</li>
@@ -67,6 +71,8 @@ ul > li {list-style: none;}
 
 var forumlist = <?php echo xn_json_encode($forumlist_show);?>;
 var forumarr = <?php echo xn_json_encode($forumarr);?>;
+var forumlist_sorted = forumlist_sort(forumlist);
+
 
 //var forumobj = forumlist;
 
@@ -87,12 +93,24 @@ Vue.component('comp-forum', {
 	methods: {
 		// 同级增加
 	  	new_forum: function(fup) {
-	  		var arr = {fid: ++maxfid, fup: fup, name: "新版块", icon_url: "view/img/forum.png"};
-	  		console.log(app.forumlist);
+	  		var arr = {fid: ++maxfid, fup: fup, name: "新版块", icon_url: "view/img/forum.png", rank: 0};
 	  		app.forumlist.push(arr);
-	  		console.log(app.forumlist);
 	  	},
 	  	delete_forum: function(fid) {
+	  		$.xpost(xn.url('forum-delete-'+fid), function(code, message) {
+			  	if(code == 0) {
+			  		delete app.forumlist[fid];
+			  		app.forumlist = xn.array_filter(app.forumlist);
+			  		app.nextTick(function() {
+			  			alert('删除成功');
+			  		});
+			  		//window.location.reload();
+			  	} else {
+			  		alert(message);
+			  	}
+	  		});
+	  	},
+	  	delete_forum_all: function(fid) {
 	  		if(!window.confirm('确定删除版块（板块下的帖子会被一同清理）？')) return;
 	  		var fidarr = [];
 	  		for(var k in app.forumlist) {
@@ -103,6 +121,7 @@ Vue.component('comp-forum', {
 	  				fidarr.push(fid);
 	  			}
 	  		}
+	  		
 	  		// 删除第三级
 	  		for(var k in app.forumlist) {
 	  			var forum = app.forumlist[k];
@@ -110,19 +129,24 @@ Vue.component('comp-forum', {
 	  				delete app.forumlist[k];
 	  			}
 	  		}
-	  		$.xpost(xn.url('forum-delete-'+fid), function(code) {
+	  		
+	  		$.xpost(xn.url('forum-delete-'+fid), function(code, message) {
 			  	if(code == 0) {
 			  		alert('删除成功');
 			  	} else {
 			  		alert(message);
 			  	}
 	  		});
+	  		
 	  		//app.forumlist.push();
 	  		//app.forumlist.pop();
 	  		app.forumlist = xn.array_filter(app.forumlist);
 	  	},
 	  	forum_edit_link: function(fid) {
 	  		return xn.url("forum-update-"+fid);
+	  	},
+	  	show1: function() {
+	  		//alert(123);
 	  	}
   	}
 });
@@ -156,6 +180,8 @@ app = new Vue({
 					sublist.push(this.forumlist[k]);
 				}
 			}
+			// 排序
+			sublist = xn.arrlist_multisort(sublist, 'rank', false);
 			return sublist;
 		}
 	},
@@ -168,7 +194,6 @@ app = new Vue({
 		//alert('mounted');
 		
 		//$('#forumlist').on('click', function() {alert('fxxx');});
-		
 	}
 	
 });
@@ -199,6 +224,12 @@ $('body').on('click', 'table', function(e) {
 	//alert(123);
 });
 
+// 对 forumlist 按照 rank 进行排序。
+function forumlist_sort(forumlist) {
+	var arrlist = xn.array_values(forumlist);
+	xn.arrlist_multisort(arrlist, 'rank', false);
+	return arrlist;
+}
  </script>
 
 <!--{hook admin_forum_list_js.htm}-->

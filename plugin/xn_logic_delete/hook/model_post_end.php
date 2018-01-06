@@ -13,7 +13,7 @@ function post_logic_delete($pid) {
 	$fid = $thread['fid'];
 	
 	if(!$post['isfirst']) {
-		thread__update($tid, array('posts-'=>1));
+		//thread__update($tid, array('posts-'=>1));
 		$uid AND user__update($uid, array('posts-'=>1));
 		runtime_set('posts-', 1);
 	} else {
@@ -42,7 +42,7 @@ function post_logic_recover($pid) {
 	$fid = $thread['fid'];
 	
 	if(!$post['isfirst']) {
-		thread__update($tid, array('posts+'=>1));
+		//thread__update($tid, array('posts+'=>1));
 		$uid AND user__update($uid, array('posts+'=>1));
 		runtime_set('posts+', 1);
 	} else {

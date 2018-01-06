@@ -21,7 +21,7 @@
 		$form_message = $post['message'];
 		$form_doctype = $post['doctype'];
 		$isfirst = $post['isfirst'];
-		$quotepid = 0;
+		$quotepid = $post['quotepid'];
 		$location = url("thread-$tid");
 	} elseif($route == 'post' && $action == 'create') {
 		$form_title = lang('post_create');
@@ -136,8 +136,7 @@ $('#addattach').on('change', function(e) {
 		$('.attachlist_parent').append('<ul class="attachlist"><ul>');
 	}
 	if(!jprogress.length) {
-		jprogress = $('<progress class="progress progress-success" value="0" max="100">0%</progress>').appendTo('.attachlist_parent > ul');
-		//jprogress = $('.attachlist_parent').append('<div class="progress"><div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div></div>');
+		jprogress = $('.attachlist_parent').append('<div class="progress"><div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div></div>');
 	}
 	$.each_sync(files, function(i, callback) {
 		var file = files[i];
@@ -156,15 +155,11 @@ $('#addattach').on('change', function(e) {
 			jprogress.val(0);
 			jprogress.text('0%');
 		}, function(percent) {
-			/*
 			var jprogress = $('.attachlist_parent').find('.progress');
 			jprogressbar = jprogress.find('.progress-bar');
 			jprogressbar.css('width', percent+'%');
 			jprogressbar.text(percent+'%');
-			*/
 			jprogress.show();
-			jprogress.val(percent);
-			jprogress.text(percent+'%');
 			console.log('progress:'+ percent); 
 		});
 	});

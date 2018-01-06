@@ -400,8 +400,9 @@ if($action == 'login') {
 	if($thread_list_from_default == 1) {
 		$pagination = pagination(url("user-$_uid-{page}"), $_user['threads'], $page, $pagesize);
 		$threadlist = mythread_find_by_uid($_uid, $page, $pagesize);
+		thread_list_access_filter($threadlist, $gid);
 	}
-	
+
 	// hook user_profile_end.php
 	
 	if($ajax) {

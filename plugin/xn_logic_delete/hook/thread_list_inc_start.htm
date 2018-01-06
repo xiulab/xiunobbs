@@ -9,7 +9,9 @@ if($threadlist) {
                 // 判断管理权限
                 if($_thread['deleted'] > 0) {
                         $threadlist[$k]['top_class'] .= ' deleted';
-                        if(!$group['allowharddelete']) unset($threadlist[$k]);
+                        if(!$group['allowharddelete']) {
+                                unset($threadlist[$k]);
+                        }
 		}
         }
 }

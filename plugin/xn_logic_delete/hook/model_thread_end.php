@@ -12,7 +12,7 @@ function thread_logic_delete($tid) {
 	$uid = $thread['uid'];
 	
 	// 删除我的主题
-	$uid AND mythread_delete($uid, $tid);
+	//$uid AND mythread_delete($uid, $tid);
 	
 	// 清除相关缓存
 	forum_list_cache_delete();
@@ -25,6 +25,13 @@ function thread_logic_delete($tid) {
 	
 	// 全站统计
 	runtime_set('threads-', 1);
+	
+	// 所有的  post.deleted = 1
+	$arrlist = db_find('post', array('tid'=>$tid), array(), 1, 10000, '', array('pid'));
+	foreach ($arrlist as $arr) {
+		$pid = $arr['pid'];
+		post__update($pid, array('deleted'=>1));
+	}
 	
 	return $r;
 }
@@ -53,6 +60,13 @@ function thread_logic_recover($tid) {
 	
 	// 全站统计
 	runtime_set('threads+', 1);
+	
+	// 所有的  post.deleted = 0
+	$arrlist = db_find('post', array('tid'=>$tid), array(), 1, 10000, '', array('pid'));
+	foreach ($arrlist as $arr) {
+		$pid = $arr['pid'];
+		post__update($pid, array('deleted'=>0));
+	}
 	
 	return $r;
 }

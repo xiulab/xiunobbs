@@ -202,7 +202,35 @@ if(empty($action) || $action == 'list') {
 	// hook admin_forum_getname_end.php
 	
 	message(0, $s);
-		
+	
+} elseif($action == 'delete') {
+	
+	$_fid = param(2, 0);
+	$_forum = forum_read($_fid);
+	empty($_forum) AND message(-1, lang('forum_not_exists'));
+	
+	in_array($_fid, $system_forum) AND message(-1, 'Not allowed');;
+	
+	// hook admin_forum_delete_start.php
+	
+	$threadlist = thread_find_by_fid($_fid, 1, 20);
+	if(!empty($threadlist)) {
+		message(-1, '请先通过批量主题管理删除版块主题！');
+	}
+	
+	$sublist = forum_find_son_list($forumlist, $_fid);
+	if(!empty($sublist)) {
+		message(-1, '请删除子版块！');
+	}
+	
+	forum_delete($_fid);
+	
+	forum_list_cache_delete();
+	
+	// hook admin_forum_delete_end.php
+	
+	message(0, '删除成功');
+	
 }
 
 // hook admin_forum_end.php
