@@ -68,7 +68,7 @@ function xn_read_unread(tids, tid) {
 		var jthis = $(this);
 		var tid = jthis.attr('tid');
 		if(recent_tids[tid] && recent_tids[tid] > xn.intval(view_tids[tid])) {
-			jthis.find('div.subject').addClass('text-bold');
+			jthis.find('div.subject').addClass('font-weight-bold');
 		}
 	});
 }
