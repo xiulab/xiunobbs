@@ -32,7 +32,7 @@ $header = array(
 	'mobile_title'=>'',
 	'mobile_link'=>'./',
 	'keywords'=>'', // 搜索引擎自行分析 keywords, 自己指定没用 / Search engine automatic analysis of key words, so keep it empty.
-	'description'=>$conf['sitebrief'],
+	'description'=>strip_tags($conf['sitebrief']),
 	'navs'=>array(),
 );
 

@@ -387,11 +387,11 @@ function pagination($url, $totalnum, $page, $pagesize = 20) {
 
 	$s = '';
 	$page != 1 && $s .= pagination_tpl(str_replace('{page}', $page-1, $url), '◀', '');
-	if($start > 1) $s .= pagination_tpl(str_replace('{page}', 1, $url),'1 '.($start > 2 ? '... ' : ''));
+	if($start > 1) $s .= pagination_tpl(str_replace('{page}', 1, $url),'1 '.($start > 2 ? '...' : ''));
 	for($i=$start; $i<=$end; $i++) {
 		$s .= pagination_tpl(str_replace('{page}', $i, $url), $i, $i == $page ? ' active' : '');
 	}
-	if($end != $totalpage) $s .= pagination_tpl(str_replace('{page}', $totalpage, $url), ($totalpage - $end > 1 ? '... ' : '').$totalpage);
+	if($end != $totalpage) $s .= pagination_tpl(str_replace('{page}', $totalpage, $url), ($totalpage - $end > 1 ? '...' : '').$totalpage);
 	$page != $totalpage && $s .= pagination_tpl(str_replace('{page}', $page+1, $url), '▶');
 	return $s;
 }
