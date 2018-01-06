@@ -10,10 +10,11 @@
 				<h4 class="text-center"><?php echo $_user['username'];?></h4>
 				<p class="text-center">[<?php echo $_user['groupname'];?>]</p>
 				<hr />
-				<div class="row">
+				<div class="row text-left">
 					<div class="col-sm-6">
 						<p><span class="text-muted"><?php echo lang('username');?>：</span><span><?php echo $_user['username'];?></span></p>
-						<p><span class="text-muted"><?php echo lang('email');?>：</span><span><?php echo $_user['email'];?></span></p>
+						<?php if($gid == 1) { ?><p><span class="text-muted"><?php echo lang('email');?>：</span><span><?php echo $_user['email'];?></span></p>
+						<?php } ?>
 						<p><span class="text-muted"><?php echo lang('user_group');?>：</span><span><?php echo $_user['groupname'];?></span></p>
 						<p><span class="text-muted"><?php echo lang('create_date');?>：</span><span><?php echo $_user['create_date_fmt'];?></span></p>
 						<p><span class="text-muted"><?php echo lang('last_login_date');?>：</span><span><?php echo $_user['login_date_fmt'];?></span></p>
