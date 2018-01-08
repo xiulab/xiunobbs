@@ -17,7 +17,7 @@
 // 本地开启 DEBUG 模式
 !isset($_SERVER['REMOTE_ADDR']) AND $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 if($_SERVER['REMOTE_ADDR'] == '127.0.0.1' || substr($_SERVER['REMOTE_ADDR'], 0, 8) == '192.168.') {
-	define('DEBUG', 3);
+	define('DEBUG', 0);
 }
 
 // 0: Production mode; 1: Developer mode; 2: Plugin developement mode;
