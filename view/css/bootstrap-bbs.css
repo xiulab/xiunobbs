@@ -109,33 +109,17 @@ small, .small {
 	 line-height: 3 !important;
 }
 
-/* 仅仅小屏幕下显示，中大屏隐藏 */
-/* 等价于： d-none d-sm-block */
-/* >= 576 */
-
-@media (min-width: 576px) {
-	.d-sm-show { display: none !important; }
-	#body { padding-top: 1.5rem;}
-}
-
-/* 仅仅大屏幕下显示，中小屏隐藏 */
-/* 等价于： d-none d-lg-block */
-/* <= 576 */
 @media (max-width: 576px) {
-	.d-sm-hide { display: none !important; }
-	#body { padding-top: 0.5rem;}
-	#body > .row > div { padding: 0.2rem;}
-}
-
-/* 中小屏显示，大屏下不显示 
-@media (min-width: 768px) {
-	.d-md-sm-show { display: none !important; }
+  .hidden-sm { display: none !important; }
 }
 
 @media (max-width: 768px) {
-	.d-md-hide { display: none !important; }
+  .hidden-md { display: none !important; }
 }
-*/
+
+@media (min-width: 992px) {
+  .hidden-lg { display: none !important; }
+}
 
 /********************************* bbs 业务部分 *************************************/
 /*  ul, dl 多列定义，用来模拟简单的表格布局，如果不考虑响应，比 pull-left pull-right 方便  */
