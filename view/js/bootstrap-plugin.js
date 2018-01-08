@@ -26,7 +26,7 @@ $.alert = function(subject, timeout, options) {
 	jmodal.modal('show');
 	if(timeout != 0) {
 		setTimeout(function() {
-			jmodal.modal('close');
+			jmodal.modal('hide');
 		}, t * 1000);
 	}
 	
