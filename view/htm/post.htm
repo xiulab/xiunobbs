@@ -119,7 +119,8 @@ jform.on('submit', function() {
 			alert(message);
 			jsubmit.button('reset');
 		} else {
-			jform.find('[name="'+code+'"]').alert(message).focus();
+			$.alert(message);
+			//jform.find('[name="'+code+'"]').alert(message).focus();
 			jsubmit.button('reset');
 		}
 	});
