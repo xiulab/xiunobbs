@@ -75,11 +75,9 @@
 		<?php include _include(APP_PATH.'view/htm/thread_list_mod.inc.htm');?>
 		
 		<!--{hook search_page_before.htm}-->
-		<nav class="text-center">
-			<ul class="pagination">
-				<?php echo $pagination; ?>
-			</ul>
-		</nav>
+		<?php if($pagination) { ?>
+		<nav><ul class="pagination justify-content-center"><?php echo $pagination; ?></ul></nav>
+		<?php } ?>
 		<!--{hook search_page_end.htm}-->
 
 		<?php } elseif($range == 0) { ?>
