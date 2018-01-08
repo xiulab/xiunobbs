@@ -97,29 +97,24 @@ small, .small {
 	background-color: rgba(255, 255, 255, 0.6) !important;
 }
 
-.line-height-1 {
-	 line-height: 1 !important;
-}
-
-.line-height-2 {
-	 line-height: 2 !important;
-}
-
-.line-height-3 {
-	 line-height: 3 !important;
-}
+.line-height-1 { line-height: 1 !important; }
+.line-height-2 { line-height: 1.6 !important; }
+.line-height-3 { line-height: 2 !important; }
+.line-height-4 { line-height: 2.5 !important; }
+.line-height-5 { line-height: 3 !important; }
+.line-height-6 { line-height: 4 !important; }
 
 @media (max-width: 576px) {
   .hidden-sm { display: none !important; }
 }
 
-@media (max-width: 768px) {
+@media (min-width: 576px) and (max-width: 992px){
   .hidden-md { display: none !important; }
 }
-
 @media (min-width: 992px) {
   .hidden-lg { display: none !important; }
 }
+
 
 /********************************* bbs 业务部分 *************************************/
 /*  ul, dl 多列定义，用来模拟简单的表格布局，如果不考虑响应，比 pull-left pull-right 方便  */
