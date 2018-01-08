@@ -8821,6 +8821,7 @@ UM.ui.define('scale', {
                 }
                 break;
             case 'mousemove':
+            	return;
                 if (me.dragId != -1) {
                     var pos = {x: e.clientX - me.prePos.x, y: e.clientY - me.prePos.y};
                    // console.log(pos, e.clientX, e.clientY, me.prePos.x, me.prePos.y);
@@ -8851,6 +8852,7 @@ UM.ui.define('scale', {
         me.attachTo($target);
     },
     updateContainerStyle: function (dir, offset) {
+    	return;
         var me = this,
             $dom = me.root(),
             tmp,
@@ -8868,6 +8870,7 @@ UM.ui.define('scale', {
             
         // 等比缩放，by axiuno@gmail.com
         // 缩放的 img 标签，等比缩放需要参考它！
+        /*
         var $target = me.data('$scaleTarget');
         var $target_scale = me.data('$target_scale');
         if(!$target_scale) {
@@ -8881,9 +8884,10 @@ UM.ui.define('scale', {
 	        var $target_height = $target.height();
 	        var $target_scale =  $target_height / $target_width;
 	        //alert($target_scale);
+	      
 	        me.data('$target_scale', $target_scale);
         }
-        
+        */
        // $target.css({width: $root.width(), height: $root.height()});
 
         if (rect[dir][0] != 0) {
@@ -8899,8 +8903,8 @@ UM.ui.define('scale', {
             $dom.css('width', me._validScaledProp('width', tmp));
         }
         if (rect[dir][3] != 0) {
-           //tmp = $dom.height() + rect[dir][3] * offset.y;
-            tmp = ($dom.width() * $target_scale)  + rect[dir][3] * offset.y; // 按照比例走
+           tmp = $dom.height() + rect[dir][3] * offset.y;
+            //tmp = ($dom.width() * $target_scale)  + rect[dir][3] * offset.y; // 按照比例走
             //console.log(tmp);
             $dom.css('height', me._validScaledProp('height', tmp));
         }
