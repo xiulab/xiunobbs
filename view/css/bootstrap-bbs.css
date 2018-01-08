@@ -43,7 +43,9 @@ small, .small {
 .text-grey {
 	color: #aaaaaa !important;
 }
-
+.break-all {
+	word-break: break-all;
+}
 .card {
 	margin-bottom: 1.5rem;
 }
