@@ -19,13 +19,15 @@ html, body {
 #footer { flex: 0 0 auto; }
 
 @media (min-width: 576px) {
-	#body { padding-top: 1.5rem;}
+	#body { padding-top: 1rem;}
 }
 
 @media (max-width: 576px) {
 	#body { padding-top: 0.5rem;}
-	#body > .row > div { padding: 0.2rem;}
+	#body > .container > .row > div { padding: 0.5rem;}
 }
+
+#body > .container > .row > .col-lg-3 { padding-left: 0.2rem; }
 
 .table th {
 	border-top: none;
