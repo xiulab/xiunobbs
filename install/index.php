@@ -135,6 +135,14 @@ if(empty($action)) {
 					mysql_query("CREATE DATABASE $name");
 					$r = db_connect($db);
 				} elseif($type == 'pdo_mysql') {
+					if(strpos(':', $host) !== FALSE) {
+						$arr = explode(':', $host);
+						$host = $arr[0];
+						$port = $arr[1];
+					} else {
+						//$host = $host;
+						$port = 3306;
+					}
 					try {
 						$attr = array(
 							PDO::ATTR_TIMEOUT => 5,
