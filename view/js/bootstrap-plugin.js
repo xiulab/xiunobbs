@@ -26,7 +26,7 @@ $.alert = function(subject, timeout, options) {
 	jmodal.modal('show');
 	if(timeout != 0) {
 		setTimeout(function() {
-			jmodal.modal('dispose');
+			jmodal.modal('hide');
 		}, t * 1000);
 	}
 	
@@ -63,7 +63,7 @@ $.confirm = function(subject, ok_callback, options) {
 	</div>';
 	var jmodal = $(s).appendTo('body');
 	jmodal.find('.modal-footer').find('.btn-primary').on('click', function() {
-		jmodal.modal('dispose');
+		jmodal.modal('hide');
 		if(ok_callback) ok_callback();
 	});
 	jmodal.modal('show');
