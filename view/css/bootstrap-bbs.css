@@ -496,7 +496,7 @@ li.quote {
 
 
 
-.thread { border-bottom: 1px solid #ddd; padding: 0.5rem 0px;}
+.thread { border-bottom: 1px solid #ddd; padding: 0.7rem 0px;}
 .thread:hover { background-color: #eee; }
 .threadlist > .thread:last-child { border-bottom: 0px; }
 
