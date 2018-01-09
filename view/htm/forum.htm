@@ -23,8 +23,8 @@
 				</ul>
 				<div class="media-body text-right text-small pt-1">
 					<?php echo lang('orderby');?>:
-					<a class="" href="<?php echo url("forum-$fid-1", array('orderby'=>'tid') + $extra);?>"><i class="icon-orderby icon-orderby-tid<?php echo $orderby == 'tid' ? '-active' : '';?>" title="按发帖时间"></i></a> 
-					<a class="" href="<?php echo url("forum-$fid-1", array('orderby'=>'lastpid') + $extra);?>"><i class="icon-orderby icon-orderby-lastpid<?php echo $orderby == 'lastpid' ? '-active' : '';?>" title="按回帖时间"></i></a> &nbsp; 
+					<a class="" rel="nofollow" href="<?php echo url("forum-$fid-1", array('orderby'=>'tid') + $extra);?>"><i class="icon-orderby icon-orderby-tid<?php echo $orderby == 'tid' ? '-active' : '';?>" title="按发帖时间"></i></a> 
+					<a class="" rel="nofollow" href="<?php echo url("forum-$fid-1", array('orderby'=>'lastpid') + $extra);?>"><i class="icon-orderby icon-orderby-lastpid<?php echo $orderby == 'lastpid' ? '-active' : '';?>" title="按回帖时间"></i></a> &nbsp; 
 				</div>
 			</div>
 			<div class="card-body">
