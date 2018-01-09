@@ -501,7 +501,7 @@ li.quote {
 .threadlist > .thread:last-child { border-bottom: 0px; }
 
 .post { border-bottom: 1px solid #ddd; padding: 1rem 0px;}
-.post:hover:not(.newpost) { background-color: #eee; }
+/*.post:hover:not(.newpost) { background-color: #eee; }*/
 .postlist > .post:last-child { border-bottom: 0px; }
 
 .fieldset {

@@ -7,7 +7,7 @@
 
 				<?php if($postlist) { foreach($postlist as $_post) { ?>
 					<li class="media <?php echo $_post['classname'];?>" pid="<?php echo $_post['pid'];?>">
-						<a href="<?php echo url("user-$_post[uid]");?>" class="p-1 mr-2" tabindex="-1">
+						<a href="<?php echo url("user-$_post[uid]");?>" class="mr-3" tabindex="-1">
 							<img class="avatar" src="<?php echo $_post['user_avatar_url'];?>">
 						</a>
 						<!--{hook post_list_inc_avatar_after.htm}-->
@@ -21,7 +21,7 @@
 									<span class="date text-grey ml-2"><?php echo $_post['create_date_fmt'];?></span>
 									<!--{hook post_list_inc_create_date_after.htm}-->
 								</div>
-								<div class="text-right text-grey ">
+								<div class="text-right text-grey">
 									<!--{hook post_list_inc_edit_before.htm}-->
 									
 									<?php if($allowpost) { ?>
@@ -43,7 +43,7 @@
 									<!--{hook post_list_inc_delete_after.htm}-->
 
 									<?php if($_post['floor']) { ?>
-									<span class="floor"><?php echo $_post['floor'];?></span> <?php echo lang('floor');?>
+									<span class="floor mr"><?php echo $_post['floor'];?></span> <?php echo lang('floor');?>
 									<?php } ?>
 									<!--{hook post_list_inc_floor_after.htm}-->
 								</div>
