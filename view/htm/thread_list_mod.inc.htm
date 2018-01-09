@@ -1,8 +1,10 @@
 <?php if($gid > 0 && $gid < 5) { ?>
 <div class="text-center">
-	<label class="m-r-1">
-		<input type="checkbox" data-target='input[name="modtid"]' class="checkall m-t-sm m-r-sm" value="" aria-label="<?php echo lang('checkall');?>" /><?php echo lang('checkall');?>
+	<?php if(param(0) != 'thread') { ?>
+	<label class="mr-3">
+		<input type="checkbox" data-target='input[name="modtid"]' class="checkall mt-2 mr-2" value="" aria-label="<?php echo lang('checkall');?>" /><?php echo lang('checkall');?>
 	</label>
+	<?php } ?>
 	
 	<div class="btn-group mod-button" role="group" aria-label="">
 		<!--{hook thread_list_mod_delete_before.htm}-->
