@@ -6,9 +6,9 @@
 				<!--{hook post_list_inc_start.htm}-->
 
 				<?php if($postlist) { foreach($postlist as $_post) { ?>
-					<li class="post media <?php echo $_post['classname'];?>" pid="<?php echo $_post['pid'];?>">
-						<a href="<?php echo url("user-$_post[uid]");?>" tabindex="-1">
-							<img class="avatar mr-3" src="<?php echo $_post['user_avatar_url'];?>">
+					<li class="media <?php echo $_post['classname'];?>" pid="<?php echo $_post['pid'];?>">
+						<a href="<?php echo url("user-$_post[uid]");?>" class="p-1 mr-2" tabindex="-1">
+							<img class="avatar" src="<?php echo $_post['user_avatar_url'];?>">
 						</a>
 						<!--{hook post_list_inc_avatar_after.htm}-->
 						<div class="media-body">
