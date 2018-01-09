@@ -179,41 +179,43 @@ function attach_assoc_post($pid) {
 	$attach_dir_save_rule = array_value($conf, 'attach_dir_save_rule', 'Ym');
 	
 	$tmp_files = $sess_tmp_files;
-	foreach($tmp_files as $file) {
-		
-		// 将文件移动到 upload/attach 目录
-		$filename = file_name($file['url']);
-		
-		$day = date($attach_dir_save_rule, $time);
-		$path = $conf['upload_path'].'attach/'.$day;
-		$url = $conf['upload_url'].'attach/'.$day;
-		!is_dir($path) AND mkdir($path, 0777, TRUE);
-		
-		$destfile = $path.'/'.$filename;
-		$desturl = $url.'/'.$filename;
-		$r = xn_copy($file['path'], $destfile);
-		!$r AND xn_log("xn_copy($file[path]), $destfile) failed, pid:$pid, tid:$tid", 'php_error');
-		$arr = array(
-			'tid'=>$tid,
-			'pid'=>$pid,
-			'uid'=>$uid,
-			'filesize'=>$file['filesize'],
-			'width'=>$file['width'],
-			'height'=>$file['height'],
-			'filename'=>"$day/$filename",
-			'orgfilename'=>$file['orgfilename'],
-			'filetype'=>$file['filetype'],
-			'create_date'=>$time,
-			'comment'=>'',
-			'downloads'=>0,
-			'isimage'=>$file['isimage']
-		);
-		
-		// 插入后，进行关联
-		$aid = attach_create($arr);
-		$post['message'] = str_replace($file['url'], $desturl, $post['message']);
-		$post['message_fmt'] = str_replace($file['url'], $desturl, $post['message_fmt']);
-		
+	if($tmp_files) {
+		foreach($tmp_files as $file) {
+			
+			// 将文件移动到 upload/attach 目录
+			$filename = file_name($file['url']);
+			
+			$day = date($attach_dir_save_rule, $time);
+			$path = $conf['upload_path'].'attach/'.$day;
+			$url = $conf['upload_url'].'attach/'.$day;
+			!is_dir($path) AND mkdir($path, 0777, TRUE);
+			
+			$destfile = $path.'/'.$filename;
+			$desturl = $url.'/'.$filename;
+			$r = xn_copy($file['path'], $destfile);
+			!$r AND xn_log("xn_copy($file[path]), $destfile) failed, pid:$pid, tid:$tid", 'php_error');
+			$arr = array(
+				'tid'=>$tid,
+				'pid'=>$pid,
+				'uid'=>$uid,
+				'filesize'=>$file['filesize'],
+				'width'=>$file['width'],
+				'height'=>$file['height'],
+				'filename'=>"$day/$filename",
+				'orgfilename'=>$file['orgfilename'],
+				'filetype'=>$file['filetype'],
+				'create_date'=>$time,
+				'comment'=>'',
+				'downloads'=>0,
+				'isimage'=>$file['isimage']
+			);
+			
+			// 插入后，进行关联
+			$aid = attach_create($arr);
+			$post['message'] = str_replace($file['url'], $desturl, $post['message']);
+			$post['message_fmt'] = str_replace($file['url'], $desturl, $post['message_fmt']);
+			
+		}
 	}
 
 	// 清空 session
