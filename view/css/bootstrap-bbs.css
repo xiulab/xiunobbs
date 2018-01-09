@@ -435,6 +435,15 @@ td.td-avatar {
   background-image: url(../img/filetype/font.png);
 }
 
+
+/* 小图标 16*16 */
+.icon-orderby {width: 16px; height: 16px; display: -moz-inline-stack; display: inline-block; *display:inline; /* IE7 */ zoom:1; /* IE系列*/ overflow: hidden; vertical-align: middle; _vertical-align: middle; _margin-left: 1px;  *margin-left: 1px; background: url(../img/orderby.gif) no-repeat; pointer: normal;} /* 可以用于<a> <span> */
+.icon-orderby:hover {}
+.icon-orderby-tid { background-position: 0px 0px; }
+.icon-orderby-tid-active { background-position: -16px 0px; }
+.icon-orderby-lastpid { background-position: -32px 0px; }
+.icon-orderby-lastpid-active { background-position: -48px 0px; }
+
 [class^="icon-top-"]:before {
   content: "\f024";
 }

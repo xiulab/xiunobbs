@@ -78,6 +78,7 @@ return array(
 	'login_successfully'=>'登录成功',
 	'logout_successfully'=>'退出成功',
 	
+	'orderby'=>'排序',
 	
 	
 	// 用户相关

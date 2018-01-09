@@ -14,13 +14,18 @@
 		<!--{hook forum_breadcrumb_after.htm}-->
 				
 		<div class="card">
-			<div class="card-header">
+			<div class="card-header media">
 				<ul class="nav nav-tabs card-header-tabs">
 					<li class="nav-item">
 						<a class="nav-link <?php echo $active == 'default' ? 'active' : '';?>" href="<?php echo url("forum-$fid");?>"><?php echo lang('new_thread');?></a>
 					</li>
 					<!--{hook forum_thread_list_nav_item_after.htm}-->
 				</ul>
+				<div class="media-body text-right text-small pt-1">
+					<?php echo lang('orderby');?>:
+					<a class="" href="<?php echo url("forum-$fid-1", array('orderby'=>'tid') + $extra);?>"><i class="icon-orderby icon-orderby-tid<?php echo $orderby == 'tid' ? '-active' : '';?>" title="按发帖时间"></i></a> 
+					<a class="" href="<?php echo url("forum-$fid-1", array('orderby'=>'lastpid') + $extra);?>"><i class="icon-orderby icon-orderby-lastpid<?php echo $orderby == 'lastpid' ? '-active' : '';?>" title="按回帖时间"></i></a> &nbsp; 
+				</div>
 			</div>
 			<div class="card-body">
 				<table class="table table-hover threadlist mb-0">
