@@ -19,38 +19,37 @@ function xn_log_post_data() {
 
 // 中断流程很危险！可能会导致数据问题，线上模式不允许中断流程！
 function error_handle($errno, $errstr, $errfile, $errline) {
+	
+	// PHP 内部默认处理
+	if(DEBUG == 0)  return FALSE;
+	
+	// 如果放在 register_shutdown_function 里面，文件句柄会被关闭，然后这里就写入不了文件了！
+	// if(strpos($s, 'error_log(') !== FALSE) return TRUE;
 	$time = $_SERVER['time'];
 	$ajax = $_SERVER['ajax'];
-	$br = ($ajax ? "\n" : "<br>\n");
 	IN_CMD AND $errstr = str_replace('<br>', "\n", $errstr);
-	$s = $br."Error[$errno]: $errstr, File: $errfile, Line: $errline";
-	if(DEBUG) {
-		// 如果放在 register_shutdown_function 里面，文件句柄会被关闭，然后这里就写入不了文件了！
-		// if(strpos($s, 'error_log(') !== FALSE) return TRUE;
+	
+	$subject = "Error[$errno]: $errstr, File: $errfile, Line: $errline";
+	$message = array();
+	xn_log($subject, 'php_error'); // 所有PHP错误报告都记录日志
 
-		xn_log($s, 'php_error'); // 所有PHP错误报告都记录日志
-
-		$s .= $br;
-		$arr = debug_backtrace();
-		array_shift($arr);
-		foreach($arr as $v) {
-			$args = '';
-			if(!empty($v['args']) && is_array($v['args'])) foreach ($v['args'] as $v2) $args .= ($args ? ' , ' : '').(is_array($v2) ? 'array('.count($v2).')' : (is_object($v2) ? 'object' : $v2));
-			!isset($v['file']) AND $v['file'] = '';
-			!isset($v['line']) AND $v['line'] = '';
-			$s .= $br."File: $v[file], Line: $v[line], $v[function]($args) ";
-		}
-		$s .= $br;
-		echo $s;
-		
-		// 详细的 DEBUG 数据
-		if(DEBUG == 2) xn_log($s, 'debug_error');
-		return TRUE;
-	} else {
-		return FALSE;
+	$arr = debug_backtrace();
+	array_shift($arr);
+	foreach($arr as $v) {
+		$args = '';
+		if(!empty($v['args']) && is_array($v['args'])) foreach ($v['args'] as $v2) $args .= ($args ? ' , ' : '').(is_array($v2) ? 'array('.count($v2).')' : (is_object($v2) ? 'object' : $v2));
+		!isset($v['file']) AND $v['file'] = '';
+		!isset($v['line']) AND $v['line'] = '';
+		$message [] = "File: $v[file], Line: $v[line], $v[function]($args) ";
 	}
-	// true 表示不执行 PHP 内部错误处理程序, false 表示执行PHP默认处理
-	//return DEBUG ? FALSE : TRUE;
+	$txt = $subject."\r\n".implode("\r\n", $message);
+	$html = $s = "<fieldset class=\"fieldset\">
+			<b>$subject</b>
+			<div>".implode("<br>\r\n", $message)."</div>
+		</fieldset>";
+	echo $ajax ? $txt : $html;
+	DEBUG == 2 AND xn_log($txt, 'debug_error');
+	return TRUE;
 }
 
 // 使用全局变量记录错误信息

@@ -77,7 +77,7 @@ $errstr = '';
 
 // error_handle
 // register_shutdown_function('xn_shutdown_handle');
-!DEBUG AND set_error_handler('error_handle', -1);
+DEBUG AND set_error_handler('error_handle', -1);
 empty($conf['timezone']) AND $conf['timezone'] = 'Asia/Shanghai';
 date_default_timezone_set($conf['timezone']);
 
