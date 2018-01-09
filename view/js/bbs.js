@@ -177,7 +177,6 @@ $('body').on('click', '.post_reply', function() {
 		jform.find('input[name="quotepid"]').val(0);
 		jadvanced_reply.attr('href', xn.url('post-create-'+tid));
 	} else {
-		jthis.parents('table').find('tr').removeClass('quote');
 		jli.addClass('quote');
 		var s = jmessage.val();
 		jform.find('input[name="quotepid"]').val(pid);
