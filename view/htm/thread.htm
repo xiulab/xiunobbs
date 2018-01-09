@@ -27,7 +27,7 @@
 							<!--{hook thread_subject_end.htm}-->
 						</h4>
 						<!--{hook thread_subject_after.htm}-->
-						<div class="media small">
+						<div class="d-flex justify-content-between small">
 							<div>
 								<!--{hook thread_username_before.htm}-->
 								<span class="username text-muted">
@@ -37,7 +37,7 @@
 								<span class="text-grey ml-2 hidden-sm hidden-md"><i class="icon-eye"></i> <?php echo $thread['views'];?></span>
 								<!--{hook thread_views_after.htm}-->
 							</div>
-							<div class="media-body text-right">
+							<div>
 								<!--{hook thread_update_before.htm}-->
 								<?php if($allowupdate || $first['allowupdate']) { ?>
 								<a href="<?php echo url("post-update-$thread[firstpid]");?>" class="text-grey mr-2 post_update"><i class="icon-edit"></i> <?php echo lang('edit');?></a>
@@ -100,7 +100,7 @@
 								<div>
 									<div><?php echo $user['username'];?></div>
 								</div>
-								<div class="text-right">
+								<div>
 									<span class="floor" id="newfloor"><?php echo ($thread['posts'] + 1);?></span><?php echo lang('floor');?>
 								</div>
 							</div>
@@ -120,7 +120,7 @@
 												<button type="submit" class="btn btn-sm btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('post_create');?> </button>
 												<!--{hook thread_quick_reply_left_end.htm}-->
 											</div>
-											<div class="text-right">
+											<div>
 												<!--{hook thread_quick_reply_right_start.htm}-->
 												<a class="icon-mail-forward text-muted" href="<?php echo url("post-create-$tid");?>" id="advanced_reply"> <?php echo lang('advanced_reply');?></a>
 												<!--{hook thread_quick_reply_right_end.htm}-->
