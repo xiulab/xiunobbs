@@ -14,27 +14,25 @@
 		<!--{hook forum_breadcrumb_after.htm}-->
 				
 		<div class="card">
-			<div class="card-header media">
+			<div class="card-header d-flex justify-content-between">
 				<ul class="nav nav-tabs card-header-tabs">
 					<li class="nav-item">
 						<a class="nav-link <?php echo $active == 'default' ? 'active' : '';?>" href="<?php echo url("forum-$fid");?>"><?php echo lang('new_thread');?></a>
 					</li>
 					<!--{hook forum_thread_list_nav_item_after.htm}-->
 				</ul>
-				<div class="media-body text-right text-small pt-1">
+				<div class="text-right text-small pt-1">
 					<?php echo lang('orderby');?>:
 					<a class="" rel="nofollow" href="<?php echo url("forum-$fid-1", array('orderby'=>'tid') + $extra);?>"><i class="icon-orderby icon-orderby-tid<?php echo $orderby == 'tid' ? '-active' : '';?>" title="按发帖时间"></i></a> 
 					<a class="" rel="nofollow" href="<?php echo url("forum-$fid-1", array('orderby'=>'lastpid') + $extra);?>"><i class="icon-orderby icon-orderby-lastpid<?php echo $orderby == 'lastpid' ? '-active' : '';?>" title="按回帖时间"></i></a> &nbsp; 
 				</div>
 			</div>
 			<div class="card-body">
-				<table class="table table-hover threadlist mb-0">
-					<tbody>
-						<!--{hook forum_threadlist_before.htm}-->
-						<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
-						<!--{hook forum_threadlist_after.htm}-->
-					</tbody>
-				</table>
+				<ul class="list-unstyled threadlist mb-0">
+					<!--{hook forum_threadlist_before.htm}-->
+					<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
+					<!--{hook forum_threadlist_after.htm}-->
+				</ul>
 			</div>
 		</div>
 

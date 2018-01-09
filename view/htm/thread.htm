@@ -75,66 +75,65 @@
 		
 		<!--{hook thread_postlist_before.htm}-->
 		
-		<div class="card post">
+		<div class="card">
 			<div class="card-body">
 				<div class="card-title">
-					<div class="media">
+					<div class="d-flex justify-content-between">
 						<div>
 							<b><?php echo lang('new_post');?></b> (<span class="posts"><?php echo $thread['posts'];?></span>)
 						</div>
-						<div class="media-body text-right">
+						<div>
 							<!--{hook thread_post_list_title_right.htm}-->
 						</div>
 					</div>
 				</div>
-				<div class="postlist">
-					<table class="table">
-						<tbody>
-							<?php include _include(APP_PATH.'view/htm/post_list.inc.htm'); ?>
-							
-							<?php if(!empty($user)) { ?>
-							<tr class="post">
-								<td class="td-avatar">
-									<a href="<?php echo url("user-$thread[uid]");?>" tabindex="-1">
-										<img class="avatar" src="<?php echo $user['avatar_url'];?>">
-									</a>
-								</td>
-								<td class="pl-0">
-									<form action="<?php echo url("post-create-$tid-1");?>" method="post" id="quick_reply_form">	
-										<input type="hidden" name="doctype" value="1" />
-										<input type="hidden" name="return_html" value="1" />
-										<input type="hidden" name="quotepid" value="0" />
-										<div class="media small text-muted">
-											<div><?php echo $user['username'];?></div>
-											<div class="media-body text-right">
-												<span class="floor"><?php echo ($thread['posts'] + 1);?></span><?php echo lang('floor');?>
+				<ul class="list-unstyled postlist">
+					<?php include _include(APP_PATH.'view/htm/post_list.inc.htm'); ?>
+					
+					<?php if(!empty($user)) { ?>
+					<li class="post newpost media">
+						<a href="<?php echo url("user-$thread[uid]");?>" tabindex="-1">
+							<img class="avatar mr-3" src="<?php echo $user['avatar_url'];?>">
+						</a>
+						<div class="media-body">
+							<div class="d-flex justify-content-between small text-muted">
+								<div>
+									<div><?php echo $user['username'];?></div>
+								</div>
+								<div class="text-right">
+									<span class="floor" id="newfloor"><?php echo ($thread['posts'] + 1);?></span><?php echo lang('floor');?>
+								</div>
+							</div>
+							<div>
+								<form action="<?php echo url("post-create-$tid-1");?>" method="post" id="quick_reply_form" class="d-block">	
+									<input type="hidden" name="doctype" value="1" />
+									<input type="hidden" name="return_html" value="1" />
+									<input type="hidden" name="quotepid" value="0" />
+									
+									<div class="message mt-1">
+										<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message"></textarea>
+									</div>
+									<div class="text-muted mt-2 small">
+										<div class="d-flex justify-content-between">
+											<div>
+												<!--{hook thread_quick_reply_left_start.htm}-->
+												<button type="submit" class="btn btn-sm btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('post_create');?> </button>
+												<!--{hook thread_quick_reply_left_end.htm}-->
+											</div>
+											<div class="text-right">
+												<!--{hook thread_quick_reply_right_start.htm}-->
+												<a class="icon-mail-forward text-muted" href="<?php echo url("post-create-$tid");?>" id="advanced_reply"> <?php echo lang('advanced_reply');?></a>
+												<!--{hook thread_quick_reply_right_end.htm}-->
 											</div>
 										</div>
-										<div class="message mt-1">
-											<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message"></textarea>
-										</div>
-										<div class="text-muted mt-2 small">
-											<div class="media">
-												<div>
-													<!--{hook thread_quick_reply_left_start.htm}-->
-													<button type="submit" class="btn btn-sm btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo lang('post_create');?> </button>
-													<!--{hook thread_quick_reply_left_end.htm}-->
-												</div>
-												<div class="media-body text-right">
-													<!--{hook thread_quick_reply_right_start.htm}-->
-													<a class="icon-mail-forward text-muted" href="<?php echo url("post-create-$tid");?>" id="advanced_reply"> <?php echo lang('advanced_reply');?></a>
-													<!--{hook thread_quick_reply_right_end.htm}-->
-												</div>
-											</div>
-										</div>
-									</form>
-								</td>
-							</tr>
-							<?php } ?>
+									</div>
+								</form>
+							</div>
+						</div>
+					</li>
+					<?php } ?>
 							
-						</tbody>
-					</table>
-				</div>
+				</ul>
 			</div>
 		</div>
 		<!--{hook thread_postlist_after.htm}-->
@@ -199,14 +198,14 @@ jform.on('submit', function() {
 	var postdata = jform.serialize();
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
-			var s = '<table>'+message+'</table>';
-			var jtr = $(s).find('tr');
-			jtr.insertBefore($('.postlist > table tr').last());
+			var s = '<ul>'+message+'</ul>';
+			var jli = $(s).find('li');
+			jli.insertBefore($('.postlist > .post').last());
 			jsubmit.button('reset');
 			$('#message').val('');
 			
 			// 楼层 +1
-			var jfloor = jform.find('.floor');
+			var jfloor = $('#newfloor');
 			jfloor.html(xn.intval(jfloor.html()) + 1);
 			
 			// 回复数 +1

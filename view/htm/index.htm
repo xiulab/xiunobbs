@@ -15,13 +15,11 @@
 				</ul>
 			</div>
 			<div class="card-body">
-				<table class="table table-hover threadlist mb-0">
-					<tbody>
-						<!--{hook index_threadlist_before.htm}-->
-						<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
-						<!--{hook index_threadlist_after.htm}-->
-					</tbody>
-				</table>
+				<ul class="list-unstyled threadlist mb-0">
+					<!--{hook index_threadlist_before.htm}-->
+					<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
+					<!--{hook index_threadlist_after.htm}-->
+				</ul>
 			</div>
 		</div>
 		

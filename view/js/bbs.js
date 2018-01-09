@@ -9,7 +9,7 @@ $('form').keyup(function(e) {
 
 // 点击响应整行：方便手机浏览  / check response line
 $('.tap').on('click', function(e) {
-	var href = $(this).attr('href');
+	var href = $(this).attr('href') || $(this).data('href');
 	if(e.ctrlKey) {
 		window.open(href);
 		return false;
@@ -169,16 +169,17 @@ $('body').on('click', '.post_reply', function() {
 	var tid = jthis.attr('tid');
 	var pid = jthis.attr('pid');
 	var jmessage = $('#message');
-	var jtr = jthis.closest('tr');
+	var jli = jthis.closest('li');
 	var jadvanced_reply = $('#advanced_reply');
-	if(jtr.hasClass('quote')) {
-		jtr.removeClass('quote');
+	var jform = $('#quick_reply_form');
+	if(jli.hasClass('quote')) {
+		jli.removeClass('quote');
+		jform.find('input[name="quotepid"]').val(0);
 		jadvanced_reply.attr('href', xn.url('post-create-'+tid));
 	} else {
 		jthis.parents('table').find('tr').removeClass('quote');
-		jtr.addClass('quote');
+		jli.addClass('quote');
 		var s = jmessage.val();
-		var jform = $('#quick_reply_form');
 		jform.find('input[name="quotepid"]').val(pid);
 		jadvanced_reply.attr('href', xn.url('post-create-'+tid+'-0-'+pid));
 	}
