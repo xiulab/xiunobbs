@@ -43,7 +43,7 @@
 					<li class="nav-item"><a class="nav-link" href="<?php echo url('user-login');?>"><i class="icon-user"></i> <?php echo lang('login');?></a></li>
 					<!--<li class="nav-item"><a class="nav-link" href="<?php echo url('user-create');?>"><?php echo lang('register');?></a></li>-->
 				<?php } else { ?>
-					<li class="nav-item username"><a class="nav-link" href="<?php echo url('my');?>"><img class="logo-1" src="<?php echo $user['avatar_url'];?>"> <?php echo $user['username'];?></a></li>
+					<li class="nav-item username"><a class="nav-link" href="<?php echo url('my');?>"><img class="avatar-1" src="<?php echo $user['avatar_url'];?>"> <?php echo $user['username'];?></a></li>
 					<!-- 管理员 -->
 					<?php if($gid == 1) { ?>
 					<li class="nav-item"><a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_page');?></a></li>

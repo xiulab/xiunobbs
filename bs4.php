@@ -123,10 +123,12 @@ foreach ($files as $file) {
 
         $s = str_replace("logo-1", "logo-1", $s);
         $s = str_replace("logo-2", "logo-2", $s);
-        $s = str_replace("logo-1", "logo-1", $s);
-        $s = str_replace("logo-2", "logo-2", $s);
         $s = str_replace("logo-3", "logo-3", $s);
         $s = str_replace("logo-4", "logo-4", $s);
+        $s = str_replace("avatar-1", "avatar-1", $s);
+        $s = str_replace("avatar-2", "avatar-2", $s);
+        $s = str_replace("avatar-3", "avatar-3", $s);
+        $s = str_replace("avatar-4", "avatar-4", $s);
 
         if($s != $content) {
                echo $file."\r\n";

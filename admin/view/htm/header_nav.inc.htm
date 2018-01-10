@@ -40,7 +40,7 @@
 					
 					<li class="nav-item">
 						<a class="nav-link" href="../<?php echo url('my');?>">
-							<img class="logo-1" src="<?php echo (strpos($user['avatar_url'], '//') === FALSE ? '../' : '').$user['avatar_url'];?>">
+							<img class="avatar-1" src="<?php echo (strpos($user['avatar_url'], '//') === FALSE ? '../' : '').$user['avatar_url'];?>">
 							<?php echo isset($user['username']) ? $user['username'] : '';?>
 						</a>
 					</li>

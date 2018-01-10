@@ -8,7 +8,7 @@
 				<?php if($postlist) { foreach($postlist as $_post) { ?>
 					<li class="media <?php echo $_post['classname'];?>" pid="<?php echo $_post['pid'];?>">
 						<a href="<?php echo url("user-$_post[uid]");?>" class="mr-3" tabindex="-1">
-							<img class="avatar" src="<?php echo $_post['user_avatar_url'];?>">
+							<img class="avatar-3" src="<?php echo $_post['user_avatar_url'];?>">
 						</a>
 						<!--{hook post_list_inc_avatar_after.htm}-->
 						<div class="media-body">

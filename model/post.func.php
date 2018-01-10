@@ -363,7 +363,7 @@ function post_quote($quotepid) {
 	$user = user_read_cache($uid);
 	$r = '<blockquote class="blockquote">
 		<a href="'.$userhref.'" class="text-small text-muted user">
-			<img class="logo-1" src="'.$user['avatar_url'].'">
+			<img class="avatar-1" src="'.$user['avatar_url'].'">
 			'.$user['username'].'
 		</a>
 		'.$s.'
