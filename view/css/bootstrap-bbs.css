@@ -25,6 +25,8 @@ small, .small { font-size: 85%; font-weight: 400; }
 .card { margin-bottom: 1.5rem; }
 .center { margin-left: auto !important; margin-right: auto !important; }
 .w-auto { width: auto !important; }
+.flex-grow { flex-grow: 1; }
+
 .card, .border-shadow {
 	box-shadow: 2px 2px 3px #AEB8B9;
 	border: 1px solid #BCC6C9;
@@ -126,40 +128,17 @@ dl.row.vbottom > dt, dl.row.vbottom > dd, dl.row > dt.vbottom, dl.row > dd.vbott
 }
 */
 
-.avatar-xs {
-  width: 1.3rem;
-  height: 1.3rem;
-  border-radius: 1.3rem;
-}
+.avatar-1 { width: 1.3rem; height: 1.3rem; border-radius: 1.3rem; }
+.avatar-2 { width: 1.8rem; height: 1.8rem; border-radius: 1.8rem; }
+.avatar-3 { width: 2.4rem; height: 2.4rem; border-radius: 2.4rem; }
+.avatar-4 { width: 4.5rem; height: 4.5rem; border-radius: 4.5rem; }
+.avatar-5 { width: 6rem; height: 6rem; border-radius: 6rem; }
 
-.avatar-sm {
-  width: 1.6rem;
-  height: 1.6rem;
-  border-radius: 1.6rem;
-}
-
-.avatar {
-  width: 2.4rem;
-  height: 2.4rem;
-  border-radius: 2.4rem;
-}
-
-.avatar-lg {
-  width: 6rem;
-  height: 6rem;
-  border-radius: 6rem;
-}
-
-.logo-xs {
-  width: 1.3rem;
-  height: 1.3rem;
-}
-
-.logo-sm {
-  width: 1.8rem;
-  height: 1.8rem;
-}
-
+.logo-1 { width: 1.3rem; height: 1.3rem; }
+.logo-2 { width: 1.8rem; height: 1.8rem; }
+.logo-3 { width: 2.4rem; height: 2.4rem; }
+.logo-4 { width: 4.5rem; height: 4.5rem; }
+.logo-5 { width: 6rem; height: 6rem; }
 
 /*  bbs */
 

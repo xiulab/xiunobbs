@@ -13,6 +13,7 @@ plugin/xn_footer_js
 plugin/bbs_xiuno_com_ad/
 plugin/*/*.zip
 plugin/*.zip
+plugin/*.json
 plugin/sg_hide
 plugin/sg_sign
 plugin/wintop_ed2k
@@ -23,4 +24,5 @@ view/bootstrap/node_modules
 vux/*
 weixin
 view/bootstrap*
+*conf.json
 .vscode

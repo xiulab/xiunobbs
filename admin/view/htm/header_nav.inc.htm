@@ -8,7 +8,7 @@
 			
 			<!-- 中：LOGO -->
 			<a class="navbar-brand" href="<?php echo $header['mobile_link'];?>">
-				<img src="../view/img/logo.png" class="logo-sm">
+				<img src="../view/img/logo.png" class="logo-2">
 				<?php if($header['mobile_title']) { ?>
 					<span class="d-md-none"><?php echo $header['mobile_title'];?></span>
 				<?php } ?>
@@ -40,7 +40,7 @@
 					
 					<li class="nav-item">
 						<a class="nav-link" href="../<?php echo url('my');?>">
-							<img class="avatar-xs" src="<?php echo (strpos($user['avatar_url'], '//') === FALSE ? '../' : '').$user['avatar_url'];?>">
+							<img class="logo-1" src="<?php echo (strpos($user['avatar_url'], '//') === FALSE ? '../' : '').$user['avatar_url'];?>">
 							<?php echo isset($user['username']) ? $user['username'] : '';?>
 						</a>
 					</li>
