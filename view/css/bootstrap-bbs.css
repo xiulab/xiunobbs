@@ -153,23 +153,24 @@ dl.row.vbottom > dt, dl.row.vbottom > dd, dl.row > dt.vbottom, dl.row > dd.vbott
   background-repeat: no-repeat;
   vertical-align: middle;
 }
-.icon.filetype.small { -webkit-background-size: 16px 16px; background-size: 16px; width: 16px; height: 16px; }
-.icon.filetype.video { background-image: url(../img/filetype/video.png); }
+.icon.filetype{background-image: url(../img/filetype.png);--sbig: 2rem;-webkit-background-size: var(--sbig) var(--sbig); background-size: var(--sbig); width: var(--sbig); height: var(--sbig);}
+.icon.filetype.small { --sbig: 1rem;  }
+.icon.filetype.video { background-position: 0 0 }
 .icon.filetype.music:before { content: "";}
-.icon.filetype.music { background-image: url(../img/filetype/music.png); }
-.icon.filetype.exe { background-image: url(../img/filetype/exe.png); }
-.icon.filetype.flash { background-image: url(../img/filetype/flash.png); }
+.icon.filetype.music { background-position: 0 calc(-1 * var(--sbig)); }
+.icon.filetype.exe { background-position: 0 calc(-2 * var(--sbig)); }
+.icon.filetype.flash { background-position: 0 calc(-3 * var(--sbig)); }
 .icon.filetype.image:before { content: ""; }
-.icon.filetype.image { background-image: url(../img/filetype/image.png); }
-.icon.filetype.office { background-image: url(../img/filetype/office.png); }
-.icon.filetype.pdf { background-image: url(../img/filetype/pdf.png); }
-.icon.filetype.text { background-image: url(../img/filetype/text.png); }
-.icon.filetype.unknown { background-image: url(../img/filetype/text.png); }
-.icon.filetype.zip { background-image: url(../img/filetype/zip.png); }
-.icon.filetype.other { background-image: url(../img/filetype/other.png); }
-.icon.filetype.book { background-image: url(../img/filetype/book.png); }
-.icon.filetype.torrent { background-image: url(../img/filetype/torrent.png); }
-.icon.filetype.font { background-image: url(../img/filetype/font.png); }
+.icon.filetype.image { background-position: 0 calc(-4 * var(--sbig)); }
+.icon.filetype.office { background-position: 0 calc(-5 * var(--sbig)); }
+.icon.filetype.pdf { background-position: 0 calc(-6 * var(--sbig)); }
+.icon.filetype.text { background-position: 0 calc(-7 * var(--sbig)); }
+.icon.filetype.unknown { background-position: 0 calc(-8 * var(--sbig)); }
+.icon.filetype.zip { background-position: 0 calc(-9 * var(--sbig)); }
+.icon.filetype.other { background-position: 0 calc(-10 * var(--sbig)); }
+.icon.filetype.book { background-position: 0 calc(-11 * var(--sbig)); }
+.icon.filetype.torrent { background-position: 0 calc(-12 * var(--sbig)); }
+.icon.filetype.font { background-position: 0 calc(-13 * var(--sbig)); }
 
 .icon-orderby {width: 16px; height: 16px; display: -moz-inline-stack; display: inline-block; *display:inline; /* IE7 */ zoom:1; /* IE系列*/ overflow: hidden; vertical-align: middle; _vertical-align: middle; _margin-left: 1px;  *margin-left: 1px; background: url(../img/orderby.gif) no-repeat; pointer: normal;} /* 可以用于<a> <span> */
 .icon-orderby:hover {}
