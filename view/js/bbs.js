@@ -151,7 +151,7 @@ $('body').on('click', '.post_delete', function() {
 					$.location('<?php echo url("forum-$fid");?>');
 				} else {
 					// 删掉楼层
-					jthis.parents('tr').remove();
+					jthis.parents('.post').remove();
 					// 回复数 -1
 					var jposts = $('.posts');
 					jposts.html(xn.intval(jposts.html()) - 1);
