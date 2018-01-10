@@ -10,6 +10,7 @@ $('form').keyup(function(e) {
 // 点击响应整行：方便手机浏览  / check response line
 $('.tap').on('click', function(e) {
 	var href = $(this).attr('href') || $(this).data('href');
+	if(e.target.nodeName == 'INPUT') return true;
 	if(e.ctrlKey) {
 		window.open(href);
 		return false;

@@ -78,15 +78,19 @@
 					
 					<!--{hook post_message_after.htm}-->
 
-					<div class="row">
-						<div class="col-lg-10 attachlist_parent">
-							<p class="small text-left"><label class="addattach" id="addattach"><i class="icon-folder-open-o"></i> <span><?php echo lang('add_attach');?></span><input type="file"  multiple="multiple" class="invisible" /></label></p>
-							
+					<div class="d-flex justify-content-between">
+						<div class="attachlist_parent">
+							<a class="small text-left" href="javascript:void(0)">
+								<label class="addattach" id="addattach">
+									<i class="icon-folder-open-o"></i> 
+									<?php echo lang('add_attach');?>
+									<input type="file"  multiple="multiple" class="invisible" />
+								</label>
+							</a>
 							<?php echo post_file_list_html($filelist, TRUE);?>
-							
 							<!--{hook post_bottom_right.htm}-->
 						</div>
-						<div class="col-lg-2 text-right">
+						<div class="text-right">
 							<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..."> <?php echo $form_submit_txt;?> </button>
 							<!--{hook post_bottom_left.htm}-->
 						</div>
