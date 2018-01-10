@@ -153,8 +153,8 @@ dl.row.vbottom > dt, dl.row.vbottom > dd, dl.row > dt.vbottom, dl.row > dd.vbott
   background-repeat: no-repeat;
   vertical-align: middle;
 }
-.icon.filetype{background-image: url(../img/filetype.png);--sbig: 1rem;-webkit-background-size: var(--sbig) var(--sbig); background-size: var(--sbig); width: var(--sbig); height: var(--sbig);}
-.icon.filetype.big { --sbig: 2rem;  }
+.icon.filetype{background-image: url(../img/filetype.png);--sbig: 16px;-webkit-background-size: var(--sbig) var(--sbig); background-size: var(--sbig); width: var(--sbig); height: var(--sbig);}
+.icon.filetype.big { --sbig: 24px;  }
 .icon.filetype.video { background-position: 0 0 }
 .icon.filetype.music:before { content: "";}
 .icon.filetype.music { background-position: 0 calc(-1 * var(--sbig)); }
