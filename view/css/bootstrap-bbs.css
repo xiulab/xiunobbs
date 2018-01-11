@@ -260,13 +260,13 @@ li.quote {
 .arrow-right > .arrow-box{ margin-left: -7px; }
 */
 
-.thread { border-bottom: 1px solid #ddd; padding: 0.7rem 0px;}
+.thread,.post { border-bottom: 1px solid #e2e2e2; padding: 0.7rem 0px;}
 .thread:hover { background-color: #eee; }
-.threadlist > .thread:last-child { border-bottom: 0px; }
+.threadlist > .thread:last-child ,.postlist > .post:last-child{ border-bottom: 0px; }
 
-.post { border-bottom: 1px solid #ddd; padding: 1rem 0px;}
+/*.post { border-bottom: 1px solid #ddd; padding: 1rem 0px;}*/
 /*.post:hover:not(.newpost) { background-color: #eee; }*/
-.postlist > .post:last-child { border-bottom: 0px; }
+/*.postlist > .post:last-child { border-bottom: 0px; }*/
 
 .fieldset {
 	padding:10px;
