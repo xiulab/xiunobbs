@@ -29,6 +29,7 @@ $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}tag (
 	name char(32) NOT NULL DEFAULT '',
 	rank int(11) unsigned NOT NULL DEFAULT '0',
 	enable int(11) unsigned NOT NULL DEFAULT '0',
+	style char(32) NOT NULL DEFAULT '', # primary|secondary|success|danger|warning|info|dark|light|white  默认 badge badge-pill badge-secondary
 	PRIMARY KEY (tagid),
 	KEY (cateid)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8";

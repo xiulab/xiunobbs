@@ -1,5 +1,5 @@
 html, table { font-size: 14px; }
-body { background: #e8ecef/* url(../img/body_bg.jpg) repeat-x*/; }
+body { background: #e8ecef; }
 html, body { height: 100%; font-family: "Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", "微软雅黑", "华文细黑", STHeiti, sans-serif; }
 
 /* 页脚固定在底部 */
@@ -22,7 +22,6 @@ html, body { height: 100%; font-family: "Helvetica Neue", Helvetica, "Microsoft 
 small, .small { font-size: 85%; font-weight: 400; }
 .text-grey { color: #aaaaaa !important; }
 .break-all { word-break: break-all; }
-/*.card { margin-bottom: 1.5rem; }*/
 .center { margin-left: auto !important; margin-right: auto !important; }
 .w-auto { width: auto !important; }
 .flex-grow { flex-grow: 1; }
@@ -32,7 +31,6 @@ small, .small { font-size: 85%; font-weight: 400; }
 	box-shadow: 2px 2px 3px rgba(181, 181, 181, 0.25);
 	border: 1px solid rgba(0, 0, 0, 0.125);
 	border-radius: 0.25rem;
-	/*overflow: hidden;*/
 }
 .card {
 	background: #FAFAFA;
@@ -55,7 +53,7 @@ small, .small { font-size: 85%; font-weight: 400; }
 }
 .card-header-tabs > .nav-item > .nav-link.active {
 	background-image: linear-gradient(0deg, #fafafa, #f2f2f2);
-  border-color: #d4d4d4;
+	border-color: #d4d4d4;
 	border-bottom-color: #fafafa;
 }
 .card-header-dropdown .dropdown .dropdown-toggle{ text-decoration: none;color: #495057; }
@@ -65,10 +63,10 @@ small, .small { font-size: 85%; font-weight: 400; }
 .breadcrumb {
 	/*border-radius: 5px;*/
 	background-color: rgba(255, 255, 255, 0.6) !important;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  box-shadow: 1px 1px 2px rgba(210, 210, 210, 0.25);
+	border: 1px solid rgba(0, 0, 0, 0.125);
+	box-shadow: 1px 1px 2px rgba(210, 210, 210, 0.25);
 }
-.breadcrumb a{color: #495057}
+.breadcrumb a {color: #495057}
 
 .line-height-1 { line-height: 1 !important; }
 .line-height-2 { line-height: 1.6 !important; }
@@ -282,3 +280,5 @@ li.quote {
 }
 .message p { margin: 0.2rem 0; line-height: 1.7; }
 .message img { max-width:  100%; height:auto !important;}
+/*.thread .badge-secondary { background-color: #b6bcc1; }*/
+.thread .badge-secondary { background-color: #a0a6ab; }

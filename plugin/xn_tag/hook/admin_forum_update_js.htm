@@ -26,7 +26,8 @@ function tag_cate_add(tagcate) {
 		isforce: (tagcate.isforce == "1" ? "checked" : ''), 
 		id: tagcate.cateid
 	});
-	return $(s).appendTo(jtag_html);
+	var jnode = $(s).appendTo(jtag_html);
+	return jnode;
 }
 function tag_add(jpnode, tag) {
 	tag = tag || {};
@@ -50,6 +51,7 @@ function tag_add(jpnode, tag) {
 	s = xn.template(s, {
 		name: tag.name, 
 		rank: tag.rank, 
+		style: tag.style, 
 		cateid: tag.cateid,
 		enable: (tag.enable == "1" ? "checked" : ''), 
 		defaulttagid: tagcate.defaulttagid, 
@@ -57,7 +59,13 @@ function tag_add(jpnode, tag) {
 		id: tag.tagid
 		
 	});
-	return $(s).appendTo(jpnode);
+	var jnode = $(s).appendTo(jpnode);
+	jnode.find('select').each(function() {
+		var selected = $(this).data('selected');
+		$(this).val(selected);
+	});
+	
+	return jnode;
 }
 function tag_cate_delete(node) {
 	var jnode = $(node);

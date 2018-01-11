@@ -10,6 +10,9 @@
 $tablepre = $db->tablepre;
 
 
+$sql = "ALTER TABLE {$tablepre}tag ADD COLUMN style char(32) NOT NULL DEFAULT ''";
+$r = db_exec($sql);
+
 $sql = "ALTER TABLE {$tablepre}tag_cate ADD COLUMN defaulttagid int(10) unsigned NOT NULL DEFAULT '0'";
 $r = db_exec($sql);
 

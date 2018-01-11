@@ -44,6 +44,18 @@
 										<td width="80" class="pr-3">
 											<input type="text" name="tag_rank[{id}]" value="{rank}" class="form-control" placeholder="<?php echo lang('rank');?>" />
 										</td>
+										<td width="120" class="pr-3">
+											<select class="custom-select custom-select-md" name="tag_style[{id}]" data-selected="{style}">
+												<option value="secondary">灰色</option>
+												<option value="primary">蓝色</option>
+												<option value="danger">红色</option>
+												<option value="warning">橙色</option>
+												<option value="info">天蓝</option>
+												<option value="dark">黑色</option>
+												<option value="light">亮色</option>
+												<option value="white">白色</option>
+											</select>
+										</td>
 										<td width="100">
 											<label class="c-input c-checkbox"><input type="checkbox" name="tag_enable[{id}]" value="1" {enable} /><?php echo lang('enable');?><span class="c-indicator"></span></label>
 										</td>

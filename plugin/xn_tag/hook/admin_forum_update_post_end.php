@@ -43,6 +43,7 @@
 		$taglist = arrlist_change_key($taglist, 'tagid');
 		$tag_name_arr = param('tag_name', array(''));
 		$tag_rank_arr = param('tag_rank', array(0));
+		$tag_style_arr = param('tag_style', array(''));
 		$tag_enable_arr = param('tag_enable', array(0));
 		$tag_cate_id_arr = param('tag_cate_id', array(0));
 		$tag_id_arr = array_keys($tag_name_arr);
@@ -54,6 +55,7 @@
 				'cateid'=>$cateid,
 				'name'=>$tag_name_arr[$tagid],
 				'rank'=>$tag_rank_arr[$tagid],
+				'style'=>$tag_style_arr[$tagid],
 				'enable'=>array_value($tag_enable_arr, $tagid),
 			);
 			if(isset($taglist[$tagid])) {
