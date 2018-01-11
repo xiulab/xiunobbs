@@ -62,7 +62,6 @@ small, .small { font-size: 85%; font-weight: 400; }
 .card-header-dropdown .dropdown-menu{min-width: 8rem;padding: 0.25rem 0;}
 .card-header-dropdown .dropdown-menu .dropdown-item{text-decoration: none;padding: 0.25rem 0.5rem;}
 .card-header-dropdown .dropdown-menu .dropdown-item i{width: 12px;}
-.card > .card-body{padding: 0.875rem}
 .breadcrumb {
 	/*border-radius: 5px;*/
 	background-color: rgba(255, 255, 255, 0.6) !important;
