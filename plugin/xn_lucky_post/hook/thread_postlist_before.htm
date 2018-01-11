@@ -8,12 +8,12 @@
 				foreach ($thread['lucky_pid_arr'] as $floor) {
 					// 已经开奖
 					if($floor <= $thread['posts']) {
-						echo '<span class="m-l-sm" style="border-radius: 100px; width: 36px; height: 36px; background: #b00; color: white; display: inline-block; line-height: 36px; font-size: 14px; text-align: center;">'.$floor.'</span>';
+						echo '<span class="ml-2" style="border-radius: 100px; width: 36px; height: 36px; background: #b00; color: white; display: inline-block; line-height: 36px; font-size: 14px; text-align: center;">'.$floor.'</span>';
 					} else {
 						if($gid == 1) {
-							echo '<span class="m-l-sm" style="border-radius: 100px; width: 36px; height: 36px; background: #888; color: white; display: inline-block; line-height: 36px; font-size: 14px; text-align: center;">'.$floor.'</span>';
+							echo '<span class="ml-2" style="border-radius: 100px; width: 36px; height: 36px; background: #888; color: white; display: inline-block; line-height: 36px; font-size: 14px; text-align: center;">'.$floor.'</span>';
 						} else {
-							echo '<span class="m-l-sm" style="border-radius: 100px; width: 36px; height: 36px; background: #888; color: white; display: inline-block; line-height: 36px; font-size: 14px; text-align: center;">?</span>';
+							echo '<span class="ml-2" style="border-radius: 100px; width: 36px; height: 36px; background: #888; color: white; display: inline-block; line-height: 36px; font-size: 14px; text-align: center;">?</span>';
 						}
 					}
 				}

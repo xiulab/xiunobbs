@@ -272,7 +272,7 @@ function post_file_list_html($filelist, $include_delete = FALSE) {
 		$s .= '			'.$attach['orgfilename']."\r\n";
 		$s .= '		</a>'."\r\n";
 		// hook model_post_file_list_html_delete_before.php
-		$include_delete AND $s .= '		<a href="javascript:void(0)" class="delete m-l-1"><i class="icon-remove"></i> '.lang('delete').'</a>'."\r\n";
+		$include_delete AND $s .= '		<a href="javascript:void(0)" class="delete ml-3"><i class="icon-remove"></i> '.lang('delete').'</a>'."\r\n";
 		// hook model_post_file_list_html_delete_after.php
 		$s .= '</li>'."\r\n";
 	};
