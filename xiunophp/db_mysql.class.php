@@ -143,6 +143,7 @@ class db_mysql {
 	
 	// 如果为 innodb，条件为空，并且有权限读取 information_schema
 	public function count($table, $cond = array()) {
+		$this->connect_slave();
 		if(empty($cond) && $this->rconf['engine'] == 'innodb') {
 			$dbname = $this->rconf['name'];
 			$sql = "SELECT TABLE_ROWS as num FROM information_schema.tables WHERE TABLE_SCHEMA='$dbname' AND TABLE_NAME='$table'";
