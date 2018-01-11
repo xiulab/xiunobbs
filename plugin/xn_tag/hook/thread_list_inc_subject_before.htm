@@ -1,6 +1,0 @@
-							<?php if($fid != 0) { ?>
-								<?php if(!empty($_thread['taglist'])) { foreach($_thread['taglist'] as $tag) { ?>
-								<a href="<?php echo url("forum-$_thread[fid]-$page", array('tagids'=>$tag['tagid']));?>" class="text-grey small hidden-md-down">[<?php echo $tag['name'];?>]</a>
-								<?php  }} ?>
-							<?php  } ?>
-							
