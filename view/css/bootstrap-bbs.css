@@ -9,13 +9,6 @@ html, body { height: 100%; font-family: "Helvetica Neue", Helvetica, "Microsoft 
 #body { flex: 1 0 auto; }
 #footer { flex: 0 0 auto; }
 
-@media (min-width: 576px) {
-	#body { padding-top: 1rem;}
-}
-@media (max-width: 576px) {
-	#body { padding-top: 0.5rem;}
-	#body > .container > .row > div { padding: 0.5rem;}
-}
 #body > .container > .row > .col-lg-3 { padding-left: 0rem; }
 .table th { border-top: none; }
 .table > tbody > tr:first-child > td { border-top: none; }
@@ -77,6 +70,16 @@ small, .small { font-size: 85%; font-weight: 400; }
 .line-height-4 { line-height: 2.5 !important; }
 .line-height-5 { line-height: 3 !important; }
 .line-height-6 { line-height: 4 !important; }
+
+@media (min-width: 576px) {
+	#body { padding-top: 1rem;}
+}
+
+@media (max-width: 576px) {
+	#body { padding-top: 0.5rem;}
+	#body > .container > .row > div { padding: 0.5rem;}
+  .card {box-shadow: 0px 1px 2px rgba(181, 181, 181, 0.25);}}
+}
 
 @media (max-width: 576px) {
   .hidden-sm { display: none !important; }
