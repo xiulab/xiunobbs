@@ -281,5 +281,5 @@ li.quote {
 	color: #fff;
 	padding: 0px 16px;
 }
-
-.message p { margin: 0.2rem 0; line-hei
+.message p { margin: 0.2rem 0; line-height: 1.7; }
+.message img { max-width:  100%; height:auto !important;}
