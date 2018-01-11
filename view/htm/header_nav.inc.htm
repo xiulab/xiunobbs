@@ -25,12 +25,12 @@
 			<div class="collapse navbar-collapse" id="nav_pc">
 				<!-- 左侧：版块 -->
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item home" fid="0"><a class="nav-link" href="."><?php echo lang('index_page');?></a></li>
+					<li class="nav-item home" fid="0"><a class="nav-link" href="."><i class="icon-home d-md-none"></i> <?php echo lang('index_page');?></a></li>
 					<!--{hook header_nav_home_link_after.htm}-->
 					<?php foreach($forumlist_show as $_forum) { ?>
 					<!--{hook header_nav_forumlist_loop_start.htm}-->
 					<li class="nav-item" fid="<?php echo $_forum['fid'];?>">
-						<a class="nav-link" href="<?php echo url("forum-$_forum[fid]");?>"><?php echo $_forum['name'];?></a>
+						<a class="nav-link" href="<?php echo url("forum-$_forum[fid]");?>"><i class="icon-circle-o d-md-none"></i> <?php echo $_forum['name'];?></a>
 					</li>
 					<!--{hook header_nav_forumlist_loop_end.htm}-->
 					<?php } ?>
