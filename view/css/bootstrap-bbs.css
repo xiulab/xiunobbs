@@ -68,7 +68,8 @@ small, .small { font-size: 85%; font-weight: 400; }
   border: 1px solid rgba(0, 0, 0, 0.125);
   box-shadow: 1px 1px 2px rgba(210, 210, 210, 0.25);
 }
-.breadcrumb a{color: #495057}
+.breadcrumb .breadcrumb-item{display: inline-flex;text-overflow: ellipsis;white-space: nowrap;}
+.breadcrumb .breadcrumb-item a{max-width:400px;overflow: hidden;text-overflow: ellipsis;}
 
 .line-height-1 { line-height: 1 !important; }
 .line-height-2 { line-height: 1.6 !important; }
