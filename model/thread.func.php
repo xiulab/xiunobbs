@@ -83,6 +83,8 @@ function thread_create($arr, &$pid) {
 		'userip'=>$longip,
 	);
 	
+	// hook model_thread__create_before.php
+	
 	$tid = thread__create($thread);
 	if($tid === FALSE) {
 		post__delete($pid);
@@ -111,6 +113,7 @@ function thread_create($arr, &$pid) {
 	forum_list_cache_delete();
 	
 	// hook model_thread_create_end.php
+	
 	return $tid;
 }
 

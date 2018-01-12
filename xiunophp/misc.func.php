@@ -28,7 +28,6 @@ function error_handle($errno, $errstr, $errfile, $errline) {
 	$time = $_SERVER['time'];
 	$ajax = $_SERVER['ajax'];
 	IN_CMD AND $errstr = str_replace('<br>', "\n", $errstr);
-	
 	$subject = "Error[$errno]: $errstr, File: $errfile, Line: $errline";
 	$message = array();
 	xn_log($subject, 'php_error'); // 所有PHP错误报告都记录日志
@@ -1293,13 +1292,19 @@ function copy_recusive($src, $dst) {
 	closedir($dir); 
 }
 
+function make_seed() {
+	list($usec, $sec) = explode(' ', microtime());
+	return (float)$sec + ((float)$usec * 100000);
+}
+
 // 随机字符
 function xn_rand($n = 16) {
 	$str = '0123456789abcdefghijklmnopqrstuvwxyz';
 	$len = strlen($str);
 	$return = '';
 	for($i=0; $i<$n; $i++) {
-		$r = rand(1, $len);
+		//srand(make_seed());
+		$r = mt_rand(1, $len);
 		$return .= $str[$r - 1];
 	}
 	return $return;
@@ -1338,7 +1343,7 @@ function xn_debug_info() {
 	$starttime = $_SERVER['starttime'];
 	$s = '';
 	if(DEBUG > 1) {
-		$s .= '<div class="small break-all">';
+		$s .= '<fieldset class="fieldset" class="small break-all">';
 		$s .= '<p>Processed Time:'.(microtime(1) - $starttime).'</p>';
 		if(IN_CMD) {
 			foreach($db->sqls as $sql) {
@@ -1358,7 +1363,7 @@ function xn_debug_info() {
 			}
 			$s .= '';
 		}
-		$s .= '</div>';
+		$s .= '</fieldset>';
 	}
 	return $s;
 }

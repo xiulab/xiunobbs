@@ -52,6 +52,7 @@ function post__find($cond = array(), $orderby = array(), $page = 1, $pagesize = 
 // 回帖
 function post_create($arr, $fid, $gid) {
 	global $conf, $time;
+	
 	// hook model_post_create_start.php
 	
 	$pid = post__create($arr, $gid);
@@ -85,6 +86,7 @@ function post_create($arr, $fid, $gid) {
 	user_update_group($uid);
 	
 	// hook model_post_create_end.php
+	
 	return $pid;
 }
 
