@@ -10,6 +10,7 @@ $extra = array(); // 给插件预留
 
 $active = 'default';
 !in_array($orderby, array('tid', 'lastpid')) AND $orderby = 'lastpid';
+$extra['orderby'] = $orderby;
 
 $forum = forum_read($fid);
 empty($forum) AND message(3, lang('forum_not_exists'));

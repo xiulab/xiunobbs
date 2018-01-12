@@ -261,8 +261,18 @@ function resize_image() {
 		});
 	});
 }
+
+// 对于超宽的表格，加上响应式
+function resize_table() {
+	$('div.message').each(function() {
+		var jdiv = $(this);
+		jdiv.find('table').addClass('table').wrap('<div class="table-responsive"></div>'); 
+	});
+}
+
 $(function() {
 	resize_image();
+	resize_table();
 	$(window).on('resize', resize_image);
 });
 
