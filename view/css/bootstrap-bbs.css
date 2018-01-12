@@ -282,8 +282,9 @@ li.quote {
 }
 .message p { margin: 0.2rem 0; line-height: 1.7; }
 .message img { max-width:  100%; height:auto !important;}
-/*.thread .badge-secondary { background-color: #b6bcc1; }*/
-.thread .badge-secondary { background-color: #a0a6ab; }
+/*.thread .badge-secondary { background-color: #b6bcc1; }
+.thread .badge-secondary { background-color: #a0a6ab; }*/
+.thread .badge { font-weight: normal; }
 
 
 
