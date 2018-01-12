@@ -73,7 +73,7 @@ if($action == 'create') {
 		// thread_top_create($fid, $tid);
 
 		$post = post_read($pid);
-		$post['floor'] = $thread['posts'] + 1;
+		$post['floor'] = $thread['posts'] + 2;
 		$postlist = array($post);
 		
 		$allowpost = forum_access_user($fid, $gid, 'allowpost');

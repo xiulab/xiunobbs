@@ -217,9 +217,6 @@ li.quote {
 .thread:hover { background-color: #eee; }
 .threadlist > .thread:last-child , .postlist > .post:last-child { border-bottom: 0px; }
 
-/*.post { border-bottom: 1px solid #ddd; padding: 1rem 0px;}*/
-/*.post:hover:not(.newpost) { background-color: #eee; }*/
-/*.postlist > .post:last-child { border-bottom: 0px; }*/
 .postlist .media-body { width: 1%; }
 .message p { margin: 0.2rem 0; line-height: 1.7; }
 .message img { max-width:  100%; height:auto !important;}

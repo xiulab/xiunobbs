@@ -306,7 +306,6 @@ function thread_format(&$thread) {
 	$thread['top_class'] = $thread['top'] ? 'top_'.$thread['top'] : '';
 
 	$thread['pages'] = ceil($thread['posts'] / $conf['postlist_pagesize']);
-	
 		
 	// hook model_thread_format_end.php
 }

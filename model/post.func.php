@@ -181,7 +181,7 @@ function post_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 2
 	$postlist = post__find($cond, $orderby, $page, $pagesize);
 	$floor = 1;
 	if($postlist) foreach($postlist as &$post) {
-		$post['floor'] = ++$floor;
+		$post['floor'] = $floor++;
 		post_format($post);
 	}
 	// hook model_post_find_end.php
@@ -199,7 +199,7 @@ function post_find_by_tid($tid, $page = 1, $pagesize = 50) {
 	if($postlist) {
 		$floor = ($page - 1)* $pagesize + 1;
 		foreach($postlist as &$post) {
-			$post['floor'] = ++$floor;
+			$post['floor'] = $floor++;
 			post_format($post);
 		}
 	}
@@ -223,7 +223,7 @@ function post_find_by_uid($uid, $page = 1, $pagesize = 50) {
 	foreach($postlist as $k=>&$post) {
 		user_post_message_format($post['message_fmt']);
 		$post['filelist'] = array();
-		$post['floor'] = 0;
+		$post['floor'] = 0; // 默认
 		$thread = thread_read_cache($post['tid']);
 		$post['subject'] = $thread['subject'];
 		// 干掉主题帖
