@@ -3,7 +3,7 @@ body { background: #e8ecef; }
 html, body { height: 100%; font-family: "Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", "微软雅黑", "华文细黑", STHeiti, sans-serif; }
 
 /* 页脚固定在底部 */
-#wrapper { height: 100%; display: flex;  flex-direction: column;}
+body { height: 100%; display: flex;  flex-direction: column;}
 #header, #body, #footer { width: 100%; }
 #header { flex: 0 0 auto; }
 #body { flex: 1 0 auto; }
@@ -87,64 +87,12 @@ small, .small { font-size: 85%; font-weight: 400; }
 }
 
 
-
-
 /* 小屏: only small screen */
 @media (max-width: 576px) { .hidden-sm { display: none !important; } }
 /* 中屏: only middle screen */
 @media (min-width: 576px) and (max-width: 992px) { .hidden-md { display: none !important; } }
 /* 大屏+: big screen */
 @media (min-width: 992px) { .hidden-lg { display: none !important; } }
-
-
-/********************************* bbs 业务部分 *************************************/
-/*  ul, dl 多列定义，用来模拟简单的表格布局，如果不考虑响应，比 pull-left pull-right 方便  */
-/*
-dl.row, ul.row {
-  display: flex;
-  width: 100%;
-  clear: both;
-}
-
-dl.row, dl.row > dt, dl.row > dd, ul.row, ul.row > li {
-  margin: 0px;
-  padding: 0px;
-}
-
-dl.row > dt, dl.row > dd, ul.row > li {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-dl.row > dt, dl.row > dd, ul.row > li {
-  list-style: none;
-  min-height: 1.6rem;
-}
-
-dl.row > dt, dl.row > dd {
-  width: auto;
-}
-
-dl.row > dt {
-  font-weight: normal;
-}
-
-ul.row.vtop > li, ul.row > li.vtop {
-  vertical-align: top;
-}
-
-dl.row.vtop > dt, dl.row.vtop > dd, dl.row > dt.vtop, dl.row > dd.vtop {
-  vertical-align: top;
-}
-
-ul.row.vbottom > li, ul.row > li.vbottom {
-  vertical-align: bottom;
-}
-
-dl.row.vbottom > dt, dl.row.vbottom > dd, dl.row > dt.vbottom, dl.row > dd.vbottom {
-  vertical-align: bottom;
-}
-*/
 
 .avatar-1 { width: 1.3rem; height: 1.3rem; border-radius: 1.3rem; }
 .avatar-2 { width: 1.8rem; height: 1.8rem; border-radius: 1.8rem; }
@@ -193,15 +141,6 @@ dl.row.vbottom > dt, dl.row.vbottom > dd, dl.row > dt.vbottom, dl.row > dd.vbott
 .icon-top-2 { color: #FF8800; }
 .icon-top-3 { color: #DA24A7; }
 
-/* 回帖输入框 */
-#message { height: 2.4rem; transition: height 0.2s; }
-
-/* 翻页使用 bootstrap 4 自带的 pagination
-.active {font-weight: 800}
-.page {padding-top: 8px; overflow: visible; clear: both; text-align: center; line-height: 1;}
-.page a, .page a.active{display: inline-block; padding: 5px 8px; margin-right: 2px; border: 1px solid #49535E; color: #E9E9E9; -webkit-border-radius: 12px; border-radius: 12px; background: #555; text-decoration: none}
-.page a:hover, .page a.active{color: #E9E9E9;  background: #000;}
-*/
 /*@teax 弥补bootstrap beta3的不足，分页如果过多则换行，防止超出屏幕*/
 .pagination{-ms-flex-wrap: wrap;flex-wrap: wrap;}
 table.nav_tag_list { margin-bottom: 0.2rem; }
@@ -238,7 +177,6 @@ li.quote {
 
 /*
 .icon-diamond:before { font-weight: 800; }
-
 .arrow { width:15px; height: 15px;  overflow: hidden; }
 .arrow-box {
 	-webkit-transform: rotate(45deg);
@@ -285,6 +223,10 @@ li.quote {
 /*.thread .badge-secondary { background-color: #b6bcc1; }
 .thread .badge-secondary { background-color: #a0a6ab; }*/
 .thread .badge { font-weight: normal; }
+
+
+/* 回帖输入框 */
+#message { height: 2.4rem; transition: height 0.2s; }
 
 
 

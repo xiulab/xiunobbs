@@ -11,28 +11,28 @@
 <?php $conf = G('conf');?>
 <?php $static_version = $conf['static_version'];?>
 
-				<?php echo xn_debug_info();?>
-			</div>
+			<?php echo xn_debug_info();?>
 		</div>
+	</div>
+
+	<!--{hook admin_footer_footer_before.htm}-->
 	
-		<!--{hook admin_footer_footer_before.htm}-->
-		
-		<div class="text-muted small bg-dark py-4" id="footer">
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						<!--{hook footer_footer_left_start.htm}-->
-						Powered by <b>Xiuno BBS <span><?php echo $conf['version'];?></span></b>
-						<!--{hook footer_footer_left_end.htm}-->
-					</div>
-					<div class="col text-right">
-						<!--{hook footer_footer_right_start.htm}-->
-						Time: <b><?php echo substr(microtime(1) - $starttime, 0, 5);?></b>, SQL: <b><?php echo count($db->sqls);?></b>
-						<!--{hook footer_footer_right_end.htm}-->
-					</div>
+	<div class="text-muted small bg-dark py-4" id="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<!--{hook footer_footer_left_start.htm}-->
+					Powered by <b>Xiuno BBS <span><?php echo $conf['version'];?></span></b>
+					<!--{hook footer_footer_left_end.htm}-->
+				</div>
+				<div class="col text-right">
+					<!--{hook footer_footer_right_start.htm}-->
+					Time: <b><?php echo substr(microtime(1) - $starttime, 0, 5);?></b>, SQL: <b><?php echo count($db->sqls);?></b>
+					<!--{hook footer_footer_right_end.htm}-->
 				</div>
 			</div>
 		</div>
+	</div>
 	
 	<!--{hook admin_footer_footer_after.htm}-->
 	
@@ -59,7 +59,6 @@
 	
 	<!--{hook admin_footer_js_after.htm}-->
 	
-</div>
 </body>
 </html>
 
