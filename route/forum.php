@@ -31,15 +31,6 @@ if($thread_list_from_default) {
 	$threadlist = thread_find_by_fid($fid, $page, $pagesize, $orderby);
 }
 
-// 三级置顶在首页显示，版块列表页不显示
-/*
-foreach($threadlist as $k=>$thread) {
-	if($thread['top'] == 3) unset($threadlist[$k]);
-}
-*/
-
-$threadlist = $toplist + $threadlist;
-
 $header['title'] = $forum['seo_title'] ? $forum['seo_title'] : $forum['name'].'-'.$conf['sitename'];
 $header['mobile_title'] = $forum['name'];
 $header['mobile_link'] = url("forum-$fid");

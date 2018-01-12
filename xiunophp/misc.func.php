@@ -47,7 +47,7 @@ function error_handle($errno, $errstr, $errfile, $errline) {
 			<b>$subject</b>
 			<div>".implode("<br>\r\n", $message)."</div>
 		</fieldset>";
-	echo $ajax ? $txt : $html;
+	echo ($ajax || IN_CMD) ? $txt : $html;
 	DEBUG == 2 AND xn_log($txt, 'debug_error');
 	return TRUE;
 }
