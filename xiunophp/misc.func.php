@@ -28,6 +28,7 @@ function error_handle($errno, $errstr, $errfile, $errline) {
 	$time = $_SERVER['time'];
 	$ajax = $_SERVER['ajax'];
 	IN_CMD AND $errstr = str_replace('<br>', "\n", $errstr);
+	
 	$subject = "Error[$errno]: $errstr, File: $errfile, Line: $errline";
 	$message = array();
 	xn_log($subject, 'php_error'); // 所有PHP错误报告都记录日志
@@ -1292,18 +1293,12 @@ function copy_recusive($src, $dst) {
 	closedir($dir); 
 }
 
-function make_seed() {
-	list($usec, $sec) = explode(' ', microtime());
-	return (float)$sec + ((float)$usec * 100000);
-}
-
 // 随机字符
 function xn_rand($n = 16) {
-	$str = '0123456789abcdefghijklmnopqrstuvwxyz';
+	$str = '23456789ABCDEFGHJKMNPQRSTUVWXYZ';
 	$len = strlen($str);
 	$return = '';
 	for($i=0; $i<$n; $i++) {
-		//srand(make_seed());
 		$r = mt_rand(1, $len);
 		$return .= $str[$r - 1];
 	}
