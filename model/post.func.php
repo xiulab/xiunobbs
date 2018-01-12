@@ -91,6 +91,7 @@ function post_create($arr, $fid, $gid) {
 // 编辑回帖
 function post_update($pid, $arr, $tid = 0) {
 	global $conf, $user, $gid;
+
 	$post = post__read($pid);
 	if(empty($post)) return FALSE;
 	$tid = $post['tid'];
@@ -98,6 +99,7 @@ function post_update($pid, $arr, $tid = 0) {
 	$isfirst = $post['isfirst'];
 	
 	// hook model_post_update_start.php
+
 	
 	post_message_fmt($arr, $gid);
 	
@@ -177,9 +179,9 @@ function post_delete_by_tid($tid) {
 function post_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook model_post_find_start.php
 	$postlist = post__find($cond, $orderby, $page, $pagesize);
-	$floor = 0;
+	$floor = 1;
 	if($postlist) foreach($postlist as &$post) {
-		$post['floor'] = $floor++;
+		$post['floor'] = ++$floor;
 		post_format($post);
 	}
 	// hook model_post_find_end.php
@@ -189,14 +191,15 @@ function post_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 2
 // 此处有缓存，是否有必要？
 function post_find_by_tid($tid, $page = 1, $pagesize = 50) {
 	global $conf;
-	$postlist = post__find(array('tid'=>$tid), array('pid'=>1), $page, $pagesize);
 	
 	// hook model_post_find_by_tid_start.php
 	
+	$postlist = post__find(array('tid'=>$tid), array('pid'=>1), $page, $pagesize);
+	
 	if($postlist) {
-		$floor = ($page - 1)* $pagesize;
+		$floor = ($page - 1)* $pagesize + 1;
 		foreach($postlist as &$post) {
-			$post['floor'] = $floor++;
+			$post['floor'] = ++$floor;
 			post_format($post);
 		}
 	}
@@ -204,6 +207,50 @@ function post_find_by_tid($tid, $page = 1, $pagesize = 50) {
 	// hook model_post_find_by_tid_end.php
 	return $postlist;
 }
+
+// 此处有缓存，是否有必要？
+function post_find_by_uid($uid, $page = 1, $pagesize = 50) {
+	global $conf;
+	
+	// hook model_post_find_by_uid_start.php
+	
+	db_find('post', array('uid'=>$uid), array('pid'=>-1), $page, $pagesize, '', array('pid'));
+	$arrlist = db_find('post', array('uid'=>$uid), array('pid'=>-1), $page, $pagesize, '', array('pid'));
+	$pids = arrlist_values($arrlist, 'pid');
+	$postlist = post_find_by_pids($pids);
+	$postlist = arrlist_multisort($postlist, 'pid', FALSE);
+	
+	foreach($postlist as $k=>&$post) {
+		user_post_message_format($post['message_fmt']);
+		$post['filelist'] = array();
+		$post['floor'] = 0;
+		$thread = thread_read_cache($post['tid']);
+		$post['subject'] = $thread['subject'];
+		// 干掉主题帖
+		if($post['isfirst']) {
+			//unset($postlist[$k]);
+		}
+	}
+	
+	// hook model_post_find_by_uid_end.php
+	return $postlist;
+}
+
+
+// <img src="/view/img/face/1.gif"/>
+// <blockquote class="blockquote">
+function user_post_message_format(&$s) {
+	if(xn_strlen($s) < 100) return;
+	$s = preg_replace('#<blockquote\s+class="blockquote">.*?</blockquote>#is', '', $s);
+	$s = str_ireplace(array('<br>', '<br />', '<br/>', '</p>', '</tr>', '</div>', '</li>', '</dd>'. '</dt>'), "\r\n", $s);
+	$s = str_ireplace(array('&nbsp;'), " ", $s);
+	$s = strip_tags($s);
+	$s = preg_replace('#[\r\n]+#', "\n", $s);
+	$s = xn_substr(trim($s), 0, 100);
+	$s = str_replace("\n", '<br>', $s);
+}
+
+
 /*
 function post_list_cache_delete($tid) {
 	// hook model_post_list_cache_delete_start.php
@@ -321,7 +368,7 @@ function post_format(&$post) {
 function post_message_fmt(&$arr, $gid) {
 	
 	// hook post_message_fmt_start.php
-	
+
 	// 超长内容截取
 	$arr['message'] = xn_substr($arr['message'], 0, 2028000);
 	

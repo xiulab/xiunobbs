@@ -247,11 +247,10 @@ function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'lastpid')
 	
 	// 查找置顶帖
 	if($order == $conf['order_default'] && $page == 1) {
-		//$toplist3 = thread_top_find(0);
-		//$toplist3 = array();
-		//$toplist1 = thread_top_find($fid);
-		$toplist = thread_top_find($fid);
-		$threadlist = $toplist + $threadlist;
+		$toplist3 = thread_top_find(0);
+		$toplist1 = thread_top_find($fid);
+		//$toplist = thread_top_find($fid);
+		$threadlist = $toplist3 + $toplist1 + $threadlist;
 	}
 	// hook model_thread_find_by_fid_end.php
 	return $threadlist;
@@ -308,6 +307,7 @@ function thread_format(&$thread) {
 
 	$thread['pages'] = ceil($thread['posts'] / $conf['postlist_pagesize']);
 	
+		
 	// hook model_thread_format_end.php
 }
 

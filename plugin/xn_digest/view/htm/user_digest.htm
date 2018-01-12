@@ -1,0 +1,24 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+
+<div class="row">
+	<div class="col-lg-8 mx-auto">
+		<?php include _include(APP_PATH.'view/htm/user_nav.inc.htm');?>
+		<div class="card">
+			<div class="card-header">
+				<?php include _include(APP_PATH.'view/htm/user_thread_nav.inc.htm');?>
+			</div>
+			<div class="card-body">
+				<ul class="list-unstyled threadlist mb-0">
+					<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
+				</ul>
+			</div>
+		</div>
+		
+		<?php if(!empty($group['allowdeleteuser'])) { ?>
+		<a role="button" class="btn btn-danger confirm btn-block my-3" data-confirm-text="<?php echo lang('confirm_delete_user');?>" data-method="post" href="<?php echo url("mod-deleteuser-$_user[uid]");?>"><?php echo lang('delete_user');?></a>
+		<?php } ?>
+		
+	</div>
+</div>
+
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>

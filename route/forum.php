@@ -32,9 +32,11 @@ if($thread_list_from_default) {
 }
 
 // 三级置顶在首页显示，版块列表页不显示
+/*
 foreach($threadlist as $k=>$thread) {
 	if($thread['top'] == 3) unset($threadlist[$k]);
 }
+*/
 
 $threadlist = $toplist + $threadlist;
 

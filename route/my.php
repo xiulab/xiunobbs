@@ -4,13 +4,18 @@
 
 $action = param(1);
 
+// hook my_start.php
+
 $user = user_read($uid);
 user_login_check();
 
-// hook my_start.php
-
 $header['mobile_title'] = $user['username'];
 $header['mobile_linke'] = url("my");
+
+
+$active = $action;
+
+// hook my_action_before.php
 
 if(empty($action)) {
 	
@@ -59,7 +64,6 @@ if(empty($action)) {
 	$pagesize = 20;
 	$totalnum = $user['threads'];
 	$thread_list_from_default = 1;
-	$active = 'default';
 	
 	// hook my_profile_thread_list_before.php
 	
@@ -75,6 +79,28 @@ if(empty($action)) {
 	} else {
 		include _include(APP_PATH.'view/htm/my_thread.htm');
 	}
+
+} elseif($action == 'post') {
+	
+	// hook my_post_start.php
+	
+	$page = param(2, 1);
+	$pagesize = 20;
+	
+	$totalnum = $user['posts'];
+	$pagination = pagination(url("my-post-{page}"), $totalnum, $page, $pagesize);
+	$postlist = post_find_by_uid($uid, $page, $pagesize);
+	
+	// hook my_post_end.php
+	
+	$active = 'thread';
+	if($ajax) {
+		foreach($postlist as &$postlist) $post = post_safe_info($post);
+		message(0, $postlist);
+	} else {
+		include _include(APP_PATH.'view/htm/my_post.htm');
+	}
+	
 } elseif($action == 'avatar') {
 	
 	if($method == 'GET') {

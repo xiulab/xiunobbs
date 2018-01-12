@@ -6,7 +6,7 @@ include _include(XIUNOPHP_PATH.'xn_send_mail.func.php');
 
 $action = param(1);
 
-// hook user_action_before.php
+// hook user_start.php
 
 if($action == 'login') {
 
@@ -182,29 +182,6 @@ if($action == 'login') {
 	
 	message(0, jump(lang('logout_successfully'), http_referer(), 1));
 	//message(0, jump('退出成功', './', 1));
-
-// 用户发表的主题
-} elseif($action == 'thread') {
-
-	// hook user_thread_start.php
-	
-	$_uid = param(2, 0);
-	$_user = user_read($_uid);
-	
-	$page = param(3, 1);
-	$pagesize = 10;
-	$totalnum = $_user['threads'];
-	$pages = pages(url("user-thread-$_uid-{page}"), $totalnum, $page, $pagesize);
-	$threadlist = mythread_find_by_uid($_uid, $page, $pagesize);
-		
-	// hook user_thread_end.php
-	
-	if($ajax) {
-		foreach($threadlist as &$thread) $thread = thread_safe_info($thread);
-		message(0, $threadlist);
-	} else {
-		include _include(APP_PATH.'view/htm/user_thread.htm');
-	}
 	
 // 重设密码第 1 步 | reset password first step
 } elseif($action == 'resetpw') {
@@ -379,7 +356,51 @@ if($action == 'login') {
 		//$url = xn_url_add_arg($return_url, 'token', $s);
 		http_location($url);
 	}
+
+} elseif($action == 'post') {
 	
+	// hook user_post_start.php
+	
+	$_uid = param(2, 0);
+	$_user = user_read($_uid);
+	
+	$page = param(3, 1);
+	$pagesize = 20;
+	$totalnum = $_user['posts'];
+	$pagination = pagination(url("user-post-$_uid-{page}"), $totalnum, $page, $pagesize);
+	$postlist = post_find_by_uid($uid, $page, $pagesize);
+	
+	// hook user_post_end.php
+	
+	$active = 'thread';
+	include _include(APP_PATH.'view/htm/user_post.htm');
+
+// 用户发表的主题
+} elseif($action == 'thread') {
+	
+	// hook user_thread_start.php
+	
+	$_uid = param(2, 0);
+	empty($_uid) AND $_uid = $uid;
+	$_user = user_read($_uid);
+	
+	$page = param(3, 1);
+	$pagesize = 20;
+	$totalnum = $_user['threads'];
+	$pagination = pagination(url("user-thread-$_uid-{page}"), $totalnum, $page, $pagesize);
+	$threadlist = mythread_find_by_uid($_uid, $page, $pagesize);
+	thread_list_access_filter($threadlist, $gid);
+	
+	// hook user_thread_end.php
+	
+	$active = 'thread';
+	if($ajax) {
+		foreach($threadlist as &$thread) $thread = thread_safe_info($thread);
+		message(0, $threadlist);
+	} else {
+		include _include(APP_PATH.'view/htm/user_thread.htm');
+	}
+		
 } else {
 	
 	// hook user_profile_start.php
@@ -389,7 +410,7 @@ if($action == 'login') {
 	$page = param(2, 1);
 	$pagesize = 10;
 	$thread_list_from_default = 1;
-	$active = 'default';
+	$active = '';
 	
 	empty($_user) AND message(-1, lang('user_not_exists'));
 	$header['title'] = $_user['username'];
@@ -397,11 +418,6 @@ if($action == 'login') {
 	
 	// hook user_profile_thread_list_before.php
 	
-	if($thread_list_from_default == 1) {
-		$pagination = pagination(url("user-$_uid-{page}"), $_user['threads'], $page, $pagesize);
-		$threadlist = mythread_find_by_uid($_uid, $page, $pagesize);
-		thread_list_access_filter($threadlist, $gid);
-	}
 
 	// hook user_profile_end.php
 	
@@ -409,7 +425,7 @@ if($action == 'login') {
 		$_user = user_safe_info($_user);
 		message(0, $_user);
 	} else {
-		include _include(APP_PATH.'view/htm/user_profile.htm');
+		include _include(APP_PATH.'view/htm/user.htm');
 	}
 }
 

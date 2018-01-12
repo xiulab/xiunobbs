@@ -1,0 +1,9 @@
+				<ul class="nav nav-tabs card-header-tabs">
+					<li class="nav-item">
+						<a class="nav-link <?php echo $action == 'thread' ? 'active' : '';?>" href="<?php echo url("my-thread");?>"><?php echo lang('my_join_thread');?></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link <?php echo $action == 'post' ? 'active' : '';?>" href="<?php echo url("my-post");?>"><?php echo lang('my_post');?></a>
+					</li>
+					<!--{hook my_post_nav_end.htm}-->
+				</ul>

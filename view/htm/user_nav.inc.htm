@@ -1,0 +1,6 @@
+		<div class="btn-group mb-3" role="group">
+			<!--{hook user_nav_start.htm}-->
+			<a role="button" class="btn btn-secondary<?php echo empty($active) ? ' active' : '';?>" href="<?php echo url("user-$_uid"); ?>"><i class="icon-cog"></i> <?php echo lang('user_profile'); ?></a>
+			<a role="button" class="btn btn-secondary<?php echo $active == 'thread' ? ' active' : '';?>" href="<?php echo url("user-thread-$_uid"); ?>"><i class="icon-comment"></i> <?php echo lang('user_post'); ?></a>
+			<!--{hook user_nav_end.htm}-->
+		</div>

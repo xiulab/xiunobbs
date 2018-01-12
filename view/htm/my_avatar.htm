@@ -1,7 +1,10 @@
 <?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
 
 <div class="row">
-	<div class="col-lg-6 mx-auto">
+	<div class="col-lg-8 mx-auto">
+	
+		<?php include _include(APP_PATH.'view/htm/my_nav.inc.htm');?>
+		
 		<div class="card">
 			<div class="card-header"><?php echo lang('modify_avatar');?></div>
 			<div class="card-body text-center">
@@ -17,8 +20,6 @@
 				</div>
 			</div>
 		</div>
-		<a role="button" class="btn btn-secondary btn-block mb-3" href="<?php echo url('my');?>"> <?php echo lang('back');?> </a>
-		
 	</div>
 </div>
 

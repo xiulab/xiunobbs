@@ -1,0 +1,29 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+
+<!--{hook user_thread_start.htm}-->
+
+<div class="row">
+	<div class="col-lg-8 mx-auto">
+		<?php include _include(APP_PATH.'view/htm/user_nav.inc.htm');?>
+		<div class="card">
+			<div class="card-header">
+				<?php include _include(APP_PATH.'view/htm/user_thread_nav.inc.htm');?>
+			</div>
+			<div class="card-body">
+				<ul class="list-unstyled threadlist">
+					<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm'); ?>
+				</ul>
+			</div>
+		</div>
+		<?php if($pagination) { ?>
+		<nav><ul class="pagination justify-content-center"><?php echo $pagination; ?></ul></nav>
+		<?php } ?>
+		<!--{hook user_thread_page_after.htm}-->
+	</div>
+</div>
+
+<!--{hook user_thread_end.htm}-->
+
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
+
+<!--{hook user_thread_js.htm}-->
