@@ -12,7 +12,6 @@ if($action == 'digest') {
 	$threadlist = thread_find_by_tids($tidarr);
 	if($digest == 2 || $digest == 3) {
 		$username = $user['username'];
-		//thread_digest_system_send($digest,$threadlist);
 	}
 	
 	foreach($threadlist as &$thread) {

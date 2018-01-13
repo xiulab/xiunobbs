@@ -22,13 +22,13 @@ if(empty($action)) {
 	
 	$header['title'] = lang('my_home');
 	
-	$page = param(2, 1);
+	$page = param(1, 1);
 	$pagesize = 20;
 	$totalnum = $user['threads'];
 	
 	// hook my_profile_thread_list_before.php
 	
-	$pagination = pagination(url('my-thread-{page}'), $totalnum, $page, $pagesize);
+	$pagination = pagination(url('my-{page}'), $totalnum, $page, $pagesize);
 	$threadlist = mythread_find_by_uid($uid, $page, $pagesize);
 	
 	// hook my_thread_end.php
