@@ -6,9 +6,39 @@ include _include(XIUNOPHP_PATH.'xn_send_mail.func.php');
 
 $action = param(1);
 
+is_numeric($action) AND $action = '';
+
 // hook user_start.php
 
-if($action == 'login') {
+if(empty($action)) {
+
+        // hook user_index_start.php
+
+        $_uid = param(2, 0);
+        empty($_uid) AND $_uid = $uid;
+        $_user = user_read($_uid);
+        
+        empty($_user) AND message(-1, lang('user_not_exists'));
+        $header['title'] = $_user['username'];
+        $header['mobile_title'] = $_user['username'];
+
+        $page = param(3, 1);
+        $pagesize = 20;
+        $totalnum = $_user['threads'];
+        $pagination = pagination(url("user-$_uid-{page}"), $totalnum, $page, $pagesize);
+        $threadlist = mythread_find_by_uid($_uid, $page, $pagesize);
+        thread_list_access_filter($threadlist, $gid);
+
+        // hook user_index_end.php
+
+        if($ajax) {
+                foreach($threadlist as &$thread) $thread = thread_safe_info($thread);
+                message(0, $threadlist);
+        } else {
+                include _include(APP_PATH.'view/htm/user.htm');
+        }	
+	
+} elseif($action == 'login') {
 
 	// hook user_login_get_post.php
 	
@@ -375,6 +405,7 @@ if($action == 'login') {
 	$active = 'thread';
 	include _include(APP_PATH.'view/htm/user_post.htm');
 
+	/*
 // 用户发表的主题
 } elseif($action == 'thread') {
 	
@@ -400,33 +431,9 @@ if($action == 'login') {
 	} else {
 		include _include(APP_PATH.'view/htm/user_thread.htm');
 	}
-		
+	*/	
 } else {
 	
-	// hook user_profile_start.php
-	
-	$_uid = param(1, 0);
-	$_user = user_read($_uid);
-	$page = param(2, 1);
-	$pagesize = 10;
-	$thread_list_from_default = 1;
-	$active = '';
-	
-	empty($_user) AND message(-1, lang('user_not_exists'));
-	$header['title'] = $_user['username'];
-	$header['mobile_title'] = $_user['username'];
-	
-	// hook user_profile_thread_list_before.php
-	
-
-	// hook user_profile_end.php
-	
-	if($ajax) {
-		$_user = user_safe_info($_user);
-		message(0, $_user);
-	} else {
-		include _include(APP_PATH.'view/htm/user.htm');
-	}
 }
 
 // hook user_end.php

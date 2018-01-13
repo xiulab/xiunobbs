@@ -5,34 +5,26 @@
 <div class="row">
 	<div class="col-lg-8 mx-auto">
 	
-		<?php include _include(APP_PATH.'view/htm/my_nav.inc.htm');?>
+		<?php include _include(APP_PATH.'view/htm/my_profile.inc.htm');?>
 		
 		<div class="card">
-			<div class="card-body text-center">
-			
-				<img class="logo-4" src="<?php echo $user['avatar_url']; ?>">
-				<h4><?php echo $user['username']; ?></h4>
-				<!--{hook my_index_username_before.htm}-->
-				<div class="row">
-					<div class="col-sm-6">
-						<p><span class="text-muted"><?php echo lang('user_group');?>：</span><span><?php echo $user['groupname'];?></span></p>
-						<p><span class="text-muted"><?php echo lang('email');?>：</span><span><?php echo $user['email'];?></span></p>
-						<p><span class="text-muted"><?php echo lang('create_date');?>：</span><span><?php echo $user['create_date_fmt'];?></span></p>
-						<p><span class="text-muted"><?php echo lang('last_login_date');?>：</span><span><?php echo $user['login_date_fmt'];?></span></p>
-						<!--{hook my_profile_login_date_after.htm}-->
-					</div>
-					<div class="col-sm-6">
-						<p><span class="text-muted"><?php echo lang('threads');?>：</span><span><?php echo $user['threads'];?></span></p>
-						<p><span class="text-muted"><?php echo lang('posts');?>：</span><span><?php echo $user['posts'];?></span></p>
-						<!--{hook my_profile_posts_after.htm}-->
-					</div>
-				</div>
+			<div class="card-header">
+				<?php include _include(APP_PATH.'view/htm/my_nav.inc.htm');?>
+			</div>
+			<div class="card-body">
+				<ul class="list-unstyled threadlist">
+					<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm'); ?>
+				</ul>
+				
+				<?php if($pagination) { ?>
+				<nav><ul class="pagination justify-content-center"><?php echo $pagination; ?></ul></nav>
+				<?php } ?>
 				
 			</div>
 		</div>
 	</div>
 </div>
-	
+
 <!--{hook my_index_end.htm}-->
 
 <?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>

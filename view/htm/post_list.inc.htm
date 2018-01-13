@@ -15,8 +15,8 @@
 							<div class="d-flex justify-content-between small text-muted">
 								<div>
 									<!--{hook post_list_inc_username_before.htm}-->
-									<span class="username text-muted">
-										<a href="<?php echo url("user-$_post[uid]");?>"><?php echo $_post['username'];?></a>
+									<span class="username">
+										<a href="<?php echo url("user-$_post[uid]");?>" class="text-muted font-weight-bold"><?php echo $_post['username'];?></a>
 									</span>
 									<span class="date text-grey ml-2"><?php echo $_post['create_date_fmt'];?></span>
 									<!--{hook post_list_inc_create_date_after.htm}-->

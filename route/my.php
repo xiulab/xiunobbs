@@ -12,6 +12,7 @@ user_login_check();
 $header['mobile_title'] = $user['username'];
 $header['mobile_linke'] = url("my");
 
+is_numeric($action) AND $action = '';
 
 $active = $action;
 
@@ -20,7 +21,26 @@ $active = $action;
 if(empty($action)) {
 	
 	$header['title'] = lang('my_home');
-	include _include(APP_PATH.'view/htm/my.htm');
+	
+	$page = param(2, 1);
+	$pagesize = 20;
+	$totalnum = $user['threads'];
+	$thread_list_from_default = 1;
+	
+	// hook my_profile_thread_list_before.php
+	
+	if($thread_list_from_default) {
+		$pagination = pagination(url('my-thread-{page}'), $totalnum, $page, $pagesize);
+		$threadlist = mythread_find_by_uid($uid, $page, $pagesize);
+	}
+	
+	// hook my_thread_end.php
+	if($ajax) {
+		foreach($threadlist as &$thread) $thread = thread_safe_info($thread);
+		message(0, $threadlist);
+	} else {
+		include _include(APP_PATH.'view/htm/my.htm');
+	}
 	
 } elseif($action == 'profile') {
 	
@@ -55,7 +75,7 @@ if(empty($action)) {
 		message(0, lang('password_modify_successfully'));
 		
 	}
-	
+	/*
 } elseif($action == 'thread') {
 
 	// hook my_thread_start.php
@@ -79,7 +99,7 @@ if(empty($action)) {
 	} else {
 		include _include(APP_PATH.'view/htm/my_thread.htm');
 	}
-
+*/
 } elseif($action == 'post') {
 	
 	// hook my_post_start.php

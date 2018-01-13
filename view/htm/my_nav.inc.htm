@@ -1,8 +1,17 @@
-		<div class="btn-group mb-3" role="group">
+		<ul class="nav nav-tabs card-header-tabs">
 			<!--{hook my_nav_start.htm}-->
-			<a role="button" class="btn btn-secondary<?php echo empty($active) ? ' active' : '';?>" href="<?php echo url('my'); ?>"><i class="icon-cog"></i> <?php echo lang('my_profile'); ?></a>
-			<a role="button" class="btn btn-secondary<?php echo $active == 'password' ? ' active' : '';?>" href="<?php echo url('my-password'); ?>"><i class="icon-lock"></i> <?php echo lang('modify_password'); ?></a>
-			<a role="button" class="btn btn-secondary<?php echo $active == 'avatar' ? ' active' : '';?>" href="<?php echo url('my-avatar'); ?>"><i class="icon-user"></i> <?php echo lang('modify_avatar'); ?></a>
-			<a role="button" class="btn btn-secondary<?php echo $active == 'thread' ? ' active' : '';?>" href="<?php echo url('my-thread'); ?>"><i class="icon-comment"></i> <?php echo lang('my_post'); ?></a>
+			<li class="nav-item">
+				<a class="nav-link <?php echo $action == '' ? 'active' : '';?>" href="<?php echo url("my");?>"><?php echo lang('my_thread');?></a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link <?php echo $action == 'post' ? 'active' : '';?>" href="<?php echo url("my-post");?>"><?php echo lang('my_post');?></a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link <?php echo $action == 'password' ? 'active' : '';?>" href="<?php echo url("my-password");?>"><?php echo lang('modify_password');?></a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link <?php echo $action == 'avatar' ? 'active' : '';?>" href="<?php echo url("my-avatar");?>"><?php echo lang('modify_avatar');?></a>
+			</li>
 			<!--{hook my_nav_end.htm}-->
-		</div>
+		</ul>
+		

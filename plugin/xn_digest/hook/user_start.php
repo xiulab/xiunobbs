@@ -16,7 +16,7 @@ if($action == 'digest') {
 		foreach($threadlist as &$thread) $thread = thread_safe_info($thread);
 		message(0, $threadlist);
 	} else {
-		include _include(APP_PATH.'plugin/xn_digest/view/htm/user_digest.htm');
+		include _include(APP_PATH.'view/htm/user.htm');
 		exit;
 	}
 }

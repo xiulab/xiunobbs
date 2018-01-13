@@ -1,6 +1,10 @@
-		<div class="btn-group mb-3" role="group">
+		<ul class="nav nav-tabs card-header-tabs">
 			<!--{hook user_nav_start.htm}-->
-			<a role="button" class="btn btn-secondary<?php echo empty($active) ? ' active' : '';?>" href="<?php echo url("user-$_uid"); ?>"><i class="icon-cog"></i> <?php echo lang('user_profile'); ?></a>
-			<a role="button" class="btn btn-secondary<?php echo $active == 'thread' ? ' active' : '';?>" href="<?php echo url("user-thread-$_uid"); ?>"><i class="icon-comment"></i> <?php echo lang('user_post'); ?></a>
+			<li class="nav-item">
+				<a class="nav-link <?php echo $action == '' ? 'active' : '';?>" href="<?php echo url("user-$_uid");?>"><?php echo lang('user_thread');?></a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link <?php echo $action == 'post' ? 'active' : '';?>" href="<?php echo url("user-post-$_uid");?>"><?php echo lang('user_post');?></a>
+			</li>
 			<!--{hook user_nav_end.htm}-->
-		</div>
+		</ul>
