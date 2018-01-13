@@ -14,7 +14,7 @@ if(empty($action)) {
 
         // hook user_index_start.php
 
-        $_uid = param(2, 0);
+        $_uid = param(1, 0);
         empty($_uid) AND $_uid = $uid;
         $_user = user_read($_uid);
         
@@ -22,7 +22,7 @@ if(empty($action)) {
         $header['title'] = $_user['username'];
         $header['mobile_title'] = $_user['username'];
 
-        $page = param(3, 1);
+        $page = param(2, 1);
         $pagesize = 20;
         $totalnum = $_user['threads'];
         $pagination = pagination(url("user-$_uid-{page}"), $totalnum, $page, $pagesize);
@@ -32,8 +32,9 @@ if(empty($action)) {
         // hook user_index_end.php
 
         if($ajax) {
+        	$_user = user_safe_info($_user);
                 foreach($threadlist as &$thread) $thread = thread_safe_info($thread);
-                message(0, $threadlist);
+                message(0, array('user'=>$_user, 'threadlist'=>$threadlist));
         } else {
                 include _include(APP_PATH.'view/htm/user.htm');
         }	

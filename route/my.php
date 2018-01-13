@@ -25,19 +25,17 @@ if(empty($action)) {
 	$page = param(2, 1);
 	$pagesize = 20;
 	$totalnum = $user['threads'];
-	$thread_list_from_default = 1;
 	
 	// hook my_profile_thread_list_before.php
 	
-	if($thread_list_from_default) {
-		$pagination = pagination(url('my-thread-{page}'), $totalnum, $page, $pagesize);
-		$threadlist = mythread_find_by_uid($uid, $page, $pagesize);
-	}
+	$pagination = pagination(url('my-thread-{page}'), $totalnum, $page, $pagesize);
+	$threadlist = mythread_find_by_uid($uid, $page, $pagesize);
 	
 	// hook my_thread_end.php
 	if($ajax) {
+		$user = user_safe_info($user);
 		foreach($threadlist as &$thread) $thread = thread_safe_info($thread);
-		message(0, $threadlist);
+		 message(0, array('user'=>$user, 'threadlist'=>$threadlist));
 	} else {
 		include _include(APP_PATH.'view/htm/my.htm');
 	}
