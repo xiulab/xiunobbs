@@ -43,7 +43,7 @@ function error_handle($errno, $errstr, $errfile, $errline) {
 		$message [] = "File: $v[file], Line: $v[line], $v[function]($args) ";
 	}
 	$txt = $subject."\r\n".implode("\r\n", $message);
-	$html = $s = "<fieldset class=\"fieldset\">
+	$html = $s = "<fieldset class=\"fieldset small notice\">
 			<b>$subject</b>
 			<div>".implode("<br>\r\n", $message)."</div>
 		</fieldset>";
@@ -1338,7 +1338,7 @@ function xn_debug_info() {
 	$starttime = $_SERVER['starttime'];
 	$s = '';
 	if(DEBUG > 1) {
-		$s .= '<fieldset class="fieldset" class="small break-all">';
+		$s .= '<fieldset class="fieldset small debug break-all">';
 		$s .= '<p>Processed Time:'.(microtime(1) - $starttime).'</p>';
 		if(IN_CMD) {
 			foreach($db->sqls as $sql) {
