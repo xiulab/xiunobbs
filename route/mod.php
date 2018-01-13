@@ -26,6 +26,9 @@ if($action == 'top') {
 	foreach($threadlist as &$thread) {
 		$fid = $thread['fid'];
 		$tid = $thread['tid'];
+		if($top == 3 && ($gid != 1 && $gid != 2)) {
+			continue;
+		}
 		if(forum_access_mod($fid, $gid, 'allowtop')) {
 			thread_top_change($tid, $top);
 			$arr = array(

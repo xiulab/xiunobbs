@@ -156,7 +156,7 @@ if($action == 'create') {
 		if($isfirst) {
 			$newfid = param('fid');
 			$forum = forum_read($newfid);
-			empty($forum) AND message('fid', lang('forum_not_exists:'));
+			empty($forum) AND message('fid', lang('forum_not_exists'));
 			
 			if($fid != $newfid) {
 				!forum_access_user($fid, $gid, 'allowthread') AND message(-1, lang('user_group_insufficient_privilege'));

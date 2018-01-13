@@ -64,7 +64,9 @@ $('.mod-button button.move').on('click', function() {
 $('.mod-button button.top').on('click', function() {
 	var modtid = $('input[name="modtid"]').checked();
 	if(modtid.length == 0) return $.alert(lang.please_choose_thread);
-	var radios = xn.form_radio('top', {"0": lang.top_0, "1": lang.top_1, "3": lang.top_3});
+	var lang_top = {"0": lang.top_0, "1": lang.top_1};
+	if(gid == 1) lang_top["3"] = lang.top_3; //  || gid == 2
+	var radios = xn.form_radio('top', lang_top);
 	$.confirm(lang.top_thread, function() {
 		var tids = xn.implode('_', modtid);
 		var top = $('input[name="top"]').checked();

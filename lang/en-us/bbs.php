@@ -110,6 +110,8 @@ return array(
 	'user_login'=>'User Login',
 	'user_profile'=>'User Profile',
 	'user_resetpw'=>'Reset Password',
+	'password_new'=>'New Password',
+	'password_new'=>'Repeat New Password',
 	'email_is_empty' => 'Email is empty',
 	'email_not_exists' => 'Email does not exists',
 	'username_not_exists' => 'User does not exists',

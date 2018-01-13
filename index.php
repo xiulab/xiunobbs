@@ -44,7 +44,7 @@ if(DEBUG > 1) {
 }
 
 // 测试数据库连接 / try to connect database
-db_connect() OR exit($errstr);
+//db_connect() OR exit($errstr);
 
 include APP_PATH.'model/plugin.func.php';
 include _include(APP_PATH.'model.inc.php');

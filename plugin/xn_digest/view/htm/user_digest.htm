@@ -13,11 +13,6 @@
 				</ul>
 			</div>
 		</div>
-		
-		<?php if(!empty($group['allowdeleteuser'])) { ?>
-		<a role="button" class="btn btn-danger confirm btn-block my-3" data-confirm-text="<?php echo lang('confirm_delete_user');?>" data-method="post" href="<?php echo url("mod-deleteuser-$_user[uid]");?>"><?php echo lang('delete_user');?></a>
-		<?php } ?>
-		
 	</div>
 </div>
 

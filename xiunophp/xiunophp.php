@@ -124,8 +124,7 @@ unset($conf['cache']['mysql']['db']); // 用完清除，防止保存到配置文
 !$cache AND $errno AND xn_message(-1, $errstr);
 
 // 对 key 进行安全保护，Xiuno 专用扩展
-!empty($conf) && function_exists('xiuno_key') && $conf['auth_key'] = xiuno_key();
-
+!empty($conf) AND function_exists('xn_key') ? ($conf['auth_key'] = xn_key()) : (function_exists('xiuno_key') ? ($conf['auth_key'] = xiuno_key()) : NULL);
 
 $_SERVER['db'] = $db;
 $_SERVER['cache'] = $cache;

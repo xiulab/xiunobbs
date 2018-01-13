@@ -17,5 +17,6 @@ if($action == 'digest') {
 		message(0, $threadlist);
 	} else {
 		include _include(APP_PATH.'plugin/xn_digest/view/htm/user_digest.htm');
+		exit;
 	}
 }

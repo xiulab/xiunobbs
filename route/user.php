@@ -368,7 +368,7 @@ if($action == 'login') {
 	$pagesize = 20;
 	$totalnum = $_user['posts'];
 	$pagination = pagination(url("user-post-$_uid-{page}"), $totalnum, $page, $pagesize);
-	$postlist = post_find_by_uid($uid, $page, $pagesize);
+	$postlist = post_find_by_uid($_uid, $page, $pagesize);
 	
 	// hook user_post_end.php
 	
