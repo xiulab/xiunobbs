@@ -153,28 +153,30 @@
 		
 		<div class="card">
 			<div class="m-3 text-center">
-				<img align="center" data-src="" alt="100%x180" src="<?php echo $forum['icon_url'];?>" width="100" height="100">
-				<h5><?php echo $forum['name'];?></h5>
-				<!--{hook forum_brief_before.htm}-->
-				<div class="text-left small line-height-3"><?php echo $forum['brief'];?></div>
-				<!--{hook forum_brief_before.htm}-->
+				<a href="<?php echo url("user-$thread[uid]");?>" tabindex="-1">
+					<img class="avatar-5" src="<?php echo $thread['user_avatar_url'];?>">
+				</a>
+				<h5><a href="<?php echo url("user-".$thread['user']['uid']);?>"><?php echo $thread['user']['username'];?></a></h5>
+				<!--{hook thread_user_username_after.htm}-->
 			</div>
 			<div class="card-footer p-2">
 				<table class="w-100 small">
 					<tr align="center">
 						<td>
 							<span class="text-muted"><?php echo lang('threads');?></span><br>
-							<b><?php echo $forum['threads'];?></b>
+							<b><?php echo $thread['user']['threads'];?></b>
 						</td>
+						<!--{hook thread_user_threads_after.htm}-->
 						<td>
-							<span class="text-muted"><?php echo lang('today_posts');?></span><br>
-							<b><?php echo $forum['todayposts'];?></b>
+							<span class="text-muted"><?php echo lang('posts');?></span><br>
+							<b><?php echo $thread['user']['posts'];?></b>
 						</td>
+						<!--{hook thread_user_posts_after.htm}-->
 						<td>
 							<span class="text-muted"><?php echo lang('create_rank');?></span><br>
 							<b><?php echo $thread['user']['uid'];?></b>
 						</td>
-						<!--{hook forum_todaythreads_after.htm}-->
+						<!--{hook thread_user_uid_after.htm}-->
 					</tr>
 				</table>
 			</div>
