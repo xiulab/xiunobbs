@@ -59,7 +59,7 @@
 				<img align="center" data-src="" alt="100%x180" src="<?php echo $forum['icon_url'];?>" width="100" height="100">
 				<h5><?php echo $forum['name'];?></h5>
 				<!--{hook forum_brief_before.htm}-->
-				<div class="text-left"><?php echo $forum['brief'];?></div>
+				<div class="text-left small line-height-3"><?php echo $forum['brief'];?></div>
 				<!--{hook forum_brief_before.htm}-->
 			</div>
 			<div class="card-footer p-2">
@@ -89,7 +89,7 @@
 			<div class="card-body">
 				<?php if($forum['announcement']) { ?>
 				<h6 class="card-title"><?php echo lang('forum_anouncement');?>：</h6>
-				<p class="text-middle">
+				<p class="small">
 					<?php echo $forum['announcement'];?>
 				</p>
 				<?php  } ?>
