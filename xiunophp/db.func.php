@@ -185,54 +185,6 @@ function db_find($table, $cond = array(), $orderby = array(), $page = 1, $pagesi
 	if(!$d) return FALSE;
 	
 	return $d->find($table, $cond, $orderby, $page, $pagesize, $key, $col);
-	/*
-	$page = max(1, $page);
-	$cond = db_cond_to_sqladd($cond);
-	$orderby = db_orderby_to_sqladd($orderby);
-	$offset = ($page - 1) * $pagesize;
-	$cols = $col ? implode(',', $col) : '*';
-	return db_sql_find("SELECT $cols FROM {$d->tablepre}$table $cond$orderby LIMIT $offset,$pagesize", $key, $d);
-	*/
-	/* 兼容性写法: 需要兼容，请自行打开开这段注释，默认不兼容
-	if(is_array($table)) {
-		
-		$cond = array_value($table, 'cond');
-		$orderby = array_value($table, 'orderby');
-		$page = array_value($table, 'page');
-		$pagesize = array_value($table, 'pagesize');
-		$key = array_value($table, 'key');
-		$d = array_value($table, 'db');
-		
-		$d = $d ? $d : $db;
-		if(!$d) return FALSE;
-		
-		$cond = db_cond_to_sqladd($cond);
-		$orderby = db_orderby_to_sqladd($orderby);
-		$offset = ($page - 1) * $pagesize;
-		$cols = $col ? implode(',', $col) : '*';
-		return db_sql_find("SELECT $cols FROM {$d->tablepre}$table $cond$orderby LIMIT $offset,$pagesize", $key, $d);
-		
-	} elseif(strtoupper(substr($table, 0, 7)) != 'SELECT ') {
-		
-		$d = $d ? $d : $db;
-		if(!$d) return FALSE;
-		
-		$cond = db_cond_to_sqladd($cond);
-		$orderby = db_orderby_to_sqladd($orderby);
-		$offset = ($page - 1) * $pagesize;
-		$cols = $col ? implode(',', $col) : '*';
-		return db_sql_find("SELECT $cols FROM {$d->tablepre}$table $cond$orderby LIMIT $offset,$pagesize", $key, $d);
-		
-	} else {
-		
-		$d = $d ? $d : $db;
-		if(!$d) return FALSE;
-		
-		// 兼容 XiunoPHP 3.0
-		// $sql, $key, $abort(废弃）
-		return db_sql_find($table, $cond, $d);
-	}
-	*/
 }
 
 function db_find_one($table, $cond = array(), $orderby = array(), $col = array(), $d = NULL) {
@@ -243,48 +195,6 @@ function db_find_one($table, $cond = array(), $orderby = array(), $col = array()
 	if(!$d) return FALSE;
 	
 	return $d->find_one($table, $cond, $orderby, $col);
-	
-	/*
-	$cond = db_cond_to_sqladd($cond);
-	$orderby = db_orderby_to_sqladd($orderby);
-	$cols = $col ? implode(',', $col) : '*';
-	return db_sql_find_one("SELECT $cols FROM {$d->tablepre}$table $cond$orderby LIMIT 1", $d);*/
-	
-	/* 兼容性写法: 需要兼容，请自行打开开这段注释，默认不兼容
-	if(is_array($table)) {
-		
-		$cond = array_value($table, 'cond');
-		$orderby = array_value($table, 'orderby');
-		$d = array_value($table, 'db');
-		
-		$d = $d ? $d : $db;
-		if(!$d) return FALSE;
-		
-		$cond = db_cond_to_sqladd($cond);
-		$orderby = db_orderby_to_sqladd($orderby);
-		$cols = $col ? implode(',', $col) : '*';
-		return db_sql_find_one("SELECT $cols FROM {$d->tablepre}$table $cond$orderby LIMIT 1", $d);
-		
-	} elseif(strtoupper(substr($table, 0, 7)) != 'SELECT ') {
-		
-		$d = $d ? $d : $db;
-		if(!$d) return FALSE;
-		
-		$cond = db_cond_to_sqladd($cond);
-		$orderby = db_orderby_to_sqladd($orderby);
-		$cols = $col ? implode(',', $col) : '*';
-		return db_sql_find_one("SELECT $cols FROM {$d->tablepre}$table $cond$orderby LIMIT 1", $d);
-		
-	} else {
-		
-		$d = $d ? $d : $db;
-		if(!$d) return FALSE;
-		
-		// 兼容 XiunoPHP 3.0
-		// $sql, $abort(废弃)
-		return db_sql_find_one($table, $d);
-	}
-	*/
 }
 
 // 保存 $db 错误到全局
@@ -312,54 +222,6 @@ function db_errstr_safe($errno, $errstr) {
 	}
 	return $errstr;
 }
-
-//-----------------------------------> 表结构和索引相关，不常用
-
-/*
-$ddl = array(
-	array('uid', 'int(11)'),
-	array('regip', 'int(11)'),
-	array('regdate', 'int(11)'),
-	array('username', 'char(16)'),
-	array('password', 'char(32)'),
-);
-*/
-/*
-function db_table_create($tablename, $ddl) {
-	$db = $_SERVER['db'];
-	return $db->table_create($tablename, $ddl);
-}
-
-// 删除表
-function db_table_drop($tablename) {
-	$db = $_SERVER['db'];
-	return $db->table_drop($tablename);
-}
-
-// 增加一列，默认增加到最后
-function db_table_column_add($tablename, $ddl, $after = '') {
-	$db = $_SERVER['db'];
-	return $db->table_table_column_add($tablename, $ddl, $after);
-}
-
-// 删除一列，默认增加到最后
-function db_table_column_drop($tablename, $colnames) {
-	$db = $_SERVER['db'];
-	return $db->table_table_column_drop($tablename, $colnames);
-}
-
-// 添加索引 $index = array('gid'=>1, 'create_date'=>-1)
-function db_index_create($tablename, $index) {
-	$db = $_SERVER['db'];
-	return $db->index_create($tablename, $index);
-}
-
-// 删除索引 $index = array('gid'=>1, 'create_date'=>-1)
-function db_index_drop($tablename, $index) {
-	$db = $_SERVER['db'];
-	return $db->index_drop($tablename, $index);
-}
-*/
 
 
 //----------------------------------->  表结构和索引相关 end

@@ -49,6 +49,9 @@ if($action == 'login') {
 
 } elseif ($action == 'phpinfo') {
 	
+	unset($_SERVER['conf']);
+	unset($_SERVER['db']);
+	unset($_SERVER['cache']);
 	phpinfo();
 	exit;
 	
