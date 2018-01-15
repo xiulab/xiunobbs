@@ -87,7 +87,6 @@ jsendsubmit.on('click', function() {
 	var postdata = jform.serialize();
 	$.xpost(jsendsubmit.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
-			alert(message);
 			$('#password').focus();
 			var t = 60; // 倒计时
 			jsendsubmit.button('<?php echo lang('user_send_sucessfully');?> 60 ');
@@ -101,7 +100,7 @@ jsendsubmit.on('click', function() {
 				}
 			}, 1000);
 		} else if(code < 0) {
-			alert(message);
+			$.alert(message, -1);
 			jsendsubmit.button('reset');
 		} else {
 			jform.find('[name="'+code+'"]').alert(message).focus();
@@ -120,7 +119,7 @@ jform.on('submit', function() {
 			$.alert(message);
 			jsubmit.button(message).delay(3000).location(referer);
 		} else if(code < 0) {
-			$.alert(message);
+			$.alert(message, -1);
 			jsubmit.button('reset');
 		} else {
 			jform.find('[name="'+code+'"]').alert(message).focus();

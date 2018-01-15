@@ -198,7 +198,8 @@ if(empty($action)) {
 	if($r === TRUE) {
 		message(0, lang('user_send_init_pw_sucessfully'));
 	} else {
-		message(1, $errstr);
+		xn_log($errstr, 'send_mail_error');
+		message(-1, $errstr);
 	}
 	
 } elseif($action == 'logout') {
@@ -294,6 +295,7 @@ if(empty($action)) {
 	if($r === TRUE) {
 		message(0, lang('send_successfully'));
 	} else {
+		xn_log($errstr, 'send_mail_error');
 		message(-1, $errstr);
 	}
 	

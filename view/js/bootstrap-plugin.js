@@ -24,7 +24,7 @@ $.alert = function(subject, timeout, options) {
 	</div>';
 	var jmodal = $(s).appendTo('body');
 	jmodal.modal('show');
-	if(timeout != 0) {
+	if(timeout > 0) {
 		setTimeout(function() {
 			jmodal.modal('hide');
 		}, t * 1000);

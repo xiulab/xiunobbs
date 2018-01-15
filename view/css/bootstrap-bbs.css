@@ -160,9 +160,9 @@ body { height: 100%; display: flex;  flex-direction: column;}
 
 /*@teax 弥补bootstrap beta3的不足，分页如果过多则换行，防止超出屏幕*/
 .pagination{ -ms-flex-wrap: wrap; flex-wrap: wrap; }
-table.nav_tag_list { margin-bottom: 0.2rem; }
-table.nav_tag_list td { padding: 0.1rem; }
-table.nav_tag_list td a { margin-right: 0.5rem; }
+.nav_tag_list { margin-bottom: 0.2rem; }
+.nav_tag_list td { padding: 0.1rem; }
+.nav_tag_list td a { margin-right: 0.5rem; }
 .nav_tag_list .active { font-weight: 800; }
 
 @keyframes quote_animation {
