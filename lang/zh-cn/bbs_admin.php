@@ -96,7 +96,7 @@ return array(
 	'add_new_line'=>'增加一行',
 	'forum_edit_tip'=>'请谨慎编辑版块，一旦确定后不要轻易变动，否则可能会导致数据关联错误，一般在正式运营时就不要再变动。',
 	'forum_cant_delete_system_reserved'=>'不能删除系统保留的版块。',
-	'forum_moduid_format_tips'=>'最多允许10个，逗号隔开，如：123,456,789',
+	'forum_moduid_format_tips'=>'最多允许10个，逗号隔开，如：Jack,Lisa,Mike',
 	'user_privilege'=>'用户权限',
 	'allow_view'=>'允许看帖',
 	'allow_thread'=>'发主题',
