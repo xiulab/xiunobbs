@@ -66,15 +66,14 @@
 									<!--{hook thread_list_inc_lastuid_after.htm}-->
 									 
 								</div>
+								<div class="text-muted small">
+									<!--{hook thread_list_inc_view_before.htm}-->
+									<span class="ml-2 d-none"><i class="icon-eye"></i> <?php echo $_thread['views'];?></span>
+									<span class="ml-2"><i class="icon-comment-o"></i> <?php echo $_thread['posts'];?></span>
+									<!--{hook thread_list_inc_posts_after.htm}-->
+								</div>
 							</div>
 						</div>
-						<div class="text-muted small mt-2 mr-2">
-							<!--{hook thread_list_inc_view_before.htm}-->
-							<span class="ml-2 d-none"><i class="icon-eye"></i> <?php echo $_thread['views'];?></span>
-							<span class="ml-2"><i class="icon-comment-o"></i> <?php echo $_thread['posts'];?></span>
-							<!--{hook thread_list_inc_posts_after.htm}-->
-						</div>
-						
 					</li>
 					<?php }} else { ?>
 					<li>
