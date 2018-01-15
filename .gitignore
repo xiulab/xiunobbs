@@ -1,4 +1,4 @@
-conf/conf.php
+conf/*.php
 upload/attach/*
 upload/avatar/*
 upload/forum/*

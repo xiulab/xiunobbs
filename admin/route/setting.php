@@ -5,8 +5,7 @@
 $action = param(1);
 
 include _include(APP_PATH.'model/smtp.func.php');
-smtp_init(APP_PATH.'conf/smtp.conf.php');
-
+$smtplist = smtp_init(APP_PATH.'conf/smtp.conf.php');
 // hook admin_setting_start.php
 
 if($action == 'base') {

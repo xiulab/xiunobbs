@@ -3,7 +3,7 @@
 // hook model_smtp_start.php
 
 // 用配置文件来保存 smtp 列表数据
-
+$smtplist = array();
 function smtp_create($arr) {
 	// hook model_smtp_create_start.php
 	global $smtplist;
@@ -49,9 +49,24 @@ function smtp_save() {
 }
 
 function smtp_init($confile) {
-	global $smtplist;
-	$smtplist = include $confile;
-	return $smtplist;
+	$list = array(
+		array(
+		'email'=>'',
+		'host'=>'',
+		'port'=>'',
+		'user'=>'',
+		'pass'=>'',
+	));
+	if(!is_file($confile)) {
+		touch($confile);
+		return $list;
+	} else {
+		$arr = include $confile;
+		if(!is_array($arr)) {
+			return $list;
+		}
+		return $arr;
+	}
 }
 
 function smtp_find() {
