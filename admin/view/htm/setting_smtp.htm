@@ -13,13 +13,13 @@
 					<div class="table-responsive arrlist">
 						<table class="table">
 							<thead>
-								<tr align="center">
-									<th><?php echo lang('username');?></th>
-									<th><?php echo lang('admin_setting_smtp');?></th>
+								<tr>
+									<th><?php echo lang('email');?></th>
+									<th><?php echo lang('smtp_host');?></th>
 									<th width="100" class="text-center"><?php echo lang('port');?></th>
-									<th class="text-center"><?php echo lang('account');?></th>
-									<th class="text-center"><?php echo lang('password');?></th>
-									<th class="text-center"><?php echo lang('delete');?></th>
+									<th><?php echo lang('username');?></th>
+									<th><?php echo lang('password');?></th>
+									<th><?php echo lang('delete');?></th>
 								</tr>
 							<thead>
 							<tbody id="smtp_body">
@@ -27,9 +27,9 @@
 								<tr align="center" rowid="{rowid}">
 									<td><input type="text" class="form-control" name="email[]" value="{email}" placeholder="<?php echo lang('email');?>" /></td>
 									<td><input type="text" class="form-control" name="host[]" value="{host}"  placeholder="<?php echo lang('host');?>" /></td>
-									<td><input type="text" class="form-control" name="port[]" value="{port}" placeholder="<?php echo lang('port');?>"/></td>
+									<td width="100" class="text-center"><input type="text" class="form-control" name="port[]" value="{port}" placeholder="<?php echo lang('port');?>"/></td>
 									<td><input type="text" class="form-control" name="user[]" value="{user}" placeholder="<?php echo lang('username');?>"  /></td>
-									<td><input type="text" class="form-control" name="pass[]" value="{pass}" placeholder="<?php echo lang('password');?>"  /></td>
+									<td><input type="password" class="form-control" name="pass[]" value="{pass}" placeholder="<?php echo lang('password');?>"  /></td>
 									<td><a class="btn row_delete" role="btn"><?php echo lang('delete');?></a></td>
 								</tr>
 								</script>
@@ -41,6 +41,9 @@
 						<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?php echo lang('submiting');?>..." style="width: 10rem;"><?php echo lang('confirm');?></button>
 					</p>
 				</form>
+				<p>
+					注：<a href="https://bbs.xiuno.com/thread-93711.htm" target="_blank">如何设置 STMP？ / How to set up SMTP ?</a>
+				</p>
 			</div>
 		</div>
 	</div>

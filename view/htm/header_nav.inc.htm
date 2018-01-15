@@ -1,12 +1,11 @@
 	<!--{hook header_nav_start.htm}-->
 	<header class="navbar navbar-expand-lg navbar-dark bg-dark" id="header">
 		<div class="container">
-		
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav_pc" aria-controls="navbar_collapse" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			
-			<!--{hook header_nav_pc_start.htm}-->
+			<!--{hook header_nav_logo_before.htm}-->
 			
 			<a class="navbar-brand" href="<?php echo $header['mobile_link'];?>">
 				<img src="<?php echo $conf['view_url'];?>img/logo.png" class="logo-2">
@@ -15,6 +14,8 @@
 				<?php } ?>
 			</a>
 			
+			<!--{hook header_nav_logo_after.htm}-->
+			
 			<?php if(empty($uid)) { ?>
 				<a class="navbar-brand hidden-lg" href="<?php echo url('user-login');?>" aria-label="<?php echo lang('login');?>"> <i class="icon-user icon"></i></a>
 			<?php } else { ?>
@@ -22,9 +23,11 @@
 			<?php } ?>
 			
 			<!--{hook header_nav_logo_after.htm}-->
+			
 			<div class="collapse navbar-collapse" id="nav_pc">
 				<!-- 左侧：版块 -->
 				<ul class="navbar-nav mr-auto">
+					<!--{hook header_nav_forum_start.htm}-->
 					<li class="nav-item home" fid="0"><a class="nav-link" href="."><i class="icon-home d-md-none"></i> <?php echo lang('index_page');?></a></li>
 					<!--{hook header_nav_home_link_after.htm}-->
 					<?php foreach($forumlist_show as $_forum) { ?>
@@ -34,11 +37,11 @@
 					</li>
 					<!--{hook header_nav_forumlist_loop_end.htm}-->
 					<?php } ?>
-					<!--{hook header_nav_pc_end.htm}-->
+					<!--{hook header_nav_forum_end.htm}-->
 				</ul>
 				<!-- 右侧：用户 -->
 				<ul class="navbar-nav">
-					<!--{hook header_nav_pc_user_start.htm}-->
+					<!--{hook header_nav_user_start.htm}-->
 				<?php if(empty($uid)) { ?>
 					<li class="nav-item"><a class="nav-link" href="<?php echo url('user-login');?>"><i class="icon-user"></i> <?php echo lang('login');?></a></li>
 					<!--<li class="nav-item"><a class="nav-link" href="<?php echo url('user-create');?>"><?php echo lang('register');?></a></li>-->
@@ -50,7 +53,7 @@
 					<?php } ?>
 					<li class="nav-item"><a class="nav-link" href="<?php echo url('user-logout');?>"><i class="icon-sign-out"></i> <?php echo lang('logout');?></a></li>
 				<?php } ?>
-					<!--{hook header_nav_pc_user_end.htm}-->
+					<!--{hook header_nav_user_end.htm}-->
 				</ul>
 			</div>
 		</div>

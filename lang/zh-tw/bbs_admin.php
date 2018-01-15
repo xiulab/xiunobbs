@@ -78,6 +78,7 @@ return array(
 	'host'=>'主機',
 	'port'=>'端口',
 	'account'=>'賬號',
+	'smtp_host'=>'SMTP 主機',
 	
 	// 版塊
 	'forum_list'=>'版塊列表',

@@ -81,6 +81,7 @@ return array(
 	'host'=>'主机',
 	'port'=>'端口',
 	'account'=>'账号',
+	'smtp_host'=>'SMTP 主机',
 	
 	// 版块
 	'forum_list'=>'版块列表',

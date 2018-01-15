@@ -78,6 +78,7 @@ return array(
 	'host'=>'Host',
 	'port'=>'Port',
 	'account'=>'Account',
+	'smtp_host'=>'SMTP Host',
 	
 	// forum
 	'forum_list'=>'Forum List',
