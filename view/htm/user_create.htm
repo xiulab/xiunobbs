@@ -116,6 +116,16 @@ jform.on('submit', function() {
 	postdata.password = $.md5(postdata.password);
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
+			
+			// ----------> 弹出层预留
+			if(typeof arg1 != 'undefined') {
+				var jmodal = arg1;
+			}
+			if(typeof arg2 != 'undefined') {
+				var callback = arg2;
+				callback(message);
+			}
+			
 			$.alert(message);
 			jsubmit.button(message).delay(3000).location(referer);
 		} else if(code < 0) {

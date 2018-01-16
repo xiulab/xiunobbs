@@ -2047,6 +2047,13 @@ var Modal = function ($$$1) {
     _proto.dispose = function dispose() {
       $$$1.removeData(this._element, DATA_KEY);
       $$$1(window, document, this._element, this._backdrop).off(EVENT_KEY);
+      
+      // fixed by axiuno: remove THE DOM
+      $(this._dialog).remove();
+      $(this._backdrop).remove();
+      $(this._element).remove();
+      
+      
       this._config = null;
       this._element = null;
       this._dialog = null;
@@ -3889,4 +3896,4 @@ exports.Tooltip = Tooltip;
 Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
-//# sourceMappingURL=bootstrap.js.map
+//# sourceMappingURLxxx=bootstrap.js.map
