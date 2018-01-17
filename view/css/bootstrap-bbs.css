@@ -142,9 +142,9 @@ body { height: 100%; display: flex;  flex-direction: column;}
 }
 /* 小屏 + 中屏: small + middle */
 @media (max-width: 992px) {
-	#nav_pc { padding-top: 1.5rem; padding-left: 0.5rem; }
-	#nav_pc > ul:first-child > li:not(:first-child) { padding-left: 3rem; }
-	#nav_pc > ul > li > a.nav-link{ border-bottom: 1px solid rgba(100, 100, 100, 0.3); }
+	#nav { padding-top: 1.5rem; padding-left: 0.5rem; }
+	#nav > ul:first-child > li:not(:first-child) { padding-left: 3rem; }
+	#nav > ul > li > a.nav-link{ border-bottom: 1px solid rgba(100, 100, 100, 0.3); }
 }
 /* 中屏 + 大屏: middle + big */
 @media (min-width: 576px) {
