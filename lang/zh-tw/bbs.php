@@ -79,6 +79,8 @@ return array(
 	'logout_successfully'=>'退出成功',
 	
 	'orderby'=>'排序',
+	'thread_create_date'=>'發帖時間',
+	'post_create_date'=>'回帖時間',
 	
 	// 用戶相關
 	'group_0'=>'遊客組',

@@ -80,7 +80,9 @@ return array(
 	'logout_successfully'=>'Logout Sucessfully',
 	
 	'orderby'=>'Order By',
-	
+	'thread_create_date'=>'Thread Date',
+	'post_create_date'=>'Reply Date',
+		
 	// user
 	'group_0'=>'User Group',
 	'group_1'=>'Admin Group',

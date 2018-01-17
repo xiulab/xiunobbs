@@ -26,11 +26,11 @@
 						<span class="text-muted"><?php echo lang('orderby');?>：</span>
 						<div class="dropdown btn-group">
 							<a href="#" class="dropdown-toggle" id="ordery_dropdown_menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							    <?php echo $orderby == 'tid' ? '发帖时间' : '回帖时间';?>
+							    <?php echo $orderby == 'tid' ? lang('thread_create_date') : lang('post_create_date');?>
 							</a>
 							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="ordery_dropdown_menu">
-							    <a class="dropdown-item" href="<?php echo url("forum-$fid-1", array('orderby'=>'tid') + $extra);?>"><i class="icon text-primary <?php echo $orderby == 'tid' ? 'icon-check' : '';?>"></i>&nbsp; 发帖时间</a>
-							    <a class="dropdown-item" href="<?php echo url("forum-$fid-1", array('orderby'=>'lastpid') + $extra);?>"><i class="icon text-primary <?php echo $orderby == 'lastpid' ? 'icon-check' : '';?>"></i>&nbsp; 回帖时间</a>
+							    <a class="dropdown-item" href="<?php echo url("forum-$fid-1", array('orderby'=>'tid') + $extra);?>"><i class="icon text-primary <?php echo $orderby == 'tid' ? 'icon-check' : '';?>"></i>&nbsp; <?php echo lang('thread_create_date');?></a>
+							    <a class="dropdown-item" href="<?php echo url("forum-$fid-1", array('orderby'=>'lastpid') + $extra);?>"><i class="icon text-primary <?php echo $orderby == 'lastpid' ? 'icon-check' : '';?>"></i>&nbsp; <?php echo lang('post_create_date');?></a>
 							</div>
 						</div>
 					</div>
