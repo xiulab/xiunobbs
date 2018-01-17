@@ -23,6 +23,9 @@ return array(
 	'writable' => '可写',
 	'unwritable' => '不可写',
 	'check_again' => '重新检测',
+	'os' => '操作系统',
+	'unix_like' => '类 UNIX',
+	'php_version' => 'PHP 版本',
 	
 	'step_2_title' => '二、数据库设置',
 	'db_type' => '数据库类型',

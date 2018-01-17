@@ -23,6 +23,9 @@ return array(
 	'writable' => '可寫',
 	'unwritable' => '不可寫',
 	'check_again' => '重新檢測',
+	'os' => '操作系統',
+	'unix_like' => '類 UNIX',
+	'php_version' => 'PHP 版本',
 	
 	'step_2_title' => '二、數據庫設置',
 	'db_type' => '數據庫類型',

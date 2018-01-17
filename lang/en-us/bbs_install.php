@@ -23,6 +23,9 @@ return array(
 	'writable' => 'Writable',
 	'unwritable' => 'Unwritable',
 	'check_again' => 'Check Again',
+	'os' => 'OS',
+	'unix_like' => 'UNIX Like',
+	'php_version' => 'PHP Version',
 	
 	'step_2_title' => '2. Database settings',
 	'db_type' => 'Database type',

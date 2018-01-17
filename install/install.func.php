@@ -1,15 +1,15 @@
 <?php
 
 function get_env(&$env, &$write) {
-	$env['os']['name'] = '操作系统';
+	$env['os']['name'] = lang('os');
 	$env['os']['must'] = TRUE;
 	$env['os']['current'] = PHP_OS;
-	$env['os']['need'] = '类UNIX';
+	$env['os']['need'] = lang('unix_like');
 	$env['os']['status'] = 1;
 	// glob gzip
 	//$env['os']['disable'] = 1;
 	
-	$env['php_version']['name'] = 'PHP版本';
+	$env['php_version']['name'] = lang('php_version');
 	$env['php_version']['must'] = TRUE;
 	$env['php_version']['current'] = PHP_VERSION;
 	$env['php_version']['need'] = '5.0';
