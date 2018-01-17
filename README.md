@@ -1,13 +1,15 @@
 ### 【Xiuno BBS 4.0 是什么？】
-Xiuno BBS 4.0 是 2016 年诞生的，国产、小巧、精悍、基于目前新流行的技术、有着前沿产品理念的、主要采用 PHP 开发的、遵照严格的命名和编码规范的 web 产品，它不仅仅是一个论坛，还是一个良好的二次开发平台。
-在 3.0 的基础上对核心功能进一步精简，只保留了论坛最基本功能的 14 个表，其他功能插件化。
+Xiuno BBS 4.0 是一款轻论坛产品，前端基于 BootStrap 4.0、JQuery 3，
+后端基于 PHP/7 MySQL XCache/Yac/Redis/Memcached...，
+自适应手机、平板、PC，有着非常方便的插件机制，不仅仅是一个轻论坛，还是一个良好的二次开发平台。
+git： https://git.oschina.net/xiuno/xiunobbs.git
 
 ### 【Xiuno BBS 4.0 带来了什么？】
 前端采用 BootStrap 4 + JQuery 3，响应式布局，自适应手机，平板，PC 设备，不再需要单独开发移动版本。
 对 Bootstrap 4 进行了增强和兼容，比如增加 $('#submit').button('xxx').delay(3000).location('xxx.php') 的连续操作支持，修正 .row .row 嵌套导致的间距、手机下的间距过大等问题。
 xiuno.js 采用了 xn. 命名空间，不再担心 js 命名冲突，完善了对常用的 php 函数的实现。
 增加了通用的 $.each_sync() 方法，从客户端避免 ajax 并发导致的服务端并发写数据问题，简化了服务端逻辑。
-不再支持 IE8 和以下版本，全面拥抱移动端，不用再用琢磨恶心的 css hack。
+不再支持 IE89 和以下版本，全面拥抱移动端，不用再用琢磨恶心的 css hack。
 不再强制要求 URL-Rewrite，同时支持多种 URL 格式：user-login.htm /user/login 。
 图片缩略、裁切放到了客户端，不再依赖服务端 GD 库。
 同时支持 Session 和 Token 方式登录，可以返回 json 数据，方便 REST 接口开发。
@@ -38,4 +40,4 @@ Xiuno BBS 4.0 采用 MIT 协议发布，您可以自由修改、派生版本、�
 2759536
 
 axiuno@gmail.com
-2016/8/8
+2018/1/17
