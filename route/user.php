@@ -408,7 +408,7 @@ if(empty($action)) {
 	$active = 'thread';
 	include _include(APP_PATH.'view/htm/user_post.htm');
 
-	/*
+/*
 // 用户发表的主题
 } elseif($action == 'thread') {
 	
@@ -434,7 +434,7 @@ if(empty($action)) {
 	} else {
 		include _include(APP_PATH.'view/htm/user_thread.htm');
 	}
-	*/	
+*/	
 } else {
 	
 }

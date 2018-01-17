@@ -5,6 +5,7 @@ return array(
 	'forum'=>'版塊',
 	'plugin'=>'插件',
 	'other'=>'其他',
+	'buy'=>'购买',
 	
 	'user_admin'=>'用戶管理',
 	'group_admin'=>'用戶組管理',
@@ -30,6 +31,8 @@ return array(
 	'admin_user_create'=>'創建用戶',
 	'admin_plugin_local_list'=>'本地插件',
 	'admin_plugin_official_list'=>'官方插件',
+	'admin_plugin_official_free_list'=>'免费插件',
+	'admin_plugin_official_fee_list'=>'收费插件',
 	
 	'admin_token_error'=>'管理令牌錯誤，可能因為您的網絡環境不穩定，可以嘗試取消後臺綁定 IP，配置 conf.php，admin_bind_ip => 0 ',
 	'admin_token_expiry'=>'管理登錄令牌失效，請重新登錄',
@@ -101,6 +104,9 @@ return array(
 	'allow_post'=>'回貼',
 	'allow_upload'=>'上傳',
 	'allow_download'=>'下載',
+	'forum_delete_thread_before_delete_forum'=>'请先通过批量主题管理删除版块主题。',
+	'forum_please_delete_sub_forum'=>'请删除子版块。',
+	'forum_delete_successfully'=>'删除成功。',
 	
 	'thread_queue_not_exists'=>'隊列不存在',
 	'search_condition'=>'搜索條件',
@@ -173,6 +179,11 @@ return array(
 	'plugin_name_error'=>'插件名不合法',
 	'plugin_unstall_confirm_tips'=>'卸載會清理該插件相關數據，確定卸載 ( {name} ) 嗎？',
 	'plugin_task_locked'=>'另外壹個插件任務正在執行，當前任務被鎖住。',
+	'plugin_return_data_error'=>'返回数据有误：',
+	'plugin_is_free'=>'该插件免费。',
+	'plugin_is_not_free'=>'该插件需要付费购买，请先支付。',
+	'plugin_is_bought'=>'已经购买过。',
+	'plugin_not_bought'=>'还没购买过。',
 	
 	
 	// hook lang_zh_tw_bbs_admin.php

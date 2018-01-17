@@ -120,12 +120,12 @@ if($action == 'local') {
 	$plugin = plugin_read_by_dir($dir);
 	
 	if($plugin['official']['price'] == 0) {
-		message(1, '免费插件，不需要购买');
+		message(1, lang('plugin_is_free'));
 	}
 	if(plugin_is_bought($dir)) {
-		message(0, '已经购买过');
+		message(0, lang('plugin_is_bought'));
 	} else {
-		message(2, '还没购买过');
+		message(2, lang('plugin_not_bought'));
 	}
 	
 	
@@ -376,15 +376,15 @@ function plugin_download_unzip($dir) {
 	// 服务端开始下载
 	set_time_limit(0); // 设置超时
 	$s = http_get($url);
-	empty($s) AND message(-1, $url.' 返回数据: '.lang('server_response_empty')); 
+	empty($s) AND message(-1, $url.lang('plugin_return_data_error').lang('server_response_empty')); 
 	if(substr($s, 0, 2) != 'PK') {
 		$arr = xn_json_decode($s);
 		
-		empty($arr) AND  message(-1, $url.' 返回数据: '.$s); 
+		empty($arr) AND  message(-1, $url.lang('plugin_return_data_error').$s); 
 		if($arr['code'] == -2) {
-			message(-2, jump('该插件需要付费购买，请先支付。', url("plugin-read-$dir")));
+			message(-2, jump(lang('plugin_is_not_free'), url("plugin-read-$dir")));
 		}
-		message($arr['code'], $url.' 返回数据: '.$arr['message']);  //lang('server_response_error').':'
+		message($arr['code'], $url.lang('plugin_return_data_error').$arr['message']);  //lang('server_response_error').':'
 	}
 	//$arr = xn_json_decode($s);
 	//empty($arr['message']) AND message(-1, '服务端返回数据错误：'.$s);
@@ -423,7 +423,7 @@ function plugin_is_bought($dir) {
 	$url = PLUGIN_OFFICIAL_URL."plugin-is_bought-$dir-$siteid-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
 	$s = http_get($url);
 	$arr = xn_json_decode($s);
-	empty($arr) AND  message(-1, $url.' 返回数据: '.$s); 
+	empty($arr) AND  message(-1, $url.lang('plugin_return_data_error').$s); 
 	if($arr['code'] == 0) {
 		return TRUE;
 	} else {
@@ -446,12 +446,12 @@ function plugin_order_buy_qrcode_url($siteid, $dir, $app_url = '') {
 	if(empty($s)) return xn_error(-1, lang('server_response_empty')); 
 	$arr = xn_json_decode($s);
 	if(empty($arr) || !isset($arr['code'])) {
-		return xn_error($arr['code'], $url.' 返回的数据有误：'.$s);
+		return xn_error($arr['code'], $url.lang('plugin_return_data_error').$s);
 	}
 	if($arr['code'] == 0) {
 		return $arr['message'];
 	} else {
-		return xn_error($arr['code'], $url.' 返回数据：'.$arr['message']);
+		return xn_error($arr['code'], $url.lang('plugin_return_data_error').$arr['message']);
 	}
 }
 

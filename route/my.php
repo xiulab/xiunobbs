@@ -40,6 +40,7 @@ if(empty($action)) {
 		include _include(APP_PATH.'view/htm/my.htm');
 	}
 	
+/*	
 } elseif($action == 'profile') {
 	
 	if($ajax) {
@@ -48,6 +49,8 @@ if(empty($action)) {
 	} else {
 		include _include(APP_PATH.'view/htm/my_profile.htm');
 	}
+*/
+	
 } elseif($action == 'password') {
 	
 	if($method == 'GET') {
@@ -73,7 +76,8 @@ if(empty($action)) {
 		message(0, lang('password_modify_successfully'));
 		
 	}
-	/*
+	
+/*
 } elseif($action == 'thread') {
 
 	// hook my_thread_start.php
@@ -98,6 +102,7 @@ if(empty($action)) {
 		include _include(APP_PATH.'view/htm/my_thread.htm');
 	}
 */
+
 } elseif($action == 'post') {
 	
 	// hook my_post_start.php

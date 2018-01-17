@@ -5,7 +5,7 @@ return array(
 	'forum'=>'版块',
 	'plugin'=>'插件',
 	'other'=>'其他',
-	'buy'=>'购买',
+	'buy'=>'Buy',
 	
 	'user_admin'=>'用户管理',
 	'group_admin'=>'用户组管理',
@@ -104,6 +104,9 @@ return array(
 	'allow_post'=>'回贴',
 	'allow_upload'=>'上传',
 	'allow_download'=>'下载',
+	'forum_delete_thread_before_delete_forum'=>'请先通过批量主题管理删除版块主题。',
+	'forum_please_delete_sub_forum'=>'请删除子版块。',
+	'forum_delete_successfully'=>'删除成功。',
 	
 	// 主题
 	'thread_queue_not_exists'=>'队列不存在',
@@ -176,6 +179,11 @@ return array(
 	'plugin_name_error'=>'插件名不合法',
 	'plugin_unstall_confirm_tips'=>'卸载会清理该插件相关数据，确定卸载 ( {name} ) 吗？',
 	'plugin_task_locked'=>'另外一个插件任务正在执行，当前任务被锁住。',
+	'plugin_return_data_error'=>'返回数据有误：',
+	'plugin_is_free'=>'该插件免费。',
+	'plugin_is_not_free'=>'该插件需要付费购买，请先支付。',
+	'plugin_is_bought'=>'已经购买过。',
+	'plugin_not_bought'=>'还没购买过。',
 	
 	
 	// hook lang_zh_cn_bbs_admin.php

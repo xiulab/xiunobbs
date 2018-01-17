@@ -216,12 +216,12 @@ if(empty($action) || $action == 'list') {
 	
 	$threadlist = thread_find_by_fid($_fid, 1, 20);
 	if(!empty($threadlist)) {
-		message(-1, '请先通过批量主题管理删除版块主题！');
+		message(-1, lang('forum_delete_thread_before_delete_forum'));
 	}
 	
 	$sublist = forum_find_son_list($forumlist, $_fid);
 	if(!empty($sublist)) {
-		message(-1, '请删除子版块！');
+		message(-1, lang('forum_please_delete_sub_forum'));
 	}
 	
 	forum_delete($_fid);
@@ -230,7 +230,7 @@ if(empty($action) || $action == 'list') {
 	
 	// hook admin_forum_delete_end.php
 	
-	message(0, '删除成功');
+	message(0, lang('forum_delete_successfully'));
 	
 }
 

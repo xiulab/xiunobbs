@@ -194,6 +194,9 @@ function attach_assoc_post($pid) {
 			$desturl = $url.'/'.$filename;
 			$r = xn_copy($file['path'], $destfile);
 			!$r AND xn_log("xn_copy($file[path]), $destfile) failed, pid:$pid, tid:$tid", 'php_error');
+			if(is_file($destfile) && filesize($destfile) == filesize($file['path'])) {
+				unlink($file['path']);
+			}
 			$arr = array(
 				'tid'=>$tid,
 				'pid'=>$pid,
