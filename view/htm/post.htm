@@ -138,7 +138,7 @@ $('#addattach').on('change', function(e) {
 	
 	// 并发下会 服务端 session 写入会有问题，由客户端控制改为串行
 	if (!jattachparent.find('.attachlist').length) {
-		jattachparent.append('<fieldset class="fieldset"><legend>上传的附件</legend><ul class="attachlist"><ul></fieldset>');
+		jattachparent.append('<fieldset class="fieldset"><legend><?php echo lang('uploaded_attach');?></legend><ul class="attachlist"><ul></fieldset>');
 	}
 	
 	var jprogress = jattachparent.find('.progress');

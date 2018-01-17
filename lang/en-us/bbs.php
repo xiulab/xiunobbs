@@ -82,7 +82,8 @@ return array(
 	'orderby'=>'Order By',
 	'thread_create_date'=>'Thread Date',
 	'post_create_date'=>'Reply Date',
-		
+	'uploaded_attach'=>'Uploaded attach',
+	
 	// user
 	'group_0'=>'User Group',
 	'group_1'=>'Admin Group',

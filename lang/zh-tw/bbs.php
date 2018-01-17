@@ -82,6 +82,8 @@ return array(
 	'thread_create_date'=>'發帖時間',
 	'post_create_date'=>'回帖時間',
 	
+	'uploaded_attach'=>'上傳的附件',
+	
 	// 用戶相關
 	'group_0'=>'遊客組',
 	'group_1'=>'管理員組',
