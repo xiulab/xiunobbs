@@ -1,10 +1,11 @@
 	<?php !isset($user['avatar_url']) AND $user['avatar_url'] = ''; ?>
 
 	<!--{hook header_nav_start.htm}-->
+	
 	<header class="navbar navbar-expand-md navbar-dark bg-dark" id="header">
 		<div class="container">
 			<!-- 左：折叠菜单的图标 ☰ -->
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav_pc" aria-controls="navbar_collapse" aria-expanded="false" aria-label="Toggle navigation">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="navbar_collapse" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			
@@ -20,10 +21,10 @@
 			<a class="navbar-brand d-md-none" href="../" title="<?php echo lang('front_index_page');?>"><i class="icon-home"></i></a>
 			
 			<!--{hook admin_header_nav_logo_after.htm}-->
-			<div class="collapse navbar-collapse" id="nav_pc">
+			<div class="collapse navbar-collapse" id="nav">
 				<!-- 左侧：版块 -->
 				<ul class="navbar-nav mr-auto">
-					<!--{hook admin_header_nav_pc_start.htm}-->
+					<!--{hook admin_header_nav_start.htm}-->
 						
 					<li class="nav-item home">
 						<a class="nav-link" href="./"><i class="icon-home"></i> <?php echo lang('admin_index_page');?></a>
@@ -34,11 +35,11 @@
 					</li>
 					<?php  } ?>
 					
-					<!--{hook admin_header_nav_pc_end.htm}-->
+					<!--{hook admin_header_nav_end.htm}-->
 				</ul>
 				<!-- 右侧：用户 -->
 				<ul class="navbar-nav">
-					<!--{hook admin_header_nav_pc_user_start.htm}-->
+					<!--{hook admin_header_nav_user_start.htm}-->
 					
 					<li class="nav-item">
 						<a class="nav-link" href="../<?php echo url('my');?>">
@@ -53,7 +54,7 @@
 						<a class="nav-link" href="<?php echo url('index-logout');?>"><i class="icon-sign-out"></i> <?php echo lang('logout');?></a>
 					</li>
 					
-					<!--{hook admin_header_nav_pc_user_end.htm}-->
+					<!--{hook admin_header_nav_user_end.htm}-->
 				</ul>
 			</div>
 		</div>
