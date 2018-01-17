@@ -272,6 +272,14 @@ return array(
 	'lang_zh_cn'=>'簡體中文',
 	'lang_zh_tw'=>'正體中文',
 	'lang_en_us'=>'美式英語',
+		
+	'rank'=>'排序',
+	'tag'=>'標簽',
+	'tag_cate'=>'標簽分類',
+	'tag_cate_name'=>'分類名稱',
+	'tag_name'=>'標簽名稱',
+	
+	'toggler_menu'=>'展開菜單',
 	
 	// hook lang_zh_tw_bbs.php
 	

@@ -275,13 +275,13 @@ return array(
 	'lang_zh_tw'=>'正體中文',
 	'lang_en_us'=>'美式英语',
 	
-	
-	
 	'rank'=>'排序',
 	'tag'=>'标签',
 	'tag_cate'=>'标签分类',
 	'tag_cate_name'=>'分类名称',
 	'tag_name'=>'标签名称',
+	
+	'toggler_menu'=>'展开菜单',
 	
 	// hook lang_zh_cn_bbs.php
 	

@@ -275,6 +275,14 @@ return array(
 	'lang_zh_tw'=>'正體中文',
 	'lang_en_us'=>'English',
 	
+	'rank'=>'Rank',
+	'tag'=>'TAG',
+	'tag_cate'=>'Tag Category',
+	'tag_cate_name'=>'Tag Category Name',
+	'tag_name'=>'Tag Name',
+	
+	'toggler_menu'=>'Toggle Menu',
+	
 	// hook lang_en_us_bbs.php
 	
 );
