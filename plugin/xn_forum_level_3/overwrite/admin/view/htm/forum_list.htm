@@ -67,6 +67,10 @@ ul.level3 > li > table > tr > td > a > i { color: #8bca1d;}
 <?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
 
 <script src="../view/js/vue.js"></script>
+<!--[if lt IE 10]>
+<script src="../view/js/es6-shim.js"></script>
+<![endif]-->
+
 <script>
 
 var forumlist = <?php echo xn_json_encode($forumlist_show);?>;

@@ -26,12 +26,12 @@
 	<script>window.location = '<?php echo url('browser');?>';</script>
 	<![endif]-->
 	
+	<!--{hook footer_js_before.htm}-->
+	
 	<?php $browser = get__browser();?>
 	<?php if($browser['name'] == 'ie') { ?>
 	<script src="<?php echo $conf['view_url'];?>js/es6-shim.js<?php echo $static_version;?>"></script>
 	<?php } ?>
-	
-	<!--{hook footer_js_before.htm}-->
 	<script src="lang/<?php echo $conf['lang'];?>/bbs.js<?php echo $static_version;?>"></script>
 	<script src="<?php echo $conf['view_url'];?>js/jquery-3.1.0.js<?php echo $static_version;?>"></script>
 	<script src="<?php echo $conf['view_url'];?>js/popper.js<?php echo $static_version;?>"></script>
