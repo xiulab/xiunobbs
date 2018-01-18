@@ -35,6 +35,7 @@ function search_thread_by_fulltext($keyword_decode_against, $start, $pagesize) {
 	$threadlist = thread_find_by_tids($tids);
 	$threadlist = arrlist_multisort($threadlist, 'tid', FALSE);
 	
+	global $forumlist, $gid;
 	$count_before = count($threadlist);
 	thread_list_access_filter($threadlist, $gid);
 	$count_after = count($threadlist);
@@ -75,13 +76,6 @@ function search_post_by_fulltext($keyword_decode_against, $start, $pagesize2, &$
 		}
 	}	
 	$count_after = count($postlist);
-	
-	/*global $ip;
-	if($ip == '101.88.231.2') {
-		var_dump($gid);
-		print_r($forumlist);
-		print_r($postlist);
-	}*/
 	
 	// 如果过滤超过了一半，则从数据库中加大 $pagesize 再取。
 	$less_number = $pagesize / 2;
