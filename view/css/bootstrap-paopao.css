@@ -5,9 +5,18 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 body {
-  background: #196e95 !important;
-  background-image: url(plugin/xn_style_paopao/body_bg.jpg?v=2) !important;
+  color: #fff;
+  background-color: #092e40 !important;
+  background-image: url(/plugin/xn_style_paopao/body_bg_dark.jpg?v=2) !important;
   background-repeat: no-repeat !important;
+}
+
+a {
+  color: #83afdf;
+}
+
+a:hover {
+  color: #d4e3f4;
 }
 
 #header {
@@ -19,33 +28,45 @@ body {
 }
 
 .card > .card-header {
-  background-image: linear-gradient(0deg, #c4d9e3, #fcfdfd);
+  color: rgba(255, 255, 255, 0.8);
+  background-image: linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .card {
-  background: rgba(244, 251, 254, 0.9) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
 }
 
 .thread:hover {
-  background-color: rgba(255, 255, 255, 0.6) !important;
+  background-color: rgba(248, 249, 250, 0.15) !important;
+}
+
+.text-muted {
+  color: rgba(255, 255, 255, 0.4) !important;
 }
 
 .text-grey {
-  color: #90a9b6 !important;
+  color: rgba(255, 255, 255, 0.3) !important;
 }
 
 .thread, .post {
-  border-bottom: 1px solid rgba(180, 190, 210, 0.4);
+  border-bottom: 1px solid rgba(134, 142, 150, 0.2);
 }
 
 .input-group .form-control, .input-group .custom-select, .input-group .custom-file {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .card-header-tabs > .nav-item > .nav-link.active {
-  background-image: linear-gradient(0deg, #dfedf4, #f2f2f2);
-  border-color: #c9dce5;
-  border-bottom-color: #dfebf1;
+  background: rgba(52, 58, 64, 0.5);
+  background-image: linear-gradient(0deg, rgba(52, 58, 64, 0.5), rgba(52, 58, 64, 0.6));
+  border-color: rgba(173, 181, 189, 0.2);
+  border-bottom-color: rgba(52, 58, 64, 0.5);
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .nav_tag_list a {
