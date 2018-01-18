@@ -2127,7 +2127,7 @@ var Modal = function ($$$1) {
       $$$1(document).off(Event.FOCUSIN) // guard against infinite focus loop
       .on(Event.FOCUSIN, function (event) {
         if (document !== event.target && _this4._element !== event.target && !$$$1(_this4._element).has(event.target).length) {
-          _this4._element.focus();
+          if(_this4._element) _this4._element.focus();
         }
       });
     };
@@ -2213,7 +2213,7 @@ var Modal = function ($$$1) {
           }
 
           if (_this8._config.backdrop === 'static') {
-            _this8._element.focus();
+            if(_this8._element) _this8._element.focus();
           } else {
             _this8.hide();
           }
