@@ -797,6 +797,8 @@ function https_post($url, $post = '', $cookie = '', $timeout = 30, $times = 1) {
 	if(substr($url, 0, 7) == 'http://') {
 		return http_post($url, $post, $cookie, $timeout, $times);
 	}
+	is_array($post) AND $post = http_build_query($post);
+	is_array($cookie) AND $cookie = http_build_query($cookie);
 	$w = stream_get_wrappers();
 	$allow_url_fopen = strtolower(ini_get('allow_url_fopen'));
 	$allow_url_fopen = (empty($allow_url_fopen) || $allow_url_fopen == 'off') ? 0 : 1;
