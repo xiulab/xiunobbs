@@ -808,17 +808,21 @@ function https_post($url, $post = '', $cookie = '', $timeout = 30, $times = 1) {
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_HEADER, 2); // 1/2
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/x-www-form-urlencoded', 'x-requested-with: XMLHttpRequest'));
 	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+	curl_setopt($ch, CURLOPT_USERAGENT, _SERVER('HTTP_USER_AGENT'));
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // 对认证证书来源的检查
 	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); // 从证书中检查SSL加密算法是否存在，默认可以省略
 	if($post) {
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 	}
+	$header = array('Content-type: application/x-www-form-urlencoded', 'X-Requested-With: XMLHttpRequest');
 	if($cookie) {
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Cookie: $cookie"));
+		$header[] = "Cookie: $cookie";
 	}
+	curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+	
 	(!ini_get('safe_mode') && !ini_get('open_basedir')) && curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); // 使用自动跳转, 安全模式不允许
 	curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
 	$data = curl_exec($ch);

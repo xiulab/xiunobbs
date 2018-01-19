@@ -22,7 +22,7 @@ $starttime = microtime(1);
 $time = time();
 
 // 头部，判断是否运行在命令行下
-define('IN_CMD', !empty($_SERVER['SHELL']) || empty($_SERVER['HTTP_USER_AGENT']));
+define('IN_CMD', !empty($_SERVER['SHELL']) || empty($_SERVER['REMOTE_ADDR']));
 if(IN_CMD) {
 	!isset($_SERVER['REMOTE_ADDR']) AND $_SERVER['REMOTE_ADDR'] = '';
 	!isset($_SERVER['REQUEST_URI']) AND $_SERVER['REQUEST_URI'] = '';

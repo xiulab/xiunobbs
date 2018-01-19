@@ -44,18 +44,22 @@ function message($code, $message, $extra = array()) {
 	// 防止 message 本身出现错误死循环
 	static $called = FALSE;
 	$called ? exit(xn_json_encode($arr)) : $called = TRUE;
-	
-	if(IN_CMD) {
-		echo $message;
-		exit;
-	}
 	if($ajax) {
 		echo xn_json_encode($arr);
 	} else {
-		if(defined('MESSAGE_HTM_PATH')) {
-			include _include(MESSAGE_HTM_PATH);
+		if(IN_CMD) {
+			if(is_array($message) || is_object($message)) {
+				print_r($message);
+			} else {
+				echo $message;
+			}
+			exit;
 		} else {
-			include _include(APP_PATH."view/htm/message.htm");
+			if(defined('MESSAGE_HTM_PATH')) {
+				include _include(MESSAGE_HTM_PATH);
+			} else {
+				include _include(APP_PATH."view/htm/message.htm");
+			}
 		}
 	}
 	// hook model_message_end.php

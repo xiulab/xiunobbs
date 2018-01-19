@@ -12,8 +12,9 @@ a:hover { color: lighten($primary, 60%); }
 .text-grey { color: rgba($white,0.3) !important;}
 .thread, .post { border-bottom: 1px solid rgba($gray-600,0.2);} // rgba(180,190,210,0.4)
 .input-group .form-control, .input-group .custom-select, .input-group .custom-file { background: rgba($white,0.1); border-color: rgba($white,0.15); }
-.card-header-tabs > .nav-item > .nav-link.active { background: rgba($dark,0.7); background-image: linear-gradient(0deg, rgba($dark,0.7), rgba($$dark,0.8)); border-color: rgba($dark,0.6); border-bottom-color: rgba($dark,0.7);}  // #dfedf4, #f2f2f2  #c9dce5
-.card-header-tabs > .nav-item > .nav-link:hover { border-color: rgba($dark, 0.5);  border-bottom-color: rgba($dark,0.7); }
+.card-header-tabs > .nav-item > .nav-link.active { background: rgba($dark,0.9); background-image: linear-gradient(0deg, rgba($dark,0.9), rgba($$dark,1)); border-color: rgba($dark,0.8); border-bottom-color: rgba($dark,0.9);}  // #dfedf4, #f2f2f2  #c9dce5
+.card-header-tabs > .nav-item > .nav-link:hover:not(.active) { border-color: rgba($dark, 0.7);  border-bottom-color: rgba($dark,0.9); }
+
 .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {color: $white;}
 
 .nav_tag_list a { color: #c5dbe4; } // #c5dbe4
@@ -22,4 +23,6 @@ a:hover { color: lighten($primary, 60%); }
 .btn-secondary { background-color:#405763; border-color:#3b515d; }
 .btn-secondary:hover { background-color: #374b55; border-color: #344751; }
 .blockquote { background: #e0eaef;}
+
+.breadcrumb {}
 
