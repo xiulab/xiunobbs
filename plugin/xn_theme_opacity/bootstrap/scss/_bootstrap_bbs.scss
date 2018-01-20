@@ -1,4 +1,6 @@
 /****************************************   bbs 业务部分  ****************************************/
+.bg-dark { background-color: rgba($black,.5) !important}
+body { background-image: url(../img/body_bg.jpg); background-position: top center; background-repeat: no-repeat; }
 html, table { font-size: 14px; }
 html, body { height: 100%; display: flex;  flex-direction: column;  font-family: "Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", "微软雅黑", "华文细黑", STHeiti, sans-serif; }
 
@@ -21,6 +23,9 @@ html, body { height: 100%; display: flex;  flex-direction: column;  font-family:
   box-shadow: 2px 2px 3px rgba($gray-600, .25);
 }
 */
+.card {
+  margin-bottom: 1rem;
+}
 
 /*
 .card {
@@ -53,13 +58,16 @@ background-image: linear-gradient(0deg, $gray-100, $white);
 .breadcrumb:hover {
   background-color: $white !important;
 }
-.breadcrumb .breadcrumb-item { display: inline-flex; text-overflow: ellipsis; white-space: nowrap; }
-.breadcrumb .breadcrumb-item a { max-width: 400px; overflow: hidden; text-overflow: ellipsis; }
+
 .card-header-dropdown .dropdown .dropdown-toggle { text-decoration: none; color: $gray-700; }
 .card-header-dropdown .dropdown-menu { min-width: 8rem; padding: 0.25rem 0; }
 .card-header-dropdown .dropdown-menu .dropdown-item { text-decoration: none; padding: 0.25rem 0.5rem; }
 .card-header-dropdown .dropdown-menu .dropdown-item i { width: 12px; }
 */
+
+.breadcrumb .breadcrumb-item { display: inline-flex; text-overflow: ellipsis; white-space: nowrap; }
+.breadcrumb .breadcrumb-item a { max-width: 400px; overflow: hidden; text-overflow: ellipsis; }
+.card-header-dropdown .dropdown-menu .dropdown-item i { width: 12px; }
 
 /* 小屏: only small screen */
 @media (max-width: 576px) {
@@ -103,8 +111,7 @@ li.quote {
 }
 .blockquote {
   font-size: 0.8rem;
-  background-color: $gray-200;
-  background-image: url(../../../view/img/quote.png);
+  background: rgba($white,.1);
   background-repeat: no-repeat;
   background-position: top right;
   padding: 0.5rem 1rem !important;
@@ -113,8 +120,8 @@ li.quote {
   margin-right: 0.5rem;
 }
 
-.thread, .post { border-bottom: 1px solid $gray-200; padding: 0.7rem 0px;}
-.thread:hover { background-color: lighten($gray-200, 20%); }
+.thread, .post { border-bottom: 1px solid rgba($white,.1); padding: 0.7rem 0px;}
+.thread:hover { background-color: rgba($white,.1); }
 .threadlist > .thread:last-child,
 .postlist > .post:last-child { border-bottom: 0px; }
 
@@ -125,3 +132,4 @@ li.quote {
 
 /* 回帖输入框 */
 #message { height: 2.4rem; transition: height 0.2s; }
+

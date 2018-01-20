@@ -1,0 +1,43 @@
+@charset "UTF-8";
+/*!
+ * Bootstrap v4.0.0-beta.3 (https://getbootstrap.com)
+ * Copyright 2011-2017 The Bootstrap Authors
+ * Copyright 2011-2017 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+/* 百度编辑器 */
+.edui-container {
+  background: none;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.edui-container .edui-editor-body {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.edui-container {
+  box-shadow: none !important;
+}
+
+.edui-container .edui-toolbar {
+  color: #000;
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  box-shadow: none !important;
+}
+
+.edui-toolbar .edui-combobox-menu {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+textarea {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.edui-container pre {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.edui-combobox-menu .edui-combobox-item {
+  border-color: rgba(255, 255, 255, 0.2);
+}

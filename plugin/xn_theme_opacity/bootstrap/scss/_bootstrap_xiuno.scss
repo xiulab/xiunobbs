@@ -70,8 +70,8 @@ small, .small { font-size: 85%; font-weight: 400; }
 .fieldset {
   padding: 10px;
   margin: 10px;
-  border: 1px solid $gray-300;
-  background: $gray-100;
+  border: 1px solid rgba($white,.2);
+  background: rgba($white,.1);
 }
 .fieldset > legend {
   width: auto;
@@ -79,5 +79,5 @@ small, .small { font-size: 85%; font-weight: 400; }
   font-size: 1rem;
   font-weight: 800;
   color: $gray-100;
-  background: $gray-600;
+  background: rgba($black,.8);
 }

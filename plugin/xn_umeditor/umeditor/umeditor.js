@@ -9825,7 +9825,7 @@ UM.ui.define('separator', {
         },
         createUI: function (id, editor) {
             var $editorCont = $(id),
-                $container = $('<div class="edui-container"><div class="edui-editor-body"></div></div>').insertBefore($editorCont);
+                $container = $('<div class="edui-container"><div class="edui-editor-body message"></div></div>').insertBefore($editorCont);
             editor.$container = $container;
             editor.container = $container[0];
 
