@@ -32,11 +32,7 @@
 	<link rel="Bookmark" href="<?php echo $conf['view_url'];?>img/favicon.ico" />
 	
 	<!--{hook header_bootstrap_before.htm}-->
-	<?php if(DEBUG) { ?>
 	<link rel="stylesheet" href="<?php echo $conf['view_url'];?>css/bootstrap.css<?php echo $static_version;?>">
-	<?php } else { ?>
-	<link rel="stylesheet" href="<?php echo $conf['view_url'];?>css/bootstrap.min.css<?php echo $static_version;?>">
-	<?php } ?>
 	<!--{hook header_bootstrap_after.htm}-->
 	
 	<!--{hook header_link_before.htm}-->
