@@ -1,4 +1,4 @@
-﻿// 表单快捷键提交 CTRL+ENTER   / form quick submit
+// 表单快捷键提交 CTRL+ENTER   / form quick submit
 $('form').keyup(function(e) {
 	var jthis = $(this);
 	if((e.ctrlKey && (e.which == 13 || e.which == 10)) || (e.altKey && e.which == 83)) {
