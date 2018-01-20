@@ -36,6 +36,7 @@ textarea {
 .edui-container pre {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.2);
+  color: white;
 }
 
 .edui-combobox-menu .edui-combobox-item {
