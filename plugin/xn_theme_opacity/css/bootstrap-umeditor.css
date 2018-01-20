@@ -8,11 +8,11 @@
 /* 百度编辑器 */
 .edui-container {
   background: none;
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(8, 43, 60, 0.2);
 }
 
 .edui-container .edui-editor-body {
-  background-color: rgba(255, 255, 255, 0.1) !important;
+  background-color: rgba(8, 43, 60, 0.1) !important;
 }
 
 .edui-container {
@@ -20,30 +20,30 @@
 }
 
 .edui-container .edui-toolbar {
-  color: #000;
-  background-color: rgba(255, 255, 255, 0.8) !important;
+  color: #fff;
+  background-color: rgba(8, 43, 60, 0.8) !important;
   box-shadow: none !important;
 }
 
 .edui-toolbar .edui-combobox-menu {
-  background-color: #092E40;
+  background-color: #082b3c;
 }
 
 .edui-combobox-menu .edui-combobox-item:hover, .edui-combobox-menu .edui-combobox-stack-item:hover, .edui-combobox-menu .edui-combobox-item-hover {
-  background-color: #125e83;
-  border-color: #1c8ec6;
+  background-color: #125b7f;
+  border-color: #1b8bc2;
 }
 
 textarea {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(8, 43, 60, 0.1);
 }
 
 .edui-container pre {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: white;
+  background: rgba(8, 43, 60, 0.1);
+  border-color: rgba(8, 43, 60, 0.2);
+  color: #082b3c;
 }
 
 .edui-combobox-menu .edui-combobox-item {
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(8, 43, 60, 0.2);
 }
