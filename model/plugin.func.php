@@ -402,14 +402,19 @@ function plugin_compile_srcfile($srcfile) {
 	if(!empty($conf['disabled_plugin'])) {
 		$s = file_get_contents($srcfile);
 		return $s;
-	} else {
-		// 如果有 overwrite，则用 overwrite 替换掉
-		$srcfile = plugin_find_overwrite($srcfile);
-		$s = file_get_contents($srcfile);
 	}
 	
-	$s = preg_replace('#<!--{hook\s+(.*?)}-->#', '// hook \\1', $s);
-	$s = preg_replace_callback('#//\s*hook\s+(\S+)#is', 'plugin_compile_srcfile_callback', $s);
+	// 如果有 overwrite，则用 overwrite 替换掉
+	$srcfile = plugin_find_overwrite($srcfile);
+	$s = file_get_contents($srcfile);
+	
+	// 最多支持 4 层
+	for($i=0; $i<4; $i++) {
+		if(strpos($s, '<!--{hook') !== FALSE || strpos($s, '// hook') !== FALSE) {
+			$s = preg_replace('#<!--{hook\s+(.*?)}-->#', '// hook \\1', $s);
+			$s = preg_replace_callback('#//\s*hook\s+(\S+)#is', 'plugin_compile_srcfile_callback', $s);
+		}
+	}
 	return $s;
 }
 
