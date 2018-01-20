@@ -34,7 +34,8 @@ $grays: map-merge((
   "900": $gray-900
 ), $grays);
 
-$blue:    #1f4977 !default;
+$navy:     #092E40 !default;
+$blue:    lighten($navy,30%) !default; // #1f4977
 $indigo:  #490bad !default;
 $purple:  #6f42c1 !default;
 $pink:    #a62c64 !default;
@@ -44,6 +45,7 @@ $yellow:  #f1c84c !default;
 $green:   #177f2e !default;
 $teal:    #19926f !default;
 $cyan:    #117887 !default;
+
 
 $colors: () !default;
 $colors: map-merge((
@@ -140,8 +142,8 @@ $sizes: map-merge((
 //
 // Settings for the `<body>` element.
 
-$body-bg:                   $white !default;
-$body-color:                $gray-900 !default;
+$body-bg:                   $navy !default;
+$body-color:                $gray-100 !default;
 
 // Links
 //
@@ -205,14 +207,14 @@ $line-height-lg:              1.5 !default;
 $line-height-sm:              1.5 !default;
 
 $border-width:                1px !default;
-$border-color:                $gray-300 !default;
+$border-color:                rgba($white,.3) !default;
 
 $border-radius:               .25rem !default;
 $border-radius-lg:            .3rem !default;
 $border-radius-sm:            .2rem !default;
 
 $component-active-color:      $white !default;
-$component-active-bg:         theme-color("primary") !default;
+$component-active-bg:         rgba($black,.8) !default;
 
 $caret-width:                 .3em !default;
 
@@ -392,7 +394,7 @@ $input-padding-y-lg:                    $input-btn-padding-y-lg !default;
 $input-padding-x-lg:                    $input-btn-padding-x-lg !default;
 $input-line-height-lg:                  $input-btn-line-height-lg !default;
 
-$input-bg:                              $white !default;
+$input-bg:                              rgba($white,.1) !default;
 $input-disabled-bg:                     $gray-200 !default;
 
 $input-color:                           $gray-700 !default;
@@ -480,7 +482,7 @@ $custom-select-indicator-padding:   1rem !default; // Extra padding to account f
 $custom-select-line-height:         $input-btn-line-height !default;
 $custom-select-color:               $input-color !default;
 $custom-select-disabled-color:      $gray-600 !default;
-$custom-select-bg:                  $white !default;
+$custom-select-bg:                  rgba($white,.1) !default;
 $custom-select-disabled-bg:         $gray-200 !default;
 $custom-select-bg-size:             8px 10px !default; // In pixels because image dimensions
 $custom-select-indicator-color:     $gray-800 !default;
@@ -532,7 +534,7 @@ $form-feedback-invalid-color:       theme-color("danger") !default;
 $dropdown-min-width:                10rem !default;
 $dropdown-padding-y:                .5rem !default;
 $dropdown-spacer:                   .125rem !default;
-$dropdown-bg:                       $white !default;
+$dropdown-bg:                       rgba($white,0.1) !default;
 $dropdown-border-color:             rgba($black, .15) !default;
 $dropdown-border-radius:            $border-radius !default;
 $dropdown-border-width:             $border-width !default;
@@ -628,7 +630,7 @@ $pagination-padding-x-lg:           1.5rem !default;
 $pagination-line-height:            1.25 !default;
 
 $pagination-color:                  $link-color !default;
-$pagination-bg:                     $white !default;
+$pagination-bg:                     rgba($white,0.1) !default;
 $pagination-border-width:           $border-width !default;
 $pagination-border-color:           $gray-300 !default;
 
@@ -643,7 +645,7 @@ $pagination-active-bg:              $component-active-bg !default;
 $pagination-active-border-color:    $pagination-active-bg !default;
 
 $pagination-disabled-color:         $gray-600 !default;
-$pagination-disabled-bg:            $white !default;
+$pagination-disabled-bg:            rgba($white,.1) !default;
 $pagination-disabled-border-color:  $gray-300 !default;
 
 
@@ -662,7 +664,7 @@ $card-border-radius:                $border-radius !default;
 $card-border-color:                 rgba($black, .125) !default;
 $card-inner-border-radius:          calc(#{$card-border-radius} - #{$card-border-width}) !default;
 $card-cap-bg:                       rgba($black, .03) !default;
-$card-bg:                           $white !default;
+$card-bg:                           rgba($white,.1) !default;
 
 $card-img-overlay-padding:          1.25rem !default;
 
@@ -678,7 +680,7 @@ $card-columns-margin:               $card-spacer-y !default;
 
 $tooltip-font-size:           $font-size-sm !default;
 $tooltip-max-width:           200px !default;
-$tooltip-color:               $white !default;
+$tooltip-color:               rgba($white,.1) !default;
 $tooltip-bg:                  $black !default;
 $tooltip-border-radius:        $border-radius !default;
 $tooltip-opacity:             .9 !default;
@@ -694,7 +696,7 @@ $tooltip-arrow-color:         $tooltip-bg !default;
 // Popovers
 
 $popover-font-size:                 $font-size-sm !default;
-$popover-bg:                        $white !default;
+$popover-bg:                        rgba($white,.1) !default;
 $popover-max-width:                 276px !default;
 $popover-border-width:              $border-width !default;
 $popover-border-color:              rgba($black, .2) !default;
@@ -741,7 +743,7 @@ $modal-dialog-margin-y-sm-up: 1.75rem !default;
 
 $modal-title-line-height:           $line-height-base !default;
 
-$modal-content-bg:               $white !default;
+$modal-content-bg:               rgba($white,.1) !default;
 $modal-content-border-color:     rgba($black, .2) !default;
 $modal-content-border-width:     $border-width !default;
 $modal-content-box-shadow-xs:    0 .25rem .5rem rgba($black, .5) !default;
@@ -785,14 +787,14 @@ $progress-font-size:                ($font-size-base * .75) !default;
 $progress-bg:                       $gray-200 !default;
 $progress-border-radius:            $border-radius !default;
 $progress-box-shadow:               inset 0 .1rem .1rem rgba($black, .1) !default;
-$progress-bar-color:                $white !default;
+$progress-bar-color:                rgba($white,.1) !default;
 $progress-bar-bg:                   theme-color("primary") !default;
 $progress-bar-animation-timing:     1s linear infinite !default;
 $progress-bar-transition:           width .6s ease !default;
 
 // List group
 
-$list-group-bg:                     $white !default;
+$list-group-bg:                     rgba($white,.1) !default;
 $list-group-border-color:           rgba($black, .125) !default;
 $list-group-border-width:           $border-width !default;
 $list-group-border-radius:          $border-radius !default;
@@ -847,17 +849,17 @@ $breadcrumb-divider:                "/" !default;
 
 // Carousel
 
-$carousel-control-color:            $white !default;
+$carousel-control-color:            rgba($white,.1) !default;
 $carousel-control-width:            15% !default;
 $carousel-control-opacity:          .5 !default;
 
 $carousel-indicator-width:          30px !default;
 $carousel-indicator-height:         3px !default;
 $carousel-indicator-spacer:         3px !default;
-$carousel-indicator-active-bg:      $white !default;
+$carousel-indicator-active-bg:      rgba($white,.1) !default;
 
 $carousel-caption-width:            70% !default;
-$carousel-caption-color:            $white !default;
+$carousel-caption-color:            rgba($white,.1) !default;
 
 $carousel-control-icon-width:       20px !default;
 
@@ -872,7 +874,7 @@ $carousel-transition:               transform .6s ease !default;
 $close-font-size:                   $font-size-base * 1.5 !default;
 $close-font-weight:                 $font-weight-bold !default;
 $close-color:                       $black !default;
-$close-text-shadow:                 0 1px 0 $white !default;
+$close-text-shadow:                 0 1px 0 rgba($white,.1) !default;
 
 // Code
 

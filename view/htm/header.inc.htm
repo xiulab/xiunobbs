@@ -27,16 +27,22 @@
 
 	<title><?php echo $header['title'];?></title>
 	
+	<!--{hook header_link_before.htm}-->
+	
 	<link rel="shortcut icon" href="<?php echo $conf['view_url'];?>img/favicon.ico" />
 	<link rel="icon" sizes="32x32" href="<?php echo $conf['view_url'];?>img/favicon.ico">
 	<link rel="Bookmark" href="<?php echo $conf['view_url'];?>img/favicon.ico" />
 	
 	<!--{hook header_bootstrap_before.htm}-->
-	<link rel="stylesheet" href="<?php echo $conf['view_url'];?>css/bootstrap.css<?php echo $static_version;?>">
+	<?php $bootstrap_css = G('bootstrap_css', $conf['view_url']."css/bootstrap.css".$static_version); ?>
+	<link rel="stylesheet" href="<?php echo $bootstrap_css;?>">
 	<!--{hook header_bootstrap_after.htm}-->
 	
-	<!--{hook header_link_before.htm}-->
-	<link rel="stylesheet" href="<?php echo $conf['view_url'];?>css/bootstrap-bbs.css<?php echo $static_version;?>">
+	<!--{hook header_bootstrap_bbs_before.htm}-->
+	<?php $bootstrap_bbs_css = G('bootstrap_bbs_css', $conf['view_url']."css/bootstrap-bbs.css".$static_version); ?>
+	<link rel="stylesheet" href="<?php echo $bootstrap_bbs_css;?>">
+	<!--{hook header_bootstrap_bbs_after.htm}-->
+	
 	<!--{hook header_link_after.htm}-->
 	
 </head>

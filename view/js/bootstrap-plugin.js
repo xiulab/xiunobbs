@@ -2,7 +2,6 @@
 // 0 表示永不超时，
 $.alert = function(subject, timeout, options) {
 	var options = options || {size: "md"};
-	var t = timeout || 2;
 	var s = '\
 	<div class="modal fade" tabindex="-1" role="dialog">\
 		<div class="modal-dialog modal-'+options.size+'">\
@@ -24,10 +23,10 @@ $.alert = function(subject, timeout, options) {
 	</div>';
 	var jmodal = $(s).appendTo('body');
 	jmodal.modal('show');
-	if(t && t > 0) {
+	if(typeof timeout != 'undefined' && t >= 0) {
 		setTimeout(function() {
 			jmodal.modal('dispose');
-		}, t * 1000);
+		}, timeout * 1000);
 	}
 	
 	return jmodal;
@@ -38,7 +37,6 @@ $.confirm = function(subject, ok_callback, options) {
 	options.body = options.body || '';
 	var title = options.body ? subject : lang.confirm_title+':';
 	var subject = options.body ? '' : '<p>'+subject+'</p>';
-	var t = options.timeout || 3;
 	var s = '\
 	<div class="modal fade" tabindex="-1" role="dialog">\
 		<div class="modal-dialog modal-'+options.size+'">\
