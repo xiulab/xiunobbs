@@ -81,3 +81,5 @@ small, .small { font-size: 85%; font-weight: 400; }
   color: $gray-100;
   background: rgba($black,.8);
 }
+
+select > option { background-color: $body-bg; }

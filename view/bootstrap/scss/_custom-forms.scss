@@ -177,6 +177,8 @@
     border-radius: 0;
   }
   appearance: none;
+  -webkit-appearance: none;
+  
 
   &:focus {
     border-color: $custom-select-focus-border-color;

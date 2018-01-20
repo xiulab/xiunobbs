@@ -14,7 +14,11 @@
 .edui-container .edui-editor-body { background-color: rgba($white,.1) !important; }
 .edui-container { box-shadow: none !important; }
 .edui-container .edui-toolbar { color: $black; background-color: rgba($white,.8) !important; box-shadow: none !important; }
-.edui-toolbar .edui-combobox-menu { background-color: rgba($white,.2) !important; }
+.edui-toolbar .edui-combobox-menu { background-color: $body-bg; }
+.edui-combobox-menu .edui-combobox-item:hover, .edui-combobox-menu .edui-combobox-stack-item:hover, .edui-combobox-menu .edui-combobox-item-hover {
+        background-color: lighten($body-bg,15%);
+        border-color: lighten($body-bg,30%);
+}
 textarea { background: rgba($white,.1)}
 .edui-container pre { background: rgba($white,.1); border-color: rgba($white,.2); color: rgba($white,09); }
 .edui-combobox-menu .edui-combobox-item { border-color: rgba($white,.2); }

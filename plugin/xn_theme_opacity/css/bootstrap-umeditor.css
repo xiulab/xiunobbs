@@ -26,7 +26,12 @@
 }
 
 .edui-toolbar .edui-combobox-menu {
-  background-color: rgba(255, 255, 255, 0.2) !important;
+  background-color: #092E40;
+}
+
+.edui-combobox-menu .edui-combobox-item:hover, .edui-combobox-menu .edui-combobox-stack-item:hover, .edui-combobox-menu .edui-combobox-item-hover {
+  background-color: #125e83;
+  border-color: #1c8ec6;
 }
 
 textarea {
