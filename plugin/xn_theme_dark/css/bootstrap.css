@@ -3940,9 +3940,9 @@ tbody.collapse.show {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #082b3c;
+  background-color: rgba(0, 0, 0, 0.1);
   background-clip: border-box;
-  border: 1px solid rgba(255, 255, 255, 0.125);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 0.25rem;
 }
 
@@ -3991,7 +3991,7 @@ tbody.collapse.show {
   padding: 0.75rem 1.25rem;
   margin-bottom: 0;
   background-color: rgba(255, 255, 255, 0.03);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.125);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .card-header:first-child {
@@ -4005,7 +4005,7 @@ tbody.collapse.show {
 .card-footer {
   padding: 0.75rem 1.25rem;
   background-color: rgba(255, 255, 255, 0.03);
-  border-top: 1px solid rgba(255, 255, 255, 0.125);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .card-footer:last-child {
@@ -4165,7 +4165,7 @@ tbody.collapse.show {
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
   list-style: none;
-  background-color: #0f4e6d;
+  background-color: rgba(0, 0, 0, 0.2);
   border-radius: 0.25rem;
 }
 
@@ -4173,7 +4173,7 @@ tbody.collapse.show {
   display: inline-block;
   padding-right: 0.5rem;
   padding-left: 0.5rem;
-  color: #33a9e2;
+  color: #0f4e6d;
   content: "/";
 }
 
@@ -4186,7 +4186,7 @@ tbody.collapse.show {
 }
 
 .breadcrumb-item.active {
-  color: #33a9e2;
+  color: #0f4e6d;
 }
 
 .pagination {
@@ -4883,7 +4883,7 @@ button.close {
   pointer-events: auto;
   background-color: #082b3c;
   background-clip: padding-box;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(8, 43, 60, 0.8);
   border-radius: 0.3rem;
   outline: 0;
 }
@@ -4895,7 +4895,7 @@ button.close {
   bottom: 0;
   left: 0;
   z-index: 1040;
-  background-color: #fff;
+  background-color: #000;
 }
 
 .modal-backdrop.fade {
@@ -4911,7 +4911,7 @@ button.close {
   align-items: flex-start;
   justify-content: space-between;
   padding: 1rem;
-  border-bottom: 1px solid #166e99;
+  border-bottom: 1px solid #0f4e6d;
   border-top-left-radius: 0.3rem;
   border-top-right-radius: 0.3rem;
 }
@@ -4937,7 +4937,7 @@ button.close {
   align-items: center;
   justify-content: flex-end;
   padding: 1rem;
-  border-top: 1px solid #166e99;
+  border-top: 1px solid #0f4e6d;
 }
 
 .modal-footer > :not(:first-child) {

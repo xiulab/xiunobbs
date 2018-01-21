@@ -162,12 +162,12 @@ li.quote {
 }
 
 .thread, .post {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   padding: 0.7rem 0px;
 }
 
 .thread:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 .threadlist > .thread:last-child,
@@ -191,6 +191,10 @@ li.quote {
 
 .thread .badge {
   font-weight: normal;
+}
+
+.tag_option {
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 /* 回帖输入框 */

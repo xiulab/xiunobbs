@@ -662,10 +662,10 @@ $card-spacer-y:                     .75rem !default;
 $card-spacer-x:                     1.25rem !default;
 $card-border-width:                 $border-width !default;
 $card-border-radius:                $border-radius !default;
-$card-border-color:                 rgba($black, .125) !default;
+$card-border-color:                 rgba($black, .06) !default;
 $card-inner-border-radius:          calc(#{$card-border-radius} - #{$card-border-width}) !default;
 $card-cap-bg:                       rgba($black, .03) !default;
-$card-bg:                           $white !default;
+$card-bg:                           rgba($real_black,.1) !default;
 
 $card-img-overlay-padding:          1.25rem !default;
 
@@ -745,14 +745,14 @@ $modal-dialog-margin-y-sm-up: 1.75rem !default;
 $modal-title-line-height:           $line-height-base !default;
 
 $modal-content-bg:               $white !default;
-$modal-content-border-color:     rgba($black, .2) !default;
+$modal-content-border-color:     rgba($white, .8) !default;
 $modal-content-border-width:     $border-width !default;
 $modal-content-box-shadow-xs:    0 .25rem .5rem rgba($black, .5) !default;
 $modal-content-box-shadow-sm-up: 0 .5rem 1rem rgba($black, .5) !default;
 
-$modal-backdrop-bg:           $black !default;
+$modal-backdrop-bg:           $real_black !default;
 $modal-backdrop-opacity:      .5 !default;
-$modal-header-border-color:   $gray-200 !default;
+$modal-header-border-color:   $gray-100 !default;
 $modal-footer-border-color:   $modal-header-border-color !default;
 $modal-header-border-width:   $modal-content-border-width !default;
 $modal-footer-border-width:   $modal-header-border-width !default;
@@ -842,9 +842,9 @@ $breadcrumb-item-padding:           .5rem !default;
 
 $breadcrumb-margin-bottom:          1rem !default;
 
-$breadcrumb-bg:                     $gray-100 !default;
-$breadcrumb-divider-color:          $gray-400 !default;
-$breadcrumb-active-color:           $gray-400 !default;
+$breadcrumb-bg:                     rgba($real_black,.2) !default;
+$breadcrumb-divider-color:          $gray-100 !default;
+$breadcrumb-active-color:           $gray-100 !default;
 $breadcrumb-divider:                "/" !default;
 
 

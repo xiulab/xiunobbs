@@ -73,8 +73,8 @@ li.quote {
   margin-right: 0.5rem;
 }
 
-.thread, .post { border-bottom: 1px solid rgba($real_white,.1); padding: 0.7rem 0px;}
-.thread:hover { background-color: rgba($real_white,.1); }
+.thread, .post { border-bottom: 1px solid rgba($real_white,.08); padding: 0.7rem 0px;}
+.thread:hover { background-color: rgba($real_white,.08); }
 .threadlist > .thread:last-child,
 .postlist > .post:last-child { border-bottom: 0px; }
 
@@ -82,6 +82,8 @@ li.quote {
 .message p { margin: 0.2rem 0; line-height: 1.7; }
 .message img { max-width:  100%; height:auto !important;}
 .thread .badge { font-weight: normal; }
+
+.tag_option { border-color: rgba($black,.2); }
 
 /* 回帖输入框 */
 #message { height: 2.4rem; transition: height 0.2s; }

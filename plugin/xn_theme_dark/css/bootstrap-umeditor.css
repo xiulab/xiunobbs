@@ -1,0 +1,73 @@
+@charset "UTF-8";
+/*!
+ * Bootstrap v4.0.0-beta.3 (https://getbootstrap.com)
+ * Copyright 2011-2017 The Bootstrap Authors
+ * Copyright 2011-2017 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+/* 百度编辑器 */
+.edui-container {
+  background: none;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.edui-container .edui-editor-body {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.edui-container {
+  box-shadow: none !important;
+}
+
+.edui-container pre {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.edui-btn-toolbar .edui-combobox {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.edui-toolbar .edui-combobox-menu {
+  background-color: #082b3c;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.edui-combobox-menu .edui-combobox-item:hover,
+.edui-combobox-menu .edui-combobox-stack-item:hover,
+.edui-combobox-menu .edui-combobox-item-hover {
+  background-color: #125b7f;
+  border-color: #1b8bc2;
+}
+
+.edui-combobox-menu .edui-combobox-item {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.edui-container .edui-toolbar {
+  color: #fff;
+  background-color: rgba(8, 43, 60, 0.2) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+  box-shadow: none !important;
+}
+
+.edui-btn-toolbar .edui-btn .edui-icon {
+  background-image: url(../img/umeditor_icons_dark.png);
+}
+
+.edui-btn-toolbar .edui-btn.edui-hover,
+.edui-btn-toolbar .edui-btn.edui-active {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.edui-toolbar .edui-separator {
+  width: 1px;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+textarea {
+  background: rgba(255, 255, 255, 0.1);
+}
