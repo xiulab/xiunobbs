@@ -3334,6 +3334,7 @@ tbody.collapse.show {
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   appearance: none;
+  --webkit-appearance: none;
 }
 
 .custom-select:focus {
