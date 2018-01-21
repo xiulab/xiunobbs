@@ -1,6 +1,6 @@
 <?php
 
-define('DEBUG', 1);
+define('DEBUG', 0);
 define('APP_PATH', realpath(dirname(__FILE__).'/../').'/');
 define('INSTALL_PATH', dirname(__FILE__).'/');
 
