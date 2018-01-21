@@ -177,6 +177,16 @@ if($action == 'local') {
 	}
 	
 	plugin_lock_end();
+
+	// 自动卸载掉其他已经安装的主题 / automatically unstall other theme plugin.
+	if(strpos($dir, '_theme_') !== FALSE) {
+		foreach($plugins as $_dir => $_plugin) {
+			if($dir == $_dir) continue;
+			if(strpos($_dir, '_theme_') !== FALSE) {
+				plugin_unstall($_dir);
+			}
+		}
+	}
 	
 	$msg = lang('plugin_install_sucessfully', array('name'=>$name));
 	message(0, jump($msg, http_referer(), 3));
