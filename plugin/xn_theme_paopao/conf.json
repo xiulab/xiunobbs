@@ -1,0 +1,10 @@
+{
+    "name": "官方皮肤：蓝色背景泡泡",
+    "brief": "用 css overwrite 的方式，重新定义了背景，最简单的风格制作方式。新手可以基于此风格直接修改。",
+    "version": "1.2",
+    "bbs_version": "4.0",
+    "installed": 0,
+    "enable": 0,
+    "hooks_rank": [],
+    "dependencies": []
+}
