@@ -148,10 +148,12 @@ function attach_gc() {
 	global $time, $conf;
 	// hook model_attach_gc_start.php
 	$tmpfiles = glob($conf['upload_path'].'tmp/*.*');
-	foreach ($tmpfiles as $file) {
-		// 清理超过一天还没处理的临时文件
-		if($time - filemtime($file) > 86400) {
-			unlink($file);
+	if(is_array($tmpfiles)) {
+		foreach($tmpfiles as $file) {
+			// 清理超过一天还没处理的临时文件
+			if($time - filemtime($file) > 86400) {
+				unlink($file);
+			}
 		}
 	}
 	// hook model_attach_gc_end.php
