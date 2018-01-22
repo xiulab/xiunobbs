@@ -55,8 +55,8 @@
 				'cateid'=>$cateid,
 				'name'=>$tag_name_arr[$tagid],
 				'rank'=>$tag_rank_arr[$tagid],
-				'style'=>$tag_style_arr[$tagid],
-				'enable'=>array_value($tag_enable_arr, $tagid),
+				'style'=>array_value($tag_style_arr, $tagid, ''),
+				'enable'=>array_value($tag_enable_arr, $tagid, 0),
 			);
 			if(isset($taglist[$tagid])) {
 				tag_update($tagid, $arr);

@@ -159,6 +159,7 @@ $('#addattach').on('change', function(e) {
 			callback();
 			jprogress.hide();
 		}, function(percent) {
+			percent = xn.intval(percent);
 			jprogressbar.css('width', percent+'%');
 			jprogressbar.text(percent+'%');
 			jprogress.show();
