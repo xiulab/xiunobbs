@@ -400,6 +400,7 @@ function plugin_paths_enabled() {
 
 // 编译源文件，把插件合并到该文件，不需要递归，执行的过程中 include _include() 自动会递归。
 function plugin_compile_srcfile($srcfile) {
+	global $conf;
 	// 判断是否开启插件
 	if(!empty($conf['disabled_plugin'])) {
 		$s = file_get_contents($srcfile);
