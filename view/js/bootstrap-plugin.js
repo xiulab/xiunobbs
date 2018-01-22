@@ -23,7 +23,7 @@ $.alert = function(subject, timeout, options) {
 	</div>';
 	var jmodal = $(s).appendTo('body');
 	jmodal.modal('show');
-	if(typeof timeout != 'undefined' && t >= 0) {
+	if(typeof timeout != 'undefined' && timeout >= 0) {
 		setTimeout(function() {
 			jmodal.modal('dispose');
 		}, timeout * 1000);
