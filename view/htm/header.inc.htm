@@ -20,7 +20,11 @@
 	
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<?php if(!empty($header['keywords'])) { ?>
 	<meta name="keywords" content="<?php echo $header['keywords'];?>" />
+	<?php } ?>
+
 	<meta name="description" content="<?php echo $header['description'];?>" />
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >

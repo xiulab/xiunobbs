@@ -16,7 +16,7 @@
 
 // 本地开启 DEBUG 模式
 !isset($_SERVER['REMOTE_ADDR']) AND $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-if($_SERVER['REMOTE_ADDR'] == '127.0.0.1' || substr($_SERVER['REMOTE_ADDR'], 0, 8) == '192.168.') {
+if($_SERVER['REMOTE_ADDR'] == '127.0.0.1' || substr($_SERVER['REMOTE_ADDR'], 0, 8) == '192.168.' || $_SERVER['REMOTE_ADDR'] == '::1') {
 	define('DEBUG', 2);
 }
 
