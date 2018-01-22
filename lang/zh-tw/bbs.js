@@ -11,7 +11,7 @@ var lang = {
 	
 	'please_choose_thread':'請選擇主題',
 	'move_forum':'移動版塊',
-	'choose_move_forum':'選擇移動的版塊',
+	'choose_move_forum':'移動到版塊',
 	'top_0':'取消置頂',
 	'top_1':'版塊置頂',
 	'top_3':'全站置頂',

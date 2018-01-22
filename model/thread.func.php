@@ -215,13 +215,13 @@ function thread_find($cond = array(), $orderby = array(), $page = 1, $pagesize =
 }
 
 // $order: tid/lastpid
-// 按照: 发帖时间/最后回复时间 倒序
-function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'lastpid') {
+// 按照: 发帖时间/最后回复时间 倒序，不包含置顶帖
+function thread__find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'lastpid') {
 	global $conf, $forumlist, $runtime;
 	$forum = $fid ? $forumlist[$fid] : array();
 	$threads = empty($forum) ? $runtime['threads'] : $forum['threads'];
 	
-	// hook model_thread_find_by_fid_start.php
+	// hook model__thread_find_by_fid_start.php
 	
 	$cond = array();
 	$fid AND $cond['fid'] = $fid;
@@ -246,6 +246,20 @@ function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'lastpid')
 		$threadlist = thread_find($cond, $orderby, $page, $pagesize);
 	}
 	
+	// hook model__thread_find_by_fid_end.php
+	
+	return $threadlist;
+}
+
+// $order: tid/lastpid
+// 按照: 发帖时间/最后回复时间 倒序，包含置顶帖
+function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'lastpid') {
+	global $conf, $forumlist, $runtime;
+
+	// hook model_thread_find_by_fid_start.php
+
+	$threadlist = thread__find_by_fid($fid, $page, $pagesize, $order);
+
 	// hook model_thread_find_by_fid_middle.php
 	
 	// 查找置顶帖
@@ -255,6 +269,7 @@ function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'lastpid')
 		//$toplist = thread_top_find($fid);
 		$threadlist = $toplist3 + $toplist1 + $threadlist;
 	}
+	
 	// hook model_thread_find_by_fid_end.php
 	return $threadlist;
 }

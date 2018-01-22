@@ -1,0 +1,10 @@
+{
+    "name": "官方主题：暗调背景",
+    "brief": "暗调背景，半透明效果，这个主题风格花了大半天的时间，因为是暗调，黑白颠倒，scss 的变量定义和样式调整比较麻烦，不建议新手基于该风格修改。",
+    "version": "1.3",
+    "bbs_version": "4.0",
+    "installed": 0,
+    "enable": 0,
+    "hooks_rank": [],
+    "dependencies": []
+}

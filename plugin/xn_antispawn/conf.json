@@ -3,8 +3,8 @@
     "brief": "一系列的反灌水措施。",
     "version": "1.15",
     "bbs_version": "4.0",
-    "installed": 0,
-    "enable": 0,
+    "installed": 1,
+    "enable": 1,
     "hooks_rank": [],
     "overwrites_rank": [],
     "dependencies": []

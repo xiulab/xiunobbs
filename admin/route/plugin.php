@@ -41,8 +41,6 @@ if($action == 'local') {
 
 	$pugin_cate_html = plugin_cate_active($action, $pugin_cates, $cateid, $page);
 	
-	DEBUG AND isset($official_plugins['xn_qq_login']) AND $official_plugins['xn_qq_login']['price'] = 1;
-	
 	// official plugin
 	$total = plugin_official_total($cond);
 	$pluginlist = plugin_official_list($cond, array('pluginid'=>-1), $page, $pagesize);
@@ -177,6 +175,16 @@ if($action == 'local') {
 	}
 	
 	plugin_lock_end();
+
+	// 自动卸载掉其他已经安装的主题 / automatically unstall other theme plugin.
+	if(strpos($dir, '_theme_') !== FALSE) {
+		foreach($plugins as $_dir => $_plugin) {
+			if($dir == $_dir) continue;
+			if(strpos($_dir, '_theme_') !== FALSE) {
+				plugin_unstall($_dir);
+			}
+		}
+	}
 	
 	$msg = lang('plugin_install_sucessfully', array('name'=>$name));
 	message(0, jump($msg, http_referer(), 3));

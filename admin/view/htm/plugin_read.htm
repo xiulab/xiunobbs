@@ -18,7 +18,7 @@
 					</div>
 				</div>
 				<hr />
-				<div class="row line-height-2">
+				<div class="row line-height-3">
 					<div class="col-md-6">
 						<span class="text-muted"><?php echo lang('plugin_dir');?></span>：
 						<?php echo $dir; ?>
@@ -40,11 +40,13 @@
 						<span><?php echo $plugin['installs']; ?></span>
 					</div>
 					
+					<!--
 					<div class="col-md-6">
 						<span class="text-muted"><?php echo lang('plugin_user_stars_fmt');?></span>：
 						<span><?php echo $plugin['user_stars_fmt']; ?></span>
 					</div>
-					
+					-->
+
 					<div class="col-md-6">
 						<span class="text-muted"><?php echo lang('plugin_sells');?></span>：
 						<span><?php echo $plugin['sells']; ?></span>
@@ -52,7 +54,7 @@
 					
 					<div class="col-md-6">
 						<span class="text-muted"><?php echo lang('plugin_is_cert');?></span>：
-						<span><?php echo $plugin['is_cert']; ?></span>
+						<span><?php echo $plugin['is_cert_fmt']; ?></span>
 					</div>
 					
 					<?php  } ?>
@@ -128,11 +130,7 @@
 <?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
 
 <script>
-$('#nav li.plugin').addClass('active');
-</script>
-
-<script>
-$('#nav li.plugin').addClass('active');
+$('#nav li.nav-item-plugin').addClass('active');
 
 <?php if(!empty($plugin['pluginid']) && !empty($url)) { ?>
 

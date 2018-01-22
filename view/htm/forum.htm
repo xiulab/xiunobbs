@@ -55,11 +55,11 @@
 		<a role="button" class="btn btn-primary btn-block mb-3" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
 		
 		<div class="card">
-			<div class="m-3 text-center">
-				<img align="center" data-src="" alt="100%x180" src="<?php echo $forum['icon_url'];?>" width="100" height="100">
+			<div class="card-body text-center">
+				<img class="logo-5 mb-2" src="<?php echo $forum['icon_url'];?>">
 				<h5><?php echo $forum['name'];?></h5>
 				<!--{hook forum_brief_before.htm}-->
-				<div class="text-left small line-height-3"><?php echo $forum['brief'];?></div>
+				<div class="text-left line-height-2"><?php echo $forum['brief'];?></div>
 				<!--{hook forum_brief_before.htm}-->
 			</div>
 			<div class="card-footer p-2">

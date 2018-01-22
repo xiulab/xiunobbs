@@ -1,0 +1,85 @@
+/**************************************** 对 bootstrap 进行补充 ****************************************/
+
+/* 小屏: only small screen */
+@media (max-width: 576px) { .hidden-sm { display: none !important; } }
+
+/* 中屏: only middle screen */
+@media (min-width: 576px) and (max-width: 992px) { .hidden-md { display: none !important; } }
+
+/* 大屏+: big screen */
+@media (min-width: 992px) { .hidden-lg { display: none !important; } }
+
+.line-height-1 { line-height: 1 !important; }
+.line-height-2 { line-height: 1.6 !important; }
+.line-height-3 { line-height: 2 !important; }
+.line-height-4 { line-height: 2.5 !important; }
+.line-height-5 { line-height: 3 !important; }
+.line-height-6 { line-height: 4 !important; }
+
+.avatar-1 { width: 1.3rem; height: 1.3rem; border-radius: 1.3rem; }
+.avatar-2 { width: 1.8rem; height: 1.8rem; border-radius: 1.8rem; }
+.avatar-3 { width: 2.4rem; height: 2.4rem; border-radius: 2.4rem; }
+.avatar-4 { width: 4.5rem; height: 4.5rem; border-radius: 4.5rem; }
+.avatar-5 { width: 6rem; height: 6rem; border-radius: 6rem; }
+
+.logo-1 { width: 1.3rem; height: 1.3rem; }
+.logo-2 { width: 1.8rem; height: 1.8rem; }
+.logo-3 { width: 2.4rem; height: 2.4rem; }
+.logo-4 { width: 4.5rem; height: 4.5rem; }
+.logo-5 { width: 6rem; height: 6rem; }
+
+/* 附件图标 */
+.icon.filetype {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  vertical-align: middle;
+  background-repeat: no-repeat;
+  background-size: 1rem;
+}
+.icon.filetype { --sbig: 16px; width: var(--sbig); height: var(--sbig); background-size: var(--sbig); background-image: url("../../../view/img/filetype.png"); }
+.icon.filetype.big { --sbig: 24px; }
+.icon.filetype.video { background-position: 0 0; }
+.icon.filetype.music:before { content: ""; }
+.icon.filetype.music { background-position: 0 calc(-1 * var(--sbig)); }
+.icon.filetype.exe { background-position: 0 calc(-2 * var(--sbig)); }
+.icon.filetype.flash { background-position: 0 calc(-3 * var(--sbig)); }
+.icon.filetype.image:before { content: ""; }
+.icon.filetype.image { background-position: 0 calc(-4 * var(--sbig)); }
+.icon.filetype.office { background-position: 0 calc(-5 * var(--sbig)); }
+.icon.filetype.pdf { background-position: 0 calc(-6 * var(--sbig)); }
+.icon.filetype.text { background-position: 0 calc(-7 * var(--sbig)); }
+.icon.filetype.unknown { background-position: 0 calc(-8 * var(--sbig)); }
+.icon.filetype.zip { background-position: 0 calc(-9 * var(--sbig)); }
+.icon.filetype.other { background-position: 0 calc(-10 * var(--sbig)); }
+.icon.filetype.book { background-position: 0 calc(-11 * var(--sbig)); }
+.icon.filetype.torrent { background-position: 0 calc(-12 * var(--sbig)); }
+.icon.filetype.font { background-position: 0 calc(-13 * var(--sbig)); }
+[class^="icon-top-"]:before { content: "\f024"; }
+.icon-top-1 { color: #ff8800; }
+.icon-top-2 { color: #ff8800; }
+.icon-top-3 { color: #da24a7; }
+
+small, .small { font-size: 85%; font-weight: 400; }
+.text-grey { color: rgba($gray-300, 0.5) !important; }
+.break-all { word-break: break-all; }
+.center { margin-right: auto !important; margin-left: auto !important; }
+.w-auto { width: auto !important; }
+.flex-grow { flex-grow: 1; }
+
+.fieldset {
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid rgba($white,.2);
+  background: rgba($white,.1);
+}
+.fieldset > legend {
+  width: auto;
+  padding: 0px 16px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: $gray-100;
+  background: rgba($black,.8);
+}
+
+select > option { background-color: $body-bg; }

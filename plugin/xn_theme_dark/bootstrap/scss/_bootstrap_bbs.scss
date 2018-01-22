@@ -1,0 +1,90 @@
+/****************************************   bbs 业务部分  ****************************************/
+.bg-dark { background-color: rgba($real_black,.5) !important}
+body { background-image: url(../img/body_bg.jpg); background-position: top center; background-repeat: no-repeat; }
+html, table { font-size: 14px; }
+html, body { height: 100%; display: flex;  flex-direction: column;  font-family: "Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", "微软雅黑", "华文细黑", STHeiti, sans-serif; }
+
+/* 页脚固定在底部 */
+#header, #body, #footer { width: 100%; }
+#header { flex: 0 0 auto; }
+#body { flex: 1 0 auto; }
+#footer { flex: 0 0 auto; }
+#body > .container > .row > .col-lg-3 { padding-left: 0; }
+
+.table th { border-top: none; }
+.table > tbody > tr:first-child > td { border-top: none; }
+
+.card {
+  margin-bottom: 1rem;
+}
+
+.breadcrumb .breadcrumb-item { display: inline-flex; text-overflow: ellipsis; white-space: nowrap; }
+.breadcrumb .breadcrumb-item a { max-width: 400px; overflow: hidden; text-overflow: ellipsis; }
+.card-header-dropdown .dropdown-menu .dropdown-item i { width: 12px; }
+
+/* 小屏: only small screen */
+@media (max-width: 576px) {
+  #body { padding-top: 0.5rem; }
+  #body > .container > .row > div { padding: 0.5rem; }
+}
+
+/* 小屏 + 中屏: small + middle */
+@media (max-width: 992px) {
+  #nav { padding-top: 1.5rem; padding-left: 0.5rem; }
+  #nav > ul:first-child > li:not(:first-child) { padding-left: 3rem; }
+}
+
+/* 中屏 + 大屏: middle + big */
+@media (min-width: 576px) {
+  #body { padding-top: 1rem; }
+}
+
+.addattach:hover { font-weight: 800; }
+
+/*@teax 弥补bootstrap beta3的不足，分页如果过多则换行，防止超出屏幕*/
+.pagination{ flex-wrap: wrap; }
+table.nav_tag_list { margin-bottom: 0.2rem; }
+table.nav_tag_list td { padding: 0.1rem; }
+table.nav_tag_list td a { margin-right: 0.5rem; }
+.nav_tag_list .active { font-weight: 800; }
+
+@keyframes quote_animation {
+  from { background-color: $green; }
+  to { background-color: $gray-100; }
+}
+li.quote {
+  background-color: $gray-200;
+  animation: quote_animation 1s;
+  -moz-animation: quote_animation 1s;
+  -webkit-animation: quote_animation 1s;
+  -o-animation: quote_animation 1s;
+  background-image: url(../../../view/img/quote.png);
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+.blockquote {
+  font-size: 0.8rem;
+  background: rgba($real_white,.1);
+  background-repeat: no-repeat;
+  background-position: top right;
+  padding: 0.5rem 1rem !important;
+}
+.blockquote .user {
+  margin-right: 0.5rem;
+}
+
+.thread, .post { border-bottom: 1px solid rgba($real_white,.08); padding: 0.7rem 0px;}
+.thread:hover { background-color: rgba($real_white,.08); }
+.threadlist > .thread:last-child,
+.postlist > .post:last-child { border-bottom: 0px; }
+
+.postlist .media-body { width: 1%; }
+.message p { margin: 0.2rem 0; line-height: 1.7; }
+.message img { max-width:  100%; height:auto !important;}
+.thread .badge { font-weight: normal; }
+
+.tag_option { border-color: rgba($black,.2); }
+
+/* 回帖输入框 */
+#message { height: 2.4rem; transition: height 0.2s; }
+

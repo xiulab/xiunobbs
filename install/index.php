@@ -1,6 +1,6 @@
 <?php
 
-define('DEBUG', 1);
+define('DEBUG', 0);
 define('APP_PATH', realpath(dirname(__FILE__).'/../').'/');
 define('INSTALL_PATH', dirname(__FILE__).'/');
 
@@ -110,7 +110,7 @@ if(empty($action)) {
 		
 		
 		// 设置超时尽量短一些
-		set_time_limit(60);
+		//set_time_limit(60);
 		ini_set('mysql.connect_timeout',  5);
 		ini_set('default_socket_timeout', 5); 
 

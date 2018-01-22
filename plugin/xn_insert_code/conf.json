@@ -3,8 +3,8 @@
     "brief": "插入统计代码，页脚代码，广告代码。",
     "version": "1.0",
     "bbs_version": "4.0",
-    "installed": 0,
-    "enable": 0,
+    "installed": 1,
+    "enable": 1,
     "hooks_rank": [],
     "dependencies": []
 }
