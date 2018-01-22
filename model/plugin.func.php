@@ -65,26 +65,28 @@ function plugin_init() {
 	empty($official_plugins) AND $official_plugins = array();
 	
 	$plugin_paths = glob(APP_PATH.'plugin/*', GLOB_ONLYDIR);
-	foreach($plugin_paths as $path) {
-		$dir = file_name($path);
-		$conffile = $path."/conf.json";
-		if(!is_file($conffile)) continue;
-		$arr = xn_json_decode(file_get_contents($conffile));
-		if(empty($arr)) continue;
-		$plugins[$dir] = $arr;
-		
-		// 额外的信息
-		$plugins[$dir]['hooks'] = array();
-		$hookpaths = glob(APP_PATH."plugin/$dir/hook/*.*"); // path
-		if(is_array($hookpaths)) {
-			foreach($hookpaths as $hookpath) {
-				$hookname = file_name($hookpath);
-				$plugins[$dir]['hooks'][$hookname] = $hookpath;
+	if(is_array($plugin_paths)) {
+		foreach($plugin_paths as $path) {
+			$dir = file_name($path);
+			$conffile = $path."/conf.json";
+			if(!is_file($conffile)) continue;
+			$arr = xn_json_decode(file_get_contents($conffile));
+			if(empty($arr)) continue;
+			$plugins[$dir] = $arr;
+			
+			// 额外的信息
+			$plugins[$dir]['hooks'] = array();
+			$hookpaths = glob(APP_PATH."plugin/$dir/hook/*.*"); // path
+			if(is_array($hookpaths)) {
+				foreach($hookpaths as $hookpath) {
+					$hookname = file_name($hookpath);
+					$plugins[$dir]['hooks'][$hookname] = $hookpath;
+				}
 			}
+			
+			// 本地 + 线上数据
+			$plugins[$dir] = plugin_read_by_dir($dir);
 		}
-		
-		// 本地 + 线上数据
-		$plugins[$dir] = plugin_read_by_dir($dir);
 	}
 }
 
