@@ -27,6 +27,7 @@ if(empty($action)) {
 		
 		$arrlist = array();
 		foreach($rowidarr as $k=>$v) {
+			if(empty($namearr[$k]) && empty($urlarr[$k]) && empty($rankarr[$k])) continue;
 			$arr = array(
 				'linkid'=>$k,
 				'name'=>$namearr[$k],
