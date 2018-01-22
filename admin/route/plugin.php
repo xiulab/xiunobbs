@@ -382,7 +382,7 @@ function plugin_download_unzip($dir) {
 	$url = PLUGIN_OFFICIAL_URL."plugin-download-$dir-$siteid-$app_url.htm"; // $siteid 用来防止别人伪造站点，GET 不够安全，但不是太影响
 
 	// 服务端开始下载
-	set_time_limit(0); // 设置超时
+	// set_time_limit(0); // 设置超时
 	$s = http_get($url);
 	empty($s) AND message(-1, $url.lang('plugin_return_data_error').lang('server_response_empty')); 
 	if(substr($s, 0, 2) != 'PK') {
