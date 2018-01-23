@@ -61,7 +61,7 @@ function form_text($name, $value, $width = FALSE, $holdplacer = '') {
 		is_numeric($width) AND $width .= 'px';
 		$style = " style=\"width: $width\"";
 	}
-	$s = "<input type=\"text\" name=\"$name\" id=\"$name\" value=\"$value\" class=\"form-control\"$style />";
+	$s = "<input type=\"text\" name=\"$name\" id=\"$name\" placeholder=\"$holdplacer\" value=\"$value\" class=\"form-control\"$style />";
 	return $s;
 }
 
