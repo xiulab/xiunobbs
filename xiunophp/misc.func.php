@@ -790,10 +790,10 @@ function https_get($url, $cookie = '', $timeout = 30, $times = 1) {
 	if(substr($url, 0, 7) == 'http://') {
 		return http_get($url, $cookie, $timeout, $times);
 	}
-	return https_post($url, '', $cookie, $timeout, $times);
+	return https_post($url, '', $cookie, $timeout, $times, 'GET');
 }
 
-function https_post($url, $post = '', $cookie = '', $timeout = 30, $times = 1) {
+function https_post($url, $post = '', $cookie = '', $timeout = 30, $times = 1, $method = 'POST') {
 	if(substr($url, 0, 7) == 'http://') {
 		return http_post($url, $post, $cookie, $timeout, $times);
 	}
@@ -803,7 +803,7 @@ function https_post($url, $post = '', $cookie = '', $timeout = 30, $times = 1) {
 	$allow_url_fopen = strtolower(ini_get('allow_url_fopen'));
 	$allow_url_fopen = (empty($allow_url_fopen) || $allow_url_fopen == 'off') ? 0 : 1;
 	if(extension_loaded('openssl') && in_array('https', $w) && $allow_url_fopen) {
-		$stream = stream_context_create(array('http' => array('header' => "Content-type: application/x-www-form-urlencoded\r\nx-requested-with: XMLHttpRequest\r\nCookie: $cookie\r\n", 'method' => 'POST', 'content' => $post, 'timeout' => $timeout)));
+		$stream = stream_context_create(array('http' => array('header' => "Content-type: application/x-www-form-urlencoded\r\nx-requested-with: XMLHttpRequest\r\nCookie: $cookie\r\n", 'method' => $method, 'content' => $post, 'timeout' => $timeout)));
 		$s = file_get_contents($url, NULL, $stream, 0, 4096000);
 		return $s;
 	} elseif (!function_exists('curl_init')) {
@@ -817,7 +817,7 @@ function https_post($url, $post = '', $cookie = '', $timeout = 30, $times = 1) {
 	curl_setopt($ch, CURLOPT_USERAGENT, _SERVER('HTTP_USER_AGENT'));
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // 对认证证书来源的检查
 	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); // 从证书中检查SSL加密算法是否存在，默认可以省略
-	if($post) {
+	if($method == 'POST') {
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 	}
