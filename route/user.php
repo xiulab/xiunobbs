@@ -403,6 +403,8 @@ if(empty($action)) {
 	$pagination = pagination(url("user-post-$_uid-{page}"), $totalnum, $page, $pagesize);
 	$postlist = post_find_by_uid($_uid, $page, $pagesize);
 	
+	post_list_access_filter($postlist, $gid);
+	
 	// hook user_post_end.php
 	
 	$active = 'thread';
