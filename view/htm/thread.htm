@@ -234,7 +234,7 @@ function resize_image() {
 		var jdiv = $(this);
 		var maxwidth = jdiv.attr('isfirst') ? first_width : jdiv.width(); //  734 746
 		var jmessage_width = Math.min(jdiv.width(), maxwidth);
-		jdiv.find('img, embed, iframe').each(function() {
+		jdiv.find('img, embed, iframe, video').each(function() {
 			var jimg = $(this);
 			var img_width = this.org_width;
 			var img_height = this.org_height;
