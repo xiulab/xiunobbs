@@ -169,8 +169,8 @@ $('body').on('click', '.post_delete', function() {
 // 引用
 $('body').on('click', '.post_reply', function() {
 	var jthis = $(this);
-	var tid = jthis.attr('tid');
-	var pid = jthis.attr('pid');
+	var tid = jthis.data('tid');
+	var pid = jthis.data('pid');
 	var jmessage = $('#message');
 	var jli = jthis.closest('.post');
 	var jadvanced_reply = $('#advanced_reply');

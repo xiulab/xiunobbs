@@ -6,7 +6,7 @@
 				<!--{hook post_list_inc_start.htm}-->
 
 				<?php if($postlist) { foreach($postlist as $_post) { ?>
-					<li class="media <?php echo $_post['classname'];?>" pid="<?php echo $_post['pid'];?>">
+					<li class="media <?php echo $_post['classname'];?>" data-pid="<?php echo $_post['pid'];?>" data-uid="<?php echo $_post['uid'];?>">
 						<a href="<?php echo url("user-$_post[uid]");?>" class="mr-3" tabindex="-1">
 							<img class="avatar-3" src="<?php echo $_post['user_avatar_url'];?>">
 						</a>

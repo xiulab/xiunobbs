@@ -11,7 +11,7 @@
 					?>
 
 					<?php if($threadlist) { foreach($threadlist as &$_thread) { ?>
-					<li class="media thread tap <?php echo $_thread['top_class'];?> " data-href="<?php echo url("thread-$_thread[tid]");?>" tid="<?php echo $_thread['tid'];?>">
+					<li class="media thread tap <?php echo $_thread['top_class'];?> " data-href="<?php echo url("thread-$_thread[tid]");?>" data-tid="<?php echo $_thread['tid'];?>">
 						<?php if($have_allowtop) { ?>
 							<?php if($_thread['allowtop']) { ?>
 							<input type="checkbox" name="modtid" class="mt-3 mr-2" value="<?php echo $_thread['tid']; ?>" />
