@@ -70,6 +70,13 @@
 					
 				<?php } ?>
 				</div>
+
+				<!--{hook thread_plugin_before.htm}-->
+				<div class="plugin d-flex justify-content-center">
+					<!--{hook thread_plugin_body.htm}-->
+				</div>
+				<!--{hook thread_plugin_after.htm}-->
+
 			</div>
 		</div>
 		
@@ -82,6 +89,7 @@
 						<div>
 							<b><?php echo lang('new_post');?></b> (<span class="posts"><?php echo $thread['posts'];?></span>)
 						</div>
+						<!--{hook thread_post_list_title_middle.htm}-->
 						<div>
 							<!--{hook thread_post_list_title_right.htm}-->
 						</div>
