@@ -1,24 +1,16 @@
 <?php
-//xhprof_enable();
-
 /*
  * Copyright (C) xiuno.com
  */
 
-//$_SERVER['REQUEST_URI'] = '/?search-test.htm';
-//$_SERVER['REQUEST_URI'] = '/?qq_login.htm';
+//xhprof_enable();
+
 //$_SERVER['REQUEST_URI'] = '/?user-login.htm';
 //$_SERVER['REQUEST_METHOD'] = 'POST';
 //$_SERVER['HTTP_X_REQUESTED_WITH'] = 'xmlhttprequest';
 //$_COOKIE['bbs_sid'] = 'e1d8c2790b9dd08267e6ea2595c3bc82';
 //$postdata = 'email=admin&password=c4ca4238a0b923820dcc509a6f75849b';
 //parse_str($postdata, $_POST);
-
-// 本地开启 DEBUG 模式
-!isset($_SERVER['REMOTE_ADDR']) AND $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-if($_SERVER['REMOTE_ADDR'] == '127.0.0.1' || substr($_SERVER['REMOTE_ADDR'], 0, 8) == '192.168.' || $_SERVER['REMOTE_ADDR'] == '::1') {
-	define('DEBUG', 2);
-}
 
 // 0: Production mode; 1: Developer mode; 2: Plugin developement mode;
 // 0: 线上模式; 1: 调试模式; 2: 插件开发模式;
@@ -49,8 +41,6 @@ if(DEBUG > 1) {
 include APP_PATH.'model/plugin.func.php';
 include _include(APP_PATH.'model.inc.php');
 include _include(APP_PATH.'index.inc.php');
-
-
 
 //file_put_contents((ini_get('xhprof.output_dir') ? : '/tmp') . '/' . uniqid() . '.xhprof.xhprof', serialize(xhprof_disable()));
 
