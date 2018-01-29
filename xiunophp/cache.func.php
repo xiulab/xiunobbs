@@ -11,7 +11,7 @@ function cache_new($cacheconf) {
 			case 'xcache': 	  $cache = new cache_xcache($cacheconf['xcache']); 	break;
 			case 'apc': 	  $cache = new cache_apc($cacheconf['apc']); 	break;
 			case 'yac': 	  $cache = new cache_yac($cacheconf['yac']); 	break;
-			default: return xn_error(-1, '不支持的 cache type:'.$conf['cache']['type']);
+			default: return xn_error(-1, '不支持的 cache type:'.$cacheconf['cache']['type']);
 		}
 		return $cache;
 	}
