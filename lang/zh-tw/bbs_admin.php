@@ -159,6 +159,7 @@ return array(
 	'pugin_cate_4'=>'接口整合',
 	'pugin_cate_99'=>'未分類',
 	'plugin_detail'=>'插件詳情',
+	'plugin_brief_url'=>'插件介紹網址',
 	'plugin_not_exists'=>'插件不存在',
 	'plugin_versio_not_match'=>'此插件依賴的 Xiuno BBS 最低版本為 {bbs_version} ，您當前的版本：{version}',
 	'plugin_download_sucessfully'=>'下載插件 ({dir}) 成功，請點擊進行安裝',
