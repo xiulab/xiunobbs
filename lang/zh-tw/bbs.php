@@ -187,6 +187,7 @@ return array(
 	'thread'=>'主題',
 	'post'=>'帖子',
 	'reply'=>'回復',
+	'quote'=>'引用',
 	'subject'=>'標題',
 	'message'=>'內容',
 	'thread_create'=>'發表主題',

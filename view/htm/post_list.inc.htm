@@ -27,7 +27,7 @@
 								<div class="text-right text-grey">
 									<!--{hook post_list_inc_quote_before.htm}-->
 									<?php if($allowpost) { ?>
-									<a href="javascript:void(0)" data-tid="<?php echo $_post['tid'];?>" data-pid="<?php echo $_post['pid'];?>" class="text-grey post_reply mr-2"><i class="icon-reply"></i> 引用</a>
+									<a href="javascript:void(0)" data-tid="<?php echo $_post['tid'];?>" data-pid="<?php echo $_post['pid'];?>" class="text-grey post_reply mr-2"><i class="icon-reply"></i> <?php echo lang('quote');?></a>
 									<?php } ?>
 									<!--{hook post_list_inc_quote_after.htm}-->
 									
@@ -45,7 +45,9 @@
 									
 									<!--{hook post_list_inc_floor_before.htm}-->
 									<?php if($_post['floor']) { ?>
-									<span class="floor mr"><?php echo $_post['floor'];?></span> <?php echo lang('floor');?>
+									<span class="floor-parent">
+										<span class="floor mr-1"><?php echo $_post['floor'];?></span> <?php echo lang('floor');?>
+									</span>
 									<?php } ?>
 									<!--{hook post_list_inc_floor_after.htm}-->
 								</div>

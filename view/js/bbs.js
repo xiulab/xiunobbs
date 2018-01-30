@@ -140,7 +140,7 @@ jmobile_collapsing_bavbar.on('touchmove', function(e) {
 
 
 
-// 删除帖子
+// 删除帖子 / Delete post
 $('body').on('click', '.post_delete', function() {
 	var jthis = $(this);
 	var href = jthis.data('href');
@@ -166,13 +166,14 @@ $('body').on('click', '.post_delete', function() {
 	return false;
 });
 
-// 引用
+// 引用 / Quote
 $('body').on('click', '.post_reply', function() {
 	var jthis = $(this);
 	var tid = jthis.data('tid');
 	var pid = jthis.data('pid');
 	var jmessage = $('#message');
 	var jli = jthis.closest('.post');
+	var jpostlist = jli.closest('.postlist');
 	var jadvanced_reply = $('#advanced_reply');
 	var jform = $('#quick_reply_form');
 	if(jli.hasClass('quote')) {
@@ -180,6 +181,7 @@ $('body').on('click', '.post_reply', function() {
 		jform.find('input[name="quotepid"]').val(0);
 		jadvanced_reply.attr('href', xn.url('post-create-'+tid));
 	} else {
+		jpostlist.find('.post').removeClass('quote');
 		jli.addClass('quote');
 		var s = jmessage.val();
 		jform.find('input[name="quotepid"]').val(pid);

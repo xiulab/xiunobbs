@@ -188,6 +188,7 @@ return array(
 	'thread'=>'Thread',
 	'post'=>'Post',
 	'reply'=>'Reply',
+	'quote'=>'Quote',
 	'subject'=>'Subject',
 	'message'=>'Message',
 	'thread_create'=>'Create Thread',
