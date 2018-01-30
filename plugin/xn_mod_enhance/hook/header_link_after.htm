@@ -4,4 +4,17 @@
 	max-height: 100px;
 }
 */
+.update_log_list a.update_log_history, 
+.update_log_list a.update_log_delete {
+	display: none;
+}
+
+.update_log_list > li:hover {
+	background: var(--gray-300);
+}
+.update_log_list > li:hover > a.update_log_history, 
+.update_log_list > li:hover > a.update_log_delete {
+	display: inline-block;
+}
+
 </style>

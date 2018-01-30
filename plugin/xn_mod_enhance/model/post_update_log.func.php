@@ -29,6 +29,7 @@ function post_update_log_create($arr) {
 // 读取一条编辑历史
 function post_update_log_read($logid) {
 	$arr = db_find_one('post_update_log', array('logid'=>$logid));
+	post_update_log_format($arr);
 	return $arr;
 }
 
