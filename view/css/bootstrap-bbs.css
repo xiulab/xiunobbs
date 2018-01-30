@@ -38,7 +38,7 @@ html, body {
   flex: 0 0 auto;
 }
 
-#body > .container > .row > .col-lg-3 {
+#body > .container > .row > .aside {
   padding-left: 0;
 }
 

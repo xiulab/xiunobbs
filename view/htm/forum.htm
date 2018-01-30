@@ -3,7 +3,7 @@
 <!--{hook forum_start.htm}-->
 
 <div class="row">
-	<div class="col-lg-9">
+	<div class="col-lg-9 main">
 		<!--{hook forum_breadcrumb_before.htm}-->
 		<ol class="breadcrumb d-none d-md-flex">
 			<li class="breadcrumb-item"><a href="./"><i class="icon-home" aria-hidden="true"></i></a></li>
@@ -54,7 +54,7 @@
 		<nav class="my-3"><ul class="pagination justify-content-center"><?php echo $pagination; ?></ul></nav>
 		<!--{hook forum_page_after.htm}-->
 	</div>
-	<div class="col-lg-3 d-none d-lg-block">
+	<div class="col-lg-3 d-none d-lg-block aside">
 	
 		<a role="button" class="btn btn-primary btn-block mb-3" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
 		
