@@ -1,0 +1,1 @@
+APP_PATH.'plugin/xn_mod_enhance/model/post_update_log.func.php',

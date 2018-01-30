@@ -1,0 +1,22 @@
+<?php
+	$post_update_log_list = array();
+	if($_post['allowdelete'] && $_post['updates'] > 0) {
+		$post_update_log_list = post_update_log_find_by_pid($_post['pid']);
+	}
+?>
+<?php if($post_update_log_list) { ?>
+<fieldset class="fieldset">
+	<legend>编辑历史 (<?php echo $_post['updates'];?>)</legend>
+	<div>
+		<ul class="list-unstyled line-height-3 toggle_more">
+			<?php foreach ($post_update_log_list as $arr) { ?>
+			<li class="small">
+				<a href="<?php echo url("user-$arr[uid]");?>"><img src="<?php echo $arr['user']['avatar_url'];?>" class="avatar-1 mr-1" /><?php echo $arr['user']['username'];?></a> - 
+				<a href="<?php echo url("post-update_log-$arr[logid]");?>">查看历史</a>
+				<span class="text-grey"><?php echo $arr['create_date_fmt'];?></span>
+			</li>
+			<?php } ?>
+		</ul>
+	</div>
+</fieldset>
+<?php } ?>
