@@ -391,7 +391,7 @@ function plugin_paths_enabled() {
 			if(!is_file($conffile)) continue;
 			$pconf = xn_json_decode(file_get_contents($conffile));
 			if(empty($pconf)) continue;
-			if(!$pconf['enable'] || !$pconf['installed']) continue;
+			if(empty($pconf['enable']) || empty($pconf['installed'])) continue;
 			$return_paths[$path] = $pconf;
 		}
 	}
