@@ -1,19 +1,19 @@
 <?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
 
-<!--{hook user_index_start.htm}-->
+<!--{hook user_post_start.htm}-->
 
 <div class="row">
 	<div class="col-lg-8 mx-auto">
 	
 		<?php include _include(APP_PATH.'view/htm/user_profile.inc.htm');?>
 		
-		<div class="card card-threadlist">
+		<div class="card user-postlist">
 			<div class="card-header">
 				<?php include _include(APP_PATH.'view/htm/user_nav.inc.htm');?>
 			</div>
 			<div class="card-body">
-				<ul class="list-unstyled threadlist">
-					<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm'); ?>
+				<ul class="list-unstyled postlist">
+					<?php include _include(APP_PATH.'view/htm/post_list.inc.htm'); ?>
 				</ul>
 				
 				<?php if($pagination) { ?>
@@ -27,13 +27,13 @@
 			<a role="button" class="btn btn-danger confirm btn-block my-3" data-confirm-text="<?php echo lang('confirm_delete_user');?>" data-method="post" href="<?php echo url("mod-deleteuser-$_user[uid]");?>"><?php echo lang('delete_user');?></a>
 		<?php } ?>
 		
-		<!--{hook user_index_delete_user_button_after.htm}-->
+		<!--{hook user_post_page_after.htm}-->
 		
 	</div>
 </div>
 
-<!--{hook user_index_end.htm}-->
+<!--{hook user_post_end.htm}-->
 
 <?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
 
-<!--{hook user_index_js.htm}-->
+<!--{hook user_post_js.htm}-->
