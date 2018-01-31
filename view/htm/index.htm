@@ -3,7 +3,7 @@
 <!--{hook index_start.htm}-->
 
 <div class="row">
-	<div class="col-lg-9">
+	<div class="col-lg-9 main">
 		<!--{hook index_main_start.htm}-->
 		<div class="card">
 			<div class="card-header">
@@ -26,10 +26,10 @@
 		<?php include _include(APP_PATH.'view/htm/thread_list_mod.inc.htm');?>
 		
 		<!--{hook index_page_before.htm}-->
-		<nav class="my-3"><ul class="pagination justify-content-center"><?php echo $pagination; ?></ul></nav>
+		<nav class="my-3"><ul class="pagination justify-content-center flex-wrap"><?php echo $pagination; ?></ul></nav>
 		<!--{hook index_page_end.htm}-->
 	</div>
-	<div class="col-lg-3 d-none d-lg-block">
+	<div class="col-lg-3 d-none d-lg-block aside">
 		<a role="button" class="btn btn-primary btn-block mb-3" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
 		<!--{hook index_site_brief_before.htm}-->
 		<div class="card">

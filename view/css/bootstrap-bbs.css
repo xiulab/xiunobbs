@@ -38,7 +38,7 @@ html, body {
   flex: 0 0 auto;
 }
 
-#body > .container > .row > .col-lg-3 {
+#body > .container > .row > .aside {
   padding-left: 0;
 }
 
@@ -160,11 +160,6 @@ html, body {
 
 .addattach:hover {
   font-weight: 800;
-}
-
-/*@teax 弥补bootstrap beta3的不足，分页如果过多则换行，防止超出屏幕*/
-.pagination {
-  flex-wrap: wrap;
 }
 
 table.nav_tag_list {
