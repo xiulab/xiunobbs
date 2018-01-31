@@ -1,5 +1,5 @@
 
-} elseif($action == 'post') {
+if($action == 'post') {
 	
 	// hook my_post_start.php
 	
@@ -21,3 +21,5 @@
 	} else {
 		include _include(APP_PATH.'view/htm/my_post.htm');
 	}
+	
+}
