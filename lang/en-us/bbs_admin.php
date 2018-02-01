@@ -31,6 +31,8 @@ return array(
 	'admin_user_create'=>'Create User',
 	'admin_plugin_local_list'=>'Local Plugin',
 	'admin_plugin_official_list'=>'Official Plugin',
+	'admin_plugin_official_free_list'=>'Free Plugin',
+	'admin_plugin_official_fee_list'=>'Charge Plugin',
 	
 	'admin_token_error'=>'Admin token error, That may be your network environment is not stable, can try to unbind IP, modify file: conf.php, set admin_bind_ip = 0',
 	'admin_token_expiry'=>'Admin token expiry, please re login',
