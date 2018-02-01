@@ -121,7 +121,7 @@ li.quote {
 
 .postlist .media-body { width: 1%; }
 .message p { margin: 0.2rem 0; line-height: 1.7; }
-.message img { max-width:  100%; height:auto !important;}
+.message img { max-width:  100%; height:auto !important; border: 1px solid $gray-300; margin-bottom: 0.5rem; }
 .thread .badge { font-weight: normal; }
 
 /* 回帖输入框 */

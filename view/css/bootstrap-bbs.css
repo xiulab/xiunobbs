@@ -162,6 +162,11 @@ html, body {
   font-weight: 800;
 }
 
+/*@teax 弥补bootstrap beta3的不足，分页如果过多则换行，防止超出屏幕*/
+.pagination {
+  flex-wrap: wrap;
+}
+
 table.nav_tag_list {
   margin-bottom: 0.2rem;
 }
@@ -237,6 +242,8 @@ li.quote {
 .message img {
   max-width: 100%;
   height: auto !important;
+  border: 1px solid #dee2e6;
+  margin-bottom: 0.5rem;
 }
 
 .thread .badge {

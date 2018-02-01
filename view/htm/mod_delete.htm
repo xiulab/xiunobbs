@@ -1,0 +1,48 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+<div class="card">
+	<div class="card-header">删除主题</div>
+	<div class="card-body ajax_modal_body">
+		<form action="mod-delete.htm" method="post" id="mod_delete_form">
+			<div class="form-group input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text"><i class="icon-lock"></i></span>
+				</div>
+				<input type="password" class="form-control" placeholder="密码" name="password">
+				<div class="invalid-feedback"></div>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary btn-block" data-loading-text="正在提交...">登陆</button>
+			</div>
+		</form>
+	</div>
+</div>	
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
+
+<script data-eval="true">
+var jform = $('#mod_delete_form');
+var jsubmit = jform.find('button[type="submit"]');
+jform.on('submit', function() {
+	jform.reset();
+	jsubmit.button('loading');
+	var postdata = jform.serializeObject();
+	$.xpost(jform.attr('action'), postdata, function(code, message) {
+		if(code == 0) {
+			// ----------> 弹出层预留
+			if(typeof arg1 != 'undefined') {
+				var jmodal = arg1;
+			}
+			if(typeof arg2 != 'undefined') {
+				var callback = arg2;
+				callback(message);
+			}
+			
+			jsubmit.button(message).delay(1000).location(referer);
+		} else {
+			alert(message);
+			jsubmit.button('reset');
+		}
+	});
+	return false;
+});
+
+</script>
