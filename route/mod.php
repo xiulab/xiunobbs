@@ -6,12 +6,12 @@ include _include(APP_PATH.'model/modlog.func.php');
 
 $action = param(1);
 
-($method != 'POST') AND message(-1, 'Method Error');
+
 
 // hook mod_start.php
 
 if($action == 'top') {
-	
+	($method != 'POST') AND message(-1, 'Method Error');
 	$tids = param(2);
 	$arr = explode('_', $tids);
 	$tidarr = param_force($arr, array(0));
@@ -93,29 +93,44 @@ if($action == 'top') {
 	
 	$threadlist = thread_find_by_tids($tidarr);
 	
-	// hook mod_delete_start.php
-	
-	foreach($threadlist as &$thread) {
-		$fid = $thread['fid'];
-		$tid = $thread['tid'];
-		if(forum_access_mod($fid, $gid, 'allowdelete')) {
-			thread_delete($tid);
-			$arr = array(
-				'uid' => $uid,
-				'tid' => $thread['tid'],
-				'pid' => $thread['firstpid'],
-				'subject' => $thread['subject'],
-				'comment' => '',
-				'create_date' => $time,
-				'action' => 'delete',
-			);
-			modlog_create($arr);
+	if($method == 'GET') {
+		
+		include _include(APP_PATH.'view/htm/mod_delete.htm');
+		
+	} else {
+		
+		$tids = param(2);
+		$arr = explode('_', $tids);
+		$tidarr = param_force($arr, array(0));
+		empty($tidarr) AND message(-1, lang('please_choose_thread'));
+		
+		$threadlist = thread_find_by_tids($tidarr);
+		
+		// hook mod_delete_start.php
+		
+		foreach($threadlist as &$thread) {
+			$fid = $thread['fid'];
+			$tid = $thread['tid'];
+			if(forum_access_mod($fid, $gid, 'allowdelete')) {
+				thread_delete($tid);
+				$arr = array(
+					'uid' => $uid,
+					'tid' => $thread['tid'],
+					'pid' => $thread['firstpid'],
+					'subject' => $thread['subject'],
+					'comment' => '',
+					'create_date' => $time,
+					'action' => 'delete',
+				);
+				modlog_create($arr);
+			}
 		}
+		
+		// hook mod_delete_end.php
+		
+		message(0, lang('delete_completely'));
 	}
 	
-	// hook mod_delete_end.php
-	
-	message(0, lang('delete_completely'));
 	
 } elseif($action == 'move') {
 

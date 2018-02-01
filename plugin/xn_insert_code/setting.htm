@@ -6,7 +6,7 @@
 			<div class="card-body">
 				<form action="<?php echo url("plugin-setting-xn_insert_code");?>" method="post" id="form">
 					<h4 class="card-title">页脚</h4>
-					<img src="../plugin/xn_insert_code/example.png" class="img-fluid my-3" />
+					<img src="../plugin/xn_insert_code/img/example1.png" class="img-fluid my-3" />
 					<div class="form-group row">
 						<label class="col-sm-2 form-control-label">页面底部：</label>
 						<div class="col-sm-10">
@@ -36,7 +36,7 @@
 					
 					<h4 class="card-title">首页</h4>
 					
-					<img src="../plugin/xn_insert_code/example2.png" class="img-fluid my-3" />
+					<img src="../plugin/xn_insert_code/img/example2.png" class="img-fluid my-3" />
 					
 					<div class="form-group row">
 						<label class="col-sm-2 form-control-label">首页头部：</label>
@@ -48,6 +48,15 @@
 						<label class="col-sm-2 form-control-label">首页右侧：</label>
 						<div class="col-sm-10">
 							<textarea name="index_site_brief_after_htm" class="w-100" style="height: 100px;" placeholder="&lt;div class=&quot;card&quot;&gt; ... &lt;/div&gt;"><?php echo $setting['index_site_brief_after_htm'];?></textarea>
+						</div>
+					</div>
+					
+					<h4 class="card-title">详情页</h4>
+					
+					<div class="form-group row">
+						<label class="col-sm-2 form-control-label">详情页右侧：</label>
+						<div class="col-sm-10">
+							<textarea name="thread_user_after_htm" class="w-100" style="height: 100px;" placeholder="&lt;div class=&quot;card&quot;&gt; ... &lt;/div&gt;"><?php echo $setting['thread_user_after_htm'];?></textarea>
 						</div>
 					</div>
 					
