@@ -8,6 +8,8 @@
 	Hello, Jack
 */
 
+define('DEBUG', 2);
+
 include '../../xiunophp.php';
 
 $name = param('name');

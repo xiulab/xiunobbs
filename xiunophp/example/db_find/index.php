@@ -15,7 +15,7 @@ $conf = array (
 				'user' => 'root',
 				'password' => 'root',	
 				'name' => 'test',
-				'tablepre' => 'bbs_',
+				'tablepre' => '',
 				'charset' => 'utf8',				
 				'engine'=>'myisam',  // innodb
 			),			
@@ -23,6 +23,8 @@ $conf = array (
 		)
 	)
 );
+
+define('DEBUG', 2);
 
 include '../../xiunophp.php';
 
