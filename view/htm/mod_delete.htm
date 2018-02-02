@@ -1,15 +1,21 @@
 <?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
 
 <div class="card">
-	<div class="card-header">删除主题</div>
+	<div class="card-header"><?php echo lang('delete_thread');?></div>
 	<div class="card-body ajax-body">
 		<form action="<?php echo url("mod-delete");?>" method="post" id="mod_delete_form">
-			<div class="mb-3">
-				确定删除 <span class="total font-weight-bold text-danger"></span> 篇 主题吗？
+			<div class="form-group row">
+				<label class="col-4 form-control-label text-right"><?php echo lang('total');?>：</label>
+				<div class="col-8">
+					<span class="total font-weight-bold text-danger"></span> <?php echo lang('piece');?>
+				</div>
 			</div>
-			<div class="my-4 text-center">
-				<button type="submit" class="btn btn-primary mr-2" data-loading-text="正在提交...">确定</button>
-				<button type="button" class="btn btn-secondary">关闭</button>
+			<div class="form-group row">
+				<label class="col-4 form-control-label text-right"></label>
+				<div class="col-8">
+					<button type="submit" class="btn btn-primary mr-2" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
+					<button type="button" class="btn btn-secondary"><?php echo lang('close');?></button>
+				</div>
 			</div>
 		</form>
 	</div>

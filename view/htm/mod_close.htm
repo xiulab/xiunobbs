@@ -1,27 +1,27 @@
 <?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
 
 <div class="card">
-	<div class="card-header">关闭主题</div>
+	<div class="card-header"><?php echo lang('close_thread');?></div>
 	<div class="card-body ajax-body">
 		<form action="<?php echo url("mod-close");?>" method="post" id="mod_close_form">
 			<div class="form-group row">
-				<label class="col-sm-5 form-control-label text-right">一共：</label>
-				<div class="col-sm-5">
-					<span class="total font-weight-bold text-danger"></span> 篇
+				<label class="col-4 form-control-label text-right"><?php echo lang('total');?>：</label>
+				<div class="col-8">
+					<span class="total font-weight-bold text-danger"></span> <?php echo lang('piece');?>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-sm-5 form-control-label text-right">关闭/打开主题：</label>
-				<div class="col-sm-5">
-					<label class="custom-input custom-radio"><input type="radio" name="close" value="1" />关闭</label>　
-					<label class="custom-input custom-radio"><input type="radio" name="close" value="0" />打开</label>
+				<label class="col-4 form-control-label text-right"><?php echo lang('close_status');?>：</label>
+				<div class="col-8">
+					<label class="custom-input custom-radio"><input type="radio" name="close" value="1" /><?php echo lang('close');?></label>　
+					<label class="custom-input custom-radio"><input type="radio" name="close" value="0" /><?php echo lang('open');?></label>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-sm-5 form-control-label text-right"></label>
-				<div class="col-sm-5">
-					<button type="submit" class="btn btn-primary mr-2" data-loading-text="正在提交...">确定</button>
-					<button type="button" class="btn btn-secondary">关闭</button>
+				<label class="col-4 form-control-label text-right"></label>
+				<div class="col-8">
+					<button type="submit" class="btn btn-primary mr-2" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
+					<button type="button" class="btn btn-secondary"><?php echo lang('close');?></button>
 				</div>
 			</div>
 		</form>

@@ -1,29 +1,29 @@
 <?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
 
 <div class="card">
-	<div class="card-header">精华主题</div>
+	<div class="card-header"><?php echo lang('digest_thread');?></div>
 	<div class="card-body ajax-body">
 		<form action="<?php echo url("mod-digest");?>" method="post" id="mod_digest_form">
 			<div class="form-group row">
-				<label class="col-3 form-control-label text-right">一共：</label>
+				<label class="col-3 form-control-label text-right"><?php echo lang('total');?>：</label>
 				<div class="col-9">
-					<span class="total font-weight-bold text-danger"></span> 篇
+					<span class="total font-weight-bold text-danger"></span> <?php echo lang('piece');?>
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="col-3 form-control-label text-right">精华等级：</label>
+				<label class="col-3 form-control-label text-right"><?php echo lang('digest_level');?>：</label>
 				<div class="col-9">
-					<label class="custom-input custom-radio"><input type="radio" name="digest" value="0" />取消</label>　
-					<label class="custom-input custom-radio"><input type="radio" name="digest" value="1" />一级</label>　
-					<label class="custom-input custom-radio"><input type="radio" name="digest" value="3" />二级</label>　
-					<label class="custom-input custom-radio"><input type="radio" name="digest" value="3" />三级</label>
+					<label class="custom-input custom-radio"><input type="radio" name="digest" value="0" /><?php echo lang('digest_0');?></label>　
+					<label class="custom-input custom-radio"><input type="radio" name="digest" value="1" /><?php echo lang('digest_1');?></label>　
+					<label class="custom-input custom-radio"><input type="radio" name="digest" value="3" /><?php echo lang('digest_2');?></label>　
+					<label class="custom-input custom-radio"><input type="radio" name="digest" value="3" /><?php echo lang('digest_3');?></label>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label class="col-3 form-control-label text-right"></label>
-				<div class="col-9">
-					<button type="submit" class="btn btn-primary mr-2" data-loading-text="正在提交...">确定</button>
-					<button type="button" class="btn btn-secondary">关闭</button>
+				<div class="col-sm-9">
+					<button type="submit" class="btn btn-primary mr-2" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
+					<button type="button" class="btn btn-secondary"><?php echo lang('close');?></button>
 				</div>
 			</div>
 		</form>
