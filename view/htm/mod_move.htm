@@ -1,15 +1,29 @@
 <?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
 
 <div class="card">
-	<div class="card-header">删除主题</div>
+	<div class="card-header">移动主题</div>
 	<div class="card-body ajax-body">
-		<form action="<?php echo url("mod-delete");?>" method="post" id="mod_delete_form">
-			<div class="mb-3">
-				确定删除 <span class="total font-weight-bold text-danger"></span> 篇 主题吗？
+		<form action="<?php echo url("mod-move");?>" method="post" id="mod_move_form">
+			<div class="form-group row">
+				<label class="col-sm-5 form-control-label text-right">一共：</label>
+				<div class="col-sm-5">
+					<span class="total font-weight-bold text-danger"></span> 篇
+				</div>
 			</div>
-			<div class="my-4 text-center">
-				<button type="submit" class="btn btn-primary mr-2" data-loading-text="正在提交...">确定</button>
-				<button type="button" class="btn btn-secondary">关闭</button>
+			<div class="form-group row">
+				<label class="col-sm-5 form-control-label text-right">选择板块：</label>
+				<div class="col-sm-5">
+					<select class="custom-select w-auto" name="newfid">
+						<?php echo form_options($forumarr, 0);?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-5 form-control-label text-right"></label>
+				<div class="col-sm-5">
+					<button type="submit" class="btn btn-primary mr-2" data-loading-text="正在提交...">确定</button>
+					<button type="button" class="btn btn-secondary">关闭</button>
+				</div>
 			</div>
 		</form>
 	</div>
@@ -27,9 +41,10 @@ var arg = args.arg;
 var jthreadlist = $(arg);  // .threadlist
 var tidarr = jthreadlist.find('input[name="modtid"]').checked();
 
-var jform = $('#mod_delete_form');
+var jform = $('#mod_move_form');
 var jsubmit = jform.find('button[type="submit"]');
 var jcancel = jform.find('button[type="button"]');
+var jnewfid = jform.find('select[name="newfid"]');
 var jtotal = jform.find('span.total');
 jtotal.text(tidarr.length);
 
@@ -38,6 +53,7 @@ jform.on('submit', function() {
 	jsubmit.button('loading');
 	var postdata = jform.serializeObject();
 	postdata.tidarr = tidarr;
+	postdata.newfid = jnewfid.val();
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
 			jsubmit.button(message);

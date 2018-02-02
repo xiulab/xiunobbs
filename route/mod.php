@@ -11,87 +11,88 @@ $action = param(1);
 // hook mod_start.php
 
 if($action == 'top') {
-	($method != 'POST') AND message(-1, 'Method Error');
-	$tids = param(2);
-	$arr = explode('_', $tids);
-	$tidarr = param_force($arr, array(0));
-	empty($tidarr) AND message(-1, lang('please_choose_thread'));
 	
-	$top = param('top');
-	
-	$threadlist = thread_find_by_tids($tidarr);
-	
-	// hook mod_top_start.php
-	
-	foreach($threadlist as &$thread) {
-		$fid = $thread['fid'];
-		$tid = $thread['tid'];
-		if($top == 3 && ($gid != 1 && $gid != 2)) {
-			continue;
-		}
-		if(forum_access_mod($fid, $gid, 'allowtop')) {
-			thread_top_change($tid, $top);
-			$arr = array(
-				'uid' => $uid,
-				'tid' => $thread['tid'],
-				'pid' => $thread['firstpid'],
-				'subject' => $thread['subject'],
-				'comment' => '',
-				'create_date' => $time,
-				'action' => 'top',
-			);
-			modlog_create($arr);
+	if($method == 'GET') {
+		
+		include _include(APP_PATH.'view/htm/mod_top.htm');
+		
+	} else {
+		
+		$top = param('top', 0);
+		
+		$tidarr = param('tidarr', array(0));
+		empty($tidarr) AND message(-1, lang('please_choose_thread'));
+		$threadlist = thread_find_by_tids($tidarr);
 			
+		// hook mod_top_start.php
+		
+		foreach($threadlist as &$thread) {
+			$fid = $thread['fid'];
+			$tid = $thread['tid'];
+			if($top == 3 && ($gid != 1 && $gid != 2)) {
+				continue;
+			}
+			if(forum_access_mod($fid, $gid, 'allowtop')) {
+				thread_top_change($tid, $top);
+				$arr = array(
+					'uid' => $uid,
+					'tid' => $thread['tid'],
+					'pid' => $thread['firstpid'],
+					'subject' => $thread['subject'],
+					'comment' => '',
+					'create_date' => $time,
+					'action' => 'top',
+				);
+				modlog_create($arr);
+				
+			}
 		}
+		
+		// hook mod_top_end.php
+		
+		message(0, lang('set_completely'));
 	}
-	
-	// hook mod_top_end.php
-	
-	message(0, lang('set_completely'));
 
 } elseif($action == 'close') {
-	
-	$tids = param(2);
-	$arr = explode('_', $tids);
-	$tidarr = param_force($arr, array(0));
-	empty($tidarr) AND message(-1, lang('please_choose_thread'));
-	
-	$close = param('close');
-	
-	$threadlist = thread_find_by_tids($tidarr);
-	
-	// hook mod_close_start.php
-	
-	foreach($threadlist as &$thread) {
-		$fid = $thread['fid'];
-		$tid = $thread['tid'];
-		if(forum_access_mod($fid, $gid, 'allowtop')) {
-			thread_update($tid, array('closed'=>$close));
-			$arr = array(
-				'uid' => $uid,
-				'tid' => $thread['tid'],
-				'pid' => $thread['firstpid'],
-				'subject' => $thread['subject'],
-				'comment' => '',
-				'create_date' => $time,
-				'action' => 'close',
-			);
-			modlog_create($arr);
+		
+	if($method == 'GET') {
+		
+		include _include(APP_PATH.'view/htm/mod_close.htm');
+		
+	} else {
+		
+		$close = param('close', 0);
+		
+		$tidarr = param('tidarr', array(0));
+		empty($tidarr) AND message(-1, lang('please_choose_thread'));
+		$threadlist = thread_find_by_tids($tidarr);
+			
+		// hook mod_close_start.php
+		
+		foreach($threadlist as &$thread) {
+			$fid = $thread['fid'];
+			$tid = $thread['tid'];
+			if(forum_access_mod($fid, $gid, 'allowtop')) {
+				thread_update($tid, array('closed'=>$close));
+				$arr = array(
+					'uid' => $uid,
+					'tid' => $thread['tid'],
+					'pid' => $thread['firstpid'],
+					'subject' => $thread['subject'],
+					'comment' => '',
+					'create_date' => $time,
+					'action' => 'close',
+				);
+				modlog_create($arr);
+			}
 		}
+		
+		// hook mod_close_end.php
+		
+		message(0, lang('set_completely'));
 	}
 	
-	// hook mod_close_end.php
-	
-	message(0, lang('set_completely'));
-		
 } elseif($action == 'delete') {
-
-	$tids = param(2);
-	$arr = explode('_', $tids);
-	$tidarr = param_force($arr, array(0));
-	empty($tidarr) AND message(-1, lang('please_choose_thread'));
-	
-	$threadlist = thread_find_by_tids($tidarr);
 	
 	if($method == 'GET') {
 		
@@ -99,9 +100,7 @@ if($action == 'top') {
 		
 	} else {
 		
-		$tids = param(2);
-		$arr = explode('_', $tids);
-		$tidarr = param_force($arr, array(0));
+		$tidarr = param('tidarr', array(0));
 		empty($tidarr) AND message(-1, lang('please_choose_thread'));
 		
 		$threadlist = thread_find_by_tids($tidarr);
@@ -134,40 +133,45 @@ if($action == 'top') {
 	
 } elseif($action == 'move') {
 
-	$tids = param(2);
-	$newfid = param(3);
-	$arr = explode('_', $tids);
-	$tidarr = param_force($arr, array(0));
-	empty($tidarr) AND message(-1, lang('please_choose_thread'));
-
-	!forum_read($newfid) AND message(1, lang('forum_not_exists'));
-	
-	$threadlist = thread_find_by_tids($tidarr);
-	
-	// hook mod_move_start.php
-	
-	foreach($threadlist as &$thread) {
-		$fid = $thread['fid'];
-		$tid = $thread['tid'];
-		if(forum_access_mod($fid, $gid, 'allowmove')) {
-			if($fid == $newfid) continue;
-			thread_update($tid, array('fid'=>$newfid));
-			$arr = array(
-				'uid' => $uid,
-				'tid' => $thread['tid'],
-				'pid' => $thread['firstpid'],
-				'subject' => $thread['subject'],
-				'comment' => '',
-				'create_date' => $time,
-				'action' => 'move',
-			);
-			modlog_create($arr);
+	if($method == 'GET') {
+		
+		include _include(APP_PATH.'view/htm/mod_move.htm');
+		
+	} else {
+		
+		$tidarr = param('tidarr', array(0));
+		empty($tidarr) AND message(-1, lang('please_choose_thread'));
+		$threadlist = thread_find_by_tids($tidarr);
+			
+		$newfid = param('newfid', 0);
+		!forum_read($newfid) AND message(1, lang('forum_not_exists'));
+		
+		// hook mod_move_start.php
+		
+		foreach($threadlist as &$thread) {
+			$fid = $thread['fid'];
+			$tid = $thread['tid'];
+			if(forum_access_mod($fid, $gid, 'allowmove')) {
+				if($fid == $newfid) continue;
+				thread_update($tid, array('fid'=>$newfid));
+				$arr = array(
+					'uid' => $uid,
+					'tid' => $thread['tid'],
+					'pid' => $thread['firstpid'],
+					'subject' => $thread['subject'],
+					'comment' => '',
+					'create_date' => $time,
+					'action' => 'move',
+				);
+				modlog_create($arr);
+			}
 		}
+		
+		// hook mod_move_end.php
+		
+		message(0, lang('move_completely'));
+		
 	}
-	
-	// hook mod_move_end.php
-	
-	message(0, lang('move_completely'));
 	
 } elseif($action == 'deleteuser') {
 	

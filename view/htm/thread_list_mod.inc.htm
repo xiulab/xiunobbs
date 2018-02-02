@@ -8,13 +8,13 @@
 	
 	<div class="btn-group mod-button" role="group" aria-label="">
 		<!--{hook thread_list_mod_delete_before.htm}-->
-		<button class="btn btn-secondary" id="button1" data-modal-url="<?php echo url("mod-delete");?>" data-modal-title="<?php echo lang('delete');?>" data-modal-size="md"><?php echo lang('delete');?></button>
+		<button class="btn btn-secondary delete" data-modal-url="<?php echo url("mod-delete");?>" data-modal-title="<?php echo lang('delete');?>" data-modal-arg=".threadlist" data-modal-size="md"><?php echo lang('delete');?></button>
 		<!--{hook thread_list_mod_delete_after.htm}-->
-		<button type="button" class="btn btn-secondary move"><?php echo lang('move');?></button>
+		<button class="btn btn-secondary move" data-modal-url="<?php echo url("mod-move");?>" data-modal-title="<?php echo lang('move');?>" data-modal-arg=".threadlist" data-modal-size="md"><?php echo lang('move');?></button>
 		<!--{hook thread_list_mod_top_before.htm}-->
-		<button type="button" class="btn btn-secondary top"><?php echo lang('top');?></button>
+		<button class="btn btn-secondary top" data-modal-url="<?php echo url("mod-top");?>" data-modal-title="<?php echo lang('top');?>" data-modal-arg=".threadlist" data-modal-size="md"><?php echo lang('top');?></button>
 		<!--{hook thread_list_mod_top_after.htm}-->
-		<button type="button" class="btn btn-secondary _close"><?php echo lang('close');?></button>
+		<button class="btn btn-secondary _close" data-modal-url="<?php echo url("mod-close");?>" data-modal-title="<?php echo lang('close');?>" data-modal-arg=".threadlist" data-modal-size="md"><?php echo lang('close');?></button>
 		<!--{hook thread_list_mod_close_after.htm}-->
 	</div>
 </div>

@@ -33,6 +33,7 @@ $('.thread input[type="checkbox"]').parents('td').on('click', function(e) {
 })
 
 // 版主管理：删除 / moderator : delete
+/*
 $('.mod-button button.delete').on('click', function() {
 	var modtid = $('input[name="modtid"]').checked();
 	if(modtid.length == 0) return $.alert(lang.please_choose_thread);
@@ -44,8 +45,10 @@ $('.mod-button button.delete').on('click', function() {
 		});
 	});
 })
+*/
 
 // 版主管理：移动 / moderator : move
+/*
 $('.mod-button button.move').on('click', function() {
 	var modtid = $('input[name="modtid"]').checked();
 	if(modtid.length == 0) return $.alert(lang.please_choose_thread);
@@ -59,8 +62,10 @@ $('.mod-button button.move').on('click', function() {
 		});
 	}, {'body': '<p>'+lang.choose_move_forum+'：'+select+'</p>'});
 })
+*/
 
 // 版主管理：置顶
+/*
 $('.mod-button button.top').on('click', function() {
 	var modtid = $('input[name="modtid"]').checked();
 	if(modtid.length == 0) return $.alert(lang.please_choose_thread);
@@ -77,8 +82,10 @@ $('.mod-button button.top').on('click', function() {
 		});
 	}, {'body': '<p>'+lang.top_range+'：'+radios+'</p>'});
 })
+*/
 
 // 版主管理：关闭/开启
+/*
 $('.mod-button button._close').on('click', function() {
 	var modtid = $('input[name="modtid"]').checked();
 	if(modtid.length == 0) return $.alert(lang.please_choose_thread);
@@ -93,8 +100,10 @@ $('.mod-button button._close').on('click', function() {
 		});
 	}, {'body': '<p>'+lang.close_status+'：'+radios+'</p>'});
 })
+*/
 
 // 确定框 / confirm
+// <a href="?item-delete.htm" class="confirm" data-confirm-text="确定删除？" data-method="post"></a>
 $('a.confirm').on('click', function() {
 	var jthis = $(this);
 	var text = jthis.data('confirm-text');
@@ -113,12 +122,14 @@ $('a.confirm').on('click', function() {
 });
 
 // 选中所有 / check all
+// <input class="checkall" data-target=".tid" />
 $('input.checkall').on('click', function() {
 	var jthis = $(this);
 	var target = jthis.data('target');
 	jtarget = $(target);
 	jtarget.prop('checked', this.checked);
 });
+
 /*
 jmobile_collapsing_bavbar = $('#mobile_collapsing_bavbar');
 jmobile_collapsing_bavbar.on('touchstart', function(e) {

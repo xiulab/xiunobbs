@@ -101,7 +101,7 @@ xn.get_script_src = function (s) {
 }
 xn.get_script_section = function (s) {
 	var r = '';
-	var arr = s.match(/<script[^>]+data-eval="true"[^>]*>([\s\S]+?)<\/script>/ig);
+	var arr = s.match(/<script[^>]+ajax-eval="true"[^>]*>([\s\S]+?)<\/script>/ig);
 	return arr ? arr : [];
 }
 xn.strip_script_src = function (s) {
@@ -116,15 +116,15 @@ xn.strip_stylesheet_link = function (s) {
 	s = s.replace(/<link[^>]*?href=\s*\"([^"]+)\"[^>]*>/ig, '');
 	return s;
 }
-xn.eval_script = function (arr, arg1, arg2, arg3, arg4) {
+xn.eval_script = function (arr, args) {
 	if(!arr) return;
 	for(var i=0; i<arr.length; i++) {
 		var s = arr[i].replace(/<script([^>]*)>([\s\S]+?)<\/script>/i, '$2');
 		try {
-			var func = new Function('arg1', 'arg2', 'arg3', 'arg4', s);
-			func(arg1, arg2, arg3, arg4);
+			var func = new Function('args', s);
+			func(args);
 			//func = null;
-			//func.call(window, args); // 放到 windows 上执行会有内存泄露!!!
+			//func.call(window, 'aaa'); // 放到 windows 上执行会有内存泄露!!!
 		} catch(e) {
 			console.log("eval_script() error: %o, script: %s", e, s);
 			alert(s);
@@ -171,7 +171,7 @@ xn.get_title_body_script_css = function (s) {
 	
 	// jquery 更方便
 	var jtmp = $('<div>'+body+'</div>');
-	var t = jtmp.find('div.ajax_modal_body');
+	var t = jtmp.find('div.ajax-body');
 	if(t.length == 0) t = jtmp.find('#body'); // 查找 id="body"
 	if(t.length > 0)  body = t.html();
 	
@@ -190,7 +190,7 @@ xn.get_title_body_script_css = function (s) {
 	--------------------------------------------------------------
 	index.htm
 	--------------------------------------------------------------
-	<button id="button1" data-modal-url="user-login.htm" data-modal-title="用户登录" data-modal-callback="login_success_callback" data-modal-size="md"></button>
+	<button id="button1" data-modal-url="user-login.htm" data-modal-title="用户登录" data-modal-arg="xxx" data-modal-callback="login_success_callback" data-modal-size="md"></button>
 	<script>
 	function login_success_callback(code, message) {
 		alert(message);
@@ -286,11 +286,12 @@ xn.get_title_body_script_css = function (s) {
 	--------------------------------------------------------------
 */
 
-// <button id="button1" class="btn btn-primary" data-modal-url="user-login.htm" data-modal-title="用户登录" data-modal-callback="login_success_callback" data-modal-size="md">登陆</button>
+// <button id="button1" class="btn btn-primary" data-modal-url="user-login.htm" data-modal-title="用户登录" data-modal-arg="xxx" data-modal-callback="login_success_callback" data-modal-size="md">登陆</button>
 
-$.ajax_modal = function(url, title, size, callback) {
+$.ajax_modal = function(url, title, size, callback, arg) {
 	var jmodal = $.alert('正在加载...', -1, {size: size});
 	jmodal.find('.modal-title').html(title);
+	
 	// ajax 加载内容
 	$.xget(url, function(code, message) {
 		// 对页面 html 进行解析
@@ -307,12 +308,13 @@ $.ajax_modal = function(url, title, size, callback) {
 		jmodal.script_sections = r.script_sections;
 		if(r.script_srcs.length > 0) {
 			$.require(r.script_srcs, function() { 
-				xn.eval_script(r.script_sections, jmodal, callback);
+				xn.eval_script(r.script_sections, {jmodal: jmodal, callback: callback, arg: arg});
 			});
 		} else {
-			xn.eval_script(r.script_sections, jmodal, callback);
+			xn.eval_script(r.script_sections, {jmodal: jmodal, callback: callback, arg: arg});
 		}
 	});
+	return jmodal;
 }
 
 $('[data-modal-url]').each(function() {
@@ -320,10 +322,14 @@ $('[data-modal-url]').each(function() {
 	jthis.on('click', function() {
 		var url = jthis.data('modal-url');	
 		var title = jthis.data('modal-title');	
+		var arg = jthis.data('modal-arg');	
 		var callback_str = jthis.data('modal-callback');
 		callback = window[callback_str];
 		var size = jthis.data('modal-size'); // 对话框的尺寸
-		$.ajax_modal(url, title, size, callback);
+		
+		// 弹出对话框
+		if(this.ajax_modal) this.ajax_modal.modal('dispose');
+		this.ajax_modal = $.ajax_modal(url, title, size, callback, arg);
 	});
 });
 
