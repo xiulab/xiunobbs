@@ -52,7 +52,7 @@ function db_sql_find_one($sql, $d = NULL) {
 	if(!$d) return FALSE;
 	$arr = $d->sql_find_one($sql);
 	
-	db_errno_errstr($arr, $d);
+	db_errno_errstr($arr, $d, $sql);
 	
 	return $arr;
 }
@@ -63,7 +63,7 @@ function db_sql_find($sql, $key = NULL, $d = NULL) {
 	if(!$d) return FALSE;
 	$arr = $d->sql_find($sql, $key);
 	
-	db_errno_errstr($arr, $d);
+	db_errno_errstr($arr, $d, $sql);
 	
 	return $arr;
 }
@@ -81,7 +81,7 @@ function db_exec($sql, $d = NULL) {
 	
 	$n = $d->exec($sql);
 	
-	db_errno_errstr($n, $d);
+	db_errno_errstr($n, $d, $sql);
 	
 	return $n;
 }
@@ -93,7 +93,7 @@ function db_count($table, $cond = array(), $d = NULL) {
 	
 	$r = $d->count($d->tablepre.$table, $cond);
 	
-	db_errno_errstr($r, $d);
+	db_errno_errstr($r, $d, $sql);
 	
 	return $r;
 }
@@ -105,7 +105,7 @@ function db_maxid($table, $field, $cond = array(), $d = NULL) {
 	
 	$r = $d->maxid($d->tablepre.$table, $field, $cond);
 	
-	db_errno_errstr($r, $d);
+	db_errno_errstr($r, $d, $sql);
 	
 	return $r;
 }
@@ -198,12 +198,12 @@ function db_find_one($table, $cond = array(), $orderby = array(), $col = array()
 }
 
 // 保存 $db 错误到全局
-function db_errno_errstr($r, $d = NULL) {
+function db_errno_errstr($r, $d = NULL, $sql = '') {
 	global $errno, $errstr;
 	if($r === FALSE) { //  && $d->errno != 0
 		$errno = $d->errno;
 		$errstr = db_errstr_safe($errno, $d->errstr);
-		$s = "sql errno: ".$errno.", errstr: ".$errstr;
+		$s = 'SQL:'.$sql."\r\nerrno: ".$errno.", errstr: ".$errstr;
 		xn_log($s, 'db_error');
 	}
 }
