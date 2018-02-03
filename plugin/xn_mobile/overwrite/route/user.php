@@ -390,53 +390,6 @@ if(empty($action)) {
 		http_location($url);
 	}
 
-} elseif($action == 'post') {
-	
-	// hook user_post_start.php
-	
-	$_uid = param(2, 0);
-	$_user = user_read($_uid);
-	
-	$page = param(3, 1);
-	$pagesize = 20;
-	$totalnum = $_user['posts'];
-	$pagination = pagination(url("user-post-$_uid-{page}"), $totalnum, $page, $pagesize);
-	$postlist = post_find_by_uid($_uid, $page, $pagesize);
-	
-	post_list_access_filter($postlist, $gid);
-	
-	// hook user_post_end.php
-	
-	$active = 'thread';
-	include _include(APP_PATH.'view/htm/user_post.htm');
-
-/*
-// 用户发表的主题
-} elseif($action == 'thread') {
-	
-	// hook user_thread_start.php
-	
-	$_uid = param(2, 0);
-	empty($_uid) AND $_uid = $uid;
-	$_user = user_read($_uid);
-	
-	$page = param(3, 1);
-	$pagesize = 20;
-	$totalnum = $_user['threads'];
-	$pagination = pagination(url("user-thread-$_uid-{page}"), $totalnum, $page, $pagesize);
-	$threadlist = mythread_find_by_uid($_uid, $page, $pagesize);
-	thread_list_access_filter($threadlist, $gid);
-	
-	// hook user_thread_end.php
-	
-	$active = 'thread';
-	if($ajax) {
-		foreach($threadlist as &$thread) $thread = thread_safe_info($thread);
-		message(0, $threadlist);
-	} else {
-		include _include(APP_PATH.'view/htm/user_thread.htm');
-	}
-*/	
 } else {
 	
 }

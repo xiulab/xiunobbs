@@ -14,11 +14,11 @@
 				<form action="<?php echo url('user-create');?>" method="post" id="form">
 					<div class="form-group input-group">
 						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="icon-envelope"></i></span>
+							<span class="input-group-text"><i class="icon-mobile"></i></span>
 						</div>
-						<input type="email" class="form-control" placeholder="<?php echo lang('email');?>" name="email" id="email" required>
+						<input type="mobile" class="form-control" placeholder="<?php echo lang('mobile');?>" name="mobile" id="mobile" required>
 					</div>
-					<!--{hook user_create_email_after.htm}-->
+					<!--{hook user_create_mobile_after.htm}-->
 					
 					<div class="form-group input-group">
 						<div class="input-group-prepend">
@@ -38,7 +38,7 @@
 							</div>
 						</div>
 						<div class="align-self-center ml-1">
-							<?php if($conf['user_create_email_on']) { ?>
+							<?php if($conf['user_create_mobile_on']) { ?>
 							<button type="submit" class="btn btn-primary btn-sm ml-3" id="sendinitpw" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-sendinitpw');?>"><?php echo lang('get_init_pw');?></button>
 							<?php } else { ?>
 							<small><?php echo lang('send_init_pw_tips');?></small>
@@ -48,7 +48,7 @@
 					<!--{hook user_create_password_after.htm}-->
 					
 					<div class="form-group">
-						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." <?php if($conf['user_create_email_on']) { ?>disabled<?php } ?>><?php echo lang('next_step');?></button>
+						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." <?php if($conf['user_create_mobile_on']) { ?>disabled<?php } ?>><?php echo lang('next_step');?></button>
 					</div>
 					<!--{hook user_create_submit_after.htm}-->
 					

@@ -13,12 +13,12 @@
 				<form action="<?php echo url('user-login');?>" method="post" id="form">
 					<div class="form-group input-group">
 						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="icon-user"></i></span>
+							<span class="input-group-text"><i class="icon-mobile"></i></span>
 						</div>
-						<input type="text" class="form-control" placeholder="<?php echo lang('email');?>" id="email" name="email">
+						<input type="text" class="form-control" placeholder="<?php echo lang('mobile');?>" id="mobile" name="mobile">
 						<div class="invalid-feedback"></div>
 					</div>
-					<!--{hook user_login_email_after.htm}-->
+					<!--{hook user_login_mobile_after.htm}-->
 					
 					<div class="form-group input-group">
 						<div class="input-group-prepend">
@@ -59,7 +59,7 @@
 <script>
 var jform = $('#form');
 var jsubmit = $('#submit');
-var jemail = $('#email');
+var jmobile = $('#mobile');
 var jpassword = $('#password');
 var referer = '<?php echo $referer;?>';
 jform.on('submit', function() {
@@ -80,8 +80,8 @@ jform.on('submit', function() {
 			}
 			
 			jsubmit.button(message).delay(1000).location(referer);
-		} else if(code == 'email') {
-			jemail.alert(message).focus();
+		} else if(code == 'mobile') {
+			jmobile.alert(message).focus();
 			jsubmit.button('reset');
 		} else if(code == 'password') {
 			jpassword.alert(message).focus();
