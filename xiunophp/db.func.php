@@ -93,7 +93,7 @@ function db_count($table, $cond = array(), $d = NULL) {
 	
 	$r = $d->count($d->tablepre.$table, $cond);
 	
-	db_errno_errstr($r, $d, $sql);
+	db_errno_errstr($r, $d);
 	
 	return $r;
 }
