@@ -105,7 +105,7 @@ function db_maxid($table, $field, $cond = array(), $d = NULL) {
 	
 	$r = $d->maxid($d->tablepre.$table, $field, $cond);
 	
-	db_errno_errstr($r, $d, $sql);
+	db_errno_errstr($r, $d);
 	
 	return $r;
 }
