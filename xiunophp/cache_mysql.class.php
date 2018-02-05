@@ -17,7 +17,9 @@ class cache_mysql {
 	public $link = NULL;
 	public $table = 'cache';
 	public $cachepre = '';
-
+	public $errno = 0;
+	public $errstr = '';
+	
         public function __construct($dbconf = array()) {
         	
         	// 可以复用全局的 $db

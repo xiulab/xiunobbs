@@ -5,9 +5,12 @@ class cache_xcache {
 	public $conf = array();
 	public $link = NULL;
 	public $cachepre = '';
+	public $errno = 0;
+	public $errstr = '';
+	
         public function __construct($conf = array()) {
                 if(!function_exists('xcache_set')) {
-                        return xn_error(1, 'Xcache 扩展没有加载，请检查您的 PHP 版本');
+                        return $this->error(1, 'Xcache 扩展没有加载，请检查您的 PHP 版本');
                 }
                 $this->conf = $conf;
 		$this->cachepre = isset($conf['cachepre']) ? $conf['cachepre'] : 'pre_';
@@ -30,6 +33,11 @@ class cache_xcache {
                 xcache_unset_by_prefix($this->cachepre);
                 return TRUE;
         }
+        public function error($errno = 0, $errstr = '') {
+		$this->errno = $errno;
+		$this->errstr = $errstr;
+		DEBUG AND trigger_error('Cache Error:'.$this->errstr);
+	}
         public function __destruct() {
 
         }

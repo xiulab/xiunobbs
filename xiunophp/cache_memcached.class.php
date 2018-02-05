@@ -5,10 +5,12 @@ class cache_memcached {
 	public $conf = array();
 	public $link = NULL;
 	public $cachepre = '';
+	public $errno = 0;
+	public $errstr = '';
 
         public function __construct($conf = array()) {
                 if(!extension_loaded('Memcache') && !extension_loaded('Memcached') ) {
-                        return xn_error(1, ' Memcached 扩展没有加载，请检查您的 PHP 版本');
+                        return $this->error(1, ' Memcached 扩展没有加载，请检查您的 PHP 版本');
                 }
                 $this->conf = $conf;
 		$this->cachepre = isset($conf['cachepre']) ? $conf['cachepre'] : 'pre_';
@@ -23,11 +25,11 @@ class cache_memcached {
                         $memcache = new Memcached;
                         $r = $memcache->addserver($conf['host'], $conf['port']);
                 } else {
-			return xn_error(-1, 'Memcache 扩展不存在。');
+			return $this->error(-1, 'Memcache 扩展不存在。');
                 }
                 
                 if(!$r) {
-			return xn_error(-1, '连接 Memcached 服务器失败。');
+			return $this->error(-1, '连接 Memcached 服务器失败。');
                 }
                 $this->link = $memcache;
                 return $this->link;
@@ -50,6 +52,11 @@ class cache_memcached {
                 if(!$this->link && !$this->connect()) return FALSE;
                 return $this->link->flush();
         }
+       	public function error($errno = 0, $errstr = '') {
+		$this->errno = $errno;
+		$this->errstr = $errstr;
+		DEBUG AND trigger_error('Cache Error:'.$this->errstr);
+	}
         public function __destruct() {
 
         }

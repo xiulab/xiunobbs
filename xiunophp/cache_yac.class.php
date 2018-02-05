@@ -3,9 +3,11 @@
 class cache_yac {
 	public $yac = NULL;
 	public $cachepre = '';
+	public $errno = 0;
+	public $errstr = '';
         public function __construct($conf = array()) {
                 if(!class_exists('Yac')) {
-                        return xn_error(1, 'yac 扩展没有加载，请检查您的 PHP 版本');
+                        return $this->error(1, 'yac 扩展没有加载，请检查您的 PHP 版本');
                 }
 		$this->cachepre = isset($conf['cachepre']) ? $conf['cachepre'] : 'pre_';
 		$this->yac = new Yac($this->cachepre);
@@ -28,6 +30,11 @@ class cache_yac {
                 $this->yac->flush();
                 return TRUE;
         }
+        public function error($errno = 0, $errstr = '') {
+		$this->errno = $errno;
+		$this->errstr = $errstr;
+		DEBUG AND trigger_error('Cache Error:'.$this->errstr);
+	}
         public function __destruct() {
 
         }

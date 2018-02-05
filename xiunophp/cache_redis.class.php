@@ -5,10 +5,12 @@ class cache_redis {
 	public $conf = array();
 	public $link = NULL;
 	public $cachepre = '';
-	 
+	public $errno = 0;
+	public $errstr = '';
+	
         public function __construct($conf = array()) {
                 if(!extension_loaded('Redis')) {
-                        return xn_error(-1, ' Redis 扩展没有加载');
+                        return $this->error(-1, ' Redis 扩展没有加载');
                 }
                 $this->conf = $conf;
 		$this->cachepre = isset($conf['cachepre']) ? $conf['cachepre'] : 'pre_';
@@ -18,7 +20,7 @@ class cache_redis {
                 $redis = new Redis;
                 $r = $redis->connect($this->conf['host'], $this->conf['port']);
                 if(!$r) {
-                        return xn_error(-1, '连接 Redis 服务器失败。');
+                        return $this->error(-1, '连接 Redis 服务器失败。');
                 }
                 //$redis->select('xn');
                 $this->link = $redis;
@@ -44,6 +46,11 @@ class cache_redis {
                 if(!$this->link && !$this->connect()) return FALSE;
                 return $this->link->flushdb(); // flushall
         }
+        public function error($errno = 0, $errstr = '') {
+		$this->errno = $errno;
+		$this->errstr = $errstr;
+		DEBUG AND trigger_error('Cache Error:'.$this->errstr);
+	}
         public function __destruct() {
 
         }
