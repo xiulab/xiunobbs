@@ -43,12 +43,22 @@ class cache_mysql {
                 	'expiry'=>$expiry,
                 );
                 $r = db_replace($this->table, $arr, $this->db);
+                if($r === FALSE) {
+                	$this->errno = $this->db->errno;
+                	$this->errstr = $this->db->errstr;
+                	return FALSE;
+                }
                 return $r !== FALSE;
         }
         public function get($k) {
                 $time = time();
                 $arr = db_find_one($this->table, array('k'=>$k), array(), array(), $this->db);
                 // 如果表不存在，则建立表 pre_cache
+                if($arr === FALSE) {
+                	$this->errno = $this->db->errno;
+                	$this->errstr = $this->db->errstr;
+                	return FALSE;
+                }
                 if(!$arr) return NULL;
                 if($arr['expiry'] && $time > $arr['expiry']) {
                 	db_delete($this->table, array('k'=>$k), $this->db);
@@ -58,13 +68,26 @@ class cache_mysql {
         }
         public function delete($k) {
         	$r = db_delete($this->table, array('k'=>$k), $this->db);
+        	if($r === FALSE) {
+                	$this->errno = $this->db->errno;
+                	$this->errstr = $this->db->errstr;
+                	return FALSE;
+                }
                 return empty($r) ? FALSE : TRUE;
         }
         public function truncate() {
         	$r = db_truncate($this->table, $this->db);
+        	if($r === FALSE) {
+                	$this->errno = $this->db->errno;
+                	$this->errstr = $this->db->errstr;
+                	return FALSE;
+                }
                 return TRUE;
         }
-        
+        public function error($errno, $errstr) {
+        	$this->errno = $errno;
+        	$this->errstr = $errstr;
+        }
         public function __destruct() {
 
         }

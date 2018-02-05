@@ -1,7 +1,23 @@
 <?php
 
-$conf = include '../../conf/conf.php';
-$conf['cache']['type'] = 'yac';
+$conf = array();
+$conf['cache']['enable'] = true;
+$conf['cache']['type'] = 'mysql';
+$conf['cache']['mysql'] = array(
+	'type' => 'pdo_mysql',
+	'pdo_mysql' => array (
+		'master' => array (
+			'host' => '127.0.0.1',
+			'user' => 'root',
+			'password' => 'root',
+			'name' => 'xiuno8',
+			'tablepre' => 'bbs_',
+			'charset' => 'utf8',
+			'engine' => 'myisam',
+		),
+		'slaves' => array (),
+	),
+);
 
 include '../xiunophp.php';
 

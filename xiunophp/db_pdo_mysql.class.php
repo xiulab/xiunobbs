@@ -77,7 +77,12 @@ class db_pdo_mysql {
 		$query = $this->query($sql);
 		if(!$query) return $query;
 		$query->setFetchMode(PDO::FETCH_ASSOC);
-		return $query->fetch();
+		$r = $query->fetch();
+		if($r === FALSE) {
+			// $this->error();
+			return NULL;
+		}
+		return $r;
 	}
 	
 	public function sql_find($sql, $key = NULL) {
@@ -188,62 +193,6 @@ class db_pdo_mysql {
 	public function last_insert_id() {
 		return $this->wlink->lastinsertid();
 	}
-	
-	
-	/* 表结构相关方法，不用
-	// $index = array('uid'=>1, 'dateline'=>-1)
-	public function index_create($table, $index) {
-		$keys = implode(', ', array_keys($index));
-		$keyname = implode('', array_keys($index));
-		return $this->exec("ALTER TABLE $table ADD INDEX $keyname($keys)", $this->wlink);
-	}
-	
-	// 删除索引
-	public function index_drop($table, $index) {
-		$keys = implode(', ', array_keys($index));
-		$keyname = implode('', array_keys($index));
-		return $this->exec("ALTER TABLE $table DROP INDEX $keyname", $this->wlink);
-	}
-	
-	// 创建表
-	public function table_create($table, $ddls, $engineer = '') {
-		empty($engineer) && $engineer = 'MyISAM';
-		$sql = "CREATE TABLE IF NOT EXISTS $table (\n";
-		$sep = '';
-		foreach($ddls as $ddl) {
-			$sqladd = $this->ddl_to_sqladd($ddl);
-			$sql .= $sep.$sqladd;
-			$sep = ",\n";
-		}
-		$sql .= ") ENGINE=$engineer DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
-		return $this->exec($sql, $this->wlink);
-	}
-	
-	// DROP table
-	public function table_drop($table) {
-		$sql = "DROP TABLE IF EXISTS $table";
-		return $this->exec($sql, $this->wlink);
-	}
-	
-	public function table_column_add($table, $ddl) {
-		$sqladd = $this->ddl_to_sqladd($ddl);
-		$sql = "ALTER TABLE $table ADD COLUMN $sqladd;";
-		return $this->exec($sql, $this->wlink);
-	}
-	
-	private function ddl_to_sqladd($ddl) {
-		$colname = $ddl[0];
-		$colattr = $ddl[1];
-		$default = strpos($colattr, 'int') !== FALSE ? "'0'" : "''";
-		$sqladd = "$colname $colattr NOT NULL DEFAULT $default;";
-		return $sqladd;
-	}
-	
-	public function table_column_drop($table, $colname) {
-		$sql = "ALTER TABLE $table DROP COLUMN $colname;";
-		return $this->exec($sql, $this->wlink);
-	}
-	*/
 	
 	public function version() {
 		$r = $this->sql_find_one("SELECT VERSION() AS v");

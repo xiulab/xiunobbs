@@ -121,7 +121,7 @@ $db = !empty($conf['db']) ? db_new($conf['db']) : NULL;
 $conf['cache']['mysql']['db'] = $db; // 这里直接传 $db，复用 $db；如果传配置文件，会产生新链接。
 $cache = !empty($conf['cache']) ? cache_new($conf['cache']) : NULL;
 unset($conf['cache']['mysql']['db']); // 用完清除，防止保存到配置文件
-//!$cache AND $errno AND xn_message(-1, $errstr);
+//$cache AND $cache->errno AND xn_message(-1, $cache->errstr);
 
 // 对 key 进行安全保护，Xiuno 专用扩展
 !empty($conf) AND (function_exists('xiuno_key') ? ($conf['auth_key'] = xiuno_key()) : NULL);
