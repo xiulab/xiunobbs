@@ -1,1 +1,0 @@
-<?php exit;?>	2018-02-05 22:23:37	127.0.0.1	/bbs.xiuno.com/xiunophp/test/test_cache.php	0	Error[8192]: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead, File: D:\www\bbs.xiuno.com\xiunophp\db_mysql.class.php, Line: 53
