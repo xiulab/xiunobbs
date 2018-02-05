@@ -146,6 +146,8 @@
 		</div>
 		<!--{hook thread_postlist_after.htm}-->
 		
+		<?php include _include(APP_PATH.'view/htm/thread_list_mod.inc.htm');?>
+		
 		<?php if($pagination) { ?>
 		<nav><ul class="pagination my-4 justify-content-center flex-wrap"><?php echo $pagination; ?></ul></nav>
 		<?php }?>
