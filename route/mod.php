@@ -167,6 +167,9 @@ if($action == 'top') {
 			}
 		}
 		
+		// 清理下缓存
+		forum_list_cache_delete();
+		
 		// hook mod_move_end.php
 		
 		message(0, lang('move_completely'));
