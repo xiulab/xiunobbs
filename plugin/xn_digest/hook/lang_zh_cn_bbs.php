@@ -1,7 +1,7 @@
 	'digest'=>'精华',
 	'digests'=>'精华数',
 	'set_digest_thread'=>'设置主题为精华',
-	'digest_thread'=>'精华主题',
+	'digest_thread'=>'精华',
 	'digest_level'=>'精华等级',
 	'digest_0'=>'取消精华',
 	'digest_1'=>'一级精华',
