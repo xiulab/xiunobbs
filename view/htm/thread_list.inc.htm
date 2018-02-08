@@ -50,7 +50,7 @@
 								<div>
 									<!--{hook thread_list_inc_username_before.htm}-->
 									<span class="username text-grey mr-1 hidden-sm" uid="<?php echo $_thread['uid'];?>"><?php echo $_thread['username'];?></span>
-									<span class="date text-grey hidden-sm"><?php echo $_thread['create_date_fmt'];?></span>
+									<span class="date text-grey<?php if($_thread['lastuid']) { ?> hidden-sm<?php } ?>"><?php echo $_thread['create_date_fmt'];?></span>
 									<!--{hook thread_list_inc_username_after.htm}-->
 									
 									<!--{hook thread_list_inc_lastuid_before.htm}-->
