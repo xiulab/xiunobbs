@@ -191,6 +191,43 @@ function arrlist_values($arrlist, $key) {
 	return $return;
 }
 
+// 从一个二维数组中对某一列求和
+function arrlist_sum($arrlist, $key) {
+	if(!$arrlist) return 0;
+	$n = 0;
+	foreach($arrlist as &$arr) {
+		$n += $arr[$key];
+	}
+	return $n;
+}
+
+// 从一个二维数组中对某一列求最大值
+function arrlist_max($arrlist, $key) {
+	if(!$arrlist) return 0;
+	$first = array_pop($arrlist);
+	$max = $first[$key];
+	foreach($arrlist as &$arr) {
+		if($arr[$key] > $max) {
+			$max = $arr[$key];
+		}
+	}
+	return $max;
+}
+
+// 从一个二维数组中对某一列求最大值
+function arrlist_min($arrlist, $key) {
+	if(!$arrlist) return 0;
+	$first = array_pop($arrlist);
+	$min = $first[$key];
+	foreach($arrlist as &$arr) {
+		if($min > $arr[$key]) {
+			$min = $arr[$key];
+		}
+	}
+	return $min;
+}
+
+
 // 将 key 更换为某一列的值，在对多维数组排序后，数字key会丢失，需要此函数
 function arrlist_change_key($arrlist, $key = '', $pre = '') {
 	$return = array();
