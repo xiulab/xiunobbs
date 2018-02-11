@@ -1,49 +1,30 @@
 <?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
 
 <div class="row">
-	<div class="col-lg-10 mx-auto">
+	<div class="col-12 mx-auto">
 		<ol class="breadcrumb d-none d-md-flex">
 			<li class="breadcrumb-item"><a href="./" aria-label="<?php echo lang('index_page');?>"><i class="icon-home"></i></a></li>
 			<li class="breadcrumb-item"><a href="<?php echo url("forum-$fid");?>"><?php echo $forum['name'];?></a></li>
 			<li class="breadcrumb-item active"><a href="<?php echo url("thread-$tid");?>" title="<?php echo lang('index_page');?>返回主题第一页"><?php echo $thread['subject'];?></a></li>
+			<li class="breadcrumb-item active">编辑版本比较</li>
 		</ol>
 		<table class="table table-bordered bg-white">
 			<thead>
 				<tr>
-					<th scope="col">最早版本</th>
+					<th scope="col" width="50%">当前版本</th>
 					<th scope="col"><?php echo $log['create_date_fmt'];?> 版本</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td><?php echo $post['message'];?></td>
+					<td><?php echo $post['message_fmt'];?></td>
 					<td><?php echo $log['message'];?></td>
 				</tr>
 			</tbody>
 		</table>
-	
-		<?php if(0) { ?>
-		<div class="card">
-			<div class="card-header row m-0">
-				<div class="col m-0 p-0">最早版本</div>
-				<div class="col m-0 p-0"><?php echo $log['create_date_fmt'];?> 版本</div>
-			</div>
-			<div class="card-body py-0">
-				<div id="post_update_log_view" class="row">
-					<div class="col p-0 border-right">
-						<div class="post p-3 border-0">
-							<?php echo $post['message'];?>
-						</div>
-					</div>
-					<div class="col p-0">
-						<div class="post p-3 border-0">
-							<?php echo $log['message'];?>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<?php } ?>
+		
+		<a role="button" class="btn btn-secondary btn-block xn-back col-lg-6 mx-auto mb-3" href="javascript:history.back();"><?php echo lang('back');?></a>
+		
 	</div>
 </div>
 

@@ -33,11 +33,12 @@ function check_runlevel() {
 		> 0 一般业务逻辑错误，可以定位到具体控件，比如：用户名为空/密码为空
 */
 function message($code, $message, $extra = array()) {
-	global $ajax;
+	global $ajax, $header, $conf;
 	
 	$arr = $extra;
 	$arr['code'] = $code.'';
 	$arr['message'] = $message;
+	$header['title'] = $conf['sitename'];
 	
 	// hook model_message_start.php
 	

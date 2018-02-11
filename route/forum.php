@@ -41,11 +41,6 @@ $_SESSION['fid'] = $fid;
 
 // hook forum_end.php
 
-if($ajax) {
-	$forum = forum_safe_info($forum);
-	foreach($threadlist as &$thread) $thread = thread_safe_info($thread);
-	message(0, array('forum'=>$forum, 'threadlist'=>$threadlist));
-} else {
-	include _include(APP_PATH.'view/htm/forum.htm');
-}
+include _include(APP_PATH.'view/htm/forum.htm');
+
 ?>

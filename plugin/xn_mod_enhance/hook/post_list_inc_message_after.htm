@@ -2,6 +2,7 @@
 	$post_update_log_list = array();
 	if($_post['allowdelete'] && $_post['updates'] > 0) {
 		$post_update_log_list = post_update_log_find_by_pid($_post['pid']);
+		//array_shift($post_update_log_list);
 	}
 	
 ?>

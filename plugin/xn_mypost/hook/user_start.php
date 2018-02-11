@@ -1,5 +1,5 @@
 
-} elseif($action == 'post') {
+if($action == 'post') {
 	
 	// hook user_post_start.php
 	
@@ -16,5 +16,5 @@
 	
 	// hook user_post_end.php
 	
-	$active = 'thread';
-	include _include(APP_PATH.'view/htm/user_post.htm');
+	include _include(APP_PATH.'plugin/xn_mypost/view/htm/user_post.htm');
+}

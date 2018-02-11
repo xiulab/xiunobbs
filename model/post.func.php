@@ -178,6 +178,14 @@ function post_delete_by_tid($tid) {
 	return count($postlist);
 }
 
+// 此处有可能会超时，并且导致统计不准确，需要重建统计数
+function post_delete_by_uid($uid) {
+	// hook model_post_delete_by_uid_start.php
+	$r = db_delete('post', array('uid'=>$uid));
+	// hook model_post_delete_by_uid_end.php
+	return $r;
+}
+
 function post_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook model_post_find_start.php
 	$postlist = post__find($cond, $orderby, $page, $pagesize);

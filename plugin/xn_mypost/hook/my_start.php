@@ -14,12 +14,6 @@ if($action == 'post') {
 
 	// hook my_post_end.php
 	
-	$active = 'thread';
-	if($ajax) {
-		foreach($postlist as &$postlist) $post = post_safe_info($post);
-		message(0, $postlist);
-	} else {
-		include _include(APP_PATH.'view/htm/my_post.htm');
-	}
+	include _include(APP_PATH.'plugin/xn_mypost/view/htm/my_post.htm');
 	
 }

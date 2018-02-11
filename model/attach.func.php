@@ -88,6 +88,18 @@ function attach_delete_by_pid($pid) {
 	return count($attachlist);
 }
 
+function attach_delete_by_uid($uid) {
+	global $conf;
+	// hook model_attach_delete_by_uid_start.php
+	$attachlist = db_find('attach', array('uid'=>$uid), array(), 1, 9000);
+	foreach ($attachlist as $attach) {
+		$path = $conf['upload_path'].'attach/'.$attach['filename'];
+		file_exists($path) AND unlink($path);
+		attach__delete($attach['aid']);
+	}
+	// hook model_attach_delete_by_uid_end.php
+}
+
 function attach_find($cond = array(), $orderby = array(), $page = 1, $pagesize = 20) {
 	// hook model_attach_find_start.php
 	$attachlist = attach__find($cond, $orderby, $page, $pagesize);
@@ -197,7 +209,7 @@ function attach_assoc_post($pid) {
 			$r = xn_copy($file['path'], $destfile);
 			!$r AND xn_log("xn_copy($file[path]), $destfile) failed, pid:$pid, tid:$tid", 'php_error');
 			if(is_file($destfile) && filesize($destfile) == filesize($file['path'])) {
-				unlink($file['path']);
+				@unlink($file['path']);
 			}
 			$arr = array(
 				'tid'=>$tid,

@@ -104,11 +104,18 @@ function user_read_cache($uid) {
 function user_delete($uid) {
 	global $conf, $g_static_users;
 	// hook model_user_delete_start.php
-	// 清理用户资源
+	
+	// 清理主题帖
 	$threadlist = mythread_find_by_uid($uid, 1, 1000);
 	foreach($threadlist as $thread) {
 		thread_delete($thread['tid']);
 	}
+	
+	// 清理回帖
+	post_delete_by_uid($uid);
+	
+	// 清理附件
+	attach_delete_by_uid($uid);
 	
 	$r = user__delete($uid);
 	

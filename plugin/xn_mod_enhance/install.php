@@ -24,7 +24,7 @@ $sql = "CREATE TABLE IF NOT EXISTS {$tablepre}post_update_log (
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8";
 
 $r = db_exec($sql);
-$r === FALSE AND message(-1, '创建表结构失败'); // 中断，安装失败。
+// $r === FALSE AND message(-1, '创建表结构失败'); // 中断，安装失败。
 
 
 

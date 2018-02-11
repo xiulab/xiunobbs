@@ -32,13 +32,8 @@ if(empty($action)) {
 	$threadlist = mythread_find_by_uid($uid, $page, $pagesize);
 	
 	// hook my_thread_end.php
-	if($ajax) {
-		$user = user_safe_info($user);
-		foreach($threadlist as &$thread) $thread = thread_safe_info($thread);
-		 message(0, array('user'=>$user, 'threadlist'=>$threadlist));
-	} else {
-		include _include(APP_PATH.'view/htm/my.htm');
-	}
+	
+	include _include(APP_PATH.'view/htm/my.htm');
 	
 /*	
 } elseif($action == 'profile') {

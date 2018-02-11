@@ -274,6 +274,18 @@ function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'lastpid')
 	return $threadlist;
 }
 
+// 从多个版块获取列表数据
+function thread_find_by_fids($fids, $page = 1, $pagesize = 20, $order = 'lastpid', $threads = FALSE) {
+	
+	// hook model_thread_find_by_fids_start.php
+	
+	$threadlist = thread_find(array('fid'=>$fids), array($order=>-1), $page, $pagesize);
+	
+	// hook model_thread_find_by_fids_end.php
+	
+	return $threadlist;
+}
+
 // 默认搜索标题
 function thread_find_by_keyword($keyword) {
 	// hook model_thread_find_by_keyword_start.php

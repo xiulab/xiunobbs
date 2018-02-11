@@ -3,7 +3,7 @@
 // 把所有的编辑历史都列出来。
 function post_update_log_find_by_pid($pid) {
 	// 最多 50 条
-	$arrlist = db_find('post_update_log', array('pid'=>$pid), array('logid'=>1), 1, 50, '', array('logid', 'pid', 'create_date', 'uid'));
+	$arrlist = db_find('post_update_log', array('pid'=>$pid), array('logid'=>-1), 1, 50, '', array('logid', 'pid', 'create_date', 'uid'));
 	foreach ($arrlist as &$arr) {
 		post_update_log_format($arr);
 	}
@@ -14,13 +14,14 @@ function post_update_log_find_by_pid($pid) {
 function post_update_log_create($arr) {
 	$pid = $arr['pid'];
 	
-	// 如果两条记录相隔时间太短，则只记录一条
-	$last = post_update_log_find_last_by_pid($pid);
-	if($last && $arr['create_date'] - $last['create_date'] < 600) {
-		db_update('post_update_log', array('logid'=>$last['logid']), array('message'=>$arr['message']));
-		return 0;
+	if(!DEBUG) {
+		// 如果两条记录相隔时间太短，则只记录一条
+		$last = post_update_log_find_last_by_pid($pid);
+		if($last && $arr['create_date'] - $last['create_date'] < 600) {
+			db_update('post_update_log', array('logid'=>$last['logid']), array('message'=>$arr['message']));
+			return 0;
+		}
 	}
-	
 	$logid = db_create('post_update_log', $arr);
 	
 	return $logid;
