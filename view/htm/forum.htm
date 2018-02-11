@@ -59,7 +59,7 @@
 	
 		<a role="button" class="btn btn-primary btn-block mb-3" href="<?php echo url('thread-create-'.$fid);?>"><?php echo lang('thread_create_new');?></a>
 		
-		<div class="card">
+		<div class="card card-forum-info">
 			<div class="card-body text-center">
 				<img class="logo-5 mb-2" src="<?php echo $forum['icon_url'];?>">
 				<h5><?php echo $forum['name'];?></h5>
@@ -90,7 +90,7 @@
 		
 		<!--{hook forum_mod_before.htm}-->
 		<?php if($forum['announcement'] || $forum['modlist']) { ?>
-		<div class="card">
+		<div class="card card-mod-info">
 			<div class="card-body">
 				<?php if($forum['announcement']) { ?>
 				<h6 class="card-title"><?php echo lang('forum_anouncement');?>：</h6>
