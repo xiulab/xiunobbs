@@ -161,7 +161,8 @@ CREATE TABLE bbs_post (
   message longtext NOT NULL,				# 内容，用户提示的原始数据
   message_fmt longtext NOT NULL,			# 内容，存放的过滤后的html内容，可以定期清理，减肥。
   PRIMARY KEY (pid),
-  KEY (tid, pid)
+  KEY (tid, pid),
+  KEY (uid)						# 我的回帖，清理数据需要
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 # 编辑历史
 
@@ -187,7 +188,7 @@ CREATE TABLE bbs_attach (
   isimage tinyint(11) NOT NULL default '0',		# 是否为图片
   PRIMARY KEY (aid),					# aid
   KEY pid (pid),					# 每个帖子下多个附件
-  KEY uid (uid)
+  KEY uid (uid)						# 我的附件，清理数据需要。
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 我的主题，每个主题不管回复多少次，只记录一次。大表，需要分区。
