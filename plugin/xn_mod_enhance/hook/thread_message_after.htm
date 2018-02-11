@@ -1,0 +1,17 @@
+
+
+<?php if($first['last_update_date']) { ?>
+	<?php $first['last_update_user'] = user_read_cache($first['last_update_uid']);?>
+	<div class="text-right text-muted my-3 small font-italic">
+		最后于 <span class="icon-clock-o ml-2"> </span><?php echo humandate($first['last_update_date']);?>
+		
+		<?php if($gid < 5 && $allowdelete) { ?>
+		<a href="javascript:void(0);" data-modal-url="<?php echo url("post-update_log_list-".$first['pid']);?>" data-modal-title="编辑历史" data-modal-size="lg">被<?php echo $first['last_update_user']['username'];?>编辑</a>
+		<?php } else { ?>
+		被<?php echo $first['last_update_user']['username'];?>编辑
+		<?php } ?>
+		
+		，原因： <?php echo $first['last_update_reason'];?>
+		
+	</div>
+<?php } ?>

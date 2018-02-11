@@ -3,7 +3,7 @@
 // 把所有的编辑历史都列出来。
 function post_update_log_find_by_pid($pid) {
 	// 最多 50 条
-	$arrlist = db_find('post_update_log', array('pid'=>$pid), array('logid'=>-1), 1, 50, '', array('logid', 'pid', 'create_date', 'uid'));
+	$arrlist = db_find('post_update_log', array('pid'=>$pid), array('logid'=>-1), 1, 50, '', array('logid', 'pid', 'create_date', 'uid', 'reason'));
 	foreach ($arrlist as &$arr) {
 		post_update_log_format($arr);
 	}
@@ -35,7 +35,7 @@ function post_update_log_read($logid) {
 }
 
 // 删除一条编辑历史
-function post_update_log_delete($pid) {
+function post_update_log_delete($logid) {
 	$r = db_delete('post_update_log', array('logid'=>$logid));
 	return $r;
 }

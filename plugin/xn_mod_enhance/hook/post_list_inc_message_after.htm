@@ -1,30 +1,17 @@
-<?php
-	$post_update_log_list = array();
-	if($_post['allowdelete'] && $_post['updates'] > 0) {
-		$post_update_log_list = post_update_log_find_by_pid($_post['pid']);
-		//array_shift($post_update_log_list);
-	}
-	
-?>
-<?php if($post_update_log_list) { ?>
-<fieldset class="fieldset">
-	<legend>编辑历史 (<span class="updates"><?php echo $_post['updates'];?></span>)</legend>
-	<div>
-		<ul class="list-unstyled line-height-3 toggle_more update_log_list">
-			<?php foreach ($post_update_log_list as $arr) { ?>
-			<li class="small" data-logid="<?php echo $arr['logid'];?>">
-				<a href="<?php echo url("user-$arr[uid]");?>"><img src="<?php echo $arr['user']['avatar_url'];?>" class="avatar-1 mr-1" /><?php echo $arr['user']['username'];?></a> 
-				<span class="text-grey ml-2"><?php echo $arr['create_date_fmt'];?></span>
-				
-				<a href="<?php echo url("post-update_log_read-$arr[logid]");?>" class="ml-2 update_log_history"><span class="icon-clock-o ml-2"> 查看历史</a>
-				
-				<?php if($gid < 4 && $gid > 0) { ?>
-				<a href="<?php echo url("post-update_log_delete-$arr[logid]");?>" class="icon-remove ml-4 update_log_delete text-danger"> <?php echo lang('delete');?></a>
-				<?php } ?>
-				
-			</li>
-			<?php } ?>
-		</ul>
+
+
+<?php if($_post['last_update_date']) { ?>
+	<?php $_post['last_update_user'] = user_read_cache($_post['last_update_uid']);?>
+	<div class="text-right text-muted my-3 small font-italic">
+		最后于 <span class="icon-clock-o ml-2"> </span><?php echo humandate($_post['last_update_date']);?>
+		
+		<?php if($gid < 5 && $_post['allowdelete']) { ?>
+		<a href="javascript:void(0);" data-modal-url="<?php echo url("post-update_log_list-".$_post['pid']);?>" data-modal-title="编辑历史" data-modal-size="lg">被<?php echo $_post['last_update_user']['username'];?>编辑</a>
+		<?php } else { ?>
+		被<?php echo $_post['last_update_user']['username'];?>编辑
+		<?php } ?>
+		
+		，原因： <?php echo $_post['last_update_reason'];?>
+		
 	</div>
-</fieldset>
 <?php } ?>

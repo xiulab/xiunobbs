@@ -1,0 +1,28 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+
+
+<?php if($post_update_log_list) { ?>
+<fieldset class="fieldset">
+	<legend>编辑历史 (<span class="updates"><?php echo $post['updates'];?></span>)</legend>
+	<div>
+		<ul class="list-unstyled line-height-3 toggle_more update_log_list">
+			<?php foreach ($post_update_log_list as $arr) { ?>
+			<li class="small" data-logid="<?php echo $arr['logid'];?>">
+				<a href="<?php echo url("user-$arr[uid]");?>"><img src="<?php echo $arr['user']['avatar_url'];?>" class="avatar-1 mr-1" /><?php echo $arr['user']['username'];?></a> 
+				<span class="text-grey ml-2"><?php echo $arr['create_date_fmt'];?></span>
+				
+				<span class="ml-2"><?php echo $arr['reason'];?></span>
+				<a href="<?php echo url("post-update_log_read-$arr[logid]");?>" class="ml-2 update_log_history" target="_blank"><span class="icon-clock-o ml-2"> 查看历史</span></a>
+				
+				<?php if($gid < 4 && $gid > 0) { ?>
+				<a href="<?php echo url("post-update_log_delete-$arr[logid]");?>" class="icon-remove ml-4 update_log_delete text-danger"> <?php echo lang('delete');?></a>
+				<?php } ?>
+				
+			</li>
+			<?php } ?>
+		</ul>
+	</div>
+</fieldset>
+<?php } ?>
+
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>

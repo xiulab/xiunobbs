@@ -1,0 +1,13 @@
+
+	
+					<?php if($action == 'update') { ?>
+					
+					<?php
+						$reason = $uid == $post['last_update_uid'] ? $post['last_update_reason'] : '';
+					?>
+					
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="<?php echo lang('update_reason');?>" name="update_reason" value="<?php echo $reason;?>" maxlength="128">
+					</div>
+					
+					<?php } ?>

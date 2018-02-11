@@ -17,12 +17,12 @@
 // 删除日志帖子 / Delete post
 $('body').on('click', '.update_log_delete', function() {
 	var jthis = $(this);
-	var href = jthis.data('href');
+	var href = jthis.attr('href');
 	var jli = jthis.closest('li');
 	var jfieldset = jli.closest('fieldset');
 	var jupdates = jfieldset.find('span.updates');
 	var logid = jli.data('logid');
-	if(window.confirm(lang.confirm_delete)) {
+	if(window.confirm('<?php echo lang('confirm_delete');?>')) {
 		$.xpost(href, function(code, message) {
 			if(code == 0) {
 				jli.remove();
