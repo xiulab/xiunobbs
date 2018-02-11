@@ -249,136 +249,6 @@ function plugin_unstall($dir) {
 	
 	return TRUE;
 }
-/*
-function plugin_overwrite($dir, $action = 'install') {
-	$files = glob_recursive(APP_PATH."plugin/$dir/overwrite/*");
-	if(empty($files)) return;
-	//$files = glob("./plugin/$dir/overwrite/*");
-	foreach($files as $file) {
-		$workfile = $file; //str_replace(APP_PATH."plugin/$dir/overwrite/", '../', $file); // todo: 使用绝对路径后就没有必要再这么做
-		if(is_dir($file)) {
-			!is_dir($workfile) AND mkdir($workfile, 0777, TRUE);
-		} elseif(is_file($file)) {
-			$backfile = file_backname($workfile);
-			if($action == 'install') {
-				
-				// 如果没有改动，则不安装，如果备份不存在，则也成立。
-				if(xn_filemtime($workfile) <= xn_filemtime($backfile)) {
-					continue;
-				}
-				
-				// 覆盖
-				if(is_file($workfile)) {
-					$r = file_backup($workfile);
-					if($r === FALSE) continue;
-					xn_copy($file, $workfile);
-				// 新增的文件，做个标志
-				} else {
-					touch($backfile); // 空文件作为标志
-					xn_copy($file, $workfile);
-				}
-			} elseif($action == 'unstall') {
-				// 判断标志:，
-				// 删除新增的文件，空备份文件表示原文件为新增
-				if(!file_get_contents($backfile)) {
-					xn_unlink($backfile);
-					xn_unlink($workfile);
-				// 还原备份文件
-				} else {
-					file_backup_restore($workfile);
-				}
-			}
-		}
-	}
-}
-*/
-
-/*
-function plugin_hook($dir, $action = 'install') {
-	global $plugin_srcfiles, $plugin_paths, $plugins;
-	$hooks = $plugins[$dir]['hooks'];
-	foreach($hooks as $hookname=>$hookpath) {
-		$srcfile = plugin_find_srcfile_by_hookname($hookname);
-		if(!$srcfile) continue;
-		
-		// 查找源文件，将合并的内容放进去。
-		$backfile = file_backname($srcfile);
-		
-		// 如果没有改动，则不安装，如果备份不存在，则也成立。
-		if($action == 'install' && xn_filemtime($hookpath) <= xn_filemtime($backfile)) {
-			continue;
-		} 
-		
-		$hookscontent = plugin_hooks_merge_by_rank($hookname);
-		
-		if($hookscontent && $action == 'install') {
-			$r = file_backup($srcfile);
-			if($r === FALSE) continue;
-			$s = file_get_contents($srcfile); // 直接对源文件进行操作，因为有备份可以恢复
-			$s = str_replace("// hook $hookname", "// hook $hookname\r\n".$hookscontent, $s);
-			$s = str_replace("<!--{hook $hookname}-->", "<!--{hook $hookname}-->".$hookscontent, $s);
-			
-			file_put_contents_try($srcfile, $s);
-			
-		// 如果为空，则表示没有插件安装到此处，还原备份文件，删除备份文件
-		} else {
-			file_backup_restore($srcfile);
-		}
-	}
-	return TRUE;
-}*/
-
-// 将所有的同名 hook 内容合并（按照优先级排序），需要判断 installed 是否为 1
-/*
-function plugin_hooks_merge_by_rank($hookname) {
-	global $plugin_srcfiles, $plugin_paths, $plugins;
-	$arr = array();
-	
-	foreach($plugins as $dir=>$plugin) {
-		if(isset($plugin['installed']) && $plugin['installed'] == 0) continue; // 未安装的跳过
-		if(isset($plugin['enable']) && $plugin['enable'] == 0) continue; // 禁用的跳过
-		foreach($plugin['hooks'] as $hookname2=>$hookpath) {
-			if($hookname2 != $hookname) continue;
-			$rank = isset($plugin['hooks_rank'][$hookname]) ? $plugin['hooks_rank'][$hookname] : 0;
-			$s = file_get_contents($hookpath);
-			$arr[$rank][] = file_get_contents($hookpath);
-		}
-	}
-	ksort($arr);
-	if($hookname == 'lang_zh_cn_bbs.php') {
-		print_r($arr);exit;
-	}
-	$s = '';
-	foreach ($arr as $arr2) {
-		$s .= implode("\r\n", $arr2);
-	}
-	return $s;
-}*/
-/*
-function plugin_find_srcfile_by_hookname($hookname) {
-	global $plugin_srcfiles, $plugin_paths, $plugins;
-	foreach($plugin_srcfiles as $file) {
-		if(!is_file($file)) continue; // 可能在卸载的过程中，文件已经不存在了，但仍然在列表中。
-		$s = file_get_contents($file);
-		if(!$s) return FALSE;
-		if(strpos($s, "// hook $hookname") !== FALSE) {
-			return $file;
-		} elseif(strpos($s, "<!--{hook $hookname}-->") !== FALSE) {
-			return $file;
-		}
-	}
-	return FALSE;
-}*/
-
-/*function plugin_overwrite_install($dir) {
-	plugin_overwrite($dir, 'install');
-	return TRUE;
-}*/
-
-/*function plugin_overwrite_unstall($dir) {
-	plugin_overwrite($dir, 'unstall');
-	return TRUE;
-}*/
 
 function plugin_paths_enabled() {
 	static $return_paths;
@@ -416,6 +286,8 @@ function plugin_compile_srcfile($srcfile) {
 		if(strpos($s, '<!--{hook') !== FALSE || strpos($s, '// hook') !== FALSE) {
 			$s = preg_replace('#<!--{hook\s+(.*?)}-->#', '// hook \\1', $s);
 			$s = preg_replace_callback('#//\s*hook\s+(\S+)#is', 'plugin_compile_srcfile_callback', $s);
+		} else {
+			break;
 		}
 	}
 	return $s;
