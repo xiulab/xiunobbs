@@ -313,7 +313,7 @@ function post_file_list_html($filelist, $include_delete = FALSE) {
 }
 
 function post_format(&$post) {
-	global $conf, $uid, $sid, $longip;
+	global $conf, $uid, $sid, $gid, $longip;
 	if(empty($post)) return;
 	$post['create_date_fmt'] = humandate($post['create_date']);
 	
@@ -326,9 +326,11 @@ function post_format(&$post) {
 	$post['user'] = $user ? $user : user_guest();
 	!isset($post['floor']) AND  $post['floor'] = '';
 	
+	$thread = thread_read_cache($post['tid']);
+	
 	// 权限判断
-	$post['allowupdate'] = ($uid == $post['uid']);
-	$post['allowdelete'] = ($uid == $post['uid']);
+	$post['allowupdate'] = ($uid == $post['uid']) || forum_access_mod($thread['fid'], $gid, 'allowupdate');
+	$post['allowdelete'] = ($uid == $post['uid']) || forum_access_mod($thread['fid'], $gid, 'allowdelete');
 	
 	$post['user_url'] = url("user-$post[uid]".($post['uid'] ? '' : "-$post[pid]"));
 	
