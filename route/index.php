@@ -27,6 +27,12 @@ if($thread_list_from_default) {
 	$threadlist = thread_find_by_fids($fids, $page, $pagesize, $order, $threads);
 }
 
+// 查找置顶帖
+if($order == $conf['order_default'] && $page == 1) {
+	$toplist3 = thread_top_find(0);
+	$threadlist = $toplist3 + $threadlist;
+}
+
 // 过滤没有权限访问的主题 / filter no permission thread
 thread_list_access_filter($threadlist, $gid);
 
