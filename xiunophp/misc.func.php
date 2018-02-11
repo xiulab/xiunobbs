@@ -534,6 +534,8 @@ function ip() {
 	} else {
 		if(isset($_SERVER['HTTP_CDN_SRC_IP'])) {
 			$ip = $_SERVER['HTTP_CDN_SRC_IP'];
+		} elseif(isset($_SERVER['HTTP_CLIENTIP'])) {
+			$ip = $_SERVER['HTTP_CLIENTIP'];
 		} elseif(isset($_SERVER['HTTP_CLIENT_IP'])) {
 			$ip = $_SERVER['HTTP_CLIENT_IP'];
 		} elseif(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
