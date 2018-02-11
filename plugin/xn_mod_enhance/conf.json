@@ -3,8 +3,8 @@
     "brief": "编辑历史，删除历史，版主管理日志",
     "version": "2.4",
     "bbs_version": "4.0.0",
-    "installed": 1,
-    "enable": 1,
+    "installed": 0,
+    "enable": 0,
     "hooks_rank": [],
     "overwrites_rank": [],
     "dependencies": []
