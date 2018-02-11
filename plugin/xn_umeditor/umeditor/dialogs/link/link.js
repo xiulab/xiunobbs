@@ -27,7 +27,7 @@
             "<tr>" +
             "<td colspan=\"2\">" +
             "<label for=\"target\"><%=lang_input_target%></label>" +
-            "<input id=\"edui-link-Jtarget\" type=\"checkbox\"/>" +
+            "<input id=\"edui-link-Jtarget\" type=\"checkbox\" checked=\"checked\" />" +
             "</td>" +
             "</tr>" +
 //            "<tr>" +

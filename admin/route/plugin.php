@@ -176,11 +176,22 @@ if($action == 'local') {
 	
 	plugin_lock_end();
 
+	// 卸载同类插件，防止安装类似插件。
 	// 自动卸载掉其他已经安装的主题 / automatically unstall other theme plugin.
 	if(strpos($dir, '_theme_') !== FALSE) {
 		foreach($plugins as $_dir => $_plugin) {
 			if($dir == $_dir) continue;
 			if(strpos($_dir, '_theme_') !== FALSE) {
+				plugin_unstall($_dir);
+			}
+		}
+	} else {
+		// 卸载掉同类插件
+		$suffix = substr($dir, strpos($dir, '_'));
+		foreach($plugins as $_dir => $_plugin) {
+			if($dir == $_dir) continue;
+			$_suffix = substr($dir, strpos($dir, '_'));
+			if($suffix == $_suffix) {
 				plugin_unstall($_dir);
 			}
 		}
