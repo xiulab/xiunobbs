@@ -190,7 +190,7 @@ if($action == 'local') {
 		$suffix = substr($dir, strpos($dir, '_'));
 		foreach($plugins as $_dir => $_plugin) {
 			if($dir == $_dir) continue;
-			$_suffix = substr($dir, strpos($dir, '_'));
+			$_suffix = substr($_dir, strpos($_dir, '_'));
 			if($suffix == $_suffix) {
 				plugin_unstall($_dir);
 			}
