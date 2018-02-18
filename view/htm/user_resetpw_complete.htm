@@ -51,7 +51,9 @@ jform.on('submit', function() {
 	
 	if(jpassword.val() != jpassword2.val()) {
 		jpassword2.focus();
-		return $.alert('两次密码输入不一致');
+		$.alert('两次密码输入不一致');
+		jsubmit.button('reset');
+		return false;
 	}
 	
 	var postdata = jform.serializeObject();
