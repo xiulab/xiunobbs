@@ -146,6 +146,7 @@
 		</div>
 		<!--{hook thread_postlist_after.htm}-->
 		
+		<div class="d-none threadlist"><input type="checkbox" name="modtid" value="<?php echo $thread['tid']; ?>" checked /></div>
 		<?php include _include(APP_PATH.'view/htm/thread_list_mod.inc.htm');?>
 		
 		<?php if($pagination) { ?>

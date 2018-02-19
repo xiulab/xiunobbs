@@ -57,27 +57,27 @@ if(empty($action)) {
 		$password = param('password');
 		empty($email) AND message('email', lang('email_is_empty'));
 		if(is_email($email, $err)) {
-			$user = user_read_by_email($email);
-			empty($user) AND message('email', lang('email_not_exists'));
+			$_user = user_read_by_email($email);
+			empty($_user) AND message('email', lang('email_not_exists'));
 		} else {
-			$user = user_read_by_username($email);
-			empty($user) AND message('email', lang('username_not_exists'));
+			$_user = user_read_by_username($email);
+			empty($_user) AND message('email', lang('username_not_exists'));
 		}
 
 		!is_password($password, $err) AND message('password', $err);
-		md5($password.$user['salt']) != $user['password'] AND message('password', lang('password_incorrect'));
+		md5($password.$_user['salt']) != $_user['password'] AND message('password', lang('password_incorrect'));
 
 		// 更新登录时间和次数
 		// update login times
-		user_update($user['uid'], array('login_ip'=>$longip, 'login_date' =>$time , 'logins+'=>1));
+		user_update($_user['uid'], array('login_ip'=>$longip, 'login_date' =>$time , 'logins+'=>1));
 
 		// 全局变量 $uid 会在结束后，在函数 register_shutdown_function() 中存入 session (文件: model/session.func.php)
 		// global variable $uid will save to session in register_shutdown_function() (file: model/session.func.php)
-		$uid = $user['uid'];
+		$uid = $_user['uid'];
 		
 		$_SESSION['uid'] = $uid;
 		
-		user_token_set($user['uid']);
+		user_token_set($_user['uid']);
 		
 		// hook user_login_post_end.php
 		
@@ -125,14 +125,14 @@ if(empty($action)) {
 		
 		!is_username($username, $err) AND message('username', $err);
 		$_user = user_read_by_username($username);
-		$_user AND message('email', lang('username_is_in_use'));
+		$_user AND message('username', lang('username_is_in_use'));
 		
 		!is_password($password, $err) AND message('password', $err);
 		
 		$salt = xn_rand(16);
 		$pwd = md5($password.$salt);
 		$gid = 101;
-		$user = array (
+		$_user = array (
 			'username' => $username,
 			'email' => $email,
 			'password' => $pwd,
@@ -144,7 +144,7 @@ if(empty($action)) {
 			'login_date' => $time,
 			'login_ip' => $longip,
 		);
-		$uid = user_create($user);
+		$uid = user_create($_user);
 		$uid === FALSE AND message('email', lang('user_create_failed'));
 		$user = user_read($uid);
 	
@@ -231,8 +231,8 @@ if(empty($action)) {
 		$email = param('email');
 		empty($email) AND message('email', lang('please_input_email'));
 		!is_email($email, $err) AND message('email', $err);
-		$user = user_read_by_email($email);
-		!$user AND message('email', lang('email_is_not_in_use'));
+		$_user = user_read_by_email($email);
+		!$_user AND message('email', lang('email_is_in_use'));
 		
 		$verify_code = param('verify_code');
 		empty($verify_code) AND message('verify_code', lang('please_input_verify_code'));
@@ -384,34 +384,6 @@ if(empty($action)) {
 		http_location($url);
 	}
 
-
-/*
-// 用户发表的主题
-} elseif($action == 'thread') {
-	
-	// hook user_thread_start.php
-	
-	$_uid = param(2, 0);
-	empty($_uid) AND $_uid = $uid;
-	$_user = user_read($_uid);
-	
-	$page = param(3, 1);
-	$pagesize = 20;
-	$totalnum = $_user['threads'];
-	$pagination = pagination(url("user-thread-$_uid-{page}"), $totalnum, $page, $pagesize);
-	$threadlist = mythread_find_by_uid($_uid, $page, $pagesize);
-	thread_list_access_filter($threadlist, $gid);
-	
-	// hook user_thread_end.php
-	
-	$active = 'thread';
-	if($ajax) {
-		foreach($threadlist as &$thread) $thread = thread_safe_info($thread);
-		message(0, $threadlist);
-	} else {
-		include _include(APP_PATH.'view/htm/user_thread.htm');
-	}
-*/	
 } else {
 	
 }

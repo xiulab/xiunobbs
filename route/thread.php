@@ -134,6 +134,8 @@ if($action == 'create') {
 	$header['description'] = $thread['subject'];
 	$_SESSION['fid'] = $fid;
 	
+	
+	
 	// hook thread_info_end.php
 	
 	include _include(APP_PATH.'view/htm/thread.htm');

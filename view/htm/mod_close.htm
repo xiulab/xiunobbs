@@ -43,18 +43,17 @@ var tidarr = jthreadlist.find('input[name="modtid"]').checked();
 var jform = $('#mod_close_form');
 var jsubmit = jform.find('button[type="submit"]');
 var jcancel = jform.find('button[type="button"]');
-var jclose = jform.find('.close');
+var jclose = jform.find('input[name="close"]');
 var jtotal = jform.find('span.total');
 jtotal.text(tidarr.length);
 
 jform.on('submit', function() {
 	var close = jclose.checked();
-	alert(close);
-
 	jform.reset();
 	jsubmit.button('loading');
 	var postdata = jform.serializeObject();
 	postdata.close = close;
+	postdata.tidarr = tidarr;
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
 			jsubmit.button(message);
