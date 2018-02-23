@@ -8,35 +8,44 @@ $plugins = array(); // 跟官方插件合并
 // 官方插件列表
 $official_plugins = array();
 
-define('PLUGIN_OFFICIAL_URL', DEBUG == 3 ? 'http://plugin.x.com/' : 'http://plugin.xiuno.com/');
+define('PLUGIN_OFFICIAL_URL', DEBUG == 4 ? 'http://plugin.x.com/' : 'http://plugin.xiuno.com/');
 
 // todo: 对路径进行处理 include _include(APP_PATH.'view/htm/header.inc.htm');
+$_include_slot_kv = array();
 function _include($srcfile) {
 	global $conf;
 	// 合并插件，存入 tmp_path
 	$len = strlen(APP_PATH);
 	$tmpfile = $conf['tmp_path'].substr(str_replace('/', '_', $srcfile), $len);
-	if(!is_file($tmpfile)  || DEBUG > 1) {
+	if(!is_file($tmpfile) || DEBUG > 1) {
 		// 开始编译
 		$s = plugin_compile_srcfile($srcfile);
 		
 		// 支持 <template> <slot>
-		$s = preg_replace_callback('#<template\sinclude="(.*?)">(.*?)</template>#is', '_include_callback_1', $s);
-		
+		$_include_slot_kv = array();
+		for($i = 0; $i < 10; $i++) {
+			$s = preg_replace_callback('#<template\sinclude="(.*?)">(.*?)</template>#is', '_include_callback_1', $s);
+			if(strpos($s, '<template') === FALSE) break;
+			//echo $s;
+			//echo "\r\n\r\n---------------  $srcfile ---------------\r\n\r\n";
+		}
 		file_put_contents_try($tmpfile, $s);
 	}
 	return $tmpfile;
 }
 
 function _include_callback_1($m) {
+	global $_include_slot_kv;
 	$r = file_get_contents($m[1]);
 	preg_match_all('#<slot\sname="(.*?)">(.*?)</slot>#is', $m[2], $m2);
 	if(!empty($m2[1])) {
 		$kv = array_combine($m2[1], $m2[2]);
-		foreach($kv as $slot=>$content) {
+		$_include_slot_kv += $kv;
+		foreach($_include_slot_kv as $slot=>$content) {
 			$r = preg_replace('#<slot\sname="'.$slot.'"\s*/>#is', $content, $r);
 		}
 	}
+	//echo "\r\n\r\n---------------  ".print_r($m, 1)." ---------------\r\n\r\n";
 	return $r;
 }
 
@@ -281,8 +290,8 @@ function plugin_compile_srcfile($srcfile) {
 	$srcfile = plugin_find_overwrite($srcfile);
 	$s = file_get_contents($srcfile);
 	
-	// 最多支持 4 层
-	for($i=0; $i<4; $i++) {
+	// 最多支持 10 层
+	for($i = 0; $i < 10; $i++) {
 		if(strpos($s, '<!--{hook') !== FALSE || strpos($s, '// hook') !== FALSE) {
 			$s = preg_replace('#<!--{hook\s+(.*?)}-->#', '// hook \\1', $s);
 			$s = preg_replace_callback('#//\s*hook\s+(\S+)#is', 'plugin_compile_srcfile_callback', $s);

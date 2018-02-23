@@ -113,7 +113,7 @@ function group_maxid() {
 function group_list_cache() {
 	$grouplist = cache_get('grouplist');
 	// hook model_group_list_cache_start.php
-	if($grouplist === NULL) {
+	if($grouplist === NULL || $grouplist === FALSE) {
 		$grouplist = group_find();
 		cache_set('grouplist', $grouplist);
 	}

@@ -18,6 +18,22 @@ if(empty($action)) {
         empty($_uid) AND $_uid = $uid;
         $_user = user_read($_uid);
         
+       // empty($_user) AND message(-1, lang('user_not_exists'));
+        $header['title'] = $_user['username'];
+        $header['mobile_title'] = $_user['username'];
+
+        // hook user_index_end.php
+
+	include _include(APP_PATH.'view/htm/user.htm');
+	
+} elseif($action == 'thread') {
+
+        // hook user_thread_start.php
+
+        $_uid = param(1, 0);
+        empty($_uid) AND $_uid = $uid;
+        $_user = user_read($_uid);
+        
         empty($_user) AND message(-1, lang('user_not_exists'));
         $header['title'] = $_user['username'];
         $header['mobile_title'] = $_user['username'];
@@ -29,9 +45,9 @@ if(empty($action)) {
         $threadlist = mythread_find_by_uid($_uid, $page, $pagesize);
         thread_list_access_filter($threadlist, $gid);
 
-        // hook user_index_end.php
-
-	include _include(APP_PATH.'view/htm/user.htm');
+        // hook user_thread_end.php
+       
+	include _include(APP_PATH.'view/htm/user_thread.htm');
 	
 } elseif($action == 'login') {
 

@@ -22,16 +22,7 @@ if(empty($action)) {
 	
 	$header['title'] = lang('my_home');
 	
-	$page = param(1, 1);
-	$pagesize = 20;
-	$totalnum = $user['threads'];
 	
-	// hook my_profile_thread_list_before.php
-	
-	$pagination = pagination(url('my-{page}'), $totalnum, $page, $pagesize);
-	$threadlist = mythread_find_by_uid($uid, $page, $pagesize);
-	
-	// hook my_thread_end.php
 	
 	include _include(APP_PATH.'view/htm/my.htm');
 	
@@ -72,31 +63,24 @@ if(empty($action)) {
 		
 	}
 	
-/*
+
 } elseif($action == 'thread') {
 
 	// hook my_thread_start.php
 	
-	$page = param(2, 1);
+	$page = param(1, 1);
 	$pagesize = 20;
 	$totalnum = $user['threads'];
-	$thread_list_from_default = 1;
 	
 	// hook my_profile_thread_list_before.php
 	
-	if($thread_list_from_default) {
-		$pagination = pagination(url('my-thread-{page}'), $totalnum, $page, $pagesize);
-		$threadlist = mythread_find_by_uid($uid, $page, $pagesize);
-	}
+	$pagination = pagination(url('my-{page}'), $totalnum, $page, $pagesize);
+	$threadlist = mythread_find_by_uid($uid, $page, $pagesize);
 	
 	// hook my_thread_end.php
-	if($ajax) {
-		foreach($threadlist as &$thread) $thread = thread_safe_info($thread);
-		message(0, $threadlist);
-	} else {
-		include _include(APP_PATH.'view/htm/my_thread.htm');
-	}
-*/
+	
+	include _include(APP_PATH.'view/htm/my_thread.htm');
+
 	
 } elseif($action == 'avatar') {
 	
