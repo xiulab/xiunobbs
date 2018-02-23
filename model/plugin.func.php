@@ -30,6 +30,10 @@ function _include($srcfile) {
 			//echo "\r\n\r\n---------------  $srcfile ---------------\r\n\r\n";
 		}
 		file_put_contents_try($tmpfile, $s);
+		
+		$s = plugin_compile_srcfile($tmpfile);
+		file_put_contents_try($tmpfile, $s);
+		
 	}
 	return $tmpfile;
 }
