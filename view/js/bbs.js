@@ -11,6 +11,7 @@ $('form').keyup(function(e) {
 $('.tap').on('click', function(e) {
 	var href = $(this).attr('href') || $(this).data('href');
 	if(e.target.nodeName == 'INPUT') return true;
+	if($(window).width() > 992) return;
 	if(e.ctrlKey) {
 		window.open(href);
 		return false;

@@ -1,0 +1,45 @@
+<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+
+<!--{hook user_index_start.htm}-->
+
+<div class="btn-group mb-3 d-lg-none" role="group">
+	<a role="button" class="btn btn-secondary" data-active="menu-user" href="<?php echo url("user-$_uid");?>">个人资料</a>
+	<a role="button" class="btn btn-secondary" data-active="menu-user-font" href="<?php echo url("user-font-$_uid");?>">字体作品2</a>
+	<a role="button" class="btn btn-secondary" data-active="menu-user-src" href="<?php echo url("user-src-$_uid");?>">书法素材2</a>
+	<a role="button" class="btn btn-secondary" data-active="menu-user-thread" href="<?php echo url("user-thread-$_uid");?>">论坛帖子</a>
+</div>
+
+<div class="row">
+	<div class="col-lg-2 hidden-md hidden-sm">
+		<div class="card">
+			<div class="card-body text-center">
+				<img class="avatar-4" src="<?php echo $user['avatar_url'];?>">
+				<br><?php echo $user['username'];?>
+				<!--{hook user_profile_username_after.htm}-->
+			</div>
+			<div class="list-group list-group-flush text-center">
+				<a href="<?php echo url("user-$_uid");?>" class="list-group-item list-group-item-action" data-active="menu-user">个人资料</a>
+				<a href="<?php echo url("user-font-$_uid");?>" class="list-group-item list-group-item-action" data-active="menu-user-font">字体作品</a>
+				<a href="<?php echo url("user-src-$_uid");?>" class="list-group-item list-group-item-action" data-active="menu-user-src">书法素材</a>
+				<a href="<?php echo url("user-thread-$_uid");?>" class="list-group-item list-group-item-action" data-active="menu-user-thread">论坛帖子</a>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-10">
+	
+		<div class="card">
+			<div class="card-header">
+				<slot name="user_nav" />
+			</div>
+			<div class="card-body">
+				<slot name="user_body" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--{hook user_index_end.htm}-->
+
+<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
+
+<!--{hook user_index_js.htm}-->

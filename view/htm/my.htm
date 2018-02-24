@@ -1,32 +1,24 @@
-<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
-
-<!--{hook my_index_start.htm}-->
-
-<div class="row">
-	<div class="col-lg-8 mx-auto">
-	
-		<?php include _include(APP_PATH.'view/htm/my_profile.inc.htm');?>
-		
-		<div class="card">
-			<div class="card-header">
-				<?php include _include(APP_PATH.'view/htm/my_nav.inc.htm');?>
+<template include="./view/htm/my.template.htm">
+	<slot name="my_body">
+		<div class="row line-height-4">
+			<div class="col-md-6">
+				<span class="text-muted"><?php echo lang('threads');?>：</span><?php echo $user['threads'];?>
+				<br><span class="text-muted"><?php echo lang('posts');?>：</span><?php echo $user['posts'];?>
+				<!--{hook my_profile_posts_after.htm}-->
 			</div>
-			<div class="card-body">
-				<ul class="list-unstyled threadlist">
-					<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm'); ?>
-				</ul>
-				
-				<?php if($pagination) { ?>
-				<nav><ul class="pagination justify-content-center flex-wrap"><?php echo $pagination; ?></ul></nav>
+			<div class="col-md-6">
+				<span class="text-muted"><?php echo lang('user_group');?>：</span><?php echo $user['groupname'];?>
+				<br><span class="text-muted"><?php echo lang('create_date');?>：</span><?php echo $user['create_date_fmt'];?>
+				<br><span class="text-muted"><?php echo lang('last_login_date');?>：</span><?php echo $user['login_date_fmt'];?>
+				<?php if($gid == 1) { ?>
+				<br><span class="text-danger"><?php echo lang('email');?>：</span><?php echo $user['email'];?>
 				<?php } ?>
-				
+				<!--{hook my_profile_login_date_after.htm}-->
 			</div>
-		</div>
-	</div>
-</div>
+		</div>	
+	</slot>
+</template>
 
-<!--{hook my_index_end.htm}-->
-
-<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
-
-<!--{hook my_index_js.htm}-->
+<script>
+$('a[data-active="my-profile"]').addClass('active');
+</script>

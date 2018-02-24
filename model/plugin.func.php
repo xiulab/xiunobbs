@@ -11,7 +11,7 @@ $official_plugins = array();
 define('PLUGIN_OFFICIAL_URL', DEBUG == 4 ? 'http://plugin.x.com/' : 'http://plugin.xiuno.com/');
 
 // todo: 对路径进行处理 include _include(APP_PATH.'view/htm/header.inc.htm');
-$_include_slot_kv = array();
+$g_include_slot_kv = array();
 function _include($srcfile) {
 	global $conf;
 	// 合并插件，存入 tmp_path
@@ -22,12 +22,10 @@ function _include($srcfile) {
 		$s = plugin_compile_srcfile($srcfile);
 		
 		// 支持 <template> <slot>
-		$_include_slot_kv = array();
+		$g_include_slot_kv = array();
 		for($i = 0; $i < 10; $i++) {
 			$s = preg_replace_callback('#<template\sinclude="(.*?)">(.*?)</template>#is', '_include_callback_1', $s);
 			if(strpos($s, '<template') === FALSE) break;
-			//echo $s;
-			//echo "\r\n\r\n---------------  $srcfile ---------------\r\n\r\n";
 		}
 		file_put_contents_try($tmpfile, $s);
 		
@@ -39,17 +37,16 @@ function _include($srcfile) {
 }
 
 function _include_callback_1($m) {
-	global $_include_slot_kv;
+	global $g_include_slot_kv;
 	$r = file_get_contents($m[1]);
 	preg_match_all('#<slot\sname="(.*?)">(.*?)</slot>#is', $m[2], $m2);
 	if(!empty($m2[1])) {
 		$kv = array_combine($m2[1], $m2[2]);
-		$_include_slot_kv += $kv;
-		foreach($_include_slot_kv as $slot=>$content) {
+		$g_include_slot_kv += $kv;
+		foreach($g_include_slot_kv as $slot=>$content) {
 			$r = preg_replace('#<slot\sname="'.$slot.'"\s*/>#is', $content, $r);
 		}
 	}
-	//echo "\r\n\r\n---------------  ".print_r($m, 1)." ---------------\r\n\r\n";
 	return $r;
 }
 

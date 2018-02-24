@@ -1,24 +1,15 @@
-<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
+<template include="./view/htm/my_thread.template.htm">
+	<slot name="my_body">
+		<ul class="list-unstyled threadlist mb-0">
+			<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
+		</ul>
+		
+		<?php if($pagination) { ?>
+		<nav><ul class="pagination justify-content-center flex-wrap"><?php echo $pagination; ?></ul></nav>
+		<?php } ?>
+	</slot>
+</template>
 
-<div class="row">
-	<div class="col-lg-8 mx-auto">
-		<?php include _include(APP_PATH.'view/htm/my_nav.inc.htm');?>
-		<div class="card card-threadlist">
-			<div class="card-header">
-				<?php include _include(APP_PATH.'view/htm/my_thread_nav.inc.htm');?>
-			</div>
-			<div class="card-body">
-				<ul class="list-unstyled threadlist mb-0">
-					<?php include _include(APP_PATH.'view/htm/thread_list.inc.htm');?>
-				</ul>
-				
-				<?php if($pagination) { ?>
-				<nav><ul class="pagination justify-content-center flex-wrap"><?php echo $pagination; ?></ul></nav>
-				<?php } ?>
-				
-			</div>
-		</div>
-	</div>
-</div>
-
-<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
+<script>
+$('a[data-active="my-thread"]').addClass('active');
+</script>
