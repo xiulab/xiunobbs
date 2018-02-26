@@ -167,6 +167,7 @@ return array(
 	// 個人中心
 	'my_home' => '個人中心',
 	'my_profile' => '個人資料',
+	'my_basic_profile' => '基本資料',
 	'modify_password' => '密碼',
 	'modify_avatar' => '頭像',
 	'my_post' => '帖子',

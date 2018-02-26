@@ -167,6 +167,7 @@ return array(
 	// my profile
 	'my_home' => 'My Home',
 	'my_profile' => 'My Profile',
+	'my_basic_profile' => 'Basic',
 	'modify_password' => 'Password',
 	'modify_avatar' => 'Avatar',
 	'my_post' => 'My Post',
