@@ -943,6 +943,7 @@ $.fn.base64_encode_file = function(width, height, action) {
 	var jsubmit = jform.find('input[type="submit"]');
 	jform.on('change', 'input[type="file"]', function(e) {
 		var jfile = $(this);
+		if(!jfile.data('assoc')) return;
 		var jassoc = $('#'+jfile.data('assoc'));
 		var obj = e.target;
 		jsubmit.button('disabled');

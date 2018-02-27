@@ -22,20 +22,21 @@ function form_radio($name, $arr, $checked = 0) {
 
 function form_checkbox($name, $checked = 0, $txt = '') {
 	$add = $checked ? ' checked="checked"' : '';
-	$s = "<label class=\"custom-input custom-checkbox\"><input type=\"checkbox\" name=\"$name\" value=\"1\" $add /> $txt</label>";
+	$s = "<label class=\"custom-input custom-checkbox mr-4\"><input type=\"checkbox\" name=\"$name\" value=\"1\" $add /> $txt</label>";
 	return $s;
 }
 
 /*
+	form_multi_checkbox('cateid[]', array('value1'=>'text1', 'value2'=>'text2', 'value3'=>'text3'), array('value1', 'value2'));
+*/
 function form_multi_checkbox($name, $arr, $checked = array()) {
 	$s = '';
-	foreach($arr as $k=>$v) {
-		$ischecked = in_array($k, $checked);
-		$s .= form_checkbox($name, $ischecked, $v).' ';
+	foreach($arr as $value=>$text) {
+		$ischecked = in_array($value, $checked);
+		$s .= form_checkbox($name, $ischecked, $text);
 	}
 	return $s;
 }
-*/
 
 function form_select($name, $arr, $checked = 0, $id = TRUE) {
 	if(empty($arr)) return '';
