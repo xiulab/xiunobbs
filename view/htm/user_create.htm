@@ -117,8 +117,8 @@ jform.on('submit', function() {
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
 			jsubmit.button(message).delay(3000).location(referer);
-		} else if(code < 0) {
-			$.alert(message, -1);
+		} else if(xn.is_number(code)) {
+			alert(message);
 			jsubmit.button('reset');
 		} else {
 			jform.find('[name="'+code+'"]').alert(message).focus();

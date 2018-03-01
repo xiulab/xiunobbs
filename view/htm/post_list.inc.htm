@@ -27,19 +27,19 @@
 								<div class="text-right text-grey">
 									<!--{hook post_list_inc_quote_before.htm}-->
 									<?php if($allowpost) { ?>
-									<a href="javascript:void(0)" data-tid="<?php echo $_post['tid'];?>" data-pid="<?php echo $_post['pid'];?>" class="text-grey post_reply mr-2"><i class="icon-reply"></i> <?php echo lang('quote');?></a>
+									<a href="javascript:void(0)" data-tid="<?php echo $_post['tid'];?>" data-pid="<?php echo $_post['pid'];?>" class="text-grey post_reply mr-2"><i class="icon-reply" title="<?php echo lang('quote');?>"></i> <span class="d-none"><?php echo lang('quote');?></span></a>
 									<?php } ?>
 									<!--{hook post_list_inc_quote_after.htm}-->
 									
 									<!--{hook post_list_inc_update_before.htm}-->
 									<?php if($allowupdate || $_post['allowupdate']) { ?>
-									<a href="<?php echo url("post-update-$_post[pid]");?>" class="text-grey post_update mr-2"><i class="icon-edit"></i> <?php echo lang('edit');?></a>
+									<a href="<?php echo url("post-update-$_post[pid]");?>" class="text-grey post_update mr-2"><i class="icon-edit" title="<?php echo lang('edit');?>"></i> <span class="d-none"><?php echo lang('edit');?></span></a>
 									<?php } ?>
 									<!--{hook post_list_inc_update_after.htm}-->
 								
 									<!--{hook post_list_inc_delete_before.htm}-->
 									<?php if($allowdelete || $_post['allowdelete']) { ?>
-									<a data-href="<?php echo url("post-delete-$_post[pid]");?>" data-confirm-text="<?php echo lang('confirm_delete');?>" href="javascript:void(0);" class="text-grey post_delete _confirm mr-2"><i class="icon-remove"></i> <?php echo lang('delete');?></a>
+									<a data-href="<?php echo url("post-delete-$_post[pid]");?>" data-confirm-text="<?php echo lang('confirm_delete');?>" href="javascript:void(0);" class="text-grey post_delete _confirm mr-2"><i class="icon-remove" title="<?php echo lang('delete');?>"></i> <span class="d-none"><?php echo lang('delete');?></span></a>
 									<?php } ?>
 									<!--{hook post_list_inc_delete_after.htm}-->
 									
