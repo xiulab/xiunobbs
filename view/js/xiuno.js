@@ -943,8 +943,7 @@ $.fn.base64_encode_file = function(width, height, action) {
 	var jsubmit = jform.find('input[type="submit"]');
 	jform.on('change', 'input[type="file"]', function(e) {
 		var jfile = $(this);
-		if(!jfile.data('assoc')) return;
-		var jassoc = $('#'+jfile.data('assoc'));
+		var jassoc = jfile.data('assoc') ? $('#'+jfile.data('assoc')) : null;
 		var obj = e.target;
 		jsubmit.button('disabled');
 		var file = obj.files[0];
@@ -960,7 +959,7 @@ $.fn.base64_encode_file = function(width, height, action) {
 			if(width && height && xn.substr(this.result, 0, 10) == 'data:image') {
 				xn.image_resize(this.result, function(code, message) {
 					if(code == 0) {
-						jassoc.attr('src', message.data);
+						if(jassoc) jassoc.attr('src', message.data);
 						jhidden.val(message.data); // base64
 					} else {
 						alert(message);
@@ -968,7 +967,7 @@ $.fn.base64_encode_file = function(width, height, action) {
 					jsubmit.button('reset');
 				}, {width: width, height: height, action: action});
 			} else {
-				jassoc.attr('src', this.result);
+				if(jassoc) jassoc.attr('src', this.result);
 				jhidden.val(this.result);
 				jsubmit.button('reset');
 			}
