@@ -23,7 +23,8 @@ $(function() {
 			// 并发下会 服务端 session 写入会有问题，由客户端控制改为串行
 			$.each_sync(files, function(i, callback) {
 				var file = files[i];
-				xn.upload_file(file, xn.url('attach-create'), {is_image: 1}, function(code, json) {
+				//xn.upload_file(file, xn.url('attach-create'), {is_image: 1}, function(code, json) {
+				xn.upload_file(file, me.options.upload_url, {is_image: 1}, function(code, json) {
 					if(code == 0) {
 						if(json.width > 800) {
 							var scale = json.height / json.width;
@@ -73,7 +74,7 @@ $(function() {
 				if(!file || file.size == 0 || file.type.indexOf('image') == -1) return;
 				var jimg = null;
 				var jprogress = null;
-				xn.upload_file(file, xn.url('attach-create'), {is_image: 1}, function(code, json) {
+				xn.upload_file(file, me.options.upload_url, {is_image: 1}, function(code, json) {
 					if(code == 0) {
 						setTimeout(function() {
 							if(jimg) jimg.remove();
@@ -124,7 +125,7 @@ $(function() {
 					
 					// 如果发现有图片，则清理格式
 					// 对黑色背景的图片，进行透明化处理
-					xn.upload_file(src, xn.url('attach-create'), {is_image: 1}, function(code, json) {
+					xn.upload_file(src, me.options.upload_url, {is_image: 1}, function(code, json) {
 						if(code == 0) {
 							jthis.attr('src', json.url);
 							var node = jthis.closest('span').get(0);
