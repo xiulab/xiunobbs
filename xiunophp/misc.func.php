@@ -92,6 +92,7 @@ function param_word($key, $len = 32) {
 
 function param_base64($key, $len = 0) {
 	$s = param($key, '', FALSE);
+	if(empty($s)) return '';
 	$s = substr($s, strpos($s, ',') + 1);
 	$s = base64_decode($s);
 	$len AND $s = substr($s, 0, $len);
@@ -100,6 +101,7 @@ function param_base64($key, $len = 0) {
 
 function param_json($key) {
 	$s = param($key, '', FALSE);
+	if(empty($s)) return '';
 	$arr = xn_json_decode($s);
 	return $arr;
 }
