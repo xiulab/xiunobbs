@@ -66,7 +66,7 @@ jform.on('submit', function() {
 		if(code == 0) {
 			$.alert(message);
 			jsubmit.text(message).delay(1000).location(xn.url('user-list'));
-		} else if(code < 0) {
+		} else if(xn.is_number(code)) {
 			alert(message);
 			jsubmit.button('reset');
 		} else {

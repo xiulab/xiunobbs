@@ -390,7 +390,7 @@ xn.is_email = function(s) {
 xn.is_string = function(obj) {return Object.prototype.toString.apply(obj) == '[object String]';};
 xn.is_function = function(obj) {return Object.prototype.toString.apply(obj) == '[object Function]';};
 xn.is_array = function(obj) {return Object.prototype.toString.apply(obj) == '[object Array]';};
-xn.is_number = function(obj) {return Object.prototype.toString.apply(obj) == '[object Number]';};
+xn.is_number = function(obj) {return Object.prototype.toString.apply(obj) == '[object Number]' || /^\d+$/.test(obj);};
 xn.is_regexp = function(obj) {return Object.prototype.toString.apply(obj) == '[object RegExp]';};
 xn.is_object = function(obj) {return Object.prototype.toString.apply(obj) == '[object Object]';};
 xn.is_element = function(obj) {return !!(obj && obj.nodeType === 1);};

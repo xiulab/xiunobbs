@@ -64,8 +64,8 @@ jform.on('submit', function() {
 		if(code == 0) {
 			$.alert(message);
 			jsubmit.text(message).delay(3000).button('reset');
-		} else if(code < 0) {
-			$.alert(message);
+		} else if(xn.is_number(code)) {
+			alert(message);
 			jsubmit.button('reset');
 		} else {
 			alert(message);

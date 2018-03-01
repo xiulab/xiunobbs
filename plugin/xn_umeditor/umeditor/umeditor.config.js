@@ -253,5 +253,7 @@
 
         //填写过滤规则
         //,filterRules: {}
+        
+        ,upload_url: xn.url('attach-create')
     };
 })();
