@@ -110,10 +110,14 @@ $('a.confirm').on('click', function() {
 	var text = jthis.data('confirm-text');
 	$.confirm(text, function() {
 		var method = jthis.data('method');
-		var href = jthis.attr('href');
-		if(method == 'post') {
+		var href = jthis.data('href') || jthis.attr('href');
+		if(!method || method == 'post') {
 			$.xpost(href, function(code, message) {
-				window.location.reload();
+				if(code == 0) {
+					window.location.reload();
+				} else {
+					alert(message);					
+				}
 			});
 		} else {
 			window.location = jthis.attr('href');
