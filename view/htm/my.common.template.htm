@@ -2,7 +2,7 @@
 
 <!--{hook my_common_start.htm}-->
 
-<div class="btn-group mb-3 d-lg-none" role="group">
+<div class="btn-group mb-3 d-lg-none" role="group" id="my_mobile_nav">
 
 	<!--{hook my_common_mobile_my_before.htm}-->
 	<a role="button" class="btn btn-secondary" data-active="menu-my" href="<?php echo url('my');?>">个人资料</a>
@@ -15,9 +15,10 @@
 </div>
 
 <div class="row">
-	<div class="col-lg-2 hidden-md hidden-sm">
+	<div class="col-lg-2 hidden-md hidden-sm" id="my_aside">
 		<div class="card">
 			<div class="card-body text-center">
+				<!--{hook my_common_avatar_before.htm}-->
 				<img class="avatar-4" src="<?php echo $user['avatar_url'];?>">
 				<br><?php echo $user['username'];?>
 				<!--{hook my_common_username_after.htm}-->
@@ -34,16 +35,21 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-lg-10">
-	
+	<div class="col-lg-10" id="my_main">
+		<!--{hook my_common_main_card_before.htm}-->
 		<div class="card">
 			<div class="card-header">
+				<!--{hook my_common_my_nav_slot_before.htm}-->
 				<slot name="my_nav" />
+				<!--{hook my_common_my_nav_slot_after.htm}-->
 			</div>
 			<div class="card-body">
+				<!--{hook my_common_my_body_slot_before.htm}-->
 				<slot name="my_body" />
+				<!--{hook my_common_my_body_slot_after.htm}-->
 			</div>
 		</div>
+		<!--{hook my_common_main_card_after.htm}-->
 	</div>
 </div>
 

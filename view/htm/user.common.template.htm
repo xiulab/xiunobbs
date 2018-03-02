@@ -2,39 +2,53 @@
 
 <!--{hook user_index_start.htm}-->
 
-<div class="btn-group mb-3 d-lg-none" role="group">
+<!-- 手机导航 / Mobile navigation -->
+<div class="btn-group mb-3 d-lg-none" role="group" id="user_mobile_nav">
+	<!--{hook user_common_mobile_user_before.htm}-->
 	<a role="button" class="btn btn-secondary" data-active="menu-user" href="<?php echo url("user-$_uid");?>">个人资料</a>
-	<a role="button" class="btn btn-secondary" data-active="menu-user-font" href="<?php echo url("user-font-$_uid");?>">字体作品2</a>
-	<a role="button" class="btn btn-secondary" data-active="menu-user-src" href="<?php echo url("user-src-$_uid");?>">书法素材2</a>
+	<!--{hook user_common_mobile_user_after.htm}-->
+	
+	<!--{hook user_common_mobile_thread_before.htm}-->
 	<a role="button" class="btn btn-secondary" data-active="menu-user-thread" href="<?php echo url("user-thread-$_uid");?>">论坛帖子</a>
+	<!--{hook user_common_mobile_thread_after.htm}-->
 </div>
 
 <div class="row">
-	<div class="col-lg-2 hidden-md hidden-sm">
+
+	<!-- PC 导航 / Mobile navigation -->
+	<div class="col-lg-2 hidden-md hidden-sm" id="user_aside">
 		<div class="card">
 			<div class="card-body text-center">
 				<img class="avatar-4" src="<?php echo $user['avatar_url'];?>">
 				<br><?php echo $user['username'];?>
 				<!--{hook user_profile_username_after.htm}-->
 			</div>
-			<div class="list-group list-group-flush text-center">
+			<div class="list-group list-group-flush text-center" id="user_nav">
+				<!--{hook user_common_user_before.htm}-->
 				<a href="<?php echo url("user-$_uid");?>" class="list-group-item list-group-item-action" data-active="menu-user">个人资料</a>
-				<a href="<?php echo url("user-font-$_uid");?>" class="list-group-item list-group-item-action" data-active="menu-user-font">字体作品</a>
-				<a href="<?php echo url("user-src-$_uid");?>" class="list-group-item list-group-item-action" data-active="menu-user-src">书法素材</a>
+				<!--{hook user_common_user_after.htm}-->
+				
+				<!--{hook user_common_thread_before.htm}-->
 				<a href="<?php echo url("user-thread-$_uid");?>" class="list-group-item list-group-item-action" data-active="menu-user-thread">论坛帖子</a>
+				<!--{hook user_common_thread_after.htm}-->
 			</div>
 		</div>
 	</div>
-	<div class="col-lg-10">
-	
+	<div class="col-lg-10" id="user_main">
+		<!--{hook user_common_main_card_before.htm}-->
 		<div class="card">
 			<div class="card-header">
+				<!--{hook user_common_user_nav_slot_before.htm}-->
 				<slot name="user_nav" />
+				<!--{hook user_common_user_nav_slot_after.htm}-->
 			</div>
 			<div class="card-body">
+				<!--{hook user_common_body_slot_before.htm}-->
 				<slot name="user_body" />
+				<!--{hook user_common_body_slot_after.htm}-->
 			</div>
 		</div>
+		<!--{hook user_common_main_card_after.htm}-->
 	</div>
 </div>
 
