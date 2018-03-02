@@ -180,6 +180,8 @@ function attach_assoc_post($pid) {
 	$post = post__read($pid);
 	if(empty($post)) return;
 	
+	// hook attach_assoc_post_start.php
+	
 	$tid = $post['tid'];
 	$post['message_old'] = $post['message_fmt'];
 	
@@ -258,6 +260,8 @@ function attach_assoc_post($pid) {
 	$files = count($filelist);
 	$post['isfirst'] AND thread__update($tid, array('images'=>$images, 'files'=>$files));
 	post__update($pid, array('images'=>$images, 'files'=>$files));
+	
+	// hook attach_assoc_post_end.php
 	
 	return TRUE;
 }
