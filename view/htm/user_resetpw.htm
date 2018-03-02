@@ -8,6 +8,8 @@
 			</div>
 			<div class="card-body">
 				<form action="<?php echo url('user-resetpw');?>" method="post" id="form">
+				
+					<!--{hook user_resetpw_email_before.htm}-->
 					<div class="form-group input-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="icon-envelope"></i></span>
@@ -15,6 +17,9 @@
 						<input type="text" class="form-control" placeholder="<?php echo lang('email');?>" name="email" id="email">
 						<div class="invalid-feedback"></div>
 					</div>
+					<!--{hook user_resetpw_email_after.htm}-->
+					
+					<!--{hook user_resetpw_verify_code_before.htm}-->
 					<div class="media">
 						<div class="media-body">
 							<div class="form-group input-group">
@@ -28,6 +33,8 @@
 							<button type="submit" class="btn btn-primary btn-sm ml-3" id="send" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-resetpw_sendcode');?>"><?php echo lang('send_verify_code');?></button>
 						</div>
 					</div>
+					<!--{hook user_resetpw_verify_code_after.htm}-->
+					
 					<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." <?php if($conf['user_create_email_on']) { ?>disabled<?php } ?>><?php echo lang('next_step');?></button>
 				</form>
 			</div>
