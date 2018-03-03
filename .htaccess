@@ -1,4 +1,11 @@
 <IfModule mod_rewrite.c>
 RewriteEngine on
-RewriteRule ^(.*?)([^/]*)\.htm(.*)$ $1/index.php?$2.htm$3 [L]
+
+# Apache 2.4
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteCond %{REQUEST_FILENAME} !-f 
+RewriteRule ^(.*?)([^/]*)$ $1index.php?$2 [QSA,PT,L]
+
+# Apache other
+#RewriteRule ^(.*?)([^/]*)\.htm(.*)$ $1/index.php?$2.htm$3 [L]
 </IfModule>
