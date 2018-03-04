@@ -191,6 +191,7 @@ xn.get_title_body_script_css = function (s) {
 	index.htm
 	--------------------------------------------------------------
 	<button id="button1" data-modal-url="user-login.htm" data-modal-title="用户登录" data-modal-arg="xxx" data-modal-callback="login_success_callback" data-modal-size="md"></button>
+	<a id="button1" href="user-login.htm" data-modal-title="用户登录" data-modal-arg="xxx" data-modal-callback="login_success_callback" data-modal-size="md">link</a>
 	<script>
 	function login_success_callback(code, message) {
 		alert(message);
@@ -317,10 +318,10 @@ $.ajax_modal = function(url, title, size, callback, arg) {
 	return jmodal;
 }
 
-$('[data-modal-url]').each(function() {
+$('[data-modal-title]').each(function() {
 	var jthis = $(this);
 	jthis.on('click', function() {
-		var url = jthis.data('modal-url');	
+		var url = jthis.data('modal-url') || jthis.attr('href');	
 		var title = jthis.data('modal-title');	
 		var arg = jthis.data('modal-arg');	
 		var callback_str = jthis.data('modal-callback');
@@ -330,6 +331,8 @@ $('[data-modal-url]').each(function() {
 		// 弹出对话框
 		if(this.ajax_modal) this.ajax_modal.modal('dispose');
 		this.ajax_modal = $.ajax_modal(url, title, size, callback, arg);
+		
+		return false;
 	});
 });
 
