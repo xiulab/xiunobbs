@@ -192,6 +192,7 @@ xn.get_title_body_script_css = function (s) {
 	--------------------------------------------------------------
 	<button id="button1" data-modal-url="user-login.htm" data-modal-title="用户登录" data-modal-arg="xxx" data-modal-callback="login_success_callback" data-modal-size="md"></button>
 	<a id="button1" href="user-login.htm" data-modal-title="用户登录" data-modal-arg="xxx" data-modal-callback="login_success_callback" data-modal-size="md">link</a>
+	<a href="user-login.htm" data-modal-title="用户登录" data-modal-size="md">link</a>
 	<script>
 	function login_success_callback(code, message) {
 		alert(message);
