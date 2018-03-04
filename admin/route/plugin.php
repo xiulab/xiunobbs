@@ -171,7 +171,7 @@ if($action == 'local') {
 	
 	$installfile = APP_PATH."plugin/$dir/install.php";
 	if(is_file($installfile)) {
-		include $installfile;
+		include _include($installfile);
 	}
 	
 	plugin_lock_end();
@@ -219,7 +219,7 @@ if($action == 'local') {
 	
 	$unstallfile = APP_PATH."plugin/$dir/unstall.php";
 	if(is_file($unstallfile)) {
-		include $unstallfile;
+		include _include($unstallfile);
 	}
 	
 	// 删除插件
@@ -306,7 +306,7 @@ if($action == 'local') {
 
 	$upgradefile = APP_PATH."plugin/$dir/upgrade.php";
 	if(is_file($upgradefile)) {
-		include $upgradefile;
+		include _include($upgradefile);
 	}
 	
 	plugin_lock_end();
@@ -320,7 +320,7 @@ if($action == 'local') {
 	plugin_check_exists($dir);
 	$name = $plugins[$dir]['name'];
 	
-	include APP_PATH."plugin/$dir/setting.php";
+	include _include(APP_PATH."plugin/$dir/setting.php");
 }
 
 
