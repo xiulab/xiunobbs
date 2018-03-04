@@ -103,15 +103,16 @@ $('.mod-button button._close').on('click', function() {
 })
 */
 
-// 确定框 / confirm
-// <a href="?item-delete.htm" class="confirm" data-confirm-text="确定删除？" data-method="post"></a>
+// 确定框 / confirm / GET / POST
+// <a href="1.php" data-confirm-text="确定删除？" class="confirm">删除</a>
+// <a href="1.php" data-method="post" data-confirm-text="确定删除？" class="confirm">删除</a>
 $('a.confirm').on('click', function() {
 	var jthis = $(this);
 	var text = jthis.data('confirm-text');
 	$.confirm(text, function() {
-		var method = jthis.data('method');
+		var method = xn.strtolower(jthis.data('method'));
 		var href = jthis.data('href') || jthis.attr('href');
-		if(!method || method == 'post') {
+		if(method == 'post') {
 			$.xpost(href, function(code, message) {
 				if(code == 0) {
 					window.location.reload();
