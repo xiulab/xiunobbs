@@ -10,7 +10,7 @@ $(function() {
 		var $btn = $.eduibutton({
 			icon: name,
 			title: '支持 QQ 截图直接粘贴',
-			html: '<input type="file" value="" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp"  multiple="multiple" />', 
+			html: '<input type="file" value="" name="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp"  multiple="multiple" />', 
 			click: function(e) {
 				//console.log(e);
 			}

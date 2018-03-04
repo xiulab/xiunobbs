@@ -1,8 +1,8 @@
 <script>
-$('form').append('<input type="hidden" name="<?php echo setting_get('xn_anti_spam_key');?>" value="<?php echo setting_get('xn_anti_spam_key');?>" />');
+$('form[action="POST"]').append('<input type="hidden" name="<?php echo setting_get('xn_anti_spam_key');?>" value="<?php echo setting_get('xn_anti_spam_key');?>" />');
 
 <?php $__rand = $time.'_'.md5($ip.$useragent.$conf['auth_key'].$time);?>
-$('form').append('<input type="hidden" name="__anti_xss__" value="<?php echo $__rand;?>" />');
+$('form[action="POST"]').append('<input type="hidden" name="__anti_xss__" value="<?php echo $__rand;?>" />');
 $.cookie('__anti_xss__', '<?php echo $__rand;?>');
 
 // 重新定义 $.xpost()，追加 postdata
