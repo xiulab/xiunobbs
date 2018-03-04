@@ -183,9 +183,9 @@ function user_format(&$user) {
 
 	// hook model_user_format_start.php
 	
-	$user['create_ip_fmt']   = long2ip(intval($user['create_ip']));
+	$user['create_ip_fmt']   = long2ip($user['create_ip']);
 	$user['create_date_fmt'] = empty($user['create_date']) ? '0000-00-00' : date('Y-m-d', $user['create_date']);
-	$user['login_ip_fmt']    = long2ip(intval($user['login_ip']));
+	$user['login_ip_fmt']    = long2ip($user['login_ip']);
 	$user['login_date_fmt'] = empty($user['login_date']) ? '0000-00-00' : date('Y-m-d', $user['login_date']);
 	
 	$user['groupname'] = group_name($user['gid']);
