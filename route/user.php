@@ -290,35 +290,84 @@ if(empty($action)) {
 	}
 
 // 发送验证码
-} elseif($action == 'sendcode') {
+} elseif($action == 'send_code') {
 	
 	$method != 'POST' AND message(-1, lang('method_error'));
 	
 	// hook user_sendcode_start.php
 	
-	// 手机号
-	$email = param('email');
-	empty($email) AND message('email', lang('please_input_email'));
-	!is_email($email, $err) AND message('email', $err);
+	$action2 = param(2);
 	
-	// 限定验证码使用范围
-	$range = param(2);
-	
-	$user = user_read_by_email($email);
-	if($range == 'create') {
+	// 创建用户
+	if($action2 == 'user_create') {
+		
+		$email = param('email');
+		
+		empty($email) AND message('email', lang('please_input_email'));
+		!is_email($email, $err) AND message('email', $err);
 		empty($conf['user_create_email_on']) AND message(-1, lang('email_verify_not_on'));
+		$user = user_read_by_email($email);
 		!empty($user) AND message('email', lang('email_is_in_use'));
-	} elseif($range == 'resetpw') {
-		empty($conf['user_resetpw_on']) AND message(-1, lang('email_verify_not_on'));
+		
+		$code = rand(100000, 999999);
+		$_SESSION['user_create_email'] = $email;
+		$_SESSION['user_create_code'] = $code;
+		
+	/*
+	// 验证码登陆
+	} elseif($action2 == 'user_login') {
+		
+		$email = param('email');
+		
+		empty($email) AND message('email', lang('please_input_email'));
+		!is_email($email, $err) AND message('email', $err);
+		empty($conf['user_create_email_on']) AND message(-1, lang('email_verify_not_on'));
+		$user = user_read_by_email($email);
 		empty($user) AND message('email', lang('email_is_not_in_use'));
-	} else {
-		message(-1, 'range error.');
-	}
+		
+		$code = rand(100000, 999999);
+		$_SESSION['user_login_email'] = $email;
+		$_SESSION['user_login_code'] = $code;
+	*/
 	
-	$code = rand(100000, 999999);
-	$_SESSION['email'] = $email;
-	$_SESSION['code'] = $code;
-	$_SESSION['range'] = $range;
+	// 重置密码，往老地址发送
+	} elseif($action2 == 'reset_pw') {
+		
+		$email = $user['email'];
+		
+		empty($conf['user_create_email_on']) AND message(-1, lang('email_verify_not_on'));
+		
+		$code = rand(100000, 999999);
+		$_SESSION['user_reset_pw_email'] = $email;
+		$_SESSION['user_reset_pw_code'] = $code;
+		
+	// 绑定手机
+	} elseif($action2 == 'bind_mobile') {
+		
+		$email = param('email');
+		
+		empty($email) AND message('email', lang('please_input_email'));
+		!is_email($email, $err) AND message('email', $err);
+		empty($conf['user_create_email_on']) AND message(-1, lang('email_verify_not_on'));
+		$user = user_read_by_email($email);
+		!empty($user) AND message('email', lang('email_is_in_use'));
+		
+		$code = rand(100000, 999999);
+		$_SESSION['user_bind_mobile_email'] = $email;
+		$_SESSION['user_bind_mobile_code'] = $code;
+		
+	// 重新绑定手机
+	} elseif($action2 == 'change_mobile') {
+		
+		$email = $user['email'];
+		
+		empty($conf['user_create_email_on']) AND message(-1, lang('email_verify_not_on'));
+		
+		$code = rand(100000, 999999);
+		$_SESSION['user_change_mobile_email'] = $email;
+		$_SESSION['user_change_mobile_code'] = $code;
+		
+	}
 	
 	$subject = lang('send_code_template', array('rand'=>$code, 'sitename'=>$conf['sitename']));
 	$message = $subject;

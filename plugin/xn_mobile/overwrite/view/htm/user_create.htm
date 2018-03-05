@@ -12,12 +12,14 @@
 			</div>
 			<div class="card-body">
 				<form action="<?php echo url('user-create');?>" method="post" id="form">
+				
 					<div class="form-group input-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="icon-mobile"></i></span>
 						</div>
 						<input type="mobile" class="form-control" placeholder="<?php echo lang('mobile');?>" name="mobile" id="mobile" required>
 					</div>
+					
 					<!--{hook user_create_mobile_after.htm}-->
 					
 					<div class="form-group input-group">
@@ -26,7 +28,19 @@
 						</div>
 						<input type="text" class="form-control" placeholder="<?php echo lang('username');?>" name="username" id="username">
 					</div>
+					
 					<!--{hook user_create_username_after.htm}-->
+					
+					<div class="form-group input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="icon-lock"></i></span>
+						</div>
+						<input type="password" class="form-control" placeholder="<?php echo lang('password');?>" id="password" name="password">
+						<div class="invalid-feedback"></div>
+					</div>
+					
+					<!--{hook user_create_password_after.htm}-->
+					
 					<?php if($kv_mobile['user_create_on']) { ?>
 					<div class="media">
 						<div class="media-body">
@@ -42,19 +56,14 @@
 						</div>
 					</div>
 					<?php } ?>
+					
 					<!--{hook user_create_code_after.htm}-->
 					
 					<hr class="mt-0" />
-					<div class="form-group input-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="icon-lock"></i></span>
-						</div>
-						<input type="password" class="form-control" placeholder="<?php echo lang('password');?>" id="password" name="password">
-						<div class="invalid-feedback"></div>
-					</div>
 					<div class="form-group">
 						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." <?php if($kv_mobile['user_create_on']) { ?>disabled<?php } ?>><?php echo lang('next_step');?></button>
 					</div>
+					
 					<!--{hook user_create_submit_after.htm}-->
 					
 					<div class="media">
@@ -68,6 +77,7 @@
 							<!--{hook user_create_form_footer_right_end.htm}-->
 						</div>
 					</div>
+					
 				</form>
 			</div>
 		</div>

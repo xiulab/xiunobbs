@@ -12,12 +12,14 @@
 			</div>
 			<div class="card-body">
 				<form action="<?php echo url('user-create');?>" method="post" id="form">
+				
 					<div class="form-group input-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="icon-envelope"></i></span>
 						</div>
 						<input type="email" class="form-control" placeholder="<?php echo lang('email');?>" name="email" id="email" required>
 					</div>
+					
 					<!--{hook user_create_email_after.htm}-->
 					
 					<div class="form-group input-group">
@@ -39,6 +41,7 @@
 							</div>
 						</div>
 					</div>
+					
 					<!--{hook user_create_password_after.htm}-->
 					
 					
@@ -77,6 +80,7 @@
 							<!--{hook user_create_form_footer_right_end.htm}-->
 						</div>
 					</div>
+					
 				</form>
 			</div>
 		</div>

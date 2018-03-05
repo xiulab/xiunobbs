@@ -307,34 +307,33 @@ if(empty($action)) {
 	$method != 'POST' AND message(-1, lang('method_error'));
 	
 	// hook user_sendcode_start.php
-		
-	empty($kv_mobile['user_create_on']) AND message(-1, lang('mobile_verify_not_on'));
 	
-	// 手机号
-	$mobile = param('mobile');
-	empty($mobile) AND message('mobile', lang('please_input_mobile'));
-	!is_mobile($mobile, $err) AND message('mobile', $err);
-	
-	// 限定验证码使用范围
+	// 限定验证码使用范围，老手机|新手机
 	$range = param(2);
-	
-	$user = user_read_by_mobile($mobile);
-	if($range == 'create') {
+	if($range == 'new') {
+		// 手机号
+		$mobile = param('mobile');
+		empty($mobile) AND message('mobile', lang('please_input_mobile'));
+		!is_mobile($mobile, $err) AND message('mobile', $err);
+		
+		empty($kv_mobile['user_create_on']) AND message(-1, lang('mobile_verify_not_on'));
+		
+		$user = user_read_by_mobile($mobile);
 		!empty($user) AND message('mobile', lang('mobile_is_in_use'));
-	} elseif($range == 'resetpw') {
-		empty($user) AND message('mobile', lang('mobile_is_not_in_use'));
 	} else {
-		message(-1, 'range error.');
+		empty($kv_mobile['find_pw_on']) AND message(-1, lang('function_not_on'));
+		empty($user) AND message('mobile', lang('mobile_is_not_in_use'));
+		$mobile = $user['mobile'];
 	}
 	
-	$code = rand(100000, 999999);
+	$code = DEBUG ? 123456 : rand(100000, 999999);
 	$_SESSION['mobile'] = $mobile;
 	$_SESSION['code'] = $code;
 	$_SESSION['range'] = $range;
 	
 	//$r = TRUE;
 	// hook user_send_code_before.php
-	$r = sms_send_code($mobile, $code);
+	$r = DEBUG ? TRUE : sms_send_code($mobile, $code);
 	// hook user_send_code_after.php
 	
 	

@@ -1,0 +1,6 @@
+			<br><span class="text-danger"><?php echo lang('mobile');?>：</span><?php echo $user['mobile'];?> 
+			<?php if(empty($user['mobile'])) { ?>
+				<a href="<?php echo url("my-mobile-bind");?>">[绑定手机号]</a>
+			<?php } else { ?>
+				<a href="<?php echo url("my-mobile-change");?>">[更换手机号]</a>
+			<?php } ?>
