@@ -248,7 +248,7 @@ if(empty($action)) {
 		empty($email) AND message('email', lang('please_input_email'));
 		!is_email($email, $err) AND message('email', $err);
 		$_user = user_read_by_email($email);
-		!$_user AND message('email', lang('email_is_in_use'));
+		!$_user AND message('email', lang('email_is_not_in_use'));
 		
 		$verify_code = param('verify_code');
 		empty($verify_code) AND message('verify_code', lang('please_input_verify_code'));
