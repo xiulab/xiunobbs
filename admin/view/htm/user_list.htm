@@ -19,6 +19,7 @@
 			<option value="email"><?php echo lang('email');?>：</option>
 			<option value="gid"><?php echo lang('user_group');?>：</option>
 			<option value="create_ip"><?php echo lang('create_ip');?>：</option>
+			<!--{hook admin_user_list_option_create_ip_after.htm}-->
 		</select>
 	</div>
 	<div class="col-md-3 mb-3">
@@ -39,7 +40,7 @@
 							<tr>
 								<th width="60" class="text-center"><?php echo lang('delete');?></th>
 								<th width="50">ID：</th>
-								<!--<th>手机号</th>-->
+								<!--{hook admin_user_list_id_th_after.htm}-->
 								<th width="150"><?php echo lang('email');?></th>
 								<th width="150"><?php echo lang('username');?></th>
 								<th width="100"><?php echo lang('user_group');?></th>
@@ -53,7 +54,7 @@
 						<tr uid="<?php echo $_user['uid']; ?>">
 							<td class="text-center"><input type="checkbox" name="delete" /></td>
 							<td><?php echo $_user['uid']; ?></td>
-							<!--<td><?php echo $_user['mobile']; ?></td>-->
+							<!--{hook admin_user_list_id_td_after.htm}-->
 							<td><?php echo $_user['email']; ?></td>
 							<td><?php echo $_user['username']; ?></td>
 							<td><?php echo $_user['groupname']; ?></td>
@@ -85,7 +86,6 @@ var jsearch = $("#search");
 var jsrchtype = $("#srchtype");
 var jkeyword = $('#keyword');
 var juserlist = $('#userlist');
-
 jsrchtype.val(jsrchtype.attr('value'));
 
 jcreate.on('click', function(event) {

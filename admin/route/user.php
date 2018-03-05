@@ -19,11 +19,16 @@ if(empty($action) || $action == 'list') {
 	// hook admin_user_list_start.php
 	
 	$cond = array();
+	$allowtype = array('uid', 'username', 'email', 'gid', 'create_ip');
+	
+	// hook admin_user_list_allow_type_after.php
+	
 	if($keyword) {
-		!in_array($srchtype, array('uid', 'username', 'email', 'gid', 'create_ip')) AND $srchtype = 'uid';
+		!in_array($srchtype, $allowtype) AND $srchtype = 'uid';
 		$cond[$srchtype] = $srchtype == 'create_ip' ? ip2long($keyword) : $keyword; 
 	}
 
+	// hook admin_user_list_cond_after.php
 	$n = user_count($cond);
 	$userlist = user_find($cond, array('uid'=>-1), $page, $pagesize);
 	$pagination = pagination(url("user-list-$srchtype-".urlencode($keyword).'-{page}'), $n, $page, $pagesize);
@@ -152,6 +157,8 @@ if(empty($action) || $action == 'list') {
 			$arr['password'] = md5(md5($password).$salt);
 			$arr['salt'] = $salt;
 		}
+		
+		// hook admin_user_update_post_exec_before.php
 		
 		// 仅仅更新发生变化的部分 / only update changed field
 		$update = array_diff_value($arr, $old);
