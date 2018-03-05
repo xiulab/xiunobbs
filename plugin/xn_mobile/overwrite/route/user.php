@@ -259,39 +259,7 @@ if(empty($action)) {
 		
 		message(0, lang('check_ok_to_next_step'));
 	}
-/*
-// 重设密码第 2 步 | reset password step 2
-} elseif($action == 'resetpw_sendcode') {
-	
-	$method != 'POST' AND message(-1, lang('method_error'));
-	
-	// hook user_sendreset_start.php
-	
-	empty($kv_mobile['user_create_on']) AND message(-1, lang('mobile_verify_not_on'));
-	
-	$mobile = param('mobile');
-	empty($mobile) AND message('mobile', lang('mobile_is_empty'));
-	
-	!is_mobile($mobile, $err) AND message('mobile', $err);
-	
-	$r = user_read_by_mobile($mobile);
-	!$r AND message('mobile', lang('mobile_is_not_in_use'));
-	
-	// 发送短信 | send mail
-	$code = rand(100000, 999999);
-	$_SESSION['resetpw_mobile'] = $mobile;
-	$_SESSION['resetpw_code'] = $code;
-	
-	// hook user_sendreset_send_code_before.php
-	$r = sms_send_code($mobile, $code);
-	// hook user_sendreset_send_code_after.php
-	
-	if($r === TRUE) {
-		message(0, lang('send_successfully'));
-	} else {
-		message(-1, lang('send_failed'));
-	}
-*/
+
 
 // 重设密码第 3 步 | reset password step 3
 } elseif($action == 'resetpw_complete') {
@@ -365,9 +333,9 @@ if(empty($action)) {
 	$_SESSION['range'] = $range;
 	
 	//$r = TRUE;
-	// hook user_send_sms_code_before.php
+	// hook user_send_code_before.php
 	$r = sms_send_code($mobile, $code);
-	// hook user_send_sms_code_after.php
+	// hook user_send_code_after.php
 	
 	
 	if($r === TRUE) {

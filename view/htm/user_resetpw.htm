@@ -26,7 +26,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text"><i class="icon-key"></i></span>
 								</div>
-								<input type="text" class="form-control" placeholder="<?php echo lang('verify_code');?>" name="verify_code" id="verify_code">
+								<input type="text" class="form-control" placeholder="<?php echo lang('verify_code');?>" name="code" id="code">
 							</div>
 						</div>
 						<div class="ml-1 mt-1">
@@ -55,7 +55,7 @@ jsend.on('click', function() {
 	$.xpost(jsend.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
 			$.alert(message);
-			$('#verify_code').focus();
+			$('#code').focus();
 			var t = 60; // 倒计时
 			jsend.button('<?php echo lang('user_send_sucessfully');?> 60 ');
 			jsubmit.button('reset');
