@@ -27,28 +27,35 @@
 						<input type="text" class="form-control" placeholder="<?php echo lang('username');?>" name="username" id="username">
 					</div>
 					<!--{hook user_create_username_after.htm}-->
-					
+					<?php if($kv_mobile['user_create_on']) { ?>
 					<div class="media">
 						<div class="media-body">
 							<div class="form-group input-group">
 								<div class="input-group-prepend">
-									<span class="input-group-text"><i class="icon-lock"></i></span>
+									<span class="input-group-text"><i class="icon-barcode"></i></span>
 								</div>
-								<input type="password" class="form-control" placeholder="<?php echo lang('init_pw');?>" name="password" id="password">
+								<input type="text" class="form-control" placeholder="<?php echo lang('verify_code');?>" name="code" id="code">
 							</div>
 						</div>
 						<div class="align-self-center ml-1">
-							<?php if($conf['user_create_mobile_on']) { ?>
-							<button type="submit" class="btn btn-primary btn-sm ml-3" id="sendinitpw" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-sendinitpw');?>"><?php echo lang('get_init_pw');?></button>
-							<?php } else { ?>
-							<small><?php echo lang('send_init_pw_tips');?></small>
-							<?php } ?>
+							
+							<button type="submit" class="btn btn-primary btn-sm ml-3 form-group" id="sendcode" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-sendcode-create');?>"><?php echo lang('send_code');?></button>
+							
 						</div>
 					</div>
-					<!--{hook user_create_password_after.htm}-->
+					<?php } ?>
+					<!--{hook user_create_code_after.htm}-->
 					
+					<hr class="mt-0" />
+					<div class="form-group input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="icon-lock"></i></span>
+						</div>
+						<input type="password" class="form-control" placeholder="<?php echo lang('password');?>" id="password" name="password">
+						<div class="invalid-feedback"></div>
+					</div>
 					<div class="form-group">
-						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." <?php if($conf['user_create_mobile_on']) { ?>disabled<?php } ?>><?php echo lang('next_step');?></button>
+						<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..." <?php if($kv_mobile['user_create_on']) { ?>disabled<?php } ?>><?php echo lang('next_step');?></button>
 					</div>
 					<!--{hook user_create_submit_after.htm}-->
 					
@@ -79,7 +86,7 @@
 <script>
 var jform = $('#form');
 var jsubmit = $('#submit');
-var jsendsubmit = $('#sendinitpw');
+var jsendsubmit = $('#sendcode');
 var referer = '<?php echo http_referer();?>';
 jsendsubmit.on('click', function() {
 	jform.reset();
@@ -87,7 +94,7 @@ jsendsubmit.on('click', function() {
 	var postdata = jform.serialize();
 	$.xpost(jsendsubmit.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
-			$('#password').focus();
+			$('#code').focus();
 			var t = 60; // 倒计时
 			jsendsubmit.button('<?php echo lang('user_send_sucessfully');?> 60 ');
 			jsubmit.button('reset');

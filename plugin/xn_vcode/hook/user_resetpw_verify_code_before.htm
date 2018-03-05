@@ -1,4 +1,7 @@
-<?php if(!empty($setting['vcode_user_login_on']) || DEBUG) { ?>
+<?php
+$kv_vcode = kv_get('vcode');
+if(!empty($kv_vcode['vcode_user_login_on'])) {
+?>
 	<div class="media">
 		<div class="media-body">
 			<div class="form-group input-group">

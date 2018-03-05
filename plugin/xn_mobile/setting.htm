@@ -4,59 +4,103 @@
 	<div class="col-lg-10 mx-auto">
 		<div class="card">
 			<div class="card-body">
-				<form action="<?php echo url("plugin-setting-xn_qq_login");?>" method="post" id="form">
+				<form action="<?php echo url("plugin-setting-xn_mobile");?>" method="post" id="form">
 					<h4 class="card-title">设置</h4>
 					<div class="form-group row">
-						<label class="col-sm-2 form-control-label">是否开启手机找回密码：</label>
-						<div class="col-sm-10">
-							<?php echo $input['mobile_find_pw_on']; ?>
+						<label class="col-4 form-control-label">是否开启手机注册：</label>
+						<div class="col-8">
+							<?php echo $input['user_create_on']; ?>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 form-control-label">登陆方式：</label>
-						<div class="col-sm-10">
-							<select name="mobile_login_type">
-								<option value="1">手机 / Email / 用户名</option>
-								<option value="2">手机 / Email</option>
-								<option value="3">手机 / 用户名</option>
-								<option value="4">手机</option>
+						<label class="col-4 form-control-label">是否开启手机找回密码：</label>
+						<div class="col-8">
+							<?php echo $input['find_pw_on']; ?>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-4 form-control-label">登陆方式：</label>
+						<div class="col-8">
+							<select name="login_type" class="custom-select">
+								<option value="1"><?php echo lang('login_type_1');?></option>
+								<option value="2"><?php echo lang('login_type_2');?></option>
+								<option value="3"><?php echo lang('login_type_3');?></option>
+								<option value="4"><?php echo lang('login_type_4');?></option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 form-control-label">个人中心绑定手机号：</label>
-						<div class="col-sm-10">
-							<?php echo $input['mobile_bind_on']; ?>
+						<label class="col-4 form-control-label">开启绑定手机号：</label>
+						<div class="col-8">
+							<?php echo $input['bind_on']; ?>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 form-control-label">强制用户绑定手机才能发帖：</label>
-						<div class="col-sm-10">
-							<?php echo $input['mobile_post_must_bind']; ?>
+						<label class="col-4 form-control-label">强制绑定手机才能发帖：</label>
+						<div class="col-8">
+							<?php echo $input['force_bind_on']; ?>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 form-control-label">发送短信的平台：</label>
-						<div class="col-sm-10">
-							<?php echo $input['mobile_post_must_bind']; ?>
+						<label class="col-4 form-control-label">发送短信的平台：</label>
+						<div class="col-8">
+							<select name="send_plat" class="custom-select">
+								<option value=""></option>
+								<option value="tencent">腾讯云短信平台</option>
+								<option value="aliyun">阿里云短信平台</option>
+							</select>
+						</div>
+					</div>
+					<div id="tencent" class="d-none send_plat_div">
+						<div class="form-group row">
+							<label class="col-4 form-control-label">腾讯短信 APPID：</label>
+							<div class="col-8">
+								<?php echo $input['tencent_appid']; ?>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-4 form-control-label">腾讯短信 APPKEY：</label>
+							<div class="col-8">
+								<?php echo $input['tencent_appkey']; ?>
+							</div>
+						</div>
+						<div class="form-group row d-none">
+							<label class="col-4 form-control-label">腾讯短信签名：</label>
+							<div class="col-8">
+								<?php echo $input['tencent_sign']; ?>
+							</div>
+						</div>
+					</div>
+					<div id="aliyun" class="d-none send_plat_div">
+						<div class="form-group row">
+							<label class="col-4 form-control-label">阿里云短信 APPID：</label>
+							<div class="col-8">
+								<?php echo $input['aliyun_appid']; ?>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-4 form-control-label">阿里云短信 APPKEY：</label>
+							<div class="col-8">
+								<?php echo $input['aliyun_appkey']; ?>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-4 form-control-label">阿里云短信签名：</label>
+							<div class="col-8">
+								<?php echo $input['aliyun_sign']; ?>
+							</div>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 form-control-label">账号：</label>
-						<div class="col-sm-10">
-							<?php echo $input['mobile_post_must_bind']; ?>
-						</div>
-					</div>
-					<div class="form-group row">
-						<label class="col-sm-2 form-control-label"></label>
-						<div class="col-sm-10">
+						<label class="col-4 form-control-label"></label>
+						<div class="col-8">
 							<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
 							<a role="button" class="btn btn-secondary btn-block mt-3" href="javascript:history.back();"><?php echo lang('back');?></a>
 						</div>
 					</div>
 				</form>
-				<p class="my-3 small">注：申请地址：<a href="https://buy.cloud.tencent.com/sms" target="_blank">https://buy.cloud.tencent.com/sms</a></p>
-				<p class="my-3 small">注：QQ 回调地址：<?php $path = http_url_path(); echo substr($path, 0, strrpos(substr($path, 0, -1), '/'));?>/qq_login-return.htm (填入到 QQ 开发平台)，注意必须开启 <a href="https://bbs.xiuno.com/thread-2.htm" target="_blank">URL-Rewrite</a>。</p>
+				<p class="my-3 small">注：腾讯申请地址：<a href="https://buy.cloud.tencent.com/sms" target="_blank">https://buy.cloud.tencent.com/sms</a></p>
+				<p class="my-3 small">注：阿里云申请地址：<a href="https://www.aliyun.com/product/sms" target="_blank">https://www.aliyun.com/product/sms</a></p>
 			</div>
 		</div>
 	</div>
@@ -75,7 +119,7 @@ jform.on('submit', function(){
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
 			$.alert(message);
-			jsubmit.text(message).delay(2000).button('reset').location(referer);
+			jsubmit.text(message).delay(2000).button('reset').location();
 			return;
 		} else {
 			$.alert(message);
@@ -83,5 +127,19 @@ jform.on('submit', function(){
 		}
 	});
 	return false;
+});
+
+jform.find('select[name="login_type"]').val('<?php echo $kv['login_type'];?>');
+
+
+var jsend_plat = jform.find('select[name="send_plat"]');
+jsend_plat.val('<?php echo $kv['send_plat'];?>');
+$('#<?php echo $kv['send_plat'];?>').removeClass('d-none');
+jsend_plat.on('change', function() {
+	var jthis = $(this);
+	var v = jthis.val();
+	if(!v) return;
+	$('div.send_plat_div').addClass('d-none');
+	$('#'+v).removeClass('d-none');
 });
 </script>

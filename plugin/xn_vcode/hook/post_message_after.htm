@@ -1,4 +1,7 @@
-<?php if(!empty($setting['vcode_user_login_on']) || DEBUG) { ?>
+<?php 
+$kv_vcode_ = kv_get('vcode');
+if(!empty($kv_vcode['vcode_thread_create_on']) && $action == 'thread') {
+?>
 	<div class="media">
 		<div class="media-body col-lg-3 p-0">
 			<div class="form-group input-group">

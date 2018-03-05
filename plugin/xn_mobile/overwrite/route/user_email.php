@@ -2,17 +2,13 @@
 
 !defined('DEBUG') AND exit('Access Denied.');
 
-include APP_PATH.'plugin/xn_mobile/model/sms.func.php';
+include _include(XIUNOPHP_PATH.'xn_send_mail.func.php');
 
 $action = param(1);
 
 is_numeric($action) AND $action = '';
 
 // hook user_start.php
-	
-$kv_mobile = kv_get('mobile_setting');
-$login_type = $kv_mobile['login_type'];
-
 
 if(empty($action)) {
 
@@ -56,7 +52,7 @@ if(empty($action)) {
 } elseif($action == 'login') {
 
 	// hook user_login_get_post.php
-
+	
 	if($method == 'GET') {
 
 		// hook user_login_get_start.php
@@ -72,23 +68,18 @@ if(empty($action)) {
 	} else if($method == 'POST') {
 
 		// hook user_login_post_start.php
-
-		$mobile = param('mobile');			// 邮箱或者手机号 / email or mobile
-		empty($mobile) AND message('mobile', lang('please_input').lang('login_type_'.$login_type));
-		if(is_mobile($mobile, $err)) {
-			 $_user = user_read_by_mobile($mobile);
-			 empty($_user) AND message('mobile', lang('mobile_not_exists'));
-		} elseif(is_email($mobile, $err)) {
-			($login_type != 1 && $login_type != 2) AND message('mobile', lang('not_allow_login_by_email'));
-			$_user = user_read_by_email($mobile);
-			 empty($_user) AND message('mobile', lang('email_not_exists'));
-		} else {
-			($login_type != 1 && $login_type != 3) AND message('mobile', lang('not_allow_login_by_username'));
-			$_user = user_read_by_username($mobile);
-			 empty($_user) AND message('mobile', lang('username_not_exists'));
-		}
 		
+		$email = param('email');			// 邮箱或者手机号 / email or mobile
 		$password = param('password');
+		empty($email) AND message('email', lang('email_is_empty'));
+		if(is_email($email, $err)) {
+			$_user = user_read_by_email($email);
+			empty($_user) AND message('email', lang('email_not_exists'));
+		} else {
+			$_user = user_read_by_username($email);
+			empty($_user) AND message('email', lang('username_not_exists'));
+		}
+
 		!is_password($password, $err) AND message('password', $err);
 		md5($password.$_user['salt']) != $_user['password'] AND message('password', lang('password_incorrect'));
 
@@ -131,45 +122,35 @@ if(empty($action)) {
 				
 		// hook user_create_post_start.php
 		
-		$sess_range = _SESSION('range');
-		$sess_range != 'create' AND message(-1, '验证码使用超出限定范围');
-		
-		$mobile = param('mobile');
+		$email = param('email');
 		$username = param('username');
 		$password = param('password');
-		$code = param('code');
-		empty($mobile) AND message('mobile', lang('please_input_mobile'));
+		empty($email) AND message('email', lang('please_input_email'));
 		empty($username) AND message('username', lang('please_input_username'));
 		empty($password) AND message('password', lang('please_input_password'));
 		
-		if($kv_mobile['user_create_on']) {
-			$mobile != _SESSION('mobile') AND message('mobile', lang('click_to_send_code'));
-			$code != _SESSION('code') AND message('code', lang('click_to_send_code'));
+		
+		if($conf['user_create_email_on']) {
+			$email != _SESSION('create_email') AND message('sendinitpw', lang('click_to_get_init_pw'));
+			$password != md5(_SESSION('create_pw')) AND message('password', lang('init_pw_incorrect'));
 		}
 		
-		// 手机是否注册
-		!is_mobile($mobile, $err) AND message('mobile', $err);
-		$_user = user_read_by_mobile($mobile);
-		$_user AND message('mobile', lang('mobile_is_in_use'));
+		!is_email($email, $err) AND message('email', $err);
+		$_user = user_read_by_email($email);
+		$_user AND message('email', lang('email_is_in_use'));
 		
-		// 用户名是否注册
 		!is_username($username, $err) AND message('username', $err);
 		$_user = user_read_by_username($username);
 		$_user AND message('username', lang('username_is_in_use'));
 		
-		// 密码长度是否正确
 		!is_password($password, $err) AND message('password', $err);
 		
 		$salt = xn_rand(16);
-		$randuid = xn_rand(8);
 		$pwd = md5($password.$salt);
 		$gid = 101;
-		$hostname = _SERVER('HTTP_HOST');
-		$email = "$randuid@$hostname";
 		$_user = array (
 			'username' => $username,
 			'email' => $email,
-			'mobile' => $mobile,
 			'password' => $pwd,
 			'salt' => $salt,
 			'gid' => $gid,
@@ -180,15 +161,13 @@ if(empty($action)) {
 			'login_ip' => $longip,
 		);
 		$uid = user_create($_user);
-		$uid === FALSE AND message('mobile', lang('user_create_failed'));
-		$_user = user_read($uid);
-		user_update($uid, array('email'=>$uid.'@'.$hostname));
+		$uid === FALSE AND message('email', lang('user_create_failed'));
+		$user = user_read($uid);
 	
 		// 更新 session
 		
-		unset($_SESSION['mobile']);
-		unset($_SESSION['code']);
-		unset($_SESSION['range']);
+		unset($_SESSION['create_email']);
+		unset($_SESSION['create_pw']);
 		$_SESSION['uid'] = $uid;
 		user_token_set($uid);
 		
@@ -199,6 +178,40 @@ if(empty($action)) {
 		message(0, lang('user_create_sucessfully'), $extra);
 	}
 
+} elseif($action == 'sendinitpw') {
+	
+	// hook user_sendinitpw_start.php
+	 
+	empty($conf['user_create_email_on']) AND message(-1, lang('email_verify_not_on'));
+	
+	$smtplist = include _include(APP_PATH.'conf/smtp.conf.php');
+	$n = array_rand($smtplist);
+	$smtp = $smtplist[$n];
+		
+	$email = param('email');
+	!is_email($email, $err) AND message('email', $err);
+	$r = user_read_by_email($email);
+	$r AND message('email', lang('email_is_in_use'));
+	
+	$rand = rand(100000, 999999);
+	
+	$_SESSION['create_email'] = $email;
+	$_SESSION['create_pw'] = $rand;
+	
+	$subject = lang('email_create_init_pw_template', array('rand'=>$rand, 'sitename'=>$conf['sitename']));
+	$message = $subject;
+	
+	// hook user_sendinitpw_sendmail_before.php
+	$r = xn_send_mail($smtp, $conf['sitename'], $email, $subject, $message);
+	// hook user_sendinitpw_sendmail_after.php
+	
+	if($r === TRUE) {
+		message(0, lang('user_send_init_pw_sucessfully'));
+	} else {
+		xn_log($errstr, 'send_mail_error');
+		message(-1, $errstr);
+	}
+	
 } elseif($action == 'logout') {
 	
 	// hook user_logout_start.php
@@ -231,26 +244,30 @@ if(empty($action)) {
 		
 		// hook user_resetpw_post_start.php
 		
-		$mobile = param('mobile');
-		empty($mobile) AND message('mobile', lang('please_input_mobile'));
-		!is_mobile($mobile, $err) AND message('mobile', $err);
+		$email = param('email');
+		empty($email) AND message('email', lang('please_input_email'));
+		!is_email($email, $err) AND message('email', $err);
+		$_user = user_read_by_email($email);
+		!$_user AND message('email', lang('email_is_not_in_use'));
 		
-		$_user = user_read_by_mobile($mobile);
-		!$_user AND message('mobile', lang('mobile_is_in_use'));
+		$verify_code = param('verify_code');
+		empty($verify_code) AND message('verify_code', lang('please_input_verify_code'));
 		
-		$code = param('code');
-		empty($code) AND message('code', lang('please_input_verify_code'));
+		$resetpw_email = _SESSION('resetpw_email');
+		$resetpw_verify_code = _SESSION('resetpw_verify_code');
+		(!$resetpw_email || !$resetpw_verify_code) AND message('verify_code', lang('click_to_get_verify_code'));
 		
-		$sess_mobile = _SESSION('mobile');
-		$sess_code = _SESSION('code');
-		$sess_range = _SESSION('range');
-		
-		$sess_range != 'resetpw' AND message(-1, '验证码使用超出限定范围');
-		(!$sess_mobile || !$sess_code) AND message('code', lang('click_to_get_verify_code'));
-		
-		if($sess_code != $code) {
-			//message('code', lang('verify_code_try_too_frequently', $times));
-			message('code', lang('verify_code_incorrect'));
+		$resetpw_verify_times = intval(_SESSION('resetpw_verify_times'));
+		$resetpw_verify_lastdate = intval(_SESSION('resetpw_verify_lastdate'));
+		$times = 10;
+		if($resetpw_verify_times > $times && $time - $resetpw_verify_lastdate < 3600) {
+			message('verify_code', lang('verify_code_try_too_frequently', $times));
+		}
+		if($resetpw_verify_code != $verify_code) {
+			$resetpw_verify_times++;
+			$_SESSION['resetpw_verify_times'] = $resetpw_verify_times;
+			$resetpw_verify_lastdate && $time - $resetpw_verify_lastdate > 3600 && $_SESSION['resetpw_verify_lastdate'] = $time;
+			message('verify_code', lang('verify_code_incorrect'));
 		} else {
 			$_SESSION['resetpw_verify_ok'] = 1;
 		}
@@ -259,63 +276,65 @@ if(empty($action)) {
 		
 		message(0, lang('check_ok_to_next_step'));
 	}
-/*
+
 // 重设密码第 2 步 | reset password step 2
 } elseif($action == 'resetpw_sendcode') {
 	
-	$method != 'POST' AND message(-1, lang('method_error'));
-	
 	// hook user_sendreset_start.php
 	
-	empty($kv_mobile['user_create_on']) AND message(-1, lang('mobile_verify_not_on'));
+	!$conf['user_resetpw_on'] AND message(-1, lang('reset_pw_not_on'));
+	$method != 'POST' AND message(-1, lang('method_error'));
+	$email = param('email');
+	empty($email) AND message('email', lang('email_is_empty'));
+	!is_email($email, $err) AND message('email', $err);
+	$r = user_read_by_email($email);
+	!$r AND message('email', lang('email_is_not_in_use'));
 	
-	$mobile = param('mobile');
-	empty($mobile) AND message('mobile', lang('mobile_is_empty'));
-	
-	!is_mobile($mobile, $err) AND message('mobile', $err);
-	
-	$r = user_read_by_mobile($mobile);
-	!$r AND message('mobile', lang('mobile_is_not_in_use'));
-	
-	// 发送短信 | send mail
-	$code = rand(100000, 999999);
-	$_SESSION['resetpw_mobile'] = $mobile;
-	$_SESSION['resetpw_code'] = $code;
-	
-	// hook user_sendreset_send_code_before.php
-	$r = sms_send_code($mobile, $code);
-	// hook user_sendreset_send_code_after.php
-	
+	// 发送邮件 | send mail
+	$smtplist = include _include(APP_PATH.'conf/smtp.conf.php');
+	$n = array_rand($smtplist);
+	$smtp = $smtplist[$n];
+	$rand = rand(100000, 999999);
+	$_SESSION['resetpw_email'] = $email;
+	$_SESSION['resetpw_verify_code'] = $rand;
+	$subject = lang('reset_pw_email_template', array('rand'=>$rand, 'sitename'=>$conf['sitename']));
+	$message = $subject;
+	// hook user_sendreset_send_mail_before.php
+	$r = xn_send_mail($smtp, $conf['sitename'], $email, $subject, $message);
+	// hook user_sendreset_send_mail_after.php
 	if($r === TRUE) {
 		message(0, lang('send_successfully'));
 	} else {
-		message(-1, lang('send_failed'));
+		xn_log($errstr, 'send_mail_error');
+		message(-1, $errstr);
 	}
-*/
-
+	
 // 重设密码第 3 步 | reset password step 3
 } elseif($action == 'resetpw_complete') {
 	
 	// hook user_resetpw_get_post.php
 	
 	// 校验数据
-	$mobile = _SESSION('mobile');
+	$email = _SESSION('resetpw_email');
 	$resetpw_verify_ok = _SESSION('resetpw_verify_ok');
-	(empty($mobile) || empty($resetpw_verify_ok)) AND message(-1, lang('data_empty_to_last_step'));
+	(empty($email) || empty($resetpw_verify_ok)) AND message(-1, lang('data_empty_to_last_step'));
 	
-	$_user = user_read_by_mobile($mobile);
-	empty($_user) AND message(-1, lang('mobile_not_exists'));
+	$_user = user_read_by_email($email);
+	empty($_user) AND message(-1, lang('email_not_exists'));
 	$_uid = $_user['uid'];
 	
 	if($method == 'GET') {
+
 		// hook user_resetpw_get_start.php
 		
 		$header['title'] = lang('reset_pw');
 		
 		// hook user_resetpw_get_end.php
+		
 		include _include(APP_PATH.'view/htm/user_resetpw_complete.htm');
 
 	} else if($method == 'POST') {
+		
 		// hook user_resetpw_post_start.php
 		
 		$password = param('password');
@@ -326,54 +345,17 @@ if(empty($action)) {
 		user_update($_uid, array('password'=>$password));
 		
 		!is_password($password, $err) AND message('password', $err);
-
+		
+		unset($_SESSION['resetpw_email']);
+		unset($_SESSION['resetpw_verify_code']);
+		unset($_SESSION['resetpw_verify_times']);
+		unset($_SESSION['resetpw_verify_lastdate']);
 		unset($_SESSION['resetpw_verify_ok']);
 		
 		// hook user_resetpw_post_end.php
-		message(0, lang('modify_successfully'));
-	}
-
-// 发送验证码
-} elseif($action == 'sendcode') {
-	
-	$method != 'POST' AND message(-1, lang('method_error'));
-	
-	// hook user_sendcode_start.php
 		
-	empty($kv_mobile['user_create_on']) AND message(-1, lang('mobile_verify_not_on'));
-	
-	// 手机号
-	$mobile = param('mobile');
-	empty($mobile) AND message('mobile', lang('please_input_mobile'));
-	!is_mobile($mobile, $err) AND message('mobile', $err);
-	
-	// 限定验证码使用范围
-	$range = param(2);
-	
-	$user = user_read_by_mobile($mobile);
-	if($range == 'create') {
-		!empty($user) AND message('mobile', lang('mobile_is_in_use'));
-	} elseif($range == 'resetpw') {
-		empty($user) AND message('mobile', lang('mobile_is_not_in_use'));
-	} else {
-		message(-1, 'range error.');
-	}
-	
-	$code = rand(100000, 999999);
-	$_SESSION['mobile'] = $mobile;
-	$_SESSION['code'] = $code;
-	$_SESSION['range'] = $range;
-	
-	//$r = TRUE;
-	// hook user_send_sms_code_before.php
-	$r = sms_send_code($mobile, $code);
-	// hook user_send_sms_code_after.php
-	
-	
-	if($r === TRUE) {
-		message(0, lang('user_send_code_sucessfully'));
-	} else {
-		message(-1, lang('user_send_code_failed'));
+		message(0, lang('modify_successfully'));
+		
 	}
 
 // 简单的同步登陆实现：| sync login implement simply

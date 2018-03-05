@@ -11,6 +11,7 @@ if($method == 'GET') {
 	
 	$kv = kv_get('vcode');
 	
+	
 	$input = array();
 	$input['vcode_user_login_on'] = form_radio_yes_no('vcode_user_login_on', $kv['vcode_user_login_on']);
 	$input['vcode_user_create_on'] = form_radio_yes_no('vcode_user_create_on', $kv['vcode_user_create_on']);

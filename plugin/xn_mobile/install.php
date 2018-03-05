@@ -1,23 +1,28 @@
 <?php
 
-/*
-	Xiuno BBS 4.0 插件实例：QQ 登陆安装
-	admin/plugin-install-xn_friendlink.htm
-*/
-
 !defined('DEBUG') AND exit('Forbidden');
 
 $tablepre = $db->tablepre;
 $sql = "ALTER TABLE ADD INDEX {$tablepre}user mobile(mobile)";
 
 $r = db_exec($sql);
-$r === FALSE AND message(-1, '创建表结构失败'); // 中断，安装失败。
 
-// 初始化
-$kv = kv_get('mobile');
+$kv = kv_get('mobile_setting');
 if(!$kv) {
-	$kv = array('meta'=>'', 'appid'=>'', 'appkey'=>'');
-	kv_set('qq_login', $kv);
+	
+	$kv = array();
+	$kv['login_type'] = 0;
+	$kv['find_pw_on'] = 0;
+	$kv['create_user_on'] = 0;
+	$kv['bind_on'] = 0;
+	$kv['force_bind_on'] = 0;
+	$kv['send_plat'] = 0;
+	$kv['tencent_appid'] = '';
+	$kv['tencent_appkey'] = '';
+	$kv['aliyun_appid'] = '';
+	$kv['aliyun_appkey'] = '';
+	
+	kv_set('mobile_setting', $kv);
 }
 
 ?>

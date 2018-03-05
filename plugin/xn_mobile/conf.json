@@ -2,9 +2,9 @@
     "name": "手机注册 / Mobile Account",
     "brief": "通过手机短信登陆、注册、找回密码。",
     "version": "2.0",
-    "bbs_version": "4.0",
-    "installed": 0,
-    "enable": 0,
+    "bbs_version": "4.0.2",
+    "installed": 1,
+    "enable": 1,
     "hooks_rank": [],
     "overwrites_rank": [],
     "dependencies": []

@@ -1,15 +1,12 @@
 <?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
 
 <div class="row">
-	<div class="col-lg-8 mx-auto">
+	<div class="col-lg-6 mx-auto">
 		<div class="card">
 			<div class="card-header"><?php echo lang('user_resetpw');?></div>
 			<!--{hook user_create_card_title.htm}-->
 			<div class="card-body">
 				<form action="<?php echo url('user-resetpw_complete');?>" method="post" id="form">
-				
-						
-						
 					<div class="form-group input-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="icon-mobile"></i></span>
@@ -48,10 +45,18 @@ var jpassword2 = $('#password2');
 jform.on('submit', function() {
 	jform.reset();
 	jsubmit.button('loading');
-	
+
+	if(!jpassword.val()) {
+		jpassword.focus();
+		$.alert('请输入密码！');
+		jsubmit.button('reset');
+		return false;
+	}
 	if(jpassword.val() != jpassword2.val()) {
 		jpassword2.focus();
-		return $.alert('两次密码输入不一致');
+		$.alert('两次密码输入不一致');
+		jsubmit.button('reset');
+		return false;
 	}
 	
 	var postdata = jform.serializeObject();
