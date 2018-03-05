@@ -58,7 +58,8 @@ function cron_run($force = 0) {
 			runtime_set('cron_2_last_date', $today, TRUE);		// 加到1天后
 			
 			// 往前推8个小时，尽量保证在前一天
-			table_day_cron($time - 8 * 3600);
+			// 如果是升级过来和采集的数据，这里会很卡。
+			// table_day_cron($time - 8 * 3600);
 			
 			// hook model_cron_daily_end.php
 			
