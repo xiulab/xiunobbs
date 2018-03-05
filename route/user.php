@@ -125,14 +125,15 @@ if(empty($action)) {
 		$email = param('email');
 		$username = param('username');
 		$password = param('password');
+		$code = param('code');
 		empty($email) AND message('email', lang('please_input_email'));
 		empty($username) AND message('username', lang('please_input_username'));
 		empty($password) AND message('password', lang('please_input_password'));
 		
 		
 		if($conf['user_create_email_on']) {
-			$email != _SESSION('create_email') AND message('sendinitpw', lang('click_to_get_init_pw'));
-			$password != md5(_SESSION('create_pw')) AND message('password', lang('init_pw_incorrect'));
+			$email != _SESSION('email') AND message('sendinitpw', lang('click_to_get_init_pw'));
+			$code != _SESSION('code') AND message('code', lang('click_to_send_code'));
 		}
 		
 		!is_email($email, $err) AND message('email', $err);
@@ -166,8 +167,9 @@ if(empty($action)) {
 	
 		// 更新 session
 		
-		unset($_SESSION['create_email']);
-		unset($_SESSION['create_pw']);
+		unset($_SESSION['email']);
+		unset($_SESSION['code']);
+		unset($_SESSION['range']);
 		$_SESSION['uid'] = $uid;
 		user_token_set($uid);
 		
@@ -178,6 +180,7 @@ if(empty($action)) {
 		message(0, lang('user_create_sucessfully'), $extra);
 	}
 
+/*
 } elseif($action == 'sendinitpw') {
 	
 	// hook user_sendinitpw_start.php
@@ -211,6 +214,7 @@ if(empty($action)) {
 		xn_log($errstr, 'send_mail_error');
 		message(-1, $errstr);
 	}
+*/
 	
 } elseif($action == 'logout') {
 	
@@ -249,7 +253,27 @@ if(empty($action)) {
 		!is_email($email, $err) AND message('email', $err);
 		$_user = user_read_by_email($email);
 		!$_user AND message('email', lang('email_is_not_in_use'));
+
+
+		$code = param('code');
+		empty($code) AND message('code', lang('please_input_verify_code'));
 		
+		$sess_email = _SESSION('email');
+		$sess_code = _SESSION('code');
+		$sess_range = _SESSION('range');
+		
+		$sess_range != 'resetpw' AND message(-1, '验证码使用超出限定范围');
+		(!$sess_email || !$sess_code) AND message('code', lang('click_to_get_verify_code'));
+		
+		if($sess_code != $code) {
+			//message('code', lang('verify_code_try_too_frequently', $times));
+			message('code', lang('verify_code_incorrect'));
+		} else {
+			$_SESSION['resetpw_verify_ok'] = 1;
+		}
+
+		
+		/*
 		$verify_code = param('verify_code');
 		empty($verify_code) AND message('verify_code', lang('please_input_verify_code'));
 		
@@ -271,12 +295,13 @@ if(empty($action)) {
 		} else {
 			$_SESSION['resetpw_verify_ok'] = 1;
 		}
+		*/
 		
 		// hook user_resetpw_post_end.php
 		
 		message(0, lang('check_ok_to_next_step'));
 	}
-
+/*
 // 重设密码第 2 步 | reset password step 2
 } elseif($action == 'resetpw_sendcode') {
 	
@@ -308,7 +333,7 @@ if(empty($action)) {
 		xn_log($errstr, 'send_mail_error');
 		message(-1, $errstr);
 	}
-	
+*/	
 // 重设密码第 3 步 | reset password step 3
 } elseif($action == 'resetpw_complete') {
 	
@@ -356,6 +381,49 @@ if(empty($action)) {
 		
 		message(0, lang('modify_successfully'));
 		
+	}
+
+// 发送验证码
+} elseif($action == 'sendcode') {
+	
+	$method != 'POST' AND message(-1, lang('method_error'));
+	
+	// hook user_sendcode_start.php
+		
+	empty($kv_mobile['user_create_on']) AND message(-1, lang('mobile_verify_not_on'));
+	
+	// 手机号
+	$mobile = param('mobile');
+	empty($mobile) AND message('mobile', lang('please_input_mobile'));
+	!is_mobile($mobile, $err) AND message('mobile', $err);
+	
+	// 限定验证码使用范围
+	$range = param(2);
+	
+	$user = user_read_by_mobile($mobile);
+	if($range == 'create') {
+		!empty($user) AND message('mobile', lang('mobile_is_in_use'));
+	} elseif($range == 'resetpw') {
+		empty($user) AND message('mobile', lang('mobile_is_not_in_use'));
+	} else {
+		message(-1, 'range error.');
+	}
+	
+	$code = rand(100000, 999999);
+	$_SESSION['mobile'] = $mobile;
+	$_SESSION['code'] = $code;
+	$_SESSION['range'] = $range;
+	
+	//$r = TRUE;
+	// hook user_send_sms_code_before.php
+	$r = sms_send_code($mobile, $code);
+	// hook user_send_sms_code_after.php
+	
+	
+	if($r === TRUE) {
+		message(0, lang('user_send_code_sucessfully'));
+	} else {
+		message(-1, lang('user_send_code_failed'));
 	}
 
 // 简单的同步登陆实现：| sync login implement simply
