@@ -1,10 +1,10 @@
 {
     "name": "标签(TAG) - 增强版",
     "brief": "强大通用的 TAG 系统，可以用来替代多维主题分类，可以对 TAG 进行分类，一个主题可以对应最多 4 个 TAG。 / Powerful universal TAG system, can be used to replace the multi-dimensional theme classification, TAG can be classified, a thread can correspond to up to 4 TAG.",
-    "version": "2.2",
+    "version": "2.3",
     "bbs_version": "4.0",
-    "installed": 1,
-    "enable": 1,
+    "installed": 0,
+    "enable": 0,
     "hooks_rank": [],
     "dependencies": []
 }

@@ -1,10 +1,10 @@
 {
     "name": "反灌水",
-    "brief": "一系列的反灌水措施。",
+    "brief": "一系列的反灌水措施，表单 HASH，POST 频次限制。",
     "version": "1.15",
     "bbs_version": "4.0",
-    "installed": 1,
-    "enable": 1,
+    "installed": 0,
+    "enable": 0,
     "hooks_rank": [],
     "overwrites_rank": [],
     "dependencies": []
