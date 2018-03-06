@@ -10,6 +10,7 @@
 	'mobile_is_in_use'=>'手机号已经注册过',
 	'mobile_is_not_in_use'=>'手机号没有被注册过',
 	'mobile_verify_not_on'=>'未开启手机号注册',
+	'user_resetpw_not_on'=>'未开启手机号找回密码功能',
 	'function_not_on'=>'改功能未开启',
 	'mobile_create_init_pw_template'=>'。。。',
 	'please_input'=>'请输入',

@@ -18,25 +18,25 @@ if($action == 'mobile') {
 			
 			empty($kv_mobile['bind_on']) AND message(-1, '未开启绑定功能');
 			
-			$sess_range = _SESSION('range');
-			$sess_range != 'create' AND message(-1, '验证码使用超出限定范围');
-			
-			$mobile = param('mobile');
+			$mobile = param('mobile'); // 绑定新手机
 			$code = param('code');
 			empty($mobile) AND message('mobile', lang('please_input_mobile'));
 			
-			$code != _SESSION('code') AND message('code', lang('click_to_send_code'));
+			$sess_code = _SESSION('user_bind_code');
+			$sess_mobile = _SESSION('user_bind_mobile');
+			empty($sess_code) AND message('code', lang('click_to_send_code'));
+			$code != $sess_code AND message('code', lang('verify_code_incorrect'));
 			
 			// 手机是否注册
+			$mobile = $sess_mobile; // 已验证的手机为准。
 			!is_mobile($mobile, $err) AND message('mobile', $err);
 			$_user = user_read_by_mobile($mobile);
 			$_user AND message('mobile', lang('mobile_is_in_use'));
 			
 			user_update($uid, array('mobile'=>$mobile));
 			
-			unset($_SESSION['mobile']);
-			unset($_SESSION['code']);
-			unset($_SESSION['range']);
+			unset($_SESSION['user_bind_mobile']);
+			unset($_SESSION['user_bind_code']);
 			
 			message(0, '绑定成功');
 		}
@@ -52,14 +52,13 @@ if($action == 'mobile') {
 		
 			empty($kv_mobile['bind_on']) AND message(-1, '未开启绑定功能');
 			
-			$sess_range = _SESSION('range');
-			$sess_range != 'create' AND message(-1, '验证码使用超出限定范围');
-			
-			$mobile = param('mobile');
+			$mobile = param('mobile'); // 新手机
 			$code = param('code');
 			empty($mobile) AND message('mobile', lang('function_not_on'));
 			
-			$code != _SESSION('code') AND message('code', lang('click_to_send_code'));
+			$sess_code = _SESSION('user_change_code');
+			empty($sess_code) AND message('code', lang('click_to_send_code'));
+			$code != $sess_code AND message('code', lang('verify_code_incorrect'));
 			
 			// 手机是否注册
 			!is_mobile($mobile, $err) AND message('mobile', $err);
@@ -68,9 +67,8 @@ if($action == 'mobile') {
 			
 			user_update($uid, array('mobile'=>$mobile));
 			
-			unset($_SESSION['mobile']);
-			unset($_SESSION['code']);
-			unset($_SESSION['range']);
+			unset($_SESSION['user_change_mobile']);
+			unset($_SESSION['user_change_code']);
 			
 			message(0, '绑定成功');
 		}

@@ -7,7 +7,7 @@ if($method == 'GET') {
 	$kv = kv_get('mobile_setting');
 	
 	$input = array();
-	$input['find_pw_on'] = form_radio_yes_no('find_pw_on', $kv['find_pw_on']);
+	$input['user_resetpw_on'] = form_radio_yes_no('user_resetpw_on', $kv['user_resetpw_on']);
 	$input['user_create_on'] = form_radio_yes_no('user_create_on', $kv['user_create_on']);
 	$input['bind_on'] = form_radio_yes_no('bind_on', $kv['bind_on']);
 	$input['force_post_bind_on'] = form_radio_yes_no('force_post_bind_on', $kv['force_post_bind_on']);
@@ -29,7 +29,7 @@ if($method == 'GET') {
 } else {
 
 	$login_type = param('login_type', 0);
-	$find_pw_on = param('find_pw_on', 0);
+	$user_resetpw_on = param('user_resetpw_on', 0);
 	$user_create_on = param('user_create_on', 0);
 	$bind_on = param('bind_on', 0);
 	$force_post_bind_on = param('force_post_bind_on', 0);
@@ -44,7 +44,7 @@ if($method == 'GET') {
 	
 	$kv = array();
 	$kv['login_type'] = $login_type;
-	$kv['find_pw_on'] = $find_pw_on;
+	$kv['user_resetpw_on'] = $user_resetpw_on;
 	$kv['user_create_on'] = $user_create_on;
 	$kv['bind_on'] = $bind_on;
 	$kv['force_post_bind_on'] = $force_post_bind_on;

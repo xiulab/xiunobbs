@@ -52,7 +52,7 @@
 							</div>
 						</div>
 						<div class="align-self-center ml-1">
-							<button type="submit" class="btn btn-primary btn-sm ml-3 form-group" id="sendcode" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-sendcode-create');?>"><?php echo lang('send_code');?></button>
+							<button type="submit" class="btn btn-primary btn-sm ml-3 form-group" id="sendcode" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-send_code-user_create');?>"><?php echo lang('send_code');?></button>
 						</div>
 					</div>
 					<?php } ?>
@@ -73,7 +73,9 @@
 						<div class="media-body text-right">
 							<!--{hook user_create_form_footer_right_start.htm}-->
 							<a href="<?php echo url('user-login');?>" class="text-muted"><small><?php echo lang('user_login');?></small></a>
+							<?php if($kv_mobile['user_resetpw_on']) { ?>
 							<a href="<?php echo url('user-resetpw');?>" class="text-muted ml-3"><small><?php echo lang('forgot_pw');?></small></a>
+							<?php } ?>
 							<!--{hook user_create_form_footer_right_end.htm}-->
 						</div>
 					</div>

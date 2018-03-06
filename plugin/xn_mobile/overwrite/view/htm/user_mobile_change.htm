@@ -36,7 +36,7 @@
 						</div>
 					</div>
 					<div class="ml-1 mt-1">
-						<button type="submit" class="btn btn-primary btn-sm ml-3" id="send" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-sendcode-resetpw');?>"><?php echo lang('send_verify_code');?></button>
+						<button type="submit" class="btn btn-primary btn-sm ml-3" id="send" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-send_code-change_mobile');?>"><?php echo lang('send_verify_code');?></button>
 					</div>
 				</div>
 				
@@ -93,7 +93,7 @@ jform.on('submit', function() {
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
 			$.alert(message);
-			jsubmit.button(message).delay(1000).location(xn.url('user-resetpw_complete'));
+			jsubmit.button(message).delay(1000).location(xn.url('my-mobile'));
 		} else if(code < 0) {
 			$.alert(message);
 			jsubmit.button('reset');

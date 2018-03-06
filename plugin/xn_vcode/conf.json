@@ -2,9 +2,9 @@
     "name": "验证码",
     "brief": "开启验证码，抵御机器灌水，可以为登陆、注册、找回密码、手机验证码指定是否开启验证码。",
     "version": "1.1",
-    "bbs_version": "4.0.3",
-    "installed": 1,
-    "enable": 1,
+    "bbs_version": "4.0.4",
+    "installed": 0,
+    "enable": 0,
     "hooks_rank": [],
     "dependencies": []
 }
