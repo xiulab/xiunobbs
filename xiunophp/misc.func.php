@@ -580,7 +580,7 @@ function ip() {
 
 // 日志记录
 function xn_log($s, $file = 'error') {
-	if(DEBUG == 0) return;
+	if(DEBUG == 0 && strpos($file, 'error') === FALSE) return;
 	$time = $_SERVER['time'];
 	$ip = $_SERVER['ip'];
 	$conf = _SERVER('conf');
