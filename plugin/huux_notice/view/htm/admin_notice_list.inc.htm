@@ -1,0 +1,20 @@
+<?php if($noticelist) { foreach($noticelist as &$_notice) { $notice_isread = ($_notice['isread'] == 1 ? lang('notice_my_update_readed') : lang('notice_my_update_unread'));?>
+        <li class="notice alert alert-white fade show p-2 border-bottom mb-0" role="alert">
+                <div class="media" style="font-size: 12px;">
+                        <div class="mr-4  text-small">
+                                <span><a target="_blank" href="<?php echo url("user-$_notice[fromuid]");?>"><img class="avatar-1" src="<?php echo $_notice['from_user_avatar_url'];?>"> <?php echo $_notice['from_username'];?></a></span>
+                                <span class="d-none d-lg-inline-block"><i class="icon icon-angle-double-right"></i></span>
+                                <span class="d-none d-lg-inline-block"><a target="_blank" href="<?php echo url("user-$_notice[recvuid]");?>"><img class="avatar-1" src="<?php echo $_notice['recv_user_avatar_url'];?>"> <?php echo $_notice['recv_username'];?></a></span>     
+                                <span class="d-none d-lg-inline-block"><?php echo $_notice['create_date_fmt'];?></span>
+                                <span class="ml-1 d-none d-lg-inline-block">(<?php echo $_notice['name'];?>)</span>
+                                <span class="ml-1 d-none d-lg-inline-block">(<?php echo $notice_isread;?>)</span>
+                        </div>
+                        <div class="media-body text-muted" style="max-width: 90%;"><?php echo $_notice['message'];?></div>       
+                        <button type="button" class="close confirm" aria-label="Close" data-nid="<?php echo $_notice['nid'];?>" data-recvuid="<?php echo $_notice['recvuid'];?>"><span aria-hidden="true">&times;</span></button>
+                </div>   
+        </li>
+<?php }} else { ?>
+        <li>
+        	<div><?php echo lang('none');?></div>
+        </li>
+<?php } ?>

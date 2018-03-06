@@ -1,0 +1,55 @@
+<script>
+
+// 标记已读
+$('.noticelist .notice .readbtn').on('click', function() { 
+	var jthis = $(this);
+	var jnid = jthis.data('nid');
+	var jnotice = jthis.parents('.notice');
+	var jnum = $("#nav-usernotice-unread-notices").text();//头部导航数值
+	var postdata = {act: 'readone', nid: jnid}; 
+	if(!jthis.hasClass('readbtn')) return false;
+	$.xpost(xn.url('my-notice'), postdata, function(code, message) {
+		if(code != 0) return $.alert(message);
+		jthis.removeClass('readbtn').text(message);
+		jnotice.addClass('isread');
+		$('#nav-usernotice-unread-notices').text(--jnum);
+		jnum == 0 && $('#nav-usernotice').removeClass('current');
+	});
+});
+
+// 点击a标签设置已读
+$('.noticelist .notice').find('a').on('click', function() {
+	var isread_btn = $(this).parents('.notice').find('.readbtn');
+	isread_btn.length > 0 && isread_btn.trigger("click");
+});
+
+//删除单条
+$('.noticelist .notice .deletebtn').on('click', function() {
+    var jthis = $(this);
+	var jnid = jthis.data('nid');
+	var jnum = $("#nav-usernotice-unread-notices").text();//头部导航数值
+	var postdata = {act: 'delete', nid: jnid};
+	$.xpost(xn.url('my-notice'), postdata, function(code, message) {
+		if(code != 0) return $.alert(message);
+		jthis.prev().hasClass('readbtn') && $('#nav-usernotice-unread-notices').text(--jnum);
+		jnum == 0 && $('#nav-usernotice').removeClass('current');
+		jthis.parents('.notice').remove();
+	});
+});
+
+// 全部已读
+$('#readall').on('click', function() {   
+	var jthis = $(this);
+	var juid = jthis.data('uid');
+	var postdata = {act: 'readall', uid: juid};
+	if(!jthis.hasClass('readall')) return false;
+	$.xpost(xn.url('my-notice'), postdata, function(code, message) {
+		if(code != 0) return $.alert(message);
+		$('.noticelist .notice').addClass('isread');
+		$('.noticelist .notice').find('.readbtn').removeClass('readbtn').text(message.a);
+		jthis.removeClass('readall').text(message.b);
+		$('#nav-usernotice').removeClass('current');//头部导航铃铛状态切换
+	});	
+})
+
+</script>

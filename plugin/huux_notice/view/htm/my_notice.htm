@@ -1,0 +1,32 @@
+<template include="./plugin/huux_notice/view/htm/my_notice.template.htm">
+	<slot name="my_body">
+		<div class="mx-auto">
+			<?php if($user['notices'] != 0) { ?>
+			<div class="d-flex justify-content-between">					
+			<div>
+				<?php foreach ($notice_menu as $k=>$v) { ?>
+				<a class="btn btn-sm btn-<?php echo $type == $k ? 'primary active' : 'light';?>" href="<?php echo $v['url'];?>">
+				<i class="icon <?php echo $v['icon'];?>"></i><?php echo $v['name'];?></a>
+				<?php } ?>
+			</div>
+				<button class="btn btn-sm btn-light mb-1 <?php echo $user['unread_notices'] == 0 ? '' : 'readall';?>" id="readall" data-uid="<?php echo $uid; ?>">
+					<?php echo $user['unread_notices'] == 0 ? lang('notice_my_update_allread'):lang('notice_my_marked_allread');?>
+				</button>
+			</div>	
+			<ul class="list-unstyled noticelist">
+				<?php include _include(APP_PATH.'plugin/huux_notice/view/htm/my_notice_list.inc.htm');?>
+			</ul>	
+			<?php if($pagination) { ?>
+			<nav>
+				<ul class="pagination justify-content-center flex-wrap"><?php echo $pagination;?></ul>
+			</nav>
+			<?php }}else{ ?>
+			<div class="d-flex justify-content-center">
+				<div class="text-center h1 pt-5 pb-5"><i class="icon icon-bell d-block mb-2"></i><p class="h6"><?php echo lang('notice_my_nomessage');?></p></div>
+			</div>
+			<?php } ?>	
+		</div>
+	</slot>
+</template>
+
+<!--{hook my_notice_js.htm}-->

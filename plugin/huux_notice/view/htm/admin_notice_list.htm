@@ -1,0 +1,60 @@
+<?php include _include(ADMIN_PATH.'view/htm/header.inc.htm');?>
+
+<div class="row">
+	<div class="col-12">
+		<div class="btn-group mb-3" role="group">
+			<?php echo admin_tab_active($menu['notice']['tab'], 'list');?>
+		</div>
+
+		<div class="card">
+			<div class="card-body">
+			    <nav><ul class="pagination justify-content-left flex-wrap mb-3"><?php echo $pagination; ?></ul></nav>
+				<ul class="list-unstyled postlist-admin mb-0">
+					<?php 
+						include _include(APP_PATH.'plugin/huux_notice/view/htm/admin_notice_list.inc.htm');
+					?>
+				</ul>
+			</div>
+		</div>
+		
+	</div>
+</div>
+
+<?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
+<script>
+
+$('#nav li.nav-item-notice').addClass('active');
+
+//删除
+$('.notice .close').on('click', function() {
+    var nid = $(this).data('nid');
+    var postdata = {nid: nid};
+	$.confirm('删除/delete ？', function() {
+	    	$.xpost(xn.url('notice-delete'), postdata, function(code, message) {
+			if(code != 0) return $.alert(message);
+			window.location.reload();
+		});
+	});
+
+});
+
+// 后台链接转前台
+$(function() {
+	var jlinks = $('.postlist-admin').find('a');
+	jlinks.each(function() {
+		var jthis = $(this);
+		var href = jthis.attr('href');
+		jthis.attr('target','_blank');
+		jthis.attr('href','../' + href);
+	});
+	var jimgs = $('.postlist-admin').find('img');
+	jimgs.each(function() {
+		var jthis = $(this);
+		var src = jthis.attr('src');
+		jthis.attr('target','_blank');
+		jthis.attr('src','../' + src);
+	});
+});
+</script>
+
+

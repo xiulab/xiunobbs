@@ -1,0 +1,15 @@
+<script>
+        $(function(){
+                // 消息：地址栏传参实现内页跳转[分页无效]
+                var notice_postid = window.location.hash.split("#")[1];
+                var notice_domid = $('.postlist .post[data-pid="'+notice_postid+'"]');
+                if(notice_domid.length > 0){
+                    notice_domid.addClass('current');//
+                    var scroll_offset = notice_domid.offset().top;
+                    $("html, body").animate({scrollTop:scroll_offset}, {duration:500, easing:"swing"});
+                    notice_domid.on('click', function(){
+                        $(this).removeClass('current');
+                    })
+                }
+        }); 
+</script>

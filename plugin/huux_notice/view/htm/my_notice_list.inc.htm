@@ -1,0 +1,44 @@
+<?php if($noticelist) { foreach($noticelist as &$_notice) { ?>
+<li class="notice media text-small <?php echo $_notice['isread'] == 1 ? 'isread' : '';?>" data-nid="<?php echo $_notice['nid']?>" >
+
+ 	<?php if($_notice['type'] == 1 || $_notice['type'] == 3 || $_notice['type'] == 99){?>
+ 	 	<div tabindex="-1" class="ml-1 mt-1 mr-3"><img class="avatar-3" src="<?php echo $_notice['from_user_avatar_url'];?>"></div>
+ 	<?php }else{?>
+ 	 	<div tabindex="-1" class="ml-1 mt-1 mr-3"><a href="<?php echo url("user-$_notice[fromuid]");?>"><img class="avatar-3" src="<?php echo $_notice['from_user_avatar_url'];?>"></a></div> 	   
+ 	<?php }?>
+
+ 	<div class="media-body">
+ 	 	 	
+ 	 	 	<div class="d-flex justify-content-between small">
+ 	 	 	 	
+ 	 	 	 	<?php if($_notice['type'] == 1 || $_notice['type'] == 3 || $_notice['type'] == 99){?>
+ 	 	 	 	 	<div>
+ 	 	 	 	 	 	<span class="username text-grey font-weight-bold mr-1"><?php echo $_notice['name'];?></span>
+ 	 	 	 	 	 	<span class="date text-grey"><?php echo $_notice['create_date_fmt'];?></span> 	 	 	 	 	 	   
+ 	 	 	 	 	</div>
+ 	 	 	 	<?php }else{?>
+ 	 	 	 	 	<div>
+ 	 	 	 	 	 	<span class="username text-grey font-weight-bold mr-1"><a class="text-grey" href="<?php echo url("user-$_notice[fromuid]");?>"><?php echo $_notice['from_username'];?></a></span>
+ 	 	 	 	 	 	<span class="date text-grey"><?php echo $_notice['create_date_fmt'];?></span> 	 	 	  
+ 	 	 	 	 	</div>
+ 	 	 	 	<?php }?>
+ 	 	 	 	<div>
+ 	 	 	 	 	<?php echo $_notice['isread'] == 1 ? '<button type="button" class="btn btn-small btn-light ml-2 text-muted">'.lang('notice_my_update_readed').'</button>' : '<button type="button" class="readbtn btn btn-small btn-light ml-2 text-muted" data-nid="'.$_notice['nid'].'"><i class="icon icon-check"></i>'.lang('notice_my_marked_read').'</button>';?>
+ 	 	 	 	 	<button type="button" class="deletebtn btn btn-small btn-light ml-2 text-muted" data-nid="<?php echo $_notice['nid']?>"><i class="icon-remove"></i> <?php echo lang('delete');?></button>
+ 	 	 	 	</div>
+ 	 	 	</div>
+ 	 	 	<div class="message break-all mt-1">
+ 	 	 	 	  <span><i class="icon icon-circle text-danger"></i></span>  <?php echo $_notice['message'];?>
+ 	 	 	</div>
+ 	</div>
+</li>
+ 
+<?php }} else { ?>
+
+	 <li>
+ 	 	 	<div><?php echo lang('none');?></div>
+ 	</li>
+ 	
+<?php } ?>
+
+

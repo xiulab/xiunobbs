@@ -1,0 +1,11 @@
+{
+    "name": "消息",
+    "brief": "消息系统<br />v1.4 继续优化消息列表UI<br />(FOR 4.0.3 正式版)",
+    "version": "1.5",
+    "bbs_version": "4.0.3",
+    "installed": 0,
+    "enable": 0,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

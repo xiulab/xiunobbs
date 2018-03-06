@@ -1,0 +1,15 @@
+<template include="./view/htm/my.common.template.htm">
+	<slot name="my_nav">
+		<ul class="nav nav-tabs card-header-tabs">
+			<!--{hook my_nav_notice_before.htm}-->
+			<li class="nav-item">
+				<a class="nav-link" href="<?php echo url("my-notice");?>" data-active="my-notice"><?php echo lang('notice');?></a>
+			</li>
+			<!--{hook my_nav_notice_after.htm}-->
+		</ul>
+	</slot>
+</template>
+
+<script>
+$('a[data-active="menu-my-notice"]').addClass('active');
+</script>
