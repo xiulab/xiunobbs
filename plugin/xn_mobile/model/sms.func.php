@@ -11,7 +11,7 @@ function sms_send_code($tomobile, $code) {
 	if($kv['send_plat'] == 'tencent') {
 		$r = sms_tencent_send_code($tomobile, $code, $kv['tencent_appid'], $kv['tencent_appkey'], $kv['tencent_sign']);
 	} elseif($kv['send_plat'] == 'aliyun') {
-		$r = sms_aliyun_send_code($tomobile, $code, $kv['aliyun_appid'], $kv['aliyun_appkey'], $kv['aliyun_sign']);
+		$r = sms_aliyun_send_code($tomobile, $code, $kv['aliyun_appid'], $kv['aliyun_appkey'], $kv['aliyun_sign'], $kv['aliyun_templateid']);
 	}
 	return $r;
 }

@@ -96,7 +96,7 @@ class AliyunSignatureHelper {
 /**
  * 发送短信
  */
-function sms_aliyun_send_code($tomobile, $code, $appid, $appkey, $sign) {
+function sms_aliyun_send_code($tomobile, $code, $appid, $appkey, $sign, $templateid = '') {
 
 	$params = array ();
 
@@ -113,7 +113,7 @@ function sms_aliyun_send_code($tomobile, $code, $appid, $appkey, $sign) {
 	$params["SignName"] = $sign;
 
 	// fixme 必填: 短信模板Code，应严格按"模板CODE"填写, 请参考: https://dysms.console.aliyun.com/dysms.htm#/develop/template
-	$params["TemplateCode"] = "SMS_125028481";
+	$params["TemplateCode"] = $templateid ? $templateid : "SMS_125028481";
 
 	// fixme 可选: 设置模板参数, 假如模板中存在变量需要替换则为必填项
 	$params['TemplateParam'] = Array (

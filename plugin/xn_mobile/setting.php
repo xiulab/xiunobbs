@@ -22,7 +22,8 @@ if($method == 'GET') {
 	$input['tencent_sign'] = form_text('tencent_sign', $kv['tencent_sign']);
 	$input['aliyun_appid'] = form_text('aliyun_appid', $kv['aliyun_appid']);
 	$input['aliyun_appkey'] = form_text('aliyun_appkey', $kv['aliyun_appkey']);
-	$input['aliyun_sign'] = form_text('aliyun_sign', $kv['aliyun_sign']);
+	$input['aliyun_sign'] = form_text('aliyun_sign', $kv['aliyun_sign'], FALSE, $conf['sitename']);
+	$input['aliyun_templateid'] = form_text('aliyun_templateid', $kv['aliyun_templateid'], FALSE, 'SMS_1234567');
 	
 	include _include(APP_PATH.'plugin/xn_mobile/setting.htm');
 	
@@ -41,6 +42,7 @@ if($method == 'GET') {
 	$aliyun_appid = param('aliyun_appid');
 	$aliyun_appkey = param('aliyun_appkey');
 	$aliyun_sign = param('aliyun_sign');
+	$aliyun_templateid = param('aliyun_templateid');
 	
 	$kv = array();
 	$kv['login_type'] = $login_type;
@@ -56,6 +58,7 @@ if($method == 'GET') {
 	$kv['aliyun_appid'] = $aliyun_appid;
 	$kv['aliyun_appkey'] = $aliyun_appkey;
 	$kv['aliyun_sign'] = $aliyun_sign;
+	$kv['aliyun_templateid'] = $aliyun_templateid;
 	
 	kv_set('mobile_setting', $kv);
 	
