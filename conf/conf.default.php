@@ -113,7 +113,7 @@ return array (
 	// 禁止插件
 	'disabled_plugin' => 0, 
 	  
-	'version' => '4.0.2',
+	'version' => '4.0.3',
 	'static_version' => '?1.0',
 	'installed' => 0,
 );
