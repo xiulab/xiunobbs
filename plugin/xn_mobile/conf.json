@@ -3,8 +3,8 @@
     "brief": "通过手机短信登陆、注册、找回密码。",
     "version": "1.4",
     "bbs_version": "4.0.3",
-    "installed": 1,
-    "enable": 1,
+    "installed": 0,
+    "enable": 0,
     "hooks_rank": [],
     "overwrites_rank": [],
     "dependencies": []
