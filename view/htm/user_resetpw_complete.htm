@@ -46,9 +46,16 @@ jform.on('submit', function() {
 	jform.reset();
 	jsubmit.button('loading');
 	
+	if(!jpassword.val()) {
+		jpassword.focus();
+		$.alert('<?php echo lang('please_input_password');?>');
+		jsubmit.button('reset');
+		return false;
+	}
+	
 	if(jpassword.val() != jpassword2.val()) {
 		jpassword2.focus();
-		$.alert('两次密码输入不一致');
+		$.alert('<?php echo lang('repeat_password_incorrect');?>');
 		jsubmit.button('reset');
 		return false;
 	}

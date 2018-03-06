@@ -130,10 +130,13 @@ if(empty($action)) {
 		empty($username) AND message('username', lang('please_input_username'));
 		empty($password) AND message('password', lang('please_input_password'));
 		
-		
 		if($conf['user_create_email_on']) {
-			$email != _SESSION('email') AND message('sendinitpw', lang('click_to_get_init_pw'));
-			$code != _SESSION('code') AND message('code', lang('click_to_send_code'));
+			$sess_email = _SESSION('user_create_email');
+			$sess_code = _SESSION('user_create_code');
+			empty($sess_code) AND message('code', 'click_to_get_verify_code');
+			empty($sess_email) AND message('code', 'click_to_get_verify_code');
+			$email != $sess_email AND message('code', lang('verify_code_incorrect'));
+			$code != $sess_code AND message('code', lang('verify_code_incorrect'));
 		}
 		
 		!is_email($email, $err) AND message('email', $err);
@@ -167,9 +170,8 @@ if(empty($action)) {
 	
 		// 更新 session
 		
-		unset($_SESSION['email']);
-		unset($_SESSION['code']);
-		unset($_SESSION['range']);
+		unset($_SESSION['user_create_email']);
+		unset($_SESSION['user_create_code']);
 		$_SESSION['uid'] = $uid;
 		user_token_set($uid);
 		
@@ -198,11 +200,13 @@ if(empty($action)) {
 	
 	// hook user_resetpw_get_post.php
 	
+	!$conf['user_resetpw_on'] AND message(-1, '未开启密码找回功能！');
+		
 	if($method == 'GET') {
 
 		// hook user_resetpw_get_start.php
 		
-		$header['title'] = lang('reset_pw');
+		$header['title'] = lang('resetpw');
 		
 		// hook user_resetpw_get_end.php
 		
@@ -222,19 +226,14 @@ if(empty($action)) {
 		$code = param('code');
 		empty($code) AND message('code', lang('please_input_verify_code'));
 		
-		$sess_email = _SESSION('email');
-		$sess_code = _SESSION('code');
-		$sess_range = _SESSION('range');
-		
-		$sess_range != 'resetpw' AND message(-1, '验证码使用超出限定范围');
-		(!$sess_email || !$sess_code) AND message('code', lang('click_to_get_verify_code'));
-		
-		if($sess_code != $code) {
-			//message('code', lang('verify_code_try_too_frequently', $times));
-			message('code', lang('verify_code_incorrect'));
-		} else {
-			$_SESSION['resetpw_verify_ok'] = 1;
-		}
+		$sess_email = _SESSION('user_resetpw_email');
+		$sess_code = _SESSION('user_resetpw_code');
+		empty($sess_code) AND message('code', 'click_to_get_verify_code');
+		empty($sess_email) AND message('code', 'click_to_get_verify_code');
+		$email != $sess_email AND message('code', lang('verify_code_incorrect'));
+		$code != $sess_code AND message('code', lang('verify_code_incorrect'));
+	
+		$_SESSION['resetpw_verify_ok'] = 1;
 		
 		// hook user_resetpw_post_end.php
 		
@@ -247,7 +246,7 @@ if(empty($action)) {
 	// hook user_resetpw_get_post.php
 	
 	// 校验数据
-	$email = _SESSION('email');
+	$email = _SESSION('user_resetpw_email');
 	$resetpw_verify_ok = _SESSION('resetpw_verify_ok');
 	(empty($email) || empty($resetpw_verify_ok)) AND message(-1, lang('data_empty_to_last_step'));
 	
@@ -259,7 +258,7 @@ if(empty($action)) {
 
 		// hook user_resetpw_get_start.php
 		
-		$header['title'] = lang('reset_pw');
+		$header['title'] = lang('resetpw');
 		
 		// hook user_resetpw_get_end.php
 		
@@ -278,9 +277,8 @@ if(empty($action)) {
 		
 		!is_password($password, $err) AND message('password', $err);
 		
-		unset($_SESSION['email']);
-		unset($_SESSION['code']);
-		unset($_SESSION['range']);
+		unset($_SESSION['user_resetpw_email']);
+		unset($_SESSION['user_resetpw_code']);
 		unset($_SESSION['resetpw_verify_ok']);
 		
 		// hook user_resetpw_post_end.php
@@ -306,68 +304,34 @@ if(empty($action)) {
 		empty($email) AND message('email', lang('please_input_email'));
 		!is_email($email, $err) AND message('email', $err);
 		empty($conf['user_create_email_on']) AND message(-1, lang('email_verify_not_on'));
-		$user = user_read_by_email($email);
-		!empty($user) AND message('email', lang('email_is_in_use'));
+		$_user = user_read_by_email($email);
+		!empty($_user) AND message('email', lang('email_is_in_use'));
 		
 		$code = rand(100000, 999999);
 		$_SESSION['user_create_email'] = $email;
 		$_SESSION['user_create_code'] = $code;
 		
-	/*
-	// 验证码登陆
-	} elseif($action2 == 'user_login') {
-		
-		$email = param('email');
-		
-		empty($email) AND message('email', lang('please_input_email'));
-		!is_email($email, $err) AND message('email', $err);
-		empty($conf['user_create_email_on']) AND message(-1, lang('email_verify_not_on'));
-		$user = user_read_by_email($email);
-		empty($user) AND message('email', lang('email_is_not_in_use'));
-		
-		$code = rand(100000, 999999);
-		$_SESSION['user_login_email'] = $email;
-		$_SESSION['user_login_code'] = $code;
-	*/
 	
 	// 重置密码，往老地址发送
-	} elseif($action2 == 'reset_pw') {
-		
-		$email = $user['email'];
-		
-		empty($conf['user_create_email_on']) AND message(-1, lang('email_verify_not_on'));
-		
-		$code = rand(100000, 999999);
-		$_SESSION['user_reset_pw_email'] = $email;
-		$_SESSION['user_reset_pw_code'] = $code;
-		
-	// 绑定手机
-	} elseif($action2 == 'bind_mobile') {
+	} elseif($action2 == 'user_resetpw') {
 		
 		$email = param('email');
 		
 		empty($email) AND message('email', lang('please_input_email'));
 		!is_email($email, $err) AND message('email', $err);
-		empty($conf['user_create_email_on']) AND message(-1, lang('email_verify_not_on'));
-		$user = user_read_by_email($email);
-		!empty($user) AND message('email', lang('email_is_in_use'));
+		$_user = user_read_by_email($email);
+		empty($_user) AND message('email', lang('email_is_not_in_use'));
+		
+		empty($conf['user_resetpw_on']) AND message(-1, lang('resetpw_not_on'));
 		
 		$code = rand(100000, 999999);
-		$_SESSION['user_bind_mobile_email'] = $email;
-		$_SESSION['user_bind_mobile_code'] = $code;
-		
-	// 重新绑定手机
-	} elseif($action2 == 'change_mobile') {
-		
-		$email = $user['email'];
-		
-		empty($conf['user_create_email_on']) AND message(-1, lang('email_verify_not_on'));
-		
-		$code = rand(100000, 999999);
-		$_SESSION['user_change_mobile_email'] = $email;
-		$_SESSION['user_change_mobile_code'] = $code;
-		
+		$_SESSION['user_resetpw_email'] = $email;
+		$_SESSION['user_resetpw_code'] = $code;
+
+	} else {
+		message(-1, 'action2 error');
 	}
+	
 	
 	$subject = lang('send_code_template', array('rand'=>$code, 'sitename'=>$conf['sitename']));
 	$message = $subject;

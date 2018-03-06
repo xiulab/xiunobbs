@@ -56,7 +56,7 @@
 							</div>
 						</div>
 						<div class="align-self-center ml-1">
-							<button type="submit" class="btn btn-primary btn-sm ml-3 form-group" id="sendcode" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-sendcode-create');?>"><?php echo lang('send_verify_code');?></button>
+							<button type="submit" class="btn btn-primary btn-sm ml-3 form-group" id="sendcode" data-loading-text="<?php echo lang('sending');?>..." action="<?php echo url('user-send_code-user_create');?>"><?php echo lang('send_verify_code');?></button>
 						</div>
 					</div>
 					<?php } ?>
@@ -134,7 +134,7 @@ jform.on('submit', function() {
 	postdata.password = $.md5(postdata.password);
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
-			jsubmit.button(message).delay(3000).location(referer);
+			jsubmit.button(message).delay(1000).location(referer);
 		} else if(xn.is_number(code)) {
 			alert(message);
 			jsubmit.button('reset');
