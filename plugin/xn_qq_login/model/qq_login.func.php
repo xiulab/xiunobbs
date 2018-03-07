@@ -21,6 +21,7 @@ Array
 */
 function qq_login_get_token($appid, $appkey, $code, $return_url) {
 	$return_url = urlencode($return_url);
+
 	$get_token_url = "https://graph.qq.com/oauth2.0/token?grant_type=authorization_code&client_id=$appid&redirect_uri=$return_url&client_secret=$appkey&code=$code";
 	$s = https_get($get_token_url);
 	if(strpos($s, "callback") !== false) {

@@ -1,7 +1,7 @@
 <?php include _include(ADMIN_PATH.'view/htm/header.inc.htm');?>
 
 <div class="row">
-	<div class="col-lg-10 mx-auto">
+	<div class="col-lg-10 offset-lg-1">
 		<div class="card">
 			<div class="card-body">
 				<form action="<?php echo url("plugin-setting-xn_qq_login");?>" method="post" id="form">
@@ -28,13 +28,13 @@
 						<label class="col-sm-2 form-control-label"></label>
 						<div class="col-sm-10">
 							<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
-							<a role="button" class="btn btn-secondary btn-block mt-3" href="javascript:history.back();"><?php echo lang('back');?></a>
+							<a role="button" class="btn btn-secondary btn-block m-t-1" href="javascript:history.back();"><?php echo lang('back');?></a>
 						</div>
 					</div>
 				</form>
-				<p class="my-3 small">注：QQ 登陆申请地址：<a href="http://connect.qq.com/" target="_blank">http://connect.qq.com/</a></p>
-				<p class="my-3 small">注：QQ 回调地址：<?php $path = http_url_path(); echo substr($path, 0, strrpos(substr($path, 0, -1), '/'));?>/qq_login-return.htm (填入到 QQ 开发平台)，注意必须开启 <a href="https://bbs.xiuno.com/thread-2.htm" target="_blank">URL-Rewrite</a>。</p>
 			</div>
+			<p class="m-a-1 small">注：QQ 登陆申请地址：<a href="http://connect.qq.com/" target="_blank">http://connect.qq.com/</a></p>
+			<p class="m-a-1 small">注：QQ 回调地址：<?php $path = http_url_path(); echo substr($path, 0, strrpos(substr($path, 0, -1), '/'));?>/qq_login-return.htm (填入到 QQ 开发平台)，注意必须开启 <a href="https://bbs.xiuno.com/thread-2.htm" target="_blank">URL-Rewrite</a>。</p>
 		</div>
 	</div>
 </div>
@@ -42,6 +42,7 @@
 <?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
 
 <script>
+
 var jform = $("#form");
 var jsubmit = $("#submit");
 var referer = '<?php echo http_referer();?>';
@@ -61,4 +62,5 @@ jform.on('submit', function(){
 	});
 	return false;
 });
+
 </script>
