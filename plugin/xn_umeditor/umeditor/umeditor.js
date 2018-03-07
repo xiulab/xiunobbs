@@ -6057,6 +6057,7 @@ UM.plugins['link'] = function(){
 
     this.addOutputRule(function(root){
         $.each(root.getNodesByTagName('a'),function(i,a){
+        	return;
             var _href = utils.html(a.getAttr('_href'));
             if(!/^(ftp|https?|\/|file)/.test(_href)){
                 _href = 'http://' + _href;
