@@ -249,7 +249,15 @@ xn.get_title_body_script_css = function (s) {
 	</div>	
 	<?php include './view/footer.inc.htm';?>
 	<script>
+	
 	// 模态对话框的脚本将会在父窗口，被闭包起来执行。
+	
+	// 接受传参
+	var args = args || {jmodal: null, callback: null, arg: null};
+	var jmodal = args.jmodal;  // 对应当前模态对话框
+	var callback = args.callback;  // 对应 data-callback=""
+	var arg = args.arg; // 对应 data-arg=""
+
 	var jform = $('#login_form');
 	var jsubmit = jform.find('input[type="submit"]');
 	var jemail = jform.find('input[name="email"]');
@@ -262,15 +270,11 @@ xn.get_title_body_script_css = function (s) {
 			if(code == 0) {
 				jsubmit.button(message);
 				
-				// eval_script() 传参过来（父窗口闭包传参）
-				if(arg1) {
-					var jmodal = arg1;
-					jmodal.modal('destroy');
-				}
-				if(arg2) {
-					var callback = arg2;
-					callback(message);
-				}
+				// 关闭当前对话框
+				if(jmodal) jmodal.modal('dispose');
+				// 回调父窗口
+				if(callback) callback(message);
+				
 			} else if(code == 'email') {
 				jemail.alert(message).focus();
 				jsubmit.button('reset');
