@@ -1,39 +1,24 @@
-<?php include _include(APP_PATH.'view/htm/header.inc.htm');?>
 
-<!--{hook user_post_start.htm}-->
-
-<div class="row">
-	<div class="col-lg-8 mx-auto">
+<template include="./view/htm/user_thread.template.htm">
+	<slot name="user_body">
 	
-		<?php include _include(APP_PATH.'view/htm/user_profile.inc.htm');?>
+		<!--{hook user_post_start.htm}-->
 		
-		<div class="card user-postlist">
-			<div class="card-header">
-				<?php include _include(APP_PATH.'view/htm/user_nav.inc.htm');?>
-			</div>
-			<div class="card-body">
-				<ul class="list-unstyled postlist">
-					<?php include _include(APP_PATH.'view/htm/post_list.inc.htm'); ?>
-				</ul>
-				
-				<?php if($pagination) { ?>
-				<nav><ul class="pagination justify-content-center"><?php echo $pagination; ?></ul></nav>
-				<?php } ?>
-				
-			</div>
-		</div>
+		<ul class="list-unstyled postlist">
+			<?php include _include(APP_PATH.'view/htm/post_list.inc.htm'); ?>
+		</ul>
 		
-		<?php if(!empty($group['allowdeleteuser'])) { ?>
-			<a role="button" class="btn btn-danger confirm btn-block my-3" data-confirm-text="<?php echo lang('confirm_delete_user');?>" data-method="post" href="<?php echo url("mod-deleteuser-$_user[uid]");?>"><?php echo lang('delete_user');?></a>
+		<?php if($pagination) { ?>
+		<nav><ul class="pagination justify-content-center"><?php echo $pagination; ?></ul></nav>
 		<?php } ?>
-		
 		<!--{hook user_post_page_after.htm}-->
 		
-	</div>
-</div>
+		<!--{hook user_post_end.htm}-->
+	</slot>
+</template>
 
-<!--{hook user_post_end.htm}-->
-
-<?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
+<script>
+$('a[data-active="user-post"]').addClass('active');
+</script>
 
 <!--{hook user_post_js.htm}-->
