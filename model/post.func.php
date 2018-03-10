@@ -2,8 +2,6 @@
 
 // hook model_post_start.php
 
-include_once APP_PATH.'xiunophp/xn_html_safe.func.php';
-
 // ------------> 最原生的 CURD，无关联其他数据。
 
 // 只用传 message, message_fmt 自动生成

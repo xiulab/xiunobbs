@@ -1605,8 +1605,12 @@ class HTML_White {
 	}
 }
 
-// class xn_html_safe 由 axiuno@gmail.com 编写
-function xn_html_safe($doc, $arg = array()) {
+
+
+
+// class xn_html_safe 由 axiuno@gmail.com 编写，此函数移动到了 model/misc.func.php, 加入了 hook
+/*function xn_html_safe($doc, $arg = array()) {
+	include_once XIUNOPHP_PATH.'xn_html_safe.func.php';
 	empty($arg['table_max_width']) AND $arg['table_max_width'] = 746; // 这个宽度为 bbs 回帖宽度
 	$pattern = array (
 		//'img_url'=>'#^(https?://[^\'"\\\\<>:\s]+(:\d+)?)?([^\'"\\\\<>:\s]+?)*$#is',
@@ -1702,24 +1706,24 @@ function xn_html_safe($doc, $arg = array()) {
 		'text-indent'=>array('range', 0, array(0, 100)),
 		
 		// 代码高亮需要支持，但是不安全！
-		/*
-		'position'=>array('list', 'static', array('absolute', 'fixed', 'relative', 'static')),
-		'left'=>array('range', 0, array(0, 1000)),
-		'top'=>array('range', 0, array(0, 1000)),
-		'white-space'=>array('list', 'nowrap', array('nowrap', 'pre')),
-		'word-wrap'=>array('list', 'normal', array('break-word', 'normal')),
-		'word-break'=>array('list', 'break-all', array('break-all', 'normal')),
-		'display'=>array('list', 'block', array('block', 'table', 'none', 'inline-block', 'table-cell')),
-		'overflow'=>array('list', 'auto', array('scroll', 'hidden', 'auto')),
-		'overflow-x'=>array('list', 'auto', array('scroll', 'hidden', 'auto')),
-		'overflow-y'=>array('list', 'auto', array('scroll', 'hidden', 'auto')),
-		*/
+		
+//		'position'=>array('list', 'static', array('absolute', 'fixed', 'relative', 'static')),
+//		'left'=>array('range', 0, array(0, 1000)),
+//		'top'=>array('range', 0, array(0, 1000)),
+//		'white-space'=>array('list', 'nowrap', array('nowrap', 'pre')),
+//		'word-wrap'=>array('list', 'normal', array('break-word', 'normal')),
+//		'word-break'=>array('list', 'break-all', array('break-all', 'normal')),
+//		'display'=>array('list', 'block', array('block', 'table', 'none', 'inline-block', 'table-cell')),
+//		'overflow'=>array('list', 'auto', array('scroll', 'hidden', 'auto')),
+//		'overflow-x'=>array('list', 'auto', array('scroll', 'hidden', 'auto')),
+//		'overflow-y'=>array('list', 'auto', array('scroll', 'hidden', 'auto')),
+//		
 		
 	);
 	$safehtml = new HTML_White($white_tag, $white_value, $white_css, $arg);
 	$result = $safehtml->parse($doc);
 	return $result;
-}
+}*/
 
 // echo xn_html_safe('+ab-');
 
