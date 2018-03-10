@@ -45,7 +45,7 @@
 			
 			$tagids = array_diff($tagids, array(0));
 			$tagids_new = $tagids;
-			$tagids_old = tag_thread_find_tagid_by_tid($tid);
+			$tagids_old = tag_thread_find_tagid_by_tid($tid, $forum['tagcatelist']);
 			$tag_id_delete = array_diff($tagids_old, $tagids_new);
 			$tag_id_add = array_diff($tagids_new, $tagids_old);
 			if($tag_id_delete) {

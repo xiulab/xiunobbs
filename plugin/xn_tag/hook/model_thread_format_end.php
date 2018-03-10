@@ -12,7 +12,7 @@
 		// tagids
 		$tagidarr = array();
 		if($thread['tagids_time'] < $tag_update_time) {
-			$tagidarr = tag_thread_find_tagid_by_tid($thread['tid']);
+			$tagidarr = tag_thread_find_tagid_by_tid($thread['tid'], $forum['tagcatelist']);
 			$thread['tagids'] = implode(',', $tagidarr);
 			thread_update($thread['tid'], array('tagids'=>$thread['tagids'], 'tagids_time'=>$time));
 		} else {
