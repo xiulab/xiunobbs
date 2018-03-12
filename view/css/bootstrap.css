@@ -11274,6 +11274,7 @@ small, .small {
   padding: 10px;
   margin: 10px;
   border: 1px solid #dee2e6;
+  border-radius: 2px;
   background: #f8f9fa;
 }
 
@@ -11282,6 +11283,7 @@ small, .small {
   padding: 0px 16px;
   font-size: 1rem;
   font-weight: 800;
+  border-radius: 2px;
   color: #f8f9fa;
   background: #868e96;
 }
