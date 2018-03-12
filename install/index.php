@@ -38,13 +38,13 @@ if(empty($action)) {
 	
 	if($method == 'GET') {
 		$input = array();
-		$input['lang'] = form_select('lang', array('zh-cn'=>'简体中文', 'zh-tw'=>'正體中文', 'en-us'=>'English'), $conf['lang']);
+		$input['lang'] = form_select('lang', array('zh-cn'=>'简体中文', 'zh-tw'=>'正體中文', 'en-us'=>'English', 'ru-ru'=>'Русский'), $conf['lang']);
 		
 		// 修改 conf.php
 		include INSTALL_PATH."view/htm/index.htm";
 	} else {
 		$_lang = param('lang');
-		!in_array($_lang, array('zh-cn', 'zh-tw', 'en-us')) AND $_lang = 'zh-cn';
+		!in_array($_lang, array('zh-cn', 'zh-tw', 'en-us', 'ru-ru')) AND $_lang = 'zh-cn';
 		setcookie('lang', $_lang);
 		
 		//$conf['lang'] = $_lang;
