@@ -72,6 +72,7 @@ small, .small { font-size: 85%; font-weight: 400; }
   padding: 10px;
   margin: 10px;
   border: 1px solid $gray-300;
+  border-radius: 2px;
   background: $gray-100;
 }
 .fieldset > legend {
@@ -79,6 +80,7 @@ small, .small { font-size: 85%; font-weight: 400; }
   padding: 0px 16px;
   font-size: 1rem;
   font-weight: 800;
+  border-radius: 2px;
   color: $gray-100;
   background: $gray-600;
 }
