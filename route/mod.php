@@ -43,6 +43,8 @@ if($action == 'top') {
 					'create_date' => $time,
 					'action' => 'top',
 				);
+				
+				// hook mod_top_log_create_before.php
 				modlog_create($arr);
 				
 			}
@@ -83,6 +85,8 @@ if($action == 'top') {
 					'create_date' => $time,
 					'action' => 'close',
 				);
+				
+				// hook mod_close_log_create_before.php
 				modlog_create($arr);
 			}
 		}
@@ -121,6 +125,7 @@ if($action == 'top') {
 					'create_date' => $time,
 					'action' => 'delete',
 				);
+				// hook mod_delete_log_create_before.php
 				modlog_create($arr);
 			}
 		}
@@ -163,6 +168,7 @@ if($action == 'top') {
 					'create_date' => $time,
 					'action' => 'move',
 				);
+				// hook mod_move_log_create_before.php
 				modlog_create($arr);
 			}
 		}
