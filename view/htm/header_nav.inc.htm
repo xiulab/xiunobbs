@@ -51,6 +51,7 @@
 					<?php if($gid == 1) { ?>
 					<li class="nav-item"><a class="nav-link" href="admin/"><i class="icon-home"></i> <?php echo lang('admin_page');?></a></li>
 					<?php } ?>
+					<!--{hook header_nav_admin_page_after.htm}-->
 					<li class="nav-item"><a class="nav-link" href="<?php echo url('user-logout');?>"><i class="icon-sign-out"></i> <?php echo lang('logout');?></a></li>
 				<?php } ?>
 					<!--{hook header_nav_user_end.htm}-->
