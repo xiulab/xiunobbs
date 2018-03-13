@@ -1112,90 +1112,109 @@ xn.image_resize = function(file_base64_data, callback, options) {
 	if(xn.substr(file_base64_data, 0, 10) != 'data:image') return callback(-1, '传入的 base64 数据有问题 / deformed base64 data');
 	// && xn.substr(file_base64_data, 0, 14) != 'data:image/gif' gif 不支持\
 	
-	
 	var img = new Image();
 	img.onload = function() {
-		var canvas = document.createElement('canvas');
-		// 等比缩放
-		var width = 0, height = 0, canvas_width = 0, canvas_height = 0;
-		var dx = 0, dy = 0;
 		
-		var img_width = img.width;
-		var img_height = img.height;
-		
-		if(xn.substr(file_base64_data, 0, 14) == 'data:image/gif') return callback(0, {width: img_width, height: img_height, data: file_base64_data});
-		
-		// width, height: 计算出来的宽高（求）
-		// thumb_width, thumb_height: 要求的缩略宽高
-		// img_width, img_height: 原始图片宽高
-		// canvas_width, canvas_height: 画布宽高
-		if(action == 'thumb') {
-			if(img_width < thumb_width && img_height && thumb_height) {
-				width = img_width;
-				height = img_height;
-			} else {
-				// 横形
-				if(img_width / img_height > thumb_width / thumb_height) {
-					var width = thumb_width; // 以缩略图宽度为准，进行缩放
-					var height = Math.ceil((thumb_width / img_width) * img_height);
-				// 竖形
+		var water_img = new Image();
+		water_img.onload = function() {
+			var canvas = document.createElement('canvas');
+			// 等比缩放
+			var width = 0, height = 0, canvas_width = 0, canvas_height = 0;
+			var dx = 0, dy = 0;
+			
+			var img_width = img.width;
+			var img_height = img.height;
+			
+			if(xn.substr(file_base64_data, 0, 14) == 'data:image/gif') return callback(0, {width: img_width, height: img_height, data: file_base64_data});
+			
+			// width, height: 计算出来的宽高（求）
+			// thumb_width, thumb_height: 要求的缩略宽高
+			// img_width, img_height: 原始图片宽高
+			// canvas_width, canvas_height: 画布宽高
+			if(action == 'thumb') {
+				if(img_width < thumb_width && img_height && thumb_height) {
+					width = img_width;
+					height = img_height;
 				} else {
-					var height = thumb_height; // 以缩略图宽度为准，进行缩放
-					var width = Math.ceil((img_width / img_height) * thumb_height);
+					// 横形
+					if(img_width / img_height > thumb_width / thumb_height) {
+						var width = thumb_width; // 以缩略图宽度为准，进行缩放
+						var height = Math.ceil((thumb_width / img_width) * img_height);
+					// 竖形
+					} else {
+						var height = thumb_height; // 以缩略图宽度为准，进行缩放
+						var width = Math.ceil((img_width / img_height) * thumb_height);
+					}
 				}
+				canvas_width = width;
+				canvas_height = height;
+			} else if(action == 'clip') {
+				if(img_width < thumb_width && img_height && thumb_height) {
+					if(img_height > thumb_height) {
+						thumb_width = width = img_width;
+						// thumb_height = height = thumb_height;
+					} else {
+						thumb_width = width = img_width;
+						thumb_height = height = img_height;
+					}
+				} else {
+					// 横形
+					if(img_width / img_height > thumb_width / thumb_height) {
+						var height = thumb_height; // 以缩略图宽度为准，进行缩放
+						var width = Math.ceil((img_width / img_height) * thumb_height);
+						var dx = -((width - thumb_width) / 2);
+						var dy = 0;
+					// 竖形
+					} else {
+						var width = thumb_width; // 以缩略图宽度为准，进行缩放
+						var height = Math.ceil((img_height / img_width) * thumb_width);
+						dx = 0;
+						dy = -((height - thumb_height) / 2);
+					}
+				}
+				canvas_width = thumb_width;
+				canvas_height = thumb_height;
 			}
-			canvas_width = width;
-			canvas_height = height;
-		} else if(action == 'clip') {
-			if(img_width < thumb_width && img_height && thumb_height) {
-				if(img_height > thumb_height) {
-					thumb_width = width = img_width;
-					// thumb_height = height = thumb_height;
-				} else {
-					thumb_width = width = img_width;
-					thumb_height = height = img_height;
-				}
-			} else {
-				// 横形
-				if(img_width / img_height > thumb_width / thumb_height) {
-					var height = thumb_height; // 以缩略图宽度为准，进行缩放
-					var width = Math.ceil((img_width / img_height) * thumb_height);
-					var dx = -((width - thumb_width) / 2);
-					var dy = 0;
-				// 竖形
-				} else {
-					var width = thumb_width; // 以缩略图宽度为准，进行缩放
-					var height = Math.ceil((img_height / img_width) * thumb_width);
-					dx = 0;
-					dy = -((height - thumb_height) / 2);
-				}
+			canvas.width = canvas_width;
+			canvas.height = canvas_height;
+			var ctx = canvas.getContext("2d"); 
+	
+			//ctx.fillStyle = 'rgb(255,255,255)';
+			//ctx.fillRect(0,0,width,height);
+	
+			ctx.clearRect(0, 0, width, height); 			// canvas清屏
+			ctx.drawImage(img, 0, 0, img_width, img_height, dx, dy, width, height);	// 将图像绘制到canvas上 
+			
+			var water_width = water_img.width;
+			var water_height = water_img.height;
+			if(img_width > 400 && img_width > water_width && water_width > 4) {
+				var x =  img_width - water_width - 16;
+				var y = img_height - water_height - 16;
+				
+				// 参数参考：https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
+				ctx.globalAlpha = 0.3; // 水印透明度
+				ctx.beginPath();
+				ctx.drawImage(water_img, 0, 0, water_width, water_height, x, y, water_width, water_height);	// 将水印图像绘制到canvas上 
+				ctx.closePath();
+				ctx.save();
 			}
-			canvas_width = thumb_width;
-			canvas_height = thumb_height;
-		}
-		canvas.width = canvas_width;
-		canvas.height = canvas_height;
-		var ctx = canvas.getContext("2d"); 
-
-		//ctx.fillStyle = 'rgb(255,255,255)';
-		//ctx.fillRect(0,0,width,height);
-
-		ctx.clearRect(0, 0, width, height); 			// canvas清屏
-		ctx.drawImage(img, 0, 0, img_width, img_height, dx, dy, width, height);	// 将图像绘制到canvas上 
-
-		var imagedata = ctx.getImageData(0, 0, canvas_width, canvas_height);
-		var data = imagedata.data;
-		// 判断与 [0,0] 值相同的并且连续的像素为背景
-
-		//xn.image_background_opacity(data, canvas_width, canvas_height);
-
-		// 将修改后的代码复制回画布中
-		ctx.putImageData(imagedata, 0, 0);
-
-		//filetype = 'png';
-		if(filetype == 'jpg') filetype = 'jpeg';
-		var s = canvas.toDataURL('image/'+filetype, qulity);
-		if(callback) callback(0, {width: width, height: height, data: s});
+			
+			var imagedata = ctx.getImageData(0, 0, canvas_width, canvas_height);
+			var data = imagedata.data;
+			// 判断与 [0,0] 值相同的并且连续的像素为背景
+	
+			//xn.image_background_opacity(data, canvas_width, canvas_height);
+	
+			// 将修改后的代码复制回画布中
+			ctx.putImageData(imagedata, 0, 0);
+	
+			//filetype = 'png';
+			if(filetype == 'jpg') filetype = 'jpeg';
+			var s = canvas.toDataURL('image/'+filetype, qulity);
+			if(callback) callback(0, {width: width, height: height, data: s});
+		
+		};
+		water_img.src='view/img/water-small.png';
 	};
 	img.onerror = function(e) {
 		console.log(e);
@@ -1227,39 +1246,39 @@ xn.upload_file = function(file, upload_url, postdata, complete_callback, progres
 	postdata.height = postdata.height || 2400;
 	
 	var ajax_upload_file = function(base64_data) {
-			var ajax_upload = function(upload_url, postdata, complete_callback) {
-				$.xpost(upload_url, postdata, function(code, message) {
-					if(code != 0) return complete_callback(code, message);
-					if(complete_callback) complete_callback(0, message);
-				}, function(percent) {
-					if(progress_callback) progress_callback(percent);
-				});
-			};
-			
-			// gif 直接上传
-			// 图片进行缩放，然后上传
-			//  && xn.substr(base64_data, 0, 14) != 'data:image/gif'
-			if(xn.substr(base64_data, 0, 10) == 'data:image') {
-				var filename = file.name ? file.name : (file.type == 'image/png' ? 'capture.png' : 'capture.jpg');
-				xn.image_resize(base64_data, function(code, message) {
-					if(code != 0) return alert(message);
-					// message.width, message.height 是缩略后的宽度和高度
-					postdata.name = filename;
-					postdata.data = message.data;
-					postdata.width = message.width;
-					postdata.height = message.height;
-					ajax_upload(upload_url, postdata, complete_callback);
-				}, postdata);
-			// 文件直接上传， 不缩略
-			} else {
-				var filename = file.name ? file.name : '';
-				postdata.name = filename;
-				postdata.data = base64_data;
-				postdata.width = 0;
-				postdata.height = 0;
-				ajax_upload(upload_url, postdata, complete_callback);
-			}
+		var ajax_upload = function(upload_url, postdata, complete_callback) {
+			$.xpost(upload_url, postdata, function(code, message) {
+				if(code != 0) return complete_callback(code, message);
+				if(complete_callback) complete_callback(0, message);
+			}, function(percent) {
+				if(progress_callback) progress_callback(percent);
+			});
 		};
+		
+		// gif 直接上传
+		// 图片进行缩放，然后上传
+		//  && xn.substr(base64_data, 0, 14) != 'data:image/gif'
+		if(xn.substr(base64_data, 0, 10) == 'data:image') {
+			var filename = file.name ? file.name : (file.type == 'image/png' ? 'capture.png' : 'capture.jpg');
+			xn.image_resize(base64_data, function(code, message) {
+				if(code != 0) return alert(message);
+				// message.width, message.height 是缩略后的宽度和高度
+				postdata.name = filename;
+				postdata.data = message.data;
+				postdata.width = message.width;
+				postdata.height = message.height;
+				ajax_upload(upload_url, postdata, complete_callback);
+			}, postdata);
+		// 文件直接上传， 不缩略
+		} else {
+			var filename = file.name ? file.name : '';
+			postdata.name = filename;
+			postdata.data = base64_data;
+			postdata.width = 0;
+			postdata.height = 0;
+			ajax_upload(upload_url, postdata, complete_callback);
+		}
+	};
 		
 	// 如果为 base64 则不需要 new FileReader()
 	if(xn.is_string(file) && xn.substr(file, 0, 10) == 'data:image') {
