@@ -185,7 +185,7 @@ CREATE TABLE bbs_attach (
   credits int(11) NOT NULL default '0',			# 需要的积分，预留
   golds int(11) NOT NULL default '0',			# 需要的金币，预留
   rmbs int(11) NOT NULL default '0',			# 需要的人民币，预留
-  isimage tinyint(11) NOT NULL default '0',		# 是否为图片
+  isimage tinyint(1) NOT NULL default '0',		# 是否为图片
   PRIMARY KEY (aid),					# aid
   KEY pid (pid),					# 每个帖子下多个附件
   KEY uid (uid)						# 我的附件，清理数据需要。
