@@ -133,8 +133,8 @@ if(empty($action)) {
 		if($conf['user_create_email_on']) {
 			$sess_email = _SESSION('user_create_email');
 			$sess_code = _SESSION('user_create_code');
-			empty($sess_code) AND message('code', 'click_to_get_verify_code');
-			empty($sess_email) AND message('code', 'click_to_get_verify_code');
+			empty($sess_code) AND message('code', lang('click_to_get_verify_code'));
+			empty($sess_email) AND message('code', lang('click_to_get_verify_code'));
 			$email != $sess_email AND message('code', lang('verify_code_incorrect'));
 			$code != $sess_code AND message('code', lang('verify_code_incorrect'));
 		}
@@ -228,8 +228,8 @@ if(empty($action)) {
 		
 		$sess_email = _SESSION('user_resetpw_email');
 		$sess_code = _SESSION('user_resetpw_code');
-		empty($sess_code) AND message('code', 'click_to_get_verify_code');
-		empty($sess_email) AND message('code', 'click_to_get_verify_code');
+		empty($sess_code) AND message('code', lang('click_to_get_verify_code'));
+		empty($sess_email) AND message('code', lang('click_to_get_verify_code'));
 		$email != $sess_email AND message('code', lang('verify_code_incorrect'));
 		$code != $sess_code AND message('code', lang('verify_code_incorrect'));
 	
