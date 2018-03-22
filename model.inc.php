@@ -44,7 +44,16 @@ if(DEBUG) {
 	if(!$isfile) {
 		$s = '';
 		foreach($include_model_files as $model_files) {
-			$s .= php_strip_whitespace(_include($model_files));
+			
+			// 压缩后不利于调试，有时候碰到未结束的 php 标签，会暴 500 错误
+			//$s .= php_strip_whitespace(_include($model_files));
+
+			$t = file_get_contents(_include($model_files));
+			$t = trim($t);
+			$t = ltrim($t, '<?php');
+			$t = rtrim($t, '?>');
+			$s .= "<?php\r\n".$t."\r\n?>";
+
 		}
 		$r = file_put_contents($model_min_file, $s);
 		unset($s);
