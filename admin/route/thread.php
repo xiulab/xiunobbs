@@ -13,6 +13,8 @@ if(empty($action) || $action == 'list') {
 	$header['title'] = lang('thread_admin');
 	$header['mobile_title'] = lang('thread_admin');
 		
+	// hook admin_thread_list_start.php
+	
 	// ajax 扫描全表
 	$threads = $runtime['threads'];
 	$page = 1; // 从第一页开始
@@ -67,6 +69,8 @@ if(empty($action) || $action == 'list') {
 	$page = $cond['page'];
 	$threads = $cond['fid'] ? $forumlist[$fid]['threads'] : $runtime['threads'];
 	$totalpage = ceil($threads / $pagesize);
+	
+	// hook admin_thread_scan_start.php
 	$threadlist = thread_find_by_fid($fid, $page, $pagesize);
 	
 	if($page == 1) $queueid AND queue_destory($queueid);
@@ -85,9 +89,14 @@ if(empty($action) || $action == 'list') {
 		//if($cond['posts_start'] && $thread['posts'] > $cond['posts_start']) continue; 
 		//if($cond['posts_end'] && $thread['posts'] > $cond['posts_end']) continue; 
 		if($cond['keyword'] && stripos($thread['subject'], $cond['keyword']) === FALSE) continue; 
+		
+		// hook admin_thread_scan_for.php
+		
 		$tids[] = $thread['tid'];
 		queue_push($queueid, $thread['tid'], 86400);
 	}
+	
+	// hook admin_thread_scan_end.php
 	message(0, $tids);
 	
 // 操作
@@ -98,6 +107,7 @@ if(empty($action) || $action == 'list') {
 	
 	$op = param(2);
 	$tids = array();
+	// hook admin_thread_operation_start.php
 	for($i = 0; $i <= $pagesize; $i++) {
 		$tid = queue_pop($queueid);
 		if(!$tid) {
@@ -113,8 +123,10 @@ if(empty($action) || $action == 'list') {
 		} elseif($op == 'open') {
 			thread_update($tid, array('closed'=>0));
 		}
+		// hook admin_thread_operation_for.php
 		$tids[] = $tid;
 	}
+	// hook admin_thread_operation_end.php
 	message(0, $tids);
 	
 // 操作
@@ -126,9 +138,11 @@ if(empty($action) || $action == 'list') {
 	$page = param(2, 1);
 	$total = queue_count($queueid);
 	$pagination = pagination(url('thread-found-{page}'), $total, $page, $pagesize);
+	// hook admin_thread_found_start.php
 	$tids = queue_find($queueid, $page, $pagesize);
 	$threadlist = thread_find_by_tids($tids);
 	
+	// hook admin_thread_found_end.php
 	include _include(ADMIN_PATH."view/htm/thread_found.htm");
 }
 
