@@ -188,6 +188,7 @@ return array(
 	'plugin_is_bought'=>'Уже куплено',
 	'plugin_not_bought'=>'Не куплено',
 	'plugin_wechat_qrcode_pay'=>'Wechat SCAN for Pay',
+	'plugin_service_qq'=>'Service QQ',
 	
 	// hook lang_ru_ru_bbs_admin.php
 	

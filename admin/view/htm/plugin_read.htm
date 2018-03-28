@@ -59,7 +59,13 @@
 					
 					<div class="col-md-6">
 						<span class="text-muted"><?php echo lang('plugin_brief_url');?></span>：
-						<span><?php echo $plugin['brief_url']; ?></span>
+						<span><a href="<?php echo $plugin['brief_url']; ?>" target="_blank"><?php echo $plugin['brief_url']; ?></a></span>
+					</div>
+					
+					
+					<div class="col-md-6">
+						<span class="text-muted">客服QQ</span>：
+						<span class="font-weight-bold text-danger"><?php echo $plugin['qq']; ?></span>
 					</div>
 					
 					<?php  } ?>

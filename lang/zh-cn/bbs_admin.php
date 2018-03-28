@@ -186,6 +186,7 @@ return array(
 	'plugin_is_bought'=>'已经购买过。',
 	'plugin_not_bought'=>'还没购买过。',
 	'plugin_wechat_qrcode_pay'=>'微信扫码支付。',
+	'plugin_service_qq'=>'客服 QQ',
 	
 	
 	// hook lang_zh_cn_bbs_admin.php

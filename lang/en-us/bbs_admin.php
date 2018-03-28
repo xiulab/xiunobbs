@@ -185,6 +185,7 @@ return array(
 	'plugin_is_bought'=>'Already bought',
 	'plugin_not_bought'=>'Not bought',
 	'plugin_wechat_qrcode_pay'=>'Wechat SCAN for Pay',
+	'plugin_service_qq'=>'Service QQ',
 	
 	// hook lang_en_us_bbs_admin.php
 	

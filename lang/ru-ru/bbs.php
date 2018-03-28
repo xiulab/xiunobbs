@@ -106,7 +106,6 @@ return array(
 	'update_password'=>'Обновить праоль',
 	
 	'user_login_successfully'=>'Успешная авторизация',
-	'user_send_init_pw_sucessfully'=>'Пароль успешно оптравлен на ваш e-mail',
 	'user_send_sucessfully'=>'Успешно отправлено',
 	'user_create'=>'Регистрация',
 	'user_create_sucessfully'=>'Регистрация успешно завершена',
@@ -114,6 +113,7 @@ return array(
 	'user_profile'=>'Профиль',
 	'user_resetpw'=>'Сброс пароля',
 	'password_new'=>'Новый пароль',
+	'password_new_repeat'=>'重复新密码',
 	'email_is_empty' => 'Укажите e-mail',
 	'email_not_exists' => 'E-mail не существует',
 	'username_not_exists' => 'Имя пользователя не существует',
