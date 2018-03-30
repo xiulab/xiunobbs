@@ -4,7 +4,7 @@ return array(
 	'user'=>'ผู้ใช้',
 	'forum'=>'ฟอรัม',
 	'plugin'=>'ปลั๊กอิน',
-	'other'=>'อื่นๆ',
+	'other'=>'อื่น ๆ',
 	'buy'=>'ซื้อ',
 	
 	'user_admin'=>'ผู้ดูแลผู้ใช้',
@@ -34,7 +34,7 @@ return array(
 	'admin_plugin_official_free_list'=>'ปลั๊กอินฟรี',
 	'admin_plugin_official_fee_list'=>'ปลั๊กอินเสียเงิน',
 	
-	'admin_token_error'=>'Token แอดมินผิดพลาด อาจเกิดจากอินเตอร์เน็ตไม่เสถียร ลองยกเลิกการผูก IP โดยการแก้ไขไฟล์: conf.php ตั้ง admin_bind_ip = 0',
+	'admin_token_error'=>'Token แอดมินผิดพลาด อาจเกิดจากอินเตอร์เน็ตไม่เสถียร ลองยกเลิกการผูก IP โดยการแก้ไขไฟล์: conf.php แล้วกำหนดเป็นค่านี้ admin_bind_ip = 0',
 	'admin_token_expiry'=>'Token แอดมินหมดอายุ กรุณาเข้าสู่ระบบใหม่',
 	'forum_edit'=>'แก้ไขฟอรัม',
 	'user_edit'=>'แก้ไขผู้ใช้',
@@ -185,7 +185,7 @@ return array(
 	'plugin_is_bought'=>'ซื้อแล้ว',
 	'plugin_not_bought'=>'ไม่ได้ซื้อ',
 	'plugin_wechat_qrcode_pay'=>'Wechat SCAN เพื่อชำระเงิน',
-	'plugin_service_qq'=>'Service QQ',
+	'plugin_service_qq'=>'ปลั๊กอินจาก QQ',
 	
 	// hook lang_th_th_bbs_admin.php
 	
