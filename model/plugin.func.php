@@ -488,6 +488,7 @@ function plugin_read_by_dir($dir, $local_first = TRUE) {
 	!isset($official['img3']) && $official['img3'] = 0;
 	!isset($official['img4']) && $official['img4'] = 0;
 	!isset($official['brief_url']) && $official['brief_url'] = '';
+	!isset($official['qq']) && $official['qq'] = '';
 	
 	$local['official'] = $official;
 	

@@ -56,7 +56,6 @@ if($action == 'local') {
 
 	// 给出插件的介绍+付款二维码
 	$dir = param_word(2);
-	$downloaded = param(3, 0);
 	$siteid = plugin_siteid();
 	
 	$plugin = plugin_read_by_dir($dir);
@@ -151,8 +150,7 @@ if($action == 'local') {
 	plugin_lock_end();
 	
 	// 检查解压是否成功 / check the zip if sucess
-	$downloaded = 1;
-	message(0, jump(lang('plugin_download_sucessfully', array('dir'=>$dir)), url("plugin-read-$dir-$downloaded"), 3));
+	message(0, jump(lang('plugin_download_sucessfully', array('dir'=>$dir)), url("plugin-read-$dir"), 3));
 	
 } elseif($action == 'install') {
 	
