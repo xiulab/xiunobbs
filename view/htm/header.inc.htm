@@ -55,8 +55,12 @@
 	
 	<!--{hook header_body_start.htm}-->
 	
+<?php if(empty($conf['nav_2_on'])) { ?>
 	<?php include _include(APP_PATH.'view/htm/header_nav.inc.htm');?>
-	
+<?php } else { ?>
+	<?php include _include(APP_PATH.'view/htm/header_nav_2.inc.htm');?>
+<?php } ?>
+
 	<main id="body">
 		<div class="container">
 	

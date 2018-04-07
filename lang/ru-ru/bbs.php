@@ -59,6 +59,9 @@ return array(
 	'keyword'=>'Ключевое слово',
 	'last_page'=>'Назад',
 	'next_page'=>'Следующая',
+	'bbs'=>'Forum',
+	'channel'=>'Channel',
+	'my'=>'My',
 
 	'month_ago'=>' мес.+',
 	'day_ago'=>' д.+',
@@ -294,6 +297,7 @@ return array(
 	'lang_zh_tw'=>'正體中文',
 	'lang_en_us'=>'English',
 	'lang_ru-ru'=>'Русский',
+	'lang_th_th'=>'ไทย',
 	
 	'rank'=>'Сортировка',
 	'tag'=>'Метки',

@@ -57,6 +57,9 @@ return array(
 	'keyword'=>'關鍵詞',
 	'last_page'=>'上壹頁',
 	'next_page'=>'下壹頁',
+	'bbs'=>'論壇',
+	'channel'=>'频道',
+	'my'=>'我的',
 
 	'month_ago'=>'月前',
 	'day_ago'=>'天前',
@@ -286,7 +289,9 @@ return array(
 	'lang_zh_cn'=>'簡體中文',
 	'lang_zh_tw'=>'正體中文',
 	'lang_en_us'=>'美式英語',
-		
+	'lang_ru-ru'=>'Русский',
+	'lang_th_th'=>'ไทย',
+	
 	'rank'=>'排序',
 	'tag'=>'標簽',
 	'tag_cate'=>'標簽分類',

@@ -126,3 +126,9 @@ li.quote {
 
 /* 回帖输入框 */
 #message { height: 2.4rem; transition: height 0.2s; }
+
+/* 导航 */
+.navbar h5 { font-size: 1rem; color: $gray-700; margin-top: 2rem; font-weight: 800;}
+.navbar nav { padding-bottom: 1rem; }
+#mobile_nav .navbar-nav { flex-direction: row; }
+#mobile_nav .navbar-nav .nav-link { margin-right: 1rem; }

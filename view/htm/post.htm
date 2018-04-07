@@ -182,7 +182,9 @@ jattachparent.on('click', 'a.delete', function() {
 })
 
 jform.find('[name="fid"]').checked(<?php echo $fid;?>);
-$('#nav li[fid="<?php echo $fid;?>"]').addClass('active');
+
+$('li[data-active="bbs"]').addClass('active');
+$('li[data-active="fid-<?php echo $fid;?>"]').addClass('active');
 
 </script>
 

@@ -1,3 +1,11 @@
+
+	<!-- 
+		轻论坛导航：默认头部
+		Bootstrap 4.0 推荐的 PC/Mobile 公共写法 
+		优点：公用性强
+		缺点：结构复杂
+	-->
+	
 	<!--{hook header_nav_start.htm}-->
 	<header class="navbar navbar-expand-lg navbar-dark bg-dark" id="header">
 		<div class="container">
@@ -28,11 +36,11 @@
 				<!-- 左侧：版块 -->
 				<ul class="navbar-nav mr-auto">
 					<!--{hook header_nav_forum_start.htm}-->
-					<li class="nav-item home" fid="0"><a class="nav-link" href="."><i class="icon-home d-md-none"></i> <?php echo lang('index_page');?></a></li>
+					<li class="nav-item home" fid="0" data-active="fid-0"><a class="nav-link" href="."><i class="icon-home d-md-none"></i> <?php echo lang('index_page');?></a></li>
 					<!--{hook header_nav_home_link_after.htm}-->
 					<?php foreach($forumlist_show as $_forum) { ?>
 					<!--{hook header_nav_forumlist_loop_start.htm}-->
-					<li class="nav-item" fid="<?php echo $_forum['fid'];?>">
+					<li class="nav-item" fid="<?php echo $_forum['fid'];?>" data-active="fid-<?php echo $_forum['fid'];?>">
 						<a class="nav-link" href="<?php echo url("forum-$_forum[fid]");?>"><i class="icon-circle-o d-md-none"></i> <?php echo $_forum['name'];?></a>
 					</li>
 					<!--{hook header_nav_forumlist_loop_end.htm}-->

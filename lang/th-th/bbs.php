@@ -57,6 +57,9 @@ return array(
 	'keyword'=>'คีย์เวิร์ด',
 	'last_page'=>'หน้าที่แล้ว',
 	'next_page'=>'หน้าถัดไป',
+	'bbs'=>'Forum',
+	'channel'=>'Channel',
+	'my'=>'My',
 	
 	'month_ago'=>' เดือนที่แล้ว',
 	'day_ago'=>' วันที่แล้ว',
@@ -289,6 +292,7 @@ return array(
 	'lang_zh_cn'=>'简体中文',
 	'lang_zh_tw'=>'正體中文',
 	'lang_en_us'=>'English',
+	'lang_ru-ru'=>'Russian',
 	'lang_th_th'=>'ไทย',
 	
 	'rank'=>'อันดับ',

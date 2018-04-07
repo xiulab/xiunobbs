@@ -57,6 +57,9 @@ return array(
 	'keyword'=>'Keyword',
 	'last_page'=>'Last Page',
 	'next_page'=>'Next Page',
+	'bbs'=>'Forum',
+	'channel'=>'Channel',
+	'my'=>'My',
 
 	'month_ago'=>' Months+',
 	'day_ago'=>' Days+',
@@ -289,6 +292,8 @@ return array(
 	'lang_zh_cn'=>'简体中文',
 	'lang_zh_tw'=>'正體中文',
 	'lang_en_us'=>'English',
+	'lang_ru-ru'=>'Russian',
+	'lang_th_th'=>'ไทย',
 	
 	'rank'=>'Rank',
 	'tag'=>'TAG',
