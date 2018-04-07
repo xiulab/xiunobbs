@@ -193,6 +193,7 @@ function user_format(&$user) {
 	$dir = substr(sprintf("%09d", $user['uid']), 0, 3);
 	// hook model_user_format_avatar_url_before.php
 	$user['avatar_url'] = $user['avatar'] ? $conf['upload_url']."avatar/$dir/$user[uid].png?".$user['avatar'] : 'view/img/avatar.png';
+
 	$user['online_status'] = 1;
 	// hook model_user_format_end.php
 }
