@@ -7,8 +7,9 @@
 	
 	<!--{hook header_nav_2_start.htm}-->
 	<header id="header">
+	
+		<!-- PC Navigation start -->
 		<div class="navbar navbar-dark bg-dark navbar-expand-lg hidden-sm hidden-md">
-			<!-- PC Navigation start -->
 			<div class="container" id="pc_nav">
 			
 				<!-- PC: logo -->
@@ -71,7 +72,7 @@
 					<?php foreach($forumlist_show as $_forum) { ?>
 					<!--{hook header_nav_2_pc_forumlist_loop_start.htm}-->
 					<li class="nav-item" fid="<?php echo $_forum['fid'];?>" data-active="fid-<?php echo $_forum['fid'];?>">
-						<a class="nav-link" href="<?php echo url("forum-$_forum[fid]");?>"><i class="icon-circle-o d-md-none"></i> <?php echo $_forum['name'];?></a>
+						<a class="nav-link" href="<?php echo url("forum-$_forum[fid]");?>"><?php echo $_forum['name'];?></a>
 					</li>
 					<!--{hook header_nav_2_pc_forumlist_loop_end.htm}-->
 					<?php } ?>
@@ -135,13 +136,13 @@
 					<!--{hook header_nav_2_channel_after.htm}-->
 					
 					<!--{hook header_nav_2_forumlist_before.htm}-->
-					<?php if(empty($conf['nav_2_forum_list_on'])) { ?>
+					<?php if(!empty($conf['nav_2_forum_list_on'])) { ?>
 					<h5><?php echo lang('bbs');?>：</h5>
 					<nav class="nav navbar-nav forumlist">
 						<!--{hook header_nav_2_forumlist_loop_before.htm}-->
 						<?php foreach($forumlist_show as $_forum) { ?>
 							<!--{hook header_nav_2_forumlist_loop_start.htm}-->
-							<a class="nav-link" href="<?php echo url("forum-$_forum[fid]");?>"><i class="icon-comment-o"></i> <?php echo $_forum['name'];?></a>
+							<a class="nav-link" href="<?php echo url("forum-$_forum[fid]");?>"><?php echo $_forum['name'];?></a>
 							<!--{hook header_nav_2_forumlist_loop_end.htm}-->
 						<?php } ?>
 						<!--{hook header_nav_2_forumlist_loop_after.htm}-->
