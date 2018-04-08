@@ -10,7 +10,7 @@ $page = param(3, 1);
 
 $keyword_decode = search_keyword_safe(xn_urldecode($keyword));
 $keyword_arr = explode(' ', $keyword_decode);
-$threadlist = $postlist = array();
+$threadlist = $postlist = $userlist = array();
 $pagination = '';
 $active = '';
 

@@ -145,7 +145,7 @@ function qq_login_create_user($username, $avatar_url_2, $openid) {
 	$user = user_read($uid);
 
 	$r = db_insert('user_open_plat', array('uid'=>$uid, 'platid'=>1, 'openid'=>$openid));
-	if(empty($uid)) return xn_error(-1, '注册失败');
+	if(empty($r)) return xn_error(-1, '注册失败');
 	
 	runtime_set('users+', '1');
 	runtime_set('todayusers+', '1');

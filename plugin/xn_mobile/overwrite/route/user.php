@@ -141,8 +141,8 @@ if(empty($action)) {
 		if($kv_mobile['user_create_on']) {
 			$sess_mobile = _SESSION('user_create_mobile');
 			$sess_code = _SESSION('user_create_code');
-			empty($sess_code) AND message('code', 'click_to_get_verify_code');
-			empty($sess_mobile) AND message('code', 'click_to_get_verify_code');
+			empty($sess_code) AND message('code', lang('click_to_get_verify_code'));
+			empty($sess_mobile) AND message('code', lang('click_to_get_verify_code'));
 			$mobile != $sess_mobile AND message('code', lang('verify_code_incorrect'));
 			$code != $sess_code AND message('code', lang('verify_code_incorrect'));
 		}

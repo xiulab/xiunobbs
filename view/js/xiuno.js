@@ -1100,12 +1100,24 @@ xn.image_background_opacity = function(data, width, height, callback) {
 	}
 };
 
+xn.image_file_type = function(file_base64_data) {
+	var pre = xn.substr(file_base64_data, 0, 14);
+	if(pre == 'data:image/gif') {
+		return 'gif';
+	} else if(pre == 'data:image/jpe' || pre == 'data:image/jpg') {
+		return 'jpg';
+	} else if(pre == 'data:image/png') {
+		return 'png';
+	}
+	return 'jpg';
+}
+
 //对图片进行裁切，缩略，对黑色背景，透明化处理
 xn.image_resize = function(file_base64_data, callback, options) {
 	var thumb_width = options.width || 1200;
 	var thumb_height = options.height || 2400;
 	var action = options.action || 'thumb';
-	var filetype = options.filetype || 'jpg';//xn.base64_data_image_type(file_base64_data);
+	var filetype = options.filetype || xn.image_file_type(file_base64_data);//xn.base64_data_image_type(file_base64_data);
 	var qulity = options.qulity || 0.9; // 图片质量, 1 为无损
 	
 	if(thumb_width < 1) return callback(-1, '缩略图宽度不能小于 1 / thumb image width length is less 1 pix');
@@ -1214,7 +1226,7 @@ xn.image_resize = function(file_base64_data, callback, options) {
 			if(callback) callback(0, {width: width, height: height, data: s});
 		
 		};
-		water_img.src='view/img/water-small.png';
+		water_img.src = options.water_image_url || 'view/img/water-small.png';
 	};
 	img.onerror = function(e) {
 		console.log(e);

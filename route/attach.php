@@ -16,6 +16,7 @@ if(empty($action) || $action == 'create') {
 	$is_image = param('is_image', 0);
 	$name = param('name');
 	$data = param('data', '', FALSE, FALSE);
+	$data = param_base64('data');
 	
 	// hook attach_create_start.php
 	
@@ -26,7 +27,7 @@ if(empty($action) || $action == 'create') {
 	empty($group['allowattach']) AND $gid != 1 AND message(-1, '您无权上传');
 	
 	empty($data) AND message(-1, lang('data_is_empty'));
-	$data = base64_decode_file_data($data);
+	//$data = base64_decode_file_data($data);
 	$size = strlen($data);
 	$size > 20480000 AND message(-1, lang('filesize_too_large', array('maxsize'=>'20M', 'size'=>$size)));
 	

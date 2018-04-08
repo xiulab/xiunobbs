@@ -24,6 +24,9 @@ define('APP_PATH', dirname(__FILE__).'/'); // __DIR__
 //ob_start('ob_gzhandler');
 $_SERVER['conf'] = $conf = (@include APP_PATH.'conf/conf.php') OR exit('<script>window.location="install/"</script>');
 
+// 定义版本号！避免手工修改 conf/conf.php
+$_SERVER['conf']['version'] = $conf['version'] = '4.0.3';
+
 // 转换为绝对路径，防止被包含时出错。
 substr($conf['log_path'], 0, 2) == './' AND $conf['log_path'] = APP_PATH.$conf['log_path']; 
 substr($conf['tmp_path'], 0, 2) == './' AND $conf['tmp_path'] = APP_PATH.$conf['tmp_path']; 

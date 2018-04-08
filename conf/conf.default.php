@@ -94,11 +94,11 @@ return array (
 	
 	'update_views_on' => 1,
 	'user_create_email_on' => 0,
+	'user_create_on' => 1,
 	'user_resetpw_on' => 0,
 
-	  'nav_2_on' => 1,				// 是否开启二级导航
-	  'nav_2_hide_forum_list_pc' => 0,		// 是否隐藏二级导航 PC 上的版块列表导航
-	  'nav_2_hide_forum_list_mobile' => 0,		// 是否隐藏二级导航 Mobile 上的版块列表导航
+	 'nav_2_on' => 1,				// 是否开启二级导航
+	 'nav_2_forum_list_on' => 0,			// 是否开启二级导航版块列表
 	
 	
 	'admin_bind_ip' => 0,		// 后台是否绑定 IP

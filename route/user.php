@@ -23,7 +23,7 @@ if(empty($action)) {
         $header['mobile_title'] = $_user['username'];
 
         // hook user_index_end.php
-
+        
 	include _include(APP_PATH.'view/htm/user.htm');
 	
 } elseif($action == 'thread') {
@@ -106,6 +106,8 @@ if(empty($action)) {
 } elseif($action == 'create') {
 
 	// hook user_create_get_post.php
+	
+	empty($conf['user_create_on']) AND message(-1, lang('user_create_not_on'));
 	
 	if($method == 'GET') {
 		

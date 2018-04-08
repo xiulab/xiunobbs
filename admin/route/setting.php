@@ -20,9 +20,12 @@ if($action == 'base') {
 		$input['sitename'] = form_text('sitename', $conf['sitename']);
 		$input['sitebrief'] = form_textarea('sitebrief', $conf['sitebrief'], '100%', 100);
 		$input['runlevel'] = form_radio('runlevel', array(0=>lang('runlevel_0'), 1=>lang('runlevel_1'), 2=>lang('runlevel_2'), 3=>lang('runlevel_3'), 4=>lang('runlevel_4'), 5=>lang('runlevel_5')), $conf['runlevel']);
+		$input['user_create_on'] = form_radio_yes_no('user_create_on', $conf['user_create_on']);
 		$input['user_create_email_on'] = form_radio_yes_no('user_create_email_on', $conf['user_create_email_on']);
 		$input['user_resetpw_on'] = form_radio_yes_no('user_resetpw_on', $conf['user_resetpw_on']);
 		$input['lang'] = form_select('lang', array('zh-cn'=>lang('lang_zh_cn'), 'zh-tw'=>lang('lang_zh_tw'), 'en-us'=>lang('lang_en_us'), 'ru-ru'=>lang('lang_ru-ru'), 'th-th'=>lang('lang_th-th')), $conf['lang']);
+		$input['nav_2_on'] = form_radio_yes_no('nav_2_on', $conf['nav_2_on']);
+		$input['nav_2_forum_list_on'] = form_radio_yes_no('nav_2_forum_list_on', $conf['nav_2_forum_list_on']);
 		
 		$header['title'] = lang('admin_site_setting');
 		$header['mobile_title'] =lang('admin_site_setting');
@@ -36,8 +39,11 @@ if($action == 'base') {
 		$sitebrief = param('sitebrief', '', FALSE);
 		$sitename = param('sitename', '', FALSE);
 		$runlevel = param('runlevel', 0);
+		$user_create_on = param('user_create_on', 0);
 		$user_create_email_on = param('user_create_email_on', 0);
 		$user_resetpw_on = param('user_resetpw_on', 0);
+		$nav_2_on = param('nav_2_on', 0);
+		$nav_2_forum_list_on = param('nav_2_forum_list_on', 0);
 		$_lang = param('lang');
 		
 		// hook admin_setting_base_post_start.php
@@ -46,9 +52,12 @@ if($action == 'base') {
 		$replace['sitename'] = $sitename;
 		$replace['sitebrief'] = $sitebrief;
 		$replace['runlevel'] = $runlevel;
+		$replace['user_create_on'] = $user_create_on;
 		$replace['user_create_email_on'] = $user_create_email_on;
 		$replace['user_resetpw_on'] = $user_resetpw_on;
 		$replace['lang'] = $_lang;
+		$replace['nav_2_on'] = $nav_2_on;
+		$replace['nav_2_forum_list_on'] = $nav_2_forum_list_on;
 		
 		file_replace_var(APP_PATH.'conf/conf.php', $replace);
 	
