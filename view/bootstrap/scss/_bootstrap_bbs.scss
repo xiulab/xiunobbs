@@ -133,5 +133,6 @@ li.quote {
 .navbar nav:not(:last-child) { border-bottom: 1px solid $gray-700; }
 #mobile_nav .navbar-nav { flex-direction: row; }
 #mobile_nav .navbar-nav .nav-link { margin-right: 1rem; }
-#nav_pc_2 { padding: 0.25rem 0rem; background: $gray-400; }
-#nav_pc_2 .active { font-weight: 800; }
+#nav_pc_2 { padding: 0.25rem 0rem; background: $secondary; }
+#nav_pc_2 a { color: $gray-200; }
+#nav_pc_2 .active a {  color: $white; font-weight: 800; }

@@ -259,7 +259,7 @@ li.quote {
 /* 导航 */
 .navbar h5 {
   font-size: 1rem;
-  color: rgba(134, 142, 150, 0.8);
+  color: rgba(134, 142, 150, 0.6);
   margin-top: 1.75rem;
   font-weight: 800;
 }
@@ -282,9 +282,14 @@ li.quote {
 
 #nav_pc_2 {
   padding: 0.25rem 0rem;
-  background: #ced4da;
+  background: #868e96;
 }
 
-#nav_pc_2 .active {
+#nav_pc_2 a {
+  color: #e9ecef;
+}
+
+#nav_pc_2 .active a {
+  color: #fff;
   font-weight: 800;
 }
