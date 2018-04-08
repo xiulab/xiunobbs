@@ -280,11 +280,11 @@ li.quote {
   margin-right: 1rem;
 }
 
-#nav_forum_list_pc {
+#nav_pc_2 {
   padding: 0.25rem 0rem;
   background: #ced4da;
 }
 
-#nav_forum_list_pc .active {
+#nav_pc_2 .active {
   font-weight: 800;
 }

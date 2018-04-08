@@ -64,9 +64,9 @@
 		<!-- pc 的版块列表 -->
 		<!-- 版块放在第二级别显示 -->
 		<?php if(!empty($conf['nav_2_forum_list_on']) && in_array($route, array('bbs', 'forum', 'thread', 'post'))) { ?>
-		<div class="hidden-sm hidden-md" id="nav_forum_list_pc">
+		<div class="hidden-sm hidden-md" id="nav_pc_2">
 			<div class="container">
-				<ul class="nav" id="nav">
+				<ul class="nav">
 					<!--{hook header_nav_2_pc_forum_start.htm}-->
 					<?php foreach($forumlist_show as $_forum) { ?>
 					<!--{hook header_nav_2_pc_forumlist_loop_start.htm}-->
