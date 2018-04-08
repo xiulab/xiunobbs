@@ -255,3 +255,36 @@ li.quote {
   height: 2.4rem;
   transition: height 0.2s;
 }
+
+/* 导航 */
+.navbar h5 {
+  font-size: 1rem;
+  color: rgba(134, 142, 150, 0.8);
+  margin-top: 1.75rem;
+  font-weight: 800;
+}
+
+.navbar nav {
+  padding-bottom: 1rem;
+}
+
+.navbar nav:not(:last-child) {
+  border-bottom: 1px solid #495057;
+}
+
+#mobile_nav .navbar-nav {
+  flex-direction: row;
+}
+
+#mobile_nav .navbar-nav .nav-link {
+  margin-right: 1rem;
+}
+
+#nav_forum_list_pc {
+  padding: 0.25rem 0rem;
+  background: #ced4da;
+}
+
+#nav_forum_list_pc .active {
+  font-weight: 800;
+}

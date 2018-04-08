@@ -128,7 +128,10 @@ li.quote {
 #message { height: 2.4rem; transition: height 0.2s; }
 
 /* 导航 */
-.navbar h5 { font-size: 1rem; color: $gray-700; margin-top: 2rem; font-weight: 800;}
+.navbar h5 { font-size: 1rem; color: rgba($gray-600,.6); margin-top: 1.75rem; font-weight: 800; }
 .navbar nav { padding-bottom: 1rem; }
+.navbar nav:not(:last-child) { border-bottom: 1px solid $gray-700; }
 #mobile_nav .navbar-nav { flex-direction: row; }
 #mobile_nav .navbar-nav .nav-link { margin-right: 1rem; }
+#nav_forum_list_pc { padding: 0.25rem 0rem; background: $gray-400; }
+#nav_forum_list_pc .active { font-weight: 800; }
