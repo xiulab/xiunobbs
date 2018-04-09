@@ -110,7 +110,7 @@ if(empty($action) || $action == 'create') {
 		$r ===  FALSE AND message(-1, lang('delete_failed'));
 	}
 	
-	// hook attach_delete_delete.php
+	// hook attach_delete_end.php
 	
 	message(0, 'delete_successfully');
 	
