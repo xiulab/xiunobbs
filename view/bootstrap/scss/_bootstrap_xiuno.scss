@@ -63,7 +63,7 @@
 small, .small { font-size: 85%; font-weight: 400; }
 .text-small { font-size: 12px; }
 .text-grey, .text-gray { color: rgba($gray-600, 0.8) !important; }
-.break-all { word-break: break-all; }
+.break-all { word-break: break-word; }
 .center { margin-right: auto !important; margin-left: auto !important; }
 .w-auto { width: auto !important; }
 .flex-grow { flex-grow: 1; }
