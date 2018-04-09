@@ -11,7 +11,7 @@ html, table {
 }
 
 body {
-  background: #e9ecef;
+  background: #dee2e6;
 }
 
 html, body {
@@ -281,7 +281,6 @@ li.quote {
 }
 
 #nav_pc_2 {
-  padding: 0.25rem 0rem;
   background: #868e96;
 }
 

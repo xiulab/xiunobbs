@@ -1,7 +1,7 @@
 /****************************************   bbs 业务部分  ****************************************/
 
 html, table { font-size: 14px; }
-body { background: $gray-200; } // #e8ecef;
+body { background: $gray-300; } // #e8ecef;
 html, body { height: 100%; display: flex;  flex-direction: column;  font-family: "Helvetica Neue", Helvetica, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", "微软雅黑", "华文细黑", STHeiti, sans-serif; }
 
 /* 页脚固定在底部 */
@@ -133,6 +133,6 @@ li.quote {
 .navbar nav:not(:last-child) { border-bottom: 1px solid $gray-700; }
 #mobile_nav .navbar-nav { flex-direction: row; }
 #mobile_nav .navbar-nav .nav-link { margin-right: 1rem; }
-#nav_pc_2 { padding: 0.25rem 0rem; background: $secondary; }
+#nav_pc_2 { background: $secondary; }
 #nav_pc_2 a { color: $gray-200; }
 #nav_pc_2 .active a {  color: $white; font-weight: 800; }
