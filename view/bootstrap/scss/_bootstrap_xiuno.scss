@@ -22,11 +22,11 @@
 .avatar-4 { width: 4.5rem; height: 4.5rem; border-radius: 4.5rem; }
 .avatar-5 { width: 6rem; height: 6rem; border-radius: 6rem; }
 
-.logo-1 { width: 1.3rem; height: 1.3rem; }
-.logo-2 { width: 1.8rem; height: 1.8rem; }
-.logo-3 { width: 2.4rem; height: 2.4rem; }
-.logo-4 { width: 4.5rem; height: 4.5rem; }
-.logo-5 { width: 6rem; height: 6rem; }
+.logo-1 { height: 1.3rem; }
+.logo-2 { height: 1.8rem; }
+.logo-3 { height: 2.4rem; }
+.logo-4 { height: 4.5rem; }
+.logo-5 { height: 6rem; }
 
 /* 附件图标 */
 .icon.filetype {
@@ -84,3 +84,5 @@ small, .small { font-size: 85%; font-weight: 400; }
   color: $gray-100;
   background: $gray-600;
 }
+
+select > option { background-color: $body-bg; }
