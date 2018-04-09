@@ -70,6 +70,7 @@ xn.is_ie = (!!document.all) ? true : false;// ie6789
 xn.is_ie_10 = navigator.userAgent.indexOf('Trident') != -1;
 xn.is_ff = navigator.userAgent.indexOf('Firefox') != -1;
 xn.in_mobile = ($(window).width() < 1140);
+xn.options = {}; // 全局配置
 
 
 xn.htmlspecialchars = function(s) {
@@ -1226,7 +1227,7 @@ xn.image_resize = function(file_base64_data, callback, options) {
 			if(callback) callback(0, {width: width, height: height, data: s});
 		
 		};
-		water_img.src = options.water_image_url || 'view/img/water-small.png';
+		water_img.src = options.water_image_url || xn.options.water_image_url;
 	};
 	img.onerror = function(e) {
 		console.log(e);
@@ -1239,7 +1240,7 @@ xn.image_resize = function(file_base64_data, callback, options) {
 	用法：
 	var file = e.target.files[0]; // 文件控件 onchange 后触发的 event;
 	var upload_url = 'xxx.php'; // 服务端地址
-	var postdata = {width: 2048, height: 4096, action: 'thumb', filetype: 'jpg'};
+	var postdata = {width: 2048, height: 4096, action: 'thumb', filetype: 'jpg'}; // postdata|options 公用，一起传给服务端。
 	var progress = function(percent) { console.log('progress:'+ percent); }}; // 如果是图片，会根据此项设定进行缩略和剪切 thumb|clip
 	xn.upload_file(file, upload_url, postdata, function(code, json) {
 		// 成功

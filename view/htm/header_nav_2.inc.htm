@@ -15,7 +15,7 @@
 				<!-- PC: logo -->
 				<!--{hook header_nav_2_pc_logo_before.htm}-->
 				<a class="navbar-brand text-truncate" href="<?php echo $header['mobile_link'];?>">
-					<img src="<?php echo $conf['view_url'];?>img/logo_pc.png" class="logo-2">
+					<img src="<?php echo $conf['logo_pc_url'];?>" class="logo-2">
 				</a>
 				<!--{hook header_nav_2_pc_logo_after.htm}-->
 				
@@ -100,7 +100,7 @@
 				<!-- 中间的 LOGO、网站标题 -->
 				<!--{hook header_nav_2_logo_before.htm}-->
 				<a class="navbar-brand text-truncate" href="<?php echo $header['mobile_link'];?>">
-					<img src="<?php echo $conf['view_url'];?>img/logo.png" class="logo-2">
+					<img src="<?php echo $conf['logo_mobile_url'];?>" class="logo-2">
 					<?php if($header['mobile_title']) { ?>
 						<span><?php echo $header['mobile_title'];?></span>
 					<?php } ?>

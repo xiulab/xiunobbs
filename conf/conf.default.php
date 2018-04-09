@@ -70,7 +70,11 @@ return array (
 	'view_url' => 'view/',		// 可以配置单独的 CDN 域名：比如：http://static.domain.com/view/
 	'upload_url' => 'upload/',	// 可以配置单独的 CDN 域名：比如：http://upload.domain.com/upload/
 	'upload_path' => './upload/',	// 物理路径，可以用 NFS 存入到单独的文件服务器
-
+	
+	'logo_mobile_url' => 'view/img/logo.png',		// 手机的 LOGO URL
+	'logo_pc_url' => 'view/img/logo.png',			// PC 的 LOGO URL
+	'logo_water_url' => 'view/img/water-small.png',		// 水印的 LOGO URL
+	
 	'sitename' => 'Xiuno BBS',
 	'sitebrief' => 'Site Brief',
 	'timezone' => 'Asia/Shanghai',	// 时区，默认中国
@@ -99,7 +103,8 @@ return array (
 
 	 'nav_2_on' => 1,				// 是否开启二级导航
 	 'nav_2_forum_list_on' => 0,			// 是否开启二级导航版块列表
-	
+	 
+
 	
 	'admin_bind_ip' => 0,		// 后台是否绑定 IP
 	

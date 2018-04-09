@@ -24,10 +24,13 @@ define('APP_PATH', dirname(__FILE__).'/'); // __DIR__
 //ob_start('ob_gzhandler');
 $conf = (@include APP_PATH.'conf/conf.php') OR exit('<script>window.location="install/"</script>');
 
-// 兼容 4.0.3 升级
+// 兼容 4.0.3 的配置文件	
 !isset($conf['user_create_on']) AND $conf['user_create_on'] = 1;
 !isset($conf['nav_2_on']) AND $conf['nav_2_on'] = 0;
 !isset($conf['nav_2_forum_list_on']) AND $conf['nav_2_forum_list_on'] = 0;
+!isset($conf['logo_mobile_url']) AND $conf['logo_mobile_url'] = 'view/img/logo.png';
+!isset($conf['logo_pc_url']) AND $conf['logo_pc_url'] = 'view/img/logo.png';
+!isset($conf['logo_water_url']) AND $conf['logo_water_url'] = 'view/img/water-small.png';
 $conf['version'] = '4.0.4';		// 定义版本号！避免手工修改 conf/conf.php
 
 // 转换为绝对路径，防止被包含时出错。
