@@ -23,7 +23,7 @@ if($action == 'base') {
 		$input['user_create_on'] = form_radio_yes_no('user_create_on', $conf['user_create_on']);
 		$input['user_create_email_on'] = form_radio_yes_no('user_create_email_on', $conf['user_create_email_on']);
 		$input['user_resetpw_on'] = form_radio_yes_no('user_resetpw_on', $conf['user_resetpw_on']);
-		$input['lang'] = form_select('lang', array('zh-cn'=>lang('lang_zh_cn'), 'zh-tw'=>lang('lang_zh_tw'), 'en-us'=>lang('lang_en_us'), 'ru-ru'=>lang('lang_ru-ru'), 'th-th'=>lang('lang_th-th')), $conf['lang']);
+		$input['lang'] = form_select('lang', array('zh-cn'=>lang('lang_zh_cn'), 'zh-tw'=>lang('lang_zh_tw'), 'en-us'=>lang('lang_en_us'), 'ru-ru'=>lang('lang_ru_ru'), 'th-th'=>lang('lang_th_th')), $conf['lang']);
 		$input['nav_2_on'] = form_radio_yes_no('nav_2_on', $conf['nav_2_on']);
 		$input['nav_2_forum_list_on'] = form_radio_yes_no('nav_2_forum_list_on', $conf['nav_2_forum_list_on']);
 		

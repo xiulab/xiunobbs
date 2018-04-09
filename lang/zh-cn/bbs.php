@@ -233,6 +233,7 @@ return array(
 	'last_reply' => '最后回复',
 	'attach_not_exists' => '附件不存在',
 	'insufficient_privilege_to_download' => '您所在的用户组无权下载该附件',
+	'insufficient_privilege' => '权限不足',
 	'advanced_reply' => '高级回复',
 	'thread_has_already_closed' => '主题已经关闭',
 	
@@ -292,7 +293,7 @@ return array(
 	'lang_zh_cn'=>'简体中文',
 	'lang_zh_tw'=>'正體中文',
 	'lang_en_us'=>'美式英语',
-	'lang_ru-ru'=>'Русский',
+	'lang_ru_ru'=>'Русский',
 	'lang_th_th'=>'ไทย',
 	
 	'rank'=>'排序',

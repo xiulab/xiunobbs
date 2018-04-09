@@ -96,6 +96,16 @@ if(empty($action) || $action == 'create') {
 		unset($_SESSION['tmp_files'][$key]);
 	} else {
 		$aid = intval($aid);
+		$attach = attach_read($aid);
+		empty($attach) AND message(-1, lang('attach_not_exists'));
+		
+		$thread = thread_read($attach['tid']);
+		empty($thread) AND message(-1, lang('thread_not_exists'));
+		$fid = $thread['fid'];
+		
+		$allowdelete = forum_access_mod($fid, $gid, 'allowdelete');
+		$attach['uid'] != $uid AND !$allowdelete AND message(0, lang('insufficient_privilege'));
+		
 		$r = attach_delete($aid);
 		$r ===  FALSE AND message(-1, lang('delete_failed'));
 	}

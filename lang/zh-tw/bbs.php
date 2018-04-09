@@ -232,6 +232,7 @@ return array(
 	'last_reply' => '最後回復',
 	'attach_not_exists' => '附件不存在',
 	'insufficient_privilege_to_download' => '您所在的用戶組無權下載該附件',
+	'insufficient_privilege' => '权限不足',
 	'advanced_reply' => '高級回復',
 	'thread_has_already_closed' => '主題已經關閉',
 	

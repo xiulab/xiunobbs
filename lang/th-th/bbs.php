@@ -234,6 +234,7 @@ return array(
 	'last_reply' => 'ความคิดเห็นล่าสุด',
 	'attach_not_exists' => 'ไม่พบไฟล์แนบ',
 	'insufficient_privilege_to_download' => 'สิทธิ์กลุ่มของคุณไม่มีสิทธิ์ที่จะดาวน์โหลดไฟล์แนบนี้',
+	'insufficient_privilege' => 'Insufficient privilege',
 	'advanced_reply' => 'แสดงความคิดเห็นขั้นสูง',
 	'thread_has_already_closed' => 'โพสต์ได้ถูกปิดแล้ว',
 	

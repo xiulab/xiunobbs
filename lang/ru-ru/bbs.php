@@ -238,6 +238,7 @@ return array(
 	'last_reply' => 'Last Reply',
 	'attach_not_exists' => 'Вложения не существует',
 	'insufficient_privilege_to_download' => 'Your group privilege is insufficient to download this attach',
+	'insufficient_privilege' => 'Insufficient privilege',
 	'advanced_reply' => 'Расширенная форма ответа',
 	'thread_has_already_closed' => 'Thread has already closed',
 	
