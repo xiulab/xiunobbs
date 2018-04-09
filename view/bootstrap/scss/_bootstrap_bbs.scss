@@ -128,9 +128,9 @@ li.quote {
 #message { height: 2.4rem; transition: height 0.2s; }
 
 /* 导航 */
-.navbar h5 { font-size: 1rem; color: rgba($gray-600,.6); margin-top: 1.75rem; font-weight: 800; }
+.navbar h5 { font-size: 1rem; color: rgba($white,.3); margin-top: 1.75rem; font-weight: 800; }
 .navbar nav { padding-bottom: 1rem; }
-.navbar nav:not(:last-child) { border-bottom: 1px solid $gray-700; }
+.navbar nav:not(:last-child) { border-bottom: 1px solid rgba($white,.1); }
 #mobile_nav .navbar-nav { flex-direction: row; }
 #mobile_nav .navbar-nav .nav-link { margin-right: 1rem; }
 #nav_pc_2 { background: $secondary; }

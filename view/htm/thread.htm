@@ -5,7 +5,7 @@
 <div class="row">
 	<div class="col-lg-9 main">
 		<!--{hook thread_breadcrumb_before.htm}-->
-		<?php if(empty($conf['nav_2_on']) || empty($conf['nav_2_forum_list_on'])) { ?>
+		<?php if(empty($conf['nav_2_on']) || empty($conf['nav_2_forum_list_pc_on'])) { ?>
 		<ol class="breadcrumb d-none d-md-flex">
 			<li class="breadcrumb-item"><a href="./" aria-label="<?php echo lang('index_page');?>"><i class="icon-home"></i></a></li>
 			<li class="breadcrumb-item"><a href="<?php echo url("forum-$fid");?>"><?php echo $forum['name'];?></a></li>

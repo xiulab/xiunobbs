@@ -64,7 +64,7 @@
 		
 		<!-- pc 的版块列表 -->
 		<!-- 版块放在第二级别显示 -->
-		<?php if(!empty($conf['nav_2_forum_list_on']) && in_array($route, array('bbs', 'forum', 'thread', 'post'))) { ?>
+		<?php if(!empty($conf['nav_2_forum_list_pc_on']) && in_array($route, array('bbs', 'forum', 'thread', 'post'))) { ?>
 		<div class="hidden-sm hidden-md" id="nav_pc_2">
 			<div class="container">
 				<ul class="nav">
@@ -136,7 +136,7 @@
 					<!--{hook header_nav_2_channel_after.htm}-->
 					
 					<!--{hook header_nav_2_forumlist_before.htm}-->
-					<?php if(!empty($conf['nav_2_forum_list_on'])) { ?>
+					<?php if(!empty($conf['nav_2_forum_list_mobile_on'])) { ?>
 					<h5><?php echo lang('bbs');?>：</h5>
 					<nav class="nav navbar-nav forumlist">
 						<!--{hook header_nav_2_forumlist_loop_before.htm}-->
