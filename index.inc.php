@@ -57,7 +57,6 @@ if(!defined('SKIP_ROUTE')) {
 	switch ($route) {
 		// hook index_route_case_start.php
 		case 'index': 	include _include(APP_PATH.'route/index.php'); 	break;
-		case 'bbs': 	include _include(APP_PATH.'route/bbs.php'); 	break;
 		case 'thread':	include _include(APP_PATH.'route/thread.php'); 	break;
 		case 'forum': 	include _include(APP_PATH.'route/forum.php'); 	break;
 		case 'user': 	include _include(APP_PATH.'route/user.php'); 	break;
