@@ -7,6 +7,7 @@ class cache_memcached {
 	public $cachepre = '';
 	public $errno = 0;
 	public $errstr = '';
+	public $ismemcache = FALSE;
 
         public function __construct($conf = array()) {
                 if(!extension_loaded('Memcache') && !extension_loaded('Memcached') ) {
@@ -19,9 +20,12 @@ class cache_memcached {
                 $conf = $this->conf;
                 if($this->link) return $this->link;
                 if(extension_loaded('Memcache')) {
+                	$this->ismemcache = TRUE;
                         $memcache = new Memcache;
                         $r = $memcache->connect($conf['host'], $conf['port']);
+                        
                 } elseif(extension_loaded('Memcached')) {
+                	$this->ismemcache = FALSE;
                         $memcache = new Memcached;
                         $r = $memcache->addserver($conf['host'], $conf['port']);
                 } else {
@@ -36,7 +40,11 @@ class cache_memcached {
         }
         public function set($k, $v, $life = 0) {
                 if(!$this->link && !$this->connect()) return FALSE;
-                $r = $this->link->set($k, $v, 0, $life);
+                if($this->ismemcache) {
+                	$r = $this->link->set($k, $v, 0, $life);
+                } else {
+                	$r = $this->link->set($k, $v, $life);
+                }
                 return $r;
         }
         public function get($k) {
