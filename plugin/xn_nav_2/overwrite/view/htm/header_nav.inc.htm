@@ -132,7 +132,9 @@
 						<!--{hook header_nav_2_channel_index_page_after.htm}-->
 						
 						<!--{hook header_nav_2_channel_bbs_before.htm}-->
+						<?php if($conf['nav_2_bbs_on']) { ?>
 						<a class="nav-link" href="<?php echo url('bbs');?>" data-active="bbs"><?php echo lang('bbs');?></a>
+						<?php } ?>
 						<!--{hook header_nav_2_channel_bbs_after.htm}-->
 					</nav>
 					<!--{hook header_nav_2_channel_after.htm}-->
