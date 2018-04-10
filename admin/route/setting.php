@@ -24,9 +24,6 @@ if($action == 'base') {
 		$input['user_create_email_on'] = form_radio_yes_no('user_create_email_on', $conf['user_create_email_on']);
 		$input['user_resetpw_on'] = form_radio_yes_no('user_resetpw_on', $conf['user_resetpw_on']);
 		$input['lang'] = form_select('lang', array('zh-cn'=>lang('lang_zh_cn'), 'zh-tw'=>lang('lang_zh_tw'), 'en-us'=>lang('lang_en_us'), 'ru-ru'=>lang('lang_ru_ru'), 'th-th'=>lang('lang_th_th')), $conf['lang']);
-		$input['nav_2_on'] = form_radio_yes_no('nav_2_on', $conf['nav_2_on']);
-		$input['nav_2_forum_list_pc_on'] = form_radio_yes_no('nav_2_forum_list_pc_on', $conf['nav_2_forum_list_pc_on']);
-		$input['nav_2_forum_list_mobile_on'] = form_radio_yes_no('nav_2_forum_list_mobile_on', $conf['nav_2_forum_list_mobile_on']);
 		
 		$header['title'] = lang('admin_site_setting');
 		$header['mobile_title'] =lang('admin_site_setting');
@@ -43,9 +40,7 @@ if($action == 'base') {
 		$user_create_on = param('user_create_on', 0);
 		$user_create_email_on = param('user_create_email_on', 0);
 		$user_resetpw_on = param('user_resetpw_on', 0);
-		$nav_2_on = param('nav_2_on', 0);
-		$nav_2_forum_list_pc_on = param('nav_2_forum_list_pc_on', 0);
-		$nav_2_forum_list_mobile_on = param('nav_2_forum_list_mobile_on', 0);
+		
 		$_lang = param('lang');
 		
 		// hook admin_setting_base_post_start.php
