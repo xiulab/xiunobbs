@@ -5,7 +5,7 @@
 <div class="row">
 	<div class="col-lg-9 main">
 		<!--{hook forum_breadcrumb_before.htm}-->
-		<?php if(empty($conf['nav_2_on']) || empty($conf['nav_2_forum_list_pc_on'])) { ?>
+		<?php if(empty($hide_breadcrumb)) { ?>
 		<ol class="breadcrumb d-none d-md-flex">
 			<li class="breadcrumb-item"><a href="./"><i class="icon-home" aria-hidden="true"></i></a></li>
 			<li class="breadcrumb-item active"><a href="<?php echo url("forum-$fid");?>"><?php echo $forum['name'];?></a></li>
@@ -124,7 +124,6 @@
 <?php include _include(APP_PATH.'view/htm/footer.inc.htm');?>
 
 <script>
-$('li[data-active="bbs"]').addClass('active');
 $('li[data-active="fid-<?php echo $fid;?>"]').addClass('active');
 </script>
 

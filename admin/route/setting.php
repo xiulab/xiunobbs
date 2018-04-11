@@ -53,9 +53,6 @@ if($action == 'base') {
 		$replace['user_create_email_on'] = $user_create_email_on;
 		$replace['user_resetpw_on'] = $user_resetpw_on;
 		$replace['lang'] = $_lang;
-		$replace['nav_2_on'] = $nav_2_on;
-		$replace['nav_2_forum_list_pc_on'] = $nav_2_forum_list_pc_on;
-		$replace['nav_2_forum_list_mobile_on'] = $nav_2_forum_list_mobile_on;
 		
 		file_replace_var(APP_PATH.'conf/conf.php', $replace);
 	
