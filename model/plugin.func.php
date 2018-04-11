@@ -352,9 +352,8 @@ function plugin_compile_srcfile_callback($m) {
 			if(is_array($hookpaths)) {
 				foreach($hookpaths as $hookpath) {
 					$hookname = file_name($hookpath);
-					$rank = isset($pconf['hooks_rank'][$hookname]) ? $pconf['hooks_rank'][$hookname] : 0;
+					$rank = isset($pconf['hooks_rank']["$hookname"]) ? $pconf['hooks_rank']["$hookname"] : 0;
 					$hooks[$hookname][] = array('hookpath'=>$hookpath, 'rank'=>$rank);
-					
 				}
 			}
 		}
