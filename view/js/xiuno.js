@@ -1128,8 +1128,7 @@ xn.image_resize = function(file_base64_data, callback, options) {
 	var img = new Image();
 	img.onload = function() {
 		
-		var water_img = new Image();
-		water_img.onload = function() {
+		var water_img_onload = function(water_on) {
 			var canvas = document.createElement('canvas');
 			// 等比缩放
 			var width = 0, height = 0, canvas_width = 0, canvas_height = 0;
@@ -1198,19 +1197,24 @@ xn.image_resize = function(file_base64_data, callback, options) {
 			ctx.clearRect(0, 0, width, height); 			// canvas清屏
 			ctx.drawImage(img, 0, 0, img_width, img_height, dx, dy, width, height);	// 将图像绘制到canvas上 
 			
-			var water_width = water_img.width;
-			var water_height = water_img.height;
-			if(img_width > 400 && img_width > water_width && water_width > 4) {
-				var x =  img_width - water_width - 16;
-				var y = img_height - water_height - 16;
-				
-				// 参数参考：https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
-				ctx.globalAlpha = 0.3; // 水印透明度
-				ctx.beginPath();
-				ctx.drawImage(water_img, 0, 0, water_width, water_height, x, y, water_width, water_height);	// 将水印图像绘制到canvas上 
-				ctx.closePath();
-				ctx.save();
+			
+			
+			if(water_on) {
+				var water_width = water_img.width;
+				var water_height = water_img.height;
+				if(img_width > 400 && img_width > water_width && water_width > 4) {
+					var x =  img_width - water_width - 16;
+					var y = img_height - water_height - 16;
+					
+					// 参数参考：https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
+					ctx.globalAlpha = 0.3; // 水印透明度
+					ctx.beginPath();
+					ctx.drawImage(water_img, 0, 0, water_width, water_height, x, y, water_width, water_height);	// 将水印图像绘制到canvas上 
+					ctx.closePath();
+					ctx.save();
+				}
 			}
+			
 			
 			var imagedata = ctx.getImageData(0, 0, canvas_width, canvas_height);
 			var data = imagedata.data;
@@ -1227,7 +1231,18 @@ xn.image_resize = function(file_base64_data, callback, options) {
 			if(callback) callback(0, {width: width, height: height, data: s});
 		
 		};
+		
+		var water_img = new Image();
+		water_img.onload = function() {
+			water_img_onload(true);
+		};
+		water_img.onerror = function() {
+			water_img_onload(false);
+		};
 		water_img.src = options.water_image_url || xn.options.water_image_url;
+		if(!water_img.src) {
+			water_img_onload(false);
+		}
 	};
 	img.onerror = function(e) {
 		console.log(e);
