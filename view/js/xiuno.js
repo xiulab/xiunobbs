@@ -71,7 +71,7 @@ xn.is_ie_10 = navigator.userAgent.indexOf('Trident') != -1;
 xn.is_ff = navigator.userAgent.indexOf('Firefox') != -1;
 xn.in_mobile = ($(window).width() < 1140);
 xn.options = {}; // 全局配置
-
+xn.options.water_image_url = 'view/img/water-small.png';// 默认水印路径
 
 xn.htmlspecialchars = function(s) {
 	s = s.replace(/</g, "&lt;");
