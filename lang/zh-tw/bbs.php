@@ -289,7 +289,7 @@ return array(
 	'runlevel_reson_4'=>'當前站點設置狀態：所有人只讀',
 	'lang_zh_cn'=>'簡體中文',
 	'lang_zh_tw'=>'正體中文',
-	'lang_en_us'=>'美式英語',
+	'lang_en_us'=>'English',
 	'lang_ru-ru'=>'Русский',
 	'lang_th_th'=>'ไทย',
 	

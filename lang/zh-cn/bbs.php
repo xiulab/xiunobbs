@@ -292,7 +292,7 @@ return array(
 	'runlevel_reson_4'=>'当前站点设置状态：所有人只读',
 	'lang_zh_cn'=>'简体中文',
 	'lang_zh_tw'=>'正體中文',
-	'lang_en_us'=>'美式英语',
+	'lang_en_us'=>'English',
 	'lang_ru_ru'=>'Русский',
 	'lang_th_th'=>'ไทย',
 	
