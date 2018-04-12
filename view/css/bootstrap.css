@@ -11284,4 +11284,8 @@ small, .small {
   background: #868e96;
 }
 
+select > option {
+  background-color: #fff;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */

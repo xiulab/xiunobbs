@@ -250,6 +250,10 @@ li.quote {
   font-weight: normal;
 }
 
+.subject, .message {
+  font-size: 1.1rem;
+}
+
 /* 回帖输入框 */
 #message {
   height: 2.4rem;
