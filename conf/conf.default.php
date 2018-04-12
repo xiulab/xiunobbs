@@ -100,12 +100,6 @@ return array (
 	'user_create_email_on' => 0,
 	'user_create_on' => 1,
 	'user_resetpw_on' => 0,
-
-	 'nav_2_on' => 1,				// 是否开启二级导航
-	 'nav_2_forum_list_pc_on' => 0,			// 是否开启 PC 二级导航版块列表
-	 'nav_2_forum_list_mobile_on' => 0,		// 是否开启 Mobile 二级导航版块列表
-	 
-
 	
 	'admin_bind_ip' => 0,		// 后台是否绑定 IP
 	
