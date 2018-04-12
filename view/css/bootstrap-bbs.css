@@ -250,7 +250,11 @@ li.quote {
   font-weight: normal;
 }
 
-.subject, .message {
+.subject {
+  font-size: 1.04rem;
+}
+
+.message {
   font-size: 1.1rem;
 }
 

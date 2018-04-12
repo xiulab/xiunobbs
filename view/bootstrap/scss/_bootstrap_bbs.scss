@@ -124,7 +124,8 @@ li.quote {
 .message img { max-width:  100%; height:auto !important; border: 1px solid $gray-300; margin-bottom: 0.5rem; }
 .thread .badge { font-weight: normal; }
 
-.subject, .message {font-size: 1.1rem; }
+.subject {font-size: 1.04rem; }
+.message {font-size: 1.1rem; }
 
 /* 回帖输入框 */
 #message { height: 2.4rem; transition: height 0.2s; }
