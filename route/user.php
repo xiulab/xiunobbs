@@ -401,42 +401,5 @@ if(empty($action)) {
 
 // hook user_end.php
 
-// 获取用户来路
-function user_http_referer() {
-	// hook user_http_referer_start.php
-	$referer = param('referer'); // 优先从参数获取 | GET is priority
-	empty($referer) AND $referer = array_value($_SERVER, 'HTTP_REFERER', '');
-	
-	$referer = str_replace(array('\"', '"', '<', '>', ' ', '*', "\t", "\r", "\n"), '', $referer); // 干掉特殊字符 strip special chars
-	
-	if(
-		!preg_match('#^(http|https)://[\w\-=/\.]+/[\w\-=.%\#?]*$#is', $referer) 
-		|| strpos($referer, 'user-login.htm') !== FALSE 
-		|| strpos($referer, 'user-logout.htm') !== FALSE 
-		|| strpos($referer, 'user-create.htm') !== FALSE 
-		|| strpos($referer, 'user-setpw.htm') !== FALSE 
-		|| strpos($referer, 'user-resetpw_complete.htm') !== FALSE
-	) {
-		$referer = './';
-	}
-	// hook user_http_referer_end.php
-	return $referer;
-}
-
-function user_auth_check($token) {
-	// hook user_auth_check_start.php
-	global $time;
-	$auth = param(2);
-	$s = decrypt($auth);
-	empty($s) AND message(-1, lang('decrypt_failed'));
-	$arr = explode('-', $s);
-	count($arr) != 3 AND message(-1, lang('encrypt_failed'));
-	list($_ip, $_time, $_uid) = $arr;
-	$_user = user_read($_uid);
-	empty($_user) AND message(-1, lang('user_not_exists'));
-	$time - $_time > 3600 AND message(-1, lang('link_has_expired'));
-	// hook user_auth_check_end.php
-	return $_user;
-}
 
 ?>
