@@ -265,8 +265,7 @@ function thread_find_by_fid($fid, $page = 1, $pagesize = 20, $order = 'lastpid')
 	// 查找置顶帖
 	if($order == $conf['order_default'] && $page == 1) {
 		$toplist3 = thread_top_find(0);
-		$toplist1 = thread_top_find($fid);
-		//$toplist = thread_top_find($fid);
+		$toplist1 = $fid ? thread_top_find($fid) : array();
 		$threadlist = $toplist3 + $toplist1 + $threadlist;
 	}
 	
