@@ -401,7 +401,7 @@ function thread_list_access_filter(&$threadlist, $gid) {
 	// hook model_thread_list_access_filter_end.php
 }
 
-function thread_find_by_tids($tids, $order = array('lastpid'=>-1)) {
+function thread_find_by_tids($tids, $order = array()) {
 	// hook model_thread_find_by_tids_start.php
 	//$start = ($page - 1) * $pagesize;
 	//$tids = array_slice($tids, $start, $pagesize);
