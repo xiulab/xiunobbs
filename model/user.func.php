@@ -319,9 +319,18 @@ function user_token_get_do() {
 	if(empty($s)) return FALSE;
 	$arr = explode("\t", $s);
 	if(count($arr) != 3) return FALSE;
-	list($_ip, $_time, $_uid) = $arr;
+	list($_ip, $_time, $_uid, $_pwd) = $arr;
 	//if($ip != $_ip) return FALSE;
 	//if($time - $_time > 86400) return FALSE;
+	
+	// 检查密码是否被修改。
+	if($time - $_time > 3600) {
+		$user = user_read($_uid);
+		if(empty($user)) return 0;
+		if(md5($user['password']) != $_pwd) {
+			return 0;
+		}
+	}
 	
 	// hook model_user_token_get_do_end.php
 	
@@ -350,8 +359,10 @@ function user_token_gen($uid) {
 	
 	// hook model_user_token_gen_start.php
 	
+	$user = user_read($uid);
+	$pwd = md5($user['password']);
 	$tokenkey = md5(xn_key());
-	$token = xn_encrypt("$ip	$time	$uid", $tokenkey);
+	$token = xn_encrypt("$ip	$time	$uid	$pwd", $tokenkey);
 	
 	// hook model_user_token_gen_end.php
 	
