@@ -45,7 +45,7 @@ if($action == 'create') {
 		$r = forum_access_user($fid, $gid, 'allowthread');
 		!$r AND message(-1, lang('user_group_insufficient_privilege'));
 		
-		$subject = htmlspecialchars(param('subject', '', FALSE));
+		$subject = param('subject');
 		empty($subject) AND message('subject', lang('please_input_subject'));
 		xn_strlen($subject) > 128 AND message('subject', lang('subject_length_over_limit', array('maxlength'=>128)));
 		
