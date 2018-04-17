@@ -30,7 +30,7 @@ javatar_upload.on('change', function(e) {
 	xn.upload_file(
 		files[0], 
 		xn.url('my-avatar'), 
-		{width: 128, height: 128, action: 'clip', filetype: 'png'}, 
+		{width: 128, height: 128, action: 'clip', filetype: 'jpg'}, 
 		function(code, message) {
 			if(code == 0) {
 				jimg.attr('src', message.url+'?'+Math.random());
