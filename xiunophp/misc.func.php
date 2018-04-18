@@ -68,8 +68,6 @@ function xn_error($no, $str, $return = FALSE) {
 	param(1, array(''));
 	param(1, array(0));
 */
-//define('base64', '__base64__');
-//define('json', '__base64__');
 function param($key, $defval = '', $htmlspecialchars = TRUE, $addslashes = FALSE) {
 	if(!isset($_REQUEST[$key]) || ($key === 0 && empty($_REQUEST[$key]))) {
 		if(is_array($defval)) {
@@ -203,7 +201,7 @@ function xn_substr($s, $start, $len) {
 // txt 转换到 html
 function xn_txt_to_html($s) {
 	$s = htmlspecialchars($s);
-	$s = str_replace(" ", '&nbsp; ', $s);
+	$s = str_replace(" ", '&nbsp;', $s);
 	$s = str_replace("\t", ' &nbsp; &nbsp; &nbsp; &nbsp;', $s);
 	$s = str_replace("\r\n", "\n", $s);
 	$s = str_replace("\n", '<br>', $s);
