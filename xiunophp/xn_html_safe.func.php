@@ -1380,13 +1380,14 @@ class HTML_White {
 							$cssvalue = intval($cssvalue);
 							$px = 1;
 						}
-						if($cssvalue < $v[2][0] || $cssvalue > $v[2][1]) {
-							$cssvalue = $v[1];
+						if($cssvalue < $v[2][0]) {
+                            $cssvalue = $v[2][0];
+                        } else if($cssvalue > $v[2][1]) {
+							$cssvalue = $v[2][1];
 						}
 						// 如果为 table，转换为百分比，参考值可以通过参数控制。
 						if($cssname == 'width' || $cssname == 'min-width') {
-							$px AND $cssvalue > $this->args['table_max_width'] AND $cssvalue = '100%';
-							$px = 0;
+							$px AND $cssvalue > $this->args['table_max_width'] AND $cssvalue = '100%' AND $px = 0;
 						}
 						$px AND $cssvalue .= 'px';
 						
