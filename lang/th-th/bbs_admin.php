@@ -75,7 +75,6 @@ return array(
 	'sitebrief_tips'=>'เคล็ดลับ: รองรับ HTML หากต้องการขึ้นบรรทัดใหม่ให้ใช้ &lt;br&gt;',
 	'runlevel'=>'สิทธิ์การเข้าถึงเว็บ',
 	'user_create_on'=>'Enable user create',
-	'user_create_not_on'=>'User create disabed',
 	'user_create_email_on'=>'เปิดการยืนยันอีเมลเมื่อผู้ใช้ลงทะเบียน',
 	'user_resetpw_on'=>'เปิดการรีเซ็ตรหัสผ่าน',
 	'lang'=>'ภาษา',

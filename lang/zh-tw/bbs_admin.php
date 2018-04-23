@@ -75,7 +75,6 @@ return array(
 	'sitebrief_tips'=>'註：支持 HTML 標簽，換行請使用 &lt;br&gt;',
 	'runlevel'=>'站點訪問限制',
 	'user_create_on'=>'开启用户注册',
-	'user_create_not_on'=>'未开启用户注册',
 	'user_create_email_on'=>'開啟註冊郵箱驗證',
 	'user_resetpw_on'=>'開啟找回密碼',
 	'lang'=>'語言',

@@ -160,6 +160,7 @@ return array(
 	'confirm_delete_user'=>'确定删除用户？',
 	'confirm_delete'=>'确定删除？',
 	'send_code_template'=>'【{sitename}】您的验证码：{rand}，该验证码5分钟内有效。',
+	'user_create_not_on'=>'未开启用户注册',
 	
 	// 个人中心
 	'my_home' => '个人中心',

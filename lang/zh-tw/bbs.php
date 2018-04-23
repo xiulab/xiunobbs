@@ -160,6 +160,7 @@ return array(
 	'confirm_delete_user'=>'確定刪除用戶？',
 	'confirm_delete'=>'確定刪除？',
 	'send_code_template'=>'【{sitename}】您的驗證碼：{rand}，該驗證碼5分鐘內有效。',
+	'user_create_not_on'=>'未开启用户注册',
 	
 	// 個人中心
 	'my_home' => '個人中心',

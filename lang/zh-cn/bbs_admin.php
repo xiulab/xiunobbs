@@ -75,7 +75,6 @@ return array(
 	'sitebrief_tips'=>'注：支持 HTML 标签，换行请使用 &lt;br&gt;',
 	'runlevel'=>'站点访问限制',
 	'user_create_on'=>'开启用户注册',
-	'user_create_not_on'=>'未开启用户注册',
 	'user_create_email_on'=>'开启注册邮箱验证',
 	'user_resetpw_on'=>'开启找回密码',
 	'lang'=>'语言',

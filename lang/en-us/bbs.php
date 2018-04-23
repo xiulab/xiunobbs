@@ -160,6 +160,7 @@ return array(
 	'confirm_delete_user'=>'Sure to delete user ?',
 	'confirm_delete'=>'Sure to delete ?',
 	'send_code_template'=>'【{sitename}】Your verify code:{rand}, expiry after 5 minutes',
+	'user_create_not_on'=>'User create disabed',
 	
 	// my profile
 	'my_home' => 'My Home',

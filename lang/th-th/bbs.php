@@ -160,6 +160,7 @@ return array(
 	'confirm_delete_user'=>'คุณแน่ใจหรือไม่ที่จะลบผู้ใช้',
 	'confirm_delete'=>'แน่ใจที่จะลบนะ',
 	'send_code_template'=>'【{sitename}】รหัสยืนยันของคุณ: {rand} จะหมดอายุหลังจาก 5 นาที',
+	'user_create_not_on'=>'User create disabed',
 	
 	// my profile
 	'my_home' => 'หน้าแรกของฉัน',

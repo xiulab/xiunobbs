@@ -165,6 +165,8 @@ return array(
 	'delete_user'=>'Удалить пользователя',
 	'confirm_delete_user'=>'Вы уверены ?',
 	'confirm_delete'=>'Вы уверены ?',
+	'send_code_template'=>'【{sitename}】Your verify code:{rand}, expiry after 5 minutes',
+	'user_create_not_on'=>'User create disabed',
 	
 	// my profile
 	'my_home' => 'Личный кабинет',
@@ -190,8 +192,8 @@ return array(
 	'thread'=>'Темы',
 	'post'=>'Сообщение',
 	'reply'=>'Ответ',
-	'subject'=>'Тема',
 	'quote'=>'Цитата',
+	'subject'=>'Тема',
 	'message'=>'Сообщение',
 	'thread_create'=>'Создать тему',
 	'thread_create_successfully'=>'Тема успешно создана',

@@ -73,7 +73,6 @@ return array(
 	'sitebrief_tips'=>'Поддерживает HTML, новая строка с &lt;br&gt;',
 	'runlevel'=>'Доступ к форуму',
 	'user_create_on'=>'Enable user create',
-	'user_create_not_on'=>'User create disabed',
 	'user_create_email_on'=>'Активация регистрации через e-mail',
 	'user_resetpw_on'=>'Включить сброс пароля',
 	'lang'=>'Язык',

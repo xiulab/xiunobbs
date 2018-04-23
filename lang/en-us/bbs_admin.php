@@ -75,7 +75,6 @@ return array(
 	'sitebrief_tips'=>'tops：Support HTML tag, new line use &lt;br&gt;',
 	'runlevel'=>'Site access restrictions',
 	'user_create_on'=>'Enable user register',
-	'user_create_not_on'=>'User create disabed',
 	'user_create_email_on'=>'Open email verification when  user register',
 	'user_resetpw_on'=>'Open password reset',
 	'lang'=>'Language',
