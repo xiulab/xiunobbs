@@ -1,9 +1,9 @@
 <?php 
 $kv_vcode = kv_get('vcode');
-if(!empty($kv_vcode['vcode_thread_create_on']) && $route == 'thread' || !empty($kv_vcode['vcode_post_create_on']) && $route == 'post') {
+if(!empty($kv_vcode['vcode_post_create_on'])) {
 ?>
-	<div class="media">
-		<div class="media-body col-lg-3 p-0">
+	<div class="media my-1">
+		<div class="media-body col-lg-6 p-0">
 			<div class="form-group input-group">
 				<div class="input-group-prepend">
 					<span class="input-group-text"><i class="icon-barcode"></i></span>

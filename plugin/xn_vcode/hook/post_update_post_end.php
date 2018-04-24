@@ -1,0 +1,3 @@
+
+unset($_SESSION['vcode']);
+
