@@ -18,7 +18,8 @@ if(empty($action)) {
         empty($_uid) AND $_uid = $uid;
         $_user = user_read($_uid);
 
-       // empty($_user) AND message(-1, lang('user_not_exists'));
+	empty($_user) AND message(-1, lang('user_not_exists'));
+	
         $header['title'] = $_user['username'];
         $header['mobile_title'] = $_user['username'];
 
