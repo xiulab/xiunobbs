@@ -55,14 +55,20 @@ if(empty($action) || $action == 'list') {
 	$queueid = _SESSION('thread_find_queueid');
 	empty($queueid) AND message(-1, lang('thread_queue_not_exists'));
 	
+	$_uid = param('uid', 0);
+	if(!is_numeric($_uid)) {
+		$_user = user_read_by_username($_uid);
+		$_uid = $_user ?  $_user['uid'] : 0;
+	}
 	$fid = param('fid', 0);
+	
 	$cond = array();
 	$cond['fid'] = $fid;
 	$cond['create_date_start'] = strtotime(param('create_date_start'));
 	$cond['create_date_end'] = strtotime(param('create_date_end'));
-	$cond['uid'] = param('uid', 0);
+	$cond['uid'] = $_uid;
 	$userip = param('userip');
-	$cond['userip'] = $userip ? ip2long($userip) : 0;
+	$cond['userip'] = $userip ? sprintf('%u', ip2long($userip)) : 0;
 	$cond['keyword'] = param('keyword');
 	$cond['page'] = param('page', 1);
 	

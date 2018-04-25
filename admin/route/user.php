@@ -25,7 +25,7 @@ if(empty($action) || $action == 'list') {
 	
 	if($keyword) {
 		!in_array($srchtype, $allowtype) AND $srchtype = 'uid';
-		$cond[$srchtype] = $srchtype == 'create_ip' ? ip2long($keyword) : $keyword; 
+		$cond[$srchtype] = $srchtype == 'create_ip' ? sprintf('%u', ip2long($keyword)) : $keyword; 
 	}
 
 	// hook admin_user_list_cond_after.php
@@ -89,7 +89,7 @@ if(empty($action) || $action == 'list') {
 			'salt'=>$salt,
 			'gid'=>$_gid,
 			'email'=>$email,
-			'create_ip'=>ip2long(ip()),
+			'create_ip'=>$longip,
 			'create_date'=>$time
 		));
 		$r === FALSE AND message(-1, lang('create_failed'));
