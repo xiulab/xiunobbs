@@ -6,7 +6,7 @@ $action = param(1);
 
 // hook admin_thread_start.php
 
-$pagesize = 2;
+$pagesize = 100;
 
 if(empty($action) || $action == 'list') {
 
