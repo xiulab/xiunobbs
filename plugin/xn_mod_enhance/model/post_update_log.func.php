@@ -12,9 +12,16 @@ function post_update_log_find_by_pid($pid) {
 
 // 增加一条编辑历史 $pid, $uid, $time, $message
 function post_update_log_create($arr) {
+	global $time;
 	$pid = $arr['pid'];
 	
 	if(!DEBUG) {
+		// 如果才发的帖子
+		$post = post_read($pid);
+		if($time - $post['create_date'] < 1800) {
+			return 0;
+		}
+		
 		// 如果两条记录相隔时间太短，则只记录一条
 		$last = post_update_log_find_last_by_pid($pid);
 		if($last && $arr['create_date'] - $last['create_date'] < 600) {
