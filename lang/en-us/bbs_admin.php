@@ -114,6 +114,7 @@ return array(
 	'start_date'=>'Start Time',
 	'end_date'=>'End Time',
 	'searching'=>'Searching.',
+	'search_complete'=>'Search Complated',
 	'operating'=>'Operating',
 	'operator_complete'=>'Operation Completed',
 	'click_to_view'=>'Click to view',

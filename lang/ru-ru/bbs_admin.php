@@ -116,6 +116,7 @@ return array(
 	'start_date'=>'Начало',
 	'end_date'=>'Окончание',
 	'searching'=>'Поиск.',
+	'search_complete'=>'Search Complated',
 	'operating'=>'Операция',
 	'operator_complete'=>'Операция завершена',
 	'click_to_view'=>'Просмотр',

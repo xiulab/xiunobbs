@@ -117,6 +117,7 @@ return array(
 	'start_date'=>'เวลาเริ่มต้น',
 	'end_date'=>'เวลาสิ้นสุด',
 	'searching'=>'กำลังค้นหา',
+	'search_complete'=>'Search Complated',
 	'operating'=>'กำลังดำเนินการ',
 	'operator_complete'=>'ดำเนินการเรียบร้อยแล้ว',
 	'click_to_view'=>'คลิกเพื่อดู',

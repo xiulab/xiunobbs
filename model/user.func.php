@@ -105,6 +105,9 @@ function user_delete($uid) {
 	global $conf, $g_static_users;
 	// hook model_user_delete_start.php
 	
+	$user = user_read($uid);
+	if(empty($user)) return NULL;
+	
 	// 清理主题帖
 	$threadlist = mythread_find_by_uid($uid, 1, 1000);
 	foreach($threadlist as $thread) {
@@ -116,6 +119,9 @@ function user_delete($uid) {
 	
 	// 清理附件
 	attach_delete_by_uid($uid);
+	
+	// 删除头像
+	$user['avatar_path'] AND xn_unlink($user['avatar_path']);
 	
 	$r = user__delete($uid);
 	
@@ -193,6 +199,7 @@ function user_format(&$user) {
 	$dir = substr(sprintf("%09d", $user['uid']), 0, 3);
 	// hook model_user_format_avatar_url_before.php
 	$user['avatar_url'] = $user['avatar'] ? $conf['upload_url']."avatar/$dir/$user[uid].png?".$user['avatar'] : 'view/img/avatar.png';
+	$user['avatar_path'] = $user['avatar'] ? $conf['upload_path']."avatar/$dir/$user[uid].png?".$user['avatar'] : '';
 
 	$user['online_status'] = 1;
 	// hook model_user_format_end.php
@@ -324,7 +331,7 @@ function user_token_get_do() {
 	//if($time - $_time > 86400) return FALSE;
 	
 	// 检查密码是否被修改。
-	if($time - $_time > 3600) {
+	if($time - $_time > 1800) {
 		$user = user_read($_uid);
 		if(empty($user)) return 0;
 		if(md5($user['password']) != $_pwd) {

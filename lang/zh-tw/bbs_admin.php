@@ -117,6 +117,7 @@ return array(
 	'start_date'=>'開始時間',
 	'end_date'=>'結束時間',
 	'searching'=>'正在搜索',
+	'search_complete'=>'搜索完成',
 	'operating'=>'正在操作',
 	'operator_complete'=>'操作完成',
 	'click_to_view'=>'點擊查看',
