@@ -795,6 +795,17 @@ $.xget = function(url, callback, retry) {
 	};
 })(jQuery, window);
 
+
+$.unparam = function(str) {
+	return str.split('&').reduce(function (params, param) {
+		var paramSplit = param.split('=').map(function (value) {
+			return decodeURIComponent(value.replace('+', ' '));
+		});
+		params[paramSplit[0]] = paramSplit[1];
+		return params;
+	}, {});
+}
+
 $.xpost = function(url, postdata, callback, progress_callback) {
 	if($.isFunction(postdata)) {
 		callback = postdata;
@@ -836,6 +847,72 @@ $.xpost = function(url, postdata, callback, progress_callback) {
 		}
 	});
 };
+
+/*
+$.xpost = function(url, postdata, callback, progress_callback) {
+	//构造表单数据
+	if(xn.is_string(postdata)) {
+		postdata = xn.is_string(postdata) ? $.unparam(postdata) : postdata;
+	}
+	var formData = new FormData();
+	for(k in postdata) {
+		formData.append(k, postdata[k]);
+	}
+	
+	//创建xhr对象 
+	var xhr = new XMLHttpRequest();
+	
+	//设置xhr请求的超时时间
+	xhr.timeout = 6000000;
+	
+	//设置响应返回的数据格式
+	xhr.responseType = "text";
+	
+	//创建一个 post 请求，采用异步
+	xhr.open('POST', url, true);
+	
+	xhr.setRequestHeader("Content_type", "application/x-www-form-urlencoded"); 
+	xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest"); 
+	
+	//注册相关事件回调处理函数
+	xhr.onload = function(e) { 
+		if(this.status == 200 || this.status == 304) {
+			var r = this.response;
+			if(!r) return callback(-1, 'Server Response Empty!');
+			var s = xn.json_decode(r);
+			if(!s || s.code === undefined) return callback(-1, 'Server Response Not JSON：'+r);
+			if(s.code == 0) {
+				return callback(0, s.message);
+			//系统错误
+			} else if(s.code < 0) {
+				return callback(s.code, s.message);
+			} else {
+				return callback(s.code, s.message);
+			}
+		} else {
+			console.log(e);
+		}
+	};
+	xhr.ontimeout = function(e) { 
+		console.log(e);
+		return callback(-1, 'Ajax request timeout:'+url);
+		
+	};
+	xhr.onerror = function(e) { 
+		console.log(e);
+		return callback(-1, 'Ajax request error');
+	};
+	xhr.upload.onprogress = function(e) { 
+		if (e.lengthComputable) {
+			if(progress_callback) progress_callback(xn.intval(e.loaded / e.total * 100));
+			//console.log('progress1:'+e.loaded / e.total * 100 + '%');
+		}
+	};
+	
+	//发送数据
+	xhr.send(formData);
+};
+*/
 
 /*
 	功能：
