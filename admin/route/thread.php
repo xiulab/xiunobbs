@@ -55,7 +55,7 @@ if(empty($action) || $action == 'list') {
 	$queueid = _SESSION('thread_find_queueid');
 	empty($queueid) AND message(-1, lang('thread_queue_not_exists'));
 	
-	$_uid = param('uid', 0);
+	$_uid = param('uid');
 	if(!is_numeric($_uid)) {
 		$_user = user_read_by_username($_uid);
 		$_uid = $_user ?  $_user['uid'] : 0;
