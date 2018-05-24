@@ -101,7 +101,7 @@ if(empty($action)) {
 		empty($data) AND message(-1, lang('data_is_empty'));
 		$data = base64_decode_file_data($data);
 		$size = strlen($data);
-		$size > 2048000 AND message(-1, lang('filesize_too_large', array('maxsize'=>'2M', 'size'=>$size)));
+		$size > 40000 AND message(-1, lang('filesize_too_large', array('maxsize'=>'40K', 'size'=>$size)));
 		
 		$filename = "$uid.png";
 		$dir = substr(sprintf("%09d", $uid), 0, 3).'/';
