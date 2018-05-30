@@ -55,7 +55,7 @@ function user_update($uid, $arr) {
 	// hook model_user_update_start.php
 	global $conf, $g_static_users;
 	$r = user__update($uid, $arr);
-	$conf['cache']['type'] != 'mysql' AND cache_delete("user-$uid");
+	!in_array($conf['cache']['type'], array('mysql', 'pdo_mysql')) AND cache_delete("user-$uid");
 	isset($g_static_users[$uid]) AND $g_static_users[$uid] = array_merge($g_static_users[$uid], $arr);
 	
 	// hook model_user_update_end.php
@@ -85,7 +85,7 @@ function user_read_cache($uid) {
 	// 游客
 	if($uid == 0) return user_guest();
 	
-	if($conf['cache']['type'] != 'mysql') {
+	if(!in_array($conf['cache']['type'], array('mysql', 'pdo_mysql'))) {
 		$r = cache_get("user-$uid");
 		if($r === NULL) {
 			$r = user_read($uid);
@@ -125,7 +125,7 @@ function user_delete($uid) {
 	
 	$r = user__delete($uid);
 	
-	$conf['cache']['type'] != 'mysql' AND cache_delete("user-$uid");
+	!in_array($conf['cache']['type'], array('mysql', 'pdo_mysql')) AND cache_delete("user-$uid");
 	if(isset($g_static_users[$uid])) unset($g_static_users[$uid]);
 	
 	// 全站统计
