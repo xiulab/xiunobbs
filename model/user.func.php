@@ -301,11 +301,10 @@ function user_safe_info($user) {
 function user_token_get() {
 	global $time;
 	$_uid = user_token_get_do();
-	
 	// hook model_user_token_get_start.php
-	
+
 	if(!$_uid) {
-		setcookie('bbs_token', '', $time - 86400, '');
+		//setcookie('bbs_token', '', $time - 86400, '');
 	}
 	
 	// hook model_user_token_get_end.php
@@ -329,7 +328,7 @@ function user_token_get_do() {
 	list($_ip, $_time, $_uid, $_pwd) = $arr;
 	//if($ip != $_ip) return FALSE;
 	//if($time - $_time > 86400) return FALSE;
-	
+	print_r($arr);exit;
 	// 检查密码是否被修改。
 	if($time - $_time > 1800) {
 		$user = user_read($_uid);
@@ -338,6 +337,8 @@ function user_token_get_do() {
 			return 0;
 		}
 	}
+	
+	
 	
 	// hook model_user_token_get_do_end.php
 	
