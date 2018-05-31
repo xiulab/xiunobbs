@@ -324,11 +324,10 @@ function user_token_get_do() {
 	$s = xn_decrypt($token, $tokenkey);
 	if(empty($s)) return FALSE;
 	$arr = explode("\t", $s);
-	if(count($arr) != 3) return FALSE;
+	if(count($arr) != 4) return FALSE;
 	list($_ip, $_time, $_uid, $_pwd) = $arr;
 	//if($ip != $_ip) return FALSE;
 	//if($time - $_time > 86400) return FALSE;
-	print_r($arr);exit;
 	// 检查密码是否被修改。
 	if($time - $_time > 1800) {
 		$user = user_read($_uid);
