@@ -82,7 +82,9 @@ if(empty($action)) {
 		}
 
 		!is_password($password, $err) AND message('password', $err);
-		md5($password.$_user['salt']) != $_user['password'] AND message('password', lang('password_incorrect'));
+		$check = (md5($password.$_user['salt']) == $_user['password']);
+		// hook user_login_post_password_check_after.php
+		!$check AND message('password', lang('password_incorrect'));
 
 		// 更新登录时间和次数
 		// update login times
