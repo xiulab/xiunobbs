@@ -1192,8 +1192,8 @@ xn.image_file_type = function(file_base64_data) {
 
 //对图片进行裁切，缩略，对黑色背景，透明化处理
 xn.image_resize = function(file_base64_data, callback, options) {
-	var thumb_width = options.width || 1200;
-	var thumb_height = options.height || 2400;
+	var thumb_width = options.width || 2560;
+	var thumb_height = options.height || 4960;
 	var action = options.action || 'thumb';
 	var filetype = options.filetype || xn.image_file_type(file_base64_data);//xn.base64_data_image_type(file_base64_data);
 	var qulity = options.qulity || 0.9; // 图片质量, 1 为无损
@@ -1347,8 +1347,8 @@ xn.image_resize = function(file_base64_data, callback, options) {
 */
 xn.upload_file = function(file, upload_url, postdata, complete_callback, progress_callback, thumb_callback) {
 	postdata = postdata || {};
-	postdata.width = postdata.width || 1200;
-	postdata.height = postdata.height || 2400;
+	postdata.width = postdata.width || 2560;
+	postdata.height = postdata.height || 4960;
 	
 	var ajax_upload_file = function(base64_data) {
 		var ajax_upload = function(upload_url, postdata, complete_callback) {
