@@ -20,9 +20,9 @@ function form_radio($name, $arr, $checked = 0) {
 	return $s;
 }
 
-function form_checkbox($name, $checked = 0, $txt = '') {
+function form_checkbox($name, $checked = 0, $txt = '', $val = 1) {
 	$add = $checked ? ' checked="checked"' : '';
-	$s = "<label class=\"custom-input custom-checkbox mr-4\"><input type=\"checkbox\" name=\"$name\" value=\"1\" $add /> $txt</label>";
+	$s = "<label class=\"custom-input custom-checkbox mr-4\"><input type=\"checkbox\" name=\"$name\" value=\"$val\" $add /> $txt</label>";
 	return $s;
 }
 
@@ -33,7 +33,7 @@ function form_multi_checkbox($name, $arr, $checked = array()) {
 	$s = '';
 	foreach($arr as $value=>$text) {
 		$ischecked = in_array($value, $checked);
-		$s .= form_checkbox($name, $ischecked, $text);
+		$s .= form_checkbox($name, $ischecked, $text, $value);
 	}
 	return $s;
 }
