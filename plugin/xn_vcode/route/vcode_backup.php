@@ -15,15 +15,12 @@ vcode_add_impurity($im, $width, $height);
 
 // 验证码位数
 $count = 4;
-$first = rand(1, 9);
-$second = rand(1, 9);
-$question = "$first+$second=";
-$answer = $first + $second;
+$word = xn_rand($count);
 
-vcode_add_word($im, $question, $count, $width, $height, $font_size, $font_file);
+vcode_add_word($im, $word, $count, $width, $height, $font_size, $font_file);
 
 // 记录到 Session
-$_SESSION["vcode"] = $answer;
+$_SESSION["vcode"] = $word;
 
 header("Content-Type: image/jpeg");
 imagejpeg($im, NULL, 30); // 降低画质，增加难度

@@ -107,7 +107,9 @@ class db_mysql {
 		$t2 = microtime(1);
 		if($query === FALSE) $this->error();
 		
-		if(count($this->sqls) < 1000) $this->sqls[] = substr($t2-$t1, 0, 6).' '.$sql;
+		$t3 = substr($t2 - $t1, 0, 6);
+		DEBUG AND xn_log("[$t3]".$sql, 'db_sql');
+		if(count($this->sqls) < 1000) $this->sqls[] = "[$t3]".$sql;
 		
 		return $query;
 	}
@@ -130,7 +132,10 @@ class db_mysql {
 		$t1 = microtime(1);
 		$query = mysql_query($sql, $this->wlink);
 		$t2 = microtime(1);
-		if(count($this->sqls) < 1000) $this->sqls[] = substr($t2-$t1, 0, 6).' '.$sql;
+		$t3 = substr($t2 - $t1, 0, 6);
+		
+		DEBUG AND xn_log("[$t3]".$sql, 'db_sql');
+		if(count($this->sqls) < 1000) $this->sqls[] = "[$t3]".$sql;
 		
 		if($query !== FALSE) {
 			$pre = strtoupper(substr(trim($sql), 0, 7));

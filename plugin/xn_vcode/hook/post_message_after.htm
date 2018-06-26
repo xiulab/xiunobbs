@@ -1,6 +1,8 @@
 <?php 
 $kv_vcode = kv_get('vcode');
-if(!empty($kv_vcode['vcode_thread_create_on']) && $route == 'thread' || !empty($kv_vcode['vcode_post_create_on']) && $route == 'post') {
+if(vcode_on($kv_vcode) && (!empty($kv_vcode['vcode_thread_create_on']) && $route == 'thread' || !empty($kv_vcode['vcode_post_create_on']) && $route == 'post')) {
+	
+	
 ?>
 	<div class="media">
 		<div class="media-body col-lg-3 p-0">

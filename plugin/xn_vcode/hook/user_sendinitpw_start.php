@@ -1,7 +1,7 @@
 <?php exit;
 
 $kv_vcode = kv_get('vcode');
-if(!empty($kv_vcode['vcode_user_findpw_on'])) {
+if(!empty($kv_vcode['vcode_user_findpw_on']) && vcode_on($kv_vcode)) {
 		
 	$vcode_post = param('vcode');
 	$vcode_sess = _SESSION('vcode');

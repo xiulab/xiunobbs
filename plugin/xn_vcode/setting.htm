@@ -31,9 +31,23 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 form-control-label">回帖开启：</label>
+						<label class="col-sm-2 form-control-label">回帖/编辑开启：</label>
 						<div class="col-sm-10">
 							<?php echo $input['vcode_post_create_on']; ?>
+						</div>
+					</div>
+					<hr>
+					<div class="form-group row">
+						<label class="col-sm-2 form-control-label">只对以下用户组开启：</label>
+						<div class="col-sm-10">
+							<?php echo $input['vcode_gids']; ?>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 form-control-label">用户注册时间小于N天开启：</label>
+						<div class="col-sm-10">
+							<?php echo $input['vcode_create_date_day_less']; ?>
+							<p class="text-small text-muted">（0 天表示忽略注册日期）</p>
 						</div>
 					</div>
 					<!--{hook plugin_vcode_setting_thread_create_on_after.htm}-->
@@ -63,7 +77,7 @@ jform.on('submit', function(){
 	$.xpost(jform.attr('action'), postdata, function(code, message) {
 		if(code == 0) {
 			$.alert(message);
-			jsubmit.text(message).delay(2000).button('reset').location(referer);
+			jsubmit.text(message).delay(2000).button('reset').location();
 			return;
 		} else {
 			$.alert(message);

@@ -118,19 +118,23 @@ class db_pdo_mysql {
 			$t1 = microtime(1);
 			$query = $link->query($sql);
 			$t2 = microtime(1);
+			
+			$t3 = substr($t2 - $t1, 0, 6);
+			//DEBUG AND $GLOBALS['gid'] == 1 AND xn_log("[$t3]".$sql, 'db_sql');
+			
 		} catch (Exception $e) {  
 			$this->error($e->getCode(), $e->getMessage());
 			return FALSE;
 	        }
 		if($query === FALSE) $this->error();
-		if(count($this->sqls) < 1000) $this->sqls[] = substr($t2-$t1, 0, 6).' '.$sql;
+		if(count($this->sqls) < 1000) $this->sqls[] = substr($t2 - $t1, 0, 6).' '.$sql;
 		return $query;
 	}
 	
 	public function exec($sql) {
 		if(!$this->wlink && !$this->connect_master()) return FALSE;
 		$link = $this->link = $this->wlink;
-		$n = 0;
+		$n = $t3 = 0;
 		try {
 			if(strtoupper(substr($sql, 0, 12) == 'CREATE TABLE')) {
 				$fulltext = strpos($sql, 'FULLTEXT(') !== FALSE;
@@ -145,11 +149,15 @@ class db_pdo_mysql {
 			$t1 = microtime(1);
 			$n = $link->exec($sql); // 返回受到影响的行，插入的 id ?
 			$t2 = microtime(1);
+			
+			$t3 = substr($t2 - $t1, 0, 6);
+			//DEBUG AND $GLOBALS['gid'] == 1 AND xn_log("[$t3]".$sql, 'db_sql');
+			
 		} catch (Exception $e) {  
 			$this->error($e->getCode(), $e->getMessage());
 			return FALSE;
 	        }
-		if(count($this->sqls) < 1000) $this->sqls[] = substr($t2-$t1, 0, 6).' '.$sql;
+		if(count($this->sqls) < 1000) $this->sqls[] = "[$t3]".$sql;
 		
 		if($n !== FALSE) {
 			$pre = strtoupper(substr(trim($sql), 0, 7));
