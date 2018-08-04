@@ -132,6 +132,8 @@ if($action == 'create') {
 		// if lost weight for the database, set the message field empty.
 		$post['message'] = htmlspecialchars($post['message'] ? $post['message'] : $post['message_fmt']);
 		
+		($uid != $post['uid']) AND $post['message'] = xn_html_safe($post['message']);
+		
 		$attachlist = $imagelist = $filelist = array();
 		if($post['files']) {
 			list($attachlist, $imagelist, $filelist) = attach_find_by_pid($pid);
