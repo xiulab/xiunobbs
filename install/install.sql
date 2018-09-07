@@ -75,7 +75,7 @@ CREATE TABLE bbs_forum (
   fid int(11) unsigned NOT NULL auto_increment,		# fid
  # fup int(11) unsigned NOT NULL auto_increment,	# 上一级版块，二级版块作为插件
   name char(16) NOT NULL default '',			# 版块名称
-  rank tinyint(3) unsigned NOT NULL default '0',	# 显示，倒序，数字越大越靠前
+  `rank` tinyint(3) unsigned NOT NULL default '0',	# 显示，倒序，数字越大越靠前
   threads mediumint(8) unsigned NOT NULL default '0',	# 主题数
   todayposts mediumint(8) unsigned NOT NULL default '0',# 今日发帖，计划任务每日凌晨０点清空为０，
   todaythreads mediumint(8) unsigned NOT NULL default '0',# 今日发主题，计划任务每日凌晨０点清空为０
@@ -253,7 +253,7 @@ CREATE TABLE bbs_modlog (
   KEY (uid, logid),
   KEY (tid)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-        
+
 # 持久的 key value 数据存储, ttserver, mysql
 DROP TABLE IF EXISTS bbs_kv;
 CREATE TABLE bbs_kv (
