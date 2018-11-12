@@ -22,7 +22,7 @@
 				<label class="col-4 form-control-label text-right"></label>
 				<div class="col-8">
 					<button type="submit" class="btn btn-primary mr-2" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
-					<button type="button" class="btn btn-secondary"><?php echo lang('close');?></button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo lang('close');?></button>
 				</div>
 			</div>
 		</form>
@@ -43,7 +43,7 @@ var tidarr = jthreadlist.find('input[name="modtid"]').checked();
 
 var jform = $('#mod_move_form');
 var jsubmit = jform.find('button[type="submit"]');
-var jcancel = jform.find('button[type="button"]');
+
 var jnewfid = jform.find('select[name="newfid"]');
 var jtotal = jform.find('span.total');
 jtotal.text(tidarr.length);
@@ -69,8 +69,6 @@ jform.on('submit', function() {
 	});
 	return false;
 });
-jcancel.on('click', function() {
-	if(jmodal) jmodal.modal('dispose');
-});
+
 	
 </script>
