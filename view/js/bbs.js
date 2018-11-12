@@ -121,7 +121,7 @@ $('a.confirm').on('click', function() {
 				}
 			});
 		} else {
-			window.location = jthis.attr('href');
+			//window.location = jthis.attr('href');
 		}
 	})
 	return false;

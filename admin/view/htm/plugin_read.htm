@@ -94,7 +94,14 @@
 				<hr />			
 				<div class="row">
 					<div class="col-12" style="text-align: center;">
-						<img alt="<?php echo lang('plugin_wechat_qrcode_pay');?>" src="http://paysdk.weixin.qq.com/qrcode.php?data=<?php echo urlencode($url);?>" style="width:150px; height:150px;"/>
+					
+						<!--
+							腾讯又改接口，努力克制自己不骂人~
+							<img alt="<?php echo lang('plugin_wechat_qrcode_pay');?>" src="http://paysdk.weixin.qq.com/qrcode.php?data=<?php echo urlencode($url);?>" style="width:150px; height:150px;"/>
+						-->
+						
+						<div id="qrcode_rabbit" data-thanks="感谢开发者(兔兔)提供解决方案！"></div>
+						
 						<br><?php echo lang('plugin_wechat_qrcode_pay');?>
 						<br><span class="price"><?php echo $plugin['official']['price']; ?>元</span>
 					</div>
@@ -139,7 +146,7 @@
 </div>
 
 <?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
-
+<script src="../view/js/jquery.qrcode.min.js"></script>
 <script>
 $('#nav li.nav-item-plugin').addClass('active');
 
@@ -147,6 +154,18 @@ $('#nav li.nav-item-plugin').addClass('active');
 
 // 定时查询 plugin.xiuno.com ，如果支付成功，则跳转到下载。
 var dir = '<?php echo $dir;?>';
+var url = "<?php echo $url;?>";
+ $('#qrcode_rabbit').qrcode({
+	render: "canvas", //设置渲染方式，有table和canvas，使用canvas方式渲染性能相对来说比较好
+	text: url, //扫描二维码后显示的内容,可以直接填一个网址，扫描二维码后自动跳向该链接
+	width: 200, //二维码的宽度
+	height: 200,
+	background: "#ffffff", //二维码的后景色
+	foreground: "#000000", //二维码的前景色
+	src: "",
+	imgWidth: 50,
+	imgHeight: 50
+});
 	
 var t = setInterval(function() {
 	$.xget(xn.url('plugin-is_bought-'+dir), function(code, message) {

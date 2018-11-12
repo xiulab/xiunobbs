@@ -119,10 +119,11 @@
 									<input type="hidden" name="doctype" value="1" />
 									<input type="hidden" name="return_html" value="1" />
 									<input type="hidden" name="quotepid" value="0" />
-									
+									<!--{hook thread_quick_reply_message_before.htm}-->
 									<div class="message mt-1">
 										<textarea class="form-control" placeholder="<?php echo lang('message');?>" name="message" id="message"></textarea>
 									</div>
+									<!--{hook thread_quick_reply_message_after.htm}-->
 									<div class="text-muted mt-2 small">
 										<div class="d-flex justify-content-between">
 											<div>
@@ -137,6 +138,7 @@
 											</div>
 										</div>
 									</div>
+									<!--{hook thread_quick_reply_submit_after.htm}-->
 								</form>
 							</div>
 						</div>
