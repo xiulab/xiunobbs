@@ -193,6 +193,6 @@ if(empty($action) || $action == 'list') {
 	
 }
 
-// hook admin_user_start.php
+// hook admin_user_end.php
 
 ?>
