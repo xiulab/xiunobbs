@@ -94,7 +94,7 @@ if(empty($action)) {
 		$host = param('host');	
 		$name = param('name');	
 		$user = param('user');
-		$password = param('password');
+		$password = param('password', '', FALSE);
 		$force = param('force');
 		
 		$adminemail = param('adminemail');
