@@ -1205,7 +1205,7 @@ xn.image_resize = function(file_base64_data, callback, options) {
 	var img = new Image();
 	img.onload = function() {
 		
-		var water_img_onload = function(water_on) {
+		var water_img_onload = function(water_on,orientation) { //qiukong_patch
 			var canvas = document.createElement('canvas');
 			// 等比缩放
 			var width = 0, height = 0, canvas_width = 0, canvas_height = 0;
@@ -1213,6 +1213,7 @@ xn.image_resize = function(file_base64_data, callback, options) {
 			
 			var img_width = img.width;
 			var img_height = img.height;
+			var qkswap=false;if(orientation==6 || orientation==8){img_width=img.height;img_height=img.width;qkswap=true;}; //qiukong_patch
 			
 			if(xn.substr(file_base64_data, 0, 14) == 'data:image/gif') return callback(0, {width: img_width, height: img_height, data: file_base64_data});
 			
@@ -1270,10 +1271,11 @@ xn.image_resize = function(file_base64_data, callback, options) {
 	
 			//ctx.fillStyle = 'rgb(255,255,255)';
 			//ctx.fillRect(0,0,width,height);
+
+			switch(orientation){case 3:ctx.translate(width,height);ctx.rotate(180*Math.PI/180);break;case 6:ctx.translate(width,0);ctx.rotate(90*Math.PI/180);break;case 8:ctx.translate(0,height);ctx.rotate(-90*Math.PI/180);break;default:break;}; //qiukong_patch
 	
 			ctx.clearRect(0, 0, width, height); 			// canvas清屏
-			ctx.drawImage(img, 0, 0, img_width, img_height, dx, dy, width, height);	// 将图像绘制到canvas上 
-			
+			ctx.drawImage(img, 0, 0, img.width, img.height, qkswap?dy:dx, qkswap?dx:dy, qkswap?height:width, qkswap?width:height); //qiukong_patch
 			
 			
 			if(water_on) {
@@ -1311,14 +1313,14 @@ xn.image_resize = function(file_base64_data, callback, options) {
 		
 		var water_img = new Image();
 		water_img.onload = function() {
-			water_img_onload(true);
+			var reader=new FileReader();reader.onload=function(e){var view=new DataView(e.target.result);if(view.getUint16(0,false)!=0xFFD8){water_img_onload(true,-2);return;};var length=view.byteLength,offset=2;while(offset<length){if(view.getUint16(offset+2,false)<=8){water_img_onload(true,-1);return;};var marker=view.getUint16(offset,false);offset+=2;if(marker==0xFFE1){if(view.getUint32(offset+=2,false)!=0x45786966){water_img_onload(true,-1);return;};var little=view.getUint16(offset+=6,false)==0x4949;offset+=view.getUint32(offset+4,little);var tags=view.getUint16(offset, little);offset+=2;for(var i=0;i<tags;i++){if(view.getUint16(offset+(i*12),little)==0x0112){water_img_onload(true,view.getUint16(offset+(i*12)+8,little));return;}}}else if((marker&0xFF00)!=0xFF00){break;}else{offset+=view.getUint16(offset,false);};};water_img_onload(true,-1);return;};var dataarr=file_base64_data.split(','),mime=dataarr[0].match(/:(.*?);/)[1],bstr=atob(dataarr[1]),n=bstr.length,u8arr=new Uint8Array(n);while(n--){u8arr[n]=bstr.charCodeAt(n);};reader.readAsArrayBuffer(new Blob([u8arr],{type:mime})); //qiukong_patch
 		};
 		water_img.onerror = function() {
-			water_img_onload(false);
+			water_img_onload(false,0); //qiukong_patch
 		};
 		water_img.src = options.water_image_url || xn.options.water_image_url;
 		if(!water_img.src) {
-			water_img_onload(false);
+			water_img_onload(false,0); //qiukong_patch
 		}
 	};
 	img.onerror = function(e) {
