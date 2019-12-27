@@ -238,7 +238,7 @@ if(empty($action)) {
 		$email != $sess_email AND message('code', lang('verify_code_incorrect'));
 		$code != $sess_code AND message('code', lang('verify_code_incorrect'));
 
-		$_SESSION['resetpw_verify_ok'] = 1;
+		$_SESSION['resetpw_verify_email'] = $sess_email;
 
 		// hook user_resetpw_post_end.php
 
@@ -252,8 +252,10 @@ if(empty($action)) {
 
 	// 校验数据
 	$email = _SESSION('user_resetpw_email');
-	$resetpw_verify_ok = _SESSION('resetpw_verify_ok');
-	(empty($email) || empty($resetpw_verify_ok)) AND message(-1, lang('data_empty_to_last_step'));
+	$resetpw_verify_email = _SESSION('resetpw_verify_email');
+	(empty($email) || empty($resetpw_verify_email)) AND message(-1, lang('data_empty_to_last_step'));
+
+	($resetpw_verify_email != $email) AND essage(-1, lang('data_empty_to_last_step'));
 
 	$_user = user_read_by_email($email);
 	empty($_user) AND message(-1, lang('email_not_exists'));
