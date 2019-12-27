@@ -255,7 +255,7 @@ if(empty($action)) {
 	$resetpw_verify_email = _SESSION('resetpw_verify_email');
 	(empty($email) || empty($resetpw_verify_email)) AND message(-1, lang('data_empty_to_last_step'));
 
-	($resetpw_verify_email != $email) AND essage(-1, lang('data_empty_to_last_step'));
+	($resetpw_verify_email != $email) AND message(-1, lang('data_empty_to_last_step'));
 
 	$_user = user_read_by_email($email);
 	empty($_user) AND message(-1, lang('email_not_exists'));
