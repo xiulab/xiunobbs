@@ -3389,6 +3389,10 @@ function xn_send_mail($smtp, $username, $email, $subject, $message, $charset = '
 	$mail->Timeout    = 5;	// 
 	$mail->CharSet    = $charset;
   // $mail->SMTPSecure = "ssl"; // ssl tls
+	if(strpos($smtp['host'],'ssl://') !== false) {
+		$mail->Host       = str_replace('ssl://','',$smtp['host']);
+		$mail->SMTPSecure = "ssl";
+	}
 	$mail->Encoding   = 'base64';
 	
 	//$subject = $charset == 'UTF-8' ? iconv('UTF-8', 'GBK', $subject) : $subject;
