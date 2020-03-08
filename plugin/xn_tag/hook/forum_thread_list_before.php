@@ -15,21 +15,21 @@ if($tagids) {
 		$arr = array_values(array_intersect($enable_tagids, $tagids));
 		return empty($arr) ? 0 : $arr[0];
 	}
-	
+
 	// 结果集缓存下来
 	$tagidarr = explode('_', $tagids);
 	$tagidarr = array_filter_empty($tagidarr);
 	$tagidarr = array_values($tagidarr);
-	
+
 	$tagid1 = tag_cate_find_tagid_from_tagids(0, $tagidarr);
 	$tagid2 = tag_cate_find_tagid_from_tagids(1, $tagidarr);
 	$tagid3 = tag_cate_find_tagid_from_tagids(2, $tagidarr);
 	$tagid4 = tag_cate_find_tagid_from_tagids(3, $tagidarr);
-	
+
 	$tagidarr = array($tagid1, $tagid2, $tagid3, $tagid4);
 	$tagidarr = array_values(array_filter_empty($tagidarr));
 	$n = count($tagidarr);
-	
+
 	$tidlist = array();
 	$tablepre = $db->tablepre;
 	$start = ($page - 1) * $pagesize;
@@ -65,7 +65,7 @@ if($tagids) {
 }
 
 if($thread_list_from_default == 0 && $find_sql) {
-	
+
 	// 缓存结果集，不然查询太耗费资源。
 	// 针对大站缓存，小站就硬查。
 	if($runtime['threads'] > 1000000) {
@@ -78,7 +78,7 @@ if($thread_list_from_default == 0 && $find_sql) {
 			cache_set($count_sql_md5, $n, 30);
 		}
 		$tids = cache_get($find_sql_md5);
-		if($n === NULL || DEBUG) {
+		if($tids === NULL || DEBUG) {
 			$tidlist = db_sql_find($find_sql);
 			$tids = arrlist_values($tidlist, 'tid');
 			cache_set($find_sql_md5, $tids, 30);
@@ -90,7 +90,7 @@ if($thread_list_from_default == 0 && $find_sql) {
 		$tids = arrlist_values($tidlist, 'tid');
 		unset($arr, $tidlist);
 	}
-	
+
 	$pagination = pagination(url("forum-$fid-{page}", array('tagids'=>"{$tagid1}_{$tagid2}_{$tagid3}_{$tagid4}")), $n, $page, $pagesize);
 	$threadlist = thread_find_by_tids($tids);
 	$toplist = array();
