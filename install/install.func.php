@@ -8,7 +8,7 @@ function get_env(&$env, &$write) {
 	$env['os']['status'] = 1;
 	// glob gzip
 	//$env['os']['disable'] = 1;
-	
+
 	$env['php_version']['name'] = lang('php_version');
 	$env['php_version']['must'] = TRUE;
 	$env['php_version']['current'] = PHP_VERSION;
@@ -39,7 +39,6 @@ function install_sql_file($sqlfile) {
 	foreach ($arr as $sql) {
 		$sql = trim($sql);
 		if(empty($sql)) continue;
-		$arr = explode(";\n", $s);
 		db_exec($sql) === FALSE AND message(-1, "sql: $sql, errno: $errno, errstr: $errstr");
 	}
 }

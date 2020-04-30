@@ -1639,19 +1639,19 @@ class PHPMailer {
       }
 	  $magic_quotes = get_magic_quotes_runtime();
 	  if ($magic_quotes) {
-        if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+        if (version_compare(PHP_VERSION, '5.3.0', '<') && function_exists('set_magic_quotes_runtime')) {
           set_magic_quotes_runtime(0);
         } else {
-		  ini_set('magic_quotes_runtime', 0); 
+		  ini_set('magic_quotes_runtime', 0);
 		}
 	  }
       $file_buffer  = file_get_contents($path);
       $file_buffer  = $this->EncodeString($file_buffer, $encoding);
 	  if ($magic_quotes) {
-        if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+        if (version_compare(PHP_VERSION, '5.3.0', '<') && function_exists('set_magic_quotes_runtime')) {
           set_magic_quotes_runtime($magic_quotes);
         } else {
-		  ini_set('magic_quotes_runtime', $magic_quotes); 
+		  ini_set('magic_quotes_runtime', $magic_quotes);
 	    }
 	  }
       return $file_buffer;
@@ -1701,7 +1701,7 @@ class PHPMailer {
    * @return string
    */
   public function EncodeHeader($str, $position = 'text', $pl = 0) {
-    //if ( $pl ) return "=?" . $this->CharSet . "?B?" . base64_encode($str) . "?="; 
+    //if ( $pl ) return "=?" . $this->CharSet . "?B?" . base64_encode($str) . "?=";
     $x = 0;
 
     switch (strtolower($position)) {
@@ -1925,11 +1925,11 @@ class PHPMailer {
 
     return $encoded;
   }
-  
+
   private function sprintf_1_callback($matchs) {
   	return '='.sprintf('%02X', ord($matchs[1]));
   }
-  
+
   private function sprintf_2_callback($matchs) {
   	return '='.sprintf('%02X', ord(stripslashes($matchs[1])));
   }
@@ -3386,25 +3386,29 @@ function xn_send_mail($smtp, $username, $email, $subject, $message, $charset = '
 	$mail->Port       = $smtp['port'];                    // set the SMTP port for the GMAIL server
 	$mail->Username   = $smtp['user']; // SMTP account username
 	$mail->Password   = $smtp['pass'];        // SMTP account password
-	$mail->Timeout    = 5;	// 
+	$mail->Timeout    = 5;	//
 	$mail->CharSet    = $charset;
   // $mail->SMTPSecure = "ssl"; // ssl tls
+	if(strpos($smtp['host'],'ssl://') !== false) {
+		$mail->Host       = str_replace('ssl://','',$smtp['host']);
+		$mail->SMTPSecure = "ssl";
+	}
 	$mail->Encoding   = 'base64';
-	
+
 	//$subject = $charset == 'UTF-8' ? iconv('UTF-8', 'GBK', $subject) : $subject;
 	//$message = $charset == 'UTF-8' ? iconv('UTF-8', 'GBK', $message) : $message;
 	//$username = $charset == 'UTF-8' ? iconv('UTF-8', 'GBK', $username) : $username;
 	//$fromemail = $this->conf['reg_email_user'].'@'.$this->conf['reg_email_host'];
-	
+
 	$mail->SetFrom($smtp['email'], $username);
 	$mail->AddReplyTo($smtp['email'], $email);
 	$mail->Subject    = $subject;
 	$mail->AltBody    = $message; // optional, comment out and test
 	$message          = str_replace("\\",'',$message);
 	$mail->MsgHTML($message);
-	
+
 	$mail->AddAddress($email, $username);
-	
+
 	//$mail->AddAttachment("images/phpmailer.gif");      // attachment
 	//$mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
 	if(!$mail->Send()) {
