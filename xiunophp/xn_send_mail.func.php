@@ -1632,12 +1632,8 @@ class PHPMailer {
       if (!is_readable($path)) {
         throw new phpmailerException($this->Lang('file_open') . $path, self::STOP_CONTINUE);
       }
-      if (function_exists('get_magic_quotes')) {
-        function get_magic_quotes() {
-          return false;
-        }
-      }
-	  $magic_quotes = get_magic_quotes_runtime();
+
+	  $magic_quotes = version_compare(PHP_VERSION, '5.4.0') >= 0 ? FALSE : get_magic_quotes_runtime();
 	  if ($magic_quotes) {
         if (version_compare(PHP_VERSION, '5.3.0', '<') && function_exists('set_magic_quotes_runtime')) {
           set_magic_quotes_runtime(0);
