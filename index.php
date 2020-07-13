@@ -24,7 +24,7 @@ define('APP_PATH', dirname(__FILE__).'/'); // __DIR__
 //ob_start('ob_gzhandler');
 $conf = (@include APP_PATH.'conf/conf.php') OR exit('<script>window.location="install/"</script>');
 
-// 兼容 4.0.3 的配置文件	
+// 兼容 4.0.3 的配置文件
 !isset($conf['user_create_on']) AND $conf['user_create_on'] = 1;
 !isset($conf['logo_mobile_url']) AND $conf['logo_mobile_url'] = 'view/img/logo.png';
 !isset($conf['logo_pc_url']) AND $conf['logo_pc_url'] = 'view/img/logo.png';
@@ -32,9 +32,9 @@ $conf = (@include APP_PATH.'conf/conf.php') OR exit('<script>window.location="in
 $conf['version'] = '4.0.4';		// 定义版本号！避免手工修改 conf/conf.php
 
 // 转换为绝对路径，防止被包含时出错。
-substr($conf['log_path'], 0, 2) == './' AND $conf['log_path'] = APP_PATH.$conf['log_path']; 
-substr($conf['tmp_path'], 0, 2) == './' AND $conf['tmp_path'] = APP_PATH.$conf['tmp_path']; 
-substr($conf['upload_path'], 0, 2) == './' AND $conf['upload_path'] = APP_PATH.$conf['upload_path']; 
+substr($conf['log_path'], 0, 2) == './' AND $conf['log_path'] = APP_PATH.$conf['log_path'];
+substr($conf['tmp_path'], 0, 2) == './' AND $conf['tmp_path'] = APP_PATH.$conf['tmp_path'];
+substr($conf['upload_path'], 0, 2) == './' AND $conf['upload_path'] = APP_PATH.$conf['upload_path'];
 
 $_SERVER['conf'] = $conf;
 

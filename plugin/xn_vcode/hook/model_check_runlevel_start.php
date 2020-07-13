@@ -1,1 +1,0 @@
-$rules['vcode'] = array();

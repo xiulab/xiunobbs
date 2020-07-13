@@ -1,1 +1,0 @@
-!ipaccess_check($longip, 'mails') AND message(-1, '您的 IP 今日发送邮件数达到上限。');

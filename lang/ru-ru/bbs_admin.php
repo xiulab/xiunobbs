@@ -6,7 +6,7 @@ return array(
 	'plugin'=>'Плагины',
 	'other'=>'Другое',
 	'buy'=>'Купить',
-	
+
 	'user_admin'=>'Администратор',
 	'group_admin'=>'Администрирование групп пользователей',
 	'forum_admin'=>'Администрирование форума',
@@ -14,7 +14,7 @@ return array(
 	'thread_admin'=>'Администрирование тем',
 	'plugin_admin'=>'Администрирование плагинов и дополнений',
 	'other_admin'=>'Администрирование разного',
-	
+
 	'admin_index_page'=>'Панель управления',
 	'front_index_page'=>'Форум ',
 	'admin_site_setting'=>'Настройки',
@@ -24,14 +24,14 @@ return array(
 	'admin_clear_tmp'=>'Временные папки и файлы',
 	'admin_clear_cache'=>'Общий кеш',
 	'admin_clear_successfully'=>'Кеш успешно очищен',
-		
+
 	'admin_user_list'=>'Пользователи',
 	'admin_thread_batch'=>'Управление темами форума',
 	'admin_user_group'=>'Группы пользователей',
 	'admin_user_create'=>'Добавить пользователя',
 	'admin_plugin_local_list'=>'Загружено',
 	'admin_plugin_official_list'=>'Официальный плагин',
-	
+
 	'admin_token_error'=>'Ошибка в токене администратора, попробуйте разблокировать IP администратора, отредактировав файл: conf.php, поле admin_bind_ip = 0',
 	'admin_token_expiry'=>'Токен админа ошибочен, пожалуйста, перелогиньтесь',
 	'forum_edit'=>'Редактировать форум',
@@ -40,7 +40,7 @@ return array(
 	'item_not_exists'=>'{item} не существует',
 	'item_not_moderator'=>'{item} не модератор',
 	'group_not_exists'=>'Группа пользователей не существует',
-	
+
 	'admin_login'=>'Авторизация в админпанель',
 	'save_conf_failed'=>'Не удалось сохранить конфигурацию в файл {file}, проверьте права доступа к файлу',
 	'user_already_exists'=>'Пользователь уже существует',
@@ -48,7 +48,7 @@ return array(
 	'uid_not_exists'=>'Указанный UID не существует ',
 	'data_not_changed'=>'Данные не изменены',
 	'admin_cant_be_deleted'=>'Невозможно напрямую удалить Администратора, сначала удалите пользователя из группы Администраторов',
-	
+
 	// index
 	'admin_index'=>'Панель управления',
 	'site_stat_info'=>'Статистика',
@@ -64,9 +64,9 @@ return array(
 	'client_ip'=>'Client IP',
 	'server_ip'=>'Sever IP',
 	'dev_team_info'=>'Разработчики',
-	
+
 	'for_safe_input_password_again'=>'В целях безопасности введите свой пароль еще раз',
-	
+
 	// setting
 	'sitename'=>'Название сайта',
 	'sitebrief'=>'Описание сайта',
@@ -85,7 +85,7 @@ return array(
 	'account'=>'Логин',
 	'smtp_host'=>'Сервер SMTP',
 	'lang_ru-ru'=>'Русский',
-	
+
 	// forum
 	'forum_list'=>'Список форумов',
 	'forum_id'=>'ID форума',
@@ -110,7 +110,7 @@ return array(
 	'forum_delete_thread_before_delete_forum'=>'Пожалуйста, сначала удалите темы, а потом форум.',
 	'forum_please_delete_sub_forum'=>'Пожалуйста, сначала удалите под-форум.',
 	'forum_delete_successfully'=>'Успешно удалено',
-	
+
 	'thread_queue_not_exists'=>'Очередь не существует',
 	'search_condition'=>'Условия поиска',
 	'start_date'=>'Начало',
@@ -122,7 +122,7 @@ return array(
 	'click_to_view'=>'Просмотр',
 	'thread_userip'=>'IP ',
 	'thread_search_result'=>'Результаты: {n} ',
-	
+
 	// user
 	'please_check_delete_user'=>'Убедитесь в том, что вы хотите удалить пользователя',
 	'user_delete_confirm'=>'Вы уверены?',
@@ -130,7 +130,7 @@ return array(
 	'search_type'=>'Поиск',
 	'user_privileges'=>'Уровень доступа',
 	'author'=>'Автор',
-	
+
 	// user group
 	'group_list'=>'Список групп',
 	'group_edit'=>'Редактировать',
@@ -144,12 +144,10 @@ return array(
 	'ban_user'=>'Блокировка',
 	'delete_user'=>'Удалить',
 	'view_user_info'=>'Профиль',
-	
+
 	// Plugin
-	
+
 	'admin_plugin_official_list'=>'Официальные',
-	'admin_plugin_official_free_list'=>'Бесплатные',
-	'admin_plugin_official_fee_list'=>'Платные',	
 	'plugin_dir'=>'Директория плагина',
 	'plugin_bbs_version'=>'Версия форума',
 	'price'=>'Цена',
@@ -190,13 +188,12 @@ return array(
 	'plugin_return_data_error'=>'Return data error:',
 	'plugin_is_free'=>'Бесплатный плагин',
 	'plugin_is_not_free'=>'Это платный плагин, сначала вам нужно его купить',
-	'plugin_is_bought'=>'Уже куплено',
 	'plugin_not_bought'=>'Не куплено',
 	'plugin_wechat_qrcode_pay'=>'Wechat SCAN for Pay',
 	'plugin_service_qq'=>'Service QQ',
-	
+
 	// hook lang_ru_ru_bbs_admin.php
-	
+
 );
 
 ?>

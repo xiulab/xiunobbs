@@ -1,1 +1,0 @@
-	$allowtype[] = 'mobile';

@@ -1,1 +1,0 @@
-case 'vcode': include _include(APP_PATH.'plugin/xn_vcode/route/vcode.php'); break;

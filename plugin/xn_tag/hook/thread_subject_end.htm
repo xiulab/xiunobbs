@@ -1,4 +1,0 @@
-						
-						<?php if(!empty($thread['taglist'])) { foreach($thread['taglist'] as $tag) { ?>
-						<a href="<?php echo url("forum-$thread[fid]-1", array('tagids'=>$tag['tagid']));?>" class="badge badge-pill badge-<?php echo empty($tag['style']) ? 'secondary' : $tag['style'];?>"><?php echo $tag['name'];?></a>
-						<?php  }} ?>

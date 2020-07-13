@@ -1,6 +1,0 @@
-<?php if(!empty($threadlist)) { ?>
-<script>
-var tids = <?php echo xn_json_encode(arrlist_key_values($threadlist, 'tid', 'last_date'));?>;
-xn_read_unread(tids, 0);
-</script>
-<?php } ?>
