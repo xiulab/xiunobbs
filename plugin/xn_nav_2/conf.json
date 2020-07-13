@@ -3,8 +3,8 @@
     "brief": "如果要把 BBS 当做站点的一个频道，安装此插件，可以实现二级导航。二次开发必备。",
     "version": "1.2",
     "bbs_version": "4.0.4",
-    "installed": 1,
-    "enable": 1,
+    "installed": 0,
+    "enable": 0,
     "hooks_rank": [],
     "overwrites_rank": [],
     "dependencies": []
