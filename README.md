@@ -1,9 +1,23 @@
+## XiunoBBS
+------
+因为一些众所周知的原因，**老黄** 关闭并移除了 ```xiunobbs``` 相关的站点与资源，故本人将截止至老黄关站时的**最新源代码**以及**保留了所有```commit```提交历史记录**的仓库分发到了本组织。
+
+本项目基于 **MIT** 协议开源。
+请各位使用者遵守相关法律法规，严禁使用本程序搭建 **违法、侵权 及 擦边** 的网站，否则，请**自行承担法律风险**。   
+
+本仓库无站点、无QQ交流群，只保留 Gitee [WIKI](https://gitee.com/xiulab/xiunobbs/wikis)、[issues](https://gitee.com/xiulab/xiunobbs/issues)。 
+- **项目源码地址:** https://gitee.com/xiulab/xiunobbs   
+- **备份地址:**  https://github.com/xiulab/xiunobbs   
+   
+**更多教程请查看 Gitee Wiki Pages**: https://gitee.com/xiulab/xiunobbs/wikis/pages   
+
+------
 ### 【Xiuno BBS 4.0 是什么？】
 Xiuno BBS 4.0 是一款轻论坛产品，前端基于 BootStrap 4.0、JQuery 3，后端基于 PHP/7 MySQL XCache/Yac/Redis/Memcached...
 
 自适应手机、平板、PC，有着非常方便的插件机制，不仅仅是一个轻论坛，还是一个良好的二次开发平台。
 
-
+------
 ### 【Xiuno BBS 4.0 带来了什么？】
 前端采用 BootStrap 4 + JQuery 3，响应式布局，自适应手机，平板，PC 设备，不再需要单独开发移动版本。
 
@@ -39,7 +53,7 @@ xiunophp 4.0 这个框架合并成了一个文件 xiunophp.min.php，只需要�
 
 Xiuno BBS 4 正式版经历了近 2 年，7 个 beta 版本，最终定型，这可能是最后一个大版本，放心动手二次开发吧。
 
-
+------
 ### 【性能方面】
 采用静态语言编程风格，充分发挥 PHP7 OPCache 的威力。
 
@@ -49,5 +63,6 @@ Xiuno BBS 4 正式版经历了近 2 年，7 个 beta 版本，最终定型，这
 
 作者十多年从业经验带领您绕过雷区。
 
+------
 ### 【授权】
 Xiuno BBS 4.0 采用 MIT 协议发布，您可以自由修改、派生版本、商用而不用担心任何法律风险（修改后应保留原来的版权信息）。
