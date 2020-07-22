@@ -1,2 +1,0 @@
-
-unset($_SESSION['vcode']);

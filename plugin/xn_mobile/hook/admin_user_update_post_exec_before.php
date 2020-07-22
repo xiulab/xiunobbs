@@ -1,1 +1,0 @@
-		$arr['mobile'] = param('mobile');
