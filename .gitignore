@@ -3,8 +3,6 @@ upload/attach/*
 upload/avatar/*
 upload/forum/*
 upload/tmp/*
-log/*
-tmp/*
 */.gitkeep
 umeditor-dev
 ueditor-dev
