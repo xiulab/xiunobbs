@@ -1,7 +1,7 @@
 ## XiunoBBS
 ------
 因为一些众所周知的原因，**老黄** 关闭并移除了```xiunobbs```相关的站点与资源。   
-因本人在不久前有`clone`**XiunoBBS** 的最新源码，故庆幸可以再次分发到本仓库。后续的维护期待大家参与。<span style="color: #FFFFFF">不知可否算作分发的项目，使用`XiunoBBS`名称是否合理，暂时保留，有争议再作决断吧。</span>
+因本人在不久前有`clone`**XiunoBBS** 的最新源码，故庆幸可以再次分发到本仓库。后续的维护期待大家参与。<div style="color: #FFFFFF">不知可否算作分发的项目，使用"XiunoBBS"名称是否合理，暂时保留，有争议再作决断吧。</div>
 
 项目基于 **MIT** 协议开源。   
 原仓库关闭时，最后更新的时间为`2020年5月8日`，已为其创建一个`xiuno`分支：https://gitee.com/xiulab/xiunobbs/tree/xiuno
