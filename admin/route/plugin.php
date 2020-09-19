@@ -9,9 +9,6 @@ $action = param(1);
 // 初始化插件变量 / init plugin var
 plugin_init();
 
-// 插件依赖的环境检查
-plugin_env_check();
-
 empty($action) AND $action = 'local';
 
 // 修正，使代码不标红

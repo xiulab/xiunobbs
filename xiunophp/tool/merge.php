@@ -1,9 +1,7 @@
 <?php
-// ºÏ²¢ XiunoPHP
+// ï¿½Ï²ï¿½ XiunoPHP
 
-function_exists('set_magic_quotes_runtime') AND set_magic_quotes_runtime(0);
 $dir = '../';
-
 
 $s = php_strip_whitespace($dir.'db_mysql.class.php');
 $s .= php_strip_whitespace($dir.'db_pdo_mysql.class.php');
@@ -39,8 +37,8 @@ $xiunophp_min = preg_replace($p, $s, $xiunophp);
 
 /*
 $xiunophp_min = preg_replace(
-'#//\shook\sxiunophp_include_before\.php(.*)//\shook\sxiunophp_include_after\.php#ism', 
-'//\shook\sxiunophp_include_before.php'.$s.'//\shook\sxiunophp_include_after.php', 
+'#//\shook\sxiunophp_include_before\.php(.*)//\shook\sxiunophp_include_after\.php#ism',
+'//\shook\sxiunophp_include_before.php'.$s.'//\shook\sxiunophp_include_after.php',
 $xiunophp);*/
 
 file_put_contents($dir.'xiunophp.min.php', $xiunophp_min);

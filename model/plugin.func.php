@@ -386,6 +386,7 @@ function plugin_read_by_dir($dir) {
 	!isset($local['icon_url']) && $local['icon_url'] = '';
 	!isset($local['have_setting']) && $local['have_setting'] = 0;
 	!isset($local['setting_url']) && $local['setting_url'] = 0;
+	!isset($local['pluginid']) && $local['pluginid'] = 0;
 
 	$plugin = $local;
 	// 额外的判断
