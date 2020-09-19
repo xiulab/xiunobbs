@@ -1,4 +1,6 @@
 *.DS_Store
+.user.ini
+.well-known/
 .vscode
 .idea
 conf/*.php
