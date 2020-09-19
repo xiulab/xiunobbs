@@ -6,7 +6,7 @@ return array(
 	'plugin'=>'ปลั๊กอิน',
 	'other'=>'อื่น ๆ',
 	'buy'=>'ซื้อ',
-	
+
 	'user_admin'=>'ผู้ดูแลผู้ใช้',
 	'group_admin'=>'ผู้ดูแลกลุ่ม',
 	'forum_admin'=>'ผู้ดูแลฟอรัม',
@@ -14,7 +14,7 @@ return array(
 	'thread_admin'=>'ผู้ดูแลกระทู้',
 	'plugin_admin'=>'ผู้ดูแลปลั๊กอิน',
 	'other_admin'=>'ผู้ดูแลอื่นๆ',
-	
+
 	'admin_index_page'=>'การจัดการ',
 	'front_index_page'=>'หน้าเว็บ',
 	'admin_site_setting'=>'การตั้งค่าเว็บ',
@@ -24,16 +24,14 @@ return array(
 	'admin_clear_tmp'=>'ล้างโฟลเดอร์ที่เก็บไฟล์ชั่วคราวออก',
 	'admin_clear_cache'=>'ล้างแคช',
 	'admin_clear_successfully'=>'ล้างเรียบร้อยแล้ว',
-		
+
 	'admin_user_list'=>'รายชื่อผู้ใช้',
 	'admin_thread_batch'=>'การจัดการโพสต์',
 	'admin_user_group'=>'กลุ่มผู้ใช้',
 	'admin_user_create'=>'สร้างผู้ใช้',
 	'admin_plugin_local_list'=>'ปลั๊กอินบนเว็บนี้',
 	'admin_plugin_official_list'=>'ปลั๊กอินอย่างเป็นทางการ',
-	'admin_plugin_official_free_list'=>'ปลั๊กอินฟรี',
-	'admin_plugin_official_fee_list'=>'ปลั๊กอินเสียเงิน',
-	
+
 	'admin_token_error'=>'Token แอดมินผิดพลาด อาจเกิดจากอินเตอร์เน็ตไม่เสถียร ลองยกเลิกการผูก IP โดยการแก้ไขไฟล์: conf.php แล้วกำหนดเป็นค่านี้ admin_bind_ip = 0',
 	'admin_token_expiry'=>'Token แอดมินหมดอายุ กรุณาเข้าสู่ระบบใหม่',
 	'forum_edit'=>'แก้ไขฟอรัม',
@@ -42,7 +40,7 @@ return array(
 	'item_not_exists'=>'ไม่พบ {item} รายการ',
 	'item_not_moderator'=>'ไม่ได้ดำเนินการ {item} รายการ',
 	'group_not_exists'=>'ไม่พบกลุ่มผู้ใช้',
-	
+
 	'admin_login'=>'เข้าสู่ระบบแอดมิน',
 	'save_conf_failed'=>'บันทึกข้อมูลไปยังไฟล์ {file} ล้มเหลว กรุณาตรวจสอบสิทธิ์การเขียนไฟล์',
 	'user_already_exists'=>'มีผู้ใช้นี้แล้ว',
@@ -50,7 +48,7 @@ return array(
 	'uid_not_exists'=>'ไม่พบ UID ที่ระบุไว้',
 	'data_not_changed'=>'ข้อมูลไม่ได้เปลี่ยนแปลง',
 	'admin_cant_be_deleted'=>'ไม่สามารถลบแอดมินได้โดยตรง กรุณาแก้ไขกลุ่มผู้ใช้ทั่วไปก่อน',
-	
+
 	// index
 	'admin_index'=>'หน้าแรกแอดมิน',
 	'site_stat_info'=>'สถิติเว็บไซต์',
@@ -66,9 +64,9 @@ return array(
 	'client_ip'=>'IP ของผู้ใช้',
 	'server_ip'=>'IP ของเซิร์ฟเวอร์',
 	'dev_team_info'=>'ทีมผู้พัฒนา',
-	
+
 	'for_safe_input_password_again'=>'กรุณากรอกรหัสผ่านอีกครั้งเพื่อความปลอดภัย',
-	
+
 	// setting
 	'sitename'=>'ชื่อเว็บ',
 	'sitebrief'=>'ข้อมูลโดยย่อ',
@@ -86,7 +84,7 @@ return array(
 	'port'=>'พอร์ต',
 	'account'=>'บัญชี',
 	'smtp_host'=>'โฮสต์ SMTP',
-	
+
 	// forum
 	'forum_list'=>'รายชื่อฟอรัม',
 	'forum_id'=>'ไอดีฟอรัม',
@@ -111,7 +109,7 @@ return array(
 	'forum_delete_thread_before_delete_forum'=>'กรุณาลบโพสต์ก่อน ถึงจะลบฟอรัมได้',
 	'forum_please_delete_sub_forum'=>'กรุณาลบฟอรัมย่อย',
 	'forum_delete_successfully'=>'ลบเรียบร้อยแล้ว',
-	
+
 	'thread_queue_not_exists'=>'ยังไม่มีคิวตอนนี้',
 	'search_condition'=>'เงื่อนไขการค้นหา',
 	'start_date'=>'เวลาเริ่มต้น',
@@ -123,7 +121,7 @@ return array(
 	'click_to_view'=>'คลิกเพื่อดู',
 	'thread_userip'=>'IP โพสต์',
 	'thread_search_result'=>'ผลการค้นหา: {n} ',
-	
+
 	// user
 	'please_check_delete_user'=>'กรุณาเลือกผู้ใช้ที่ต้องการจะลบ',
 	'user_delete_confirm'=>'แน่ใจหรือที่จะลบผู้ใช้?',
@@ -131,7 +129,7 @@ return array(
 	'search_type'=>'ประเภทการค้นหา',
 	'user_privileges'=>'สิทธิ์ของผู้ใช้',
 	'author'=>'ผู้เขียน',
-	
+
 	// user group
 	'group_list'=>'รายชื่อกลุ่ม',
 	'group_edit'=>'แก้ไขกลุ่ม',
@@ -145,7 +143,7 @@ return array(
 	'ban_user'=>'แบนผู้ใช้',
 	'delete_user'=>'ลบผู้ใช้',
 	'view_user_info'=>'ดูข้อมูลผู้ใช้',
-	
+
 	// Plugin
 	'plugin_dir'=>'โฟลเดอร์ปลั๊กอิน',
 	'plugin_bbs_version'=>'เวอร์ชั่น BBS ที่ต้องการ',
@@ -187,13 +185,12 @@ return array(
 	'plugin_return_data_error'=>'ข้อมูลส่งกลับผิดพลาด:',
 	'plugin_is_free'=>'ปลั๊กอินนี้ฟรี',
 	'plugin_is_not_free'=>'ปลั๊กอินนี้ไม่ฟรี กรุณาชำระเงินก่อน',
-	'plugin_is_bought'=>'ซื้อแล้ว',
 	'plugin_not_bought'=>'ไม่ได้ซื้อ',
 	'plugin_wechat_qrcode_pay'=>'Wechat SCAN เพื่อชำระเงิน',
 	'plugin_service_qq'=>'ปลั๊กอินจาก QQ',
-	
+
 	// hook lang_th_th_bbs_admin.php
-	
+
 );
 
 ?>

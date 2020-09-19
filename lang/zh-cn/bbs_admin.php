@@ -6,7 +6,7 @@ return array(
 	'plugin'=>'插件',
 	'other'=>'其他',
 	'buy'=>'Buy',
-	
+
 	'user_admin'=>'用户管理',
 	'group_admin'=>'用户组管理',
 	'forum_admin'=>'版块管理',
@@ -14,7 +14,7 @@ return array(
 	'thread_admin'=>'主题管理',
 	'plugin_admin'=>'插件管理',
 	'other_admin'=>'其他管理',
-	
+
 	'admin_index_page'=>'后台',
 	'front_index_page'=>'前台',
 	'admin_site_setting'=>'站点设置',
@@ -24,16 +24,14 @@ return array(
 	'admin_clear_tmp'=>'清理临时目录',
 	'admin_clear_cache'=>'清理缓存',
 	'admin_clear_successfully'=>'清理成功',
-	
+
 	'admin_user_list'=>'用户列表',
 	'admin_thread_batch'=>'主题批量管理',
 	'admin_user_group'=>'用户组',
 	'admin_user_create'=>'创建用户',
 	'admin_plugin_local_list'=>'本地插件',
 	'admin_plugin_official_list'=>'官方插件',
-	'admin_plugin_official_free_list'=>'免费插件',
-	'admin_plugin_official_fee_list'=>'收费插件',
-	
+
 	'admin_token_error'=>'管理令牌错误，可能因为您的网络环境不稳定，可以尝试取消后台绑定 IP，配置 conf.php，admin_bind_ip => 0 ',
 	'admin_token_expiry'=>'管理登陆令牌失效，请重新登录',
 	'forum_edit'=>'版块编辑',
@@ -42,7 +40,7 @@ return array(
 	'item_not_exists'=>'{item} 不存在',
 	'item_not_moderator'=>'{item} 不是版主',
 	'group_not_exists'=>'用户组不存在',
-	
+
 	'admin_login'=>'管理登陆',
 	'save_conf_failed'=>'保存数据到配置文件 {file} 失败，请检查文件的可写权限',
 	'user_already_exists'=>'用户已经存在',
@@ -50,7 +48,7 @@ return array(
 	'uid_not_exists'=>'指定的 UID 不存在',
 	'data_not_changed'=>'没有数据变动',
 	'admin_cant_be_deleted'=>'不能直接删除管理员，请先编辑为普通用户组',
-	
+
 	// 首页
 	'admin_index'=>'后台首页',
 	'site_stat_info'=>'站点统计信息',
@@ -66,9 +64,9 @@ return array(
 	'client_ip'=>'客户端 IP',
 	'server_ip'=>'服务端 IP',
 	'dev_team_info'=>'开发团队信息',
-	
+
 	'for_safe_input_password_again'=>'为了您的安全，请再次输入账户密码',
-	
+
 	// 设置
 	'sitename'=>'站点名称',
 	'sitebrief'=>'站点介绍',
@@ -83,7 +81,7 @@ return array(
 	'port'=>'端口',
 	'account'=>'账号',
 	'smtp_host'=>'SMTP 主机',
-	
+
 	// 版块
 	'forum_list'=>'版块列表',
 	'forum_id'=>'版块 ID',
@@ -108,7 +106,7 @@ return array(
 	'forum_delete_thread_before_delete_forum'=>'请先通过批量主题管理删除版块主题。',
 	'forum_please_delete_sub_forum'=>'请删除子版块。',
 	'forum_delete_successfully'=>'删除成功。',
-	
+
 	// 主题
 	'thread_queue_not_exists'=>'队列不存在',
 	'search_condition'=>'搜索条件',
@@ -121,7 +119,7 @@ return array(
 	'click_to_view'=>'点击查看',
 	'thread_userip'=>'发帖 IP',
 	'thread_search_result'=>'结果：{n} 条',
-	
+
 	// 用户
 	'please_check_delete_user'=>'请勾选您要删除的用户',
 	'user_delete_confirm'=>'确定删除用户？',
@@ -129,7 +127,7 @@ return array(
 	'search_type'=>'搜索类型',
 	'user_privileges'=>'用户权限',
 	'author'=>'作者',
-	
+
 	// 用户组
 	'group_list'=>'用户组列表',
 	'group_edit'=>'用户组编辑',
@@ -143,7 +141,7 @@ return array(
 	'ban_user'=>'禁止用户',
 	'delete_user'=>'删除用户',
 	'view_user_info'=>'查看用户信息',
-	
+
 	// 插件
 	'plugin_dir'=>'插件目录名',
 	'plugin_bbs_version'=>'要求 BBS 最低版本',
@@ -185,14 +183,13 @@ return array(
 	'plugin_return_data_error'=>'返回数据有误：',
 	'plugin_is_free'=>'该插件免费。',
 	'plugin_is_not_free'=>'该插件需要付费购买，请先支付。',
-	'plugin_is_bought'=>'已经购买过。',
 	'plugin_not_bought'=>'还没购买过。',
 	'plugin_wechat_qrcode_pay'=>'微信扫码支付。',
 	'plugin_service_qq'=>'客服 QQ',
-	
-	
+
+
 	// hook lang_zh_cn_bbs_admin.php
-	
+
 );
 
 ?>

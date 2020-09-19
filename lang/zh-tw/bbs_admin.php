@@ -6,7 +6,7 @@ return array(
 	'plugin'=>'插件',
 	'other'=>'其他',
 	'buy'=>'購買',
-	
+
 	'user_admin'=>'用戶管理',
 	'group_admin'=>'用戶組管理',
 	'forum_admin'=>'版塊管理',
@@ -14,7 +14,7 @@ return array(
 	'thread_admin'=>'主題管理',
 	'plugin_admin'=>'插件管理',
 	'other_admin'=>'其他管理',
-	
+
 	'admin_index_page'=>'後臺',
 	'front_index_page'=>'前臺',
 	'admin_site_setting'=>'站點設置',
@@ -24,16 +24,14 @@ return array(
 	'admin_clear_tmp'=>'清理臨時目錄',
 	'admin_clear_cache'=>'清理緩存',
 	'admin_clear_successfully'=>'清理成功',
-	
+
 	'admin_user_list'=>'用戶列表',
 	'admin_thread_batch'=>'主題批量管理',
 	'admin_user_group'=>'用戶組',
 	'admin_user_create'=>'創建用戶',
 	'admin_plugin_local_list'=>'本地插件',
 	'admin_plugin_official_list'=>'官方插件',
-	'admin_plugin_official_free_list'=>'免費插件',
-	'admin_plugin_official_fee_list'=>'收費插件',
-	
+
 	'admin_token_error'=>'管理令牌錯誤，可能因為您的網絡環境不穩定，可以嘗試取消後臺綁定 IP，配置 conf.php，admin_bind_ip => 0 ',
 	'admin_token_expiry'=>'管理登錄令牌失效，請重新登錄',
 	'forum_edit'=>'版塊編輯',
@@ -42,7 +40,7 @@ return array(
 	'item_not_exists'=>'{item} 不存在',
 	'item_not_moderator'=>'{item} 不是版主',
 	'group_not_exists'=>'用戶組不存在',
-	
+
 	'admin_login'=>'管理登錄',
 	'save_conf_failed'=>'保存數據到配置文件 {file} 失敗，請檢查文件的可寫權限',
 	'user_already_exists'=>'用戶已經存在',
@@ -50,7 +48,7 @@ return array(
 	'uid_not_exists'=>'指定的 UID 不存在',
 	'data_not_changed'=>'沒有數據變動',
 	'admin_cant_be_deleted'=>'不能直接刪除管理員，請先編輯為普通用戶組',
-	
+
 	// 首頁
 	'admin_index'=>'後臺首頁',
 	'site_stat_info'=>'站點統計信息',
@@ -66,9 +64,9 @@ return array(
 	'client_ip'=>'客戶端 IP',
 	'server_ip'=>'服務端 IP',
 	'dev_team_info'=>'開發團隊信息',
-	
+
 	'for_safe_input_password_again'=>'為了您的安全，請再次輸入賬戶密碼',
-	
+
 	// 設置
 	'sitename'=>'站點名稱',
 	'sitebrief'=>'站點介紹',
@@ -86,7 +84,7 @@ return array(
 	'port'=>'端口',
 	'account'=>'賬號',
 	'smtp_host'=>'SMTP 主機',
-	
+
 	// 版塊
 	'forum_list'=>'版塊列表',
 	'forum_id'=>'版塊 ID',
@@ -111,7 +109,7 @@ return array(
 	'forum_delete_thread_before_delete_forum'=>'请先通过批量主题管理删除版块主题。',
 	'forum_please_delete_sub_forum'=>'请删除子版块。',
 	'forum_delete_successfully'=>'删除成功。',
-	
+
 	'thread_queue_not_exists'=>'隊列不存在',
 	'search_condition'=>'搜索條件',
 	'start_date'=>'開始時間',
@@ -123,16 +121,16 @@ return array(
 	'click_to_view'=>'點擊查看',
 	'thread_userip'=>'發帖 IP',
 	'thread_search_result'=>'結果：{n} 條',
-	
+
 	// 用戶
-	
+
 	'please_check_delete_user'=>'請勾選您要刪除的用戶',
 	'user_delete_confirm'=>'確定刪除用戶？',
 	'user_admin_cant_be_deleted'=>'不允許刪除管理員用戶，如果確實要刪除，請先調整用戶組!',
 	'search_type'=>'搜索類型',
 	'user_privileges'=>'用戶權限',
 	'author'=>'作者',
-	
+
 	// 用戶組
 	'group_list'=>'用戶組列表',
 	'group_edit'=>'用戶組編輯',
@@ -146,7 +144,7 @@ return array(
 	'ban_user'=>'禁止用戶',
 	'delete_user'=>'刪除用戶',
 	'view_user_info'=>'查看用戶信息',
-	
+
 	// 插件
 	'plugin_dir'=>'插件目錄名',
 	'plugin_bbs_version'=>'要求 BBS 最低版本',
@@ -188,13 +186,12 @@ return array(
 	'plugin_return_data_error'=>'返回數據有誤：',
 	'plugin_is_free'=>'該插件免費。',
 	'plugin_is_not_free'=>'該插件需要付費購買，請先支付。',
-	'plugin_is_bought'=>'已經購買過。',
 	'plugin_not_bought'=>'還沒購買過。',
 	'plugin_wechat_qrcode_pay'=>'微信掃碼支付。',
 	'plugin_service_qq'=>'客服 QQ',
-	
+
 	// hook lang_zh_tw_bbs_admin.php
-	
+
 );
 
 ?>

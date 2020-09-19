@@ -2,17 +2,20 @@
 ------
 因为一些众所周知的原因，**老黄** 关闭并移除了```xiunobbs```相关的站点与资源。   
 因本人在不久前有`clone`**XiunoBBS** 的最新源码，故庆幸可以再次分发到本仓库。后续的维护期待大家参与。
-
-项目基于 **MIT** 协议开源。   
-原仓库关闭时，最后更新的时间为`2020年5月8日`，已为其创建一个`xiuno`分支：https://gitee.com/xiulab/xiunobbs/tree/xiuno
-  
+ 
 请各位使用者遵守相关法律法规，严禁使用本程序搭建 **违法、侵权 及 擦边** 的网站，请**自行承担法律风险**。   
 
 本仓库无站点、无QQ交流群，只保留 Gitee [wiki](https://gitee.com/xiulab/xiunobbs/wikis)、[issues](https://gitee.com/xiulab/xiunobbs/issues)。 
-- **源码地址:** https://gitee.com/xiulab/xiunobbs   
-- **备份地址:**  https://github.com/xiulab/xiunobbs   
+- **Gitee:** https://gitee.com/xiulab/xiunobbs   
+- **GitHub:**  https://github.com/xiulab/xiunobbs   
    
 **更多教程请查看 Gitee Wiki Pages**: https://gitee.com/xiulab/xiunobbs/wikis/pages   
+
+------
+### 一些说明
+- 原仓库关闭时，代码最后更新的时间为 `2020年5月8日`，已为其创建一个名为`xiuno`分支。
+  > https://gitee.com/xiulab/xiunobbs/tree/xiuno
+- 因 `xiuno.com` 站点关闭，插件中心已失效，故最新代码已移除插件中心。
 
 ------
 ### 【Xiuno BBS 4.0 是什么？】
@@ -46,7 +49,7 @@ db 层采用了更加方便的接口，可以同时支持 SQL 和 NoSQL 的方�
 
 引入了语言包，自带简体、繁体、英文三个版本。
 
-插件中心正式开启，开发者可以入驻，开发收费插件。
+<del>插件中心正式开启，开发者可以入驻，开发收费插件。</del>
 
 只需要一个博客插件，它就可以变成一个功能强大的博客。
 

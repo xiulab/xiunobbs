@@ -6,7 +6,7 @@ return array(
 	'plugin'=>'Plugin',
 	'other'=>'Other',
 	'buy'=>'购买',
-	
+
 	'user_admin'=>'User Admin',
 	'group_admin'=>'Group Admin',
 	'forum_admin'=>'Forum Admin',
@@ -14,7 +14,7 @@ return array(
 	'thread_admin'=>'Thread Admin',
 	'plugin_admin'=>'Plugin Admin',
 	'other_admin'=>'Other Admin',
-	
+
 	'admin_index_page'=>'Management',
 	'front_index_page'=>'Foreground ',
 	'admin_site_setting'=>'Site Setting',
@@ -24,16 +24,14 @@ return array(
 	'admin_clear_tmp'=>'Clean up temporary directory',
 	'admin_clear_cache'=>'Cleanup cache',
 	'admin_clear_successfully'=>'Cleanup success',
-		
+
 	'admin_user_list'=>'User List',
 	'admin_thread_batch'=>'Thread Batch Operation',
 	'admin_user_group'=>'User Group',
 	'admin_user_create'=>'Create User',
 	'admin_plugin_local_list'=>'Local Plugin',
 	'admin_plugin_official_list'=>'Official Plugin',
-	'admin_plugin_official_free_list'=>'Free Plugin',
-	'admin_plugin_official_fee_list'=>'Charge Plugin',
-	
+
 	'admin_token_error'=>'Admin token error, That may be your network environment is not stable, can try to unbind IP, modify file: conf.php, set admin_bind_ip = 0',
 	'admin_token_expiry'=>'Admin token expiry, please re login',
 	'forum_edit'=>'Edit Forum',
@@ -42,7 +40,7 @@ return array(
 	'item_not_exists'=>'{item} Not Exists',
 	'item_not_moderator'=>'{item} not moderator',
 	'group_not_exists'=>'User group doest not exists',
-	
+
 	'admin_login'=>'Admin Login',
 	'save_conf_failed'=>'Save data to config file {file} failed, please check the file write permission',
 	'user_already_exists'=>'User already exists',
@@ -50,7 +48,7 @@ return array(
 	'uid_not_exists'=>'Specified  UID does not exists',
 	'data_not_changed'=>'Data not changed',
 	'admin_cant_be_deleted'=>'Can not directly delete the Administrator, please first edit for the general user group',
-	
+
 	// index
 	'admin_index'=>'Admin Index',
 	'site_stat_info'=>'Site statistics',
@@ -66,9 +64,9 @@ return array(
 	'client_ip'=>'Client IP',
 	'server_ip'=>'Sever IP',
 	'dev_team_info'=>'Dev Team',
-	
+
 	'for_safe_input_password_again'=>'Please input password again for security',
-	
+
 	// setting
 	'sitename'=>'Site Name',
 	'sitebrief'=>'Site Brief',
@@ -83,7 +81,7 @@ return array(
 	'port'=>'Port',
 	'account'=>'Account',
 	'smtp_host'=>'SMTP Host',
-	
+
 	// forum
 	'forum_list'=>'Forum List',
 	'forum_id'=>'Forum ID',
@@ -108,7 +106,7 @@ return array(
 	'forum_delete_thread_before_delete_forum'=>'Please delete thread before delete forum.',
 	'forum_please_delete_sub_forum'=>'Please delete sub forum.',
 	'forum_delete_successfully'=>'Deleted successfully',
-	
+
 	'thread_queue_not_exists'=>'Queue does not exist',
 	'search_condition'=>'Search Condition',
 	'start_date'=>'Start Time',
@@ -120,7 +118,7 @@ return array(
 	'click_to_view'=>'Click to view',
 	'thread_userip'=>'Post IP',
 	'thread_search_result'=>'Results: {n} ',
-	
+
 	// user
 	'please_check_delete_user'=>'Please check your want to delete user',
 	'user_delete_confirm'=>'Sure to delete user?',
@@ -128,7 +126,7 @@ return array(
 	'search_type'=>'Search Type',
 	'user_privileges'=>'User Privileges',
 	'author'=>'Author',
-	
+
 	// user group
 	'group_list'=>'Group List',
 	'group_edit'=>'Edit Group',
@@ -142,7 +140,7 @@ return array(
 	'ban_user'=>'Ban User',
 	'delete_user'=>'Delete User',
 	'view_user_info'=>'View user info',
-	
+
 	// Plugin
 	'plugin_dir'=>'Plugin Directory',
 	'plugin_bbs_version'=>'Require BBS version',
@@ -184,13 +182,12 @@ return array(
 	'plugin_return_data_error'=>'Return data error:',
 	'plugin_is_free'=>'This plugin is free.',
 	'plugin_is_not_free'=>'This plugin is not free, please pay first.',
-	'plugin_is_bought'=>'Already bought',
 	'plugin_not_bought'=>'Not bought',
 	'plugin_wechat_qrcode_pay'=>'Wechat SCAN for Pay',
 	'plugin_service_qq'=>'Service QQ',
-	
+
 	// hook lang_en_us_bbs_admin.php
-	
+
 );
 
 ?>

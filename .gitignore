@@ -1,3 +1,6 @@
+*.DS_Store
+.vscode
+.idea
 conf/*.php
 upload/attach/*
 upload/avatar/*
@@ -6,11 +9,7 @@ upload/tmp/*
 */.gitkeep
 umeditor-dev
 ueditor-dev
-plugin/xn_footer_js
-plugin/bbs_xiuno_com_ad/
-plugin/*/*.zip
-plugin/*/*.json
 view/img/logo-2.png
 view/bootstrap/node_modules
-.vscode
-.idea
+tmp/*
+log/
