@@ -12,10 +12,10 @@
 **更多教程请查看 Gitee Wiki Pages**: https://gitee.com/xiulab/xiunobbs/wikis/pages   
 
 ------
-### 一些说明
-- 原仓库关闭时，代码最后更新的时间为 `2020年5月8日`，已为其创建一个名为`xiuno`分支。
-  > https://gitee.com/xiulab/xiunobbs/tree/xiuno
+### 【更新说明】
+- 原仓库关闭时，代码最后更新的时间为 `2020年5月8日`，已为其创建一个名为`xiuno`分支: https://gitee.com/xiulab/xiunobbs/tree/xiuno
 - 因 `xiuno.com` 站点关闭，插件中心已失效，故最新代码已移除插件中心。
+- 已将原代码中的所有插件独立出来成为一个仓库: [https://gitee.com/xiulab/xn_plugins](https://gitee.com/xiulab/xn_plugins)
 
 ------
 ### 【Xiuno BBS 4.0 是什么？】
