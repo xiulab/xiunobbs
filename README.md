@@ -1,21 +1,21 @@
 ## XiunoBBS
 ------
 因为一些众所周知的原因，**老黄** 关闭并移除了```xiunobbs```相关的站点与资源。   
-因本人在不久前有`clone`**XiunoBBS** 的最新源码，故庆幸可以再次分发到本仓库。后续的维护期待大家参与。
+因本人在不久前有 `clone` **XiunoBBS** 的最新源码，故庆幸可以再次分发到本仓库。后续的维护期待大家参与。
  
 请各位使用者遵守相关法律法规，严禁使用本程序搭建 **违法、侵权 及 擦边** 的网站，请**自行承担法律风险**。   
 
-本仓库无站点、无QQ交流群，只保留 Gitee [wiki](https://gitee.com/xiulab/xiunobbs/wikis)、[issues](https://gitee.com/xiulab/xiunobbs/issues)。 
-- **Gitee:** https://gitee.com/xiulab/xiunobbs   
+本仓库无站点、无QQ交流群，只保留 **[wiki](https://github.com/xiulab/xiunobbs/wiki)**、**[issues](https://github.com/xiulab/xiunobbs/issuess)**。 
 - **GitHub:**  https://github.com/xiulab/xiunobbs   
-   
-**更多教程请查看 Gitee Wiki Pages**: https://gitee.com/xiulab/xiunobbs/wikis/pages   
+- **Gitee:** https://gitee.com/xiulab/xiunobbs   
+
+**更多教程请查看 Wiki**: https://github.com/xiulab/xiunobbs/wiki 
 
 ------
 ### 【更新说明】
-- 原仓库关闭时，代码最后更新的时间为 `2020年5月8日`，已为其创建一个名为`xiuno`分支: https://gitee.com/xiulab/xiunobbs/tree/xiuno
+- 原仓库关闭时，代码最后更新的时间为 `2020年5月8日`，其分支名为 **[master](tree/master)**。
 - 因 `xiuno.com` 站点关闭，插件中心已失效，故最新代码已移除插件中心。
-- 已将原代码中的所有插件独立出来成为一个仓库: [https://gitee.com/xiulab/xn_plugins](https://gitee.com/xiulab/xn_plugins)
+- 已将原代码中的所有插件独立出来成为一个仓库: [https://github.com/xiulab/xn_plugins](https://github.com/xiulab/xn_plugins)
 
 ------
 ### 【Xiuno BBS 4.0 是什么？】
