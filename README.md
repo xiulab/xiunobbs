@@ -5,7 +5,7 @@
  
 请各位使用者遵守相关法律法规，严禁使用本程序搭建 **违法、侵权 及 擦边** 的网站，请**自行承担法律风险**。   
 
-本仓库无站点、无QQ交流群，只保留 **[wiki](https://github.com/xiulab/xiunobbs/wiki)**、**[issues](https://github.com/xiulab/xiunobbs/issuess)**。 
+本仓库无站点、无QQ交流群，只保留 **[wiki](https://github.com/xiulab/xiunobbs/wiki)**、**[issues](https://github.com/xiulab/xiunobbs/issues)**。 
 - **GitHub:**  https://github.com/xiulab/xiunobbs   
 - **Gitee:** https://gitee.com/xiulab/xiunobbs   
 
