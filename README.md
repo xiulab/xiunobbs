@@ -13,7 +13,7 @@
 
 ------
 ### 【更新说明】
-- 原仓库关闭时，代码最后更新的时间为 `2020年5月8日`，其分支名为 **[master](tree/master)**。
+- 原仓库关闭时，代码最后更新的时间为 `2020年5月8日`，其分支名为 **master**。
 - 因 `xiuno.com` 站点关闭，插件中心已失效，故最新代码已移除插件中心。
 - 已将原代码中的所有插件独立出来成为一个仓库: [https://github.com/xiulab/xn_plugins](https://github.com/xiulab/xn_plugins)
 
