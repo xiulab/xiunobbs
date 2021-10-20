@@ -1,0 +1,1 @@
+include APP_PATH.'plugin/post_limit/post_limit.php';
